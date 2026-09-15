@@ -1,0 +1,204 @@
+/* ==========================================================================
+   DevCorp GastroSuite - Estilos Corporativos, Diseños Únicos y Componentes Reactivos
+   Desarrollado para DevCorp Solutions | devcorpsolutions.com
+   ========================================================================== */
+
+:root {
+  --devcorp-navy: #0e1b33;
+  --devcorp-blue: #2563eb;
+  --devcorp-cyan: #0891b2;
+  --google-yellow: #fbbc04;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+body {
+  font-family: 'Inter', system-ui, -apple-system, sans-serif;
+  color: #0f172a;
+  background-color: #f8fafc;
+  -webkit-font-smoothing: antialiased;
+}
+
+/* ==========================================================================
+   1. TEMAS Y FONDOS GLOBALES
+   ========================================================================== */
+.theme-asador {
+  background-color: #0c0a09;
+  color: #f5f5f4;
+}
+
+.theme-asador main {
+  background: radial-gradient(circle at 50% 0%, #1c1917 0%, #0c0a09 100%);
+}
+
+.theme-asador .asador-hero-title {
+  font-family: 'Playfair Display', Georgia, serif;
+  letter-spacing: -0.02em;
+}
+
+.theme-castizo {
+  background-color: #0f172a;
+  color: #f8fafc;
+}
+
+.theme-castizo main {
+  background: #090d16;
+}
+
+.theme-pizzeria {
+  background-color: #fafaf9;
+  color: #1c1917;
+}
+
+.theme-pizzeria main {
+  background: linear-gradient(180deg, #fefce8 0%, #fafaf9 25%, #fafaf9 100%);
+}
+
+.theme-cafeteria {
+  background-color: #fcfbf9;
+  color: #1c1917;
+}
+
+.theme-cafeteria main {
+  background: #fcfbf9;
+}
+
+/* ==========================================================================
+   2. ESTILOS DE TARJETAS Y COMPONENTES ESPECÍFICOS
+   ========================================================================== */
+.asador-butcher-card {
+  background: #1c1917;
+  border: 1px solid #44403c;
+  border-radius: 1.25rem;
+  transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+  box-shadow: 0 10px 30px -10px rgba(0, 0, 0, 0.5);
+}
+
+.asador-butcher-card:hover {
+  transform: translateY(-4px);
+  border-color: #b91c1c;
+  box-shadow: 0 20px 40px -10px rgba(185, 28, 28, 0.25);
+}
+
+.asador-gold-seal {
+  border: 1px solid #78350f;
+  background: linear-gradient(135deg, #451a03 0%, #291002 100%);
+  color: #fde68a;
+}
+
+.tavern-chalkboard-card {
+  background: #0f172a;
+  border: 2px solid #334155;
+  border-radius: 0.875rem;
+  transition: all 0.25s ease;
+}
+
+.tavern-chalkboard-card:hover {
+  transform: translateY(-3px);
+  border-color: #f59e0b;
+  box-shadow: 0 16px 32px rgba(245, 158, 11, 0.15);
+}
+
+.trattoria-magazine-card {
+  background: #ffffff;
+  border-radius: 2rem;
+  border: 1px solid #e7e5e4;
+  transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+  box-shadow: 0 12px 32px -8px rgba(5, 150, 105, 0.08);
+}
+
+.trattoria-magazine-card:hover {
+  transform: translateY(-5px);
+  border-color: #059669;
+  box-shadow: 0 24px 48px -12px rgba(5, 150, 105, 0.2);
+}
+
+.italian-tricolor-accent {
+  background: linear-gradient(90deg, #009246 0%, #009246 33%, #ffffff 33%, #ffffff 66%, #ce2b37 66%, #ce2b37 100%);
+  height: 3px;
+  width: 100%;
+}
+
+.nordic-coffee-card {
+  background: #ffffff;
+  border-radius: 1.25rem;
+  border: 1px solid #f1f0eb;
+  transition: all 0.25s ease;
+  box-shadow: 0 4px 20px -4px rgba(0, 0, 0, 0.04);
+}
+
+.nordic-coffee-card:hover {
+  transform: translateY(-3px);
+  border-color: #0284c7;
+  box-shadow: 0 16px 36px -8px rgba(2, 132, 199, 0.12);
+}
+
+/* ==========================================================================
+   3. BANNER DE PLATO MÁS PEDIDO EN TIEMPO REAL (LIVE TRENDING)
+   ========================================================================== */
+.live-trending-pulse {
+  animation: pulse-border 2s infinite ease-in-out;
+}
+
+@keyframes pulse-border {
+  0% { box-shadow: 0 0 0 0 rgba(239, 68, 68, 0.6); }
+  70% { box-shadow: 0 0 0 12px rgba(239, 68, 68, 0); }
+  100% { box-shadow: 0 0 0 0 rgba(239, 68, 68, 0); }
+}
+
+/* Botones Google Maps */
+.btn-google-maps {
+  background: #ffffff;
+  color: #3c4043;
+  border: 1px solid #dadce0;
+  font-weight: 600;
+  transition: all 0.2s ease;
+  box-shadow: 0 1px 3px 0 rgba(60, 64, 67, 0.12);
+}
+
+.btn-google-maps:hover {
+  background: #f8f9fa;
+  border-color: #c6c9ce;
+  box-shadow: 0 2px 6px 0 rgba(60, 64, 67, 0.2);
+  transform: translateY(-1px);
+}
+
+.btn-devcorp-primary {
+  background: linear-gradient(135deg, #1d4ed8 0%, #2563eb 100%);
+  color: #ffffff;
+  font-weight: 600;
+  transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+  box-shadow: 0 4px 14px 0 rgba(37, 99, 235, 0.25);
+}
+
+.btn-devcorp-primary:hover {
+  transform: translateY(-1px);
+  box-shadow: 0 6px 20px 0 rgba(37, 99, 235, 0.35);
+  background: linear-gradient(135deg, #1e40af 0%, #1d4ed8 100%);
+}
+
+.allergen-chip {
+  font-size: 0.68rem;
+  font-weight: 600;
+  padding: 2px 7px;
+  border-radius: 9999px;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+}
+
+/* Scrollbars */
+::-webkit-scrollbar {
+  width: 6px;
+  height: 6px;
+}
+
+::-webkit-scrollbar-track {
+  background: rgba(0, 0, 0, 0.05);
+}
+
+::-webkit-scrollbar-thumb {
+  background: rgba(148, 163, 184, 0.5);
+  border-radius: 4px;
+}

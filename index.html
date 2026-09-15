@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="es" class="h-full bg-slate-50">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+  <title>DevCorp GastroSuite | Demo Software Hostelería (Aluche, Lucero y Carabanchel)</title>
+  
+  <!-- Metadatos de Negocio y SEO -->
+  <meta name="description" content="Demostración interactiva de software a medida para restaurantes y hostelería por DevCorp Solutions. Carta digital interactiva, motor de reservas, comandero de cocina KDS y 0% comisiones frente a Glovo y UberEats." />
+  <meta name="author" content="DevCorp Solutions" />
+  <meta name="theme-color" content="#0e1b33" />
+  
+  <!-- Open Graph -->
+  <meta property="og:title" content="DevCorp GastroSuite — Demo Hostelería y Restauración" />
+  <meta property="og:description" content="Software a medida para hostelería sin comisiones por pedido. Carta QR de alta velocidad, comandero en vivo y reservas directas." />
+  <meta property="og:image" content="./assets/images/logo.png" />
+  <meta property="og:type" content="website" />
+
+  <!-- Favicon -->
+  <link rel="icon" type="image/png" href="./assets/images/logo.png" />
+  <link rel="apple-touch-icon" href="./assets/images/logo.png" />
+
+  <!-- Google Fonts: Inter & Playfair Display -->
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=JetBrains+Mono:wght@400;600;700&family=Playfair+Display:ital,wght@0,600;0,700;0,800;1,600&display=swap" rel="stylesheet" />
+
+  <!-- Tailwind CSS CDN -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          fontFamily: {
+            sans: ['Inter', 'sans-serif'],
+            mono: ['JetBrains Mono', 'monospace']
+          },
+          colors: {
+            devcorp: {
+              navy: '#0e1b33',
+              blue: '#2563eb',
+              cyan: '#0891b2',
+              surface: '#f8fafc'
+            }
+          }
+        }
+      }
+    }
+  </script>
+
+  <!-- Estilos Corporativos Personalizados -->
+  <link rel="stylesheet" href="./assets/css/style.css" />
+</head>
+<body class="h-full flex flex-col font-sans bg-slate-50 text-slate-900 antialiased selection:bg-blue-600 selection:text-white">
+  
+  <!-- Contenedor Principal de la Aplicación SPA -->
+  <div id="app" class="flex-1 flex flex-col min-h-screen">
+    <!-- Pantalla de carga mientras se monta el script de módulos -->
+    <div class="flex-1 flex flex-col items-center justify-center min-h-screen p-6 text-center">
+      <div class="relative flex items-center justify-center mb-6">
+        <div class="w-16 h-16 border-4 border-blue-200 border-t-blue-600 rounded-full animate-spin"></div>
+        <img src="./assets/images/logo.png" alt="DevCorp Logo" class="absolute w-8 h-8 object-contain" onerror="this.style.display='none'"/>
+      </div>
+      <h2 class="text-lg font-bold text-slate-900">DevCorp GastroSuite</h2>
+      <p class="text-xs text-slate-500 mt-1">Cargando ecosistema de hostelería...</p>
+    </div>
+  </div>
+
+  <!-- Script Principal de la SPA (ESModules) -->
+  <script type="module" src="./assets/js/app.js"></script>
+
+  <!-- Fallback sin JavaScript -->
+  <noscript>
+    <div class="p-8 text-center text-red-600">
+      <p class="font-bold">Se requiere JavaScript habilitado para interactuar con la demo de DevCorp GastroSuite.</p>
+    </div>
+  </noscript>
+</body>
+</html>
