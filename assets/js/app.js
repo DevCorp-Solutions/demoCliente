@@ -171,8 +171,21 @@ class AppController {
     const currentView = store.state.currentView;
     const cartCount = store.getCartItemCount();
 
-    // Aplicar la clase de tema única del local al body
-    document.body.className = `h-full flex flex-col font-sans antialiased ${preset.themeClass}`;
+    // Aplicar la clase de tema única del local a HTML y BODY para evitar cualquier fondo blanco en scroll
+    document.documentElement.className = `min-h-screen ${preset.themeClass}`;
+    document.body.className = `min-h-screen flex flex-col font-sans antialiased ${preset.themeClass}`;
+
+    // Actualizar el meta theme-color del navegador móvil para que la barra de estado coincida con el fondo
+    const metaTheme = document.querySelector('meta[name="theme-color"]');
+    if (metaTheme) {
+      const bgMap = {
+        parrilla: '#0c0a09',
+        cerveceria: '#090d16',
+        pizzeria: '#fafaf9',
+        cafeteria: '#fcfbf9'
+      };
+      metaTheme.setAttribute('content', bgMap[preset.id] || '#0e1b33');
+    }
 
     // Estilo activo dinámico para las pestañas de navegación según el local
     const getActiveTabStyle = (viewName) => {
@@ -191,50 +204,18 @@ class AppController {
     };
 
     this.appContainer.innerHTML = `
-      <!-- BARRA SUPERIOR DEVCORP -->
-      <header class="sticky top-0 z-40 bg-[#0e1b33] text-white border-b border-slate-800 shadow-lg">
-        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div class="flex items-center justify-between h-16">
+      <!-- CABECERA UNIFICADA DEVCORP (COMPACTA, RESPONSIVE Y SIN TEXTOS REPETITIVOS) -->
+      <header class="sticky top-0 z-40 bg-[#0e1b33] text-white border-b border-slate-800 shadow-md">
+        <div class="max-w-7xl mx-auto px-3 sm:px-6 lg:px-8">
+          <div class="flex items-center justify-between h-14 sm:h-16 gap-2">
             
-            <div class="flex items-center space-x-3">
-              <a href="https://devcorpsolutions.com" target="_blank" class="flex items-center space-x-2 group">
-                <img src="assets/images/logo.png" alt="DevCorp Solutions" class="h-8 w-auto object-contain brightness-110" onerror="this.src='https://devcorpsolutions.com/logo.png'"/>
-                <div class="hidden sm:block">
-                  <span class="text-xs font-semibold tracking-wider text-cyan-400 uppercase">GastroSuite</span>
-                  <span class="text-[10px] block text-slate-400 font-mono">Demo Hostelería Aluche & Lucero</span>
-                </div>
-              </a>
-              <span class="hidden md:inline-flex items-center px-2 py-0.5 rounded text-[11px] font-medium bg-blue-900/60 text-blue-200 border border-blue-700/50">
-                Aluche · Lucero · Carabanchel
-              </span>
-            </div>
+            <!-- LOGO DEVCORP ADAPTADO EN PEQUEÑO -->
+            <a href="https://devcorpsolutions.com" target="_blank" class="flex items-center group flex-shrink-0" title="DevCorp Solutions">
+              <img src="assets/images/logo.png" alt="DevCorp Solutions" class="h-6 sm:h-7 md:h-8 w-auto object-contain transition-transform group-hover:scale-105" onerror="this.src='https://devcorpsolutions.com/logo.png'"/>
+            </a>
 
-            <!-- Selector Rápido de Negocio Local -->
-            <div class="flex items-center space-x-2">
-              <label for="preset-select" class="hidden lg:inline text-xs text-slate-400 font-medium">Local de prueba:</label>
-              <select id="preset-select" class="bg-slate-800 text-xs text-slate-100 font-medium rounded-lg border border-slate-700 py-1.5 px-2.5 focus:outline-none focus:ring-2 focus:ring-blue-500">
-                <option value="parrilla" ${store.state.presetId === 'parrilla' ? 'selected' : ''}>🔥 Parrilla Vukata (Aluche)</option>
-                <option value="cerveceria" ${store.state.presetId === 'cerveceria' ? 'selected' : ''}>🍺 Cervecería 27 & Mala Pata (Lucero)</option>
-                <option value="pizzeria" ${store.state.presetId === 'pizzeria' ? 'selected' : ''}>🍕 Pizzería Carlos (Carabanchel)</option>
-                <option value="cafeteria" ${store.state.presetId === 'cafeteria' ? 'selected' : ''}>☕ Cafetería Campamento (Aluche)</option>
-              </select>
-
-              <a href="https://wa.me/34695590754?text=Hola%2C%20he%20visto%20la%20demo%20DevCorp%20GastroSuite%20y%20quiero%20una%20propuesta%20para%20mi%20restaurante." 
-                 target="_blank" 
-                 class="hidden sm:inline-flex items-center space-x-1.5 bg-emerald-600 hover:bg-emerald-500 text-white text-xs font-semibold px-3 py-1.5 rounded-lg transition-colors shadow-sm">
-                ${ICONS.whatsapp}
-                <span>Auditoría 48h</span>
-              </a>
-            </div>
-
-          </div>
-        </div>
-
-        <!-- NAVEGACIÓN PRINCIPAL DE MODOS -->
-        <nav class="bg-slate-900/95 border-t border-slate-800/80 px-4 sm:px-6 lg:px-8">
-          <div class="max-w-7xl mx-auto flex items-center justify-between overflow-x-auto py-2 space-x-2 sm:space-x-4 no-scrollbar">
-            <div class="flex items-center space-x-1 sm:space-x-2 text-xs sm:text-sm font-medium">
-              
+            <!-- NAVEGACIÓN PRINCIPAL (DESKTOP: INTEGRADA DIRECTAMENTE EN CABECERA) -->
+            <nav class="hidden lg:flex items-center space-x-1.5 font-medium text-xs">
               <button data-view="menu" class="px-3 py-1.5 rounded-xl transition-all flex items-center space-x-1.5 ${getActiveTabStyle('menu')}">
                 ${ICONS.cart}
                 <span>Carta & Local</span>
@@ -245,8 +226,6 @@ class AppController {
                 <span>Reservas Online</span>
               </button>
 
-              <span class="text-slate-600 px-1 hidden sm:inline">|</span>
-
               <button data-view="kds" class="px-3 py-1.5 rounded-xl transition-all flex items-center space-x-1.5 ${getActiveTabStyle('kds')}">
                 ${ICONS.chef}
                 <span>Cocina / KDS</span>
@@ -255,22 +234,69 @@ class AppController {
 
               <button data-view="metrics" class="px-3 py-1.5 rounded-xl transition-all flex items-center space-x-1.5 ${getActiveTabStyle('metrics')}">
                 ${ICONS.chart}
-                <span class="hidden sm:inline">Métricas del Negocio</span>
-                <span class="sm:hidden">Stats</span>
+                <span>Métricas</span>
               </button>
 
               <button data-view="roi" class="px-3 py-1.5 rounded-xl transition-all flex items-center space-x-1.5 ${getActiveTabStyle('roi')}">
                 ${ICONS.calculator}
                 <span>Ahorro vs Glovo</span>
               </button>
+            </nav>
 
+            <!-- ACCIONES: SELECTOR DE LOCAL + CARRITO + WHATSAPP -->
+            <div class="flex items-center space-x-1.5 sm:space-x-2 flex-shrink-0">
+              <select id="preset-select" class="bg-slate-800 text-[11px] sm:text-xs text-slate-100 font-semibold rounded-lg border border-slate-700 py-1.5 px-2 sm:px-2.5 max-w-[145px] sm:max-w-[210px] truncate focus:outline-none focus:ring-2 focus:ring-blue-500 shadow-sm">
+                <option value="parrilla" ${store.state.presetId === 'parrilla' ? 'selected' : ''}>🔥 Parrilla Vukata</option>
+                <option value="cerveceria" ${store.state.presetId === 'cerveceria' ? 'selected' : ''}>🍺 Cervecería 27</option>
+                <option value="pizzeria" ${store.state.presetId === 'pizzeria' ? 'selected' : ''}>🍕 Pizzería Carlos</option>
+                <option value="cafeteria" ${store.state.presetId === 'cafeteria' ? 'selected' : ''}>☕ Cafetería Campamento</option>
+              </select>
+
+              <button id="open-cart-btn" class="relative inline-flex items-center px-2.5 sm:px-3 py-1.5 bg-blue-600 hover:bg-blue-500 text-white text-xs font-semibold rounded-lg shadow transition-all flex-shrink-0">
+                ${ICONS.cart}
+                <span class="ml-1 sm:ml-1.5 font-mono text-[11px] sm:text-xs">${formatCurrency(store.getCartTotal())}</span>
+                ${cartCount > 0 ? `<span class="ml-1.5 px-1.5 py-0.2 text-[10px] font-bold bg-white text-blue-700 rounded-full">${cartCount}</span>` : ''}
+              </button>
+
+              <a href="https://wa.me/34695590754?text=Hola%2C%20he%20visto%20la%20demo%20DevCorp%20GastroSuite%20y%20quiero%20una%20propuesta%20para%20mi%20restaurante." 
+                 target="_blank" 
+                 class="hidden sm:inline-flex items-center space-x-1.5 bg-emerald-600 hover:bg-emerald-500 text-white text-xs font-semibold px-2.5 sm:px-3 py-1.5 rounded-lg transition-colors shadow-sm flex-shrink-0"
+                 title="Auditoría 48h">
+                ${ICONS.whatsapp}
+                <span class="hidden md:inline">Auditoría 48h</span>
+              </a>
             </div>
 
-            <!-- Carrito -->
-            <button id="open-cart-btn" class="relative inline-flex items-center px-3 py-1.5 bg-blue-600 hover:bg-blue-500 text-white text-xs font-semibold rounded-lg shadow transition-all">
+          </div>
+        </div>
+
+        <!-- NAVEGACIÓN MÓVIL Y TABLET (SCROLL TÁCTIL SUAVE HORIZONTAL) -->
+        <nav class="lg:hidden bg-slate-900/98 border-t border-slate-800/80 px-2 sm:px-4 py-1.5 overflow-x-auto no-scrollbar">
+          <div class="flex items-center space-x-1 sm:space-x-1.5 text-xs font-medium min-w-max">
+            <button data-view="menu" class="px-2.5 py-1.5 rounded-xl transition-all flex items-center space-x-1 ${getActiveTabStyle('menu')}">
               ${ICONS.cart}
-              <span class="ml-1.5 font-mono">${formatCurrency(store.getCartTotal())}</span>
-              ${cartCount > 0 ? `<span class="ml-2 px-1.5 py-0.5 text-[10px] font-bold bg-white text-blue-700 rounded-full">${cartCount}</span>` : ''}
+              <span>Carta & Local</span>
+            </button>
+
+            <button data-view="reservations" class="px-2.5 py-1.5 rounded-xl transition-all flex items-center space-x-1 ${getActiveTabStyle('reservations')}">
+              ${ICONS.table}
+              <span>Reservas</span>
+            </button>
+
+            <button data-view="kds" class="px-2.5 py-1.5 rounded-xl transition-all flex items-center space-x-1 ${getActiveTabStyle('kds')}">
+              ${ICONS.chef}
+              <span>Cocina</span>
+              <span class="ml-1 px-1.5 py-0.2 bg-black/40 text-[10px] font-bold rounded-full">${store.state.orders.filter(o => o.status !== 'served').length}</span>
+            </button>
+
+            <button data-view="metrics" class="px-2.5 py-1.5 rounded-xl transition-all flex items-center space-x-1 ${getActiveTabStyle('metrics')}">
+              ${ICONS.chart}
+              <span>Métricas</span>
+            </button>
+
+            <button data-view="roi" class="px-2.5 py-1.5 rounded-xl transition-all flex items-center space-x-1 ${getActiveTabStyle('roi')}">
+              ${ICONS.calculator}
+              <span>Ahorro vs Glovo</span>
             </button>
           </div>
         </nav>
@@ -377,19 +403,19 @@ class AppController {
         <div class="flex items-center space-x-3">
           <span class="w-3 h-3 rounded-full bg-red-500 animate-ping flex-shrink-0"></span>
           <div>
-            <div class="flex items-center space-x-2">
-              <span class="text-xs font-black text-amber-400 uppercase tracking-wider">🔥 TOP #1 MÁS PEDIDO AHORA MISMO:</span>
+            <div class="flex flex-wrap items-center gap-1.5 sm:gap-2">
+              <span class="text-xs font-black text-amber-400 uppercase tracking-wider">🔥 TOP #1 MÁS PEDIDO EN VIVO:</span>
               <span class="text-xs font-black text-white bg-red-900/90 px-2 py-0.5 rounded font-mono">${topData.count} comandas hoy</span>
             </div>
             <p class="text-sm font-bold text-stone-100 mt-0.5">${topData.dish.name} <span class="text-xs font-normal text-stone-300">(${formatCurrency(topData.dish.price)})</span></p>
           </div>
         </div>
-        <div class="flex items-center space-x-2">
-          <button data-quick-simulate-dish="${topData.dish.id}" class="bg-red-800 hover:bg-red-700 text-white font-bold text-xs px-3.5 py-1.5 rounded-xl transition-all shadow flex items-center space-x-1">
-            <span>⚡ Simular +1 Pedido en Vivo</span>
+        <div class="flex flex-wrap sm:flex-nowrap items-center gap-2 w-full sm:w-auto">
+          <button data-quick-simulate-dish="${topData.dish.id}" class="flex-1 sm:flex-none text-center justify-center bg-red-800 hover:bg-red-700 text-white font-bold text-xs px-3.5 py-2 rounded-xl transition-all shadow flex items-center space-x-1">
+            <span>⚡ +1 Pedido Demo</span>
           </button>
-          <button data-add-cart="${topData.dish.id}" class="bg-amber-500 hover:bg-amber-400 text-stone-950 font-black text-xs px-3.5 py-1.5 rounded-xl transition-all shadow">
-            Añadir a Mi Comanda
+          <button data-add-cart="${topData.dish.id}" class="flex-1 sm:flex-none text-center justify-center bg-amber-500 hover:bg-amber-400 text-stone-950 font-black text-xs px-3.5 py-2 rounded-xl transition-all shadow">
+            Añadir a Comanda
           </button>
         </div>
       </div>
@@ -528,16 +554,16 @@ class AppController {
                   ` : ''}
                 </div>
 
-                <div class="mt-4 pt-3 border-t border-stone-800 flex items-center justify-between">
+                <div class="mt-4 pt-3 border-t border-stone-800 flex flex-wrap sm:flex-nowrap items-center justify-between gap-3">
                   <span class="text-2xl font-black font-mono text-stone-50">${formatCurrency(dish.price)}</span>
                   
-                  <div class="flex items-center space-x-2">
-                    <button data-quick-simulate-dish="${dish.id}" class="bg-stone-800 hover:bg-stone-700 text-stone-300 hover:text-white text-[11px] font-bold px-2.5 py-2 rounded-xl transition-all">
-                      +1 Pedido Demo
+                  <div class="flex flex-wrap sm:flex-nowrap items-center gap-2 w-full sm:w-auto justify-end">
+                    <button data-quick-simulate-dish="${dish.id}" class="flex-1 sm:flex-none text-center bg-stone-800 hover:bg-stone-700 text-stone-300 hover:text-white text-[11px] font-bold px-2.5 py-2 rounded-xl transition-all">
+                      +1 Demo
                     </button>
-                    <button data-add-cart="${dish.id}" class="bg-red-800 hover:bg-red-700 text-white text-xs font-bold px-4 py-2 rounded-xl transition-all shadow-md flex items-center space-x-1.5">
+                    <button data-add-cart="${dish.id}" class="flex-1 sm:flex-none text-center bg-red-800 hover:bg-red-700 text-white text-xs font-bold px-3.5 py-2 rounded-xl transition-all shadow-md flex items-center justify-center space-x-1.5">
                       ${ICONS.cart}
-                      <span>Añadir a Comanda</span>
+                      <span>Añadir</span>
                     </button>
                   </div>
                 </div>
@@ -559,18 +585,18 @@ class AppController {
         <div class="flex items-center space-x-3">
           <span class="w-3 h-3 rounded-full bg-amber-400 animate-ping flex-shrink-0"></span>
           <div>
-            <div class="flex items-center space-x-2">
-              <span class="text-xs font-black text-amber-400 uppercase tracking-wider font-mono">🍻 LA RACIÓN QUE ARRASA EN BARRA HOY:</span>
+            <div class="flex flex-wrap items-center gap-1.5 sm:gap-2">
+              <span class="text-xs font-black text-amber-400 uppercase tracking-wider font-mono">🍻 LA RACIÓN QUE ARRASA EN BARRA:</span>
               <span class="text-xs font-black text-slate-950 bg-amber-400 px-2 py-0.5 rounded font-mono">${topData.count} comandas</span>
             </div>
             <p class="text-sm font-black text-white mt-0.5 uppercase">${topData.dish.name} - ${formatCurrency(topData.dish.price)}</p>
           </div>
         </div>
-        <div class="flex items-center space-x-2">
-          <button data-quick-simulate-dish="${topData.dish.id}" class="bg-slate-800 hover:bg-slate-700 text-amber-300 font-bold text-xs px-3.5 py-1.5 rounded-xl border border-slate-700">
+        <div class="flex flex-wrap sm:flex-nowrap items-center gap-2 w-full sm:w-auto">
+          <button data-quick-simulate-dish="${topData.dish.id}" class="flex-1 sm:flex-none text-center justify-center bg-slate-800 hover:bg-slate-700 text-amber-300 font-bold text-xs px-3.5 py-2 rounded-xl border border-slate-700">
             ⚡ +1 Ronda Directa
           </button>
-          <button data-add-cart="${topData.dish.id}" class="bg-amber-500 hover:bg-amber-400 text-slate-950 font-black text-xs px-3.5 py-1.5 rounded-xl">
+          <button data-add-cart="${topData.dish.id}" class="flex-1 sm:flex-none text-center justify-center bg-amber-500 hover:bg-amber-400 text-slate-950 font-black text-xs px-3.5 py-2 rounded-xl">
             Pedir para la Mesa
           </button>
         </div>
@@ -682,13 +708,13 @@ class AppController {
                   <p class="text-xs text-slate-300 mt-1 line-clamp-2">${dish.description}</p>
                 </div>
 
-                <div class="mt-3 pt-2 border-t border-slate-800 flex items-center justify-between">
+                <div class="mt-3 pt-2 border-t border-slate-800 flex flex-wrap sm:flex-nowrap items-center justify-between gap-2">
                   <span class="text-lg font-black font-mono text-amber-400">${formatCurrency(dish.price)}</span>
                   <div class="flex items-center space-x-1.5">
                     <button data-quick-simulate-dish="${dish.id}" class="bg-slate-800 hover:bg-slate-700 text-xs px-2 py-1 rounded text-slate-300">
                       +1 Demo
                     </button>
-                    <button data-add-cart="${dish.id}" class="bg-amber-500 hover:bg-amber-400 text-slate-950 font-black text-xs px-3 py-1.5 rounded-lg transition-all shadow flex items-center space-x-1">
+                    <button data-add-cart="${dish.id}" class="bg-amber-500 hover:bg-amber-400 text-slate-950 font-black text-xs px-2.5 py-1.5 rounded-lg transition-all shadow flex items-center space-x-1">
                       <span>+ Marchando</span>
                     </button>
                   </div>
@@ -711,18 +737,18 @@ class AppController {
         <div class="flex items-center space-x-3">
           <span class="w-3 h-3 rounded-full bg-emerald-400 animate-ping flex-shrink-0"></span>
           <div>
-            <div class="flex items-center space-x-2">
-              <span class="text-xs font-black text-emerald-300 uppercase tracking-wider">🍕 PIZZA MÁS PEDIDA AL HORNO EN TIEMPO REAL:</span>
+            <div class="flex flex-wrap items-center gap-1.5 sm:gap-2">
+              <span class="text-xs font-black text-emerald-300 uppercase tracking-wider">🍕 PIZZA MÁS PEDIDA AL HORNO:</span>
               <span class="text-xs font-black text-emerald-950 bg-emerald-300 px-2 py-0.5 rounded font-mono">${topData.count} pedidos</span>
             </div>
             <p class="text-sm font-bold text-white mt-0.5">${topData.dish.name} (${formatCurrency(topData.dish.price)})</p>
           </div>
         </div>
-        <div class="flex items-center space-x-2">
-          <button data-quick-simulate-dish="${topData.dish.id}" class="bg-emerald-900 hover:bg-emerald-800 text-emerald-200 font-bold text-xs px-3.5 py-1.5 rounded-xl border border-emerald-600">
+        <div class="flex flex-wrap sm:flex-nowrap items-center gap-2 w-full sm:w-auto">
+          <button data-quick-simulate-dish="${topData.dish.id}" class="flex-1 sm:flex-none text-center justify-center bg-emerald-900 hover:bg-emerald-800 text-emerald-200 font-bold text-xs px-3.5 py-2 rounded-xl border border-emerald-600">
             ⚡ Simular +1 Pedido
           </button>
-          <button data-add-cart="${topData.dish.id}" class="bg-emerald-500 hover:bg-emerald-400 text-slate-950 font-black text-xs px-3.5 py-1.5 rounded-xl">
+          <button data-add-cart="${topData.dish.id}" class="flex-1 sm:flex-none text-center justify-center bg-emerald-500 hover:bg-emerald-400 text-slate-950 font-black text-xs px-3.5 py-2 rounded-xl">
             Añadir a Comanda
           </button>
         </div>
@@ -847,18 +873,18 @@ class AppController {
         <div class="flex items-center space-x-3">
           <span class="w-3 h-3 rounded-full bg-sky-400 animate-ping flex-shrink-0"></span>
           <div>
-            <div class="flex items-center space-x-2">
+            <div class="flex flex-wrap items-center gap-1.5 sm:gap-2">
               <span class="text-xs font-bold text-sky-300 uppercase tracking-wider font-mono">☕ PRODUCTO ESTRELLA EN VIVO:</span>
               <span class="text-xs font-bold text-sky-950 bg-sky-300 px-2 py-0.5 rounded font-mono">${topData.count} pedidos hoy</span>
             </div>
             <p class="text-sm font-bold text-white mt-0.5">${topData.dish.name} (${formatCurrency(topData.dish.price)})</p>
           </div>
         </div>
-        <div class="flex items-center space-x-2">
-          <button data-quick-simulate-dish="${topData.dish.id}" class="bg-sky-900 hover:bg-sky-800 text-sky-200 font-bold text-xs px-3.5 py-1.5 rounded-xl border border-sky-700">
+        <div class="flex flex-wrap sm:flex-nowrap items-center gap-2 w-full sm:w-auto">
+          <button data-quick-simulate-dish="${topData.dish.id}" class="flex-1 sm:flex-none text-center justify-center bg-sky-900 hover:bg-sky-800 text-sky-200 font-bold text-xs px-3.5 py-2 rounded-xl border border-sky-700">
             ⚡ +1 Pedido Demo
           </button>
-          <button data-add-cart="${topData.dish.id}" class="bg-sky-500 hover:bg-sky-400 text-slate-950 font-bold text-xs px-3.5 py-1.5 rounded-xl">
+          <button data-add-cart="${topData.dish.id}" class="flex-1 sm:flex-none text-center justify-center bg-sky-500 hover:bg-sky-400 text-slate-950 font-bold text-xs px-3.5 py-2 rounded-xl">
             Añadir a Bandeja
           </button>
         </div>
@@ -1064,35 +1090,35 @@ class AppController {
 
       <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
         <!-- Columna 1: Nuevos -->
-        <div class="${isDarkTheme ? 'bg-stone-900/80 border-amber-500/40 text-stone-100' : 'bg-amber-50/50 border-amber-200 text-slate-900'} border-2 border-dashed rounded-2xl p-4 flex flex-col min-h-[520px]">
+        <div class="${isDarkTheme ? 'bg-stone-900/80 border-amber-500/40 text-stone-100' : 'bg-amber-50/50 border-amber-200 text-slate-900'} border-2 border-dashed rounded-2xl p-4 flex flex-col min-h-[160px] md:min-h-[480px]">
           <div class="flex items-center justify-between pb-3 border-b ${isDarkTheme ? 'border-stone-800' : 'border-amber-200'} mb-4">
             <span class="font-bold text-sm uppercase">Nuevos Pedidos</span>
             <span class="bg-amber-400 text-slate-950 text-xs font-black px-2.5 py-0.5 rounded-full">${pendingOrders.length}</span>
           </div>
           <div class="space-y-4 flex-1 overflow-y-auto">
-            ${pendingOrders.length === 0 ? `<p class="text-xs ${isDarkTheme ? 'text-stone-500' : 'text-slate-400'} text-center mt-10">Sin comandas nuevas.</p>` : pendingOrders.map(order => this.renderKdsOrderCard(order, isDarkTheme)).join('')}
+            ${pendingOrders.length === 0 ? `<p class="text-xs ${isDarkTheme ? 'text-stone-500' : 'text-slate-400'} text-center py-6 md:py-10">Sin comandas nuevas.</p>` : pendingOrders.map(order => this.renderKdsOrderCard(order, isDarkTheme)).join('')}
           </div>
         </div>
 
         <!-- Columna 2: En Fogones -->
-        <div class="${isDarkTheme ? 'bg-stone-900/80 border-blue-500/40 text-stone-100' : 'bg-blue-50/50 border-blue-200 text-slate-900'} border-2 border-dashed rounded-2xl p-4 flex flex-col min-h-[520px]">
+        <div class="${isDarkTheme ? 'bg-stone-900/80 border-blue-500/40 text-stone-100' : 'bg-blue-50/50 border-blue-200 text-slate-900'} border-2 border-dashed rounded-2xl p-4 flex flex-col min-h-[160px] md:min-h-[480px]">
           <div class="flex items-center justify-between pb-3 border-b ${isDarkTheme ? 'border-stone-800' : 'border-blue-200'} mb-4">
             <span class="font-bold text-sm uppercase">En Marcha / Fogones</span>
             <span class="bg-blue-500 text-white text-xs font-black px-2.5 py-0.5 rounded-full">${kitchenOrders.length}</span>
           </div>
           <div class="space-y-4 flex-1 overflow-y-auto">
-            ${kitchenOrders.length === 0 ? `<p class="text-xs ${isDarkTheme ? 'text-stone-500' : 'text-slate-400'} text-center mt-10">Fogones libres.</p>` : kitchenOrders.map(order => this.renderKdsOrderCard(order, isDarkTheme)).join('')}
+            ${kitchenOrders.length === 0 ? `<p class="text-xs ${isDarkTheme ? 'text-stone-500' : 'text-slate-400'} text-center py-6 md:py-10">Fogones libres.</p>` : kitchenOrders.map(order => this.renderKdsOrderCard(order, isDarkTheme)).join('')}
           </div>
         </div>
 
         <!-- Columna 3: Listos -->
-        <div class="${isDarkTheme ? 'bg-stone-900/80 border-emerald-500/40 text-stone-100' : 'bg-emerald-50/50 border-emerald-200 text-slate-900'} border-2 border-dashed rounded-2xl p-4 flex flex-col min-h-[520px]">
+        <div class="${isDarkTheme ? 'bg-stone-900/80 border-emerald-500/40 text-stone-100' : 'bg-emerald-50/50 border-emerald-200 text-slate-900'} border-2 border-dashed rounded-2xl p-4 flex flex-col min-h-[160px] md:min-h-[480px]">
           <div class="flex items-center justify-between pb-3 border-b ${isDarkTheme ? 'border-stone-800' : 'border-emerald-200'} mb-4">
             <span class="font-bold text-sm uppercase">Listos para Servir</span>
             <span class="bg-emerald-500 text-white text-xs font-black px-2.5 py-0.5 rounded-full">${readyOrders.length}</span>
           </div>
           <div class="space-y-4 flex-1 overflow-y-auto">
-            ${readyOrders.length === 0 ? `<p class="text-xs ${isDarkTheme ? 'text-stone-500' : 'text-slate-400'} text-center mt-10">Sin platos pendientes de entrega.</p>` : readyOrders.map(order => this.renderKdsOrderCard(order, isDarkTheme)).join('')}
+            ${readyOrders.length === 0 ? `<p class="text-xs ${isDarkTheme ? 'text-stone-500' : 'text-slate-400'} text-center py-6 md:py-10">Sin platos pendientes de entrega.</p>` : readyOrders.map(order => this.renderKdsOrderCard(order, isDarkTheme)).join('')}
           </div>
         </div>
       </div>
@@ -1226,13 +1252,13 @@ class AppController {
             ${preset.menu.map(dish => {
               const count = store.getDishSalesCount(dish.id);
               return `
-                <div class="flex items-center justify-between p-3 ${isDarkTheme ? 'bg-stone-950/80 border-stone-800' : 'bg-slate-50 border-slate-200'} border rounded-xl text-xs">
-                  <div class="flex items-center space-x-3">
-                    <span class="font-black text-amber-400 w-8 font-mono">${count}x</span>
-                    <span class="font-bold">${dish.name}</span>
-                    <span class="text-slate-400">(${dish.category})</span>
+                <div class="flex flex-wrap sm:flex-nowrap items-center justify-between gap-2 p-3 ${isDarkTheme ? 'bg-stone-950/80 border-stone-800' : 'bg-slate-50 border-slate-200'} border rounded-xl text-xs">
+                  <div class="flex items-center space-x-2.5 min-w-0">
+                    <span class="font-black text-amber-400 w-7 font-mono flex-shrink-0">${count}x</span>
+                    <span class="font-bold truncate max-w-[150px] sm:max-w-none">${dish.name}</span>
+                    <span class="text-slate-400 hidden sm:inline">(${dish.category})</span>
                   </div>
-                  <div class="flex items-center space-x-3">
+                  <div class="flex items-center space-x-2 flex-shrink-0">
                     <span class="font-mono font-bold">${formatCurrency(dish.price * count)}</span>
                     <button data-quick-simulate-dish="${dish.id}" class="bg-blue-600 hover:bg-blue-700 text-white px-2.5 py-1 rounded-lg text-[11px] font-bold">
                       +1 Venta
@@ -1512,14 +1538,14 @@ class AppController {
     const total = store.getCartTotal();
 
     container.innerHTML = `
-      <div class="fixed inset-0 bg-slate-950/70 z-50 flex items-center justify-center p-4">
-        <div class="bg-white rounded-3xl max-w-lg w-full overflow-hidden shadow-2xl border border-slate-200 text-slate-900">
-          <div class="p-6 border-b border-slate-100 flex justify-between items-center bg-slate-50">
+      <div class="fixed inset-0 bg-slate-950/70 z-50 flex items-center justify-center p-3 sm:p-4">
+        <div class="bg-white rounded-3xl max-w-lg w-full max-h-[90vh] flex flex-col overflow-hidden shadow-2xl border border-slate-200 text-slate-900">
+          <div class="p-5 sm:p-6 border-b border-slate-100 flex justify-between items-center bg-slate-50 flex-shrink-0">
             <h3 class="text-base font-bold">Tramitar Comanda en ${preset.name}</h3>
             <button id="close-checkout-modal" class="text-slate-400 hover:text-slate-700">✕</button>
           </div>
 
-          <form id="checkout-form" class="p-6 space-y-5 text-xs">
+          <form id="checkout-form" class="p-5 sm:p-6 space-y-4 sm:space-y-5 text-xs overflow-y-auto flex-1">
             <div>
               <label class="block font-semibold text-slate-700 uppercase mb-2">Modalidad</label>
               <div class="grid grid-cols-3 gap-2">
@@ -1611,9 +1637,9 @@ class AppController {
   renderSmartReviewModal(preset) {
     const container = document.getElementById('review-modal-container');
     container.innerHTML = `
-      <div class="fixed inset-0 bg-slate-950/70 z-50 flex items-center justify-center p-4">
-        <div class="bg-white rounded-3xl max-w-md w-full overflow-hidden shadow-2xl border border-slate-200 text-slate-900">
-          <div class="p-6 border-b border-slate-100 flex justify-between items-center bg-slate-50">
+      <div class="fixed inset-0 bg-slate-950/70 z-50 flex items-center justify-center p-3 sm:p-4">
+        <div class="bg-white rounded-3xl max-w-md w-full max-h-[90vh] flex flex-col overflow-y-auto shadow-2xl border border-slate-200 text-slate-900">
+          <div class="p-5 sm:p-6 border-b border-slate-100 flex justify-between items-center bg-slate-50 flex-shrink-0">
             <div class="flex items-center space-x-2">
               ${ICONS.google}
               <h3 class="text-base font-bold">${preset.name}</h3>
@@ -1621,7 +1647,7 @@ class AppController {
             <button id="close-review-modal" class="text-slate-400 hover:text-slate-700">✕</button>
           </div>
 
-          <div class="p-6 text-center" id="review-step-1">
+          <div class="p-5 sm:p-6 text-center" id="review-step-1">
             <div class="w-12 h-12 bg-amber-50 rounded-2xl flex items-center justify-center mx-auto mb-3 text-2xl">⭐</div>
             <h4 class="text-lg font-bold">¿Cómo ha sido tu experiencia hoy?</h4>
             <div class="flex justify-center items-center space-x-3 my-6">
