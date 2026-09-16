@@ -1,41 +1,42 @@
 /**
  * Estado Global Reactivo de la Demo DevCorp GastroSuite
- * Maneja el preset activo, el carrito de pedidos, el comandero en vivo (KDS),
- * las reservas y el contador de platos más pedidos en tiempo real.
+ * Maneja el estilo activo (Estilo 1, Estilo 2, Estilo 3, Estilo 4),
+ * el carrito de pedidos, el comandero en vivo (KDS), las reservas
+ * y el contador de platos más pedidos en tiempo real.
  */
 import { RESTAURANT_PRESETS } from './presets.js';
 
-const STORAGE_KEY = 'devcorp_gastrosuite_state_v2';
+const STORAGE_KEY = 'devcorp_gastrosuite_state_v4';
 
 const INITIAL_DISH_SALES = {
-  // Parrilla Vukata
-  "p1": 42, // Chuletón
-  "p4": 38, // Torreznos
-  "p2": 26, // Entrecot
-  "p3": 19, // Costillar
-  "p5": 24, // Croquetas
-  "p6": 14,
-  "p7": 31, // Tarta de queso
-  "p8": 18,
-  // Cervecería 27
-  "c1": 58, // Oreja
-  "c2": 49, // Bravas
-  "c5": 37, // Bocata calamares
-  "c6": 142, // Doble cerveza
-  "c3": 28, // Huevos rotos
-  "c4": 26,
-  // Pizzería Carlos
-  "pz2": 67, // Burrata
-  "pz1": 53, // Tartufo
-  "pz3": 44, // Diavola
-  "pz4": 29, // Ravioli
-  "pz5": 41, // Tiramisú
-  // Cafetería Campamento
-  "cf3": 94, // Flat White
-  "cf1": 51, // Tosta aguacate
-  "cf5": 62, // Croissant
-  "cf4": 35, // Açaí
-  "cf2": 43  // Tosta ibérica
+  // Estilo 1: Editorial & Alta Cocina
+  "e1_1": 42, // Chuletón
+  "e1_2": 38, // Torreznos
+  "e1_3": 26, // Entrecot
+  "e1_4": 31, // Croquetas
+  "e1_5": 19, // Rabo de toro
+  "e1_6": 35, // Tarta fluida
+  // Estilo 2: App Interactiva & Bento Grid
+  "e2_1": 78, // Smash Burger
+  "e2_2": 52, // Oreja
+  "e2_3": 41, // Tacos
+  "e2_4": 64, // Bravas
+  "e2_5": 39, // Bao
+  "e2_6": 47, // Cookie
+  // Estilo 3: Bistró Tradicional & Carta Clásica
+  "e3_1": 65, // Judiones
+  "e3_2": 44, // Chuletón
+  "e3_3": 58, // Huevos rotos
+  "e3_4": 49, // Callos
+  "e3_5": 32, // Entrecot
+  "e3_6": 41, // Arroz con leche
+  // Estilo 4: Showcase Visual & Minimalismo
+  "e4_1": 82, // Tosta salmón
+  "e4_2": 114, // Flat White
+  "e4_3": 56, // Açaí bowl
+  "e4_4": 69, // Croissant
+  "e4_5": 48, // Tosta jamón
+  "e4_6": 39  // Matcha Latte
 };
 
 const INITIAL_DEMO_ORDERS = [
@@ -43,14 +44,13 @@ const INITIAL_DEMO_ORDERS = [
     id: "ORD-101",
     timestamp: new Date(Date.now() - 1000 * 60 * 14).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }),
     type: "mesa",
-    tableNumber: "Mesa 4 (Terraza)",
-    customerName: "Carlos M. (Comensal)",
+    tableNumber: "Mesa 4 (Comedor)",
+    customerName: "Carlos M.",
     items: [
-      { id: "p4", name: "Torreznos Crujientes de Soria", qty: 1, price: 11.50 },
-      { id: "p1", name: "Chuletón de Vaca Vieja Madurada (1kg)", qty: 1, price: 38.50, notes: "Al punto menos" },
-      { id: "p8", name: "Vino Tinto D.O. Ribera del Duero", qty: 1, price: 18.00 }
+      { id: "e1_2", name: "Torreznos Crujientes con Patata Revolcona", qty: 1, price: 11.50 },
+      { id: "e1_1", name: "Chuletón de Vaca Vieja (1.000g)", qty: 1, price: 39.50, notes: "Punto menos" }
     ],
-    total: 68.00,
+    total: 51.00,
     status: "kitchen",
     elapsedMinutes: 14
   },
@@ -58,11 +58,11 @@ const INITIAL_DEMO_ORDERS = [
     id: "ORD-102",
     timestamp: new Date(Date.now() - 1000 * 60 * 6).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }),
     type: "takeaway",
-    tableNumber: "Recogida Local (14:30h)",
-    customerName: "Laura G. (WhatsApp)",
+    tableNumber: "Recogida Local",
+    customerName: "Laura G.",
     items: [
-      { id: "p5", name: "Croquetas Cremosas de Cecina (6 uds)", qty: 2, price: 10.50 },
-      { id: "p7", name: "Tarta de Queso Fluida al Horno", qty: 2, price: 6.50 }
+      { id: "e1_4", name: "Croquetas Cremosas de Cecina y Vaca (6 uds)", qty: 2, price: 10.50 },
+      { id: "e1_6", name: "Tarta Fluida de Queso Azul de Madrid y Oveja", qty: 2, price: 6.50 }
     ],
     total: 34.00,
     status: "pending",
@@ -72,13 +72,13 @@ const INITIAL_DEMO_ORDERS = [
     id: "ORD-103",
     timestamp: new Date(Date.now() - 1000 * 60 * 22).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }),
     type: "delivery",
-    tableNumber: "Domicilio (C/ Camarena 82)",
+    tableNumber: "Entrega Domicilio",
     customerName: "Marcos S.",
     items: [
-      { id: "p2", name: "Entrecot de Ternera de Guadarrama", qty: 2, price: 21.00, notes: "Poco hecho" },
-      { id: "p6", name: "Parrillada de Verduras", qty: 1, price: 12.00 }
+      { id: "e1_3", name: "Entrecot de Ternera de Guadarrama (400g)", qty: 2, price: 22.00, notes: "Al punto" },
+      { id: "e1_5", name: "Rabo de Toro Estofado al Vino Tinto de Madrid", qty: 1, price: 19.00 }
     ],
-    total: 54.00,
+    total: 63.00,
     status: "ready",
     elapsedMinutes: 22
   }
@@ -96,7 +96,7 @@ class AppStore {
       if (saved) {
         const parsed = JSON.parse(saved);
         return {
-          presetId: parsed.presetId || 'parrilla',
+          presetId: (parsed.presetId && RESTAURANT_PRESETS[parsed.presetId]) ? parsed.presetId : 'estilo1',
           currentView: parsed.currentView || 'menu',
           cart: parsed.cart || [],
           orders: (parsed.orders && parsed.orders.length > 0) ? parsed.orders : INITIAL_DEMO_ORDERS,
@@ -111,7 +111,7 @@ class AppStore {
     }
 
     return {
-      presetId: 'parrilla',
+      presetId: 'estilo1',
       currentView: 'menu',
       cart: [],
       orders: INITIAL_DEMO_ORDERS,
@@ -150,7 +150,7 @@ class AppStore {
   }
 
   getPreset() {
-    return RESTAURANT_PRESETS[this.state.presetId] || RESTAURANT_PRESETS.parrilla;
+    return RESTAURANT_PRESETS[this.state.presetId] || RESTAURANT_PRESETS.estilo1;
   }
 
   setPreset(presetId) {
@@ -272,7 +272,7 @@ class AppStore {
       timestamp: new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }),
       type: orderData.type || 'mesa',
       tableNumber: orderData.tableNumber || 'Mesa 1',
-      customerName: orderData.customerName || 'Cliente',
+      customerName: orderData.customerName || 'Comensal',
       customerPhone: orderData.customerPhone || '',
       items: items,
       total: this.getCartTotal(),

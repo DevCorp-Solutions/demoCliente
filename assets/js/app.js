@@ -1,8 +1,11 @@
 /**
- * DevCorp GastroSuite - Controlador Principal de la Aplicación
- * Con Arquitecturas de Diseño 100% Únicas por Local,
- * Sistema de Platos Más Pedidos en Tiempo Real y Event Delegation Robusto.
- * Desarrollado para DevCorp Solutions
+ * DevCorp Solutions - GastroSuite
+ * Muestrario de 4 Estilos y Arquitecturas Web para Hostelería
+ * 
+ * Estilo 1: Editorial & Alta Cocina (Fine Dining / Revista de Autor)
+ * Estilo 2: App Interactiva & Bento Grid (Gastrobar Contemporáneo)
+ * Estilo 3: Bistró Tradicional & Carta con Líderes Punteados (Mesón Clásico)
+ * Estilo 4: Showcase Visual & Minimalismo Nórdico (Brunch & Obrador)
  */
 
 import { store } from './state.js';
@@ -10,17 +13,15 @@ import { RESTAURANT_PRESETS } from './presets.js';
 import { calculateDeliverySavings, formatCurrency } from './calculator.js';
 
 const ICONS = {
-  cart: `<svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 11V7a4 4 0 00-8 0v4M5 9h14l1 12H4L5 9z"/></svg>`,
-  table: `<svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 10h18M3 14h18m-9-4v8m-7 0h14a2 2 0 002-2V8a2 2 0 00-2-2H5a2 2 0 00-2 2v8a2 2 0 002 2z"/></svg>`,
-  chef: `<svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6V4m0 2a2 2 0 100 4m0-4a2 2 0 110 4m-6 8a2 2 0 100-4m0 4a2 2 0 110-4m0 4v2m0-6V4m6 6v10m6-2a2 2 0 100-4m0 4a2 2 0 110-4m0 4v2m0-6V4"/></svg>`,
-  calculator: `<svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 7h6m0 10v-3m-3 3h.01M9 17h.01M9 14h.01M12 14h.01M15 11h.01M12 11h.01M9 11h.01M7 21h10a2 2 0 002-2V5a2 2 0 00-2-2H7a2 2 0 00-2 2v14a2 2 0 002 2z"/></svg>`,
-  chart: `<svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z"/></svg>`,
+  cart: `<svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 11V7a4 4 0 00-8 0v4M5 9h14l1 12H4L5 9z"/></svg>`,
+  table: `<svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 10h18M3 14h18m-9-4v8m-7 0h14a2 2 0 002-2V8a2 2 0 00-2-2H5a2 2 0 00-2 2v8a2 2 0 002 2z"/></svg>`,
+  chef: `<svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6V4m0 2a2 2 0 100 4m0-4a2 2 0 110 4m-6 8a2 2 0 100-4m0 4a2 2 0 110-4m0 4v2m0-6V4m6 6v10m6-2a2 2 0 100-4m0 4a2 2 0 110-4m0 4v2m0-6V4"/></svg>`,
+  calculator: `<svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 7h6m0 10v-3m-3 3h.01M9 17h.01M9 14h.01M12 14h.01M15 11h.01M12 11h.01M9 11h.01M7 21h10a2 2 0 002-2V5a2 2 0 00-2-2H7a2 2 0 00-2 2v14a2 2 0 002 2z"/></svg>`,
+  chart: `<svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z"/></svg>`,
   star: `<svg class="w-4 h-4 fill-amber-400 text-amber-400" viewBox="0 0 20 20"><path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"/></svg>`,
-  google: `<svg viewBox="0 0 24 24" class="w-5 h-5"><path fill="#4285F4" d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z"/><path fill="#34A853" d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z"/><path fill="#FBBC05" d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.06H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.94l2.85-2.22.81-.63z"/><path fill="#EA4335" d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.06l3.66 2.84c.87-2.6 3.3-4.52 6.16-4.52z"/></svg>`,
-  whatsapp: `<svg class="w-5 h-5" fill="currentColor" viewBox="0 0 24 24"><path d="M12.031 6.172c-3.181 0-5.767 2.586-5.768 5.766-.001 1.298.38 2.27 1.019 3.287l-.582 2.128 2.182-.573c.978.58 1.911.928 3.145.929 3.178 0 5.767-2.587 5.768-5.766 0-3.18-2.587-5.771-5.764-5.771zm3.392 8.244c-.144.405-.837.774-1.17.824-.312.045-.698.077-2.227-.552-1.828-.755-3.003-2.616-3.094-2.738-.09-.12-1.025-1.365-1.025-2.603 0-1.238.647-1.85.875-2.102.228-.252.5-.316.666-.316.167 0 .334.002.48.01.156.008.365-.059.57.433.218.522.744 1.815.808 1.948.065.133.109.289.022.463-.087.174-.13.282-.26.434-.13.151-.272.338-.388.455-.13.13-.266.27-.114.53.152.26.677 1.116 1.454 1.808 1.002.891 1.848 1.168 2.108 1.298.26.13.413.109.565-.065.152-.174.652-.76.826-1.02.174-.26.348-.217.587-.13.239.087 1.522.718 1.783.848.261.13.435.196.499.305.065.109.065.631-.079 1.036z"/></svg>`,
-  check: `<svg class="w-5 h-5 text-emerald-600" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/></svg>`,
-  arrow: `<svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14 5l7 7m0 0l-7 7m7-7H3"/></svg>`,
-  flame: `<svg class="w-4 h-4" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M12.395 2.553a1 1 0 00-1.45-.385c-.345.23-.614.558-.822.88-.316.492-.474.99-.474 1.472 0 .611.26 1.15.592 1.632.096.14.198.277.308.411.144.175.29.355.434.54.267.346.494.733.656 1.152.16.414.24.843.24 1.274a4.05 4.05 0 01-.836 2.454c-.502.637-1.22 1.074-2.025 1.233a1 1 0 00-.788.756 4.496 4.496 0 01-1.43 2.19 1 1 0 00-.332.882c.07.45.39.81.823.931a7.97 7.97 0 003.864.083c.983-.2 1.902-.622 2.684-1.233.784-.613 1.39-1.41 1.765-2.327.375-.916.516-1.916.41-2.91a8.037 8.037 0 00-1.127-3.238 12.06 12.06 0 00-1.92-2.482 1 1 0 00-.064-.066zM7.747 8.358a1 1 0 00-1.146-.43 6.98 6.98 0 00-2.316 1.58A7.03 7.03 0 002.5 14.5c0 1.83.693 3.58 1.947 4.908a1 1 0 001.378.077c.365-.33.454-.863.21-1.29-.427-.745-.635-1.587-.635-2.445 0-1.208.435-2.37 1.228-3.284.4-.46.88-.847 1.417-1.15a1 1 0 00.419-1.148 5.06 5.06 0 01-.517-1.81z" clip-rule="evenodd"/></svg>`
+  google: `<svg viewBox="0 0 24 24" class="w-4 h-4"><path fill="#4285F4" d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z"/><path fill="#34A853" d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z"/><path fill="#FBBC05" d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.06H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.94l2.85-2.22.81-.63z"/><path fill="#EA4335" d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.06l3.66 2.84c.87-2.6 3.3-4.52 6.16-4.52z"/></svg>`,
+  arrow: `<svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14 5l7 7m0 0l-7 7m7-7H3"/></svg>`,
+  check: `<svg class="w-4 h-4 text-emerald-500" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/></svg>`
 };
 
 class AppController {
@@ -30,15 +31,8 @@ class AppController {
   }
 
   init() {
-    // Configurar Event Delegation global para que ningún botón pierda su listener
     this.setupGlobalEventDelegation();
-
-    // Suscribirse a cambios del store reactivo
-    store.subscribe(() => {
-      this.render();
-    });
-
-    // Render inicial
+    store.subscribe(() => this.render());
     this.render();
   }
 
@@ -48,8 +42,7 @@ class AppController {
       const tabBtn = e.target.closest('[data-view]');
       if (tabBtn) {
         e.preventDefault();
-        const view = tabBtn.getAttribute('data-view');
-        store.setView(view);
+        store.setView(tabBtn.getAttribute('data-view'));
         return;
       }
 
@@ -67,13 +60,13 @@ class AppController {
         return;
       }
 
-      // 3. Simular +1 Pedido en Vivo (Tiempo Real)
+      // 3. Simular +1 Pedido Demo
       const simOrderBtn = e.target.closest('[data-quick-simulate-dish]');
       if (simOrderBtn) {
         e.preventDefault();
         const dishId = simOrderBtn.getAttribute('data-quick-simulate-dish');
         store.incrementDishSale(dishId, 1);
-        this.showToast(`¡+1 Pedido registrado en vivo para este plato!`);
+        this.showToast(`Comanda registrada para este plato`);
         return;
       }
 
@@ -85,7 +78,7 @@ class AppController {
         return;
       }
 
-      // 5. Filtrar Alérgeno
+      // 5. Filtrar Alérgenos
       const algBtn = e.target.closest('[data-allergen]');
       if (algBtn) {
         e.preventDefault();
@@ -93,18 +86,18 @@ class AppController {
         return;
       }
 
-      // 6. KDS: Avanzar estado de comanda
+      // 6. KDS: Avanzar estado
       const nextStatusBtn = e.target.closest('[data-next-status]');
       if (nextStatusBtn) {
         e.preventDefault();
         const orderId = nextStatusBtn.getAttribute('data-order-id');
-        const next = nextStatusBtn.getAttribute('data-next-status');
-        store.updateOrderStatus(orderId, next);
+        const nextStatus = nextStatusBtn.getAttribute('data-next-status');
+        store.updateOrderStatus(orderId, nextStatus);
         return;
       }
 
-      // 7. Abrir / Cerrar Carrito
-      if (e.target.closest('#open-cart-btn')) {
+      // 7. Carrito: Abrir / Cerrar Drawer
+      if (e.target.closest('#open-cart-btn') || e.target.closest('#mobile-cart-btn')) {
         this.renderCartDrawer(true);
         return;
       }
@@ -113,27 +106,27 @@ class AppController {
         return;
       }
 
-      // 8. Modificar Carrito
+      // 8. Cantidades Carrito
       const plusBtn = e.target.closest('[data-cart-plus]');
       if (plusBtn) {
-        store.updateCartQty(parseInt(plusBtn.getAttribute('data-cart-plus'), 10), 1);
+        store.updateCartQty(parseInt(plusBtn.getAttribute('data-cart-plus')), 1);
         this.renderCartDrawer(true);
         return;
       }
       const minusBtn = e.target.closest('[data-cart-minus]');
       if (minusBtn) {
-        store.updateCartQty(parseInt(minusBtn.getAttribute('data-cart-minus'), 10), -1);
+        store.updateCartQty(parseInt(minusBtn.getAttribute('data-cart-minus')), -1);
         this.renderCartDrawer(true);
         return;
       }
       const removeBtn = e.target.closest('[data-cart-remove]');
       if (removeBtn) {
-        store.removeFromCart(parseInt(removeBtn.getAttribute('data-cart-remove'), 10));
+        store.removeFromCart(parseInt(removeBtn.getAttribute('data-cart-remove')));
         this.renderCartDrawer(true);
         return;
       }
 
-      // 9. Abrir / Cerrar Checkout
+      // 9. Checkout Modal
       if (e.target.closest('#open-checkout-modal-btn')) {
         this.renderCartDrawer(false);
         this.renderCheckoutModal();
@@ -145,8 +138,8 @@ class AppController {
         return;
       }
 
-      // 10. Abrir / Cerrar Modal de Reputación
-      if (e.target.closest('#open-smart-review-btn') || e.target.closest('#demo-filter-trigger-btn')) {
+      // 10. Reseñas Inteligentes Modal
+      if (e.target.closest('#open-smart-review-btn')) {
         this.renderSmartReviewModal(store.getPreset());
         return;
       }
@@ -156,9 +149,9 @@ class AppController {
         return;
       }
 
-      // 11. Reiniciar datos de demo
+      // 11. Reiniciar demo
       if (e.target.closest('#reset-demo-btn')) {
-        if (confirm('¿Deseas reiniciar los pedidos de ejemplo a su estado inicial?')) {
+        if (confirm('¿Deseas reiniciar los datos de demostración a su estado inicial?')) {
           store.resetDemo();
         }
         return;
@@ -166,181 +159,74 @@ class AppController {
     });
   }
 
+  showToast(message) {
+    const existing = document.getElementById('toast-notification');
+    if (existing) existing.remove();
+
+    const toast = document.createElement('div');
+    toast.id = 'toast-notification';
+    toast.className = 'fixed bottom-5 right-5 z-50 bg-slate-900 text-white text-xs font-medium px-4 py-2.5 rounded-xl shadow-xl flex items-center space-x-2 border border-slate-700 transition-all transform duration-300';
+    toast.innerHTML = `<span>✓</span><span>${message}</span>`;
+    document.body.appendChild(toast);
+
+    setTimeout(() => {
+      toast.style.opacity = '0';
+      setTimeout(() => toast.remove(), 300);
+    }, 2200);
+  }
+
   render() {
     const preset = store.getPreset();
     const currentView = store.state.currentView;
     const cartCount = store.getCartItemCount();
 
-    // Aplicar la clase de tema única del local a HTML y BODY para evitar cualquier fondo blanco en scroll
+    // Actualizar clases base para evitar cualquier destello blanco en scroll
     document.documentElement.className = `min-h-screen ${preset.themeClass}`;
     document.body.className = `min-h-screen flex flex-col font-sans antialiased ${preset.themeClass}`;
 
-    // Actualizar el meta theme-color del navegador móvil para que la barra de estado coincida con el fondo
+    // Color de barra de estado móvil nativa
     const metaTheme = document.querySelector('meta[name="theme-color"]');
     if (metaTheme) {
       const bgMap = {
-        parrilla: '#0c0a09',
-        cerveceria: '#090d16',
-        pizzeria: '#fafaf9',
-        cafeteria: '#fcfbf9'
+        estilo1: '#0b0b0d',
+        estilo2: '#070a13',
+        estilo3: '#f6f3eb',
+        estilo4: '#fafafa'
       };
       metaTheme.setAttribute('content', bgMap[preset.id] || '#0e1b33');
     }
 
-    // Estilo activo dinámico para las pestañas de navegación según el local
-    const getActiveTabStyle = (viewName) => {
-      if (currentView !== viewName) {
-        return 'text-slate-300 hover:bg-slate-800/80';
-      }
-      if (preset.id === 'parrilla') {
-        return 'bg-red-800 text-amber-200 border border-amber-600/50 shadow-md font-bold';
-      } else if (preset.id === 'cerveceria') {
-        return 'bg-amber-500 text-slate-950 font-black shadow-md';
-      } else if (preset.id === 'pizzeria') {
-        return 'bg-emerald-600 text-white font-bold shadow-md';
-      } else {
-        return 'bg-sky-600 text-white font-bold shadow-md';
-      }
-    };
+    // Renderizar la cabecera correspondiente al estilo activo
+    const headerHtml = this.renderHeaderForStyle(preset, currentView, cartCount);
+
+    // Renderizar el footer correspondiente al estilo activo
+    const footerHtml = this.renderFooterForStyle(preset);
 
     this.appContainer.innerHTML = `
-      <!-- CABECERA UNIFICADA DEVCORP (COMPACTA, RESPONSIVE Y SIN TEXTOS REPETITIVOS) -->
-      <header class="sticky top-0 z-40 bg-[#0e1b33] text-white border-b border-slate-800 shadow-md">
-        <div class="max-w-7xl mx-auto px-3 sm:px-6 lg:px-8">
-          <div class="flex items-center justify-between h-14 sm:h-16 gap-2">
-            
-            <!-- LOGO DEVCORP ADAPTADO EN PEQUEÑO -->
-            <a href="https://devcorpsolutions.com" target="_blank" class="flex items-center group flex-shrink-0" title="DevCorp Solutions">
-              <img src="assets/images/logo.png" alt="DevCorp Solutions" class="h-6 sm:h-7 md:h-8 w-auto object-contain transition-transform group-hover:scale-105" onerror="this.src='https://devcorpsolutions.com/logo.png'"/>
-            </a>
+      ${headerHtml}
 
-            <!-- NAVEGACIÓN PRINCIPAL (DESKTOP: INTEGRADA DIRECTAMENTE EN CABECERA) -->
-            <nav class="hidden lg:flex items-center space-x-1.5 font-medium text-xs">
-              <button data-view="menu" class="px-3 py-1.5 rounded-xl transition-all flex items-center space-x-1.5 ${getActiveTabStyle('menu')}">
-                ${ICONS.cart}
-                <span>Carta & Local</span>
-              </button>
-
-              <button data-view="reservations" class="px-3 py-1.5 rounded-xl transition-all flex items-center space-x-1.5 ${getActiveTabStyle('reservations')}">
-                ${ICONS.table}
-                <span>Reservas Online</span>
-              </button>
-
-              <button data-view="kds" class="px-3 py-1.5 rounded-xl transition-all flex items-center space-x-1.5 ${getActiveTabStyle('kds')}">
-                ${ICONS.chef}
-                <span>Cocina / KDS</span>
-                <span class="ml-1 px-1.5 py-0.2 bg-black/40 text-[10px] font-bold rounded-full">${store.state.orders.filter(o => o.status !== 'served').length}</span>
-              </button>
-
-              <button data-view="metrics" class="px-3 py-1.5 rounded-xl transition-all flex items-center space-x-1.5 ${getActiveTabStyle('metrics')}">
-                ${ICONS.chart}
-                <span>Métricas</span>
-              </button>
-
-              <button data-view="roi" class="px-3 py-1.5 rounded-xl transition-all flex items-center space-x-1.5 ${getActiveTabStyle('roi')}">
-                ${ICONS.calculator}
-                <span>Ahorro vs Glovo</span>
-              </button>
-            </nav>
-
-            <!-- ACCIONES: SELECTOR DE LOCAL + CARRITO + WHATSAPP -->
-            <div class="flex items-center space-x-1.5 sm:space-x-2 flex-shrink-0">
-              <select id="preset-select" class="bg-slate-800 text-[11px] sm:text-xs text-slate-100 font-semibold rounded-lg border border-slate-700 py-1.5 px-2 sm:px-2.5 max-w-[145px] sm:max-w-[210px] truncate focus:outline-none focus:ring-2 focus:ring-blue-500 shadow-sm">
-                <option value="parrilla" ${store.state.presetId === 'parrilla' ? 'selected' : ''}>🔥 Parrilla Vukata</option>
-                <option value="cerveceria" ${store.state.presetId === 'cerveceria' ? 'selected' : ''}>🍺 Cervecería 27</option>
-                <option value="pizzeria" ${store.state.presetId === 'pizzeria' ? 'selected' : ''}>🍕 Pizzería Carlos</option>
-                <option value="cafeteria" ${store.state.presetId === 'cafeteria' ? 'selected' : ''}>☕ Cafetería Campamento</option>
-              </select>
-
-              <button id="open-cart-btn" class="relative inline-flex items-center px-2.5 sm:px-3 py-1.5 bg-blue-600 hover:bg-blue-500 text-white text-xs font-semibold rounded-lg shadow transition-all flex-shrink-0">
-                ${ICONS.cart}
-                <span class="ml-1 sm:ml-1.5 font-mono text-[11px] sm:text-xs">${formatCurrency(store.getCartTotal())}</span>
-                ${cartCount > 0 ? `<span class="ml-1.5 px-1.5 py-0.2 text-[10px] font-bold bg-white text-blue-700 rounded-full">${cartCount}</span>` : ''}
-              </button>
-
-              <a href="https://wa.me/34695590754?text=Hola%2C%20he%20visto%20la%20demo%20DevCorp%20GastroSuite%20y%20quiero%20una%20propuesta%20para%20mi%20restaurante." 
-                 target="_blank" 
-                 class="hidden sm:inline-flex items-center space-x-1.5 bg-emerald-600 hover:bg-emerald-500 text-white text-xs font-semibold px-2.5 sm:px-3 py-1.5 rounded-lg transition-colors shadow-sm flex-shrink-0"
-                 title="Auditoría 48h">
-                ${ICONS.whatsapp}
-                <span class="hidden md:inline">Auditoría 48h</span>
-              </a>
-            </div>
-
-          </div>
-        </div>
-
-        <!-- NAVEGACIÓN MÓVIL Y TABLET (SCROLL TÁCTIL SUAVE HORIZONTAL) -->
-        <nav class="lg:hidden bg-slate-900/98 border-t border-slate-800/80 px-2 sm:px-4 py-1.5 overflow-x-auto no-scrollbar">
-          <div class="flex items-center space-x-1 sm:space-x-1.5 text-xs font-medium min-w-max">
-            <button data-view="menu" class="px-2.5 py-1.5 rounded-xl transition-all flex items-center space-x-1 ${getActiveTabStyle('menu')}">
-              ${ICONS.cart}
-              <span>Carta & Local</span>
-            </button>
-
-            <button data-view="reservations" class="px-2.5 py-1.5 rounded-xl transition-all flex items-center space-x-1 ${getActiveTabStyle('reservations')}">
-              ${ICONS.table}
-              <span>Reservas</span>
-            </button>
-
-            <button data-view="kds" class="px-2.5 py-1.5 rounded-xl transition-all flex items-center space-x-1 ${getActiveTabStyle('kds')}">
-              ${ICONS.chef}
-              <span>Cocina</span>
-              <span class="ml-1 px-1.5 py-0.2 bg-black/40 text-[10px] font-bold rounded-full">${store.state.orders.filter(o => o.status !== 'served').length}</span>
-            </button>
-
-            <button data-view="metrics" class="px-2.5 py-1.5 rounded-xl transition-all flex items-center space-x-1 ${getActiveTabStyle('metrics')}">
-              ${ICONS.chart}
-              <span>Métricas</span>
-            </button>
-
-            <button data-view="roi" class="px-2.5 py-1.5 rounded-xl transition-all flex items-center space-x-1 ${getActiveTabStyle('roi')}">
-              ${ICONS.calculator}
-              <span>Ahorro vs Glovo</span>
-            </button>
-          </div>
-        </nav>
-      </header>
-
-      <!-- CONTENEDOR DE LA VISTA PRINCIPAL -->
-      <main class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6 flex-1 w-full">
+      <!-- CONTENEDOR PRINCIPAL -->
+      <main class="max-w-7xl mx-auto px-3 sm:px-6 lg:px-8 py-6 sm:py-8 flex-1 w-full">
         <div id="view-content"></div>
       </main>
 
-      <!-- MODALES Y DRAWERS -->
+      <!-- CONTENEDORES DE MODALES -->
       <div id="cart-drawer-container"></div>
       <div id="checkout-modal-container"></div>
       <div id="review-modal-container"></div>
 
-      <!-- FOOTER PROFESIONAL DEVCORP -->
-      <footer class="bg-slate-900 text-slate-400 text-xs border-t border-slate-800 py-10 mt-16">
-        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex flex-col md:flex-row items-center justify-between gap-6">
-          <div>
-            <div class="flex items-center space-x-2">
-              <span class="font-bold text-white text-sm">DevCorp Solutions</span>
-              <span class="text-slate-600">|</span>
-              <span class="text-slate-300">Desarrollo de Software a Medida para Hostelería</span>
-            </div>
-            <p class="mt-1 text-slate-400">Sin comisiones por pedido. Sin intermediarios. Tu negocio, tu software y tus clientes.</p>
-          </div>
-          <div class="flex items-center space-x-4">
-            <button id="reset-demo-btn" class="text-slate-400 hover:text-white underline text-[11px]">Reiniciar datos de demo</button>
-            <a href="https://devcorpsolutions.com" target="_blank" class="text-cyan-400 hover:underline">devcorpsolutions.com</a>
-            <a href="https://wa.me/34695590754" target="_blank" class="bg-blue-600/30 hover:bg-blue-600 text-blue-200 px-3 py-1 rounded text-xs transition-colors">Contactar Técnico</a>
-          </div>
-        </div>
-      </footer>
+      ${footerHtml}
     `;
 
-    // Selector de preset
-    const presetSelect = document.getElementById('preset-select');
-    if (presetSelect) {
-      presetSelect.addEventListener('change', (e) => {
+    // Selector de Estilos (Estilo 1, Estilo 2, Estilo 3, Estilo 4)
+    const styleSelect = document.getElementById('style-select');
+    if (styleSelect) {
+      styleSelect.addEventListener('change', (e) => {
         store.setPreset(e.target.value);
       });
     }
 
-    // Renderizar la vista activa específica
+    // Renderizar la vista activa
     const content = document.getElementById('view-content');
     if (currentView === 'menu') {
       this.renderMenuView(content, preset);
@@ -356,35 +242,246 @@ class AppController {
   }
 
   // =========================================================================
-  // VISTA 1: CARTA DIGITAL & SOBRE NOSOTROS (DELEGADOR DE DISEÑOS ÚNICOS)
+  // CABECERAS DIFERENCIADAS PARA CADA ESTILO (SIN AUDITORÍA, SELECTOR ESTILOS 1-4)
+  // =========================================================================
+  renderHeaderForStyle(preset, currentView, cartCount) {
+    const kdsPending = store.state.orders.filter(o => o.status !== 'served').length;
+
+    // Selector HTML estándar reutilizable pero con clases adaptadas al estilo
+    const selectorHtml = `
+      <select id="style-select" class="text-xs font-semibold rounded-lg py-1.5 px-2.5 focus:outline-none focus:ring-2 transition-all cursor-pointer shadow-sm ${
+        preset.id === 'estilo1' ? 'bg-[#15151c] text-amber-200 border border-amber-500/30 focus:ring-amber-500' :
+        preset.id === 'estilo2' ? 'bg-slate-900 text-sky-300 border border-slate-700 focus:ring-sky-500' :
+        preset.id === 'estilo3' ? 'bg-white text-[#3d3228] border-2 border-[#8c7b6c] focus:ring-[#8c7b6c] font-serif' :
+        'bg-white text-zinc-800 border border-zinc-300 focus:ring-zinc-900'
+      }">
+        <option value="estilo1" ${preset.id === 'estilo1' ? 'selected' : ''}>Estilo 1</option>
+        <option value="estilo2" ${preset.id === 'estilo2' ? 'selected' : ''}>Estilo 2</option>
+        <option value="estilo3" ${preset.id === 'estilo3' ? 'selected' : ''}>Estilo 3</option>
+        <option value="estilo4" ${preset.id === 'estilo4' ? 'selected' : ''}>Estilo 4</option>
+      </select>
+    `;
+
+    // --- CABECERA ESTILO 1: EDITORIAL & ALTA COCINA ---
+    if (preset.id === 'estilo1') {
+      return `
+        <header class="sticky top-0 z-40 bg-[#0b0b0d]/95 backdrop-blur-md text-white border-b border-stone-800/80">
+          <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex items-center justify-between h-16">
+              
+              <!-- Logo DevCorp Sutil -->
+              <a href="https://devcorpsolutions.com" target="_blank" class="flex items-center space-x-3 flex-shrink-0" title="DevCorp Solutions">
+                <img src="assets/images/logo.png" alt="DevCorp" class="h-7 w-auto object-contain brightness-110"/>
+                <span class="hidden sm:inline text-xs font-mono text-stone-400 uppercase tracking-widest">Estilo 1 · Editorial</span>
+              </a>
+
+              <!-- Navegación de Texto Refinada -->
+              <nav class="hidden md:flex items-center space-x-6 text-xs tracking-wider uppercase font-medium">
+                <button data-view="menu" class="transition-colors pb-1 ${currentView === 'menu' ? 'text-amber-300 border-b-2 border-amber-400 font-bold' : 'text-stone-400 hover:text-stone-200'}">Carta de Autor</button>
+                <button data-view="reservations" class="transition-colors pb-1 ${currentView === 'reservations' ? 'text-amber-300 border-b-2 border-amber-400 font-bold' : 'text-stone-400 hover:text-stone-200'}">Reservas</button>
+                <button data-view="kds" class="transition-colors pb-1 flex items-center space-x-1.5 ${currentView === 'kds' ? 'text-amber-300 border-b-2 border-amber-400 font-bold' : 'text-stone-400 hover:text-stone-200'}">
+                  <span>Cocina</span>
+                  ${kdsPending > 0 ? `<span class="bg-amber-400/20 text-amber-300 text-[10px] px-1.5 py-0.2 rounded font-mono font-bold">${kdsPending}</span>` : ''}
+                </button>
+                <button data-view="metrics" class="transition-colors pb-1 ${currentView === 'metrics' ? 'text-amber-300 border-b-2 border-amber-400 font-bold' : 'text-stone-400 hover:text-stone-200'}">Métricas</button>
+                <button data-view="roi" class="transition-colors pb-1 ${currentView === 'roi' ? 'text-amber-300 border-b-2 border-amber-400 font-bold' : 'text-stone-400 hover:text-stone-200'}">Rentabilidad</button>
+              </nav>
+
+              <!-- Selector de Estilos y Carrito -->
+              <div class="flex items-center space-x-2.5">
+                ${selectorHtml}
+                <button id="open-cart-btn" class="flex items-center space-x-1.5 bg-stone-900 border border-amber-500/40 text-amber-200 text-xs font-semibold px-3 py-1.5 rounded-lg shadow transition-colors">
+                  ${ICONS.cart}
+                  <span class="font-mono">${formatCurrency(store.getCartTotal())}</span>
+                  ${cartCount > 0 ? `<span class="bg-amber-400 text-stone-950 text-[10px] font-black px-1.5 py-0.2 rounded-full">${cartCount}</span>` : ''}
+                </button>
+              </div>
+
+            </div>
+          </div>
+
+          <!-- Barra móvil con pestañas de texto elegante -->
+          <nav class="md:hidden bg-[#0e0e12] border-t border-stone-800 px-3 py-2 overflow-x-auto no-scrollbar flex items-center space-x-4 text-xs uppercase tracking-wider min-w-max">
+            <button data-view="menu" class="${currentView === 'menu' ? 'text-amber-300 font-bold' : 'text-stone-400'}">Carta</button>
+            <button data-view="reservations" class="${currentView === 'reservations' ? 'text-amber-300 font-bold' : 'text-stone-400'}">Reservas</button>
+            <button data-view="kds" class="${currentView === 'kds' ? 'text-amber-300 font-bold' : 'text-stone-400'}">Cocina (${kdsPending})</button>
+            <button data-view="metrics" class="${currentView === 'metrics' ? 'text-amber-300 font-bold' : 'text-stone-400'}">Métricas</button>
+            <button data-view="roi" class="${currentView === 'roi' ? 'text-amber-300 font-bold' : 'text-stone-400'}">Rentabilidad</button>
+          </nav>
+        </header>
+      `;
+    }
+
+    // --- CABECERA ESTILO 2: APP INTERACTIVA & BENTO GRID ---
+    if (preset.id === 'estilo2') {
+      return `
+        <header class="sticky top-0 z-40 bg-[#070a13]/90 backdrop-blur-md text-slate-100 border-b border-slate-800">
+          <div class="max-w-7xl mx-auto px-3 sm:px-6 lg:px-8">
+            <div class="flex items-center justify-between h-14 sm:h-16 gap-2">
+              
+              <div class="flex items-center space-x-3">
+                <a href="https://devcorpsolutions.com" target="_blank" class="flex-shrink-0" title="DevCorp Solutions">
+                  <img src="assets/images/logo.png" alt="DevCorp" class="h-6 sm:h-7 w-auto object-contain"/>
+                </a>
+                <span class="hidden xl:inline-flex items-center px-2 py-0.5 rounded-full text-[11px] font-medium bg-emerald-950 border border-emerald-500/40 text-emerald-300">
+                  <span class="w-1.5 h-1.5 rounded-full bg-emerald-400 mr-1.5 animate-pulse"></span>
+                  ${preset.serviceStatus}
+                </span>
+              </div>
+
+              <!-- Cápsula Flotante (Segmented Control) -->
+              <nav class="hidden lg:flex items-center bento-pill-nav space-x-1 text-xs font-semibold">
+                <button data-view="menu" class="px-3 py-1 rounded-full transition-all ${currentView === 'menu' ? 'bg-sky-600 text-white shadow' : 'text-slate-400 hover:text-slate-200'}">Carta Interactiva</button>
+                <button data-view="reservations" class="px-3 py-1 rounded-full transition-all ${currentView === 'reservations' ? 'bg-sky-600 text-white shadow' : 'text-slate-400 hover:text-slate-200'}">Reservas</button>
+                <button data-view="kds" class="px-3 py-1 rounded-full transition-all ${currentView === 'kds' ? 'bg-sky-600 text-white shadow' : 'text-slate-400 hover:text-slate-200'}">KDS Cocina (${kdsPending})</button>
+                <button data-view="metrics" class="px-3 py-1 rounded-full transition-all ${currentView === 'metrics' ? 'bg-sky-600 text-white shadow' : 'text-slate-400 hover:text-slate-200'}">Métricas</button>
+                <button data-view="roi" class="px-3 py-1 rounded-full transition-all ${currentView === 'roi' ? 'bg-sky-600 text-white shadow' : 'text-slate-400 hover:text-slate-200'}">Ahorro 0%</button>
+              </nav>
+
+              <div class="flex items-center space-x-2">
+                ${selectorHtml}
+                <button id="open-cart-btn" class="bg-blue-600 hover:bg-blue-500 text-white text-xs font-bold px-3 py-1.5 rounded-xl shadow flex items-center space-x-1.5">
+                  ${ICONS.cart}
+                  <span class="font-mono">${formatCurrency(store.getCartTotal())}</span>
+                  ${cartCount > 0 ? `<span class="bg-white text-blue-800 text-[10px] font-black px-1.5 py-0.2 rounded-full">${cartCount}</span>` : ''}
+                </button>
+              </div>
+
+            </div>
+          </div>
+
+          <!-- Barra móvil táctil con botones redondeados -->
+          <nav class="lg:hidden bg-slate-900 border-t border-slate-800 px-2 py-1.5 overflow-x-auto no-scrollbar flex items-center space-x-1.5 text-xs font-medium min-w-max">
+            <button data-view="menu" class="px-2.5 py-1 rounded-lg ${currentView === 'menu' ? 'bg-sky-600 text-white' : 'text-slate-300'}">Carta</button>
+            <button data-view="reservations" class="px-2.5 py-1 rounded-lg ${currentView === 'reservations' ? 'bg-sky-600 text-white' : 'text-slate-300'}">Reservas</button>
+            <button data-view="kds" class="px-2.5 py-1 rounded-lg ${currentView === 'kds' ? 'bg-sky-600 text-white' : 'text-slate-300'}">Cocina (${kdsPending})</button>
+            <button data-view="metrics" class="px-2.5 py-1 rounded-lg ${currentView === 'metrics' ? 'bg-sky-600 text-white' : 'text-slate-300'}">Métricas</button>
+            <button data-view="roi" class="px-2.5 py-1 rounded-lg ${currentView === 'roi' ? 'bg-sky-600 text-white' : 'text-slate-300'}">Ahorro</button>
+          </nav>
+        </header>
+      `;
+    }
+
+    // --- CABECERA ESTILO 3: BISTRÓ TRADICIONAL & CARTA CLÁSICA ---
+    if (preset.id === 'estilo3') {
+      return `
+        <header class="sticky top-0 z-40 bg-[#f6f3eb] text-[#2b2520] border-b-2 border-[#8c7b6c] shadow-sm">
+          <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex items-center justify-between h-16 sm:h-20">
+              
+              <!-- Identidad Clásica Bistró -->
+              <div class="flex items-center space-x-3">
+                <a href="https://devcorpsolutions.com" target="_blank" title="DevCorp Solutions">
+                  <img src="assets/images/logo.png" alt="DevCorp" class="h-7 w-auto object-contain"/>
+                </a>
+                <div class="hidden sm:block">
+                  <span class="font-serif font-bold text-base block text-[#3d3228]">Casa Manolo</span>
+                  <span class="text-[10px] text-[#7a6b5d] uppercase tracking-wider block">Tradición desde 1974 · Tel. 914 63 12 90</span>
+                </div>
+              </div>
+
+              <!-- Menú Clásico de Fichero / Pestañas Rectangulares -->
+              <nav class="hidden md:flex items-center space-x-1 font-serif text-sm font-semibold">
+                <button data-view="menu" class="px-3 py-1.5 border-b-2 transition-all ${currentView === 'menu' ? 'border-[#8c7b6c] text-[#1c1510] font-bold bg-[#eee7db]' : 'border-transparent text-[#6b5c4f] hover:text-[#1c1510]'}">Carta del Día</button>
+                <button data-view="reservations" class="px-3 py-1.5 border-b-2 transition-all ${currentView === 'reservations' ? 'border-[#8c7b6c] text-[#1c1510] font-bold bg-[#eee7db]' : 'border-transparent text-[#6b5c4f] hover:text-[#1c1510]'}">Reservar Mesa</button>
+                <button data-view="kds" class="px-3 py-1.5 border-b-2 transition-all ${currentView === 'kds' ? 'border-[#8c7b6c] text-[#1c1510] font-bold bg-[#eee7db]' : 'border-transparent text-[#6b5c4f] hover:text-[#1c1510]'}">Comandero (${kdsPending})</button>
+                <button data-view="metrics" class="px-3 py-1.5 border-b-2 transition-all ${currentView === 'metrics' ? 'border-[#8c7b6c] text-[#1c1510] font-bold bg-[#eee7db]' : 'border-transparent text-[#6b5c4f] hover:text-[#1c1510]'}">Caja & Datos</button>
+                <button data-view="roi" class="px-3 py-1.5 border-b-2 transition-all ${currentView === 'roi' ? 'border-[#8c7b6c] text-[#1c1510] font-bold bg-[#eee7db]' : 'border-transparent text-[#6b5c4f] hover:text-[#1c1510]'}">Comparativa Comisiones</button>
+              </nav>
+
+              <div class="flex items-center space-x-2">
+                ${selectorHtml}
+                <button id="open-cart-btn" class="bg-[#3d3228] hover:bg-[#251e18] text-[#f6f3eb] text-xs font-bold px-3 py-1.5 rounded shadow flex items-center space-x-1.5 font-serif">
+                  ${ICONS.cart}
+                  <span>Comanda (${cartCount})</span>
+                </button>
+              </div>
+
+            </div>
+          </div>
+
+          <!-- Barra móvil estilo fichero -->
+          <nav class="md:hidden bg-[#eee7db] border-t border-[#8c7b6c] px-3 py-1.5 overflow-x-auto no-scrollbar flex items-center space-x-2 text-xs font-serif min-w-max">
+            <button data-view="menu" class="px-2 py-1 rounded ${currentView === 'menu' ? 'bg-[#3d3228] text-white' : 'text-[#3d3228]'}">Carta</button>
+            <button data-view="reservations" class="px-2 py-1 rounded ${currentView === 'reservations' ? 'bg-[#3d3228] text-white' : 'text-[#3d3228]'}">Reservas</button>
+            <button data-view="kds" class="px-2 py-1 rounded ${currentView === 'kds' ? 'bg-[#3d3228] text-white' : 'text-[#3d3228]'}">Comandero (${kdsPending})</button>
+            <button data-view="metrics" class="px-2 py-1 rounded ${currentView === 'metrics' ? 'bg-[#3d3228] text-white' : 'text-[#3d3228]'}">Caja</button>
+            <button data-view="roi" class="px-2 py-1 rounded ${currentView === 'roi' ? 'bg-[#3d3228] text-white' : 'text-[#3d3228]'}">Comisiones</button>
+          </nav>
+        </header>
+      `;
+    }
+
+    // --- CABECERA ESTILO 4: SHOWCASE VISUAL & MINIMALISMO NÓRDICO ---
+    return `
+      <header class="sticky top-0 z-40 bg-white/95 backdrop-blur-md text-zinc-900 border-b border-zinc-200">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div class="flex items-center justify-between h-14 sm:h-16">
+            
+            <a href="https://devcorpsolutions.com" target="_blank" class="flex items-center space-x-2.5" title="DevCorp Solutions">
+              <img src="assets/images/logo.png" alt="DevCorp" class="h-6 w-auto object-contain"/>
+              <span class="text-xs font-medium tracking-widest text-zinc-500 uppercase">Atelier</span>
+            </a>
+
+            <!-- Navegación Minimalista Espaciada -->
+            <nav class="hidden md:flex items-center space-x-8 text-xs font-light tracking-widest uppercase">
+              <button data-view="menu" class="transition-colors ${currentView === 'menu' ? 'text-zinc-900 font-semibold border-b border-zinc-900 pb-0.5' : 'text-zinc-400 hover:text-zinc-900'}">Menú</button>
+              <button data-view="reservations" class="transition-colors ${currentView === 'reservations' ? 'text-zinc-900 font-semibold border-b border-zinc-900 pb-0.5' : 'text-zinc-400 hover:text-zinc-900'}">Mesa</button>
+              <button data-view="kds" class="transition-colors ${currentView === 'kds' ? 'text-zinc-900 font-semibold border-b border-zinc-900 pb-0.5' : 'text-zinc-400 hover:text-zinc-900'}">Obrador (${kdsPending})</button>
+              <button data-view="metrics" class="transition-colors ${currentView === 'metrics' ? 'text-zinc-900 font-semibold border-b border-zinc-900 pb-0.5' : 'text-zinc-400 hover:text-zinc-900'}">Estadísticas</button>
+              <button data-view="roi" class="transition-colors ${currentView === 'roi' ? 'text-zinc-900 font-semibold border-b border-zinc-900 pb-0.5' : 'text-zinc-400 hover:text-zinc-900'}">Rentabilidad</button>
+            </nav>
+
+            <div class="flex items-center space-x-3">
+              ${selectorHtml}
+              <button id="open-cart-btn" class="text-xs font-medium tracking-wide flex items-center space-x-1 text-zinc-900 hover:text-zinc-600">
+                ${ICONS.cart}
+                <span>(${cartCount})</span>
+              </button>
+            </div>
+
+          </div>
+        </div>
+
+        <!-- Barra móvil minimalista -->
+        <nav class="md:hidden bg-zinc-50 border-t border-zinc-200 px-3 py-2 overflow-x-auto no-scrollbar flex items-center space-x-5 text-xs font-light tracking-widest uppercase min-w-max">
+          <button data-view="menu" class="${currentView === 'menu' ? 'text-zinc-900 font-bold' : 'text-zinc-400'}">Menú</button>
+          <button data-view="reservations" class="${currentView === 'reservations' ? 'text-zinc-900 font-bold' : 'text-zinc-400'}">Mesa</button>
+          <button data-view="kds" class="${currentView === 'kds' ? 'text-zinc-900 font-bold' : 'text-zinc-400'}">Obrador (${kdsPending})</button>
+          <button data-view="metrics" class="${currentView === 'metrics' ? 'text-zinc-900 font-bold' : 'text-zinc-400'}">Estadísticas</button>
+          <button data-view="roi" class="${currentView === 'roi' ? 'text-zinc-900 font-bold' : 'text-zinc-400'}">Rentabilidad</button>
+        </nav>
+      </header>
+    `;
+  }
+
+  // =========================================================================
+  // VISTA 1: CARTA DIGITAL (DELEGADOR SEGÚN EL ESTILO ACTIVO)
   // =========================================================================
   renderMenuView(container, preset) {
     const activeCategory = store.state.activeCategory;
     const activeAllergen = store.state.activeAllergenFilter;
+    const topData = store.getMostOrderedDish();
 
     let filteredMenu = preset.menu;
     if (activeCategory !== 'all') {
-      filteredMenu = filteredMenu.filter(item => item.category === activeCategory);
+      filteredMenu = filteredMenu.filter(d => d.category === activeCategory);
     }
     if (activeAllergen) {
-      filteredMenu = filteredMenu.filter(item => !item.allergens.includes(activeAllergen));
+      filteredMenu = filteredMenu.filter(d => !d.allergens || !d.allergens.includes(activeAllergen));
     }
-
-    // Obtener en tiempo real el plato más pedido
-    const topData = store.getMostOrderedDish();
 
     let layoutHtml = '';
-    if (preset.layoutType === 'steakhouse') {
-      layoutHtml = this.renderSteakhouseLayout(preset, filteredMenu, activeCategory, activeAllergen, topData);
-    } else if (preset.layoutType === 'tavern') {
-      layoutHtml = this.renderTavernLayout(preset, filteredMenu, activeCategory, activeAllergen, topData);
-    } else if (preset.layoutType === 'trattoria') {
-      layoutHtml = this.renderTrattoriaLayout(preset, filteredMenu, activeCategory, activeAllergen, topData);
+    if (preset.id === 'estilo1') {
+      layoutHtml = this.renderEstilo1Layout(preset, filteredMenu, activeCategory, activeAllergen, topData);
+    } else if (preset.id === 'estilo2') {
+      layoutHtml = this.renderEstilo2Layout(preset, filteredMenu, activeCategory, activeAllergen, topData);
+    } else if (preset.id === 'estilo3') {
+      layoutHtml = this.renderEstilo3Layout(preset, filteredMenu, activeCategory, activeAllergen, topData);
     } else {
-      layoutHtml = this.renderScandiCoffeeLayout(preset, filteredMenu, activeCategory, activeAllergen, topData);
+      layoutHtml = this.renderEstilo4Layout(preset, filteredMenu, activeCategory, activeAllergen, topData);
     }
 
-    // Reseñas de Google Maps al pie de página tras la carta
     const reviewsHtml = this.renderGoogleReviewsSection(preset);
 
     container.innerHTML = `
@@ -394,178 +491,132 @@ class AppController {
   }
 
   // -------------------------------------------------------------------------
-  // DISEÑO 1: ASADOR & PARRILLA VUKATA (STEAKHOUSE BUTCHER & FUEGO)
+  // DISEÑO 1: EDITORIAL & ALTA COCINA (FINE DINING / REVISTA GASTRONÓMICA)
   // -------------------------------------------------------------------------
-  renderSteakhouseLayout(preset, filteredMenu, activeCategory, activeAllergen, topData) {
+  renderEstilo1Layout(preset, filteredMenu, activeCategory, activeAllergen, topData) {
     return `
-      <!-- BANNER DE PLATO MÁS PEDIDO EN TIEMPO REAL -->
-      <div class="mb-6 p-4 bg-gradient-to-r from-red-950 via-stone-900 to-amber-950 border border-red-700/70 rounded-2xl flex flex-col sm:flex-row sm:items-center justify-between gap-3 text-stone-100 shadow-xl live-trending-pulse">
-        <div class="flex items-center space-x-3">
-          <span class="w-3 h-3 rounded-full bg-red-500 animate-ping flex-shrink-0"></span>
-          <div>
-            <div class="flex flex-wrap items-center gap-1.5 sm:gap-2">
-              <span class="text-xs font-black text-amber-400 uppercase tracking-wider">🔥 TOP #1 MÁS PEDIDO EN VIVO:</span>
-              <span class="text-xs font-black text-white bg-red-900/90 px-2 py-0.5 rounded font-mono">${topData.count} comandas hoy</span>
-            </div>
-            <p class="text-sm font-bold text-stone-100 mt-0.5">${topData.dish.name} <span class="text-xs font-normal text-stone-300">(${formatCurrency(topData.dish.price)})</span></p>
+      <!-- SUGERENCIA DEL JEFE DE COCINA (SOBRIO Y PROFESIONAL) -->
+      <div class="mb-8 p-4 sm:p-5 rounded-2xl bg-[#14141a] border border-amber-500/25 flex flex-col sm:flex-row sm:items-center justify-between gap-4 text-stone-200 shadow-md">
+        <div>
+          <div class="flex items-center space-x-2 text-xs text-amber-400 font-mono uppercase tracking-wider">
+            <span>◆ Sugerencia de Temporada</span>
+            <span>·</span>
+            <span>${topData.count} comandas hoy</span>
           </div>
+          <h3 class="editorial-serif text-lg font-bold text-stone-100 mt-1">${topData.dish.name}</h3>
+          <p class="text-xs text-stone-400 mt-0.5">${topData.dish.description}</p>
         </div>
-        <div class="flex flex-wrap sm:flex-nowrap items-center gap-2 w-full sm:w-auto">
-          <button data-quick-simulate-dish="${topData.dish.id}" class="flex-1 sm:flex-none text-center justify-center bg-red-800 hover:bg-red-700 text-white font-bold text-xs px-3.5 py-2 rounded-xl transition-all shadow flex items-center space-x-1">
-            <span>⚡ +1 Pedido Demo</span>
+        <div class="flex items-center space-x-2 flex-shrink-0">
+          <button data-quick-simulate-dish="${topData.dish.id}" class="bg-stone-800 hover:bg-stone-700 text-stone-300 text-xs px-3 py-2 rounded-xl transition-all">
+            +1 Comanda Demo
           </button>
-          <button data-add-cart="${topData.dish.id}" class="flex-1 sm:flex-none text-center justify-center bg-amber-500 hover:bg-amber-400 text-stone-950 font-black text-xs px-3.5 py-2 rounded-xl transition-all shadow">
-            Añadir a Comanda
+          <button data-add-cart="${topData.dish.id}" class="bg-amber-400 hover:bg-amber-300 text-stone-950 font-bold text-xs px-4 py-2 rounded-xl transition-all shadow">
+            Pedir Pase (${formatCurrency(topData.dish.price)})
           </button>
         </div>
       </div>
 
-      <!-- HERO STEAKHOUSE CINEMATOGRÁFICO -->
-      <div class="relative rounded-3xl overflow-hidden shadow-2xl border border-stone-800 mb-10 bg-stone-950 text-stone-100">
-        <img src="${preset.bannerImg}" alt="${preset.name}" class="absolute inset-0 w-full h-full object-cover opacity-25 mix-blend-luminosity scale-105"/>
-        <div class="absolute inset-0 bg-gradient-to-r from-stone-950 via-stone-950/90 to-red-950/40"></div>
-
-        <div class="relative p-6 sm:p-12 z-10 grid grid-cols-1 lg:grid-cols-12 gap-8 items-center">
+      <!-- HERO EDITORIAL CON TIPOGRAFÍA SERIF NOBLE -->
+      <section class="mb-14 border-b border-stone-800 pb-12">
+        <div class="grid grid-cols-1 lg:grid-cols-12 gap-8 items-center">
           <div class="lg:col-span-8">
-            <div class="inline-flex items-center space-x-2 asador-gold-seal px-3.5 py-1 rounded-full text-xs font-bold uppercase tracking-widest mb-4">
-              <span>🔥 ${preset.type}</span>
-              <span>·</span>
-              <span>Desde ${preset.foundationYear}</span>
-            </div>
-            <h1 class="asador-hero-title text-3xl sm:text-5xl font-black text-stone-50 leading-tight">
+            <span class="text-xs font-mono tracking-widest text-amber-400 uppercase block mb-2">${preset.type}</span>
+            <h1 class="editorial-serif text-3xl sm:text-5xl lg:text-6xl font-bold text-stone-50 leading-tight">
               ${preset.name}
             </h1>
-            <p class="mt-3 text-stone-300 text-sm sm:text-lg max-w-2xl font-serif italic">
-              "${preset.tagline}"
+            <p class="text-stone-300 text-sm sm:text-base mt-4 max-w-2xl leading-relaxed italic editorial-serif">
+              "${preset.aboutUs.quote}"
             </p>
-            <div class="mt-6 flex flex-wrap gap-4 text-xs text-stone-400">
-              <span class="flex items-center text-amber-400 font-bold">⭐ ${preset.rating} en Google Maps (${preset.totalReviews} opiniones)</span>
+            <div class="mt-6 flex flex-wrap gap-4 text-xs text-stone-400 font-mono">
               <span>📍 ${preset.address}</span>
+              <span>·</span>
               <span>📞 ${preset.phone}</span>
+              <span>·</span>
+              <span class="text-amber-300 font-bold">★ ${preset.rating} Google Maps (${preset.totalReviews} opiniones)</span>
             </div>
           </div>
 
-          <div class="lg:col-span-4 bg-stone-900/90 border border-stone-700/80 p-6 rounded-2xl shadow-xl backdrop-blur">
-            <span class="text-[10px] font-mono uppercase tracking-wider text-red-400 block font-bold">Corte Recomendado de la Semana</span>
-            <h3 class="text-lg font-bold font-serif text-stone-100 mt-1">Chuletón de Vaca Vieja 45 Días</h3>
-            <p class="text-xs text-stone-400 mt-1">Asado al carbón de encina con patatas panaderas artesanas.</p>
-            <div class="mt-4 pt-3 border-t border-stone-800 flex items-center justify-between">
-              <span class="text-xl font-bold font-mono text-amber-400">38,50 €</span>
-              <button data-add-cart="p1" class="bg-red-800 hover:bg-red-700 text-white text-xs font-bold px-4 py-2 rounded-xl transition-all shadow-md">
-                Pedir al Asador
-              </button>
+          <div class="lg:col-span-4 bg-[#14141a] border border-stone-800 p-6 rounded-2xl">
+            <span class="text-[11px] font-mono uppercase text-amber-400 tracking-wider block">Horario de Cocina</span>
+            <p class="text-xs text-stone-300 mt-1">${preset.serviceHours}</p>
+            <div class="mt-4 pt-4 border-t border-stone-800 flex items-center justify-between">
+              <span class="text-xs text-stone-400">Bodega & Maridajes</span>
+              <span class="text-xs font-mono text-amber-300 font-bold">+50 referencias</span>
             </div>
           </div>
         </div>
-      </div>
+      </section>
 
-      <!-- SECCIÓN SOBRE NOSOTROS Y MAESTRÍA EN BRASAS -->
-      <section class="mb-12 bg-stone-900/60 rounded-3xl border border-stone-800 p-6 sm:p-10 text-stone-200">
+      <!-- SOBRE NOSOTROS: MANIFIESTO DE ORIGEN -->
+      <section class="mb-16 bg-[#111116] border border-stone-800/80 rounded-3xl p-6 sm:p-10">
         <div class="max-w-3xl mb-8">
-          <span class="text-xs font-bold text-amber-500 uppercase tracking-widest font-mono">Historia & Filosofía</span>
-          <h2 class="text-2xl sm:text-3xl font-black text-stone-50 font-serif mt-1">${preset.aboutUs.headline}</h2>
+          <span class="text-xs font-mono text-amber-400 tracking-widest uppercase">Memoria & Producto</span>
+          <h2 class="editorial-serif text-2xl sm:text-3xl font-bold text-stone-100 mt-1">${preset.aboutUs.headline}</h2>
           <p class="mt-3 text-xs sm:text-sm text-stone-300 leading-relaxed">${preset.aboutUs.story}</p>
         </div>
 
-        <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
-          ${preset.aboutUs.pillars.map(pillar => `
-            <div class="bg-stone-950/80 border border-stone-800/90 p-5 rounded-2xl">
-              <span class="text-3xl mb-2 block">${pillar.icon}</span>
-              <h4 class="text-sm font-bold text-amber-300 font-serif">${pillar.title}</h4>
-              <p class="text-xs text-stone-400 mt-1.5 leading-relaxed">${pillar.desc}</p>
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+          ${preset.aboutUs.pillars.map(p => `
+            <div class="border-t border-amber-500/30 pt-4">
+              <span class="font-mono text-xs text-amber-400">${p.num}</span>
+              <h4 class="editorial-serif text-base font-bold text-stone-100 mt-1">${p.title}</h4>
+              <p class="text-xs text-stone-400 mt-1.5 leading-relaxed">${p.desc}</p>
             </div>
           `).join('')}
         </div>
-
-        <div class="bg-gradient-to-r from-red-950/80 to-stone-900 border border-red-900/60 rounded-2xl p-5 sm:p-6 flex flex-col md:flex-row md:items-center justify-between gap-4">
-          <div>
-            <span class="asador-gold-seal text-[10px] font-bold px-2.5 py-0.5 rounded-full uppercase">${preset.aboutUs.specialtyHighlight.badge}</span>
-            <h3 class="text-base font-bold text-stone-100 font-serif mt-1">${preset.aboutUs.specialtyHighlight.title}</h3>
-            <p class="text-xs text-stone-300 mt-1 max-w-2xl">${preset.aboutUs.specialtyHighlight.text}</p>
-          </div>
-          <button data-view="reservations" class="whitespace-nowrap bg-amber-500 hover:bg-amber-400 text-stone-950 font-bold text-xs px-5 py-3 rounded-xl transition-all shadow-md">
-            Reservar Mesa para Probarlo
-          </button>
-        </div>
       </section>
 
-      <!-- BARRA DE CATEGORÍAS -->
-      <div class="bg-stone-900/90 border border-stone-800 rounded-2xl p-4 mb-8 flex flex-col md:flex-row md:items-center justify-between gap-4">
-        <div class="flex items-center space-x-2 overflow-x-auto no-scrollbar pb-1 md:pb-0">
-          <button data-category="all" class="text-xs font-bold px-4 py-2 rounded-xl transition-all ${activeCategory === 'all' ? 'bg-red-800 text-white' : 'bg-stone-800 text-stone-300 hover:bg-stone-700'}">
-            Todos los Cortes (${preset.menu.length})
+      <!-- BARRA DE CATEGORÍAS EDITORIAL -->
+      <div class="border-b border-stone-800 pb-3 mb-8 flex flex-wrap items-center justify-between gap-4">
+        <div class="flex items-center space-x-4 overflow-x-auto no-scrollbar text-xs font-medium uppercase tracking-wider">
+          <button data-category="all" class="pb-2 transition-colors ${activeCategory === 'all' ? 'text-amber-300 border-b-2 border-amber-400 font-bold' : 'text-stone-400 hover:text-stone-200'}">
+            Todos los Pases (${preset.menu.length})
           </button>
           ${preset.categories.map(cat => `
-            <button data-category="${cat}" class="whitespace-nowrap text-xs font-bold px-4 py-2 rounded-xl transition-all ${activeCategory === cat ? 'bg-red-800 text-white' : 'bg-stone-800 text-stone-300 hover:bg-stone-700'}">
+            <button data-category="${cat}" class="pb-2 whitespace-nowrap transition-colors ${activeCategory === cat ? 'text-amber-300 border-b-2 border-amber-400 font-bold' : 'text-stone-400 hover:text-stone-200'}">
               ${cat}
             </button>
           `).join('')}
         </div>
 
-        <div class="flex items-center space-x-2 text-xs">
-          <span class="text-stone-400">Filtrar:</span>
-          <button data-allergen="gluten" class="px-2.5 py-1 rounded-lg border text-[11px] ${activeAllergen === 'gluten' ? 'bg-red-950 border-red-500 text-red-200' : 'bg-stone-800 border-stone-700 text-stone-300'}">
-            🌾 Sin Gluten
-          </button>
-          <button data-allergen="lactosa" class="px-2.5 py-1 rounded-lg border text-[11px] ${activeAllergen === 'lactosa' ? 'bg-red-950 border-red-500 text-red-200' : 'bg-stone-800 border-stone-700 text-stone-300'}">
-            🥛 Sin Lactosa
-          </button>
+        <div class="flex items-center space-x-2 text-xs text-stone-400 font-mono">
+          <span>Alérgenos:</span>
+          <button data-allergen="gluten" class="px-2 py-0.5 rounded border text-[10px] ${activeAllergen === 'gluten' ? 'bg-amber-950 border-amber-500 text-amber-200' : 'border-stone-800 text-stone-400'}">Sin Gluten</button>
+          <button data-allergen="lactosa" class="px-2 py-0.5 rounded border text-[10px] ${activeAllergen === 'lactosa' ? 'bg-amber-950 border-amber-500 text-amber-200' : 'border-stone-800 text-stone-400'}">Sin Lactosa</button>
         </div>
       </div>
 
-      <!-- GRID DE PLATOS FORMATO TABLA DE CARNICERO -->
+      <!-- LISTADO DE PLATOS FORMATO PASE EDITORIAL -->
       <div class="space-y-4 mb-16">
         ${filteredMenu.map(dish => {
-          const salesCount = store.getDishSalesCount(dish.id);
-          const isTop = (dish.id === topData.dish.id);
-
+          const sales = store.getDishSalesCount(dish.id);
           return `
-            <div class="asador-butcher-card p-5 sm:p-6 flex flex-col md:flex-row items-center gap-6 relative ${isTop ? 'border-amber-500/80 shadow-red-900/30' : ''}">
-              ${isTop ? `
-                <div class="absolute -top-3 left-6 bg-red-600 text-amber-200 text-[10px] font-black px-3 py-1 rounded-full shadow-lg flex items-center space-x-1 uppercase tracking-wider animate-pulse">
-                  <span>🔥 TOP #1 MÁS PEDIDO EN VIVO</span>
-                  <span class="bg-black/30 px-1.5 py-0.2 rounded font-mono">${salesCount} pedidos</span>
+            <div class="editorial-card p-5 sm:p-6 flex flex-col md:flex-row items-start md:items-center justify-between gap-6">
+              <div class="flex items-start space-x-4 flex-1">
+                <span class="font-mono text-xs text-amber-400/80 pt-1">${dish.number || '◆'}</span>
+                <div>
+                  <div class="flex flex-wrap items-center gap-2">
+                    <h4 class="editorial-serif text-lg sm:text-xl font-bold text-stone-100">${dish.name}</h4>
+                    ${dish.badge ? `<span class="text-[10px] font-mono px-2 py-0.5 rounded bg-amber-950 border border-amber-600/30 text-amber-300">${dish.badge}</span>` : ''}
+                  </div>
+                  <p class="text-xs text-stone-300 mt-1.5 leading-relaxed max-w-2xl">${dish.description}</p>
+                  <div class="flex flex-wrap items-center gap-3 mt-2 text-[11px] text-stone-400 font-mono">
+                    ${dish.details ? `<span>${dish.details}</span>` : ''}
+                    ${dish.pairing ? `<span class="text-amber-400/90">🍷 ${dish.pairing}</span>` : ''}
+                    <span class="text-stone-500">· ${sales} pedidos servidos</span>
+                  </div>
                 </div>
-              ` : ''}
-
-              <div class="relative w-full md:w-56 h-44 rounded-xl overflow-hidden flex-shrink-0 bg-stone-900 border border-stone-700">
-                <img src="${dish.image}" alt="${dish.name}" class="w-full h-full object-cover transition-transform duration-500 hover:scale-110"/>
-                ${dish.badge ? `<span class="absolute top-2 left-2 bg-red-900/90 text-amber-200 text-[10px] font-bold px-2 py-0.5 rounded shadow">${dish.badge}</span>` : ''}
               </div>
 
-              <div class="flex-1 w-full flex flex-col justify-between">
-                <div>
-                  <div class="flex flex-wrap items-center justify-between gap-2">
-                    <span class="text-[11px] font-mono text-amber-400 uppercase tracking-widest font-bold">${dish.category}</span>
-                    <div class="flex items-center space-x-2 text-xs text-stone-400 font-mono">
-                      <span class="text-amber-400 font-bold bg-stone-900 px-2 py-0.5 rounded border border-stone-800">📊 ${salesCount} pedidos hoy</span>
-                      ${dish.weight ? `<span class="bg-stone-800 px-2 py-0.5 rounded">⚖️ ${dish.weight}</span>` : ''}
-                    </div>
-                  </div>
-
-                  <h3 class="text-xl font-bold font-serif text-stone-100 mt-1">${dish.name}</h3>
-                  <p class="text-xs text-stone-300 mt-2 leading-relaxed">${dish.description}</p>
-                  
-                  ${dish.pairing ? `
-                    <p class="text-[11px] text-amber-400/90 mt-2 flex items-center space-x-1">
-                      <span>🍷</span>
-                      <span class="font-medium">Sugerencia de maridaje: ${dish.pairing}</span>
-                    </p>
-                  ` : ''}
-                </div>
-
-                <div class="mt-4 pt-3 border-t border-stone-800 flex flex-wrap sm:flex-nowrap items-center justify-between gap-3">
-                  <span class="text-2xl font-black font-mono text-stone-50">${formatCurrency(dish.price)}</span>
-                  
-                  <div class="flex flex-wrap sm:flex-nowrap items-center gap-2 w-full sm:w-auto justify-end">
-                    <button data-quick-simulate-dish="${dish.id}" class="flex-1 sm:flex-none text-center bg-stone-800 hover:bg-stone-700 text-stone-300 hover:text-white text-[11px] font-bold px-2.5 py-2 rounded-xl transition-all">
-                      +1 Demo
-                    </button>
-                    <button data-add-cart="${dish.id}" class="flex-1 sm:flex-none text-center bg-red-800 hover:bg-red-700 text-white text-xs font-bold px-3.5 py-2 rounded-xl transition-all shadow-md flex items-center justify-center space-x-1.5">
-                      ${ICONS.cart}
-                      <span>Añadir</span>
-                    </button>
-                  </div>
+              <div class="flex items-center justify-between md:justify-end space-x-4 w-full md:w-auto pt-3 md:pt-0 border-t md:border-t-0 border-stone-800">
+                <span class="font-mono text-xl font-bold text-amber-300">${formatCurrency(dish.price)}</span>
+                <div class="flex items-center space-x-2">
+                  <button data-quick-simulate-dish="${dish.id}" class="bg-stone-800 hover:bg-stone-700 text-stone-300 text-[11px] px-2.5 py-1.5 rounded-lg transition-colors">
+                    +1 Demo
+                  </button>
+                  <button data-add-cart="${dish.id}" class="bg-amber-400 hover:bg-amber-300 text-stone-950 font-bold text-xs px-3.5 py-1.5 rounded-lg transition-colors shadow">
+                    Pedir Pase
+                  </button>
                 </div>
               </div>
             </div>
@@ -576,148 +627,223 @@ class AppController {
   }
 
   // -------------------------------------------------------------------------
-  // DISEÑO 2: CERVECERÍA 27 & MALA PATA (TABERNA CASTIZA DE BARRA)
+  // DISEÑO 2: APP INTERACTIVA & BENTO GRID (GASTROBAR & CASUAL MODERNO)
   // -------------------------------------------------------------------------
-  renderTavernLayout(preset, filteredMenu, activeCategory, activeAllergen, topData) {
+  renderEstilo2Layout(preset, filteredMenu, activeCategory, activeAllergen, topData) {
     return `
-      <!-- BANNER DE PLATO MÁS PEDIDO EN TIEMPO REAL -->
-      <div class="mb-6 p-4 bg-slate-950 border-2 border-amber-400 rounded-2xl flex flex-col sm:flex-row sm:items-center justify-between gap-3 text-white shadow-xl">
+      <!-- TOP DESTACADO EN BENTO APP -->
+      <div class="mb-6 p-4 rounded-2xl bento-card flex flex-col sm:flex-row sm:items-center justify-between gap-3 text-slate-100">
         <div class="flex items-center space-x-3">
-          <span class="w-3 h-3 rounded-full bg-amber-400 animate-ping flex-shrink-0"></span>
+          <span class="w-2.5 h-2.5 rounded-full bg-sky-400 animate-pulse"></span>
           <div>
-            <div class="flex flex-wrap items-center gap-1.5 sm:gap-2">
-              <span class="text-xs font-black text-amber-400 uppercase tracking-wider font-mono">🍻 LA RACIÓN QUE ARRASA EN BARRA:</span>
-              <span class="text-xs font-black text-slate-950 bg-amber-400 px-2 py-0.5 rounded font-mono">${topData.count} comandas</span>
+            <div class="flex items-center space-x-2">
+              <span class="text-xs font-bold text-sky-400 uppercase tracking-wider">Top de la Barra</span>
+              <span class="text-[10px] bg-sky-950 text-sky-300 border border-sky-600/40 px-2 py-0.2 rounded font-mono">${topData.count} comandas</span>
             </div>
-            <p class="text-sm font-black text-white mt-0.5 uppercase">${topData.dish.name} - ${formatCurrency(topData.dish.price)}</p>
+            <p class="text-sm font-bold text-slate-100 mt-0.5">${topData.dish.name} · ${formatCurrency(topData.dish.price)}</p>
           </div>
         </div>
-        <div class="flex flex-wrap sm:flex-nowrap items-center gap-2 w-full sm:w-auto">
-          <button data-quick-simulate-dish="${topData.dish.id}" class="flex-1 sm:flex-none text-center justify-center bg-slate-800 hover:bg-slate-700 text-amber-300 font-bold text-xs px-3.5 py-2 rounded-xl border border-slate-700">
-            ⚡ +1 Ronda Directa
+        <div class="flex items-center space-x-2">
+          <button data-quick-simulate-dish="${topData.dish.id}" class="bg-slate-800 hover:bg-slate-700 text-sky-300 text-xs font-semibold px-3 py-1.5 rounded-xl border border-slate-700">
+            +1 Demo
           </button>
-          <button data-add-cart="${topData.dish.id}" class="flex-1 sm:flex-none text-center justify-center bg-amber-500 hover:bg-amber-400 text-slate-950 font-black text-xs px-3.5 py-2 rounded-xl">
-            Pedir para la Mesa
+          <button data-add-cart="${topData.dish.id}" class="bg-sky-600 hover:bg-sky-500 text-white font-bold text-xs px-3.5 py-1.5 rounded-xl">
+            Añadir a Barra
           </button>
         </div>
       </div>
 
-      <!-- HERO ESTILO PLAZA Y TABERNA DE MADRID -->
-      <div class="mb-10 rounded-3xl p-6 sm:p-10 border-4 border-amber-400/80 bg-slate-900 text-white shadow-2xl relative overflow-hidden">
-        <div class="relative z-10 flex flex-col md:flex-row md:items-center justify-between gap-6">
+      <!-- HERO BENTO GRID CONTEMPORÁNEO -->
+      <div class="grid grid-cols-1 md:grid-cols-12 gap-4 mb-10">
+        <div class="md:col-span-8 bento-card p-6 sm:p-8 flex flex-col justify-between">
           <div>
-            <div class="inline-flex items-center space-x-2 tavern-street-sign px-4 py-1.5 rounded-lg text-xs font-black uppercase tracking-wider text-white mb-3">
-              <span>🏛️ Plaza de Lucero & Aluche</span>
-              <span>·</span>
-              <span>Desde ${preset.foundationYear}</span>
-            </div>
-            <h1 class="text-3xl sm:text-5xl font-black uppercase tracking-tight text-amber-400">
-              ${preset.name}
-            </h1>
-            <p class="text-sm sm:text-base text-slate-200 mt-2 max-w-xl font-medium">
-              ${preset.tagline}
-            </p>
-            <div class="mt-3 flex flex-wrap gap-4 text-xs text-slate-400">
-              <span>📍 ${preset.address}</span>
-              <span>📞 ${preset.phone}</span>
-            </div>
+            <span class="text-xs font-bold text-sky-400 uppercase tracking-wider">${preset.type}</span>
+            <h1 class="text-3xl sm:text-4xl font-extrabold text-white mt-2 leading-tight">${preset.name}</h1>
+            <p class="text-xs sm:text-sm text-slate-300 mt-3 max-w-xl leading-relaxed">${preset.tagline}</p>
           </div>
+          <div class="mt-6 pt-4 border-t border-slate-800 flex flex-wrap gap-4 text-xs text-slate-400">
+            <span>📍 ${preset.address}</span>
+            <span>📞 ${preset.phone}</span>
+            <span class="text-amber-400 font-bold">★ ${preset.rating} (${preset.totalReviews} reseñas en Google)</span>
+          </div>
+        </div>
 
-          <div class="bg-slate-950 border-2 border-amber-500/80 p-4 rounded-2xl text-center md:max-w-xs shadow-lg">
-            <span class="beer-temperature-pill text-[11px] font-bold px-3 py-1 rounded-full uppercase block mb-2">
-              ❄️ Tanque de Bodega a -2ºC
-            </span>
-            <p class="text-xs text-amber-200 font-bold">¡Barril recién pinchado hoy!</p>
-            <p class="text-[11px] text-slate-400 mt-0.5">Tirada con dos dedos de crema espesa.</p>
-            <button data-add-cart="c6" class="w-full mt-3 bg-amber-500 hover:bg-amber-400 text-slate-950 font-black text-xs py-2 rounded-xl transition-all shadow">
-              Pedir Doble de Cerveza (2,80 €)
-            </button>
+        <div class="md:col-span-4 bento-card p-6 flex flex-col justify-between bg-gradient-to-br from-slate-900 to-slate-950 border-sky-500/20">
+          <div>
+            <span class="text-[10px] font-mono uppercase tracking-wider text-sky-400 font-bold block">Plato Estrella</span>
+            <h3 class="text-base font-bold text-white mt-1">${preset.aboutUs.specialtyHighlight.title}</h3>
+            <p class="text-xs text-slate-400 mt-1">${preset.aboutUs.specialtyHighlight.text}</p>
+          </div>
+          <div class="mt-4 pt-3 border-t border-slate-800 flex items-center justify-between">
+            <span class="font-mono font-bold text-sky-300 text-lg">${preset.aboutUs.specialtyHighlight.price}</span>
+            <button data-add-cart="e2_1" class="bg-sky-600 hover:bg-sky-500 text-white text-xs font-bold px-3.5 py-1.5 rounded-xl">Pedir</button>
           </div>
         </div>
       </div>
 
-      <!-- SECCIÓN SOBRE NOSOTROS -->
-      <section class="mb-12 bg-slate-900/80 rounded-3xl border-2 border-slate-800 p-6 sm:p-10 text-slate-100">
-        <div class="max-w-3xl mb-8">
-          <span class="text-xs font-black text-amber-400 uppercase tracking-widest font-mono">Tradición & Barrio</span>
-          <h2 class="text-2xl sm:text-3xl font-black uppercase tracking-tight text-white mt-1">${preset.aboutUs.headline}</h2>
-          <p class="mt-3 text-xs sm:text-sm text-slate-300 leading-relaxed">${preset.aboutUs.story}</p>
-        </div>
-
-        <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
-          ${preset.aboutUs.pillars.map(pillar => `
-            <div class="bg-slate-950 p-5 rounded-2xl border border-amber-500/30">
-              <span class="text-3xl mb-2 block">${pillar.icon}</span>
-              <h4 class="text-sm font-black text-amber-400 uppercase">${pillar.title}</h4>
-              <p class="text-xs text-slate-300 mt-1.5 leading-relaxed">${pillar.desc}</p>
+      <!-- BENTO BOX SOBRE NOSOTROS -->
+      <section class="mb-12">
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+          ${preset.aboutUs.bentoCards.map(c => `
+            <div class="bento-card p-5">
+              <span class="text-xs font-bold text-sky-400 uppercase tracking-wider font-mono">${c.tag}</span>
+              <h4 class="text-2xl font-black text-white mt-1">${c.metric}</h4>
+              <p class="text-xs text-slate-400 mt-2 leading-relaxed">${c.label}</p>
             </div>
           `).join('')}
         </div>
+      </section>
 
-        <div class="bg-amber-500/10 border-2 border-amber-400/50 rounded-2xl p-5 flex flex-col md:flex-row md:items-center justify-between gap-4">
-          <div>
-            <span class="bg-amber-400 text-slate-950 text-[10px] font-black px-2.5 py-0.5 rounded uppercase font-mono">${preset.aboutUs.specialtyHighlight.badge}</span>
-            <h3 class="text-base font-black text-amber-300 uppercase mt-1">${preset.aboutUs.specialtyHighlight.title}</h3>
-            <p class="text-xs text-slate-200 mt-1 max-w-2xl">${preset.aboutUs.specialtyHighlight.text}</p>
-          </div>
-          <button data-add-cart="c1" class="whitespace-nowrap bg-amber-400 hover:bg-amber-300 text-slate-950 font-black text-xs px-5 py-3 rounded-xl transition-all shadow">
-            Pedir Oreja a la Plancha (9,80 €)
+      <!-- FILTROS DE CATEGORÍA INTERACTIVOS -->
+      <div class="bento-card p-3 mb-8 flex flex-col sm:flex-row items-center justify-between gap-3">
+        <div class="flex items-center space-x-2 overflow-x-auto no-scrollbar w-full sm:w-auto">
+          <button data-category="all" class="text-xs font-semibold px-3 py-1.5 rounded-lg transition-all ${activeCategory === 'all' ? 'bg-sky-600 text-white' : 'text-slate-400 hover:text-white'}">
+            Todo (${preset.menu.length})
           </button>
+          ${preset.categories.map(cat => `
+            <button data-category="${cat}" class="whitespace-nowrap text-xs font-semibold px-3 py-1.5 rounded-lg transition-all ${activeCategory === cat ? 'bg-sky-600 text-white' : 'text-slate-400 hover:text-white'}">
+              ${cat}
+            </button>
+          `).join('')}
+        </div>
+
+        <div class="flex items-center space-x-2 text-xs text-slate-400 flex-shrink-0">
+          <span>Alérgeno:</span>
+          <button data-allergen="gluten" class="px-2 py-1 rounded text-[11px] ${activeAllergen === 'gluten' ? 'bg-sky-950 border border-sky-500 text-sky-200' : 'bg-slate-800 text-slate-300'}">Sin Gluten</button>
+          <button data-allergen="lactosa" class="px-2 py-1 rounded text-[11px] ${activeAllergen === 'lactosa' ? 'bg-sky-950 border border-sky-500 text-sky-200' : 'bg-slate-800 text-slate-300'}">Sin Lactosa</button>
+        </div>
+      </div>
+
+      <!-- REJILLA DE PLATOS BENTO -->
+      <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 mb-16">
+        ${filteredMenu.map(dish => {
+          const sales = store.getDishSalesCount(dish.id);
+          return `
+            <div class="bento-card p-4 flex flex-col justify-between">
+              <div>
+                <div class="relative h-44 rounded-xl overflow-hidden mb-3 bg-slate-800">
+                  <img src="${dish.image}" alt="${dish.name}" class="w-full h-full object-cover transition-transform duration-300 hover:scale-105"/>
+                  ${dish.badge ? `<span class="absolute top-2 left-2 bg-slate-900/90 text-sky-300 text-[10px] font-bold px-2 py-0.5 rounded">${dish.badge}</span>` : ''}
+                </div>
+                <div class="flex items-center justify-between text-[11px] text-slate-400 font-mono mb-1">
+                  <span>${dish.category}</span>
+                  <span>⏱️ ${dish.prepTime || '6 min'}</span>
+                </div>
+                <h3 class="text-base font-bold text-white">${dish.name}</h3>
+                <p class="text-xs text-slate-300 mt-1 line-clamp-2">${dish.description}</p>
+              </div>
+
+              <div class="mt-4 pt-3 border-t border-slate-800 flex items-center justify-between">
+                <div>
+                  <span class="font-mono text-lg font-bold text-white">${formatCurrency(dish.price)}</span>
+                  <span class="block text-[10px] text-slate-500">${sales} pedidos hoy</span>
+                </div>
+                <div class="flex items-center space-x-1.5">
+                  <button data-quick-simulate-dish="${dish.id}" class="bg-slate-800 hover:bg-slate-700 text-slate-300 text-[11px] px-2 py-1.5 rounded-lg">
+                    +1
+                  </button>
+                  <button data-add-cart="${dish.id}" class="bg-sky-600 hover:bg-sky-500 text-white font-bold text-xs px-3 py-1.5 rounded-lg">
+                    Añadir
+                  </button>
+                </div>
+              </div>
+            </div>
+          `;
+        }).join('')}
+      </div>
+    `;
+  }
+
+  // -------------------------------------------------------------------------
+  // DISEÑO 3: BISTRÓ TRADICIONAL & CARTA CLÁSICA CON LÍDERES PUNTEADOS
+  // -------------------------------------------------------------------------
+  renderEstilo3Layout(preset, filteredMenu, activeCategory, activeAllergen, topData) {
+    return `
+      <!-- SUGERENCIA DEL DÍA CON MARCO TRADICIONAL -->
+      <div class="mb-8 p-5 bistro-card border-2 border-[#8c7b6c] flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+        <div>
+          <span class="text-[11px] font-serif uppercase tracking-widest text-[#7a6b5d] font-bold">Plato Recomendado de la Casa</span>
+          <h3 class="bistro-serif text-xl font-bold text-[#2b2520] mt-0.5">${topData.dish.name}</h3>
+          <p class="text-xs text-[#594d40] mt-0.5">${topData.dish.description}</p>
+        </div>
+        <div class="flex items-center space-x-2 flex-shrink-0">
+          <button data-quick-simulate-dish="${topData.dish.id}" class="bg-[#dfd7cc] hover:bg-[#cfc5b6] text-[#3d3228] text-xs px-3 py-1.5 rounded font-serif">
+            +1 Ración Demo
+          </button>
+          <button data-add-cart="${topData.dish.id}" class="bg-[#3d3228] hover:bg-[#231d17] text-white text-xs font-serif font-bold px-4 py-1.5 rounded shadow">
+            Pedir (${formatCurrency(topData.dish.price)})
+          </button>
+        </div>
+      </div>
+
+      <!-- PORTADA CLÁSICA BISTRÓ CON MARCO -->
+      <div class="text-center max-w-3xl mx-auto mb-12 border-t-2 border-b-2 border-[#8c7b6c] py-8">
+        <span class="text-xs font-serif uppercase tracking-widest text-[#7a6b5d] block mb-1">Casa de Comidas & Fogón Castellano</span>
+        <h1 class="bistro-serif text-4xl sm:text-5xl font-bold text-[#2b2520] tracking-tight">${preset.name}</h1>
+        <p class="text-sm font-serif italic text-[#594d40] mt-3">"${preset.tagline}"</p>
+        <div class="mt-4 flex flex-wrap justify-center gap-4 text-xs font-serif text-[#7a6b5d]">
+          <span>${preset.address}</span>
+          <span>·</span>
+          <span>Teléfono: ${preset.phone}</span>
+          <span>·</span>
+          <span>Desde ${preset.foundationYear}</span>
+        </div>
+      </div>
+
+      <!-- SECCIÓN HISTORIA Y TRADICIÓN FAMILIAR -->
+      <section class="mb-14 bistro-card p-6 sm:p-8">
+        <h2 class="bistro-serif text-2xl font-bold text-[#2b2520] text-center mb-2">${preset.aboutUs.headline}</h2>
+        <p class="text-xs sm:text-sm text-[#594d40] text-center max-w-2xl mx-auto leading-relaxed mb-6">${preset.aboutUs.story}</p>
+        
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-4 pt-6 border-t border-[#dfd7cc]">
+          ${preset.aboutUs.timeline.map(t => `
+            <div class="text-center p-3">
+              <span class="font-serif font-bold text-base text-[#8c7b6c] block">${t.year}</span>
+              <p class="text-xs text-[#594d40] mt-1">${t.event}</p>
+            </div>
+          `).join('')}
         </div>
       </section>
 
-      <!-- BARRA DE CATEGORÍAS -->
-      <div class="bg-slate-950 border-2 border-slate-800 rounded-2xl p-4 mb-8 flex flex-col md:flex-row md:items-center justify-between gap-4">
-        <div class="flex items-center space-x-2 overflow-x-auto no-scrollbar pb-1 md:pb-0">
-          <button data-category="all" class="text-xs font-black uppercase px-4 py-2 rounded-xl transition-all ${activeCategory === 'all' ? 'bg-amber-500 text-slate-950' : 'bg-slate-800 text-slate-300 hover:bg-slate-700'}">
-            Toda la Pizarra (${preset.menu.length})
+      <!-- BARRA DE SECCIONES TRADICIONALES -->
+      <div class="border-b-2 border-[#8c7b6c] pb-2 mb-8 flex flex-wrap items-center justify-between gap-3 font-serif">
+        <div class="flex items-center space-x-3 overflow-x-auto no-scrollbar text-xs">
+          <button data-category="all" class="px-3 py-1 rounded transition-all ${activeCategory === 'all' ? 'bg-[#3d3228] text-white font-bold' : 'text-[#594d40] hover:text-[#2b2520]'}">
+            Toda la Carta (${preset.menu.length})
           </button>
           ${preset.categories.map(cat => `
-            <button data-category="${cat}" class="whitespace-nowrap text-xs font-black uppercase px-4 py-2 rounded-xl transition-all ${activeCategory === cat ? 'bg-amber-500 text-slate-950' : 'bg-slate-800 text-slate-300 hover:bg-slate-700'}">
+            <button data-category="${cat}" class="whitespace-nowrap px-3 py-1 rounded transition-all ${activeCategory === cat ? 'bg-[#3d3228] text-white font-bold' : 'text-[#594d40] hover:text-[#2b2520]'}">
               ${cat}
             </button>
           `).join('')}
         </div>
       </div>
 
-      <!-- GRID FORMATO PIZARRA COMPACTA (2 COLUMNAS) -->
-      <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mb-16">
+      <!-- CARTA EN 2 COLUMNAS CON DOTTED LEADERS (EL FORMATO REY DE RESTAURANTE) -->
+      <div class="grid grid-cols-1 lg:grid-cols-2 gap-x-12 gap-y-8 mb-16">
         ${filteredMenu.map(dish => {
-          const salesCount = store.getDishSalesCount(dish.id);
-          const isTop = (dish.id === topData.dish.id);
-
+          const sales = store.getDishSalesCount(dish.id);
           return `
-            <div class="tavern-chalkboard-card p-4 sm:p-5 flex items-start justify-between gap-4 relative ${isTop ? 'border-amber-400' : ''}">
-              ${isTop ? `
-                <div class="absolute -top-3 left-4 bg-amber-400 text-slate-950 text-[10px] font-black px-2.5 py-0.5 rounded uppercase font-mono shadow">
-                  🔥 TOP #1 RACIÓN MÁS PEDIDA (${salesCount})
-                </div>
-              ` : ''}
-
-              <div class="w-24 h-24 sm:w-28 sm:h-28 rounded-xl overflow-hidden flex-shrink-0 bg-slate-800 border border-slate-700">
-                <img src="${dish.image}" alt="${dish.name}" class="w-full h-full object-cover"/>
+            <div class="pb-4 border-b border-[#dfd7cc]">
+              <!-- Línea con Nombre, Puntos Suspensivos y Precio -->
+              <div class="dotted-leader-row">
+                <span class="bistro-serif text-base font-bold text-[#2b2520]">${dish.name}</span>
+                <span class="dotted-leader-line"></span>
+                <span class="font-serif font-bold text-base text-[#3d3228] flex-shrink-0">${formatCurrency(dish.price)}</span>
               </div>
 
-              <div class="flex-1 flex flex-col justify-between h-full">
-                <div>
-                  <div class="flex items-center justify-between">
-                    <span class="text-[10px] font-mono text-amber-400 uppercase font-black">${dish.category}</span>
-                    <span class="text-[10px] bg-slate-800 text-amber-300 px-2 py-0.5 rounded font-mono">📊 ${salesCount} rondas</span>
-                  </div>
-                  <h3 class="text-base font-black text-white mt-1 leading-snug">${dish.name}</h3>
-                  <p class="text-xs text-slate-300 mt-1 line-clamp-2">${dish.description}</p>
-                </div>
-
-                <div class="mt-3 pt-2 border-t border-slate-800 flex flex-wrap sm:flex-nowrap items-center justify-between gap-2">
-                  <span class="text-lg font-black font-mono text-amber-400">${formatCurrency(dish.price)}</span>
-                  <div class="flex items-center space-x-1.5">
-                    <button data-quick-simulate-dish="${dish.id}" class="bg-slate-800 hover:bg-slate-700 text-xs px-2 py-1 rounded text-slate-300">
-                      +1 Demo
-                    </button>
-                    <button data-add-cart="${dish.id}" class="bg-amber-500 hover:bg-amber-400 text-slate-950 font-black text-xs px-2.5 py-1.5 rounded-lg transition-all shadow flex items-center space-x-1">
-                      <span>+ Marchando</span>
-                    </button>
-                  </div>
+              <!-- Descripción en letra cursiva refinada -->
+              <p class="text-xs font-serif italic text-[#6b5c4f] mt-1 leading-relaxed">${dish.description}</p>
+              
+              <div class="mt-2.5 flex items-center justify-between text-[11px] font-serif text-[#7a6b5d]">
+                <span>${dish.vintageBadge || 'Especialidad de la casa'} · ${sales} raciones</span>
+                <div class="flex items-center space-x-2">
+                  <button data-quick-simulate-dish="${dish.id}" class="text-[10px] text-[#7a6b5d] hover:text-[#2b2520] underline">
+                    +1 Demo
+                  </button>
+                  <button data-add-cart="${dish.id}" class="bg-[#8c7b6c] hover:bg-[#6e5f52] text-white px-2.5 py-1 rounded text-[11px] font-sans">
+                    Pedir
+                  </button>
                 </div>
               </div>
             </div>
@@ -728,241 +854,102 @@ class AppController {
   }
 
   // -------------------------------------------------------------------------
-  // DISEÑO 3: PIZZERÍA CARLOS & NAPOLI (TRATTORIA NAPOLITANA MAGAZINE)
+  // DISEÑO 4: SHOWCASE VISUAL & MINIMALISMO NÓRDICO (BRUNCH & OBRADOR)
   // -------------------------------------------------------------------------
-  renderTrattoriaLayout(preset, filteredMenu, activeCategory, activeAllergen, topData) {
+  renderEstilo4Layout(preset, filteredMenu, activeCategory, activeAllergen, topData) {
     return `
-      <!-- BANNER DE PLATO MÁS PEDIDO EN TIEMPO REAL -->
-      <div class="mb-6 p-4 bg-emerald-950 border border-emerald-500/80 rounded-2xl flex flex-col sm:flex-row sm:items-center justify-between gap-3 text-white shadow-lg">
-        <div class="flex items-center space-x-3">
-          <span class="w-3 h-3 rounded-full bg-emerald-400 animate-ping flex-shrink-0"></span>
-          <div>
-            <div class="flex flex-wrap items-center gap-1.5 sm:gap-2">
-              <span class="text-xs font-black text-emerald-300 uppercase tracking-wider">🍕 PIZZA MÁS PEDIDA AL HORNO:</span>
-              <span class="text-xs font-black text-emerald-950 bg-emerald-300 px-2 py-0.5 rounded font-mono">${topData.count} pedidos</span>
-            </div>
-            <p class="text-sm font-bold text-white mt-0.5">${topData.dish.name} (${formatCurrency(topData.dish.price)})</p>
-          </div>
+      <!-- BANNER MINIMALISTA NÓRDICO -->
+      <div class="mb-8 p-4 bg-zinc-100 border border-zinc-200 rounded-xl flex flex-col sm:flex-row sm:items-center justify-between gap-3 text-zinc-800">
+        <div>
+          <span class="text-[10px] font-mono uppercase tracking-widest text-zinc-500">Selección Especial</span>
+          <h3 class="text-sm font-semibold text-zinc-900 mt-0.5">${topData.dish.name} · ${formatCurrency(topData.dish.price)}</h3>
+          <p class="text-xs text-zinc-500">${topData.count} pedidos hoy</p>
         </div>
-        <div class="flex flex-wrap sm:flex-nowrap items-center gap-2 w-full sm:w-auto">
-          <button data-quick-simulate-dish="${topData.dish.id}" class="flex-1 sm:flex-none text-center justify-center bg-emerald-900 hover:bg-emerald-800 text-emerald-200 font-bold text-xs px-3.5 py-2 rounded-xl border border-emerald-600">
-            ⚡ Simular +1 Pedido
+        <div class="flex items-center space-x-2">
+          <button data-quick-simulate-dish="${topData.dish.id}" class="bg-white hover:bg-zinc-200 text-zinc-700 text-xs px-3 py-1.5 rounded-lg border border-zinc-300">
+            +1 Demo
           </button>
-          <button data-add-cart="${topData.dish.id}" class="flex-1 sm:flex-none text-center justify-center bg-emerald-500 hover:bg-emerald-400 text-slate-950 font-black text-xs px-3.5 py-2 rounded-xl">
-            Añadir a Comanda
+          <button data-add-cart="${topData.dish.id}" class="bg-zinc-900 hover:bg-zinc-800 text-white text-xs font-medium px-3.5 py-1.5 rounded-lg">
+            Añadir
           </button>
         </div>
       </div>
 
-      <!-- HERO TRATTORIA MAGAZINE -->
-      <div class="relative rounded-3xl overflow-hidden shadow-xl border border-stone-200 mb-10 bg-white">
-        <div class="italian-tricolor-accent"></div>
-        <div class="p-6 sm:p-12 grid grid-cols-1 lg:grid-cols-12 gap-8 items-center">
-          <div class="lg:col-span-7">
-            <div class="inline-flex items-center space-x-2 bg-emerald-100 text-emerald-900 px-3.5 py-1 rounded-full text-xs font-bold uppercase tracking-wider mb-4">
-              <span>🇮🇹 ${preset.type}</span>
-              <span>·</span>
-              <span>Forno a Legna 480ºC</span>
-            </div>
-            <h1 class="text-3xl sm:text-5xl font-extrabold text-stone-900 tracking-tight leading-tight">
-              ${preset.name}
-            </h1>
-            <p class="mt-3 text-stone-600 text-sm sm:text-base leading-relaxed">
-              ${preset.description}
-            </p>
-            <div class="mt-5 flex flex-wrap gap-4 text-xs text-stone-500">
-              <span class="text-emerald-700 font-bold">⭐ ${preset.rating} en Google Maps (${preset.totalReviews} opiniones)</span>
-              <span>📍 ${preset.address}</span>
-            </div>
-          </div>
-
-          <div class="lg:col-span-5 relative">
-            <div class="relative h-64 sm:h-72 w-full rounded-3xl overflow-hidden shadow-2xl border-4 border-white">
-              <img src="${preset.bannerImg}" alt="Pizza Napolitana" class="w-full h-full object-cover"/>
-            </div>
-          </div>
+      <!-- HERO MINIMALISTA Y DIÁFANO -->
+      <div class="max-w-3xl mb-14">
+        <span class="text-xs font-mono uppercase tracking-widest text-zinc-400">${preset.type}</span>
+        <h1 class="text-3xl sm:text-5xl font-light tracking-tight text-zinc-900 mt-2">${preset.name}</h1>
+        <p class="text-sm sm:text-base text-zinc-600 mt-3 leading-relaxed font-light">${preset.tagline}</p>
+        <div class="mt-4 flex flex-wrap gap-4 text-xs font-mono text-zinc-400">
+          <span>${preset.address}</span>
+          <span>·</span>
+          <span>${preset.openingHours}</span>
+          <span>·</span>
+          <span>Google: ${preset.rating} ★ (${preset.totalReviews})</span>
         </div>
       </div>
 
-      <!-- SECCIÓN SOBRE NOSOTROS -->
-      <section class="mb-12 bg-white rounded-3xl border border-stone-200 p-6 sm:p-10 shadow-sm">
-        <div class="max-w-3xl mb-8">
-          <span class="text-xs font-bold text-emerald-700 uppercase tracking-widest font-mono">Tradizione & Qualità</span>
-          <h2 class="text-2xl sm:text-3xl font-extrabold text-stone-900 mt-1">${preset.aboutUs.headline}</h2>
-          <p class="mt-3 text-xs sm:text-sm text-stone-600 leading-relaxed">${preset.aboutUs.story}</p>
+      <!-- SECCIÓN PRINCIPIOS Y FILOSOFÍA -->
+      <section class="mb-14 py-8 border-t border-b border-zinc-200">
+        <div class="max-w-2xl mb-8">
+          <h2 class="text-xl font-medium text-zinc-900">${preset.aboutUs.headline}</h2>
+          <p class="text-xs sm:text-sm text-zinc-500 mt-2 leading-relaxed">${preset.aboutUs.story}</p>
         </div>
 
-        <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
-          ${preset.aboutUs.pillars.map(pillar => `
-            <div class="bg-stone-50 p-5 rounded-2xl border border-stone-200/80">
-              <span class="text-3xl mb-2 block">${pillar.icon}</span>
-              <h4 class="text-sm font-bold text-stone-900">${pillar.title}</h4>
-              <p class="text-xs text-stone-600 mt-1.5 leading-relaxed">${pillar.desc}</p>
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+          ${preset.aboutUs.principles.map(p => `
+            <div>
+              <span class="text-xs font-mono text-zinc-400 font-semibold">${p.code}</span>
+              <h4 class="text-sm font-medium text-zinc-900 mt-1">${p.title}</h4>
+              <p class="text-xs text-zinc-500 mt-1 leading-relaxed">${p.desc}</p>
             </div>
           `).join('')}
         </div>
       </section>
 
-      <!-- BARRA DE CATEGORÍAS -->
-      <div class="bg-white rounded-2xl border border-stone-200 p-4 mb-8 shadow-sm flex items-center space-x-2 overflow-x-auto no-scrollbar">
-        <button data-category="all" class="text-xs font-bold px-4 py-2 rounded-2xl transition-all ${activeCategory === 'all' ? 'bg-emerald-700 text-white' : 'bg-stone-100 text-stone-700 hover:bg-stone-200'}">
-          Tutta la Carta (${preset.menu.length})
+      <!-- BARRA DE CATEGORÍAS NÓRDICA -->
+      <div class="flex items-center space-x-6 overflow-x-auto no-scrollbar pb-3 mb-8 text-xs tracking-widest uppercase font-light border-b border-zinc-200">
+        <button data-category="all" class="pb-1 transition-colors ${activeCategory === 'all' ? 'text-zinc-900 font-semibold border-b border-zinc-900' : 'text-zinc-400 hover:text-zinc-900'}">
+          Todo (${preset.menu.length})
         </button>
         ${preset.categories.map(cat => `
-          <button data-category="${cat}" class="whitespace-nowrap text-xs font-bold px-4 py-2 rounded-2xl transition-all ${activeCategory === cat ? 'bg-emerald-700 text-white' : 'bg-stone-100 text-stone-700 hover:bg-stone-200'}">
+          <button data-category="${cat}" class="pb-1 whitespace-nowrap transition-colors ${activeCategory === cat ? 'text-zinc-900 font-semibold border-b border-zinc-900' : 'text-zinc-400 hover:text-zinc-900'}">
             ${cat}
           </button>
         `).join('')}
       </div>
 
-      <!-- GRID MAGAZINE (3 COLUMNAS) -->
+      <!-- GALERÍA DE PLATOS FOTOGRÁFICA (SHOWCASE 3 COLS) -->
       <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 mb-16">
         ${filteredMenu.map(dish => {
-          const salesCount = store.getDishSalesCount(dish.id);
-          const isTop = (dish.id === topData.dish.id);
-
+          const sales = store.getDishSalesCount(dish.id);
           return `
-            <div class="trattoria-magazine-card overflow-hidden flex flex-col justify-between relative ${isTop ? 'border-2 border-emerald-500 shadow-xl' : ''}">
-              ${isTop ? `
-                <div class="absolute top-3 left-3 z-10 bg-emerald-600 text-white text-[10px] font-black px-3 py-1 rounded-full shadow-lg">
-                  🔥 TOP #1 MÁS PEDIDA (${salesCount})
-                </div>
-              ` : ''}
-
-              <div class="relative h-56 w-full bg-stone-100 overflow-hidden">
-                <img src="${dish.image}" alt="${dish.name}" class="w-full h-full object-cover transition-transform duration-500 hover:scale-105"/>
-                <span class="absolute bottom-3 right-3 bg-stone-900/90 text-white font-mono font-bold text-sm px-3 py-1 rounded-xl">
-                  ${formatCurrency(dish.price)}
-                </span>
-              </div>
-
-              <div class="p-6 flex-1 flex flex-col justify-between">
-                <div>
-                  <div class="flex items-center justify-between text-[11px] text-stone-500 font-mono mb-1">
-                    <span>${dish.originTag || 'Napoli DOP'}</span>
-                    <span class="text-emerald-700 font-bold">📊 ${salesCount} comandas</span>
-                  </div>
-                  <h3 class="font-extrabold text-stone-900 text-lg leading-snug">${dish.name}</h3>
-                  <p class="mt-2 text-xs text-stone-600 leading-relaxed">${dish.description}</p>
-                </div>
-
-                <div class="mt-5 pt-4 border-t border-stone-100 flex items-center justify-between">
-                  <button data-quick-simulate-dish="${dish.id}" class="text-[11px] text-emerald-800 bg-emerald-50 hover:bg-emerald-100 px-2.5 py-1.5 rounded-xl font-bold">
-                    +1 Demo
-                  </button>
-                  <button data-add-cart="${dish.id}" class="bg-emerald-600 hover:bg-emerald-700 text-white text-xs font-bold px-4 py-2 rounded-2xl transition-all shadow-md flex items-center space-x-1.5">
-                    ${ICONS.cart}
-                    <span>Añadir</span>
-                  </button>
-                </div>
-              </div>
-            </div>
-          `;
-        }).join('')}
-      </div>
-    `;
-  }
-
-  // -------------------------------------------------------------------------
-  // DISEÑO 4: CAFETERÍA CAMPAMENTO & YEBES (NORDIC SPECIALTY COFFEE)
-  // -------------------------------------------------------------------------
-  renderScandiCoffeeLayout(preset, filteredMenu, activeCategory, activeAllergen, topData) {
-    return `
-      <!-- BANNER DE PLATO MÁS PEDIDO EN TIEMPO REAL -->
-      <div class="mb-6 p-4 bg-sky-950 border border-sky-600/80 rounded-2xl flex flex-col sm:flex-row sm:items-center justify-between gap-3 text-white shadow-sm">
-        <div class="flex items-center space-x-3">
-          <span class="w-3 h-3 rounded-full bg-sky-400 animate-ping flex-shrink-0"></span>
-          <div>
-            <div class="flex flex-wrap items-center gap-1.5 sm:gap-2">
-              <span class="text-xs font-bold text-sky-300 uppercase tracking-wider font-mono">☕ PRODUCTO ESTRELLA EN VIVO:</span>
-              <span class="text-xs font-bold text-sky-950 bg-sky-300 px-2 py-0.5 rounded font-mono">${topData.count} pedidos hoy</span>
-            </div>
-            <p class="text-sm font-bold text-white mt-0.5">${topData.dish.name} (${formatCurrency(topData.dish.price)})</p>
-          </div>
-        </div>
-        <div class="flex flex-wrap sm:flex-nowrap items-center gap-2 w-full sm:w-auto">
-          <button data-quick-simulate-dish="${topData.dish.id}" class="flex-1 sm:flex-none text-center justify-center bg-sky-900 hover:bg-sky-800 text-sky-200 font-bold text-xs px-3.5 py-2 rounded-xl border border-sky-700">
-            ⚡ +1 Pedido Demo
-          </button>
-          <button data-add-cart="${topData.dish.id}" class="flex-1 sm:flex-none text-center justify-center bg-sky-500 hover:bg-sky-400 text-slate-950 font-bold text-xs px-3.5 py-2 rounded-xl">
-            Añadir a Bandeja
-          </button>
-        </div>
-      </div>
-
-      <!-- HERO NORDIC SPECIALTY COFFEE -->
-      <div class="mb-10 rounded-3xl p-6 sm:p-12 bg-white border border-stone-200/80 shadow-sm">
-        <div class="max-w-3xl">
-          <div class="inline-flex items-center space-x-2 sca-score-chip px-3.5 py-1 rounded-full text-xs font-bold uppercase tracking-wider mb-4">
-            <span>☕ ${preset.type}</span>
-            <span>·</span>
-            <span>Grano SCA >86</span>
-          </div>
-          <h1 class="text-3xl sm:text-5xl font-bold text-stone-900 tracking-tight leading-tight">
-            ${preset.name}
-          </h1>
-          <p class="mt-3 text-stone-600 text-sm sm:text-lg leading-relaxed max-w-2xl">
-            ${preset.description}
-          </p>
-        </div>
-      </div>
-
-      <!-- SECCIÓN SOBRE NOSOTROS -->
-      <section class="mb-12 bg-white rounded-3xl border border-stone-200/80 p-6 sm:p-10 shadow-sm">
-        <div class="max-w-3xl mb-8">
-          <span class="text-xs font-bold text-sky-700 uppercase tracking-widest font-mono">Filosofía Barista</span>
-          <h2 class="text-2xl sm:text-3xl font-bold text-stone-900 mt-1">${preset.aboutUs.headline}</h2>
-          <p class="mt-3 text-xs sm:text-sm text-stone-600 leading-relaxed">${preset.aboutUs.story}</p>
-        </div>
-
-        <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
-          ${preset.aboutUs.pillars.map(pillar => `
-            <div class="bg-stone-50/80 p-5 rounded-2xl border border-stone-200/60">
-              <span class="text-3xl mb-2 block">${pillar.icon}</span>
-              <h4 class="text-sm font-bold text-stone-900">${pillar.title}</h4>
-              <p class="text-xs text-stone-600 mt-1.5 leading-relaxed">${pillar.desc}</p>
-            </div>
-          `).join('')}
-        </div>
-      </section>
-
-      <!-- GRID NORDIC MINIMAL -->
-      <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 mb-16">
-        ${filteredMenu.map(dish => {
-          const salesCount = store.getDishSalesCount(dish.id);
-          const isTop = (dish.id === topData.dish.id);
-
-          return `
-            <div class="nordic-coffee-card p-5 flex flex-col justify-between relative ${isTop ? 'border-2 border-sky-500 shadow-md' : ''}">
-              ${isTop ? `
-                <div class="absolute top-3 left-3 z-10 bg-sky-600 text-white text-[10px] font-bold px-3 py-1 rounded-full shadow">
-                  🔥 TOP #1 MÁS PEDIDO (${salesCount})
-                </div>
-              ` : ''}
-
+            <div class="minimal-card p-4 flex flex-col justify-between">
               <div>
-                <div class="relative h-44 w-full rounded-xl overflow-hidden bg-stone-100 mb-4">
-                  <img src="${dish.image}" alt="${dish.name}" class="w-full h-full object-cover transition-transform duration-300 hover:scale-105"/>
+                <div class="relative h-48 rounded-lg overflow-hidden bg-zinc-100 mb-4">
+                  <img src="${dish.image}" alt="${dish.name}" class="w-full h-full object-cover transition-transform duration-500 hover:scale-105"/>
+                  ${dish.badge ? `<span class="absolute top-2 left-2 bg-white/95 text-zinc-900 text-[10px] font-mono px-2 py-0.5 rounded">${dish.badge}</span>` : ''}
                 </div>
-
-                <div class="flex items-center justify-between text-[11px] text-stone-500 font-mono mb-1">
+                <div class="flex items-center justify-between text-[11px] font-mono text-zinc-400 mb-1">
                   <span>${dish.category}</span>
-                  <span class="text-sky-700 font-bold">📊 ${salesCount} pedidos</span>
+                  <span>${dish.dietary || ''}</span>
                 </div>
-
-                <h3 class="font-bold text-stone-900 text-base leading-snug">${dish.name}</h3>
-                <p class="mt-2 text-xs text-stone-600 leading-relaxed">${dish.description}</p>
+                <h3 class="text-base font-medium text-zinc-900">${dish.name}</h3>
+                <p class="text-xs text-zinc-500 mt-1 leading-relaxed">${dish.description}</p>
+                ${dish.nutrition ? `<p class="text-[10px] text-zinc-400 font-mono mt-2">${dish.nutrition}</p>` : ''}
               </div>
 
-              <div class="mt-4 pt-3 border-t border-stone-100 flex items-center justify-between">
-                <span class="text-xl font-bold font-mono text-stone-900">${formatCurrency(dish.price)}</span>
+              <div class="mt-4 pt-3 border-t border-zinc-100 flex items-center justify-between">
+                <div>
+                  <span class="font-mono text-base font-semibold text-zinc-900">${formatCurrency(dish.price)}</span>
+                  <span class="block text-[10px] text-zinc-400 font-mono">${sales} pedidos</span>
+                </div>
                 <div class="flex items-center space-x-1.5">
-                  <button data-quick-simulate-dish="${dish.id}" class="text-[11px] text-sky-800 bg-sky-50 px-2 py-1 rounded-lg">
-                    +1 Demo
+                  <button data-quick-simulate-dish="${dish.id}" class="text-[11px] font-mono text-zinc-500 hover:text-zinc-900 px-2 py-1">
+                    +1
                   </button>
-                  <button data-add-cart="${dish.id}" class="bg-sky-600 hover:bg-sky-700 text-white text-xs font-bold px-3.5 py-2 rounded-xl transition-all shadow-sm flex items-center space-x-1">
-                    ${ICONS.cart}
-                    <span>Pedir</span>
+                  <button data-add-cart="${dish.id}" class="bg-zinc-900 hover:bg-zinc-800 text-white text-xs px-3 py-1.5 rounded-lg transition-colors">
+                    Pedir
                   </button>
                 </div>
               </div>
@@ -973,94 +960,201 @@ class AppController {
     `;
   }
 
-  // -------------------------------------------------------------------------
-  // MÓDULO DE OPINIONES DE GOOGLE MAPS AL PIE DE PÁGINA
-  // -------------------------------------------------------------------------
+  // =========================================================================
+  // BLOQUE DE RESEÑAS DE GOOGLE ADAPTADO SEGÚN EL ESTILO
+  // =========================================================================
   renderGoogleReviewsSection(preset) {
-    const starsHtml = Array(5).fill(ICONS.star).join('');
-
-    return `
-      <section class="google-reviews-section bg-white rounded-3xl border border-slate-200 p-6 sm:p-10 shadow-sm mt-12 mb-16 text-slate-900">
-        <div class="flex flex-col md:flex-row md:items-center justify-between gap-6 pb-6 border-b border-slate-100">
-          <div>
-            <div class="flex items-center space-x-2.5 mb-1">
-              ${ICONS.google}
-              <span class="text-xs font-bold text-slate-500 uppercase tracking-wider font-mono">Google Maps Reviews</span>
-              <span class="bg-emerald-100 text-emerald-800 text-[10px] font-black px-2.5 py-0.5 rounded-full uppercase">Verificado</span>
+    if (preset.id === 'estilo1') {
+      return `
+        <section class="border-t border-stone-800 pt-12 pb-16">
+          <div class="flex flex-col md:flex-row md:items-end justify-between mb-8 gap-4">
+            <div>
+              <span class="text-xs font-mono text-amber-400 uppercase tracking-widest">Opiniones Verificadas</span>
+              <h3 class="editorial-serif text-2xl sm:text-3xl font-bold text-stone-100 mt-1">Lo que dicen nuestros comensales</h3>
             </div>
-            <h2 class="text-2xl sm:text-3xl font-black text-slate-900">Opiniones de Clientes en ${preset.name}</h2>
-            <p class="text-xs sm:text-sm text-slate-500 mt-1">Comensales reales del barrio de ${preset.neighborhood}</p>
+            <a href="${preset.googleMapsUrl}" target="_blank" class="text-xs font-mono text-amber-300 hover:underline flex items-center space-x-1">
+              <span>Ver las ${preset.totalReviews} reseñas en Google Maps</span>
+              ${ICONS.arrow}
+            </a>
           </div>
 
-          <div class="flex flex-wrap items-center gap-4">
-            <div class="flex items-center space-x-2 bg-slate-50 border border-slate-200 px-4 py-2.5 rounded-2xl">
-              <span class="text-3xl font-black text-slate-900 font-mono">${preset.rating}</span>
+          <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+            ${preset.googleReviews.map(r => `
+              <div class="editorial-card p-6 flex flex-col justify-between">
+                <div>
+                  <div class="flex items-center space-x-1 text-amber-400 text-sm mb-3">★★★★★</div>
+                  <p class="editorial-serif italic text-sm text-stone-200 leading-relaxed">"${r.comment}"</p>
+                </div>
+                <div class="mt-6 pt-4 border-t border-stone-800">
+                  <span class="text-xs font-bold text-stone-100 block">${r.author}</span>
+                  <span class="text-[11px] text-stone-500 block font-mono">${r.badge} · ${r.timeAgo}</span>
+                </div>
+              </div>
+            `).join('')}
+          </div>
+        </section>
+      `;
+    }
+
+    if (preset.id === 'estilo2') {
+      return `
+        <section class="border-t border-slate-800 pt-10 pb-16">
+          <div class="bento-card p-6 mb-6 flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+            <div class="flex items-center space-x-3">
+              ${ICONS.google}
               <div>
-                <div class="flex">${starsHtml}</div>
-                <span class="text-[11px] text-slate-500 font-medium">${preset.totalReviews} reseñas</span>
+                <h3 class="text-base font-bold text-white">${preset.rating} de 5 Estrellas en Google</h3>
+                <p class="text-xs text-slate-400 font-mono">Basado en ${preset.totalReviews} reseñas verificadas</p>
               </div>
             </div>
-
-            <a href="${preset.googleMapsUrl}" target="_blank" class="btn-google-maps text-xs font-bold px-4 py-3 rounded-2xl flex items-center space-x-2 shadow-sm">
-              <span>Escribir Reseña en Google</span>
-              <span>↗</span>
+            <a href="${preset.googleMapsUrl}" target="_blank" class="bg-slate-800 hover:bg-slate-700 text-slate-100 text-xs font-semibold px-4 py-2 rounded-xl transition-colors">
+              Abrir Google Maps
             </a>
-
-            <button id="open-smart-review-btn" class="bg-blue-600 hover:bg-blue-700 text-white text-xs font-bold px-4 py-3 rounded-2xl transition-all shadow-md flex items-center space-x-1.5">
-              <span>⭐ Valorar Local</span>
-            </button>
           </div>
+
+          <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+            ${preset.googleReviews.map(r => `
+              <div class="bento-card p-5">
+                <div class="flex items-center justify-between text-xs mb-3">
+                  <span class="font-bold text-white">${r.author}</span>
+                  <span class="text-amber-400">★★★★★</span>
+                </div>
+                <p class="text-xs text-slate-300 leading-relaxed">${r.comment}</p>
+                ${r.categoryRatings ? `
+                  <div class="mt-4 pt-3 border-t border-slate-800 flex justify-between text-[10px] text-slate-400 font-mono">
+                    <span>Comida: ${r.categoryRatings.comida}</span>
+                    <span>Servicio: ${r.categoryRatings.servicio}</span>
+                    <span>Ambiente: ${r.categoryRatings.ambiente}</span>
+                  </div>
+                ` : ''}
+              </div>
+            `).join('')}
+          </div>
+        </section>
+      `;
+    }
+
+    if (preset.id === 'estilo3') {
+      return `
+        <section class="border-t-2 border-[#8c7b6c] pt-10 pb-16 font-serif">
+          <div class="text-center max-w-xl mx-auto mb-8">
+            <span class="text-xs uppercase tracking-widest text-[#7a6b5d] font-bold">Libro de Visitas</span>
+            <h3 class="bistro-serif text-2xl font-bold text-[#2b2520] mt-1">Palabras de Nuestros Clientes</h3>
+          </div>
+
+          <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+            ${preset.googleReviews.map(r => `
+              <div class="bistro-card p-5 border border-[#dfd7cc]">
+                <span class="text-xs text-[#8c7b6c] font-bold block mb-2">★ ★ ★ ★ ★</span>
+                <p class="text-xs italic text-[#4a3f35] leading-relaxed">"${r.comment}"</p>
+                <div class="mt-4 pt-3 border-t border-[#eee7db]">
+                  <span class="text-xs font-bold text-[#2b2520] block">${r.author}</span>
+                  <span class="text-[11px] text-[#7a6b5d] block">${r.badge}</span>
+                </div>
+              </div>
+            `).join('')}
+          </div>
+        </section>
+      `;
+    }
+
+    // Estilo 4
+    return `
+      <section class="border-t border-zinc-200 pt-10 pb-16">
+        <div class="flex items-center justify-between mb-8">
+          <div>
+            <span class="text-[10px] font-mono uppercase tracking-widest text-zinc-400">Google Reviews</span>
+            <h3 class="text-xl font-light text-zinc-900 mt-0.5">${preset.rating} / 5.0 (${preset.totalReviews} opiniones)</h3>
+          </div>
+          <a href="${preset.googleMapsUrl}" target="_blank" class="text-xs font-mono text-zinc-500 hover:text-zinc-900 underline">Google Maps</a>
         </div>
 
-        <!-- Tarjetas de Reseñas Reales -->
-        <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mt-8">
-          ${preset.googleReviews.map(rev => `
-            <div class="google-review-card bg-slate-50/70 border border-slate-200/80 rounded-2xl p-5 flex flex-col justify-between">
-              <div>
-                <div class="flex items-center space-x-3 mb-3">
-                  <img src="${rev.avatar}" alt="${rev.author}" class="w-11 h-11 rounded-full object-cover border border-slate-200"/>
-                  <div>
-                    <h4 class="font-bold text-slate-900 text-xs">${rev.author}</h4>
-                    <p class="text-[10px] text-slate-500">${rev.badge}</p>
-                  </div>
-                </div>
-
-                <div class="flex items-center space-x-1.5 mb-2.5">
-                  <div class="flex text-amber-400">${Array(rev.rating).fill(ICONS.star).join('')}</div>
-                  <span class="text-[11px] text-slate-400 font-mono">${rev.timeAgo}</span>
-                </div>
-
-                <p class="text-xs text-slate-700 leading-relaxed italic">"${rev.comment}"</p>
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+          ${preset.googleReviews.map(r => `
+            <div class="minimal-card p-5">
+              <p class="text-xs text-zinc-600 leading-relaxed font-light">"${r.comment}"</p>
+              <div class="mt-4 pt-3 border-t border-zinc-100 flex items-center justify-between text-[11px] font-mono text-zinc-400">
+                <span class="text-zinc-800 font-medium">${r.author}</span>
+                <span>${r.timeAgo}</span>
               </div>
-
-              ${rev.ownerResponse ? `
-                <div class="mt-4 pt-3 border-t border-slate-200 text-[11px] text-slate-600 bg-white p-3 rounded-xl border border-slate-100">
-                  <span class="font-bold text-blue-700 block">Respuesta del propietario:</span>
-                  <p class="mt-0.5 text-slate-600 leading-relaxed">${rev.ownerResponse}</p>
-                </div>
-              ` : ''}
             </div>
           `).join('')}
-        </div>
-
-        <div class="mt-8 p-4 bg-blue-50/80 border border-blue-200 rounded-2xl flex flex-col sm:flex-row sm:items-center justify-between gap-4 text-xs text-blue-950">
-          <div class="flex items-center space-x-2.5">
-            <span class="text-2xl">🛡️</span>
-            <div>
-              <span class="font-bold">Filtro de Reputación Inteligente DevCorp:</span>
-              <p class="text-blue-800 mt-0.5">Canaliza las 5 estrellas a Google Maps y redirige quejas internas en privado al gerente antes de que se publiquen.</p>
-            </div>
-          </div>
-          <button id="demo-filter-trigger-btn" class="bg-blue-600 hover:bg-blue-700 text-white font-bold text-xs px-4 py-2 rounded-xl transition-all shadow whitespace-nowrap">
-            Probar Simulador de Filtro
-          </button>
         </div>
       </section>
     `;
   }
 
   // =========================================================================
-  // VISTAS ADICIONALES: COCINA KDS, MÉTRICAS, RESERVAS Y ROI CON THEMING COMPLETO
+  // FOOTER ADAPTADO A CADA ESTILO
+  // =========================================================================
+  renderFooterForStyle(preset) {
+    if (preset.id === 'estilo1') {
+      return `
+        <footer class="bg-[#0b0b0d] text-stone-400 text-xs border-t border-stone-800 py-12">
+          <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex flex-col md:flex-row items-start md:items-center justify-between gap-6">
+            <div>
+              <span class="editorial-serif text-base font-bold text-stone-200 block">${preset.name}</span>
+              <p class="text-xs text-stone-500 mt-1">${preset.address} · Tel. ${preset.phone}</p>
+            </div>
+            <div class="flex flex-wrap items-center gap-6 text-xs text-stone-500 font-mono">
+              <button id="reset-demo-btn" class="hover:text-stone-300 underline text-[11px]">Reiniciar demo</button>
+              <span>Desarrollado por <a href="https://devcorpsolutions.com" target="_blank" class="text-amber-400 hover:underline">DevCorp Solutions</a></span>
+              <span>0% Comisiones</span>
+            </div>
+          </div>
+        </footer>
+      `;
+    }
+
+    if (preset.id === 'estilo2') {
+      return `
+        <footer class="bg-slate-950 text-slate-400 text-xs border-t border-slate-800 py-10">
+          <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex flex-col md:flex-row items-center justify-between gap-4">
+            <div class="flex items-center space-x-3">
+              <span class="font-bold text-white text-sm">La Central</span>
+              <span class="text-slate-600">|</span>
+              <span>Software para Hostelería por DevCorp</span>
+            </div>
+            <div class="flex items-center space-x-4">
+              <button id="reset-demo-btn" class="hover:text-white underline text-[11px]">Reiniciar demo</button>
+              <a href="https://devcorpsolutions.com" target="_blank" class="text-sky-400 hover:underline">devcorpsolutions.com</a>
+            </div>
+          </div>
+        </footer>
+      `;
+    }
+
+    if (preset.id === 'estilo3') {
+      return `
+        <footer class="bg-[#eee7db] text-[#594d40] text-xs border-t-2 border-[#8c7b6c] py-10 font-serif">
+          <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
+            <span class="bistro-serif text-lg font-bold text-[#2b2520] block">Casa Manolo · Cincuenta Años de Tradición</span>
+            <p class="text-xs text-[#7a6b5d] mt-1">${preset.address} · Reservas telefónicas y online</p>
+            <div class="mt-4 pt-3 border-t border-[#dfd7cc] flex justify-center space-x-6 text-[11px]">
+              <button id="reset-demo-btn" class="underline">Reiniciar datos de muestra</button>
+              <span>Tecnología artesanal por DevCorp Solutions</span>
+            </div>
+          </div>
+        </footer>
+      `;
+    }
+
+    // Estilo 4
+    return `
+      <footer class="bg-white text-zinc-400 text-xs border-t border-zinc-200 py-8">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex flex-col sm:flex-row items-center justify-between gap-3 text-[11px] font-light tracking-widest uppercase">
+          <span>Atelier · Obrador & Specialty Coffee</span>
+          <div class="flex items-center space-x-6">
+            <button id="reset-demo-btn" class="hover:text-zinc-800 underline">Reiniciar datos</button>
+            <a href="https://devcorpsolutions.com" target="_blank" class="hover:text-zinc-800">DevCorp Solutions</a>
+          </div>
+        </div>
+      </footer>
+    `;
+  }
+
+  // =========================================================================
+  // VISTA 2: COCINA / KDS (COMANDERO EN TIEMPO REAL)
   // =========================================================================
   renderKdsView(container, preset) {
     if (!container) container = document.getElementById('view-content');
@@ -1070,55 +1164,54 @@ class AppController {
     const pendingOrders = orders.filter(o => o.status === 'pending');
     const kitchenOrders = orders.filter(o => o.status === 'kitchen');
     const readyOrders = orders.filter(o => o.status === 'ready');
-
-    const isDarkTheme = (preset.id === 'parrilla' || preset.id === 'cerveceria');
+    const isDark = (preset.id === 'estilo1' || preset.id === 'estilo2');
 
     container.innerHTML = `
-      <div class="mb-6 flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4 ${isDarkTheme ? 'text-stone-100' : 'text-slate-900'}">
+      <div class="mb-6 flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4 ${isDark ? 'text-stone-100' : 'text-slate-900'}">
         <div>
           <div class="flex items-center space-x-2">
-            <span class="inline-block w-2.5 h-2.5 rounded-full bg-emerald-500 animate-ping"></span>
-            <h2 class="text-xl sm:text-2xl font-black uppercase tracking-tight">KDS Cocina & Comandero · ${preset.name}</h2>
+            <span class="inline-block w-2.5 h-2.5 rounded-full bg-emerald-500 animate-pulse"></span>
+            <h2 class="text-xl sm:text-2xl font-bold uppercase tracking-tight">Comandero de Cocina (KDS) · ${preset.name}</h2>
           </div>
-          <p class="text-xs ${isDarkTheme ? 'text-stone-400' : 'text-slate-500'} mt-1">Pantalla táctil para cocineros y camareros. Sincronizada en tiempo real con las comandas de comensales.</p>
+          <p class="text-xs ${isDark ? 'text-stone-400' : 'text-slate-500'} mt-1">Pantalla táctil para cocineros y camareros. Sincronizada en vivo con los pedidos de mesa y sala.</p>
         </div>
 
-        <button id="add-kds-test-btn" class="bg-slate-800 hover:bg-slate-700 text-slate-100 text-xs font-semibold px-4 py-2.5 rounded-xl transition-colors shadow flex items-center space-x-1.5">
+        <button id="add-kds-test-btn" class="${isDark ? 'bg-stone-800 hover:bg-stone-700 text-stone-100' : 'bg-slate-900 hover:bg-slate-800 text-white'} text-xs font-semibold px-4 py-2.5 rounded-xl transition-colors shadow flex items-center space-x-1.5">
           <span>+ Simular Comanda Entrante</span>
         </button>
       </div>
 
       <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
-        <!-- Columna 1: Nuevos -->
-        <div class="${isDarkTheme ? 'bg-stone-900/80 border-amber-500/40 text-stone-100' : 'bg-amber-50/50 border-amber-200 text-slate-900'} border-2 border-dashed rounded-2xl p-4 flex flex-col min-h-[160px] md:min-h-[480px]">
-          <div class="flex items-center justify-between pb-3 border-b ${isDarkTheme ? 'border-stone-800' : 'border-amber-200'} mb-4">
+        <!-- Nuevos -->
+        <div class="${isDark ? 'bg-stone-900/80 border-amber-500/40 text-stone-100' : 'bg-amber-50/60 border-amber-300 text-slate-900'} border-2 border-dashed rounded-2xl p-4 flex flex-col min-h-[160px] md:min-h-[480px]">
+          <div class="flex items-center justify-between pb-3 border-b ${isDark ? 'border-stone-800' : 'border-amber-200'} mb-4">
             <span class="font-bold text-sm uppercase">Nuevos Pedidos</span>
             <span class="bg-amber-400 text-slate-950 text-xs font-black px-2.5 py-0.5 rounded-full">${pendingOrders.length}</span>
           </div>
           <div class="space-y-4 flex-1 overflow-y-auto">
-            ${pendingOrders.length === 0 ? `<p class="text-xs ${isDarkTheme ? 'text-stone-500' : 'text-slate-400'} text-center py-6 md:py-10">Sin comandas nuevas.</p>` : pendingOrders.map(order => this.renderKdsOrderCard(order, isDarkTheme)).join('')}
+            ${pendingOrders.length === 0 ? `<p class="text-xs ${isDark ? 'text-stone-500' : 'text-slate-400'} text-center py-8">Sin comandas nuevas pendientes.</p>` : pendingOrders.map(order => this.renderKdsOrderCard(order, isDark)).join('')}
           </div>
         </div>
 
-        <!-- Columna 2: En Fogones -->
-        <div class="${isDarkTheme ? 'bg-stone-900/80 border-blue-500/40 text-stone-100' : 'bg-blue-50/50 border-blue-200 text-slate-900'} border-2 border-dashed rounded-2xl p-4 flex flex-col min-h-[160px] md:min-h-[480px]">
-          <div class="flex items-center justify-between pb-3 border-b ${isDarkTheme ? 'border-stone-800' : 'border-blue-200'} mb-4">
+        <!-- En Fogones -->
+        <div class="${isDark ? 'bg-stone-900/80 border-blue-500/40 text-stone-100' : 'bg-blue-50/60 border-blue-300 text-slate-900'} border-2 border-dashed rounded-2xl p-4 flex flex-col min-h-[160px] md:min-h-[480px]">
+          <div class="flex items-center justify-between pb-3 border-b ${isDark ? 'border-stone-800' : 'border-blue-200'} mb-4">
             <span class="font-bold text-sm uppercase">En Marcha / Fogones</span>
             <span class="bg-blue-500 text-white text-xs font-black px-2.5 py-0.5 rounded-full">${kitchenOrders.length}</span>
           </div>
           <div class="space-y-4 flex-1 overflow-y-auto">
-            ${kitchenOrders.length === 0 ? `<p class="text-xs ${isDarkTheme ? 'text-stone-500' : 'text-slate-400'} text-center py-6 md:py-10">Fogones libres.</p>` : kitchenOrders.map(order => this.renderKdsOrderCard(order, isDarkTheme)).join('')}
+            ${kitchenOrders.length === 0 ? `<p class="text-xs ${isDark ? 'text-stone-500' : 'text-slate-400'} text-center py-8">Fogones libres.</p>` : kitchenOrders.map(order => this.renderKdsOrderCard(order, isDark)).join('')}
           </div>
         </div>
 
-        <!-- Columna 3: Listos -->
-        <div class="${isDarkTheme ? 'bg-stone-900/80 border-emerald-500/40 text-stone-100' : 'bg-emerald-50/50 border-emerald-200 text-slate-900'} border-2 border-dashed rounded-2xl p-4 flex flex-col min-h-[160px] md:min-h-[480px]">
-          <div class="flex items-center justify-between pb-3 border-b ${isDarkTheme ? 'border-stone-800' : 'border-emerald-200'} mb-4">
+        <!-- Listos -->
+        <div class="${isDark ? 'bg-stone-900/80 border-emerald-500/40 text-stone-100' : 'bg-emerald-50/60 border-emerald-300 text-slate-900'} border-2 border-dashed rounded-2xl p-4 flex flex-col min-h-[160px] md:min-h-[480px]">
+          <div class="flex items-center justify-between pb-3 border-b ${isDark ? 'border-stone-800' : 'border-emerald-200'} mb-4">
             <span class="font-bold text-sm uppercase">Listos para Servir</span>
             <span class="bg-emerald-500 text-white text-xs font-black px-2.5 py-0.5 rounded-full">${readyOrders.length}</span>
           </div>
           <div class="space-y-4 flex-1 overflow-y-auto">
-            ${readyOrders.length === 0 ? `<p class="text-xs ${isDarkTheme ? 'text-stone-500' : 'text-slate-400'} text-center py-6 md:py-10">Sin platos pendientes de entrega.</p>` : readyOrders.map(order => this.renderKdsOrderCard(order, isDarkTheme)).join('')}
+            ${readyOrders.length === 0 ? `<p class="text-xs ${isDark ? 'text-stone-500' : 'text-slate-400'} text-center py-8">Sin platos pendientes de entrega.</p>` : readyOrders.map(order => this.renderKdsOrderCard(order, isDark)).join('')}
           </div>
         </div>
       </div>
@@ -1136,28 +1229,28 @@ class AppController {
         }];
         store.createOrder({
           type: "mesa",
-          tableNumber: `Mesa ${Math.floor(1 + Math.random() * 8)} (Terraza)`,
-          customerName: "Cliente Demo Aluche"
+          tableNumber: `Mesa ${Math.floor(1 + Math.random() * 8)}`,
+          customerName: "Comensal Sala"
         });
-        this.showToast("Comanda de prueba añadida a cocina");
+        this.showToast("Comanda enviada a cocina");
       });
     }
   }
 
-  renderKdsOrderCard(order, isDarkTheme) {
+  renderKdsOrderCard(order, isDark) {
     let statusBadge = '';
     let actionButton = '';
 
     if (order.status === 'pending') {
-      statusBadge = `<span class="px-2 py-0.5 bg-amber-100 text-amber-800 text-[10px] font-black rounded uppercase">Nuevo</span>`;
+      statusBadge = `<span class="px-2 py-0.5 bg-amber-100 text-amber-800 text-[10px] font-bold rounded uppercase">Nuevo</span>`;
       actionButton = `
         <button data-order-id="${order.id}" data-next-status="kitchen" class="w-full bg-blue-600 hover:bg-blue-700 text-white font-bold py-2 rounded-lg text-xs transition-colors flex items-center justify-center space-x-1">
-          <span>Pasar a Cocina</span>
+          <span>Pasar a Fogones</span>
           ${ICONS.arrow}
         </button>
       `;
     } else if (order.status === 'kitchen') {
-      statusBadge = `<span class="px-2 py-0.5 bg-blue-100 text-blue-800 text-[10px] font-black rounded uppercase">En Fogones</span>`;
+      statusBadge = `<span class="px-2 py-0.5 bg-blue-100 text-blue-800 text-[10px] font-bold rounded uppercase">En Fogones</span>`;
       actionButton = `
         <button data-order-id="${order.id}" data-next-status="ready" class="w-full bg-emerald-600 hover:bg-emerald-700 text-white font-bold py-2 rounded-lg text-xs transition-colors flex items-center justify-center space-x-1">
           <span>Marcar Listo</span>
@@ -1165,97 +1258,95 @@ class AppController {
         </button>
       `;
     } else if (order.status === 'ready') {
-      statusBadge = `<span class="px-2 py-0.5 bg-emerald-100 text-emerald-800 text-[10px] font-black rounded uppercase">Listo</span>`;
+      statusBadge = `<span class="px-2 py-0.5 bg-emerald-100 text-emerald-800 text-[10px] font-bold rounded uppercase">Listo</span>`;
       actionButton = `
         <button data-order-id="${order.id}" data-next-status="served" class="w-full bg-slate-700 hover:bg-slate-800 text-white font-bold py-2 rounded-lg text-xs transition-colors flex items-center justify-center space-x-1">
-          <span>Finalizar Comanda</span>
+          <span>Servido en Mesa</span>
           ${ICONS.check}
         </button>
       `;
     }
 
     return `
-      <div class="${isDarkTheme ? 'bg-stone-950 border-stone-800 text-stone-100' : 'bg-white border-slate-200 text-slate-900'} rounded-xl border p-4 shadow-sm flex flex-col justify-between">
-        <div>
-          <div class="flex items-start justify-between pb-2 border-b ${isDarkTheme ? 'border-stone-800' : 'border-slate-100'}">
-            <div>
-              <span class="text-xs font-black text-amber-400 font-mono">${order.id}</span>
-              <p class="font-bold text-sm mt-0.5">${order.tableNumber}</p>
-            </div>
-            <div class="text-right">
-              ${statusBadge}
-              <p class="text-[11px] text-slate-400 font-mono mt-1">${order.timestamp}</p>
-            </div>
+      <div class="${isDark ? 'bg-stone-950 border-stone-800 text-stone-200' : 'bg-white border-slate-200 text-slate-900'} p-4 rounded-xl border shadow-sm text-xs space-y-3">
+        <div class="flex items-center justify-between pb-2 border-b ${isDark ? 'border-stone-800' : 'border-slate-100'}">
+          <div class="flex items-center space-x-1.5">
+            <span class="font-bold font-mono text-sm">${order.tableNumber}</span>
+            <span class="text-[10px] text-slate-400">(${order.type})</span>
           </div>
-
-          <div class="py-3 space-y-2">
-            ${order.items.map(item => `
-              <div class="text-xs flex items-start justify-between">
-                <span class="font-semibold">${item.qty}x ${item.name}</span>
-                <span class="font-mono text-slate-400">${formatCurrency(item.price * item.qty)}</span>
-              </div>
-            `).join('')}
-          </div>
+          ${statusBadge}
         </div>
 
-        <div class="pt-3 border-t ${isDarkTheme ? 'border-stone-800' : 'border-slate-100'} mt-2">
-          <div class="flex justify-between items-center text-xs font-bold mb-3">
-            <span>Total:</span>
-            <span class="font-mono text-sm text-amber-400">${formatCurrency(order.total)}</span>
-          </div>
-          ${actionButton}
+        <div class="space-y-1.5">
+          ${order.items.map(item => `
+            <div class="flex justify-between items-start text-[11px]">
+              <span class="font-bold">${item.qty}x ${item.name}</span>
+              <span class="font-mono text-slate-400">${formatCurrency(item.price * item.qty)}</span>
+            </div>
+            ${item.notes ? `<p class="text-[10px] text-amber-500 italic pl-3">Nota: ${item.notes}</p>` : ''}
+          `).join('')}
         </div>
+
+        <div class="pt-2 border-t ${isDark ? 'border-stone-800' : 'border-slate-100'} flex items-center justify-between font-mono text-xs">
+          <span class="text-slate-400">Total:</span>
+          <span class="font-bold text-sm">${formatCurrency(order.total)}</span>
+        </div>
+
+        ${actionButton}
       </div>
     `;
   }
 
+  // =========================================================================
+  // VISTA 3: MÉTRICAS Y CONTROL DE SALA
+  // =========================================================================
   renderMetricsView(container, preset) {
     const orders = store.state.orders;
-    const totalSales = orders.reduce((sum, o) => sum + o.total, 0);
+    const totalSales = orders.reduce((acc, o) => acc + o.total, 0);
     const avgTicket = orders.length > 0 ? (totalSales / orders.length) : 0;
-    const isDarkTheme = (preset.id === 'parrilla' || preset.id === 'cerveceria');
+    const isDark = (preset.id === 'estilo1' || preset.id === 'estilo2');
 
     container.innerHTML = `
-      <div class="space-y-8 ${isDarkTheme ? 'text-stone-100' : 'text-slate-900'}">
+      <div class="space-y-8 ${isDark ? 'text-stone-100' : 'text-slate-900'}">
         <div>
-          <span class="text-xs font-bold text-blue-500 uppercase tracking-wider font-mono">DevCorp Business Intelligence</span>
-          <h2 class="text-2xl sm:text-3xl font-black mt-1">Métricas en Tiempo Real · ${preset.name}</h2>
-          <p class="text-xs ${isDarkTheme ? 'text-stone-400' : 'text-slate-500'} mt-1">Datos actualizados en vivo con cada comanda de salón, terraza y pedidos directos.</p>
+          <span class="text-xs font-bold uppercase tracking-wider font-mono text-blue-500">Panel de Control</span>
+          <h2 class="text-2xl sm:text-3xl font-extrabold mt-1">Métricas de Servicio · ${preset.name}</h2>
+          <p class="text-xs ${isDark ? 'text-stone-400' : 'text-slate-500'} mt-1">Datos actualizados al minuto con cada comanda tramitada.</p>
         </div>
 
         <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
-          <div class="${isDarkTheme ? 'bg-stone-900 border-stone-800' : 'bg-white border-slate-200'} p-6 rounded-2xl border shadow-sm">
-            <span class="text-xs font-semibold uppercase text-slate-400">Facturación Hoy</span>
-            <p class="text-2xl sm:text-3xl font-black mt-2 font-mono text-amber-400">${formatCurrency(totalSales)}</p>
+          <div class="${isDark ? 'bg-stone-900 border-stone-800' : 'bg-white border-slate-200'} p-6 rounded-2xl border shadow-sm">
+            <span class="text-xs font-semibold uppercase text-slate-400">Facturación Estimada Hoy</span>
+            <p class="text-2xl sm:text-3xl font-bold mt-2 font-mono text-amber-400">${formatCurrency(totalSales)}</p>
           </div>
 
-          <div class="${isDarkTheme ? 'bg-stone-900 border-stone-800' : 'bg-white border-slate-200'} p-6 rounded-2xl border shadow-sm">
-            <span class="text-xs font-semibold uppercase text-slate-400">Comandas Totales</span>
-            <p class="text-2xl sm:text-3xl font-black mt-2 font-mono">${orders.length}</p>
+          <div class="${isDark ? 'bg-stone-900 border-stone-800' : 'bg-white border-slate-200'} p-6 rounded-2xl border shadow-sm">
+            <span class="text-xs font-semibold uppercase text-slate-400">Comandas en Servicio</span>
+            <p class="text-2xl sm:text-3xl font-bold mt-2 font-mono">${orders.length}</p>
           </div>
 
-          <div class="${isDarkTheme ? 'bg-stone-900 border-stone-800' : 'bg-white border-slate-200'} p-6 rounded-2xl border shadow-sm">
+          <div class="${isDark ? 'bg-stone-900 border-stone-800' : 'bg-white border-slate-200'} p-6 rounded-2xl border shadow-sm">
             <span class="text-xs font-semibold uppercase text-slate-400">Ticket Medio</span>
-            <p class="text-2xl sm:text-3xl font-black mt-2 font-mono">${formatCurrency(avgTicket)}</p>
+            <p class="text-2xl sm:text-3xl font-bold mt-2 font-mono">${formatCurrency(avgTicket)}</p>
           </div>
 
-          <div class="${isDarkTheme ? 'bg-stone-900 border-stone-800' : 'bg-white border-slate-200'} p-6 rounded-2xl border shadow-sm">
-            <span class="text-xs font-semibold uppercase text-emerald-500">Ahorrado vs Glovo</span>
-            <p class="text-2xl sm:text-3xl font-black text-emerald-500 mt-2 font-mono">${formatCurrency(totalSales * 0.30)}</p>
+          <div class="${isDark ? 'bg-stone-900 border-stone-800' : 'bg-white border-slate-200'} p-6 rounded-2xl border shadow-sm">
+            <span class="text-xs font-semibold uppercase text-emerald-500">Ahorro frente a Agregadores</span>
+            <p class="text-2xl sm:text-3xl font-bold text-emerald-500 mt-2 font-mono">${formatCurrency(totalSales * 0.30)}</p>
           </div>
         </div>
 
-        <!-- Ranking en Tiempo Real de Platos -->
-        <div class="${isDarkTheme ? 'bg-stone-900 border-stone-800' : 'bg-white border-slate-200'} p-6 rounded-3xl border shadow-sm">
-          <h3 class="font-bold text-base mb-4">Platos más vendidos hoy (Actualización en tiempo real)</h3>
+        <!-- Ranking en Tiempo Real -->
+        <div class="${isDark ? 'bg-stone-900 border-stone-800' : 'bg-white border-slate-200'} p-6 rounded-3xl border shadow-sm">
+          <h3 class="font-bold text-base mb-4">Rotación de Platos en Sala (Tiempo Real)</h3>
           <div class="space-y-3">
             ${preset.menu.map(dish => {
               const count = store.getDishSalesCount(dish.id);
               return `
-                <div class="flex flex-wrap sm:flex-nowrap items-center justify-between gap-2 p-3 ${isDarkTheme ? 'bg-stone-950/80 border-stone-800' : 'bg-slate-50 border-slate-200'} border rounded-xl text-xs">
+                <div class="flex flex-wrap sm:flex-nowrap items-center justify-between gap-2 p-3 ${isDark ? 'bg-stone-950/80 border-stone-800' : 'bg-slate-50 border-slate-200'} border rounded-xl text-xs">
                   <div class="flex items-center space-x-2.5 min-w-0">
-                    <span class="font-black text-amber-400 w-7 font-mono flex-shrink-0">${count}x</span>
-                    <span class="font-bold truncate max-w-[150px] sm:max-w-none">${dish.name}</span>
+                    <span class="font-bold text-amber-400 w-7 font-mono flex-shrink-0">${count}x</span>
+                    <span class="font-semibold truncate max-w-[160px] sm:max-w-none">${dish.name}</span>
                     <span class="text-slate-400 hidden sm:inline">(${dish.category})</span>
                   </div>
                   <div class="flex items-center space-x-2 flex-shrink-0">
@@ -1273,69 +1364,72 @@ class AppController {
     `;
   }
 
+  // =========================================================================
+  // VISTA 4: RESERVAS ONLINE
+  // =========================================================================
   renderReservationsView(container, preset) {
     const today = new Date().toISOString().split('T')[0];
-    const isDarkTheme = (preset.id === 'parrilla' || preset.id === 'cerveceria');
+    const isDark = (preset.id === 'estilo1' || preset.id === 'estilo2');
 
     container.innerHTML = `
-      <div class="max-w-3xl mx-auto ${isDarkTheme ? 'bg-stone-900 border-stone-800 text-stone-100' : 'bg-white border-slate-200 text-slate-900'} rounded-3xl border shadow-sm p-6 sm:p-10">
-        <div class="border-b ${isDarkTheme ? 'border-stone-800' : 'border-slate-100'} pb-6 mb-8">
-          <span class="text-xs font-bold text-blue-500 uppercase tracking-wider font-mono">DevCorp Booking Engine</span>
-          <h2 class="text-2xl sm:text-3xl font-bold mt-1">Reserva de Mesa en ${preset.name}</h2>
-          <p class="text-sm text-slate-400 mt-2">Confirmación inmediata y recordatorios automáticos por WhatsApp.</p>
+      <div class="max-w-3xl mx-auto ${isDark ? 'bg-stone-900 border-stone-800 text-stone-100' : 'bg-white border-slate-200 text-slate-900'} rounded-3xl border shadow-sm p-6 sm:p-10">
+        <div class="border-b ${isDark ? 'border-stone-800' : 'border-slate-100'} pb-6 mb-8">
+          <span class="text-xs font-bold uppercase tracking-wider font-mono text-blue-500">Motor de Reservas Directas</span>
+          <h2 class="text-2xl sm:text-3xl font-bold mt-1">Reserva de Mesa · ${preset.name}</h2>
+          <p class="text-sm text-slate-400 mt-2">Sin comisiones por cubierto ni intermediarios. Confirmación inmediata.</p>
         </div>
 
         <form id="reservation-form" class="space-y-6">
           <div class="grid grid-cols-1 sm:grid-cols-2 gap-6">
             <div>
-              <label class="block text-xs font-semibold uppercase mb-2">Fecha de Reserva</label>
-              <input type="date" id="res-date" value="${today}" min="${today}" required class="w-full ${isDarkTheme ? 'bg-stone-950 border-stone-700 text-white' : 'bg-slate-50 border-slate-300 text-slate-900'} border rounded-xl px-3.5 py-2.5 text-sm font-medium focus:outline-none"/>
+              <label class="block text-xs font-semibold uppercase mb-2">Fecha</label>
+              <input type="date" id="res-date" value="${today}" min="${today}" required class="w-full ${isDark ? 'bg-stone-950 border-stone-700 text-white' : 'bg-slate-50 border-slate-300 text-slate-900'} border rounded-xl px-3.5 py-2.5 text-sm focus:outline-none"/>
             </div>
 
             <div>
               <label class="block text-xs font-semibold uppercase mb-2">Turno</label>
-              <select id="res-turn" class="w-full ${isDarkTheme ? 'bg-stone-950 border-stone-700 text-white' : 'bg-slate-50 border-slate-300 text-slate-900'} border rounded-xl px-3.5 py-2.5 text-sm font-medium focus:outline-none">
-                <option value="Comida (13:30h - 14:30h)">🍽️ Comida (13:30h - 14:30h)</option>
-                <option value="Comida (14:30h - 16:00h)">🍽️ Comida (14:30h - 16:00h)</option>
-                <option value="Cena (20:30h - 21:30h)">🌙 Cena (20:30h - 21:30h)</option>
-                <option value="Cena (21:30h - 23:00h)">🌙 Cena (21:30h - 23:00h)</option>
+              <select id="res-turn" class="w-full ${isDark ? 'bg-stone-950 border-stone-700 text-white' : 'bg-slate-50 border-slate-300 text-slate-900'} border rounded-xl px-3.5 py-2.5 text-sm focus:outline-none">
+                <option value="Comida (13:30h - 14:30h)">Comida (13:30h - 14:30h)</option>
+                <option value="Comida (14:30h - 16:00h)">Comida (14:30h - 16:00h)</option>
+                <option value="Cena (20:30h - 21:30h)">Cena (20:30h - 21:30h)</option>
+                <option value="Cena (21:30h - 23:00h)">Cena (21:30h - 23:00h)</option>
               </select>
             </div>
 
             <div>
               <label class="block text-xs font-semibold uppercase mb-2">Comensales</label>
-              <select id="res-guests" class="w-full ${isDarkTheme ? 'bg-stone-950 border-stone-700 text-white' : 'bg-slate-50 border-slate-300 text-slate-900'} border rounded-xl px-3.5 py-2.5 text-sm font-medium focus:outline-none">
+              <select id="res-guests" class="w-full ${isDark ? 'bg-stone-950 border-stone-700 text-white' : 'bg-slate-50 border-slate-300 text-slate-900'} border rounded-xl px-3.5 py-2.5 text-sm focus:outline-none">
                 <option value="2 personas">2 personas</option>
                 <option value="4 personas" selected>4 personas</option>
                 <option value="6 personas">6 personas</option>
                 <option value="8 personas">8 personas</option>
-                <option value="12+ personas">12+ personas</option>
+                <option value="Mesa Grande (10+)">Mesa Grande (10+ personas)</option>
               </select>
             </div>
 
             <div>
-              <label class="block text-xs font-semibold uppercase mb-2">Zona</label>
-              <select id="res-zone" class="w-full ${isDarkTheme ? 'bg-stone-950 border-stone-700 text-white' : 'bg-slate-50 border-slate-300 text-slate-900'} border rounded-xl px-3.5 py-2.5 text-sm font-medium focus:outline-none">
-                <option value="Salón Principal">Salón Principal</option>
+              <label class="block text-xs font-semibold uppercase mb-2">Preferencia de Sala</label>
+              <select id="res-zone" class="w-full ${isDark ? 'bg-stone-950 border-stone-700 text-white' : 'bg-slate-50 border-slate-300 text-slate-900'} border rounded-xl px-3.5 py-2.5 text-sm focus:outline-none">
+                <option value="Comedor Principal">Comedor Principal</option>
                 <option value="Terraza Exterior">Terraza Exterior</option>
                 <option value="Zona Barra">Zona Barra</option>
               </select>
             </div>
           </div>
 
-          <div class="grid grid-cols-1 sm:grid-cols-2 gap-6 pt-4 border-t ${isDarkTheme ? 'border-stone-800' : 'border-slate-100'}">
+          <div class="grid grid-cols-1 sm:grid-cols-2 gap-6 pt-4 border-t ${isDark ? 'border-stone-800' : 'border-slate-100'}">
             <div>
               <label class="block text-xs font-semibold uppercase mb-2">Nombre y Apellidos</label>
-              <input type="text" id="res-name" placeholder="Ej. Juan Pérez" required class="w-full ${isDarkTheme ? 'bg-stone-950 border-stone-700 text-white' : 'bg-slate-50 border-slate-300 text-slate-900'} border rounded-xl px-3.5 py-2.5 text-sm focus:outline-none"/>
+              <input type="text" id="res-name" placeholder="Ej. Javier Martín" required class="w-full ${isDark ? 'bg-stone-950 border-stone-700 text-white' : 'bg-slate-50 border-slate-300 text-slate-900'} border rounded-xl px-3.5 py-2.5 text-sm focus:outline-none"/>
             </div>
 
             <div>
-              <label class="block text-xs font-semibold uppercase mb-2">Teléfono móvil</label>
-              <input type="tel" id="res-phone" placeholder="Ej. 612 34 56 78" required class="w-full ${isDarkTheme ? 'bg-stone-950 border-stone-700 text-white' : 'bg-slate-50 border-slate-300 text-slate-900'} border rounded-xl px-3.5 py-2.5 text-sm focus:outline-none"/>
+              <label class="block text-xs font-semibold uppercase mb-2">Teléfono de Contacto</label>
+              <input type="tel" id="res-phone" placeholder="Ej. 612 34 56 78" required class="w-full ${isDark ? 'bg-stone-950 border-stone-700 text-white' : 'bg-slate-50 border-slate-300 text-slate-900'} border rounded-xl px-3.5 py-2.5 text-sm focus:outline-none"/>
             </div>
           </div>
 
-          <button type="submit" class="w-full btn-devcorp-primary py-3.5 rounded-xl font-bold text-sm shadow-md flex items-center justify-center space-x-2">
+          <button type="submit" class="w-full btn-devcorp-primary py-3.5 rounded-xl font-bold text-sm shadow flex items-center justify-center space-x-2">
             ${ICONS.table}
             <span>Confirmar Reserva</span>
           </button>
@@ -1355,16 +1449,19 @@ class AppController {
           guests: document.getElementById('res-guests').value,
           zone: document.getElementById('res-zone').value
         });
-        alert(`¡Reserva confirmada!\n\nCódigo: ${res.id}\nComensal: ${res.name}\nZona: ${res.zone}`);
+        alert(`Reserva registrada con éxito.\nCódigo: ${res.id}\nComensal: ${res.name}\nZona: ${res.zone}`);
         this.render();
       });
     }
   }
 
+  // =========================================================================
+  // VISTA 5: CALCULADORA DE RENTABILIDAD (ROI)
+  // =========================================================================
   renderRoiView(container, preset) {
     let ordersSlider = 400;
     let ticketSlider = 26;
-    const isDarkTheme = (preset.id === 'parrilla' || preset.id === 'cerveceria');
+    const isDark = (preset.id === 'estilo1' || preset.id === 'estilo2');
 
     const renderCalculation = () => {
       const data = calculateDeliverySavings(ordersSlider, ticketSlider, 0.30);
@@ -1373,54 +1470,45 @@ class AppController {
 
       resContainer.innerHTML = `
         <div class="grid grid-cols-1 md:grid-cols-2 gap-6 items-stretch">
-          <div class="bg-red-950/40 border-2 border-red-500/60 rounded-3xl p-6 sm:p-8 flex flex-col justify-between text-stone-100">
+          <div class="bg-red-950/30 border border-red-500/50 rounded-3xl p-6 sm:p-8 flex flex-col justify-between text-stone-100">
             <div>
-              <span class="inline-flex items-center space-x-1.5 bg-red-900/80 text-red-200 text-xs font-black px-2.5 py-1 rounded-md uppercase">
-                Glovo / UberEats (30% Comisión)
+              <span class="inline-block bg-red-900 text-red-200 text-xs font-bold px-2.5 py-1 rounded uppercase">
+                Plataformas de Agregación (30% Comisión)
               </span>
-              <h3 class="text-xl font-bold text-red-200 mt-4">Comisiones que sangran tu margen</h3>
-              <div class="mt-8 space-y-4 text-xs text-stone-300">
-                <div class="flex justify-between pb-2 border-b border-red-900">
-                  <span>Facturación delivery al mes:</span>
+              <h3 class="text-xl font-bold text-red-200 mt-4">Comisión acumulada anual</h3>
+              <div class="mt-6 space-y-3 text-xs text-stone-300">
+                <div class="flex justify-between pb-2 border-b border-red-900/60">
+                  <span>Facturación delivery mensual:</span>
                   <span class="font-mono font-bold">${formatCurrency(data.monthlyRevenue)}</span>
                 </div>
-                <div class="flex justify-between pb-2 border-b border-red-900 font-bold">
-                  <span>Comisión retenida al mes:</span>
-                  <span class="font-mono text-red-400 text-sm">-${formatCurrency(data.platformMonthlyCommission)}</span>
+                <div class="flex justify-between pb-2 border-b border-red-900/60 font-semibold">
+                  <span>Comisión retenida cada mes:</span>
+                  <span class="font-mono text-red-400">-${formatCurrency(data.platformMonthlyCommission)}</span>
                 </div>
-                <div class="bg-red-900/60 p-4 rounded-xl text-center border border-red-700">
-                  <span class="text-xs font-semibold text-red-200 uppercase block">Pérdida Neta al Año:</span>
-                  <span class="text-3xl sm:text-4xl font-black text-red-100 font-mono mt-1 block">-${formatCurrency(data.platformAnnualCommission)}</span>
+                <div class="bg-red-900/40 p-4 rounded-xl text-center border border-red-800 mt-4">
+                  <span class="text-xs text-red-200 uppercase block font-semibold">Comisión Total en 12 Meses:</span>
+                  <span class="text-3xl font-black text-red-100 font-mono mt-1 block">-${formatCurrency(data.platformAnnualCommission)}</span>
                 </div>
               </div>
             </div>
           </div>
 
-          <div class="bg-emerald-950/40 border-2 border-emerald-500 rounded-3xl p-6 sm:p-8 flex flex-col justify-between shadow-md text-stone-100">
+          <div class="bg-emerald-950/30 border border-emerald-500/50 rounded-3xl p-6 sm:p-8 flex flex-col justify-between text-stone-100">
             <div>
-              <span class="inline-flex items-center space-x-1.5 bg-emerald-600 text-white text-xs font-black px-2.5 py-1 rounded-md uppercase">
-                DevCorp Solutions (0% Comisión)
+              <span class="inline-block bg-emerald-800 text-emerald-100 text-xs font-bold px-2.5 py-1 rounded uppercase">
+                Canal Propio Directo (0% Comisión)
               </span>
-              <h3 class="text-xl font-bold text-emerald-300 mt-4">El 100% de la venta es para tu caja</h3>
-              <div class="mt-8 space-y-4 text-xs text-stone-300">
-                <div class="flex justify-between pb-2 border-b border-emerald-900">
+              <h3 class="text-xl font-bold text-emerald-300 mt-4">El 100% de la venta para el restaurante</h3>
+              <div class="mt-6 space-y-3 text-xs text-stone-300">
+                <div class="flex justify-between pb-2 border-b border-emerald-900/60">
                   <span>Comisión por pedido:</span>
-                  <span class="font-mono font-black text-emerald-400">0,00 € (0%)</span>
+                  <span class="font-mono font-bold text-emerald-400">0,00 € (0%)</span>
                 </div>
-                <div class="bg-emerald-600 text-white p-4 rounded-xl text-center shadow-md">
-                  <span class="text-xs font-semibold uppercase text-emerald-100 block">Ahorro Neto Anual:</span>
-                  <span class="text-3xl sm:text-4xl font-black font-mono mt-1 block">+${formatCurrency(data.annualSavings)}</span>
+                <div class="bg-emerald-900/40 p-4 rounded-xl text-center border border-emerald-700 mt-4">
+                  <span class="text-xs uppercase text-emerald-200 block font-semibold">Ahorro Anual que Conserva el Negocio:</span>
+                  <span class="text-3xl font-black text-emerald-300 font-mono mt-1 block">+${formatCurrency(data.annualSavings)}</span>
                 </div>
               </div>
-            </div>
-
-            <div class="mt-8">
-              <a href="https://wa.me/34695590754?text=Hola%2C%20he%20calculado%20un%20ahorro%20de%20${encodeURIComponent(formatCurrency(data.annualSavings))}%20con%20vuestra%20demo%20y%20quiero%20propuesta." 
-                 target="_blank"
-                 class="w-full btn-devcorp-primary py-3.5 rounded-xl font-bold text-xs sm:text-sm tracking-wide shadow-md flex items-center justify-center space-x-2">
-                ${ICONS.whatsapp}
-                <span>Pedir Auditoría Gratuita en 48 Horas</span>
-              </a>
             </div>
           </div>
         </div>
@@ -1428,27 +1516,28 @@ class AppController {
     };
 
     container.innerHTML = `
-      <div class="max-w-5xl mx-auto space-y-8 ${isDarkTheme ? 'text-stone-100' : 'text-slate-900'}">
+      <div class="max-w-5xl mx-auto space-y-8 ${isDark ? 'text-stone-100' : 'text-slate-900'}">
         <div class="text-center max-w-2xl mx-auto">
-          <span class="text-xs font-bold text-blue-500 uppercase tracking-wider font-mono">Calculadora de Rentabilidad Real</span>
-          <h2 class="text-2xl sm:text-4xl font-extrabold mt-1">¿Cuánto dinero estás perdiendo en comisiones?</h2>
+          <span class="text-xs font-bold uppercase tracking-wider font-mono text-blue-500">Rentabilidad y Márgenes</span>
+          <h2 class="text-2xl sm:text-4xl font-extrabold mt-1">Comparativa de Comisiones de Delivery</h2>
+          <p class="text-xs sm:text-sm text-slate-400 mt-2">Calcula cuánto dinero ahorra un restaurante al operar su propio canal directo sin comisiones por pedido.</p>
         </div>
 
-        <div class="${isDarkTheme ? 'bg-stone-900 border-stone-800' : 'bg-white border-slate-200'} p-6 sm:p-8 rounded-3xl border shadow-sm grid grid-cols-1 md:grid-cols-2 gap-8">
+        <div class="${isDark ? 'bg-stone-900 border-stone-800' : 'bg-white border-slate-200'} p-6 sm:p-8 rounded-3xl border shadow-sm grid grid-cols-1 md:grid-cols-2 gap-8">
           <div>
             <div class="flex justify-between items-center mb-2">
-              <label class="text-xs font-bold uppercase">Pedidos mensuales delivery/take away:</label>
-              <span id="orders-val" class="font-mono font-black text-blue-500 text-base">400 pedidos</span>
+              <label class="text-xs font-bold uppercase">Pedidos mensuales (Delivery / Takeaway):</label>
+              <span id="orders-val" class="font-mono font-bold text-blue-500 text-base">400 pedidos</span>
             </div>
             <input type="range" id="orders-slider" min="50" max="1500" step="25" value="400" class="w-full h-2 bg-slate-700 rounded-lg cursor-pointer"/>
           </div>
 
           <div>
             <div class="flex justify-between items-center mb-2">
-              <label class="text-xs font-bold uppercase">Ticket medio por comanda:</label>
-              <span id="ticket-val" class="font-mono font-black text-blue-500 text-base">26,00 €</span>
+              <label class="text-xs font-bold uppercase">Ticket medio por pedido:</label>
+              <span id="ticket-val" class="font-mono font-bold text-blue-500 text-base">26,00 €</span>
             </div>
-            <input type="range" id="ticket-slider" min="12" max="60" step="1" value="26" class="w-full h-2 bg-slate-700 rounded-lg cursor-pointer"/>
+            <input type="range" id="ticket-slider" min="12" max="75" step="1" value="26" class="w-full h-2 bg-slate-700 rounded-lg cursor-pointer"/>
           </div>
         </div>
 
@@ -1456,23 +1545,29 @@ class AppController {
       </div>
     `;
 
-    document.getElementById('orders-slider').addEventListener('input', (e) => {
-      ordersSlider = parseInt(e.target.value, 10);
-      document.getElementById('orders-val').textContent = `${ordersSlider} pedidos`;
-      renderCalculation();
-    });
-
-    document.getElementById('ticket-slider').addEventListener('input', (e) => {
-      ticketSlider = parseInt(e.target.value, 10);
-      document.getElementById('ticket-val').textContent = `${ticketSlider},00 €`;
-      renderCalculation();
-    });
-
     renderCalculation();
+
+    const oSlider = document.getElementById('orders-slider');
+    const tSlider = document.getElementById('ticket-slider');
+    const oVal = document.getElementById('orders-val');
+    const tVal = document.getElementById('ticket-val');
+
+    if (oSlider && tSlider) {
+      oSlider.addEventListener('input', (e) => {
+        ordersSlider = parseInt(e.target.value);
+        oVal.innerText = `${ordersSlider} pedidos`;
+        renderCalculation();
+      });
+      tSlider.addEventListener('input', (e) => {
+        ticketSlider = parseInt(e.target.value);
+        tVal.innerText = `${ticketSlider},00 €`;
+        renderCalculation();
+      });
+    }
   }
 
   // =========================================================================
-  // CARRITO Y CHECKOUT
+  // MODALES: CARRITO, CHECKOUT Y RESEÑAS
   // =========================================================================
   renderCartDrawer(isOpen = true) {
     const container = document.getElementById('cart-drawer-container');
@@ -1498,8 +1593,9 @@ class AppController {
         <div class="p-5 flex-1 overflow-y-auto space-y-4">
           ${cart.length === 0 ? `
             <div class="h-64 flex flex-col items-center justify-center text-slate-400 text-xs text-center">
-              <span class="text-3xl mb-2">🛒</span>
-              <p class="font-bold text-slate-600 text-sm">Tu carrito está vacío</p>
+              <span class="text-3xl mb-2">🍽️</span>
+              <p class="font-bold text-slate-600 text-sm">La comanda está vacía</p>
+              <p class="text-slate-400 mt-1">Selecciona cualquier plato de la carta para probar el pedido.</p>
             </div>
           ` : cart.map((item, idx) => `
             <div class="flex items-start justify-between pb-3 border-b border-slate-100 text-xs">
@@ -1511,7 +1607,7 @@ class AppController {
                 <button data-cart-minus="${idx}" class="w-6 h-6 rounded bg-slate-100 hover:bg-slate-200 font-bold text-slate-700 flex items-center justify-center">-</button>
                 <span class="font-black text-slate-900 w-4 text-center font-mono">${item.qty}</span>
                 <button data-cart-plus="${idx}" class="w-6 h-6 rounded bg-slate-100 hover:bg-slate-200 font-bold text-slate-700 flex items-center justify-center">+</button>
-                <button data-cart-remove="${idx}" class="text-red-500 hover:text-red-700 ml-2">🗑️</button>
+                <button data-cart-remove="${idx}" class="text-red-500 hover:text-red-700 ml-2">✕</button>
               </div>
             </div>
           `).join('')}
@@ -1522,7 +1618,7 @@ class AppController {
             <span>Total:</span>
             <span class="font-mono text-xl">${formatCurrency(total)}</span>
           </div>
-          <button id="open-checkout-modal-btn" ${cart.length === 0 ? 'disabled' : ''} class="w-full btn-devcorp-primary py-3.5 rounded-xl font-bold text-xs sm:text-sm tracking-wide shadow-md flex items-center justify-center space-x-2 disabled:opacity-50">
+          <button id="open-checkout-modal-btn" ${cart.length === 0 ? 'disabled' : ''} class="w-full btn-devcorp-primary py-3.5 rounded-xl font-bold text-xs sm:text-sm tracking-wide shadow flex items-center justify-center space-x-2 disabled:opacity-50">
             <span>Tramitar Pedido</span>
             ${ICONS.arrow}
           </button>
@@ -1541,7 +1637,7 @@ class AppController {
       <div class="fixed inset-0 bg-slate-950/70 z-50 flex items-center justify-center p-3 sm:p-4">
         <div class="bg-white rounded-3xl max-w-lg w-full max-h-[90vh] flex flex-col overflow-hidden shadow-2xl border border-slate-200 text-slate-900">
           <div class="p-5 sm:p-6 border-b border-slate-100 flex justify-between items-center bg-slate-50 flex-shrink-0">
-            <h3 class="text-base font-bold">Tramitar Comanda en ${preset.name}</h3>
+            <h3 class="text-base font-bold">Tramitar Comanda · ${preset.name}</h3>
             <button id="close-checkout-modal" class="text-slate-400 hover:text-slate-700">✕</button>
           </div>
 
@@ -1568,70 +1664,56 @@ class AppController {
             </div>
 
             <div>
-              <label class="block font-semibold text-slate-700 uppercase mb-1">Mesa o Dirección</label>
-              <input type="text" id="order-table" value="Mesa 4 (Terraza)" class="w-full bg-slate-50 border border-slate-300 rounded-xl p-2.5 text-slate-900 font-medium"/>
+              <label class="block font-semibold text-slate-700 uppercase mb-1">Número de Mesa o Ubicación</label>
+              <input type="text" id="order-table" value="Mesa 4" required class="w-full bg-slate-50 border border-slate-300 rounded-xl px-3 py-2 text-xs focus:outline-none"/>
             </div>
 
-            <div class="grid grid-cols-2 gap-4">
-              <div>
-                <label class="block font-semibold text-slate-700 uppercase mb-1">Nombre</label>
-                <input type="text" id="order-name" value="Demo Cliente" required class="w-full bg-slate-50 border border-slate-300 rounded-xl p-2.5 text-slate-900 font-medium"/>
+            <div>
+              <label class="block font-semibold text-slate-700 uppercase mb-1">Nombre</label>
+              <input type="text" id="order-name" placeholder="Ej. Carlos M." required class="w-full bg-slate-50 border border-slate-300 rounded-xl px-3 py-2 text-xs focus:outline-none"/>
+            </div>
+
+            <div class="p-4 bg-slate-50 rounded-xl border border-slate-100 space-y-2">
+              <span class="font-bold text-slate-700 block">Resumen de Comanda:</span>
+              ${cart.map(i => `
+                <div class="flex justify-between text-slate-600 text-[11px]">
+                  <span>${i.qty}x ${i.name}</span>
+                  <span class="font-mono">${formatCurrency(i.price * i.qty)}</span>
+                </div>
+              `).join('')}
+              <div class="pt-2 border-t border-slate-200 flex justify-between font-bold text-slate-900 text-xs">
+                <span>Total a Pagar:</span>
+                <span class="font-mono text-sm">${formatCurrency(total)}</span>
               </div>
-              <div>
-                <label class="block font-semibold text-slate-700 uppercase mb-1">Teléfono</label>
-                <input type="tel" id="order-phone" value="695590754" required class="w-full bg-slate-50 border border-slate-300 rounded-xl p-2.5 text-slate-900 font-medium"/>
-              </div>
             </div>
 
-            <div class="space-y-2 pt-2">
-              <button type="submit" class="w-full btn-devcorp-primary py-3 rounded-xl font-bold text-xs tracking-wide shadow-md flex items-center justify-center space-x-2">
-                ${ICONS.chef}
-                <span>Enviar a Cocina (KDS)</span>
-              </button>
-
-              <button type="button" id="send-whatsapp-order-btn" class="w-full bg-emerald-600 hover:bg-emerald-700 text-white py-2.5 rounded-xl font-bold text-xs tracking-wide shadow transition-colors flex items-center justify-center space-x-2">
-                ${ICONS.whatsapp}
-                <span>Enviar por WhatsApp Real</span>
-              </button>
-            </div>
+            <button type="submit" class="w-full btn-devcorp-primary py-3.5 rounded-xl font-bold text-xs tracking-wide shadow">
+              Confirmar Comanda y Enviar a Cocina
+            </button>
           </form>
         </div>
       </div>
     `;
 
     const form = document.getElementById('checkout-form');
-    form.addEventListener('submit', (e) => {
-      e.preventDefault();
-      const type = form.querySelector('input[name="order-type"]:checked').value;
-      const order = store.createOrder({
-        type: type,
-        tableNumber: document.getElementById('order-table').value,
-        customerName: document.getElementById('order-name').value,
-        customerPhone: document.getElementById('order-phone').value
+    if (form) {
+      form.addEventListener('submit', (e) => {
+        e.preventDefault();
+        const type = document.querySelector('input[name="order-type"]:checked').value;
+        const location = document.getElementById('order-table').value;
+        const customer = document.getElementById('order-name').value;
+
+        store.createOrder({
+          type: type,
+          tableNumber: location,
+          customerName: customer
+        });
+
+        container.innerHTML = '';
+        this.showToast('Comanda enviada a la pantalla de cocina');
+        store.setView('kds');
       });
-
-      container.innerHTML = '';
-      alert(`¡Comanda enviada a cocina!\n\nCódigo: ${order.id}\nTotal: ${formatCurrency(order.total)}`);
-      store.setView('kds');
-    });
-
-    document.getElementById('send-whatsapp-order-btn').addEventListener('click', () => {
-      const type = form.querySelector('input[name="order-type"]:checked').value;
-      const location = document.getElementById('order-table').value;
-      const customer = document.getElementById('order-name').value;
-      const itemsText = cart.map(i => `• ${i.qty}x ${i.name} (${formatCurrency(i.price * i.qty)})`).join('\n');
-      
-      const message = `👋 *NUEVA COMANDA - ${preset.name}*\n\n📍 *Ubicación:* ${location}\n👤 *Cliente:* ${customer}\n🛵 *Modalidad:* ${type.toUpperCase()}\n\n📋 *PEDIDO:*\n${itemsText}\n\n💰 *TOTAL:* ${formatCurrency(total)}\n\n_Generado automáticamente mediante DevCorp Solutions_`;
-
-      window.open(`https://wa.me/${preset.whatsapp}?text=${encodeURIComponent(message)}`, '_blank');
-      store.createOrder({
-        type: type,
-        tableNumber: location + " (WhatsApp)",
-        customerName: customer
-      });
-      container.innerHTML = '';
-      store.setView('kds');
-    });
+    }
   }
 
   renderSmartReviewModal(preset) {
@@ -1648,65 +1730,22 @@ class AppController {
           </div>
 
           <div class="p-5 sm:p-6 text-center" id="review-step-1">
-            <div class="w-12 h-12 bg-amber-50 rounded-2xl flex items-center justify-center mx-auto mb-3 text-2xl">⭐</div>
-            <h4 class="text-lg font-bold">¿Cómo ha sido tu experiencia hoy?</h4>
+            <h4 class="text-base font-bold">¿Cómo calificarías tu experiencia hoy?</h4>
             <div class="flex justify-center items-center space-x-3 my-6">
               ${[1, 2, 3, 4, 5].map(stars => `
-                <button data-rate-stars="${stars}" class="rate-star-btn w-11 h-11 rounded-2xl border-2 border-slate-200 hover:border-amber-400 hover:bg-amber-50 flex flex-col items-center justify-center transition-all hover:scale-110">
-                  <span class="text-amber-400 text-lg">★</span>
+                <button data-rate-stars="${stars}" class="rate-star-btn w-10 h-10 rounded-xl border border-slate-200 hover:border-amber-400 hover:bg-amber-50 flex flex-col items-center justify-center transition-all">
+                  <span class="text-amber-400 text-base">★</span>
                   <span class="text-[10px] font-bold text-slate-700">${stars}</span>
                 </button>
               `).join('')}
             </div>
-          </div>
-
-          <div class="p-6 text-center hidden" id="review-step-positive">
-            <div class="w-14 h-14 bg-emerald-100 rounded-full flex items-center justify-center mx-auto mb-3 text-3xl">🎉</div>
-            <h4 class="text-lg font-bold">¡Nos alegra mucho que te haya gustado!</h4>
-            <p class="text-xs text-slate-600 mt-2">¿Nos dedicas 10 segundos para publicar tu 5 estrellas en Google Maps?</p>
-            <a href="${preset.googleMapsUrl}" target="_blank" class="mt-6 w-full bg-blue-600 hover:bg-blue-700 text-white font-bold py-3.5 rounded-xl text-xs flex items-center justify-center space-x-2">
-              ${ICONS.google}
-              <span>Publicar en Google Maps</span>
-            </a>
-          </div>
-
-          <div class="p-6 text-center hidden" id="review-step-negative">
-            <div class="w-14 h-14 bg-amber-100 rounded-full flex items-center justify-center mx-auto mb-3 text-3xl">🤝</div>
-            <h4 class="text-lg font-bold">Queremos corregirlo de inmediato</h4>
-            <p class="text-xs text-slate-600 mt-2">Escribe directamente al gerente de ${preset.name} por WhatsApp para solucionarlo en el acto:</p>
-            <a href="https://wa.me/${preset.whatsapp}?text=Hola%2C%20quer%C3%ADa%20comentar%20un%20detalle%20de%20mi%20servicio%3A" target="_blank" class="mt-5 w-full bg-emerald-600 hover:bg-emerald-700 text-white font-bold py-3.5 rounded-xl text-xs flex items-center justify-center space-x-2">
-              ${ICONS.whatsapp}
-              <span>Hablar con el Gerente en Privado</span>
-            </a>
+            <p class="text-xs text-slate-400">Tu valoración ayuda a nuestro equipo de cocina y sala.</p>
           </div>
         </div>
       </div>
     `;
-
-    container.querySelectorAll('.rate-star-btn').forEach(btn => {
-      btn.addEventListener('click', () => {
-        const stars = parseInt(btn.getAttribute('data-rate-stars'), 10);
-        document.getElementById('review-step-1').classList.add('hidden');
-        if (stars >= 4) {
-          document.getElementById('review-step-positive').classList.remove('hidden');
-        } else {
-          document.getElementById('review-step-negative').classList.remove('hidden');
-        }
-      });
-    });
-  }
-
-  showToast(message) {
-    const toast = document.createElement('div');
-    toast.className = 'fixed bottom-6 right-6 bg-slate-900 text-white text-xs font-semibold px-4 py-2.5 rounded-xl shadow-2xl z-50 flex items-center space-x-2 border border-slate-700 animate-bounce';
-    toast.innerHTML = `<span>✓</span><span>${message}</span>`;
-    document.body.appendChild(toast);
-    setTimeout(() => {
-      toast.remove();
-    }, 2400);
   }
 }
 
-document.addEventListener('DOMContentLoaded', () => {
-  new AppController();
-});
+// Inicialización de la Aplicación
+new AppController();

@@ -1,655 +1,628 @@
 /**
- * Presets de Negocios de Hostelería para Aluche, Lucero y Carabanchel
- * Con identidades visuales únicas, estructuras personalizadas,
- * secciones "Sobre Nosotros", Especialidades de autor y reseñas de Google Maps.
+ * DevCorp Solutions - Ecosistema de Plantillas Web de Hostelería
+ * 4 Estilos y Arquitecturas de Diseño 100% Diferenciados
+ * Estilo 1: Editorial & Alta Cocina (Fine Dining)
+ * Estilo 2: App Interactiva & Bento Grid (Gastrobar Contemporáneo)
+ * Estilo 3: Carta Clásica Bistró con Líderes Punteados (Tradicional / Asador)
+ * Estilo 4: Showcase Visual & Minimalismo Nórdico (Brunch & Obrador)
  */
 
 export const RESTAURANT_PRESETS = {
   // =========================================================================
-  // 1. ASADOR & PARRILLA VUKATA (ALUCHE) - ESTILO BUTCHER STEAKHOUSE
+  // ESTILO 1: EDITORIAL & ALTA COCINA (FINE DINING / REVISTA GASTRONÓMICA)
   // =========================================================================
-  parrilla: {
-    id: "parrilla",
-    layoutType: "steakhouse",
-    themeClass: "theme-asador",
-    name: "Restaurante Parrilla Vukata",
-    tagline: "Maestros Asadores al Carbón de Encina & Carnes Maduradas",
-    neighborhood: "Aluche (Madrid)",
-    address: "Calle de Maqueda, 138, Aluche, Madrid",
-    phone: "+34 917 19 82 45",
+  estilo1: {
+    id: "estilo1",
+    styleName: "Estilo 1",
+    styleSubtitle: "Editorial & Alta Cocina",
+    layoutType: "editorial",
+    themeClass: "theme-estilo-1",
+    name: "Restaurante Raíces & Brasas",
+    chefName: "Javier Montero",
+    chefTitle: "Jefe de Cocina",
+    tagline: "Cocina de producto, memoria castellana y brasa de encina",
+    address: "Calle de Maqueda, 138 · Aluche, Madrid",
+    phone: "917 19 82 45",
     whatsapp: "34695590754",
-    googleMapsUrl: "https://www.google.com/maps/search/?api=1&query=Restaurante+Parrilla+Vukata+C.+de+Maqueda%2C+138+Madrid",
-    type: "Asador Castellano & Carnicería Selecta",
-    rating: 4.8,
-    totalReviews: 348,
-    bannerImg: "https://images.unsplash.com/photo-1544025162-d76694265947?auto=format&fit=crop&w=1400&q=80",
-    chefName: "Maestro Parrillero Goran Vukata",
-    foundationYear: "1998",
-    description: "Cuna del buen comer en Aluche. Carnes de pasto maduradas en cámara propia y asadas al fuego vivo con carbón vegetal de encina.",
+    googleMapsUrl: "https://maps.google.com/?q=Restaurante+Madrid",
+    type: "Restaurante Gastronómico & Brasa",
+    rating: 4.9,
+    totalReviews: 412,
+    serviceHours: "Comidas: 13:30 a 16:00 · Cenas: 20:30 a 23:30 (Cerrado lunes)",
+    bannerImg: "https://images.unsplash.com/photo-1544025162-d76694265947?auto=format&fit=crop&w=1600&q=80",
     
-    // Sección Sobre Nosotros y Especialidades
     aboutUs: {
-      headline: "28 Años de Pasión por el Fuego y la Tradición Castellana",
-      story: "Fundado en 1998 en la calle Maqueda, Parrilla Vukata nació con una premisa innegociable: respetar el producto al máximo. Lo que empezó como un pequeño asador de barrio se ha convertido en el templo de la carne de referencia en el suroeste de Madrid. Cada mañana seleccionamos personalmente los mejores lomos de vaca rubia gallega y ternera de la Sierra de Guadarrama en Mercamadrid, dejándolos reposar en nuestra cámara acristalada a la vista de los comensales.",
+      headline: "Respeto por el origen, paciencia en el fuego y devoción por la materia prima",
+      story: "En Raíces entendemos la cocina como un ejercicio de honestidad. Cada mañana seleccionamos cortes de vaca vieja en Mercamadrid con maduraciones superiores a 45 días, verduras de temporada recolectadas en huertas de Aranjuez y panes de masa madre horneados al alba. No disfrazamos el producto; dejamos que el carbón de encina y el tiempo hagan su trabajo.",
+      quote: "La alta cocina de barrio no necesita artificios: solo el mejor producto del mercado y el punto exacto de calor.",
+      quoteAuthor: "Javier Montero, Jefe de Cocina",
       pillars: [
         {
-          icon: "🥩",
-          title: "Cámara Dry-Aged Propia",
-          desc: "Maduración en seco entre 45 y 60 días para concentrar sabor, ternura y jugosidad extrema."
+          num: "01",
+          title: "Maduración Dry-Aged",
+          desc: "Cámara propia a la vista del comensal con control estricto de humedad y temperatura constante durante 45 a 60 días."
         },
         {
-          icon: "🔥",
-          title: "Carbón de Encina Extremeño",
-          desc: "Brasas a 350ºC constante que sellan la carne por fuera dejando el interior sedoso y caliente."
+          num: "02",
+          title: "Fuego de Encina",
+          desc: "Parrilla vasca con sistema de poleas y carbón vegetal de dehesa extremeña, aportando un aroma limpio sin enmascarar sabores."
         },
         {
-          icon: "🍷",
-          title: "Bodega de Roble Subterránea",
-          desc: "Más de 40 referencias de D.O. Ribera, Rioja y vinos de Madrid guardados a 14ºC de temperatura constante."
+          num: "03",
+          title: "Bodega Seleccionada",
+          desc: "Más de 50 referencias de pequeños viticultores de la D.O. Vinos de Madrid, Ribera del Duero y Ribeira Sacra."
         }
       ],
       specialtyHighlight: {
-        title: "El Secreto del Chuletón Vukata",
-        subtitle: "De la dehesa al plato en 3 reglas sagradas",
-        text: "La carne nunca toca la plancha fría. Se atempera durante 3 horas antes del servicio, se marca sobre parrilla inclinada para drenar el exceso de grasa y se sirve sobre plato refractario caliente a 90ºC con sal marina de escamas de Añana.",
-        badge: "Corte de Autor"
+        title: "Chuletón de Vaca Vieja Madurada",
+        badge: "Pieza de Autor",
+        weight: "1.000 g aprox.",
+        aging: "48 días maduración en seco",
+        pairing: "Maridaje sugerido: Tinto Fino D.O. Ribera del Duero Crianza",
+        text: "Lomo alto seleccionado con infiltración grasa equilibrada. Se atempera antes del servicio y se asa a la brasa directa, sirviéndose trinchado con sal de escamas de Añana."
       }
     },
 
-    categories: ["Carnes a la Brasa", "Entrantes & Raciones", "Guisos & Cuchara", "Postres Caseros", "Bodega & Bebidas"],
-    
-    googleReviews: [
-      {
-        id: "rev-v1",
-        author: "Manuel Gómez",
-        avatar: "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?auto=format&fit=crop&w=120&q=80",
-        badge: "Local Guide · 42 reseñas",
-        rating: 5,
-        timeAgo: "Hace 4 días",
-        comment: "El mejor chuletón de todo Aluche sin ninguna duda. La carne con el punto perfecto y el torrezno súper crujiente. Además el servicio fue rapidísimo pidiendo desde la mesa con el QR.",
-        ownerResponse: "¡Muchísimas gracias Manuel! Seleccionamos cada pieza en Mercamadrid semanalmente. Te esperamos pronto de vuelta."
-      },
-      {
-        id: "rev-v2",
-        author: "Beatriz S.",
-        avatar: "https://images.unsplash.com/photo-1494790108377-be9c29b29330?auto=format&fit=crop&w=120&q=80",
-        badge: "Local Guide · 18 reseñas",
-        rating: 5,
-        timeAgo: "Hace 2 semanas",
-        comment: "Fuimos a cenar en familia 6 personas. Reservamos online antes de ir y la mesa estaba lista con trona para el niño. Las croquetas de cecina y la tarta de queso al horno son obligatorias.",
-        ownerResponse: null
-      },
-      {
-        id: "rev-v3",
-        author: "Javier M. del Pozo",
-        avatar: "https://images.unsplash.com/photo-1500648767791-00dcc994a43e?auto=format&fit=crop&w=120&q=80",
-        badge: "Cliente verificado",
-        rating: 5,
-        timeAgo: "Hace 3 semanas",
-        comment: "Trato de 10 por parte de los camareros. Pedimos para recoger porque vivimos en Maqueda y estaba empaquetado impecable, caliente y con 0 comisiones de intermediarios.",
-        ownerResponse: "¡Gracias Javier! Nos alegra que el servicio para llevar funcione tan bien. Un abrazo."
-      }
-    ],
+    categories: ["Primeros Pases", "Cortes a la Brasa", "Guisos Lentos", "Postres de Obrador", "Bodega de Sala"],
 
     menu: [
       {
-        id: "p1",
-        category: "Carnes a la Brasa",
-        name: "Chuletón de Vaca Vieja Madurada (1kg)",
-        price: 38.50,
-        description: "Corte madurado 45 días en nuestra cámara. Servido trinchado con patatas panaderas y escamas de sal.",
-        weight: "1.000g aprox.",
-        aging: "45 días Dry-Aged",
-        pairing: "Ribera del Duero Crianza",
-        allergens: [],
-        badge: "Plato Estrella",
-        popular: true,
-        image: "https://images.unsplash.com/photo-1558030006-450675393462?auto=format&fit=crop&w=600&q=80"
+        id: "e1_1",
+        course: "Plato Fuerte",
+        number: "01",
+        name: "Chuletón de Vaca Vieja (1.000g)",
+        category: "Cortes a la Brasa",
+        price: 39.50,
+        badge: "Especialidad de la Casa",
+        description: "Pieza de lomo alto madurada 48 días en cámara propia. Asada al carbón de encina, servida con patatas panaderas y pimientos de Guernica confitados.",
+        details: "Maduración: 48 días Dry-Aged · Origen: Sierra de Guadarrama",
+        pairing: "Tinto Crianza 2021",
+        allergens: []
       },
       {
-        id: "p2",
-        category: "Carnes a la Brasa",
-        name: "Entrecot de Ternera de Guadarrama",
-        price: 21.00,
-        description: "350g de carne tierna de pasto serrano con pimientos de padrón salteados y sal gorda.",
-        weight: "350g",
-        aging: "21 días",
-        pairing: "Tinto de Madrid Roble",
-        allergens: [],
-        badge: "Sierra de Madrid",
-        popular: true,
-        image: "https://images.unsplash.com/photo-1546964124-0cce460f38ef?auto=format&fit=crop&w=600&q=80"
-      },
-      {
-        id: "p3",
-        category: "Carnes a la Brasa",
-        name: "Costillar de Cerdo a la Miel de Romero",
-        price: 16.80,
-        description: "8 horas a fuego indirecto y toque de soplete con glaseado de miel silvestre y mostaza antigua.",
-        weight: "650g",
-        aging: "Marinado 24h",
-        pairing: "Cerveza Tostada",
-        allergens: ["mostaza"],
-        badge: "Más Solicitado",
-        popular: true,
-        image: "https://images.unsplash.com/photo-1544025162-d76694265947?auto=format&fit=crop&w=600&q=80"
-      },
-      {
-        id: "p4",
-        category: "Entrantes & Raciones",
-        name: "Torreznos Crujientes de Soria",
+        id: "e1_2",
+        course: "Primer Pase",
+        number: "02",
+        name: "Torreznos Crujientes con Patata Revolcona",
+        category: "Primeros Pases",
         price: 11.50,
-        description: "Corte grueso con corteza hiper crujiente y magro jugoso, servidos sobre patatas revolconas al pimentón.",
-        weight: "4 tiras gruesas",
-        aging: "Oreado 48h",
-        pairing: "Caña helada",
-        allergens: [],
-        badge: "Crujiente 100%",
-        popular: true,
-        image: "https://images.unsplash.com/photo-1541592106381-b31e9677c0e5?auto=format&fit=crop&w=600&q=80"
+        badge: "Tradición",
+        description: "Panceta curada de Soria frita a fuego lento con souflado final crujiente, sobre cama de patata machacada con pimentón de La Vera y virutas de jamón.",
+        details: "Elaboración artesanal al momento",
+        pairing: "Vino Blanco Malvar de Madrid",
+        allergens: []
       },
       {
-        id: "p5",
-        category: "Entrantes & Raciones",
-        name: "Croquetas Cremosas de Cecina y Boletus (6 uds)",
+        id: "e1_3",
+        course: "Plato Fuerte",
+        number: "03",
+        name: "Entrecot de Ternera de Guadarrama (400g)",
+        category: "Cortes a la Brasa",
+        price: 22.00,
+        badge: "Corte Noble",
+        description: "Corte limpio de lomo bajo con grasa infiltrada natural. Marcado a fuego vivo y acompañado de salteado de setas de cardo silvestres.",
+        details: "D.O. Sierra de Guadarrama",
+        pairing: "Garnacha de Gredos",
+        allergens: []
+      },
+      {
+        id: "e1_4",
+        course: "Primer Pase",
+        number: "04",
+        name: "Croquetas Cremosas de Cecina y Vaca (6 uds)",
+        category: "Primeros Pases",
         price: 10.50,
-        description: "Bechamel reposada 12 horas con leche fresca entera de granja y rebozado panko dorado.",
-        weight: "6 unidades",
-        aging: "Fórmula Casera",
-        pairing: "Vino Blanco Verdejo",
-        allergens: ["gluten", "lactosa", "huevo"],
-        badge: "Elaboración Diaria",
-        popular: true,
-        image: "https://images.unsplash.com/photo-1563379091339-03b21ab4a4f8?auto=format&fit=crop&w=600&q=80"
+        badge: "Recomendación",
+        description: "Bechamel reposada 24 horas con leche fresca entera de granja, cecina de vaca curada al humo de roble y rebozado panko ultrafino.",
+        details: "Textura fluida elaborada a diario",
+        pairing: "Cava Brut Nature Reserva",
+        allergens: ["lactosa", "gluten"]
       },
       {
-        id: "p6",
-        category: "Postres Caseros",
-        name: "Tarta de Queso Fluida al Horno",
+        id: "e1_5",
+        course: "Guiso Lento",
+        number: "05",
+        name: "Rabo de Toro Estofado al Vino Tinto de Madrid",
+        category: "Guisos Lentos",
+        price: 19.00,
+        badge: "Cocina de Memoria",
+        description: "Cocción lenta a fuego mínimo durante 7 horas hasta deshacerse con cuchara, con reducción melosa de sus propios jugos y puré fino de boniato.",
+        details: "Cocción tradicional 7 horas",
+        pairing: "Tinto Roble Madrid D.O.",
+        allergens: []
+      },
+      {
+        id: "e1_6",
+        course: "Postre de Obrador",
+        number: "06",
+        name: "Tarta Fluida de Queso Azul de Madrid y Oveja",
+        category: "Postres de Obrador",
         price: 6.50,
-        description: "Horneada a diario estilo Donosti con queso Idiazábal y crema suave sobre galleta quebrada.",
-        weight: "Porción generosa",
-        aging: "Horno diario",
-        pairing: "Vino dulce Pedro Ximénez",
-        allergens: ["gluten", "lactosa", "huevo"],
-        badge: "Top Dulce",
-        popular: true,
-        image: "https://images.unsplash.com/photo-1533134242443-d4fd215305ad?auto=format&fit=crop&w=600&q=80"
+        badge: "Artesanal",
+        description: "Receta de la casa horneada a alta temperatura con corazón templado y cremoso, acompañada de reducción de frutos del bosque silvestres.",
+        details: "Quesos artesanos locales",
+        pairing: "Moscatel de Alejandría",
+        allergens: ["lactosa", "huevo"]
       }
-    ]
-  },
+    ],
 
-  // =========================================================================
-  // 2. CERVECERÍA 27 & BAR MALA PATA (LUCERO) - ESTILO PIZARRA CASTIZA DE BARRA
-  // =========================================================================
-  cerveceria: {
-    id: "cerveceria",
-    layoutType: "tavern",
-    themeClass: "theme-castizo",
-    name: "Cervecería 27 & Bar Mala Pata",
-    tagline: "El Auténtico Templo del Tapeo y la Cerveza Helada de Barrio",
-    neighborhood: "Lucero / Aluche (Madrid)",
-    address: "Calle de Quero, 61, Aluche / Lucero, Madrid",
-    phone: "+34 915 22 33 44",
-    whatsapp: "34695590754",
-    googleMapsUrl: "https://www.google.com/maps/search/?api=1&query=Bar+Mala+Pata+Aluche+C.+de+Quero%2C+61+Madrid",
-    type: "Taberna Castiza & Barra Tradicional",
-    rating: 4.7,
-    totalReviews: 482,
-    bannerImg: "https://images.unsplash.com/photo-1514933651103-005eec06c04b?auto=format&fit=crop&w=1400&q=80",
-    chefName: "Paco 'El Chato' y familia",
-    foundationYear: "1984",
-    description: "Cerveza de bodega tirada como manda Madrid, oreja a la plancha de infarto, raciones para compartir y terraza con sol todo el año.",
-
-    aboutUs: {
-      headline: "Más de 40 Años Tirando Cañas con Maestría y Sirviendo a Todo el Barrio",
-      story: "En el Bar Mala Pata y Cervecería 27 no hay etiquetas ni florituras: hay cañas bien frías con dos dedos de crema y raciones abundantes que unen a vecinos, familias y grupos de amigos. Paco fundó la taberna en 1984 con una plancha de cromo y la receta secreta de la salsa brava de su madre. Hoy seguimos con la misma filosofía: producto fresco comprado en el mercado de Lucero, raciones hechas al momento y un ambiente castizo inigualable.",
-      pillars: [
-        {
-          icon: "🍻",
-          title: "Tanque de Bodega sin Pasteurizar",
-          desc: "Cerveza directa de fábrica a -2ºC, servida con serpentín helado y golpe de grifo maestro."
-        },
-        {
-          icon: "🥘",
-          title: "Plancha de Cromo al Momento",
-          desc: "Ni microondas ni recalentados: oreja, calamares y bravas salen volando de la plancha a tu mesa."
-        },
-        {
-          icon: "☀️",
-          title: "Terraza 365 Días",
-          desc: "El corazón social de la calle Quero con estufas en invierno y toldos frescos en verano."
-        }
-      ],
-      specialtyHighlight: {
-        title: "El Truco de Nuestra Oreja a la Plancha",
-        subtitle: "Crujiente por fuera, tierna por dentro",
-        text: "Cocemos la oreja durante 3 horas con laurel, ajo morado y granos de pimienta negra. Luego la prensamos 12 horas para que al entrar a la plancha a 280ºC con nuestro aliño de ajo-perejil y toque de limón quede con ese crujido legendario que enamora a Madrid.",
-        badge: "Icono de Lucero"
-      }
-    },
-
-    categories: ["Raciones Clásicas", "Tapas & Pinchos", "Huevos Rotos", "Bocatas & Montados", "Bebidas & Cañas"],
-    
     googleReviews: [
       {
-        id: "rev-c1",
-        author: "David Serrano",
-        avatar: "https://images.unsplash.com/photo-1535713875002-d1d0cf377fde?auto=format&fit=crop&w=120&q=80",
-        badge: "Local Guide · 84 reseñas",
+        id: "r1_1",
+        author: "Carlos Méndez de Vigo",
+        badge: "Comensal verificado · Visita en pareja",
         rating: 5,
         timeAgo: "Hace 1 semana",
-        comment: "El tapeo de toda la vida pero con una organización de 10. La oreja a la plancha está en su punto crujiente exacto y las patatas bravas pican lo justo. Las cañas salen con la crema perfecta.",
-        ownerResponse: "¡Grande David! Esa oreja lleva el aliño de mi abuelo desde hace 30 años. ¡Salud!"
+        comment: "Impecable. El punto del chuletón es sencillamente perfecto, con ese sabor a brasa noble y la carne atemperada en su justa medida. Hacía tiempo que no comía un producto tan cuidado en Madrid sin necesidad de pagar precios desorbitados.",
+        highlight: "Punto de brasa inmejorable"
       },
       {
-        id: "rev-c2",
-        author: "Sara Martín",
-        avatar: "https://images.unsplash.com/photo-1544005313-94ddf0286df2?auto=format&fit=crop&w=120&q=80",
-        badge: "Vecina de Lucero",
-        rating: 5,
-        timeAgo: "Hace 3 semanas",
-        comment: "La terraza en verano se llena, pero ahora con el sistema de pedir directamente desde el móvil te sirven en 5 minutos sin tener que esperar a llamar al camarero. ¡Un acierto total!",
-        ownerResponse: null
-      },
-      {
-        id: "rev-c3",
-        author: "Antonio Ramos",
-        avatar: "https://images.unsplash.com/photo-1570295999919-56ceb5ecca61?auto=format&fit=crop&w=120&q=80",
-        badge: "Local Guide · 29 reseñas",
-        rating: 4,
-        timeAgo: "Hace 1 mes",
-        comment: "Muy buenos los huevos rotos y el bocadillo de calamares. Calidad-precio excelente para el barrio.",
-        ownerResponse: null
-      }
-    ],
-
-    menu: [
-      {
-        id: "c1",
-        category: "Raciones Clásicas",
-        name: "Oreja Crujiente a la Plancha con Salsa Brava Casera",
-        price: 9.80,
-        description: "Dorada a fuego fuerte con ajo, perejil, chorrito de vino blanco y nuestra brava picantona.",
-        portionType: "Ración Generosa",
-        servingTime: "8 min",
-        allergens: [],
-        badge: "Nº 1 de la Barra",
-        popular: true,
-        image: "https://images.unsplash.com/photo-1544025162-d76694265947?auto=format&fit=crop&w=600&q=80"
-      },
-      {
-        id: "c2",
-        category: "Raciones Clásicas",
-        name: "Patatas Bravas 'Mala Pata' con Doble Salsa",
-        price: 7.50,
-        description: "Patatas agrias de Madrid pochadas y fritas a la orden con brava de pimentón de la Vera y alioli casero.",
-        portionType: "Para Compartir",
-        servingTime: "5 min",
-        allergens: ["huevo"],
-        badge: "Fórmula de 1984",
-        popular: true,
-        image: "https://images.unsplash.com/photo-1573080496219-bb080dd4f877?auto=format&fit=crop&w=600&q=80"
-      },
-      {
-        id: "c3",
-        category: "Huevos Rotos",
-        name: "Sartén de Huevos Camperos con Jamón Ibérico",
-        price: 11.50,
-        description: "3 huevos de corral con puntilla fritos en aceite virgen extra sobre patatas panaderas y virutas de jamón.",
-        portionType: "Sartén Caliente",
-        servingTime: "7 min",
-        allergens: ["huevo"],
-        badge: "Puntilla Garantizada",
-        popular: true,
-        image: "https://images.unsplash.com/photo-1525351484163-7529414344d8?auto=format&fit=crop&w=600&q=80"
-      },
-      {
-        id: "c4",
-        category: "Raciones Clásicas",
-        name: "Calamares a la Andaluza con Limón Fresco",
-        price: 11.00,
-        description: "Rebozado ultra fino en harina de garbanzo sin exceso de aceite. Tiernos como la mantequilla.",
-        portionType: "Ración Clásica",
-        servingTime: "6 min",
-        allergens: ["pescado", "gluten"],
-        badge: "Rebozado Andaluz",
-        popular: true,
-        image: "https://images.unsplash.com/photo-1599488615731-7e5c2823ff28?auto=format&fit=crop&w=600&q=80"
-      },
-      {
-        id: "c5",
-        category: "Bocatas & Montados",
-        name: "Bocadillo de Calamares en Pan de Cristal Tostado",
-        price: 6.50,
-        description: "El clásico madrileño elevado: pan crujiente y aireado, calamares recién fritos y suave mayonesa cítrica opcional.",
-        portionType: "Bocadillo Completo",
-        servingTime: "4 min",
-        allergens: ["gluten", "pescado", "huevo"],
-        badge: "Pan de Cristal",
-        popular: true,
-        image: "https://images.unsplash.com/photo-1509722747041-616f39b57569?auto=format&fit=crop&w=600&q=80"
-      },
-      {
-        id: "c6",
-        category: "Bebidas & Cañas",
-        name: "Doble de Cerveza de Bodega sin Pasteurizar",
-        price: 2.80,
-        description: "Tirada en copa helada con dos dedos de crema espesa. La cerveza más fresca del distrito.",
-        portionType: "Copa Fría 33cl",
-        servingTime: "Inmediato",
-        allergens: ["gluten"],
-        badge: "-2ºC en Copa",
-        popular: true,
-        image: "https://images.unsplash.com/photo-1535958636474-b021ee887b13?auto=format&fit=crop&w=600&q=80"
-      }
-    ]
-  },
-
-  // =========================================================================
-  // 3. PIZZERÍA CARLOS & NAPOLI (CARABANCHEL) - ESTILO TRATTORIA CONTEMPORÁNEA
-  // =========================================================================
-  pizzeria: {
-    id: "pizzeria",
-    layoutType: "trattoria",
-    themeClass: "theme-pizzeria",
-    name: "Pizzería Carlos & Napoli Carabanchel",
-    tagline: "L'Arte della Pizza Napoletana Contemporanea in Forno a Legna",
-    neighborhood: "Carabanchel (Madrid)",
-    address: "Calle de la Oca, 78, Carabanchel, Madrid",
-    phone: "+34 914 66 77 88",
-    whatsapp: "34695590754",
-    googleMapsUrl: "https://www.google.com/maps/search/?api=1&query=Pizzeria+Carlos+Carabanchel+Madrid",
-    type: "Pizzería Artesanal & Trattoria Gourmet",
-    rating: 4.9,
-    totalReviews: 614,
-    bannerImg: "https://images.unsplash.com/photo-1513104890138-7c749659a591?auto=format&fit=crop&w=1400&q=80",
-    chefName: "Pizzaiolo Matteo Bellini",
-    foundationYear: "2016",
-    description: "Masa madre de fermentación lenta de 48 horas, harina italiana molida a la piedra y los mejores ingredientes con Denominación de Origen Protegida de Campania.",
-
-    aboutUs: {
-      headline: "De Nápoles a Carabanchel: La Verdadera Pizza que No Hincha",
-      story: "Matteo Bellini creció entre los sacos de harina del barrio de Spaccanapoli. Cuando llegó a Madrid en 2016, trajo consigo una cepa de masa madre viva heredada de su bisabuelo y una misión: demostrar que una pizza de verdad es ligera, digestiva y un homenaje al producto de origen. En nuestro obrador de la calle Oca no existen los atajos ni las prisas: la masa madura durante dos días completos antes de entrar a nuestro horno de piedra volcánica.",
-      pillars: [
-        {
-          icon: "🌾",
-          title: "Fermentación Natural 48–72 Horas",
-          desc: "Masa altamente hidratada (75%) que madura en frío para una digestión ultraligera sin pesadez."
-        },
-        {
-          icon: "🌋",
-          title: "Horno de Piedra a 480ºC",
-          desc: "Cocción en 70 segundos para inflar un 'cornicione' alveolado y crujiente con toque ahumado."
-        },
-        {
-          icon: "🍅",
-          title: "100% Ingredientes DOP",
-          desc: "Tomates San Marzano del Vesubio, mozzarella fior di latte de Agerola y albahaca genovesa fresca."
-        }
-      ],
-      specialtyHighlight: {
-        title: "La Alquimia del 'Cornicione' Perfecto",
-        subtitle: "Borde inflado, aireado y crujiente",
-        text: "El borde alveolado de nuestras pizzas no es masa apelmazada: es una burbuja de aire generada por la levadura salvaje al recibir el golpe térmico instantáneo de la piedra volcánica a 480ºC.",
-        badge: "Tradición Napoletana"
-      }
-    },
-
-    categories: ["Pizzas Clásicas", "Pizzas Gourmet", "Pastas Frescas", "Postres Italianos", "Bebidas"],
-    
-    googleReviews: [
-      {
-        id: "rev-p1",
-        author: "Claudia Rossi",
-        avatar: "https://images.unsplash.com/photo-1534528741775-53994a69daeb?auto=format&fit=crop&w=120&q=80",
-        badge: "Local Guide · 110 reseñas",
-        rating: 5,
-        timeAgo: "Hace 5 días",
-        comment: "Soy italiana y vivo en Carabanchel: esta pizza es lo más cercano a Nápoles que he probado en Madrid. La masa es ligera como una nube y la burrata es fresquísima.",
-        ownerResponse: "Grazie mille Claudia! Usiamo solo farina di tipo 00 e lievitazione di 48 ore. A presto!"
-      },
-      {
-        id: "rev-p2",
-        author: "Sergio Navarro",
-        avatar: "https://images.unsplash.com/photo-1506794778202-cad84cf45f1d?auto=format&fit=crop&w=120&q=80",
-        badge: "Cliente habitual",
+        id: "r1_2",
+        author: "Marta Sotomayor",
+        badge: "Local Guide · Nivel 6",
         rating: 5,
         timeAgo: "Hace 2 semanas",
-        comment: "Hicimos un pedido a domicilio desde su propia web y nos llegó en 25 minutos perfecto. Mucho mejor que pedir por Glovo porque la pizza llega en su caja térmica crujiente y caliente.",
-        ownerResponse: null
+        comment: "El trato en sala es atento y profesional. Probamos las croquetas de cecina y el rabo de toro meloso; pura cocina de fondo. La carta digital funciona de maravilla y las recomendaciones de maridaje fueron muy acertadas.",
+        highlight: "Servicio atento y cocina con fundamento"
       },
       {
-        id: "rev-p3",
-        author: "Elena Vidal",
-        avatar: "https://images.unsplash.com/photo-1517841905240-472988babdf9?auto=format&fit=crop&w=120&q=80",
-        badge: "Local Guide · 36 reseñas",
+        id: "r1_3",
+        author: "Ignacio Ruiz",
+        badge: "Comensal habitual",
         rating: 5,
         timeAgo: "Hace 1 mes",
-        comment: "El tiramisú es espectacular y la pizza Tartufo un pecado. Ya somos clientes fijos de los domingos.",
-        ownerResponse: null
-      }
-    ],
-
-    menu: [
-      {
-        id: "pz1",
-        category: "Pizzas Gourmet",
-        name: "Pizza Tartufo & Funghi Porcini Selvatici",
-        price: 15.50,
-        description: "Crema de trufa negra de Norcia, fior di latte fresco, boletus edulis salteados y lascas de Parmigiano Reggiano 24 meses.",
-        doughHydration: "75% Hidratación",
-        originTag: "Campania & Umbría",
-        allergens: ["gluten", "lactosa"],
-        badge: "Premiada 2024",
-        popular: true,
-        image: "https://images.unsplash.com/photo-1513104890138-7c749659a591?auto=format&fit=crop&w=600&q=80"
-      },
-      {
-        id: "pz2",
-        category: "Pizzas Gourmet",
-        name: "Pizza Burrata Pugliese & Prosciutto di Parma DOP",
-        price: 16.00,
-        description: "Base crujiente de masa madre, burrata entera de 125g colocada en frío al salir del horno, jamón de Parma y pesto genovés.",
-        doughHydration: "78% Hidratación",
-        originTag: "Puglia & Parma",
-        allergens: ["gluten", "lactosa", "frutos_secos"],
-        badge: "Burrata Entera",
-        popular: true,
-        image: "https://images.unsplash.com/photo-1574071318508-1cdbab80d002?auto=format&fit=crop&w=600&q=80"
-      },
-      {
-        id: "pz3",
-        category: "Pizzas Clásicas",
-        name: "Pizza Diavola Piccante Spianata Calabra",
-        price: 13.50,
-        description: "Tomates San Marzano DOP, mozzarella fundente, salami picante de Calabria curado y aceite aromatizado con guindilla.",
-        doughHydration: "75% Hidratación",
-        originTag: "Calabria DOP",
-        allergens: ["gluten", "lactosa"],
-        badge: "Picante Equilibrado",
-        popular: true,
-        image: "https://images.unsplash.com/photo-1628840042765-356cda07504e?auto=format&fit=crop&w=600&q=80"
-      },
-      {
-        id: "pz4",
-        category: "Pastas Frescas",
-        name: "Ravioli de Calabaza Asada y Ricotta con Salvia",
-        price: 14.20,
-        description: "Pasta al huevo hecha a mano cada mañana, rellena de calabaza caramelizada al horno con mantequilla dorada y avellanas tostadas.",
-        doughHydration: "Pasta al Huevo 100%",
-        originTag: "Emilia-Romagna",
-        allergens: ["gluten", "lactosa", "huevo"],
-        badge: "Hecha Hoy a Mano",
-        popular: false,
-        image: "https://images.unsplash.com/photo-1551183053-bf91a1d81141?auto=format&fit=crop&w=600&q=80"
-      },
-      {
-        id: "pz5",
-        category: "Postres Italianos",
-        name: "Auténtico Tiramisú Tradizionale di Treviso",
-        price: 6.00,
-        description: "Bizcochos savoiardi empapados en café espresso Illy, crema densa de mascarpone italiano y lluvia de cacao puro amargo.",
-        doughHydration: "Receta Original 1970",
-        originTag: "Treviso (Véneto)",
-        allergens: ["gluten", "lactosa", "huevo"],
-        badge: "Cremoso & Casero",
-        popular: true,
-        image: "https://images.unsplash.com/photo-1571877227200-a0d98ea607e9?auto=format&fit=crop&w=600&q=80"
+        comment: "Ya es la tercera vez que venimos en familia. Las mesas tienen espacio de verdad y no te sientes apretado. La tarta de queso al horno es obligatoria de pedir.",
+        highlight: "Excelente relación producto-precio"
       }
     ]
   },
 
   // =========================================================================
-  // 4. CAFETERÍA CAMPAMENTO & YEBES (ALUCHE) - ESTILO NORDIC SPECIALTY CAFE
+  // ESTILO 2: APP INTERACTIVA & BENTO GRID (GASTROBAR & CASUAL MODERNO)
   // =========================================================================
-  cafeteria: {
-    id: "cafeteria",
-    layoutType: "scandi-coffee",
-    themeClass: "theme-cafeteria",
-    name: "Cafetería Campamento & Desayunos Yebes",
-    tagline: "Specialty Coffee Roasters, Organic Brunch & Obrador Artesano",
-    neighborhood: "Campamento / Aluche (Madrid)",
-    address: "Avenida del Padre Piquer, 1, Campamento, Madrid",
-    phone: "+34 917 11 22 33",
+  estilo2: {
+    id: "estilo2",
+    styleName: "Estilo 2",
+    styleSubtitle: "App Interactiva & Bento Grid",
+    layoutType: "bento",
+    themeClass: "theme-estilo-2",
+    name: "La Central · Craft & Kitchen",
+    tagline: "Gastrobar contemporáneo · Platillos para compartir y cerveza artesana de grifo",
+    address: "Calle de Camarena, 82 · Lucero, Madrid",
+    phone: "915 26 40 18",
     whatsapp: "34695590754",
-    googleMapsUrl: "https://www.google.com/maps/search/?api=1&query=Cafeteria+Campamento+Av.+del+Padre+Piquer%2C+1+Madrid",
-    type: "Café de Especialidad & Obrador Brunch",
+    googleMapsUrl: "https://maps.google.com/?q=Gastrobar+Madrid",
+    type: "Gastrobar & Cervecería Urbana",
     rating: 4.8,
-    totalReviews: 395,
-    bannerImg: "https://images.unsplash.com/photo-1501339847302-ac426a4a7cbb?auto=format&fit=crop&w=1400&q=80",
-    chefName: "Barista Head Clara Yebes",
-    foundationYear: "2020",
-    description: "Granos de café de origen 100% Arábica con puntuación SCA >85, panes de masa madre de larga fermentación y opciones sin gluten y veganas.",
+    totalReviews: 526,
+    serviceStatus: "Cocina abierta en directo · Servicio continuo",
+    bannerImg: "https://images.unsplash.com/photo-1514933651103-005eec06c04b?auto=format&fit=crop&w=1600&q=80",
 
     aboutUs: {
-      headline: "Café con Alma, Ingredientes de Temporada y Desayunos Sin Prisas",
-      story: "Cafetería Campamento nació con el propósito de acercar la cultura del café de especialidad y la comida saludable de obrador al corazón de Campamento y Aluche. Desterramos el café torrefacto comercial y nos asociamos con micro-tostadores locales que compran directamente a pequeños productores de Colombia, Etiopía y Guatemala a precios justos. En nuestra cocina horneamos bollería con mantequilla pura francesa y preparamos tostas con pan de pueblo que cruje hasta el último bocado.",
-      pillars: [
+      headline: "Cocina honesta de barra, producto de barrio y 8 grifos de cerveza viva",
+      story: "La Central nació con una misión sencilla: devolver al barrio un espacio donde comer muy bien sin formalismos. Hacemos comida reconfortante reinterpretada con técnicas actuales: baos al vapor caseros, smash burgers de vaca rubia picada por nosotros a diario y raciones pensadas para poner al centro de la mesa.",
+      bentoCards: [
         {
-          icon: "☕",
-          title: "Puntuación SCA >86 Puntos",
-          desc: "100% café de especialidad arábica trazable por finca, proceso de lavado y fecha de tueste."
+          tag: "Tiradores Artesanos",
+          metric: "8 Grifos",
+          label: "Rotación semanal de IPA, Lager y Stout sin pasteurizar directamente de barril frío a 2ºC."
         },
         {
-          icon: "🥖",
-          title: "Pan de Masa Madre Integral",
-          desc: "Hogazas fermentadas durante 24 horas en frío con harina ecológica sin aditivos."
+          tag: "Carne Picada al Día",
+          metric: "100% Vaca",
+          label: "Sin aditivos ni conservantes. Dos cortes nobles de lomo y aguja picados cada mañana."
         },
         {
-          icon: "🥑",
-          title: "Cocina Consciente & Fresca",
-          desc: "Aguacates en su punto óptimo, salmón ahumado salvaje y fruta fresca de proximidad."
+          tag: "Pan Brioche Casero",
+          metric: "48 Horas",
+          label: "Masa madre de fermentación prolongada elaborada por obrador local con mantequilla fresca."
         }
       ],
       specialtyHighlight: {
-        title: "La Curva de Tueste de Nuestro Espresso",
-        subtitle: "Notas a jazmín, cacao fino y caramelo",
-        text: "Extraemos nuestro Flat White a 93ºC exactos con doble cestillo de 18 gramos durante 27 segundos. La leche de avena barista se microemulsiona a 62ºC para crear una textura de terciopelo que resalta la dulzura natural del grano sin necesidad de azúcar.",
-        badge: "Barista Signature"
+        title: "Smash Burger Dry-Aged 'La Central'",
+        badge: "Bestseller de la Barra",
+        price: "13,90 €",
+        tags: ["Doble Carne 180g", "Queso Cheddar Vintage", "Brioche de Mantequilla", "Bacon Ahumado"],
+        text: "Doble disco de vaca madurada aplastada sobre plancha de cromo a 280ºC con costra crujiente caramelizada y corazón jugoso."
       }
     },
 
-    categories: ["Cafés & Especialidad", "Tostas Artesanas", "Bowls & Saludable", "Bollería & Tartas", "Zumos & Batidos"],
-    
+    categories: ["Para Compartir", "Smash Burgers & Baos", "Raciones Castizas", "Dulce Final", "Craft Beer & Bebidas"],
+
+    menu: [
+      {
+        id: "e2_1",
+        name: "Smash Burger Dry-Aged Doble",
+        category: "Smash Burgers & Baos",
+        price: 13.90,
+        badge: "Más Pedido",
+        description: "180g de vaca madurada en doble patty con costra caramelizada, cheddar fundido de 12 meses, cebolla pochada y salsa secreta La Central.",
+        prepTime: "8 min",
+        tags: ["100% Vaca Madurada", "Patatas Caseras"],
+        image: "https://images.unsplash.com/photo-1568901346375-23c9450c58cd?auto=format&fit=crop&w=600&q=80",
+        allergens: ["gluten", "lactosa"]
+      },
+      {
+        id: "e2_2",
+        name: "Oreja Crujiente a la Plancha con Salsa Brava",
+        category: "Raciones Castizas",
+        price: 9.80,
+        badge: "Clásico Castizo",
+        description: "Tacos de oreja prensada y dorada al cromo hasta quedar crujiente por fuera y tierna dentro, bañada en salsa brava tradicional sin tomate.",
+        prepTime: "5 min",
+        tags: ["Receta Madrileña", "Picante Suave"],
+        image: "https://images.unsplash.com/photo-1541544741938-0af808871cc0?auto=format&fit=crop&w=600&q=80",
+        allergens: []
+      },
+      {
+        id: "e2_3",
+        name: "Tacos de Costilla Desmigada a Baja Temperatura (3 uds)",
+        category: "Para Compartir",
+        price: 12.50,
+        badge: "Recomendado",
+        description: "Tortillas de maíz nixtamalizado, costilla confitada 12 horas con glaseado de chipotle suave, cebolla encurtida y brotes tiernos.",
+        prepTime: "7 min",
+        tags: ["Cocción 12h", "Maíz 100%"],
+        image: "https://images.unsplash.com/photo-1551504734-5ee1c4a1479b?auto=format&fit=crop&w=600&q=80",
+        allergens: []
+      },
+      {
+        id: "e2_4",
+        name: "Patatas Bravas Tradicionales con Aceite de Pimentón",
+        category: "Raciones Castizas",
+        price: 7.50,
+        badge: "Favorito",
+        description: "Patata agria cortada a mano, pochada lentamente y frita a alta temperatura. Salsa brava de caldo reducido y pimentón ahumado.",
+        prepTime: "5 min",
+        tags: ["Sin Gluten", "Patata Agria"],
+        image: "https://images.unsplash.com/photo-1582169296194-e4d644c48063?auto=format&fit=crop&w=600&q=80",
+        allergens: []
+      },
+      {
+        id: "e2_5",
+        name: "Bao al Vapor de Panceta Confitada y Hoisin (2 uds)",
+        category: "Smash Burgers & Baos",
+        price: 9.50,
+        badge: "Street Food",
+        description: "Pan bao esponjoso al vapor con panceta crujiente, pepino encurtido casero, cacahuete tostado y salsa hoisin cítrica.",
+        prepTime: "6 min",
+        tags: ["Pan Artesano", "Toque Cítrico"],
+        image: "https://images.unsplash.com/photo-1563245372-f21724e3856d?auto=format&fit=crop&w=600&q=80",
+        allergens: ["gluten"]
+      },
+      {
+        id: "e2_6",
+        name: "Cookie Caliente de Chocolate con Helado de Vainilla",
+        category: "Dulce Final",
+        price: 6.00,
+        badge: "Para Compartir",
+        description: "Galleta recién horneada servida en sartén de hierro con interior fundido de chocolate negro 70% y bola de helado artesano.",
+        prepTime: "4 min",
+        tags: ["Horneada al Momento"],
+        image: "https://images.unsplash.com/photo-1587314168485-3236d6710814?auto=format&fit=crop&w=600&q=80",
+        allergens: ["gluten", "lactosa", "huevo"]
+      }
+    ],
+
     googleReviews: [
       {
-        id: "rev-cf1",
-        author: "Lucía Fernández",
-        avatar: "https://images.unsplash.com/photo-1524504388940-b1c1722653e1?auto=format&fit=crop&w=120&q=80",
-        badge: "Local Guide · 52 reseñas",
+        id: "r2_1",
+        author: "David Serrano",
+        badge: "Local Guide · 86 opiniones",
         rating: 5,
         timeAgo: "Hace 3 días",
-        comment: "Hacía falta una cafetería con este nivel en Campamento. El Flat White con leche de avena es pura seda y la tosta de salmón y aguacate está riquísima. Sitio precioso y wifi rápido.",
-        ownerResponse: "¡Gracias Lucía! Tostamos el café cada semana con tostadores de Madrid. ¡Un placer tenerte por aquí!"
+        comment: "El mejor ambiente de Lucero. La smash burger con doble carne y la oreja a la plancha son de otro nivel. Poder pedir desde el móvil sin esperar colas en barra hace que el servicio vuele.",
+        categoryRatings: { comida: 4.9, servicio: 4.8, ambiente: 4.8 }
       },
       {
-        id: "rev-cf2",
-        author: "Pablo Ortega",
-        avatar: "https://images.unsplash.com/photo-1522075469751-3a6694fb2f61?auto=format&fit=crop&w=120&q=80",
-        badge: "Cliente verificado",
+        id: "r2_2",
+        author: "Lucía Navarro",
+        badge: "Cliente recurrente",
         rating: 5,
         timeAgo: "Hace 1 semana",
-        comment: "Pido el desayuno para llevar casi todas las mañanas antes de coger el metro. Con la carta web lo pido desde casa y cuando llego ya está en la barra listo. Impecable.",
-        ownerResponse: null
+        comment: "La terraza está genial y los grifos de cerveza artesana siempre tienen novedades. Muy buen trato del personal y precios muy ajustados para la calidad de la comida.",
+        categoryRatings: { comida: 4.8, servicio: 4.9, ambiente: 4.7 }
       },
       {
-        id: "rev-cf3",
-        author: "Marta Carrasco",
-        avatar: "https://images.unsplash.com/photo-1517841905240-472988babdf9?auto=format&fit=crop&w=120&q=80",
-        badge: "Local Guide · 19 reseñas",
+        id: "r2_3",
+        author: "Pablo Rivas",
+        badge: "Comensal verificado",
         rating: 5,
-        timeAgo: "Hace 2 semanas",
-        comment: "El açaí bowl y los croissants recién horneados son adictivos. Buen ambiente y trato súper cercano.",
-        ownerResponse: null
+        timeAgo: "Hace 3 semanas",
+        comment: "Las bravas son de las de verdad, sin mayonesa barata por encima. Y la cookie caliente al final es brutal. Repetiremos sin duda.",
+        categoryRatings: { comida: 4.9, servicio: 4.7, ambiente: 4.8 }
       }
-    ],
+    ]
+  },
+
+  // =========================================================================
+  // ESTILO 3: BISTRÓ TRADICIONAL & ASADOR (CARTA CLÁSICA CON LÍDERES PUNTEADOS)
+  // =========================================================================
+  estilo3: {
+    id: "estilo3",
+    styleName: "Estilo 3",
+    styleSubtitle: "Bistró Tradicional & Carta Clásica",
+    layoutType: "bistro",
+    themeClass: "theme-estilo-3",
+    name: "Casa Manolo · Taberna y Fogón",
+    foundationYear: "1974",
+    tagline: "Cincuenta años de pucheros lentos, embutido de la tierra y hospitalidad de siempre",
+    address: "Paseo de Extremadura, 164 · Madrid",
+    phone: "914 63 12 90",
+    whatsapp: "34695590754",
+    googleMapsUrl: "https://maps.google.com/?q=Meson+Madrid",
+    type: "Mesón & Taberna Castellana",
+    rating: 4.7,
+    totalReviews: 680,
+    serviceNote: "Cocina abierta de 13:00 a 16:30 y de 20:00 a 23:30 · Lunes cerrado por descanso",
+    bannerImg: "https://images.unsplash.com/photo-1555396273-367ea4eb4db5?auto=format&fit=crop&w=1600&q=80",
+
+    aboutUs: {
+      headline: "Medio siglo encendiendo los fogones a las ocho de la mañana",
+      story: "Fundada en 1974 por Don Manuel y Doña Carmen, Casa Manolo conserva intacto el espíritu de las casas de comidas familiares. Aquí no hay prisas ni modas pasajeras. Servimos el vino en porrón si el cliente lo pide, picamos el jamón a cuchillo fino y dejamos que los callos y los judiones hagan chup-chup durante horas en cazuela de barro.",
+      timeline: [
+        { year: "1974", event: "Apertura en el Paseo de Extremadura como casa de comidas para los trabajadores del barrio." },
+        { year: "1996", event: "Incorporación de la parrilla de leña de roble para los asados de fin de semana." },
+        { year: "Hoy", event: "Segunda generación familiar manteniendo el mismo recetario con reservas directas online." }
+      ],
+      specialtyHighlight: {
+        title: "Judiones de la Granja con Oreja y Chorizo de Cantimpalos",
+        badge: "Plato de Cuchara Centenario",
+        price: "12,50 €",
+        text: "Guisados a fuego dulce con verduras pochadas y embutido artesanal de Segovia. Servidos en cazuela de barro humeante con piparras de la huerta."
+      }
+    },
+
+    categories: ["Entremeses & Raciones", "Cuchara de la Casa", "Brasas & Asados", "Pescados de Lonja", "Postres de la Abuela"],
 
     menu: [
       {
-        id: "cf1",
-        category: "Tostas Artesanas",
-        name: "Tosta de Aguacate Hass, Salmón Ahumado y Semillas",
-        price: 7.20,
-        description: "Hogaza crujiente de masa madre, aguacate laminado con limón, salmón noruego salvaje, gomasio y brotes frescos.",
-        dietInfo: "Rico en Omega-3",
-        roastType: "Masa Madre 24h",
-        allergens: ["gluten", "pescado", "sesamo"],
-        badge: "Favorito Brunch",
-        popular: true,
-        image: "https://images.unsplash.com/photo-1525351484163-7529414344d8?auto=format&fit=crop&w=600&q=80"
+        id: "e3_1",
+        section: "Guisos Tradicionales",
+        name: "Judiones de la Granja Estofados con Matanza",
+        category: "Cuchara de la Casa",
+        price: 12.50,
+        description: "Guiso reposado 24 horas con oreja ibérica, chorizo de Cantimpalos y morcilla asturiana de cebolla.",
+        vintageBadge: "Plato del Día",
+        allergens: []
       },
       {
-        id: "cf2",
-        category: "Tostas Artesanas",
-        name: "Tosta Ibérica con Tomate Rallado y Aceite Picual",
-        price: 4.80,
-        description: "El desayuno supremo: pan tostado caliente, tomate de rama recién rallado a mano, AOVE arbequina y jamón de bodega.",
-        dietInfo: "100% Natural",
-        roastType: "Pan de Pueblo",
-        allergens: ["gluten"],
-        badge: "Desayuno Estrella",
-        popular: true,
-        image: "https://images.unsplash.com/photo-1509722747041-616f39b57569?auto=format&fit=crop&w=600&q=80"
+        id: "e3_2",
+        section: "De la Parrilla de Roble",
+        name: "Chuletón de Vaca Vieja Madurada (1kg)",
+        category: "Brasas & Asados",
+        price: 38.00,
+        description: "Corte selecto de vaca con 40 días de reposo, asado en parrilla de hierro con sarmientos y sal gorda marina.",
+        vintageBadge: "Especialidad",
+        allergens: []
       },
       {
-        id: "cf3",
-        category: "Cafés & Especialidad",
-        name: "Flat White Doble con Leche de Avena Barista",
-        price: 2.60,
-        description: "Doble espresso de origen Colombia Huila con microespuma sedosa y diseño de latte art en taza cerámica artesana.",
-        dietInfo: "Origen SCA 87.5",
-        roastType: "Tueste Medio",
-        allergens: [],
-        badge: "Grano Selección",
-        popular: true,
-        image: "https://images.unsplash.com/photo-1534778101976-62847782c213?auto=format&fit=crop&w=600&q=80"
+        id: "e3_3",
+        section: "Entremeses Castizos",
+        name: "Huevos Rotos con Jamón Ibérico de Bellota",
+        category: "Entremeses & Raciones",
+        price: 13.50,
+        description: "Huevos de corral camperos con puntilla crujiente y yema líquida sobre patata panadera pochada al momento.",
+        vintageBadge: "Imprescindible",
+        allergens: ["huevo"]
       },
       {
-        id: "cf4",
+        id: "e3_4",
+        section: "Guisos Tradicionales",
+        name: "Callos a la Madrileña con Pata y Morro",
+        category: "Cuchara de la Casa",
+        price: 13.00,
+        description: "Salsa trabada y gelatinosa con su punto exacto de picante, chorizo ahumado y morcilla en cazuela de barro.",
+        vintageBadge: "Receta 1974",
+        allergens: []
+      },
+      {
+        id: "e3_5",
+        section: "De la Parrilla de Roble",
+        name: "Entrecot de Ternera a la Sal Marina",
+        category: "Brasas & Asados",
+        price: 21.50,
+        description: "Lomo bajo tierno y jugoso con guarnición de pimientos asados en casa y patatas fritas artesanas.",
+        vintageBadge: "Corte Suave",
+        allergens: []
+      },
+      {
+        id: "e3_6",
+        section: "Repostería Casera",
+        name: "Arroz con Leche Cremoso Caramelizado",
+        category: "Postres de la Abuela",
+        price: 5.50,
+        description: "Cocido a fuego lento durante dos horas con leche fresca de vaca, canela en rama y costra tostada con pala de hierro.",
+        vintageBadge: "Casero",
+        allergens: ["lactosa"]
+      }
+    ],
+
+    googleReviews: [
+      {
+        id: "r3_1",
+        author: "Antonio Fernández",
+        badge: "Vecino del barrio · 25 años cliente",
+        rating: 5,
+        timeAgo: "Hace 5 días",
+        comment: "Un mesón de los que ya no quedan en Madrid. Vengo desde que mi padre me traía de chaval. Los judiones y los callos mantienen exactamente el mismo sabor de hace treinta años.",
+        dishMentioned: "Callos y Judiones de la Granja"
+      },
+      {
+        id: "r3_2",
+        author: "Beatriz Morales",
+        badge: "Reserva familiar",
+        rating: 5,
+        timeAgo: "Hace 2 semanas",
+        comment: "Celebramos el cumpleaños de mi madre con una comida para 10 personas. La carne tiernísima y las raciones muy abundantes. Nos trataron como si fuéramos de la familia.",
+        dishMentioned: "Chuletón de vaca y huevos rotos"
+      },
+      {
+        id: "r3_3",
+        author: "Julián Prieto",
+        badge: "Comensal habitual",
+        rating: 5,
+        timeAgo: "Hace 1 mes",
+        comment: "Buen género, servicio rápido y camareros que conocen el oficio. Muy cómodo poder reservar la mesa directamente desde su web sin tener que llamar tres veces por teléfono.",
+        dishMentioned: "Entrecot a la brasa"
+      }
+    ]
+  },
+
+  // =========================================================================
+  // ESTILO 4: SHOWCASE VISUAL & MINIMALISMO NÓRDICO (BRUNCH & OBRADOR)
+  // =========================================================================
+  estilo4: {
+    id: "estilo4",
+    styleName: "Estilo 4",
+    styleSubtitle: "Showcase Visual & Minimalismo",
+    layoutType: "minimal",
+    themeClass: "theme-estilo-4",
+    name: "Atelier · Café & Obrador",
+    tagline: "Panadería de masa madre viva, desayunos conscientes y café de especialidad de origen",
+    address: "Calle de Ocaña, 41 · Aluche, Madrid",
+    phone: "917 82 11 05",
+    whatsapp: "34695590754",
+    googleMapsUrl: "https://maps.google.com/?q=Cafeteria+Madrid",
+    type: "Café de Especialidad & Obrador Artesano",
+    rating: 4.9,
+    totalReviews: 310,
+    openingHours: "Lunes a Domingo: 08:30 a 20:00",
+    bannerImg: "https://images.unsplash.com/photo-1501339847302-ac426a4a7cbb?auto=format&fit=crop&w=1600&q=80",
+
+    aboutUs: {
+      headline: "Menos ingredientes, más tiempo. Simplicidad escandinava y producto orgánico.",
+      story: "Atelier nace de una convicción: un buen café y una hogaza de pan bien hecha pueden transformar el inicio del día. Trabajamos exclusivamente con micro-lotes de café calificados por encima de 86 puntos SCA, leche fresca ecológica de pasto y harinas molidas a la piedra sin aditivos de ningún tipo.",
+      principles: [
+        {
+          code: "SCA >86",
+          title: "Micro-Lotes Éticos",
+          desc: "Tueste ligero semanal para conservar los matices florales y frutales de cada finca cafetera."
+        },
+        {
+          code: "BIO 100%",
+          title: "Masa Madre Viva",
+          desc: "Fermentación en frío de 72 horas que garantiza panes digestivos de corteza crujiente y miga aireada."
+        },
+        {
+          code: "KM 0",
+          title: "Ingredientes Conscientes",
+          desc: "Huevos camperos de Ávila, aguacates ecológicos de Málaga y aceite virgen extra de Jaén."
+        }
+      ],
+      specialtyHighlight: {
+        title: "Tosta Nórdica de Masa Madre con Salmón Ahumado y Eneldo",
+        badge: "Plato Firma",
+        price: "10,50 €",
+        details: "Pan de centeno 72h · Salmón ahumado salvaje · Aguacate hass · Aceite virgen extra arbequina",
+        text: "Nuestra rebanada más representativa, servida sobre tabla de madera natural con brotes orgánicos."
+      }
+    },
+
+    categories: ["Desayunos & Toast", "Bowls & Saludable", "Obrador Casero", "Cafés de Especialidad", "Infusiones & Zumos"],
+
+    menu: [
+      {
+        id: "e4_1",
+        name: "Tosta Nórdica de Salmón y Aguacate",
+        category: "Desayunos & Toast",
+        price: 10.50,
+        badge: "Firma",
+        dietary: "Rico en Omega-3",
+        description: "Rebanada de masa madre de centeno 72h, láminas de aguacate hass al punto, salmón ahumado artesano, semillas de chía y eneldo fresco.",
+        nutrition: "380 kcal · 22g Proteína",
+        image: "https://images.unsplash.com/photo-1525351484163-7529414344d8?auto=format&fit=crop&w=600&q=80",
+        allergens: ["gluten", "pescado"]
+      },
+      {
+        id: "e4_2",
+        name: "Flat White Doble de Etiopía Yirgacheffe",
+        category: "Cafés de Especialidad",
+        price: 2.90,
+        badge: "SCA 87 Pts",
+        dietary: "Café de Especialidad",
+        description: "Doble espresso de proceso lavado con notas florales de jazmín y bergamota, texturizado con microespuma densa y sedosa de leche fresca.",
+        nutrition: "Leche ecológica o avena",
+        image: "https://images.unsplash.com/photo-1577968897966-3d4325b36b61?auto=format&fit=crop&w=600&q=80",
+        allergens: ["lactosa"]
+      },
+      {
+        id: "e4_3",
+        name: "Açaí Bowl Silvestre con Granola Horneada en Casa",
         category: "Bowls & Saludable",
-        name: "Açaí Bowl Orgánico con Granola Casera y Fruta Fresca",
-        price: 7.90,
-        description: "Açaí del Amazonas batido espeso con plátano de Canarias, fresas frescas de temporada, semillas de cáñamo y coco tostado.",
-        dietInfo: "Vegano & Sin Azúcar",
-        roastType: "Superalimento",
-        allergens: ["frutos_secos"],
-        badge: "Energía 100% Vital",
-        popular: true,
-        image: "https://images.unsplash.com/photo-1590080875515-8a3a8dc5735e?auto=format&fit=crop&w=600&q=80"
+        price: 8.50,
+        badge: "Antioxidante",
+        dietary: "100% Vegano",
+        description: "Pulpa pura de açaí orgánico batida con plátano congelado, fresas de temporada, arándanos, lascas de coco y granola de avena y miel.",
+        nutrition: "Sin azúcar añadido · 100% fruta",
+        image: "https://images.unsplash.com/photo-1590301157890-4810ed352733?auto=format&fit=crop&w=600&q=80",
+        allergens: []
       },
       {
-        id: "cf5",
-        category: "Bollería & Tartas",
-        name: "Croissant Francés de Mantequilla de Normandía",
-        price: 2.20,
-        description: "Hojaldrado a mano con 27 capas crujientes y aroma intenso a mantequilla fresca. Horneado cada 2 horas.",
-        dietInfo: "Mantequilla Pura",
-        roastType: "Horno Cada 2h",
-        allergens: ["gluten", "lactosa", "huevo"],
-        badge: "Hojaldre Perfecto",
-        popular: true,
-        image: "https://images.unsplash.com/photo-1555507036-ab1f4038808a?auto=format&fit=crop&w=600&q=80"
+        id: "e4_4",
+        name: "Croissant de Mantequilla Francesa Normandía",
+        category: "Obrador Casero",
+        price: 2.40,
+        badge: "Recién Horneado",
+        dietary: "Obrador Propio",
+        description: "Hojaldrado a mano con 27 capas y mantequilla AOP de Normandía. Crujiente por fuera, alveolado y esponjoso en su interior.",
+        nutrition: "Horneadas a las 08:30 y 16:30",
+        image: "https://images.unsplash.com/photo-1555507036-ab1f4038808a?auto=format&fit=crop&w=600&q=80",
+        allergens: ["gluten", "lactosa"]
+      },
+      {
+        id: "e4_5",
+        name: "Tosta de Jamón Ibérico de Bellota y Tomate Rallado",
+        category: "Desayunos & Toast",
+        price: 6.80,
+        badge: "Clásico",
+        dietary: "Producto Ibérico",
+        description: "Pan de trigo candeal tostado en plancha de hierro, tomate rama recién rallado con sal marina y aceite de oliva virgen extra de Jaén.",
+        nutrition: "Aceite virgen extra prensado en frío",
+        image: "https://images.unsplash.com/photo-1509722747041-616f39b57569?auto=format&fit=crop&w=600&q=80",
+        allergens: ["gluten"]
+      },
+      {
+        id: "e4_6",
+        name: "Matcha Latte Ceremonial de Kioto Uji",
+        category: "Infusiones & Zumos",
+        price: 3.80,
+        badge: "Grado Ceremonial",
+        dietary: "Orgánico",
+        description: "Té verde matcha molido a la piedra importado de Japón, batido tradicionalmente con chasen de bambú y leche de avena vaporizada.",
+        nutrition: "Rico en L-teanina y antioxidantes",
+        image: "https://images.unsplash.com/photo-1536256263959-770b48d82b0a?auto=format&fit=crop&w=600&q=80",
+        allergens: []
+      }
+    ],
+
+    googleReviews: [
+      {
+        id: "r4_1",
+        author: "Sofía Alarcón",
+        badge: "Local Guide · 34 reseñas",
+        rating: 5,
+        timeAgo: "Hace 4 días",
+        comment: "El mejor café de especialidad del suroeste de Madrid. El Flat White está tirado con técnica impecable y la tosta nórdica con salmón es una maravilla. Sitio tranquilo y muy luminoso.",
+        tag: "Café de Especialidad y Desayunos"
+      },
+      {
+        id: "r4_2",
+        author: "Guillermo Sanz",
+        badge: "Cliente habitual",
+        rating: 5,
+        timeAgo: "Hace 1 semana",
+        comment: "Se agradece encontrar un obrador que use harina ecológica y masa madre de verdad. El pan aguanta tierno tres días en casa. El trato de los chicos es de diez.",
+        tag: "Panadería y Bollería Artesanal"
+      },
+      {
+        id: "r4_3",
+        author: "Elena Castells",
+        badge: "Visita fin de semana",
+        rating: 5,
+        timeAgo: "Hace 2 semanas",
+        comment: "El açaí bowl está buenísimo, no es el típico preparado con hielo picado sino fruta cremosa de calidad. Además el local tiene un diseño precioso y muy limpio.",
+        tag: "Brunch Saludable"
       }
     ]
   }
