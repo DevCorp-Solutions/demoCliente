@@ -6,16 +6,16 @@
  */
 import { RESTAURANT_PRESETS } from './presets.js';
 
-const STORAGE_KEY = 'devcorp_gastrosuite_state_v4';
+const STORAGE_KEY = 'devcorp_gastrosuite_state_v5';
 
 const INITIAL_DISH_SALES = {
-  // Estilo 1: Editorial & Alta Cocina
-  "e1_1": 42, // Chuletón
-  "e1_2": 38, // Torreznos
-  "e1_3": 26, // Entrecot
-  "e1_4": 31, // Croquetas
-  "e1_5": 19, // Rabo de toro
-  "e1_6": 35, // Tarta fluida
+  // Estilo 1: Restaurante Parrilla Vukata
+  "e1_asado": 54, // Asado de Tira
+  "e1_emp": 48,   // Empanada Criolla
+  "e1_pro": 39,   // Provoleta Rellena
+  "e1_hue": 42,   // Huevos Rotos con Torreznos
+  "e1_parr2": 37, // Parrillada 2 PAX
+  "e1_tarta": 45, // Tarta de Queso Cremosa
   // Estilo 2: App Interactiva & Bento Grid
   "e2_1": 78, // Smash Burger
   "e2_2": 52, // Oreja
@@ -47,10 +47,10 @@ const INITIAL_DEMO_ORDERS = [
     tableNumber: "Mesa 4 (Comedor)",
     customerName: "Carlos M.",
     items: [
-      { id: "e1_2", name: "Torreznos Crujientes de Soria", qty: 1, price: 11.50 },
-      { id: "e1_1", name: "Chuletón de Vaca Vieja Madurada (1kg)", qty: 1, price: 38.50, notes: "Al punto menos" }
+      { id: "e1_pro", name: "Provoleta Rellena", qty: 1, price: 13.00 },
+      { id: "e1_asado", name: "Asado de Tira (Pieza 400g aprox)", qty: 1, price: 17.50, notes: "Al punto" }
     ],
-    total: 50.00,
+    total: 30.50,
     status: "kitchen",
     elapsedMinutes: 14
   },
@@ -58,13 +58,13 @@ const INITIAL_DEMO_ORDERS = [
     id: "ORD-102",
     timestamp: new Date(Date.now() - 1000 * 60 * 6).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }),
     type: "takeaway",
-    tableNumber: "Recogida Local",
+    tableNumber: "Recogida Local (Take Away)",
     customerName: "Laura G.",
     items: [
-      { id: "e1_5", name: "Croquetas Cremosas de Cecina y Boletus (6 uds)", qty: 2, price: 10.50 },
-      { id: "e1_6", name: "Tarta de Queso Fluida al Horno", qty: 2, price: 6.50 }
+      { id: "e1_emp", name: "Empanada Criolla", qty: 4, price: 4.80 },
+      { id: "e1_tarta", name: "Tarta de Queso Cremosa", qty: 2, price: 6.50 }
     ],
-    total: 34.00,
+    total: 32.20,
     status: "pending",
     elapsedMinutes: 6
   },
@@ -75,10 +75,10 @@ const INITIAL_DEMO_ORDERS = [
     tableNumber: "Entrega Domicilio",
     customerName: "Marcos S.",
     items: [
-      { id: "e1_3", name: "Entrecot de Ternera de Guadarrama (350g)", qty: 2, price: 21.00, notes: "Al punto" },
-      { id: "e1_4", name: "Costillar de Cerdo a la Miel de Romero", qty: 1, price: 16.80 }
+      { id: "e1_parr2", name: "Parrillada de Carne para 2 PAX", qty: 1, price: 43.00, notes: "Carne jugosa" },
+      { id: "e1_hue", name: "Huevos Rotos Ecológicos con Torreznos", qty: 1, price: 16.00 }
     ],
-    total: 58.80,
+    total: 59.00,
     status: "ready",
     elapsedMinutes: 22
   }

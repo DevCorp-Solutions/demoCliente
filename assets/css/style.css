@@ -28,39 +28,125 @@ body {
    1. FONDOS GLOBALES Y TEMAS DE CADA ESTILO (CERO FONDO BLANCO AL HACER SCROLL)
    ========================================================================== */
 
-/* --- ESTILO 1: EDITORIAL & ALTA COCINA (DARK NOBLE & GOLD) --- */
+/* --- ESTILO 1: VUKATA RESTAURANTE PARRILLA (BRUSHED STEEL & VULCAN CRIMSON) --- */
 html.theme-estilo-1, 
 body.theme-estilo-1, 
 .theme-estilo-1,
 .theme-estilo-1 #app {
-  background-color: #0b0b0d !important;
-  color: #f3f3f3;
+  background-color: #f3f4f6 !important;
+  color: #18181b;
 }
 
 .theme-estilo-1 main {
-  background: radial-gradient(circle at 50% 0%, #15151a 0%, #0b0b0d 100%);
+  background: 
+    radial-gradient(ellipse at 85% 15%, rgba(229, 45, 39, 0.08) 0%, transparent 40%),
+    radial-gradient(ellipse at 15% 60%, rgba(243, 112, 33, 0.07) 0%, transparent 45%),
+    linear-gradient(180deg, #f8f9fa 0%, #eceef1 100%);
+  background-attachment: fixed;
 }
 
-.theme-estilo-1 .editorial-serif {
+/* Tipografías oficiales de Vukata */
+.vukata-font-title {
+  font-family: 'Montserrat', sans-serif;
+  font-weight: 700;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  color: #8B1E1E;
+}
+
+.vukata-font-dish {
+  font-family: 'Barlow Condensed', sans-serif;
+  font-weight: 700;
+  letter-spacing: 0.02em;
+  text-transform: uppercase;
+  color: #18181b;
+}
+
+.vukata-font-desc {
+  font-family: 'Barlow', 'Inter', sans-serif;
+  font-style: italic;
+  color: #52525b;
+}
+
+.vukata-font-price {
+  font-family: 'Barlow Condensed', sans-serif;
+  font-weight: 700;
+  color: #18181b;
+}
+
+/* Barra divisoria carmesí idéntica a la carta física de Vukata */
+.vukata-section-bar {
+  display: flex;
+  align-items: center;
+  width: 100%;
+  gap: 1rem;
+}
+
+.vukata-section-line {
+  flex: 1;
+  height: 2.5px;
+  background: linear-gradient(90deg, #8B1E1E 0%, rgba(139, 30, 30, 0.25) 100%);
+  border-radius: 2px;
+}
+
+/* Tarjetas y Contenedores de Vukata */
+.vukata-card {
+  background: #ffffff;
+  border: 1px solid #e2e4e9;
+  border-radius: 0.75rem;
+  box-shadow: 0 2px 6px -1px rgba(0, 0, 0, 0.06), 0 1px 3px rgba(0, 0, 0, 0.03);
+  transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.vukata-card:hover {
+  border-color: #8B1E1E;
+  box-shadow: 0 10px 25px -5px rgba(139, 30, 30, 0.12), 0 4px 10px rgba(0, 0, 0, 0.04);
+  transform: translateY(-2px);
+}
+
+/* Botón de Pedido Vukata a las Brasas */
+.btn-vukata-primary {
+  background: linear-gradient(135deg, #e52d27 0%, #8B1E1E 100%);
+  color: #ffffff;
+  font-family: 'Barlow Condensed', sans-serif;
+  font-weight: 700;
+  letter-spacing: 0.03em;
+  text-transform: uppercase;
+  transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+  box-shadow: 0 4px 12px rgba(229, 45, 39, 0.25);
+}
+
+.btn-vukata-primary:hover {
+  background: linear-gradient(135deg, #d32f2f 0%, #721414 100%);
+  box-shadow: 0 6px 16px rgba(229, 45, 39, 0.35);
+  transform: translateY(-1px);
+}
+
+/* Insignias de Alérgenos Circulares de Vukata */
+.vukata-allergen-pill {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 9999px;
+  color: #ffffff;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.15);
+  transition: transform 0.15s ease;
+  flex-shrink: 0;
+}
+.vukata-allergen-pill:hover {
+  transform: scale(1.18);
+  z-index: 10;
+}
+
+/* Compatibilidad retroactiva */
+.editorial-serif {
   font-family: 'Playfair Display', Georgia, serif;
 }
-
-.editorial-gold-border {
-  border: 1px solid rgba(212, 175, 55, 0.25);
-}
-
 .editorial-card {
-  background: #121216;
-  border: 1px solid #24242e;
-  border-radius: 1.25rem;
-  transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
-  overflow: hidden;
-}
-
-.editorial-card:hover {
-  border-color: rgba(212, 175, 55, 0.5);
-  box-shadow: 0 16px 36px -12px rgba(0, 0, 0, 0.7);
-  transform: translateY(-2px);
+  background: #ffffff;
+  border: 1px solid #e2e4e9;
+  border-radius: 0.75rem;
+  transition: all 0.25s ease;
 }
 
 
@@ -209,9 +295,9 @@ body.theme-estilo-4,
 
 /* Badges de alérgenos adaptados a cada estilo */
 .badge-allergen-estilo1 {
-  background: rgba(217, 119, 6, 0.15);
-  border: 1px solid rgba(217, 119, 6, 0.35);
-  color: #fcd34d;
+  background: #fef2f2;
+  border: 1px solid #fecaca;
+  color: #8B1E1E;
 }
 
 .badge-allergen-estilo2 {
