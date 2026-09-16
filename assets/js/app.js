@@ -1,8 +1,8 @@
 /**
  * DevCorp Solutions - GastroSuite SPA Controller
  * Ecosistema de 4 Estilos Gastronómicos 100% Diferenciados
- * Sin clichés de IA · Vocabulario auténtico de hostelería
- * Soporte de fotos, modal de detalle con alérgenos, carrito y checkout temáticos
+ * Logo ampliado · Lightbox de fotos completas · Filtros de alérgenos en todos los estilos
+ * Reseñas de Google llamativas con estrellas y botones de alta conversión en todos los estilos
  */
 
 import { RESTAURANT_PRESETS } from './presets.js';
@@ -11,11 +11,12 @@ import { store } from './state.js';
 // Iconografía SVG ligera optimizada
 const ICONS = {
   cart: `<svg class="w-4 h-4 inline-block" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 3h2l.4 2M7 13h10l4-8H5.4M7 13L5.4 5M7 13l-2.293 2.293c-.63.63-.184 1.707.707 1.707H17m0 0a2 2 0 100 4 2 2 0 000-4zm-8 2a2 2 0 11-4 0 2 2 0 014 0z"/></svg>`,
-  star: `<svg class="w-3.5 h-3.5 text-amber-400 inline-block fill-current" viewBox="0 0 20 20"><path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"/></svg>`,
+  star: `<svg class="w-4 h-4 text-amber-400 inline-block fill-current drop-shadow-sm" viewBox="0 0 20 20"><path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"/></svg>`,
   arrow: `<svg class="w-4 h-4 inline-block" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14 5l7 7m0 0l-7 7m7-7H3"/></svg>`,
   external: `<svg class="w-3.5 h-3.5 inline-block" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14"/></svg>`,
-  info: `<svg class="w-3.5 h-3.5 inline-block" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>`,
-  eye: `<svg class="w-3.5 h-3.5 inline-block" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"/><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z"/></svg>`
+  eye: `<svg class="w-3.5 h-3.5 inline-block" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"/><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z"/></svg>`,
+  zoom: `<svg class="w-4 h-4 inline-block" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0zM10 7v3m0 0v3m0-3h3m-3 0H7"/></svg>`,
+  google: `<svg class="w-4 h-4 inline-block flex-shrink-0" viewBox="0 0 24 24"><path fill="#4285F4" d="M23.745 12.27c0-.7-.06-1.4-.19-2.07H12v4.51h6.6c-.29 1.52-1.14 2.82-2.4 3.68v3.05h3.88c2.27-2.09 3.665-5.17 3.665-9.17z"/><path fill="#34A853" d="M12 24c3.24 0 5.95-1.08 7.93-2.91l-3.88-3.05c-1.08.72-2.45 1.16-4.05 1.16-3.12 0-5.77-2.1-6.72-4.93H1.25v3.15C3.26 21.36 7.33 24 12 24z"/><path fill="#FBBC05" d="M5.28 14.27c-.25-.72-.38-1.49-.38-2.27s.13-1.55.38-2.27V6.58H1.25C.45 8.18 0 9.99 0 12s.45 3.82 1.25 5.42l4.03-3.15z"/><path fill="#EA4335" d="M12 4.75c1.77 0 3.35.61 4.6 1.8l3.42-3.42C17.95 1.19 15.24 0 12 0 7.33 0 3.26 2.64 1.25 6.58l4.03 3.15c.95-2.83 3.6-4.98 6.72-4.98z"/></svg>`
 };
 
 function formatCurrency(val) {
@@ -31,7 +32,7 @@ function getAllergenLabel(code) {
     pescado: '🐟 Pescado',
     marisco: '🦐 Marisco',
     soja: '🌱 Soja',
-    frutos_secos: '🌰 Frutos de cáscara'
+    frutos_secos: '🌰 Frutos secos'
   };
   return map[code] || `⚠️ ${code}`;
 }
@@ -53,7 +54,56 @@ export class GastroApp {
   }
 
   setupGlobalEvents() {
+    // Tecla Escape para cerrar modales y lightbox
+    document.addEventListener('keydown', (e) => {
+      if (e.key === 'Escape') {
+        const lb = document.getElementById('lightbox-container');
+        if (lb && lb.innerHTML !== '') {
+          lb.innerHTML = '';
+          return;
+        }
+        const dm = document.getElementById('dish-modal-container');
+        if (dm && dm.innerHTML !== '') {
+          dm.innerHTML = '';
+          this.currentModalDish = null;
+          this.modalQty = 1;
+          return;
+        }
+        const cart = document.getElementById('cart-drawer-container');
+        if (cart && cart.innerHTML !== '') {
+          cart.innerHTML = '';
+          return;
+        }
+        const chk = document.getElementById('checkout-modal-container');
+        if (chk && chk.innerHTML !== '') {
+          chk.innerHTML = '';
+          return;
+        }
+        const rev = document.getElementById('review-modal-container');
+        if (rev && rev.innerHTML !== '') {
+          rev.innerHTML = '';
+          return;
+        }
+      }
+    });
+
     document.addEventListener('click', (e) => {
+      // 0. Lightbox de imagen a pantalla completa (Abrir / Cerrar)
+      const lbBtn = e.target.closest('[data-open-lightbox]');
+      if (lbBtn) {
+        e.preventDefault();
+        e.stopPropagation();
+        const imgUrl = lbBtn.getAttribute('data-open-lightbox');
+        const imgTitle = lbBtn.getAttribute('data-lightbox-title') || 'Plato';
+        this.renderLightbox(imgUrl, imgTitle);
+        return;
+      }
+      if (e.target.closest('#close-lightbox-btn') || e.target.closest('#lightbox-backdrop')) {
+        const lbContainer = document.getElementById('lightbox-container');
+        if (lbContainer) lbContainer.innerHTML = '';
+        return;
+      }
+
       // 1. Cambio de vistas
       const viewBtn = e.target.closest('[data-view]');
       if (viewBtn) {
@@ -70,7 +120,7 @@ export class GastroApp {
         return;
       }
 
-      // 3. Filtro de alérgenos
+      // 3. Filtro de alérgenos (Activo en todos los estilos)
       const allergenBtn = e.target.closest('[data-allergen]');
       if (allergenBtn) {
         e.preventDefault();
@@ -261,7 +311,8 @@ export class GastroApp {
         <div id="view-content"></div>
       </main>
 
-      <!-- CONTENEDORES DE MODALES TEMÁTICOS -->
+      <!-- CONTENEDORES DE MODALES TEMÁTICOS Y LIGHTBOX -->
+      <div id="lightbox-container"></div>
       <div id="dish-modal-container"></div>
       <div id="cart-drawer-container"></div>
       <div id="checkout-modal-container"></div>
@@ -294,15 +345,44 @@ export class GastroApp {
   }
 
   // =========================================================================
-  // CABECERAS DIFERENCIADAS PARA CADA ESTILO (SIN AUDITORÍA, SELECTOR ESTILOS 1-4)
+  // LIGHTBOX INTERACTIVO A PANTALLA COMPLETA
+  // =========================================================================
+  renderLightbox(imageUrl, title) {
+    const container = document.getElementById('lightbox-container');
+    if (!container) return;
+
+    container.innerHTML = `
+      <div id="lightbox-backdrop" class="fixed inset-0 bg-black/95 backdrop-blur-md z-[100] flex flex-col items-center justify-center p-3 sm:p-6 transition-all">
+        
+        <!-- Botón de Cerrar en Esquina Superior -->
+        <button id="close-lightbox-btn" class="absolute top-4 right-4 sm:top-6 sm:right-6 w-11 h-11 rounded-full bg-white/10 hover:bg-white/20 text-white flex items-center justify-center text-xl font-bold transition-all border border-white/20 z-10" title="Cerrar (Esc)">
+          ✕
+        </button>
+
+        <!-- Contenedor de la Fotografía Completa (Sin recorte) -->
+        <div class="relative max-w-5xl max-h-[85vh] w-full flex flex-col items-center justify-center">
+          <img src="${imageUrl}" alt="${title}" class="max-h-[72vh] sm:max-h-[78vh] w-auto max-w-full object-contain rounded-2xl shadow-2xl border border-white/10 select-none"/>
+          
+          <div class="mt-4 text-center px-4">
+            <h3 class="text-white text-base sm:text-xl font-bold tracking-wide">${title}</h3>
+            <span class="text-stone-400 text-xs mt-1 block">Fotografía completa en alta resolución · Pulsa fuera o pulsa la cruz para volver</span>
+          </div>
+        </div>
+
+      </div>
+    `;
+  }
+
+  // =========================================================================
+  // CABECERAS DIFERENCIADAS CON LOGO DEVCORP MÁS GRANDE Y LEGIBLE
   // =========================================================================
   renderHeaderForStyle(preset, currentView, cartCount) {
     const kdsPending = store.state.orders.filter(o => o.status !== 'served').length;
 
     // Selector HTML estándar adaptado a la estética de cada estilo
     const selectorHtml = `
-      <select id="style-select" class="text-xs font-semibold rounded-lg py-1.5 px-2.5 focus:outline-none focus:ring-2 transition-all cursor-pointer shadow-sm ${
-        preset.id === 'estilo1' ? 'bg-[#15151c] text-amber-200 border border-amber-500/30 focus:ring-amber-500' :
+      <select id="style-select" class="text-xs font-semibold rounded-xl py-2 px-3 focus:outline-none focus:ring-2 transition-all cursor-pointer shadow-sm ${
+        preset.id === 'estilo1' ? 'bg-[#15151c] text-amber-200 border border-amber-500/40 focus:ring-amber-500' :
         preset.id === 'estilo2' ? 'bg-slate-900 text-sky-300 border border-slate-700 focus:ring-sky-500' :
         preset.id === 'estilo3' ? 'bg-white text-[#3d3228] border-2 border-[#8c7b6c] focus:ring-[#8c7b6c] font-serif' :
         'bg-white text-zinc-800 border border-zinc-300 focus:ring-zinc-900'
@@ -319,30 +399,33 @@ export class GastroApp {
       return `
         <header class="sticky top-0 z-40 bg-[#0b0b0d]/95 backdrop-blur-md text-white border-b border-stone-800/80">
           <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            <div class="flex items-center justify-between h-16">
+            <div class="flex items-center justify-between h-20 sm:h-24 py-2">
               
-              <!-- Logo DevCorp Sutil -->
-              <a href="https://devcorpsolutions.com" target="_blank" class="flex items-center space-x-3 flex-shrink-0" title="DevCorp Solutions">
-                <img src="assets/images/logo.png" alt="DevCorp" class="h-7 w-auto object-contain brightness-110"/>
-                <span class="hidden sm:inline text-xs font-mono text-stone-400 uppercase tracking-widest">Estilo 1 · Editorial</span>
+              <!-- Logo DevCorp Grande y Nítido -->
+              <a href="https://devcorpsolutions.com" target="_blank" class="flex items-center space-x-3 flex-shrink-0 group" title="DevCorp Solutions">
+                <img src="assets/images/logo.png" alt="DevCorp Solutions" class="h-10 sm:h-12 md:h-14 w-auto object-contain brightness-110 drop-shadow-md transition-transform group-hover:scale-105"/>
+                <div class="hidden lg:block border-l border-stone-800 pl-3">
+                  <span class="text-[11px] font-mono text-amber-300/90 tracking-widest uppercase block font-bold">GastroSuite</span>
+                  <span class="text-[10px] text-stone-400 block font-mono">Estilo 1 · Alta Cocina</span>
+                </div>
               </a>
 
               <!-- Navegación de Texto Refinada -->
-              <nav class="hidden md:flex items-center space-x-6 text-xs tracking-wider uppercase font-medium">
-                <button data-view="menu" class="transition-colors pb-1 ${currentView === 'menu' ? 'text-amber-300 border-b-2 border-amber-400 font-bold' : 'text-stone-400 hover:text-stone-200'}">Carta de Autor</button>
-                <button data-view="reservations" class="transition-colors pb-1 ${currentView === 'reservations' ? 'text-amber-300 border-b-2 border-amber-400 font-bold' : 'text-stone-400 hover:text-stone-200'}">Reservas</button>
-                <button data-view="kds" class="transition-colors pb-1 flex items-center space-x-1.5 ${currentView === 'kds' ? 'text-amber-300 border-b-2 border-amber-400 font-bold' : 'text-stone-400 hover:text-stone-200'}">
+              <nav class="hidden md:flex items-center space-x-7 text-xs tracking-widest uppercase font-medium">
+                <button data-view="menu" class="transition-colors pb-1.5 ${currentView === 'menu' ? 'text-amber-300 border-b-2 border-amber-400 font-bold' : 'text-stone-400 hover:text-stone-200'}">Carta de Autor</button>
+                <button data-view="reservations" class="transition-colors pb-1.5 ${currentView === 'reservations' ? 'text-amber-300 border-b-2 border-amber-400 font-bold' : 'text-stone-400 hover:text-stone-200'}">Reservas</button>
+                <button data-view="kds" class="transition-colors pb-1.5 flex items-center space-x-1.5 ${currentView === 'kds' ? 'text-amber-300 border-b-2 border-amber-400 font-bold' : 'text-stone-400 hover:text-stone-200'}">
                   <span>Cocina</span>
                   ${kdsPending > 0 ? `<span class="bg-amber-400/20 text-amber-300 text-[10px] px-1.5 py-0.2 rounded font-mono font-bold">${kdsPending}</span>` : ''}
                 </button>
-                <button data-view="metrics" class="transition-colors pb-1 ${currentView === 'metrics' ? 'text-amber-300 border-b-2 border-amber-400 font-bold' : 'text-stone-400 hover:text-stone-200'}">Métricas</button>
-                <button data-view="roi" class="transition-colors pb-1 ${currentView === 'roi' ? 'text-amber-300 border-b-2 border-amber-400 font-bold' : 'text-stone-400 hover:text-stone-200'}">Rentabilidad</button>
+                <button data-view="metrics" class="transition-colors pb-1.5 ${currentView === 'metrics' ? 'text-amber-300 border-b-2 border-amber-400 font-bold' : 'text-stone-400 hover:text-stone-200'}">Métricas</button>
+                <button data-view="roi" class="transition-colors pb-1.5 ${currentView === 'roi' ? 'text-amber-300 border-b-2 border-amber-400 font-bold' : 'text-stone-400 hover:text-stone-200'}">Rentabilidad</button>
               </nav>
 
               <!-- Selector de Estilos y Carrito -->
-              <div class="flex items-center space-x-2.5">
+              <div class="flex items-center space-x-3 flex-shrink-0">
                 ${selectorHtml}
-                <button id="open-cart-btn" class="flex items-center space-x-1.5 bg-stone-900 border border-amber-500/40 text-amber-200 text-xs font-semibold px-3 py-1.5 rounded-lg shadow transition-colors hover:bg-stone-800">
+                <button id="open-cart-btn" class="flex items-center space-x-2 bg-stone-900 border border-amber-500/40 text-amber-200 text-xs font-semibold px-3.5 py-2 rounded-xl shadow transition-colors hover:bg-stone-800">
                   ${ICONS.cart}
                   <span class="font-mono">${formatCurrency(store.getCartTotal())}</span>
                   ${cartCount > 0 ? `<span class="bg-amber-400 text-stone-950 text-[10px] font-black px-1.5 py-0.2 rounded-full">${cartCount}</span>` : ''}
@@ -353,7 +436,7 @@ export class GastroApp {
           </div>
 
           <!-- Barra móvil con pestañas de texto elegante -->
-          <nav class="md:hidden bg-[#0e0e12] border-t border-stone-800 px-3 py-2 overflow-x-auto no-scrollbar flex items-center space-x-4 text-xs uppercase tracking-wider min-w-max">
+          <nav class="md:hidden bg-[#0e0e12] border-t border-stone-800 px-3 py-2.5 overflow-x-auto no-scrollbar flex items-center space-x-5 text-xs uppercase tracking-wider min-w-max">
             <button data-view="menu" class="${currentView === 'menu' ? 'text-amber-300 font-bold' : 'text-stone-400'}">Carta</button>
             <button data-view="reservations" class="${currentView === 'reservations' ? 'text-amber-300 font-bold' : 'text-stone-400'}">Reservas</button>
             <button data-view="kds" class="${currentView === 'kds' ? 'text-amber-300 font-bold' : 'text-stone-400'}">Cocina (${kdsPending})</button>
@@ -369,30 +452,30 @@ export class GastroApp {
       return `
         <header class="sticky top-0 z-40 bg-[#070a13]/90 backdrop-blur-md text-slate-100 border-b border-slate-800">
           <div class="max-w-7xl mx-auto px-3 sm:px-6 lg:px-8">
-            <div class="flex items-center justify-between h-14 sm:h-16 gap-2">
+            <div class="flex items-center justify-between h-20 sm:h-24 py-2 gap-2">
               
-              <div class="flex items-center space-x-3">
-                <a href="https://devcorpsolutions.com" target="_blank" class="flex-shrink-0" title="DevCorp Solutions">
-                  <img src="assets/images/logo.png" alt="DevCorp" class="h-6 sm:h-7 w-auto object-contain"/>
+              <div class="flex items-center space-x-3 flex-shrink-0">
+                <a href="https://devcorpsolutions.com" target="_blank" class="flex-shrink-0 group" title="DevCorp Solutions">
+                  <img src="assets/images/logo.png" alt="DevCorp Solutions" class="h-10 sm:h-12 md:h-14 w-auto object-contain drop-shadow transition-transform group-hover:scale-105"/>
                 </a>
-                <span class="hidden xl:inline-flex items-center px-2 py-0.5 rounded-full text-[11px] font-medium bg-emerald-950 border border-emerald-500/40 text-emerald-300">
-                  <span class="w-1.5 h-1.5 rounded-full bg-emerald-400 mr-1.5 animate-pulse"></span>
+                <span class="hidden xl:inline-flex items-center px-2.5 py-1 rounded-full text-[11px] font-medium bg-emerald-950 border border-emerald-500/40 text-emerald-300 font-mono">
+                  <span class="w-2 h-2 rounded-full bg-emerald-400 mr-1.5 animate-pulse"></span>
                   ${preset.serviceStatus}
                 </span>
               </div>
 
               <!-- Cápsula Flotante (Segmented Control) -->
-              <nav class="hidden lg:flex items-center bento-pill-nav space-x-1 text-xs font-semibold">
-                <button data-view="menu" class="px-3 py-1 rounded-full transition-all ${currentView === 'menu' ? 'bg-sky-600 text-white shadow' : 'text-slate-400 hover:text-slate-200'}">Carta Interactiva</button>
-                <button data-view="reservations" class="px-3 py-1 rounded-full transition-all ${currentView === 'reservations' ? 'bg-sky-600 text-white shadow' : 'text-slate-400 hover:text-slate-200'}">Reservas</button>
-                <button data-view="kds" class="px-3 py-1 rounded-full transition-all ${currentView === 'kds' ? 'bg-sky-600 text-white shadow' : 'text-slate-400 hover:text-slate-200'}">KDS Cocina (${kdsPending})</button>
-                <button data-view="metrics" class="px-3 py-1 rounded-full transition-all ${currentView === 'metrics' ? 'bg-sky-600 text-white shadow' : 'text-slate-400 hover:text-slate-200'}">Métricas</button>
-                <button data-view="roi" class="px-3 py-1 rounded-full transition-all ${currentView === 'roi' ? 'bg-sky-600 text-white shadow' : 'text-slate-400 hover:text-slate-200'}">Ahorro 0%</button>
+              <nav class="hidden lg:flex items-center bento-pill-nav space-x-1.5 text-xs font-semibold">
+                <button data-view="menu" class="px-3.5 py-1.5 rounded-full transition-all ${currentView === 'menu' ? 'bg-sky-600 text-white shadow' : 'text-slate-400 hover:text-slate-200'}">Carta Interactiva</button>
+                <button data-view="reservations" class="px-3.5 py-1.5 rounded-full transition-all ${currentView === 'reservations' ? 'bg-sky-600 text-white shadow' : 'text-slate-400 hover:text-slate-200'}">Reservas</button>
+                <button data-view="kds" class="px-3.5 py-1.5 rounded-full transition-all ${currentView === 'kds' ? 'bg-sky-600 text-white shadow' : 'text-slate-400 hover:text-slate-200'}">KDS Cocina (${kdsPending})</button>
+                <button data-view="metrics" class="px-3.5 py-1.5 rounded-full transition-all ${currentView === 'metrics' ? 'bg-sky-600 text-white shadow' : 'text-slate-400 hover:text-slate-200'}">Métricas</button>
+                <button data-view="roi" class="px-3.5 py-1.5 rounded-full transition-all ${currentView === 'roi' ? 'bg-sky-600 text-white shadow' : 'text-slate-400 hover:text-slate-200'}">Ahorro 0%</button>
               </nav>
 
-              <div class="flex items-center space-x-2">
+              <div class="flex items-center space-x-2.5 flex-shrink-0">
                 ${selectorHtml}
-                <button id="open-cart-btn" class="bg-blue-600 hover:bg-blue-500 text-white text-xs font-bold px-3 py-1.5 rounded-xl shadow flex items-center space-x-1.5">
+                <button id="open-cart-btn" class="bg-blue-600 hover:bg-blue-500 text-white text-xs font-bold px-3.5 py-2 rounded-xl shadow flex items-center space-x-1.5">
                   ${ICONS.cart}
                   <span class="font-mono">${formatCurrency(store.getCartTotal())}</span>
                   ${cartCount > 0 ? `<span class="bg-white text-blue-800 text-[10px] font-black px-1.5 py-0.2 rounded-full">${cartCount}</span>` : ''}
@@ -403,12 +486,12 @@ export class GastroApp {
           </div>
 
           <!-- Barra móvil táctil con botones redondeados -->
-          <nav class="lg:hidden bg-slate-900 border-t border-slate-800 px-2 py-1.5 overflow-x-auto no-scrollbar flex items-center space-x-1.5 text-xs font-medium min-w-max">
-            <button data-view="menu" class="px-2.5 py-1 rounded-lg ${currentView === 'menu' ? 'bg-sky-600 text-white' : 'text-slate-300'}">Carta</button>
-            <button data-view="reservations" class="px-2.5 py-1 rounded-lg ${currentView === 'reservations' ? 'bg-sky-600 text-white' : 'text-slate-300'}">Reservas</button>
-            <button data-view="kds" class="px-2.5 py-1 rounded-lg ${currentView === 'kds' ? 'bg-sky-600 text-white' : 'text-slate-300'}">Cocina (${kdsPending})</button>
-            <button data-view="metrics" class="px-2.5 py-1 rounded-lg ${currentView === 'metrics' ? 'bg-sky-600 text-white' : 'text-slate-300'}">Métricas</button>
-            <button data-view="roi" class="px-2.5 py-1 rounded-lg ${currentView === 'roi' ? 'bg-sky-600 text-white' : 'text-slate-300'}">Ahorro</button>
+          <nav class="lg:hidden bg-slate-900 border-t border-slate-800 px-2 py-2 overflow-x-auto no-scrollbar flex items-center space-x-2 text-xs font-medium min-w-max">
+            <button data-view="menu" class="px-3 py-1.5 rounded-lg ${currentView === 'menu' ? 'bg-sky-600 text-white font-bold' : 'text-slate-300'}">Carta</button>
+            <button data-view="reservations" class="px-3 py-1.5 rounded-lg ${currentView === 'reservations' ? 'bg-sky-600 text-white font-bold' : 'text-slate-300'}">Reservas</button>
+            <button data-view="kds" class="px-3 py-1.5 rounded-lg ${currentView === 'kds' ? 'bg-sky-600 text-white font-bold' : 'text-slate-300'}">Cocina (${kdsPending})</button>
+            <button data-view="metrics" class="px-3 py-1.5 rounded-lg ${currentView === 'metrics' ? 'bg-sky-600 text-white font-bold' : 'text-slate-300'}">Métricas</button>
+            <button data-view="roi" class="px-3 py-1.5 rounded-lg ${currentView === 'roi' ? 'bg-sky-600 text-white font-bold' : 'text-slate-300'}">Ahorro</button>
           </nav>
         </header>
       `;
@@ -419,30 +502,30 @@ export class GastroApp {
       return `
         <header class="sticky top-0 z-40 bg-[#f6f3eb] text-[#2b2520] border-b-2 border-[#8c7b6c] shadow-sm">
           <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            <div class="flex items-center justify-between h-16 sm:h-20">
+            <div class="flex items-center justify-between h-20 sm:h-24 py-2">
               
-              <div class="flex items-center space-x-3">
-                <a href="https://devcorpsolutions.com" target="_blank" title="DevCorp Solutions">
-                  <img src="assets/images/logo.png" alt="DevCorp" class="h-7 w-auto object-contain"/>
+              <div class="flex items-center space-x-4 flex-shrink-0">
+                <a href="https://devcorpsolutions.com" target="_blank" title="DevCorp Solutions" class="group">
+                  <img src="assets/images/logo.png" alt="DevCorp Solutions" class="h-10 sm:h-12 md:h-14 w-auto object-contain transition-transform group-hover:scale-105"/>
                 </a>
-                <div class="hidden sm:block">
+                <div class="hidden sm:block border-l-2 border-[#8c7b6c]/40 pl-3">
                   <span class="font-serif font-bold text-base block text-[#3d3228]">Casa Manolo</span>
-                  <span class="text-[10px] text-[#7a6b5d] uppercase tracking-wider block">Tradición desde 1974 · Tel. 914 63 12 90</span>
+                  <span class="text-[10px] text-[#7a6b5d] uppercase tracking-wider block font-sans">Desde 1974 · Tel. 914 63 12 90</span>
                 </div>
               </div>
 
               <!-- Menú Clásico de Fichero / Pestañas Rectangulares -->
-              <nav class="hidden md:flex items-center space-x-1 font-serif text-sm font-semibold">
-                <button data-view="menu" class="px-3 py-1.5 border-b-2 transition-all ${currentView === 'menu' ? 'border-[#8c7b6c] text-[#1c1510] font-bold bg-[#eee7db]' : 'border-transparent text-[#6b5c4f] hover:text-[#1c1510]'}">Carta del Día</button>
-                <button data-view="reservations" class="px-3 py-1.5 border-b-2 transition-all ${currentView === 'reservations' ? 'border-[#8c7b6c] text-[#1c1510] font-bold bg-[#eee7db]' : 'border-transparent text-[#6b5c4f] hover:text-[#1c1510]'}">Reservar Mesa</button>
-                <button data-view="kds" class="px-3 py-1.5 border-b-2 transition-all ${currentView === 'kds' ? 'border-[#8c7b6c] text-[#1c1510] font-bold bg-[#eee7db]' : 'border-transparent text-[#6b5c4f] hover:text-[#1c1510]'}">Comandero (${kdsPending})</button>
-                <button data-view="metrics" class="px-3 py-1.5 border-b-2 transition-all ${currentView === 'metrics' ? 'border-[#8c7b6c] text-[#1c1510] font-bold bg-[#eee7db]' : 'border-transparent text-[#6b5c4f] hover:text-[#1c1510]'}">Caja & Datos</button>
-                <button data-view="roi" class="px-3 py-1.5 border-b-2 transition-all ${currentView === 'roi' ? 'border-[#8c7b6c] text-[#1c1510] font-bold bg-[#eee7db]' : 'border-transparent text-[#6b5c4f] hover:text-[#1c1510]'}">Comparativa Comisiones</button>
+              <nav class="hidden md:flex items-center space-x-1.5 font-serif text-sm font-semibold">
+                <button data-view="menu" class="px-3.5 py-2 border-b-2 transition-all ${currentView === 'menu' ? 'border-[#8c7b6c] text-[#1c1510] font-bold bg-[#eee7db]' : 'border-transparent text-[#6b5c4f] hover:text-[#1c1510]'}">Carta del Día</button>
+                <button data-view="reservations" class="px-3.5 py-2 border-b-2 transition-all ${currentView === 'reservations' ? 'border-[#8c7b6c] text-[#1c1510] font-bold bg-[#eee7db]' : 'border-transparent text-[#6b5c4f] hover:text-[#1c1510]'}">Reservar Mesa</button>
+                <button data-view="kds" class="px-3.5 py-2 border-b-2 transition-all ${currentView === 'kds' ? 'border-[#8c7b6c] text-[#1c1510] font-bold bg-[#eee7db]' : 'border-transparent text-[#6b5c4f] hover:text-[#1c1510]'}">Comandero (${kdsPending})</button>
+                <button data-view="metrics" class="px-3.5 py-2 border-b-2 transition-all ${currentView === 'metrics' ? 'border-[#8c7b6c] text-[#1c1510] font-bold bg-[#eee7db]' : 'border-transparent text-[#6b5c4f] hover:text-[#1c1510]'}">Caja & Datos</button>
+                <button data-view="roi" class="px-3.5 py-2 border-b-2 transition-all ${currentView === 'roi' ? 'border-[#8c7b6c] text-[#1c1510] font-bold bg-[#eee7db]' : 'border-transparent text-[#6b5c4f] hover:text-[#1c1510]'}">Comparativa Comisiones</button>
               </nav>
 
-              <div class="flex items-center space-x-2">
+              <div class="flex items-center space-x-2.5 flex-shrink-0">
                 ${selectorHtml}
-                <button id="open-cart-btn" class="bg-[#3d3228] hover:bg-[#251e18] text-[#f6f3eb] text-xs font-bold px-3 py-1.5 rounded shadow flex items-center space-x-1.5 font-serif">
+                <button id="open-cart-btn" class="bg-[#3d3228] hover:bg-[#251e18] text-[#f6f3eb] text-xs font-bold px-3.5 py-2 rounded shadow flex items-center space-x-1.5 font-serif">
                   ${ICONS.cart}
                   <span>Comanda (${cartCount})</span>
                 </button>
@@ -452,12 +535,12 @@ export class GastroApp {
           </div>
 
           <!-- Barra móvil estilo fichero -->
-          <nav class="md:hidden bg-[#eee7db] border-t border-[#8c7b6c] px-3 py-1.5 overflow-x-auto no-scrollbar flex items-center space-x-2 text-xs font-serif min-w-max">
-            <button data-view="menu" class="px-2 py-1 rounded ${currentView === 'menu' ? 'bg-[#3d3228] text-white' : 'text-[#3d3228]'}">Carta</button>
-            <button data-view="reservations" class="px-2 py-1 rounded ${currentView === 'reservations' ? 'bg-[#3d3228] text-white' : 'text-[#3d3228]'}">Reservas</button>
-            <button data-view="kds" class="px-2 py-1 rounded ${currentView === 'kds' ? 'bg-[#3d3228] text-white' : 'text-[#3d3228]'}">Comandero (${kdsPending})</button>
-            <button data-view="metrics" class="px-2 py-1 rounded ${currentView === 'metrics' ? 'bg-[#3d3228] text-white' : 'text-[#3d3228]'}">Caja</button>
-            <button data-view="roi" class="px-2 py-1 rounded ${currentView === 'roi' ? 'bg-[#3d3228] text-white' : 'text-[#3d3228]'}">Comisiones</button>
+          <nav class="md:hidden bg-[#eee7db] border-t border-[#8c7b6c] px-3 py-2 overflow-x-auto no-scrollbar flex items-center space-x-2.5 text-xs font-serif min-w-max">
+            <button data-view="menu" class="px-2.5 py-1.5 rounded ${currentView === 'menu' ? 'bg-[#3d3228] text-white' : 'text-[#3d3228]'}">Carta</button>
+            <button data-view="reservations" class="px-2.5 py-1.5 rounded ${currentView === 'reservations' ? 'bg-[#3d3228] text-white' : 'text-[#3d3228]'}">Reservas</button>
+            <button data-view="kds" class="px-2.5 py-1.5 rounded ${currentView === 'kds' ? 'bg-[#3d3228] text-white' : 'text-[#3d3228]'}">Comandero (${kdsPending})</button>
+            <button data-view="metrics" class="px-2.5 py-1.5 rounded ${currentView === 'metrics' ? 'bg-[#3d3228] text-white' : 'text-[#3d3228]'}">Caja</button>
+            <button data-view="roi" class="px-2.5 py-1.5 rounded ${currentView === 'roi' ? 'bg-[#3d3228] text-white' : 'text-[#3d3228]'}">Comisiones</button>
           </nav>
         </header>
       `;
@@ -467,25 +550,25 @@ export class GastroApp {
     return `
       <header class="sticky top-0 z-40 bg-white/95 backdrop-blur-md text-zinc-900 border-b border-zinc-200">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div class="flex items-center justify-between h-14 sm:h-16">
+          <div class="flex items-center justify-between h-20 sm:h-24 py-2">
             
-            <a href="https://devcorpsolutions.com" target="_blank" class="flex items-center space-x-2.5" title="DevCorp Solutions">
-              <img src="assets/images/logo.png" alt="DevCorp" class="h-6 w-auto object-contain"/>
-              <span class="text-xs font-medium tracking-widest text-zinc-500 uppercase">Atelier</span>
+            <a href="https://devcorpsolutions.com" target="_blank" class="flex items-center space-x-3 flex-shrink-0 group" title="DevCorp Solutions">
+              <img src="assets/images/logo.png" alt="DevCorp Solutions" class="h-10 sm:h-12 md:h-14 w-auto object-contain transition-transform group-hover:scale-105"/>
+              <span class="text-xs font-medium tracking-widest text-zinc-500 uppercase hidden sm:inline">Atelier</span>
             </a>
 
             <!-- Navegación Minimalista Espaciada -->
-            <nav class="hidden md:flex items-center space-x-8 text-xs font-light tracking-widest uppercase">
-              <button data-view="menu" class="transition-colors ${currentView === 'menu' ? 'text-zinc-900 font-semibold border-b border-zinc-900 pb-0.5' : 'text-zinc-400 hover:text-zinc-900'}">Menú</button>
-              <button data-view="reservations" class="transition-colors ${currentView === 'reservations' ? 'text-zinc-900 font-semibold border-b border-zinc-900 pb-0.5' : 'text-zinc-400 hover:text-zinc-900'}">Mesa</button>
-              <button data-view="kds" class="transition-colors ${currentView === 'kds' ? 'text-zinc-900 font-semibold border-b border-zinc-900 pb-0.5' : 'text-zinc-400 hover:text-zinc-900'}">Obrador (${kdsPending})</button>
-              <button data-view="metrics" class="transition-colors ${currentView === 'metrics' ? 'text-zinc-900 font-semibold border-b border-zinc-900 pb-0.5' : 'text-zinc-400 hover:text-zinc-900'}">Estadísticas</button>
-              <button data-view="roi" class="transition-colors ${currentView === 'roi' ? 'text-zinc-900 font-semibold border-b border-zinc-900 pb-0.5' : 'text-zinc-400 hover:text-zinc-900'}">Rentabilidad</button>
+            <nav class="hidden md:flex items-center space-x-9 text-xs font-light tracking-widest uppercase">
+              <button data-view="menu" class="transition-colors ${currentView === 'menu' ? 'text-zinc-900 font-semibold border-b border-zinc-900 pb-1' : 'text-zinc-400 hover:text-zinc-900'}">Menú</button>
+              <button data-view="reservations" class="transition-colors ${currentView === 'reservations' ? 'text-zinc-900 font-semibold border-b border-zinc-900 pb-1' : 'text-zinc-400 hover:text-zinc-900'}">Mesa</button>
+              <button data-view="kds" class="transition-colors ${currentView === 'kds' ? 'text-zinc-900 font-semibold border-b border-zinc-900 pb-1' : 'text-zinc-400 hover:text-zinc-900'}">Obrador (${kdsPending})</button>
+              <button data-view="metrics" class="transition-colors ${currentView === 'metrics' ? 'text-zinc-900 font-semibold border-b border-zinc-900 pb-1' : 'text-zinc-400 hover:text-zinc-900'}">Estadísticas</button>
+              <button data-view="roi" class="transition-colors ${currentView === 'roi' ? 'text-zinc-900 font-semibold border-b border-zinc-900 pb-1' : 'text-zinc-400 hover:text-zinc-900'}">Rentabilidad</button>
             </nav>
 
-            <div class="flex items-center space-x-3">
+            <div class="flex items-center space-x-3 flex-shrink-0">
               ${selectorHtml}
-              <button id="open-cart-btn" class="text-xs font-medium tracking-wide flex items-center space-x-1 text-zinc-900 hover:text-zinc-600">
+              <button id="open-cart-btn" class="text-xs font-medium tracking-wide flex items-center space-x-1.5 text-zinc-900 hover:text-zinc-600 bg-zinc-100 hover:bg-zinc-200 px-3 py-2 rounded-lg transition-colors">
                 ${ICONS.cart}
                 <span>(${cartCount})</span>
               </button>
@@ -495,7 +578,7 @@ export class GastroApp {
         </div>
 
         <!-- Barra móvil minimalista -->
-        <nav class="md:hidden bg-zinc-50 border-t border-zinc-200 px-3 py-2 overflow-x-auto no-scrollbar flex items-center space-x-5 text-xs font-light tracking-widest uppercase min-w-max">
+        <nav class="md:hidden bg-zinc-50 border-t border-zinc-200 px-3 py-2.5 overflow-x-auto no-scrollbar flex items-center space-x-6 text-xs font-light tracking-widest uppercase min-w-max">
           <button data-view="menu" class="${currentView === 'menu' ? 'text-zinc-900 font-bold' : 'text-zinc-400'}">Menú</button>
           <button data-view="reservations" class="${currentView === 'reservations' ? 'text-zinc-900 font-bold' : 'text-zinc-400'}">Mesa</button>
           <button data-view="kds" class="${currentView === 'kds' ? 'text-zinc-900 font-bold' : 'text-zinc-400'}">Obrador (${kdsPending})</button>
@@ -542,7 +625,7 @@ export class GastroApp {
   }
 
   // -------------------------------------------------------------------------
-  // DISEÑO 1: EDITORIAL & ALTA COCINA (FINE DINING CON IMÁGENES Y MODAL DETALLADO)
+  // DISEÑO 1: EDITORIAL & ALTA COCINA (FINE DINING CON FOTOS, MODAL Y FILTROS)
   // -------------------------------------------------------------------------
   renderEstilo1Layout(preset, filteredMenu, activeCategory, activeAllergen, topData) {
     return `
@@ -618,7 +701,7 @@ export class GastroApp {
         </div>
       </section>
 
-      <!-- BARRA DE CATEGORÍAS EDITORIAL (SIN JERGA DE PASES) -->
+      <!-- BARRA DE CATEGORÍAS Y FILTROS DE ALÉRGENOS -->
       <div class="border-b border-stone-800 pb-3 mb-8 flex flex-wrap items-center justify-between gap-4">
         <div class="flex items-center space-x-4 overflow-x-auto no-scrollbar text-xs font-medium uppercase tracking-wider">
           <button data-category="all" class="pb-2 transition-colors ${activeCategory === 'all' ? 'text-amber-300 border-b-2 border-amber-400 font-bold' : 'text-stone-400 hover:text-stone-200'}">
@@ -631,10 +714,15 @@ export class GastroApp {
           `).join('')}
         </div>
 
-        <div class="flex items-center space-x-2 text-xs text-stone-400 font-mono">
-          <span>Alérgenos:</span>
-          <button data-allergen="gluten" class="px-2 py-0.5 rounded border text-[10px] ${activeAllergen === 'gluten' ? 'bg-amber-950 border-amber-500 text-amber-200' : 'border-stone-800 text-stone-400'}">Sin Gluten</button>
-          <button data-allergen="lactosa" class="px-2 py-0.5 rounded border text-[10px] ${activeAllergen === 'lactosa' ? 'bg-amber-950 border-amber-500 text-amber-200' : 'border-stone-800 text-stone-400'}">Sin Lactosa</button>
+        <!-- Filtros de alérgenos reactivos -->
+        <div class="flex items-center space-x-2 text-xs font-mono">
+          <span class="text-stone-400 text-[11px]">Alérgenos:</span>
+          <button data-allergen="gluten" class="px-2.5 py-1 rounded-lg border text-xs transition-all ${activeAllergen === 'gluten' ? 'bg-amber-950 border-amber-500 text-amber-200 font-bold' : 'border-stone-800 text-stone-400 hover:text-stone-200'}">
+            🌾 Sin Gluten
+          </button>
+          <button data-allergen="lactosa" class="px-2.5 py-1 rounded-lg border text-xs transition-all ${activeAllergen === 'lactosa' ? 'bg-amber-950 border-amber-500 text-amber-200 font-bold' : 'border-stone-800 text-stone-400 hover:text-stone-200'}">
+            🥛 Sin Lactosa
+          </button>
         </div>
       </div>
 
@@ -645,14 +733,16 @@ export class GastroApp {
           return `
             <div class="editorial-card p-4 sm:p-6 flex flex-col md:flex-row items-stretch md:items-center justify-between gap-6 group">
               
-              <!-- Imagen de Alta Calidad (si existe) -->
+              <!-- Imagen de Alta Calidad -->
               ${dish.image ? `
-                <div class="w-full md:w-56 h-44 sm:h-48 md:h-36 rounded-xl overflow-hidden bg-stone-900 flex-shrink-0 relative cursor-pointer" data-open-dish-modal="${dish.id}">
+                <div class="w-full md:w-56 h-48 sm:h-52 md:h-40 rounded-xl overflow-hidden bg-stone-900 flex-shrink-0 relative cursor-pointer group" data-open-dish-modal="${dish.id}">
                   <img src="${dish.image}" alt="${dish.name}" class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"/>
-                  <span class="absolute inset-0 bg-gradient-to-t from-stone-950/70 via-transparent to-transparent"></span>
-                  <div class="absolute bottom-2 left-2 right-2 flex items-center justify-between text-[10px] text-amber-300 font-mono">
-                    <span class="flex items-center space-x-1">${ICONS.eye}<span>Ver detalle</span></span>
-                    <span>${dish.prepTime || '15 min'}</span>
+                  <button data-open-lightbox="${dish.image}" data-lightbox-title="${dish.name}" class="absolute top-2 right-2 bg-black/70 hover:bg-black text-white p-1.5 rounded-lg text-xs backdrop-blur-sm transition-opacity" title="Ampliar imagen completa">
+                    ${ICONS.zoom}
+                  </button>
+                  <div class="absolute bottom-2 left-2 bg-black/75 backdrop-blur-sm px-2 py-0.5 rounded text-[10px] text-amber-300 font-mono flex items-center space-x-1">
+                    ${ICONS.eye}
+                    <span>Ver detalle</span>
                   </div>
                 </div>
               ` : ''}
@@ -696,7 +786,7 @@ export class GastroApp {
   }
 
   // -------------------------------------------------------------------------
-  // DISEÑO 2: APP INTERACTIVA & BENTO GRID (GASTROBAR & CASUAL MODERNO)
+  // DISEÑO 2: APP INTERACTIVA & BENTO GRID (CON FILTROS Y FOTOS CLARAS)
   // -------------------------------------------------------------------------
   renderEstilo2Layout(preset, filteredMenu, activeCategory, activeAllergen, topData) {
     return `
@@ -713,8 +803,9 @@ export class GastroApp {
           </div>
         </div>
         <div class="flex items-center space-x-2">
-          <button data-open-dish-modal="${topData.dish.id}" class="bg-slate-800 hover:bg-slate-700 text-sky-300 text-xs px-3 py-1.5 rounded-xl border border-slate-700">
-            Ver Detalle
+          <button data-open-dish-modal="${topData.dish.id}" class="bg-slate-800 hover:bg-slate-700 text-sky-300 text-xs px-3 py-1.5 rounded-xl border border-slate-700 flex items-center space-x-1">
+            ${ICONS.eye}
+            <span>Detalle</span>
           </button>
           <button data-add-cart="${topData.dish.id}" class="bg-sky-600 hover:bg-sky-500 text-white font-bold text-xs px-3.5 py-1.5 rounded-xl shadow">
             Añadir
@@ -765,16 +856,29 @@ export class GastroApp {
         </div>
       </section>
 
-      <!-- BARRA DE CATEGORÍAS TIPO APP -->
-      <div class="flex items-center space-x-2 overflow-x-auto no-scrollbar pb-3 mb-6">
-        <button data-category="all" class="px-3 py-1.5 rounded-xl text-xs font-semibold whitespace-nowrap transition-all ${activeCategory === 'all' ? 'bg-sky-600 text-white' : 'bg-slate-800 text-slate-300 hover:bg-slate-700'}">
-          Todo (${preset.menu.length})
-        </button>
-        ${preset.categories.map(cat => `
-          <button data-category="${cat}" class="px-3 py-1.5 rounded-xl text-xs font-semibold whitespace-nowrap transition-all ${activeCategory === cat ? 'bg-sky-600 text-white' : 'bg-slate-800 text-slate-300 hover:bg-slate-700'}">
-            ${cat}
+      <!-- BARRA DE CATEGORÍAS Y FILTROS DE ALÉRGENOS (ESTILO 2) -->
+      <div class="flex flex-wrap items-center justify-between gap-3 pb-3 mb-6 border-b border-slate-800">
+        <div class="flex items-center space-x-2 overflow-x-auto no-scrollbar">
+          <button data-category="all" class="px-3.5 py-1.5 rounded-xl text-xs font-semibold whitespace-nowrap transition-all ${activeCategory === 'all' ? 'bg-sky-600 text-white' : 'bg-slate-800 text-slate-300 hover:bg-slate-700'}">
+            Todo (${preset.menu.length})
           </button>
-        `).join('')}
+          ${preset.categories.map(cat => `
+            <button data-category="${cat}" class="px-3.5 py-1.5 rounded-xl text-xs font-semibold whitespace-nowrap transition-all ${activeCategory === cat ? 'bg-sky-600 text-white' : 'bg-slate-800 text-slate-300 hover:bg-slate-700'}">
+              ${cat}
+            </button>
+          `).join('')}
+        </div>
+
+        <!-- Filtro de alérgenos estilo App -->
+        <div class="flex items-center space-x-2 text-xs font-mono">
+          <span class="text-slate-400 text-[11px]">Alérgenos:</span>
+          <button data-allergen="gluten" class="px-3 py-1.5 rounded-xl border text-xs font-semibold transition-all ${activeAllergen === 'gluten' ? 'bg-sky-600 border-sky-400 text-white font-bold' : 'bg-slate-800 border-slate-700 text-slate-300 hover:bg-slate-700'}">
+            🌾 Sin Gluten
+          </button>
+          <button data-allergen="lactosa" class="px-3 py-1.5 rounded-xl border text-xs font-semibold transition-all ${activeAllergen === 'lactosa' ? 'bg-sky-600 border-sky-400 text-white font-bold' : 'bg-slate-800 border-slate-700 text-slate-300 hover:bg-slate-700'}">
+            🥛 Sin Lactosa
+          </button>
+        </div>
       </div>
 
       <!-- CUADRÍCULA DE PLATOS TIPO APP BENTO -->
@@ -784,10 +888,13 @@ export class GastroApp {
           return `
             <div class="bento-card p-4 flex flex-col justify-between group">
               <div>
-                <div class="relative h-44 rounded-xl overflow-hidden mb-3 bg-slate-800 cursor-pointer" data-open-dish-modal="${dish.id}">
+                <div class="relative h-48 rounded-xl overflow-hidden mb-3 bg-slate-800 cursor-pointer" data-open-dish-modal="${dish.id}">
                   <img src="${dish.image}" alt="${dish.name}" class="w-full h-full object-cover transition-transform duration-300 group-hover:scale-105"/>
                   ${dish.badge ? `<span class="absolute top-2 left-2 bg-slate-900/90 text-sky-300 text-[10px] font-bold px-2 py-0.5 rounded">${dish.badge}</span>` : ''}
-                  <div class="absolute bottom-2 right-2 bg-slate-950/80 text-white text-[10px] px-2 py-0.5 rounded-full flex items-center space-x-1">
+                  <button data-open-lightbox="${dish.image}" data-lightbox-title="${dish.name}" class="absolute top-2 right-2 bg-black/70 hover:bg-black text-white p-1.5 rounded-lg text-xs backdrop-blur-sm transition-opacity" title="Ampliar imagen completa">
+                    ${ICONS.zoom}
+                  </button>
+                  <div class="absolute bottom-2 right-2 bg-slate-950/80 text-white text-[10px] px-2.5 py-0.5 rounded-full flex items-center space-x-1">
                     ${ICONS.eye}
                     <span>Info</span>
                   </div>
@@ -812,7 +919,7 @@ export class GastroApp {
                   <button data-quick-simulate-dish="${dish.id}" class="bg-slate-800 hover:bg-slate-700 text-slate-400 text-[11px] px-2 py-1.5 rounded-lg">
                     +1
                   </button>
-                  <button data-add-cart="${dish.id}" class="bg-sky-600 hover:bg-sky-500 text-white font-bold text-xs px-3 py-1.5 rounded-lg">
+                  <button data-add-cart="${dish.id}" class="bg-sky-600 hover:bg-sky-500 text-white font-bold text-xs px-3.5 py-1.5 rounded-lg">
                     Añadir
                   </button>
                 </div>
@@ -825,7 +932,7 @@ export class GastroApp {
   }
 
   // -------------------------------------------------------------------------
-  // DISEÑO 3: BISTRÓ TRADICIONAL & CARTA CLÁSICA CON LÍDERES PUNTEADOS Y FOTOS
+  // DISEÑO 3: BISTRÓ TRADICIONAL & CARTA CLÁSICA CON FILTROS Y FOTOS
   // -------------------------------------------------------------------------
   renderEstilo3Layout(preset, filteredMenu, activeCategory, activeAllergen, topData) {
     return `
@@ -876,8 +983,8 @@ export class GastroApp {
         </div>
       </section>
 
-      <!-- BARRA DE SECCIONES TRADICIONALES -->
-      <div class="border-b-2 border-[#8c7b6c] pb-2 mb-8 flex flex-wrap items-center justify-between gap-3 font-serif">
+      <!-- BARRA DE SECCIONES Y FILTROS TRADICIONALES (ESTILO 3) -->
+      <div class="border-b-2 border-[#8c7b6c] pb-2.5 mb-8 flex flex-wrap items-center justify-between gap-3 font-serif">
         <div class="flex items-center space-x-3 overflow-x-auto no-scrollbar text-xs">
           <button data-category="all" class="px-3 py-1 rounded transition-all ${activeCategory === 'all' ? 'bg-[#3d3228] text-white font-bold' : 'text-[#594d40] hover:text-[#2b2520]'}">
             Toda la Carta (${preset.menu.length})
@@ -888,22 +995,33 @@ export class GastroApp {
             </button>
           `).join('')}
         </div>
+
+        <!-- Filtros de alérgenos estilo Mesón -->
+        <div class="flex items-center space-x-2 text-xs">
+          <span class="text-[#7a6b5d]">Alérgenos:</span>
+          <button data-allergen="gluten" class="px-2.5 py-1 rounded border text-xs transition-all ${activeAllergen === 'gluten' ? 'bg-[#3d3228] text-white border-[#3d3228] font-bold' : 'border-[#8c7b6c] text-[#3d3228] bg-white hover:bg-[#eee7db]'}">
+            🌾 Sin Gluten
+          </button>
+          <button data-allergen="lactosa" class="px-2.5 py-1 rounded border text-xs transition-all ${activeAllergen === 'lactosa' ? 'bg-[#3d3228] text-white border-[#3d3228] font-bold' : 'border-[#8c7b6c] text-[#3d3228] bg-white hover:bg-[#eee7db]'}">
+            🥛 Sin Lactosa
+          </button>
+        </div>
       </div>
 
-      <!-- CARTA EN 2 COLUMNAS CON DOTTED LEADERS Y VISTA PREVIA FOTOGRÁFICA -->
+      <!-- CARTA EN 2 COLUMNAS CON DOTTED LEADERS Y FOTOS -->
       <div class="grid grid-cols-1 lg:grid-cols-2 gap-x-12 gap-y-8 mb-16">
         ${filteredMenu.map(dish => {
           const sales = store.getDishSalesCount(dish.id);
           return `
             <div class="pb-4 border-b border-[#dfd7cc] flex items-start space-x-3 group">
               
-              <!-- Miniatura fotográfica opcional / clickeable -->
+              <!-- Miniatura fotográfica clickeable -->
               ${dish.image ? `
-                <div class="w-16 h-16 rounded-lg overflow-hidden flex-shrink-0 bg-[#e6dfd5] border border-[#dfd7cc] cursor-pointer shadow-sm relative group-hover:opacity-90" data-open-dish-modal="${dish.id}" title="Clic para ampliar y ver alérgenos">
-                  <img src="${dish.image}" alt="${dish.name}" class="w-full h-full object-cover transition-transform duration-300 group-hover:scale-110"/>
-                  <span class="absolute inset-0 bg-black/10 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity text-white text-[10px]">
-                    🔍
-                  </span>
+                <div class="w-18 h-18 sm:w-20 sm:h-20 rounded-xl overflow-hidden flex-shrink-0 bg-[#e6dfd5] border border-[#dfd7cc] cursor-pointer shadow-sm relative group-hover:opacity-95 transition-all" data-open-dish-modal="${dish.id}" title="Clic para ver foto ampliada e ingredientes">
+                  <img src="${dish.image}" alt="${dish.name}" class="w-full h-full object-cover transition-transform duration-300 group-hover:scale-105"/>
+                  <button data-open-lightbox="${dish.image}" data-lightbox-title="${dish.name}" class="absolute top-1 right-1 bg-black/60 hover:bg-black text-white p-1 rounded text-[10px]" title="Zoom">
+                    ${ICONS.zoom}
+                  </button>
                 </div>
               ` : ''}
 
@@ -923,13 +1041,13 @@ export class GastroApp {
                     ${dish.vintageBadge || 'Especialidad'} · ${sales} raciones
                   </span>
                   <div class="flex items-center space-x-1.5">
-                    <button data-open-dish-modal="${dish.id}" class="text-[10px] text-[#7a6b5d] hover:text-[#3d3228] px-1.5 py-0.5 border border-[#dfd7cc] rounded">
+                    <button data-open-dish-modal="${dish.id}" class="text-[10px] text-[#7a6b5d] hover:text-[#3d3228] px-2 py-0.5 border border-[#dfd7cc] rounded bg-white">
                       Ver foto
                     </button>
                     <button data-quick-simulate-dish="${dish.id}" class="text-[10px] text-[#7a6b5d] hover:text-[#2b2520] underline px-1">
                       +1
                     </button>
-                    <button data-add-cart="${dish.id}" class="bg-[#8c7b6c] hover:bg-[#6e5f52] text-white px-2.5 py-1 rounded text-[11px] font-sans">
+                    <button data-add-cart="${dish.id}" class="bg-[#8c7b6c] hover:bg-[#6e5f52] text-white px-3 py-1 rounded text-[11px] font-sans">
                       Pedir
                     </button>
                   </div>
@@ -944,7 +1062,7 @@ export class GastroApp {
   }
 
   // -------------------------------------------------------------------------
-  // DISEÑO 4: SHOWCASE VISUAL & MINIMALISMO NÓRDICO (BRUNCH & OBRADOR)
+  // DISEÑO 4: SHOWCASE VISUAL & MINIMALISMO NÓRDICO (CON FILTROS Y FOTOS)
   // -------------------------------------------------------------------------
   renderEstilo4Layout(preset, filteredMenu, activeCategory, activeAllergen, topData) {
     return `
@@ -997,16 +1115,29 @@ export class GastroApp {
         </div>
       </section>
 
-      <!-- BARRA DE CATEGORÍAS NÓRDICA -->
-      <div class="flex items-center space-x-6 overflow-x-auto no-scrollbar pb-3 mb-8 text-xs tracking-widest uppercase font-light border-b border-zinc-200">
-        <button data-category="all" class="pb-1 transition-colors ${activeCategory === 'all' ? 'text-zinc-900 font-semibold border-b border-zinc-900' : 'text-zinc-400 hover:text-zinc-900'}">
-          Todo (${preset.menu.length})
-        </button>
-        ${preset.categories.map(cat => `
-          <button data-category="${cat}" class="pb-1 whitespace-nowrap transition-colors ${activeCategory === cat ? 'text-zinc-900 font-semibold border-b border-zinc-900' : 'text-zinc-400 hover:text-zinc-900'}">
-            ${cat}
+      <!-- BARRA DE CATEGORÍAS Y FILTROS DE ALÉRGENOS (ESTILO 4) -->
+      <div class="flex flex-wrap items-center justify-between gap-4 pb-3 mb-8 text-xs border-b border-zinc-200">
+        <div class="flex items-center space-x-6 overflow-x-auto no-scrollbar tracking-widest uppercase font-light">
+          <button data-category="all" class="pb-1 transition-colors ${activeCategory === 'all' ? 'text-zinc-900 font-semibold border-b border-zinc-900' : 'text-zinc-400 hover:text-zinc-900'}">
+            Todo (${preset.menu.length})
           </button>
-        `).join('')}
+          ${preset.categories.map(cat => `
+            <button data-category="${cat}" class="pb-1 whitespace-nowrap transition-colors ${activeCategory === cat ? 'text-zinc-900 font-semibold border-b border-zinc-900' : 'text-zinc-400 hover:text-zinc-900'}">
+              ${cat}
+            </button>
+          `).join('')}
+        </div>
+
+        <!-- Filtro de alérgenos minimalista -->
+        <div class="flex items-center space-x-2 font-mono uppercase tracking-wider text-[11px]">
+          <span class="text-zinc-400">Alérgenos:</span>
+          <button data-allergen="gluten" class="px-2.5 py-1 border transition-all ${activeAllergen === 'gluten' ? 'bg-zinc-900 text-white border-zinc-900 font-bold' : 'border-zinc-300 text-zinc-600 hover:text-zinc-900'}">
+            🌾 Sin Gluten
+          </button>
+          <button data-allergen="lactosa" class="px-2.5 py-1 border transition-all ${activeAllergen === 'lactosa' ? 'bg-zinc-900 text-white border-zinc-900 font-bold' : 'border-zinc-300 text-zinc-600 hover:text-zinc-900'}">
+            🥛 Sin Lactosa
+          </button>
+        </div>
       </div>
 
       <!-- GALERÍA DE PLATOS FOTOGRÁFICA (SHOWCASE 3 COLS) -->
@@ -1016,10 +1147,13 @@ export class GastroApp {
           return `
             <div class="minimal-card p-4 flex flex-col justify-between group">
               <div>
-                <div class="relative h-48 rounded-lg overflow-hidden bg-zinc-100 mb-4 cursor-pointer" data-open-dish-modal="${dish.id}">
+                <div class="relative h-52 rounded-xl overflow-hidden bg-zinc-100 mb-4 cursor-pointer" data-open-dish-modal="${dish.id}">
                   <img src="${dish.image}" alt="${dish.name}" class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"/>
-                  ${dish.badge ? `<span class="absolute top-2 left-2 bg-white/95 text-zinc-900 text-[10px] font-mono px-2 py-0.5 rounded">${dish.badge}</span>` : ''}
-                  <div class="absolute bottom-2 right-2 bg-white/90 text-zinc-800 text-[10px] px-2 py-0.5 rounded shadow flex items-center space-x-1">
+                  ${dish.badge ? `<span class="absolute top-2 left-2 bg-white/95 text-zinc-900 text-[10px] font-mono px-2 py-0.5 rounded shadow-sm">${dish.badge}</span>` : ''}
+                  <button data-open-lightbox="${dish.image}" data-lightbox-title="${dish.name}" class="absolute top-2 right-2 bg-black/70 hover:bg-black text-white p-1.5 rounded-lg text-xs backdrop-blur-sm transition-opacity" title="Ampliar imagen completa">
+                    ${ICONS.zoom}
+                  </button>
+                  <div class="absolute bottom-2 right-2 bg-white/95 text-zinc-800 text-[10px] px-2.5 py-0.5 rounded shadow flex items-center space-x-1">
                     ${ICONS.eye}
                     <span>Info</span>
                   </div>
@@ -1045,7 +1179,7 @@ export class GastroApp {
                   <button data-quick-simulate-dish="${dish.id}" class="text-[11px] font-mono text-zinc-400 hover:text-zinc-900 px-1 py-1">
                     +1
                   </button>
-                  <button data-add-cart="${dish.id}" class="bg-zinc-900 hover:bg-zinc-800 text-white text-xs font-medium px-3.5 py-1.5 rounded-lg">
+                  <button data-add-cart="${dish.id}" class="bg-zinc-900 hover:bg-black text-white text-xs font-medium px-3.5 py-1.5 rounded-lg">
                     Añadir
                   </button>
                 </div>
@@ -1058,7 +1192,7 @@ export class GastroApp {
   }
 
   // =========================================================================
-  // MODAL DE DETALLE DEL PLATO (100% TEMÁTICO PARA CADA ESTILO)
+  // MODAL DE DETALLE DEL PLATO (FOTO NÍTIDA, BOTÓN DE ZOOM Y DETALLES)
   // =========================================================================
   renderDishDetailModal(dish, preset) {
     this.currentModalDish = dish;
@@ -1103,29 +1237,36 @@ export class GastroApp {
     }
 
     container.innerHTML = `
-      <div id="dish-modal-backdrop" class="fixed inset-0 bg-black/75 backdrop-blur-sm z-50 flex items-center justify-center p-3 sm:p-4">
+      <div id="dish-modal-backdrop" class="fixed inset-0 bg-black/80 backdrop-blur-sm z-50 flex items-center justify-center p-3 sm:p-4">
         <div class="modal-animate max-w-2xl w-full max-h-[92vh] flex flex-col overflow-hidden rounded-2xl ${cardThemeClasses}">
           
-          <!-- Cabecera / Imagen Principal -->
-          <div class="relative w-full h-56 sm:h-72 bg-stone-900 flex-shrink-0 overflow-hidden">
+          <!-- Fotografía Nítida (Sin velos oscuros) con botón de ampliación -->
+          <div class="relative w-full h-64 sm:h-80 bg-stone-900 flex-shrink-0 overflow-hidden cursor-zoom-in group" data-open-lightbox="${dish.image}" data-lightbox-title="${dish.name}" title="Clic para ampliar imagen completa">
             ${dish.image ? `
-              <img src="${dish.image}" alt="${dish.name}" class="w-full h-full object-cover"/>
+              <img src="${dish.image}" alt="${dish.name}" class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"/>
             ` : `
-              <div class="w-full h-full flex items-center justify-center text-4xl">🍽️</div>
+              <div class="w-full h-full flex items-center justify-center text-5xl">🍽️</div>
             `}
-            <div class="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent"></div>
             
-            <button id="close-dish-modal" class="absolute top-3 right-3 w-8 h-8 rounded-full bg-black/60 text-white flex items-center justify-center hover:bg-black transition-colors font-bold z-10">
+            <!-- Botón de Cerrar Modal -->
+            <button id="close-dish-modal" class="absolute top-3 right-3 w-9 h-9 rounded-full bg-black/70 text-white flex items-center justify-center hover:bg-black transition-colors font-bold z-10 shadow" title="Cerrar">
               ✕
             </button>
 
-            <div class="absolute bottom-4 left-4 right-4 text-white">
-              <div class="flex items-center space-x-2 mb-1">
-                ${dish.badge ? `<span class="px-2.5 py-0.5 rounded text-[10px] font-bold uppercase ${preset.id === 'estilo1' ? 'bg-amber-500 text-stone-950' : 'bg-blue-600 text-white'}">${dish.badge}</span>` : ''}
-                <span class="text-xs font-mono text-white/80">${dish.category}</span>
-              </div>
-              <h2 class="${headerTextClass}">${dish.name}</h2>
+            <!-- Botón llamativo de "Ampliar Imagen Completa" -->
+            <button data-open-lightbox="${dish.image}" data-lightbox-title="${dish.name}" class="absolute bottom-3 right-3 bg-black/80 hover:bg-black text-white text-xs px-3.5 py-2 rounded-xl backdrop-blur-md border border-white/30 flex items-center space-x-2 shadow-2xl transition-transform group-hover:scale-105">
+              ${ICONS.zoom}
+              <span class="font-semibold">Ampliar foto completa</span>
+            </button>
+          </div>
+
+          <!-- Cabecera de Texto del Plato debajo de la foto para máxima legibilidad -->
+          <div class="p-5 sm:p-6 pb-2 border-b ${preset.id === 'estilo1' ? 'border-stone-800' : preset.id === 'estilo2' ? 'border-slate-800' : 'border-zinc-200'}">
+            <div class="flex items-center space-x-2 mb-1.5">
+              ${dish.badge ? `<span class="px-2.5 py-0.5 rounded text-[10px] font-bold uppercase ${preset.id === 'estilo1' ? 'bg-amber-500 text-stone-950' : 'bg-blue-600 text-white'}">${dish.badge}</span>` : ''}
+              <span class="text-xs font-mono opacity-70">${dish.category}</span>
             </div>
+            <h2 class="${headerTextClass}">${dish.name}</h2>
           </div>
 
           <!-- Cuerpo con Scroll y Detalles -->
@@ -1133,11 +1274,11 @@ export class GastroApp {
             
             <div>
               <h4 class="text-xs font-bold uppercase tracking-wider mb-1 ${preset.id === 'estilo1' ? 'text-amber-400 font-mono' : preset.id === 'estilo2' ? 'text-sky-400 font-mono' : 'text-stone-500'}">Descripción</h4>
-              <p class="leading-relaxed">${dish.description}</p>
+              <p class="leading-relaxed text-sm">${dish.description}</p>
             </div>
 
             ${dish.ingredients ? `
-              <div class="p-3.5 rounded-xl ${preset.id === 'estilo1' ? 'bg-stone-900/90 border border-stone-800' : preset.id === 'estilo2' ? 'bg-slate-900/90 border border-slate-800' : preset.id === 'estilo3' ? 'bg-[#eee7db] border border-[#dfd7cc]' : 'bg-zinc-50 border border-zinc-200'}">
+              <div class="p-4 rounded-xl ${preset.id === 'estilo1' ? 'bg-stone-900/90 border border-stone-800' : preset.id === 'estilo2' ? 'bg-slate-900/90 border border-slate-800' : preset.id === 'estilo3' ? 'bg-[#eee7db] border border-[#dfd7cc]' : 'bg-zinc-50 border border-zinc-200'}">
                 <span class="font-bold text-xs block mb-1 uppercase tracking-wider ${preset.id === 'estilo1' ? 'text-amber-300' : preset.id === 'estilo2' ? 'text-sky-300' : 'text-stone-700'}">Ingredientes y Preparación</span>
                 <p class="text-xs leading-relaxed opacity-90">${dish.ingredients}</p>
               </div>
@@ -1171,9 +1312,9 @@ export class GastroApp {
               </span>
 
               <div class="flex items-center space-x-2 border rounded-xl px-2 py-1 ${preset.id === 'estilo1' ? 'border-stone-700 bg-stone-900' : preset.id === 'estilo2' ? 'border-slate-700 bg-slate-800' : preset.id === 'estilo3' ? 'border-[#8c7b6c] bg-white' : 'border-zinc-300 bg-white'}">
-                <button data-modal-qty-minus class="w-6 h-6 flex items-center justify-center font-bold text-sm cursor-pointer hover:opacity-75">-</button>
-                <span id="modal-dish-qty-val" class="w-6 text-center font-bold font-mono text-xs">1</span>
-                <button data-modal-qty-plus class="w-6 h-6 flex items-center justify-center font-bold text-sm cursor-pointer hover:opacity-75">+</button>
+                <button data-modal-qty-minus class="w-7 h-7 flex items-center justify-center font-bold text-base cursor-pointer hover:opacity-75">-</button>
+                <span id="modal-dish-qty-val" class="w-6 text-center font-bold font-mono text-sm">1</span>
+                <button data-modal-qty-plus class="w-7 h-7 flex items-center justify-center font-bold text-base cursor-pointer hover:opacity-75">+</button>
               </div>
             </div>
 
@@ -1860,19 +2001,24 @@ export class GastroApp {
   }
 
   // =========================================================================
-  // SECCIÓN DE RESEÑAS DE GOOGLE (DIFERENCIADA SEGÚN EL ESTILO)
+  // SECCIÓN DE RESEÑAS DE GOOGLE (LLAMATIVAS CON ESTRELLAS Y BOTONES EN LOS 4 ESTILOS)
   // =========================================================================
   renderGoogleReviewsSection(preset) {
+    const starRow = Array(5).fill(ICONS.star).join('');
+
+    // --- ESTILO 1: EDITORIAL & ALTA COCINA ---
     if (preset.id === 'estilo1') {
       return `
         <section class="mt-16 pt-12 border-t border-stone-800 text-stone-100">
           <div class="max-w-3xl mx-auto text-center mb-10">
-            <span class="text-xs font-mono text-amber-400 uppercase tracking-widest">Opiniones de Críticos y Comensales</span>
-            <h3 class="editorial-serif text-3xl font-bold mt-1">Crítica Gastronómica & Reconocimiento</h3>
+            <div class="inline-flex items-center space-x-2 bg-amber-950/60 border border-amber-500/40 px-3.5 py-1.5 rounded-full mb-3 text-xs font-mono text-amber-300">
+              ${ICONS.google}
+              <span class="font-bold">Google Maps Oficial · 4.9 de 5.0</span>
+            </div>
+            <h3 class="editorial-serif text-3xl sm:text-4xl font-bold mt-1">Crítica Gastronómica & Reconocimiento</h3>
             <div class="flex items-center justify-center space-x-2 mt-3 text-amber-400 text-sm font-mono">
-              <span>★ ${preset.rating}</span>
-              <span>·</span>
-              <span>${preset.totalReviews} reseñas verificadas</span>
+              <div class="flex space-x-0.5">${starRow}</div>
+              <span class="text-stone-300 font-bold">(${preset.totalReviews} reseñas verificadas)</span>
             </div>
           </div>
 
@@ -1880,12 +2026,13 @@ export class GastroApp {
             ${preset.googleReviews.map(r => `
               <div class="editorial-card p-6 flex flex-col justify-between">
                 <div>
-                  <div class="flex items-center space-x-1 text-amber-400 mb-2">
-                    ${Array(r.rating).fill(ICONS.star).join('')}
+                  <div class="flex items-center justify-between mb-3">
+                    <div class="flex space-x-1">${starRow}</div>
+                    <span class="text-[10px] font-mono text-amber-400/80 uppercase">Verificado</span>
                   </div>
-                  <p class="text-xs text-stone-300 italic editorial-serif leading-relaxed">"${r.comment}"</p>
+                  <p class="text-xs sm:text-sm text-stone-300 italic editorial-serif leading-relaxed">"${r.comment}"</p>
                 </div>
-                <div class="mt-4 pt-4 border-t border-stone-800 flex justify-between items-center text-[11px] font-mono text-stone-400">
+                <div class="mt-5 pt-4 border-t border-stone-800 flex justify-between items-center text-[11px] font-mono text-stone-400">
                   <span class="font-bold text-stone-200">${r.author}</span>
                   <span>${r.timeAgo}</span>
                 </div>
@@ -1894,24 +2041,36 @@ export class GastroApp {
           </div>
 
           <div class="mt-10 text-center">
-            <button id="open-smart-review-btn" class="bg-stone-900 hover:bg-stone-800 text-amber-300 border border-amber-500/40 text-xs font-medium px-5 py-2.5 rounded-xl transition-all shadow">
-              ★ Dejar una Valoración en Google
+            <button id="open-smart-review-btn" class="bg-gradient-to-r from-amber-500 via-amber-400 to-amber-300 hover:from-amber-400 hover:to-amber-200 text-stone-950 font-bold text-xs uppercase tracking-wider px-8 py-3.5 rounded-xl shadow-xl transition-all transform hover:scale-105 inline-flex items-center space-x-2.5 cursor-pointer">
+              ${ICONS.google}
+              <span>★ Escribir Reseña en Google Maps (+5★)</span>
             </button>
           </div>
         </section>
       `;
     }
 
+    // --- ESTILO 2: APP & BENTO GRID ---
     if (preset.id === 'estilo2') {
       return `
         <section class="mt-16 pt-10 border-t border-slate-800 text-slate-100">
-          <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4 mb-8">
+          <div class="bento-card p-6 mb-8 flex flex-col md:flex-row md:items-center justify-between gap-6">
             <div>
-              <span class="text-xs font-bold text-sky-400 uppercase tracking-wider">Feed de Clientes en Directo</span>
-              <h3 class="text-2xl font-black mt-0.5">Qué dicen en Google Maps</h3>
+              <div class="flex items-center space-x-2">
+                ${ICONS.google}
+                <span class="text-xs font-bold text-sky-400 uppercase tracking-wider font-mono">Google Business Profile</span>
+              </div>
+              <h3 class="text-2xl sm:text-3xl font-black text-white mt-1">4.8 de Puntuación en Sala</h3>
+              <div class="flex items-center space-x-2 mt-2">
+                <div class="flex space-x-0.5">${starRow}</div>
+                <span class="text-xs font-mono text-slate-300 font-bold">· ${preset.totalReviews} opiniones reales</span>
+              </div>
             </div>
-            <button id="open-smart-review-btn" class="bg-sky-600 hover:bg-sky-500 text-white text-xs font-bold px-4 py-2 rounded-xl shadow">
-              Escribir Reseña
+
+            <button id="open-smart-review-btn" class="bg-gradient-to-r from-blue-600 via-sky-600 to-cyan-500 hover:from-blue-500 hover:to-cyan-400 text-white font-black text-xs px-6 py-3.5 rounded-2xl shadow-xl shadow-sky-500/25 flex items-center justify-center space-x-2.5 transition-transform hover:scale-105 cursor-pointer flex-shrink-0">
+              ${ICONS.google}
+              <span>★ Valorar en Google Maps</span>
+              ${ICONS.arrow}
             </button>
           </div>
 
@@ -1919,14 +2078,19 @@ export class GastroApp {
             ${preset.googleReviews.map(r => `
               <div class="bento-card p-5 flex flex-col justify-between">
                 <div>
-                  <div class="flex items-center justify-between text-xs mb-2">
-                    <span class="font-bold text-white">${r.author}</span>
-                    <span class="text-sky-400 font-mono font-bold">★ 5.0</span>
+                  <div class="flex items-center justify-between mb-2.5">
+                    <div class="flex items-center space-x-1.5">
+                      <div class="w-6 h-6 rounded-full bg-sky-600 text-white text-[10px] font-bold flex items-center justify-center uppercase">
+                        ${r.author.charAt(0)}
+                      </div>
+                      <span class="font-bold text-xs text-white">${r.author}</span>
+                    </div>
+                    <div class="flex space-x-0.5">${starRow}</div>
                   </div>
                   <p class="text-xs text-slate-300 leading-relaxed">${r.comment}</p>
                 </div>
                 <div class="mt-4 pt-3 border-t border-slate-800 text-[10px] text-slate-400 font-mono flex justify-between">
-                  <span>${r.badge}</span>
+                  <span class="text-sky-400">${r.badge}</span>
                   <span>${r.timeAgo}</span>
                 </div>
               </div>
@@ -1936,59 +2100,82 @@ export class GastroApp {
       `;
     }
 
+    // --- ESTILO 3: BISTRÓ TRADICIONAL ---
     if (preset.id === 'estilo3') {
       return `
         <section class="mt-16 pt-10 border-t-2 border-[#8c7b6c] text-[#2b2520]">
           <div class="text-center max-w-2xl mx-auto mb-8">
-            <span class="text-xs font-serif uppercase tracking-widest text-[#7a6b5d]">Libro de Visitas del Mesón</span>
-            <h3 class="bistro-serif text-2xl font-bold mt-1">Palabras de Vecinos y Amigos</h3>
-            <p class="text-xs font-serif text-[#7a6b5d] mt-1">${preset.totalReviews} opiniones con una puntuación media de ${preset.rating} sobre 5</p>
+            <div class="inline-flex items-center space-x-2 bg-[#eee7db] border border-[#8c7b6c] px-3.5 py-1.5 rounded-full mb-3 text-xs font-serif text-[#3d3228]">
+              ${ICONS.google}
+              <span class="font-bold">Opiniones Verificadas en Google Maps · 4.7 ★★★★★</span>
+            </div>
+            <h3 class="bistro-serif text-2xl sm:text-3xl font-bold mt-1">Libro de Visitas & Reseñas de Google</h3>
+            <p class="text-xs font-serif text-[#7a6b5d] mt-1">${preset.totalReviews} comensales han dejado su opinión sobre la cocina y el trato familiar</p>
           </div>
 
           <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
             ${preset.googleReviews.map(r => `
-              <div class="bistro-card p-5 flex flex-col justify-between">
-                <p class="text-xs font-serif italic text-[#594d40] leading-relaxed">"${r.comment}"</p>
-                <div class="mt-4 pt-3 border-t border-[#dfd7cc] text-[11px] font-serif text-[#7a6b5d]">
-                  <span class="font-bold text-[#2b2520] block">${r.author}</span>
-                  <span>${r.badge}</span>
+              <div class="bistro-card p-6 flex flex-col justify-between border-2 border-[#dfd7cc]">
+                <div>
+                  <div class="flex items-center justify-between mb-3">
+                    <div class="flex space-x-0.5">${starRow}</div>
+                    <span class="text-[10px] font-serif text-[#7a6b5d] font-bold">5.0 / 5</span>
+                  </div>
+                  <p class="text-xs font-serif italic text-[#594d40] leading-relaxed">"${r.comment}"</p>
+                </div>
+                <div class="mt-4 pt-3 border-t border-[#dfd7cc] text-[11px] font-serif text-[#7a6b5d] flex justify-between items-center">
+                  <span class="font-bold text-[#2b2520]">${r.author}</span>
+                  <span class="text-[10px]">${r.badge}</span>
                 </div>
               </div>
             `).join('')}
           </div>
 
-          <div class="mt-8 text-center">
-            <button id="open-smart-review-btn" class="bg-[#3d3228] hover:bg-[#231d17] text-[#f6f3eb] font-serif text-xs font-bold px-4 py-2 rounded shadow">
-              Añadir Nota al Libro de Visitas
+          <div class="mt-10 text-center">
+            <button id="open-smart-review-btn" class="bg-[#3d3228] hover:bg-[#251e18] text-[#f6f3eb] font-serif text-xs font-bold px-7 py-3.5 rounded shadow-lg border border-[#8c7b6c] inline-flex items-center space-x-2.5 transition-transform hover:scale-105 cursor-pointer">
+              ${ICONS.google}
+              <span>★ Añadir una Nota al Libro de Visitas en Google</span>
             </button>
           </div>
         </section>
       `;
     }
 
+    // --- ESTILO 4: MINIMALISMO NÓRDICO ---
     return `
       <section class="mt-16 pt-12 border-t border-zinc-200 text-zinc-900">
-        <div class="max-w-2xl mb-8">
-          <span class="text-xs font-mono uppercase tracking-widest text-zinc-400">Comunidad</span>
-          <h3 class="text-xl font-medium mt-1">Experiencias en Atelier</h3>
+        <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4 mb-8">
+          <div>
+            <div class="flex items-center space-x-2 mb-1">
+              ${ICONS.google}
+              <span class="text-xs font-mono uppercase tracking-widest text-zinc-400">Google Business Verified</span>
+            </div>
+            <h3 class="text-2xl font-light text-zinc-900 tracking-tight">4.9 ★★★★★ · Experiencias en Atelier</h3>
+            <p class="text-xs text-zinc-500 mt-0.5">${preset.totalReviews} clientes han valorado nuestro café y obrador</p>
+          </div>
+
+          <button id="open-smart-review-btn" class="bg-zinc-900 hover:bg-black text-white font-medium uppercase tracking-widest text-xs px-6 py-3 rounded-none shadow inline-flex items-center space-x-2 transition-transform hover:scale-105 cursor-pointer flex-shrink-0">
+            ${ICONS.google}
+            <span>★ Valorar en Google Maps</span>
+          </button>
         </div>
 
         <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
           ${preset.googleReviews.map(r => `
             <div class="minimal-card p-5 flex flex-col justify-between">
-              <p class="text-xs text-zinc-600 font-light leading-relaxed">"${r.comment}"</p>
+              <div>
+                <div class="flex items-center justify-between mb-2">
+                  <div class="flex space-x-0.5">${starRow}</div>
+                  <span class="text-[10px] font-mono text-zinc-400">Google Review</span>
+                </div>
+                <p class="text-xs text-zinc-600 font-light leading-relaxed">"${r.comment}"</p>
+              </div>
               <div class="mt-4 pt-3 border-t border-zinc-100 flex justify-between items-center text-[10px] font-mono text-zinc-400">
                 <span class="font-medium text-zinc-800">${r.author}</span>
                 <span>${r.timeAgo}</span>
               </div>
             </div>
           `).join('')}
-        </div>
-
-        <div class="mt-8">
-          <button id="open-smart-review-btn" class="text-xs font-mono text-zinc-900 border-b border-zinc-900 pb-0.5 hover:text-zinc-600">
-            Compartir experiencia en Google →
-          </button>
         </div>
       </section>
     `;
@@ -2005,31 +2192,34 @@ export class GastroApp {
     let btnClass = '';
     if (preset.id === 'estilo1') {
       modalBgClass = 'bg-[#121218] border border-amber-500/30 text-stone-100';
-      btnClass = 'bg-gradient-to-r from-amber-500 to-amber-400 text-stone-950 font-bold uppercase tracking-wider py-3 rounded-xl text-xs';
+      btnClass = 'bg-gradient-to-r from-amber-500 to-amber-400 text-stone-950 font-bold uppercase tracking-wider py-3.5 rounded-xl text-xs shadow-lg';
     } else if (preset.id === 'estilo2') {
       modalBgClass = 'bg-[#0a0f1e] border border-slate-700 text-slate-100 rounded-3xl';
-      btnClass = 'bg-gradient-to-r from-blue-600 to-cyan-500 text-white font-bold py-3 rounded-xl text-xs shadow-lg shadow-blue-500/25';
+      btnClass = 'bg-gradient-to-r from-blue-600 to-cyan-500 text-white font-bold py-3.5 rounded-xl text-xs shadow-lg shadow-blue-500/25';
     } else if (preset.id === 'estilo3') {
       modalBgClass = 'bg-[#fcfbf8] border-2 border-[#8c7b6c] text-[#2b2520] font-serif rounded-xl';
-      btnClass = 'bg-[#3d3228] hover:bg-[#251e18] text-[#f6f3eb] font-serif font-bold py-3 rounded text-xs shadow';
+      btnClass = 'bg-[#3d3228] hover:bg-[#251e18] text-[#f6f3eb] font-serif font-bold py-3.5 rounded text-xs shadow';
     } else {
       modalBgClass = 'bg-white border border-zinc-200 text-zinc-900 rounded-none';
-      btnClass = 'bg-zinc-900 hover:bg-black text-white font-medium uppercase tracking-wider py-3 rounded-none text-xs';
+      btnClass = 'bg-zinc-900 hover:bg-black text-white font-medium uppercase tracking-wider py-3.5 rounded-none text-xs';
     }
 
     container.innerHTML = `
       <div id="review-modal-backdrop" class="fixed inset-0 bg-black/75 backdrop-blur-sm z-50 flex items-center justify-center p-3 sm:p-4">
         <div class="modal-animate max-w-md w-full p-6 shadow-2xl border ${modalBgClass} space-y-5">
           <div class="flex justify-between items-center">
-            <h3 class="font-bold text-sm sm:text-base">Valorar en Google Maps</h3>
+            <div class="flex items-center space-x-2">
+              ${ICONS.google}
+              <h3 class="font-bold text-sm sm:text-base">Valorar en Google Maps</h3>
+            </div>
             <button id="close-review-modal" class="opacity-70 hover:opacity-100 text-lg">✕</button>
           </div>
 
           <p class="text-xs opacity-80 leading-relaxed">
-            Tu opinión ayuda a posicionar a <strong>${preset.name}</strong> en los primeros resultados locales de búsqueda de Madrid.
+            Tu opinión ayuda a posicionar a <strong>${preset.name}</strong> en los primeros resultados locales de búsqueda en Google.
           </p>
 
-          <div class="flex justify-center space-x-2 text-2xl py-2">
+          <div class="flex justify-center space-x-2 text-3xl py-2">
             <span class="cursor-pointer hover:scale-125 transition-transform">⭐</span>
             <span class="cursor-pointer hover:scale-125 transition-transform">⭐</span>
             <span class="cursor-pointer hover:scale-125 transition-transform">⭐</span>
@@ -2038,7 +2228,8 @@ export class GastroApp {
           </div>
 
           <a href="${preset.googleMapsUrl}" target="_blank" class="w-full ${btnClass} flex items-center justify-center space-x-2">
-            <span>Publicar en Google Maps</span>
+            ${ICONS.google}
+            <span>Publicar Reseña en Google Maps</span>
             ${ICONS.external}
           </a>
         </div>
