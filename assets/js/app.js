@@ -586,7 +586,7 @@ export class GastroApp {
                     </svg>
                   </div>
                   <div>
-                    <span class="vukata-font-title text-base sm:text-lg font-black tracking-widest text-[#18181B] block leading-none">vukata</span>
+                    <span class="vukata-font-title text-base sm:text-lg font-black tracking-widest text-[#18181B] block leading-none">VU<span class="text-[#E52D27]">KA</span>TA</span>
                     <span class="text-[9px] font-bold tracking-wider text-[#8B1E1E] uppercase block mt-0.5">RESTAURANTE PARRILLA</span>
                   </div>
                 </div>
@@ -860,9 +860,12 @@ export class GastroApp {
               <span>Desde 1996 en Aluche</span>
             </div>
 
-            <h1 class="vukata-font-title text-2xl sm:text-4xl lg:text-5xl font-black text-[#18181B] tracking-tight leading-none">
-              CARTA RESTAURANTE
+            <h1 class="vukata-font-title text-4xl sm:text-6xl lg:text-7xl font-black text-[#18181B] tracking-tight leading-none">
+              VU<span class="text-[#E52D27]">KA</span>TA
             </h1>
+            <p class="text-xs sm:text-sm font-bold text-[#8B1E1E] uppercase tracking-widest mt-2 font-sans">
+              RESTAURANTE · PARRILLA AL CARBÓN
+            </p>
             
             <div class="mt-3 p-3 rounded-xl bg-red-50/70 border border-[#8B1E1E]/20 inline-block max-w-xl">
               <span class="vukata-font-title text-xs sm:text-sm font-black text-[#8B1E1E] block">
@@ -1836,70 +1839,137 @@ export class GastroApp {
   renderKdsView(container, preset) {
     const orders = store.state.orders;
     const isDark = (preset.id === 'estilo2');
+    const isVukata = (preset.id === 'estilo1');
 
-    container.innerHTML = `
-      <div class="space-y-6 ${isDark ? 'text-stone-100' : 'text-slate-900'}">
-        <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
-          <div>
+    if (isVukata) {
+      container.innerHTML = `
+        <div class="space-y-6 text-stone-900">
+          <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+            <div>
+              <div class="flex items-center space-x-2">
+                <span class="w-2.5 h-2.5 rounded-full bg-[#E52D27] animate-pulse"></span>
+                <span class="text-xs font-bold uppercase tracking-wider vukata-font-title text-[#8B1E1E]">Sistema KDS en Vivo · Sala y Brasas</span>
+              </div>
+              <h2 class="vukata-font-title text-2xl sm:text-3xl font-black text-stone-950 mt-1">Comandero de Cocina · VU<span class="text-[#E52D27]">KA</span>TA</h2>
+              <p class="text-xs vukata-font-desc text-stone-600 mt-1">Sincronización instantánea con los pedidos de la carta digital.</p>
+            </div>
+
             <div class="flex items-center space-x-2">
-              <span class="w-2.5 h-2.5 rounded-full bg-emerald-400 animate-pulse"></span>
-              <span class="text-xs font-bold uppercase tracking-wider font-mono text-emerald-400">Sistema KDS en Vivo</span>
+              <button id="simulate-order-btn" class="btn-vukata-primary text-white text-xs font-bold px-3.5 py-2 rounded-xl shadow flex items-center space-x-1.5 cursor-pointer">
+                <span>+ Generar Comanda Demo</span>
+              </button>
             </div>
-            <h2 class="text-2xl sm:text-3xl font-extrabold mt-1">Comandero de Cocina · ${preset.name}</h2>
-            <p class="text-xs ${isDark ? 'text-stone-400' : 'text-slate-500'} mt-1">Sincronización instantánea con los pedidos de la carta digital.</p>
           </div>
 
-          <div class="flex items-center space-x-2">
-            <button id="simulate-order-btn" class="bg-blue-600 hover:bg-blue-500 text-white text-xs font-bold px-3 py-2 rounded-xl shadow flex items-center space-x-1.5">
-              <span>+ Generar Comanda Demo</span>
-            </button>
+          <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+            
+            <!-- COLUMNA 1: PENDIENTES -->
+            <div class="bg-white border-2 border-amber-400/50 rounded-2xl p-4 shadow-sm">
+              <div class="flex items-center justify-between pb-3 border-b border-stone-200 mb-4">
+                <div class="flex items-center space-x-2">
+                  <span class="w-2.5 h-2.5 rounded-full bg-amber-500"></span>
+                  <h3 class="vukata-font-title font-bold text-xs uppercase tracking-wider text-stone-900">Pendiente (${orders.filter(o => o.status === 'pending').length})</h3>
+                </div>
+              </div>
+              <div class="space-y-3">
+                ${this.renderKdsOrderCards(orders.filter(o => o.status === 'pending'), preset)}
+              </div>
+            </div>
+
+            <!-- COLUMNA 2: EN PREPARACIÓN -->
+            <div class="bg-white border-2 border-[#8B1E1E]/40 rounded-2xl p-4 shadow-sm">
+              <div class="flex items-center justify-between pb-3 border-b border-stone-200 mb-4">
+                <div class="flex items-center space-x-2">
+                  <span class="w-2.5 h-2.5 rounded-full bg-[#E52D27]"></span>
+                  <h3 class="vukata-font-title font-bold text-xs uppercase tracking-wider text-[#8B1E1E]">En Fuego / Parrilla (${orders.filter(o => o.status === 'cooking').length})</h3>
+                </div>
+              </div>
+              <div class="space-y-3">
+                ${this.renderKdsOrderCards(orders.filter(o => o.status === 'cooking'), preset)}
+              </div>
+            </div>
+
+            <!-- COLUMNA 3: LISTOS PARA SALA / SALIR -->
+            <div class="bg-white border-2 border-emerald-500/40 rounded-2xl p-4 shadow-sm">
+              <div class="flex items-center justify-between pb-3 border-b border-stone-200 mb-4">
+                <div class="flex items-center space-x-2">
+                  <span class="w-2.5 h-2.5 rounded-full bg-emerald-500"></span>
+                  <h3 class="vukata-font-title font-bold text-xs uppercase tracking-wider text-emerald-800">Pase Listo para Servir (${orders.filter(o => o.status === 'ready').length})</h3>
+                </div>
+              </div>
+              <div class="space-y-3">
+                ${this.renderKdsOrderCards(orders.filter(o => o.status === 'ready'), preset)}
+              </div>
+            </div>
+
           </div>
         </div>
-
-        <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
-          
-          <!-- COLUMNA 1: PENDIENTES -->
-          <div class="${isDark ? 'bg-stone-900 border-stone-800' : 'bg-white border-slate-200'} rounded-2xl border p-4 shadow-sm">
-            <div class="flex items-center justify-between pb-3 border-b ${isDark ? 'border-stone-800' : 'border-slate-100'} mb-4">
+      `;
+    } else {
+      container.innerHTML = `
+        <div class="space-y-6 ${isDark ? 'text-stone-100' : 'text-slate-900'}">
+          <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+            <div>
               <div class="flex items-center space-x-2">
-                <span class="w-2.5 h-2.5 rounded-full bg-amber-400"></span>
-                <h3 class="font-bold text-xs uppercase tracking-wider">Pendiente (${orders.filter(o => o.status === 'pending').length})</h3>
+                <span class="w-2.5 h-2.5 rounded-full bg-emerald-400 animate-pulse"></span>
+                <span class="text-xs font-bold uppercase tracking-wider font-mono text-emerald-400">Sistema KDS en Vivo</span>
               </div>
+              <h2 class="text-2xl sm:text-3xl font-extrabold mt-1">Comandero de Cocina · ${preset.name}</h2>
+              <p class="text-xs ${isDark ? 'text-stone-400' : 'text-slate-500'} mt-1">Sincronización instantánea con los pedidos de la carta digital.</p>
             </div>
-            <div class="space-y-3">
-              ${this.renderKdsOrderCards(orders.filter(o => o.status === 'pending'), preset)}
+
+            <div class="flex items-center space-x-2">
+              <button id="simulate-order-btn" class="bg-blue-600 hover:bg-blue-500 text-white text-xs font-bold px-3 py-2 rounded-xl shadow flex items-center space-x-1.5">
+                <span>+ Generar Comanda Demo</span>
+              </button>
             </div>
           </div>
 
-          <!-- COLUMNA 2: EN PREPARACIÓN -->
-          <div class="${isDark ? 'bg-stone-900 border-stone-800' : 'bg-white border-slate-200'} rounded-2xl border p-4 shadow-sm">
-            <div class="flex items-center justify-between pb-3 border-b ${isDark ? 'border-stone-800' : 'border-slate-100'} mb-4">
-              <div class="flex items-center space-x-2">
-                <span class="w-2.5 h-2.5 rounded-full bg-blue-400"></span>
-                <h3 class="font-bold text-xs uppercase tracking-wider">En Marcha (${orders.filter(o => o.status === 'cooking').length})</h3>
+          <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+            
+            <!-- COLUMNA 1: PENDIENTES -->
+            <div class="${isDark ? 'bg-stone-900 border-stone-800' : 'bg-white border-slate-200'} rounded-2xl border p-4 shadow-sm">
+              <div class="flex items-center justify-between pb-3 border-b ${isDark ? 'border-stone-800' : 'border-slate-100'} mb-4">
+                <div class="flex items-center space-x-2">
+                  <span class="w-2.5 h-2.5 rounded-full bg-amber-400"></span>
+                  <h3 class="font-bold text-xs uppercase tracking-wider">Pendiente (${orders.filter(o => o.status === 'pending').length})</h3>
+                </div>
+              </div>
+              <div class="space-y-3">
+                ${this.renderKdsOrderCards(orders.filter(o => o.status === 'pending'), preset)}
               </div>
             </div>
-            <div class="space-y-3">
-              ${this.renderKdsOrderCards(orders.filter(o => o.status === 'cooking'), preset)}
-            </div>
-          </div>
 
-          <!-- COLUMNA 3: LISTOS PARA SALA / SALIR -->
-          <div class="${isDark ? 'bg-stone-900 border-stone-800' : 'bg-white border-slate-200'} rounded-2xl border p-4 shadow-sm">
-            <div class="flex items-center justify-between pb-3 border-b ${isDark ? 'border-stone-800' : 'border-slate-100'} mb-4">
-              <div class="flex items-center space-x-2">
-                <span class="w-2.5 h-2.5 rounded-full bg-emerald-400"></span>
-                <h3 class="font-bold text-xs uppercase tracking-wider">Pase Listo (${orders.filter(o => o.status === 'ready').length})</h3>
+            <!-- COLUMNA 2: EN PREPARACIÓN -->
+            <div class="${isDark ? 'bg-stone-900 border-stone-800' : 'bg-white border-slate-200'} rounded-2xl border p-4 shadow-sm">
+              <div class="flex items-center justify-between pb-3 border-b ${isDark ? 'border-stone-800' : 'border-slate-100'} mb-4">
+                <div class="flex items-center space-x-2">
+                  <span class="w-2.5 h-2.5 rounded-full bg-blue-400"></span>
+                  <h3 class="font-bold text-xs uppercase tracking-wider">En Marcha (${orders.filter(o => o.status === 'cooking').length})</h3>
+                </div>
+              </div>
+              <div class="space-y-3">
+                ${this.renderKdsOrderCards(orders.filter(o => o.status === 'cooking'), preset)}
               </div>
             </div>
-            <div class="space-y-3">
-              ${this.renderKdsOrderCards(orders.filter(o => o.status === 'ready'), preset)}
-            </div>
-          </div>
 
+            <!-- COLUMNA 3: LISTOS PARA SALA / SALIR -->
+            <div class="${isDark ? 'bg-stone-900 border-stone-800' : 'bg-white border-slate-200'} rounded-2xl border p-4 shadow-sm">
+              <div class="flex items-center justify-between pb-3 border-b ${isDark ? 'border-stone-800' : 'border-slate-100'} mb-4">
+                <div class="flex items-center space-x-2">
+                  <span class="w-2.5 h-2.5 rounded-full bg-emerald-400"></span>
+                  <h3 class="font-bold text-xs uppercase tracking-wider">Pase Listo (${orders.filter(o => o.status === 'ready').length})</h3>
+                </div>
+              </div>
+              <div class="space-y-3">
+                ${this.renderKdsOrderCards(orders.filter(o => o.status === 'ready'), preset)}
+              </div>
+            </div>
+
+          </div>
         </div>
-      </div>
-    `;
+      `;
+    }
 
     // Botón simular comanda
     const simBtn = document.getElementById('simulate-order-btn');
@@ -1943,6 +2013,47 @@ export class GastroApp {
   renderKdsOrderCards(orders, preset) {
     if (orders.length === 0) {
       return `<p class="text-xs text-stone-500 py-6 text-center">Sin comandas en este estado</p>`;
+    }
+
+    if (preset.id === 'estilo1') {
+      return orders.map(order => `
+        <div class="bg-[#F4F5F7] border border-stone-300/80 p-3.5 rounded-xl text-xs space-y-2.5 shadow-sm">
+          <div class="flex justify-between items-start">
+            <div>
+              <span class="font-bold font-mono text-[#8B1E1E] text-xs">${order.id}</span>
+              <span class="vukata-font-dish font-black text-base text-stone-950 block mt-0.5">${order.tableNumber} · ${order.customerName}</span>
+            </div>
+            <span class="text-[10px] font-mono text-stone-500 font-semibold">${order.timestamp}</span>
+          </div>
+
+          <div class="border-t border-stone-200 pt-2 space-y-1">
+            ${order.items.map(item => `
+              <div class="flex justify-between items-center text-xs">
+                <span class="vukata-font-dish font-bold text-stone-900">${item.qty}x ${item.name}</span>
+              </div>
+            `).join('')}
+          </div>
+
+          <div class="pt-2 border-t border-stone-200 flex items-center justify-between">
+            <span class="vukata-font-dish font-black text-base text-[#8B1E1E]">${formatCurrency(order.total)}</span>
+            <div>
+              ${order.status === 'pending' ? `
+                <button data-order-id="${order.id}" data-kds-action="cooking" class="btn-vukata-primary text-white font-bold text-[11px] px-3 py-1 rounded-lg shadow-sm cursor-pointer">
+                  A la Parrilla 🔥
+                </button>
+              ` : order.status === 'cooking' ? `
+                <button data-order-id="${order.id}" data-kds-action="ready" class="bg-emerald-600 hover:bg-emerald-500 text-white font-bold text-[11px] px-3 py-1 rounded-lg shadow-sm cursor-pointer">
+                  Emplatar
+                </button>
+              ` : `
+                <button data-order-id="${order.id}" data-kds-action="served" class="bg-stone-800 hover:bg-stone-700 text-white font-bold text-[11px] px-3 py-1 rounded-lg shadow-sm cursor-pointer">
+                  Servir a Mesa
+                </button>
+              `}
+            </div>
+          </div>
+        </div>
+      `).join('');
     }
 
     const isDark = (preset.id === 'estilo2');
@@ -1996,62 +2107,121 @@ export class GastroApp {
     const avgTicket = orders.length > 0 ? (totalSales / orders.length) : 0;
     const isDark = (preset.id === 'estilo2');
 
-    container.innerHTML = `
-      <div class="space-y-8 ${isDark ? 'text-stone-100' : 'text-slate-900'}">
-        <div>
-          <span class="text-xs font-bold uppercase tracking-wider font-mono text-blue-500">Panel de Control</span>
-          <h2 class="text-2xl sm:text-3xl font-extrabold mt-1">Métricas de Servicio · ${preset.name}</h2>
-          <p class="text-xs ${isDark ? 'text-stone-400' : 'text-slate-500'} mt-1">Datos actualizados al minuto con cada comanda tramitada.</p>
-        </div>
-
-        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
-          <div class="${isDark ? 'bg-stone-900 border-stone-800' : 'bg-white border-slate-200'} p-6 rounded-2xl border shadow-sm">
-            <span class="text-xs font-semibold uppercase text-slate-400">Facturación Estimada Hoy</span>
-            <p class="text-2xl sm:text-3xl font-bold mt-2 font-mono text-amber-400">${formatCurrency(totalSales)}</p>
+    if (preset.id === 'estilo1') {
+      container.innerHTML = `
+        <div class="space-y-8 text-stone-900">
+          <div>
+            <span class="text-xs font-bold uppercase tracking-wider vukata-font-title text-[#8B1E1E]">Panel de Control y Rendimiento</span>
+            <h2 class="vukata-font-title text-2xl sm:text-3xl font-black text-stone-950 mt-1">Métricas de Servicio · VU<span class="text-[#E52D27]">KA</span>TA</h2>
+            <p class="text-xs vukata-font-desc text-stone-600 mt-1">Datos actualizados al minuto con cada comanda tramitada en sala o brasa.</p>
           </div>
 
-          <div class="${isDark ? 'bg-stone-900 border-stone-800' : 'bg-white border-slate-200'} p-6 rounded-2xl border shadow-sm">
-            <span class="text-xs font-semibold uppercase text-slate-400">Comandas en Servicio</span>
-            <p class="text-2xl sm:text-3xl font-bold mt-2 font-mono">${orders.length}</p>
+          <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+            <div class="bg-white border-2 border-stone-200 p-6 rounded-2xl shadow-sm">
+              <span class="text-[11px] font-bold uppercase vukata-font-title text-stone-500">Facturación Estimada Hoy</span>
+              <p class="text-3xl sm:text-4xl font-black mt-2 vukata-font-dish text-[#8B1E1E]">${formatCurrency(totalSales)}</p>
+            </div>
+
+            <div class="bg-white border-2 border-stone-200 p-6 rounded-2xl shadow-sm">
+              <span class="text-[11px] font-bold uppercase vukata-font-title text-stone-500">Comandas en Servicio</span>
+              <p class="text-3xl sm:text-4xl font-black mt-2 vukata-font-dish text-stone-950">${orders.length}</p>
+            </div>
+
+            <div class="bg-white border-2 border-stone-200 p-6 rounded-2xl shadow-sm">
+              <span class="text-[11px] font-bold uppercase vukata-font-title text-stone-500">Ticket Medio</span>
+              <p class="text-3xl sm:text-4xl font-black mt-2 vukata-font-dish text-stone-950">${formatCurrency(avgTicket)}</p>
+            </div>
+
+            <div class="bg-white border-2 border-stone-200 p-6 rounded-2xl shadow-sm">
+              <span class="text-[11px] font-bold uppercase vukata-font-title text-emerald-700">Ahorro frente a Agregadores</span>
+              <p class="text-3xl sm:text-4xl font-black text-emerald-700 mt-2 vukata-font-dish">${formatCurrency(totalSales * 0.30)}</p>
+            </div>
           </div>
 
-          <div class="${isDark ? 'bg-stone-900 border-stone-800' : 'bg-white border-slate-200'} p-6 rounded-2xl border shadow-sm">
-            <span class="text-xs font-semibold uppercase text-slate-400">Ticket Medio</span>
-            <p class="text-2xl sm:text-3xl font-bold mt-2 font-mono">${formatCurrency(avgTicket)}</p>
-          </div>
-
-          <div class="${isDark ? 'bg-stone-900 border-stone-800' : 'bg-white border-slate-200'} p-6 rounded-2xl border shadow-sm">
-            <span class="text-xs font-semibold uppercase text-emerald-500">Ahorro frente a Agregadores</span>
-            <p class="text-2xl sm:text-3xl font-bold text-emerald-500 mt-2 font-mono">${formatCurrency(totalSales * 0.30)}</p>
-          </div>
-        </div>
-
-        <!-- Ranking en Tiempo Real -->
-        <div class="${isDark ? 'bg-stone-900 border-stone-800' : 'bg-white border-slate-200'} p-6 rounded-3xl border shadow-sm">
-          <h3 class="font-bold text-base mb-4">Rotación de Platos en Sala (Tiempo Real)</h3>
-          <div class="space-y-3">
-            ${preset.menu.map(dish => {
-              const count = store.getDishSalesCount(dish.id);
-              return `
-                <div class="flex flex-wrap sm:flex-nowrap items-center justify-between gap-2 p-3 ${isDark ? 'bg-stone-950/80 border-stone-800' : 'bg-slate-50 border-slate-200'} border rounded-xl text-xs">
-                  <div class="flex items-center space-x-2.5 min-w-0">
-                    <span class="font-bold text-amber-400 w-7 font-mono flex-shrink-0">${count}x</span>
-                    <span class="font-semibold truncate max-w-[160px] sm:max-w-none">${dish.name}</span>
-                    <span class="text-slate-400 hidden sm:inline">(${dish.category})</span>
+          <!-- Ranking en Tiempo Real -->
+          <div class="bg-white border-2 border-stone-200 p-6 sm:p-8 rounded-3xl shadow-sm">
+            <h3 class="vukata-font-title font-bold text-base text-stone-950 mb-4">Rotación de Platos en Sala (Tiempo Real)</h3>
+            <div class="space-y-3">
+              ${preset.menu.map(dish => {
+                const count = store.getDishSalesCount(dish.id);
+                return `
+                  <div class="flex flex-wrap sm:flex-nowrap items-center justify-between gap-2 p-3 bg-[#F4F5F7] border border-stone-200 rounded-xl text-xs">
+                    <div class="flex items-center space-x-2.5 min-w-0">
+                      <span class="font-bold text-[#8B1E1E] w-8 font-mono text-sm flex-shrink-0">${count}x</span>
+                      <span class="vukata-font-dish font-black text-base text-stone-950 truncate max-w-[160px] sm:max-w-none">${dish.name}</span>
+                      <span class="text-stone-500 hidden sm:inline font-sans text-xs">(${dish.category})</span>
+                    </div>
+                    <div class="flex items-center space-x-2 flex-shrink-0">
+                      <span class="vukata-font-dish font-black text-base text-[#8B1E1E]">${formatCurrency(dish.price * count)}</span>
+                      <button data-quick-simulate-dish="${dish.id}" class="btn-vukata-primary text-white px-2.5 py-1 rounded-lg text-[11px] font-bold cursor-pointer">
+                        +1 Venta
+                      </button>
+                    </div>
                   </div>
-                  <div class="flex items-center space-x-2 flex-shrink-0">
-                    <span class="font-mono font-bold">${formatCurrency(dish.price * count)}</span>
-                    <button data-quick-simulate-dish="${dish.id}" class="bg-blue-600 hover:bg-blue-700 text-white px-2.5 py-1 rounded-lg text-[11px] font-bold">
-                      +1 Venta
-                    </button>
-                  </div>
-                </div>
-              `;
-            }).join('')}
+                `;
+              }).join('')}
+            </div>
           </div>
         </div>
-      </div>
-    `;
+      `;
+    } else {
+      container.innerHTML = `
+        <div class="space-y-8 ${isDark ? 'text-stone-100' : 'text-slate-900'}">
+          <div>
+            <span class="text-xs font-bold uppercase tracking-wider font-mono text-blue-500">Panel de Control</span>
+            <h2 class="text-2xl sm:text-3xl font-extrabold mt-1">Métricas de Servicio · ${preset.name}</h2>
+            <p class="text-xs ${isDark ? 'text-stone-400' : 'text-slate-500'} mt-1">Datos actualizados al minuto con cada comanda tramitada.</p>
+          </div>
+
+          <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+            <div class="${isDark ? 'bg-stone-900 border-stone-800' : 'bg-white border-slate-200'} p-6 rounded-2xl border shadow-sm">
+              <span class="text-xs font-semibold uppercase text-slate-400">Facturación Estimada Hoy</span>
+              <p class="text-2xl sm:text-3xl font-bold mt-2 font-mono text-amber-400">${formatCurrency(totalSales)}</p>
+            </div>
+
+            <div class="${isDark ? 'bg-stone-900 border-stone-800' : 'bg-white border-slate-200'} p-6 rounded-2xl border shadow-sm">
+              <span class="text-xs font-semibold uppercase text-slate-400">Comandas en Servicio</span>
+              <p class="text-2xl sm:text-3xl font-bold mt-2 font-mono">${orders.length}</p>
+            </div>
+
+            <div class="${isDark ? 'bg-stone-900 border-stone-800' : 'bg-white border-slate-200'} p-6 rounded-2xl border shadow-sm">
+              <span class="text-xs font-semibold uppercase text-slate-400">Ticket Medio</span>
+              <p class="text-2xl sm:text-3xl font-bold mt-2 font-mono">${formatCurrency(avgTicket)}</p>
+            </div>
+
+            <div class="${isDark ? 'bg-stone-900 border-stone-800' : 'bg-white border-slate-200'} p-6 rounded-2xl border shadow-sm">
+              <span class="text-xs font-semibold uppercase text-emerald-500">Ahorro frente a Agregadores</span>
+              <p class="text-2xl sm:text-3xl font-bold text-emerald-500 mt-2 font-mono">${formatCurrency(totalSales * 0.30)}</p>
+            </div>
+          </div>
+
+          <!-- Ranking en Tiempo Real -->
+          <div class="${isDark ? 'bg-stone-900 border-stone-800' : 'bg-white border-slate-200'} p-6 rounded-3xl border shadow-sm">
+            <h3 class="font-bold text-base mb-4">Rotación de Platos en Sala (Tiempo Real)</h3>
+            <div class="space-y-3">
+              ${preset.menu.map(dish => {
+                const count = store.getDishSalesCount(dish.id);
+                return `
+                  <div class="flex flex-wrap sm:flex-nowrap items-center justify-between gap-2 p-3 ${isDark ? 'bg-stone-950/80 border-stone-800' : 'bg-slate-50 border-slate-200'} border rounded-xl text-xs">
+                    <div class="flex items-center space-x-2.5 min-w-0">
+                      <span class="font-bold text-amber-400 w-7 font-mono flex-shrink-0">${count}x</span>
+                      <span class="font-semibold truncate max-w-[160px] sm:max-w-none">${dish.name}</span>
+                      <span class="text-slate-400 hidden sm:inline">(${dish.category})</span>
+                    </div>
+                    <div class="flex items-center space-x-2 flex-shrink-0">
+                      <span class="font-mono font-bold">${formatCurrency(dish.price * count)}</span>
+                      <button data-quick-simulate-dish="${dish.id}" class="bg-blue-600 hover:bg-blue-700 text-white px-2.5 py-1 rounded-lg text-[11px] font-bold">
+                        +1 Venta
+                      </button>
+                    </div>
+                  </div>
+                `;
+              }).join('')}
+            </div>
+          </div>
+        </div>
+      `;
+    }
   }
 
   // =========================================================================
@@ -2061,71 +2231,139 @@ export class GastroApp {
     const today = new Date().toISOString().split('T')[0];
     const isDark = (preset.id === 'estilo2');
 
-    container.innerHTML = `
-      <div class="max-w-3xl mx-auto ${isDark ? 'bg-stone-900 border-stone-800 text-stone-100' : 'bg-white border-slate-200 text-slate-900'} rounded-3xl border shadow-sm p-6 sm:p-10">
-        <div class="border-b ${isDark ? 'border-stone-800' : 'border-slate-100'} pb-6 mb-8">
-          <span class="text-xs font-bold uppercase tracking-wider font-mono text-blue-500">Motor de Reservas Directas</span>
-          <h2 class="text-2xl sm:text-3xl font-bold mt-1">Reserva de Mesa · ${preset.name}</h2>
-          <p class="text-sm text-slate-400 mt-2">Sin comisiones por cubierto ni intermediarios. Confirmación inmediata.</p>
+    if (preset.id === 'estilo1') {
+      container.innerHTML = `
+        <div class="max-w-3xl mx-auto bg-white border-2 border-[#8B1E1E]/30 text-stone-900 rounded-3xl shadow-md p-6 sm:p-10">
+          <div class="border-b border-stone-200 pb-6 mb-8">
+            <span class="text-xs font-bold uppercase tracking-wider vukata-font-title text-[#8B1E1E]">Motor de Reservas Directas</span>
+            <h2 class="vukata-font-title text-2xl sm:text-3xl font-black text-stone-950 mt-1">Reserva de Mesa · VU<span class="text-[#E52D27]">KA</span>TA</h2>
+            <p class="text-sm vukata-font-desc text-stone-600 mt-2">Sin comisiones por cubierto ni intermediarios. Confirmación inmediata en parrilla.</p>
+          </div>
+
+          <form id="reservation-form" class="space-y-6">
+            <div class="grid grid-cols-1 sm:grid-cols-2 gap-6">
+              <div>
+                <label class="block text-xs font-bold uppercase vukata-font-title text-stone-700 mb-2">Fecha</label>
+                <input type="date" id="res-date" value="${today}" min="${today}" required class="w-full bg-[#F4F5F7] border border-stone-300 text-stone-900 rounded-xl px-3.5 py-2.5 text-sm focus:outline-none focus:ring-2 focus:ring-[#8B1E1E]"/>
+              </div>
+
+              <div>
+                <label class="block text-xs font-bold uppercase vukata-font-title text-stone-700 mb-2">Turno</label>
+                <select id="res-turn" class="w-full bg-[#F4F5F7] border border-stone-300 text-stone-900 rounded-xl px-3.5 py-2.5 text-sm focus:outline-none focus:ring-2 focus:ring-[#8B1E1E]">
+                  <option value="Comida (13:30h - 14:30h)">Comida (13:30h - 14:30h)</option>
+                  <option value="Comida (14:30h - 16:00h)">Comida (14:30h - 16:00h)</option>
+                  <option value="Cena (20:30h - 21:30h)">Cena (20:30h - 21:30h)</option>
+                  <option value="Cena (21:30h - 23:00h)">Cena (21:30h - 23:00h)</option>
+                </select>
+              </div>
+
+              <div>
+                <label class="block text-xs font-bold uppercase vukata-font-title text-stone-700 mb-2">Comensales</label>
+                <select id="res-guests" class="w-full bg-[#F4F5F7] border border-stone-300 text-stone-900 rounded-xl px-3.5 py-2.5 text-sm focus:outline-none focus:ring-2 focus:ring-[#8B1E1E]">
+                  <option value="2 personas">2 personas</option>
+                  <option value="4 personas" selected>4 personas</option>
+                  <option value="6 personas">6 personas</option>
+                  <option value="8 personas">8 personas</option>
+                  <option value="Mesa Grande (10+)">Mesa Grande (10+ personas)</option>
+                </select>
+              </div>
+
+              <div>
+                <label class="block text-xs font-bold uppercase vukata-font-title text-stone-700 mb-2">Preferencia de Sala</label>
+                <select id="res-zone" class="w-full bg-[#F4F5F7] border border-stone-300 text-stone-900 rounded-xl px-3.5 py-2.5 text-sm focus:outline-none focus:ring-2 focus:ring-[#8B1E1E]">
+                  <option value="Comedor Principal">Comedor Principal</option>
+                  <option value="Zona Parrilla">Junto a la Brasa</option>
+                  <option value="Terraza Exterior">Terraza Exterior</option>
+                </select>
+              </div>
+            </div>
+
+            <div class="grid grid-cols-1 sm:grid-cols-2 gap-6 pt-4 border-t border-stone-200">
+              <div>
+                <label class="block text-xs font-bold uppercase vukata-font-title text-stone-700 mb-2">Nombre Completo</label>
+                <input type="text" id="res-name" placeholder="Ej: Ignacio Ramos" required class="w-full bg-[#F4F5F7] border border-stone-300 text-stone-900 rounded-xl px-3.5 py-2.5 text-sm focus:outline-none focus:ring-2 focus:ring-[#8B1E1E]"/>
+              </div>
+
+              <div>
+                <label class="block text-xs font-bold uppercase vukata-font-title text-stone-700 mb-2">Teléfono de Contacto</label>
+                <input type="tel" id="res-phone" placeholder="600 000 000" required class="w-full bg-[#F4F5F7] border border-stone-300 text-stone-900 rounded-xl px-3.5 py-2.5 text-sm focus:outline-none focus:ring-2 focus:ring-[#8B1E1E]"/>
+              </div>
+            </div>
+
+            <button type="submit" class="w-full btn-vukata-primary py-3.5 rounded-xl font-bold text-sm tracking-wide shadow flex items-center justify-center space-x-2 cursor-pointer">
+              <span>Confirmar Reserva en Parrilla Vukata</span>
+              ${ICONS.arrow}
+            </button>
+          </form>
         </div>
-
-        <form id="reservation-form" class="space-y-6">
-          <div class="grid grid-cols-1 sm:grid-cols-2 gap-6">
-            <div>
-              <label class="block text-xs font-semibold uppercase mb-2">Fecha</label>
-              <input type="date" id="res-date" value="${today}" min="${today}" required class="w-full ${isDark ? 'bg-stone-950 border-stone-700 text-white' : 'bg-slate-50 border-slate-300 text-slate-900'} border rounded-xl px-3.5 py-2.5 text-sm focus:outline-none"/>
-            </div>
-
-            <div>
-              <label class="block text-xs font-semibold uppercase mb-2">Turno</label>
-              <select id="res-turn" class="w-full ${isDark ? 'bg-stone-950 border-stone-700 text-white' : 'bg-slate-50 border-slate-300 text-slate-900'} border rounded-xl px-3.5 py-2.5 text-sm focus:outline-none">
-                <option value="Comida (13:30h - 14:30h)">Comida (13:30h - 14:30h)</option>
-                <option value="Comida (14:30h - 16:00h)">Comida (14:30h - 16:00h)</option>
-                <option value="Cena (20:30h - 21:30h)">Cena (20:30h - 21:30h)</option>
-                <option value="Cena (21:30h - 23:00h)">Cena (21:30h - 23:00h)</option>
-              </select>
-            </div>
-
-            <div>
-              <label class="block text-xs font-semibold uppercase mb-2">Comensales</label>
-              <select id="res-guests" class="w-full ${isDark ? 'bg-stone-950 border-stone-700 text-white' : 'bg-slate-50 border-slate-300 text-slate-900'} border rounded-xl px-3.5 py-2.5 text-sm focus:outline-none">
-                <option value="2 personas">2 personas</option>
-                <option value="4 personas" selected>4 personas</option>
-                <option value="6 personas">6 personas</option>
-                <option value="8 personas">8 personas</option>
-                <option value="Mesa Grande (10+)">Mesa Grande (10+ personas)</option>
-              </select>
-            </div>
-
-            <div>
-              <label class="block text-xs font-semibold uppercase mb-2">Preferencia de Sala</label>
-              <select id="res-zone" class="w-full ${isDark ? 'bg-stone-950 border-stone-700 text-white' : 'bg-slate-50 border-slate-300 text-slate-900'} border rounded-xl px-3.5 py-2.5 text-sm focus:outline-none">
-                <option value="Comedor Principal">Comedor Principal</option>
-                <option value="Terraza Exterior">Terraza Exterior</option>
-                <option value="Zona Barra">Zona Barra</option>
-              </select>
-            </div>
+      `;
+    } else {
+      container.innerHTML = `
+        <div class="max-w-3xl mx-auto ${isDark ? 'bg-stone-900 border-stone-800 text-stone-100' : 'bg-white border-slate-200 text-slate-900'} rounded-3xl border shadow-sm p-6 sm:p-10">
+          <div class="border-b ${isDark ? 'border-stone-800' : 'border-slate-100'} pb-6 mb-8">
+            <span class="text-xs font-bold uppercase tracking-wider font-mono text-blue-500">Motor de Reservas Directas</span>
+            <h2 class="text-2xl sm:text-3xl font-bold mt-1">Reserva de Mesa · ${preset.name}</h2>
+            <p class="text-sm text-slate-400 mt-2">Sin comisiones por cubierto ni intermediarios. Confirmación inmediata.</p>
           </div>
 
-          <div class="grid grid-cols-1 sm:grid-cols-2 gap-6 pt-4 border-t ${isDark ? 'border-stone-800' : 'border-slate-100'}">
-            <div>
-              <label class="block text-xs font-semibold uppercase mb-2">Nombre Completo</label>
-              <input type="text" id="res-name" placeholder="Ej: Ignacio Ramos" required class="w-full ${isDark ? 'bg-stone-950 border-stone-700 text-white' : 'bg-slate-50 border-slate-300 text-slate-900'} border rounded-xl px-3.5 py-2.5 text-sm focus:outline-none"/>
+          <form id="reservation-form" class="space-y-6">
+            <div class="grid grid-cols-1 sm:grid-cols-2 gap-6">
+              <div>
+                <label class="block text-xs font-semibold uppercase mb-2">Fecha</label>
+                <input type="date" id="res-date" value="${today}" min="${today}" required class="w-full ${isDark ? 'bg-stone-950 border-stone-700 text-white' : 'bg-slate-50 border-slate-300 text-slate-900'} border rounded-xl px-3.5 py-2.5 text-sm focus:outline-none"/>
+              </div>
+
+              <div>
+                <label class="block text-xs font-semibold uppercase mb-2">Turno</label>
+                <select id="res-turn" class="w-full ${isDark ? 'bg-stone-950 border-stone-700 text-white' : 'bg-slate-50 border-slate-300 text-slate-900'} border rounded-xl px-3.5 py-2.5 text-sm focus:outline-none">
+                  <option value="Comida (13:30h - 14:30h)">Comida (13:30h - 14:30h)</option>
+                  <option value="Comida (14:30h - 16:00h)">Comida (14:30h - 16:00h)</option>
+                  <option value="Cena (20:30h - 21:30h)">Cena (20:30h - 21:30h)</option>
+                  <option value="Cena (21:30h - 23:00h)">Cena (21:30h - 23:00h)</option>
+                </select>
+              </div>
+
+              <div>
+                <label class="block text-xs font-semibold uppercase mb-2">Comensales</label>
+                <select id="res-guests" class="w-full ${isDark ? 'bg-stone-950 border-stone-700 text-white' : 'bg-slate-50 border-slate-300 text-slate-900'} border rounded-xl px-3.5 py-2.5 text-sm focus:outline-none">
+                  <option value="2 personas">2 personas</option>
+                  <option value="4 personas" selected>4 personas</option>
+                  <option value="6 personas">6 personas</option>
+                  <option value="8 personas">8 personas</option>
+                  <option value="Mesa Grande (10+)">Mesa Grande (10+ personas)</option>
+                </select>
+              </div>
+
+              <div>
+                <label class="block text-xs font-semibold uppercase mb-2">Preferencia de Sala</label>
+                <select id="res-zone" class="w-full ${isDark ? 'bg-stone-950 border-stone-700 text-white' : 'bg-slate-50 border-slate-300 text-slate-900'} border rounded-xl px-3.5 py-2.5 text-sm focus:outline-none">
+                  <option value="Comedor Principal">Comedor Principal</option>
+                  <option value="Terraza Exterior">Terraza Exterior</option>
+                  <option value="Zona Barra">Zona Barra</option>
+                </select>
+              </div>
             </div>
 
-            <div>
-              <label class="block text-xs font-semibold uppercase mb-2">Teléfono de Contacto</label>
-              <input type="tel" id="res-phone" placeholder="600 000 000" required class="w-full ${isDark ? 'bg-stone-950 border-stone-700 text-white' : 'bg-slate-50 border-slate-300 text-slate-900'} border rounded-xl px-3.5 py-2.5 text-sm focus:outline-none"/>
-            </div>
-          </div>
+            <div class="grid grid-cols-1 sm:grid-cols-2 gap-6 pt-4 border-t ${isDark ? 'border-stone-800' : 'border-slate-100'}">
+              <div>
+                <label class="block text-xs font-semibold uppercase mb-2">Nombre Completo</label>
+                <input type="text" id="res-name" placeholder="Ej: Ignacio Ramos" required class="w-full ${isDark ? 'bg-stone-950 border-stone-700 text-white' : 'bg-slate-50 border-slate-300 text-slate-900'} border rounded-xl px-3.5 py-2.5 text-sm focus:outline-none"/>
+              </div>
 
-          <button type="submit" class="w-full btn-devcorp-primary py-3.5 rounded-xl font-bold text-sm tracking-wide shadow flex items-center justify-center space-x-2">
-            <span>Confirmar Reserva Directa</span>
-            ${ICONS.arrow}
-          </button>
-        </form>
-      </div>
-    `;
+              <div>
+                <label class="block text-xs font-semibold uppercase mb-2">Teléfono de Contacto</label>
+                <input type="tel" id="res-phone" placeholder="600 000 000" required class="w-full ${isDark ? 'bg-stone-950 border-stone-700 text-white' : 'bg-slate-50 border-slate-300 text-slate-900'} border rounded-xl px-3.5 py-2.5 text-sm focus:outline-none"/>
+              </div>
+            </div>
+
+            <button type="submit" class="w-full btn-devcorp-primary py-3.5 rounded-xl font-bold text-sm tracking-wide shadow flex items-center justify-center space-x-2">
+              <span>Confirmar Reserva Directa</span>
+              ${ICONS.arrow}
+            </button>
+          </form>
+        </div>
+      `;
+    }
 
     const form = document.getElementById('reservation-form');
     if (form) {
@@ -2166,78 +2404,154 @@ export class GastroApp {
       const resContainer = document.getElementById('roi-results-container');
       if (!resContainer) return;
 
-      resContainer.innerHTML = `
-        <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mt-8">
-          <div class="p-6 rounded-3xl bg-red-950/30 border border-red-800/50 text-stone-100">
-            <span class="text-xs font-mono font-bold uppercase text-red-400 flex items-center space-x-1.5">
-              <span>✕</span>
-              <span>Con Plataformas de Agregación (30% Comisión)</span>
-            </span>
-            <h3 class="text-xl font-bold text-red-200 mt-4">Comisiones que asume el restaurante</h3>
-            <div class="mt-6 space-y-3 text-xs text-stone-300">
-              <div class="flex justify-between pb-2 border-b border-red-900/60">
-                <span>Comisión media mensual:</span>
-                <span class="font-mono font-bold text-red-400">-${formatCurrency(data.monthlySavings)} / mes</span>
-              </div>
-              <div class="flex justify-between pb-2 border-b border-red-900/60">
-                <span>Pérdida anual acumulada:</span>
-                <span class="font-mono font-bold text-red-400">-${formatCurrency(data.annualSavings)} / año</span>
-              </div>
-            </div>
-          </div>
-
-          <div class="p-6 rounded-3xl bg-emerald-950/40 border border-emerald-700/60 text-stone-100 relative overflow-hidden">
-            <div class="relative z-10">
-              <span class="text-xs font-mono font-bold uppercase text-emerald-400 flex items-center space-x-1.5">
-                <span>✓</span>
-                <span>Con Sistema Web Propio DevCorp GastroSuite</span>
+      if (preset.id === 'estilo1') {
+        resContainer.innerHTML = `
+          <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mt-8">
+            <div class="p-6 sm:p-8 rounded-3xl bg-red-50 border-2 border-red-200 text-stone-900 shadow-sm">
+              <span class="text-xs vukata-font-title font-bold uppercase text-[#8B1E1E] flex items-center space-x-1.5">
+                <span>✕</span>
+                <span>Con Plataformas de Agregación (30% Comisión)</span>
               </span>
-              <h3 class="text-xl font-bold text-emerald-300 mt-4">El 100% de la venta para el restaurante</h3>
-              <div class="mt-6 space-y-3 text-xs text-stone-300">
-                <div class="flex justify-between pb-2 border-b border-emerald-900/60">
-                  <span>Comisión por pedido:</span>
-                  <span class="font-mono font-bold text-emerald-400">0,00 € (0%)</span>
+              <h3 class="vukata-font-title text-xl font-bold text-[#8B1E1E] mt-4">Comisiones que asume el restaurante</h3>
+              <div class="mt-6 space-y-3 text-xs text-stone-700">
+                <div class="flex justify-between pb-2 border-b border-red-200 font-sans">
+                  <span>Comisión media mensual:</span>
+                  <span class="vukata-font-dish font-black text-lg text-[#8B1E1E]">-${formatCurrency(data.monthlySavings)} / mes</span>
                 </div>
-                <div class="bg-emerald-900/40 p-4 rounded-xl text-center border border-emerald-700 mt-4">
-                  <span class="text-xs uppercase text-emerald-200 block font-semibold">Ahorro Anual que Conserva el Negocio:</span>
-                  <span class="text-3xl font-black text-emerald-300 font-mono mt-1 block">+${formatCurrency(data.annualSavings)}</span>
+                <div class="flex justify-between pb-2 border-b border-red-200 font-sans">
+                  <span>Pérdida anual acumulada:</span>
+                  <span class="vukata-font-dish font-black text-lg text-[#8B1E1E]">-${formatCurrency(data.annualSavings)} / año</span>
+                </div>
+              </div>
+            </div>
+
+            <div class="p-6 sm:p-8 rounded-3xl bg-white border-2 border-[#8B1E1E]/30 text-stone-900 shadow-md relative overflow-hidden">
+              <div class="relative z-10">
+                <span class="text-xs vukata-font-title font-bold uppercase text-emerald-700 flex items-center space-x-1.5">
+                  <span>✓</span>
+                  <span>Con Sistema Web Propio DevCorp · VU<span class="text-[#E52D27]">KA</span>TA</span>
+                </span>
+                <h3 class="vukata-font-title text-xl font-black text-stone-950 mt-4">El 100% de la venta para el asador</h3>
+                <div class="mt-6 space-y-3 text-xs text-stone-700">
+                  <div class="flex justify-between pb-2 border-b border-stone-200 font-sans">
+                    <span>Comisión por pedido:</span>
+                    <span class="vukata-font-dish font-black text-lg text-emerald-700">0,00 € (0%)</span>
+                  </div>
+                  <div class="bg-red-50/70 p-4 rounded-xl text-center border-2 border-[#8B1E1E]/20 mt-4">
+                    <span class="text-xs uppercase vukata-font-title text-[#8B1E1E] block font-bold">Ahorro Anual que Conserva Parrilla Vukata:</span>
+                    <span class="text-3xl sm:text-4xl font-black text-[#8B1E1E] vukata-font-dish mt-1 block">+${formatCurrency(data.annualSavings)}</span>
+                  </div>
                 </div>
               </div>
             </div>
           </div>
-        </div>
-      `;
+        `;
+      } else {
+        resContainer.innerHTML = `
+          <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mt-8">
+            <div class="p-6 rounded-3xl bg-red-950/30 border border-red-800/50 text-stone-100">
+              <span class="text-xs font-mono font-bold uppercase text-red-400 flex items-center space-x-1.5">
+                <span>✕</span>
+                <span>Con Plataformas de Agregación (30% Comisión)</span>
+              </span>
+              <h3 class="text-xl font-bold text-red-200 mt-4">Comisiones que asume el restaurante</h3>
+              <div class="mt-6 space-y-3 text-xs text-stone-300">
+                <div class="flex justify-between pb-2 border-b border-red-900/60">
+                  <span>Comisión media mensual:</span>
+                  <span class="font-mono font-bold text-red-400">-${formatCurrency(data.monthlySavings)} / mes</span>
+                </div>
+                <div class="flex justify-between pb-2 border-b border-red-900/60">
+                  <span>Pérdida anual acumulada:</span>
+                  <span class="font-mono font-bold text-red-400">-${formatCurrency(data.annualSavings)} / año</span>
+                </div>
+              </div>
+            </div>
+
+            <div class="p-6 rounded-3xl bg-emerald-950/40 border border-emerald-700/60 text-stone-100 relative overflow-hidden">
+              <div class="relative z-10">
+                <span class="text-xs font-mono font-bold uppercase text-emerald-400 flex items-center space-x-1.5">
+                  <span>✓</span>
+                  <span>Con Sistema Web Propio DevCorp GastroSuite</span>
+                </span>
+                <h3 class="text-xl font-bold text-emerald-300 mt-4">El 100% de la venta para el restaurante</h3>
+                <div class="mt-6 space-y-3 text-xs text-stone-300">
+                  <div class="flex justify-between pb-2 border-b border-emerald-900/60">
+                    <span>Comisión por pedido:</span>
+                    <span class="font-mono font-bold text-emerald-400">0,00 € (0%)</span>
+                  </div>
+                  <div class="bg-emerald-900/40 p-4 rounded-xl text-center border border-emerald-700 mt-4">
+                    <span class="text-xs uppercase text-emerald-200 block font-semibold">Ahorro Anual que Conserva el Negocio:</span>
+                    <span class="text-3xl font-black text-emerald-300 font-mono mt-1 block">+${formatCurrency(data.annualSavings)}</span>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        `;
+      }
     };
 
-    container.innerHTML = `
-      <div class="max-w-5xl mx-auto space-y-8 ${isDark ? 'text-stone-100' : 'text-slate-900'}">
-        <div class="text-center max-w-2xl mx-auto">
-          <span class="text-xs font-bold uppercase tracking-wider font-mono text-blue-500">Rentabilidad y Márgenes</span>
-          <h2 class="text-2xl sm:text-4xl font-extrabold mt-1">Comparativa de Comisiones de Delivery</h2>
-          <p class="text-xs sm:text-sm text-slate-400 mt-2">Calcula cuánto dinero ahorra un restaurante al operar su propio canal directo sin comisiones por pedido.</p>
-        </div>
-
-        <div class="${isDark ? 'bg-stone-900 border-stone-800' : 'bg-white border-slate-200'} p-6 sm:p-8 rounded-3xl border shadow-sm grid grid-cols-1 md:grid-cols-2 gap-8">
-          <div>
-            <div class="flex justify-between items-center mb-2">
-              <label class="text-xs font-bold uppercase">Pedidos mensuales (Delivery / Takeaway):</label>
-              <span id="orders-val" class="font-mono font-bold text-blue-500 text-base">400 pedidos</span>
-            </div>
-            <input type="range" id="orders-slider" min="50" max="1500" step="25" value="400" class="w-full h-2 bg-slate-700 rounded-lg cursor-pointer"/>
+    if (preset.id === 'estilo1') {
+      container.innerHTML = `
+        <div class="max-w-5xl mx-auto space-y-8 text-stone-900">
+          <div class="text-center max-w-2xl mx-auto">
+            <span class="text-xs font-bold uppercase tracking-wider vukata-font-title text-[#8B1E1E]">Rentabilidad y Márgenes</span>
+            <h2 class="vukata-font-title text-2xl sm:text-4xl font-black text-stone-950 mt-1">Comparativa de Comisiones de Delivery · VU<span class="text-[#E52D27]">KA</span>TA</h2>
+            <p class="text-xs sm:text-sm vukata-font-desc text-stone-600 mt-2">Calcula cuánto dinero ahorra Parrilla Vukata al operar su propio canal directo sin comisiones por pedido.</p>
           </div>
 
-          <div>
-            <div class="flex justify-between items-center mb-2">
-              <label class="text-xs font-bold uppercase">Ticket medio por pedido:</label>
-              <span id="ticket-val" class="font-mono font-bold text-blue-500 text-base">26,00 €</span>
+          <div class="bg-white border-2 border-stone-200 p-6 sm:p-8 rounded-3xl shadow-sm grid grid-cols-1 md:grid-cols-2 gap-8">
+            <div>
+              <div class="flex justify-between items-center mb-2">
+                <label class="text-xs font-bold uppercase vukata-font-title text-stone-700">Pedidos mensuales (Delivery / Takeaway):</label>
+                <span id="orders-val" class="vukata-font-dish font-black text-[#8B1E1E] text-lg">400 pedidos</span>
+              </div>
+              <input type="range" id="orders-slider" min="50" max="1500" step="25" value="400" class="w-full h-2 bg-stone-200 accent-[#8B1E1E] rounded-lg cursor-pointer"/>
             </div>
-            <input type="range" id="ticket-slider" min="12" max="75" step="1" value="26" class="w-full h-2 bg-slate-700 rounded-lg cursor-pointer"/>
-          </div>
-        </div>
 
-        <div id="roi-results-container"></div>
-      </div>
-    `;
+            <div>
+              <div class="flex justify-between items-center mb-2">
+                <label class="text-xs font-bold uppercase vukata-font-title text-stone-700">Ticket medio por pedido:</label>
+                <span id="ticket-val" class="vukata-font-dish font-black text-[#8B1E1E] text-lg">26,00 €</span>
+              </div>
+              <input type="range" id="ticket-slider" min="12" max="75" step="1" value="26" class="w-full h-2 bg-stone-200 accent-[#8B1E1E] rounded-lg cursor-pointer"/>
+            </div>
+          </div>
+
+          <div id="roi-results-container"></div>
+        </div>
+      `;
+    } else {
+      container.innerHTML = `
+        <div class="max-w-5xl mx-auto space-y-8 ${isDark ? 'text-stone-100' : 'text-slate-900'}">
+          <div class="text-center max-w-2xl mx-auto">
+            <span class="text-xs font-bold uppercase tracking-wider font-mono text-blue-500">Rentabilidad y Márgenes</span>
+            <h2 class="text-2xl sm:text-4xl font-extrabold mt-1">Comparativa de Comisiones de Delivery</h2>
+            <p class="text-xs sm:text-sm text-slate-400 mt-2">Calcula cuánto dinero ahorra un restaurante al operar su propio canal directo sin comisiones por pedido.</p>
+          </div>
+
+          <div class="${isDark ? 'bg-stone-900 border-stone-800' : 'bg-white border-slate-200'} p-6 sm:p-8 rounded-3xl border shadow-sm grid grid-cols-1 md:grid-cols-2 gap-8">
+            <div>
+              <div class="flex justify-between items-center mb-2">
+                <label class="text-xs font-bold uppercase">Pedidos mensuales (Delivery / Takeaway):</label>
+                <span id="orders-val" class="font-mono font-bold text-blue-500 text-base">400 pedidos</span>
+              </div>
+              <input type="range" id="orders-slider" min="50" max="1500" step="25" value="400" class="w-full h-2 bg-slate-700 rounded-lg cursor-pointer"/>
+            </div>
+
+            <div>
+              <div class="flex justify-between items-center mb-2">
+                <label class="text-xs font-bold uppercase">Ticket medio por pedido:</label>
+                <span id="ticket-val" class="font-mono font-bold text-blue-500 text-base">26,00 €</span>
+              </div>
+              <input type="range" id="ticket-slider" min="12" max="75" step="1" value="26" class="w-full h-2 bg-slate-700 rounded-lg cursor-pointer"/>
+            </div>
+          </div>
+
+          <div id="roi-results-container"></div>
+        </div>
+      `;
+    }
 
     renderCalculation();
 
@@ -2754,7 +3068,7 @@ export class GastroApp {
             <div>
               <div class="flex items-center space-x-2">
                 <span class="text-xl">🔥</span>
-                <span class="vukata-font-title font-black text-[#8B1E1E] text-base block tracking-wider">${preset.name}</span>
+                <span class="vukata-font-title font-black text-[#18181B] text-base block tracking-wider">VU<span class="text-[#E52D27]">KA</span>TA</span>
               </div>
               <p class="mt-2 text-stone-600 leading-relaxed">${preset.tagline}</p>
               <span class="mt-4 inline-block font-sans text-[11px] text-[#8B1E1E] font-bold">Maestros Asadores · Parrilla al Carbón</span>
