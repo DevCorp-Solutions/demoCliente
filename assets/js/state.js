@@ -47,10 +47,10 @@ const INITIAL_DEMO_ORDERS = [
     tableNumber: "Mesa 4 (Comedor)",
     customerName: "Carlos M.",
     items: [
-      { id: "e1_2", name: "Torreznos Crujientes con Patata Revolcona", qty: 1, price: 11.50 },
-      { id: "e1_1", name: "Chuletón de Vaca Vieja (1.000g)", qty: 1, price: 39.50, notes: "Punto menos" }
+      { id: "e1_2", name: "Torreznos Crujientes de Soria", qty: 1, price: 11.50 },
+      { id: "e1_1", name: "Chuletón de Vaca Vieja Madurada (1kg)", qty: 1, price: 38.50, notes: "Al punto menos" }
     ],
-    total: 51.00,
+    total: 50.00,
     status: "kitchen",
     elapsedMinutes: 14
   },
@@ -61,8 +61,8 @@ const INITIAL_DEMO_ORDERS = [
     tableNumber: "Recogida Local",
     customerName: "Laura G.",
     items: [
-      { id: "e1_4", name: "Croquetas Cremosas de Cecina y Vaca (6 uds)", qty: 2, price: 10.50 },
-      { id: "e1_6", name: "Tarta Fluida de Queso Azul de Madrid y Oveja", qty: 2, price: 6.50 }
+      { id: "e1_5", name: "Croquetas Cremosas de Cecina y Boletus (6 uds)", qty: 2, price: 10.50 },
+      { id: "e1_6", name: "Tarta de Queso Fluida al Horno", qty: 2, price: 6.50 }
     ],
     total: 34.00,
     status: "pending",
@@ -75,10 +75,10 @@ const INITIAL_DEMO_ORDERS = [
     tableNumber: "Entrega Domicilio",
     customerName: "Marcos S.",
     items: [
-      { id: "e1_3", name: "Entrecot de Ternera de Guadarrama (400g)", qty: 2, price: 22.00, notes: "Al punto" },
-      { id: "e1_5", name: "Rabo de Toro Estofado al Vino Tinto de Madrid", qty: 1, price: 19.00 }
+      { id: "e1_3", name: "Entrecot de Ternera de Guadarrama (350g)", qty: 2, price: 21.00, notes: "Al punto" },
+      { id: "e1_4", name: "Costillar de Cerdo a la Miel de Romero", qty: 1, price: 16.80 }
     ],
-    total: 63.00,
+    total: 58.80,
     status: "ready",
     elapsedMinutes: 22
   }

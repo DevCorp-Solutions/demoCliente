@@ -408,7 +408,7 @@ export class GastroApp {
                 <img src="assets/images/logo.png" alt="DevCorp Solutions" class="h-10 sm:h-12 md:h-14 w-auto object-contain brightness-110 drop-shadow-md transition-transform group-hover:scale-105"/>
                 <div class="hidden lg:block border-l border-stone-800 pl-3">
                   <span class="text-[11px] font-mono text-amber-300/90 tracking-widest uppercase block font-bold">GastroSuite</span>
-                  <span class="text-[10px] text-stone-400 block font-mono">Estilo 1 · Alta Cocina</span>
+                  <span class="text-[10px] text-stone-400 block font-mono">Estilo 1 · ${preset.name}</span>
                 </div>
               </a>
 
@@ -511,8 +511,8 @@ export class GastroApp {
                   <img src="assets/images/logo.png" alt="DevCorp Solutions" class="h-10 sm:h-12 md:h-14 w-auto object-contain transition-transform group-hover:scale-105"/>
                 </a>
                 <div class="hidden sm:block border-l-2 border-[#8c7b6c]/40 pl-3">
-                  <span class="font-serif font-bold text-base block text-[#3d3228]">Casa Manolo</span>
-                  <span class="text-[10px] text-[#7a6b5d] uppercase tracking-wider block font-sans">Desde 1974 · Tel. 914 63 12 90</span>
+                  <span class="font-serif font-bold text-base block text-[#3d3228]">${preset.name}</span>
+                  <span class="text-[10px] text-[#7a6b5d] uppercase tracking-wider block font-sans">${preset.neighborhood || 'Madrid'} · Tel. ${preset.phone}</span>
                 </div>
               </div>
 
@@ -556,7 +556,7 @@ export class GastroApp {
             
             <a href="https://devcorpsolutions.com" target="_blank" class="flex items-center space-x-3 flex-shrink-0 group" title="DevCorp Solutions">
               <img src="assets/images/logo.png" alt="DevCorp Solutions" class="h-10 sm:h-12 md:h-14 w-auto object-contain transition-transform group-hover:scale-105"/>
-              <span class="text-xs font-medium tracking-widest text-zinc-500 uppercase hidden sm:inline">Atelier</span>
+              <span class="text-xs font-medium tracking-widest text-zinc-500 uppercase hidden sm:inline">${preset.name}</span>
             </a>
 
             <!-- Navegación Minimalista Espaciada -->
@@ -2042,11 +2042,17 @@ export class GastroApp {
             `).join('')}
           </div>
 
-          <div class="mt-10 text-center">
+          <div class="mt-10 text-center space-y-2">
             <button id="open-smart-review-btn" class="bg-gradient-to-r from-amber-500 via-amber-400 to-amber-300 hover:from-amber-400 hover:to-amber-200 text-stone-950 font-bold text-xs uppercase tracking-wider px-8 py-3.5 rounded-xl shadow-xl transition-all transform hover:scale-105 inline-flex items-center space-x-2.5 cursor-pointer">
               ${ICONS.google}
               <span>★ Escribir Reseña en Google Maps (+5★)</span>
             </button>
+            <div class="text-center">
+              <a href="${preset.googleMapsUrl}" target="_blank" class="inline-flex items-center space-x-1.5 text-xs text-amber-400/80 hover:text-amber-300 underline font-mono">
+                <span>Ver ficha oficial en Google Maps</span>
+                ${ICONS.external}
+              </a>
+            </div>
           </div>
         </section>
       `;
@@ -2062,18 +2068,24 @@ export class GastroApp {
                 ${ICONS.google}
                 <span class="text-xs font-bold text-sky-400 uppercase tracking-wider font-mono">Google Business Profile</span>
               </div>
-              <h3 class="text-2xl sm:text-3xl font-black text-white mt-1">4.8 de Puntuación en Sala</h3>
+              <h3 class="text-2xl sm:text-3xl font-black text-white mt-1">${preset.rating} de Puntuación en Google</h3>
               <div class="flex items-center space-x-2 mt-2">
                 <div class="flex space-x-0.5">${starRow}</div>
                 <span class="text-xs font-mono text-slate-300 font-bold">· ${preset.totalReviews} opiniones reales</span>
               </div>
             </div>
 
-            <button id="open-smart-review-btn" class="bg-gradient-to-r from-blue-600 via-sky-600 to-cyan-500 hover:from-blue-500 hover:to-cyan-400 text-white font-black text-xs px-6 py-3.5 rounded-2xl shadow-xl shadow-sky-500/25 flex items-center justify-center space-x-2.5 transition-transform hover:scale-105 cursor-pointer flex-shrink-0">
-              ${ICONS.google}
-              <span>★ Valorar en Google Maps</span>
-              ${ICONS.arrow}
-            </button>
+            <div class="flex flex-col sm:flex-row items-center gap-3">
+              <button id="open-smart-review-btn" class="bg-gradient-to-r from-blue-600 via-sky-600 to-cyan-500 hover:from-blue-500 hover:to-cyan-400 text-white font-black text-xs px-6 py-3.5 rounded-2xl shadow-xl shadow-sky-500/25 flex items-center justify-center space-x-2.5 transition-transform hover:scale-105 cursor-pointer flex-shrink-0">
+                ${ICONS.google}
+                <span>★ Valorar en Google Maps</span>
+                ${ICONS.arrow}
+              </button>
+              <a href="${preset.googleMapsUrl}" target="_blank" class="text-xs font-mono text-sky-400 hover:underline flex items-center space-x-1">
+                <span>Ficha directa</span>
+                ${ICONS.external}
+              </a>
+            </div>
           </div>
 
           <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
@@ -2109,7 +2121,7 @@ export class GastroApp {
           <div class="text-center max-w-2xl mx-auto mb-8">
             <div class="inline-flex items-center space-x-2 bg-[#eee7db] border border-[#8c7b6c] px-3.5 py-1.5 rounded-full mb-3 text-xs font-serif text-[#3d3228]">
               ${ICONS.google}
-              <span class="font-bold">Opiniones Verificadas en Google Maps · 4.7 ★★★★★</span>
+              <span class="font-bold">Opiniones Verificadas en Google Maps · ${preset.rating} ★★★★★</span>
             </div>
             <h3 class="bistro-serif text-2xl sm:text-3xl font-bold mt-1">Libro de Visitas & Reseñas de Google</h3>
             <p class="text-xs font-serif text-[#7a6b5d] mt-1">${preset.totalReviews} comensales han dejado su opinión sobre la cocina y el trato familiar</p>
@@ -2133,11 +2145,17 @@ export class GastroApp {
             `).join('')}
           </div>
 
-          <div class="mt-10 text-center">
+          <div class="mt-10 text-center space-y-2">
             <button id="open-smart-review-btn" class="bg-[#3d3228] hover:bg-[#251e18] text-[#f6f3eb] font-serif text-xs font-bold px-7 py-3.5 rounded shadow-lg border border-[#8c7b6c] inline-flex items-center space-x-2.5 transition-transform hover:scale-105 cursor-pointer">
               ${ICONS.google}
               <span>★ Añadir una Nota al Libro de Visitas en Google</span>
             </button>
+            <div class="text-center">
+              <a href="${preset.googleMapsUrl}" target="_blank" class="inline-flex items-center space-x-1.5 text-xs text-[#7a6b5d] hover:text-[#3d3228] underline font-serif">
+                <span>Ver ficha oficial en Google Maps</span>
+                ${ICONS.external}
+              </a>
+            </div>
           </div>
         </section>
       `;
@@ -2152,14 +2170,20 @@ export class GastroApp {
               ${ICONS.google}
               <span class="text-xs font-mono uppercase tracking-widest text-zinc-400">Google Business Verified</span>
             </div>
-            <h3 class="text-2xl font-light text-zinc-900 tracking-tight">4.9 ★★★★★ · Experiencias en Atelier</h3>
+            <h3 class="text-2xl font-light text-zinc-900 tracking-tight">${preset.rating} ★★★★★ · Experiencias en ${preset.name}</h3>
             <p class="text-xs text-zinc-500 mt-0.5">${preset.totalReviews} clientes han valorado nuestro café y obrador</p>
           </div>
 
-          <button id="open-smart-review-btn" class="bg-zinc-900 hover:bg-black text-white font-medium uppercase tracking-widest text-xs px-6 py-3 rounded-none shadow inline-flex items-center space-x-2 transition-transform hover:scale-105 cursor-pointer flex-shrink-0">
-            ${ICONS.google}
-            <span>★ Valorar en Google Maps</span>
-          </button>
+          <div class="flex items-center gap-3 flex-shrink-0">
+            <button id="open-smart-review-btn" class="bg-zinc-900 hover:bg-black text-white font-medium uppercase tracking-widest text-xs px-6 py-3 rounded-none shadow inline-flex items-center space-x-2 transition-transform hover:scale-105 cursor-pointer">
+              ${ICONS.google}
+              <span>★ Valorar en Google Maps</span>
+            </button>
+            <a href="${preset.googleMapsUrl}" target="_blank" class="text-xs font-mono uppercase tracking-wider text-zinc-500 hover:text-zinc-900 underline flex items-center space-x-1">
+              <span>Google Maps</span>
+              ${ICONS.external}
+            </a>
+          </div>
         </div>
 
         <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
@@ -2545,7 +2569,7 @@ export class GastroApp {
           <div class="flex items-center space-x-6 text-xs font-mono text-zinc-400">
             <a href="https://devcorpsolutions.com" target="_blank" class="hover:text-zinc-900 transition-colors">DevCorp Solutions</a>
             <span>·</span>
-            <span>Atelier Digital</span>
+            <span>${preset.name}</span>
           </div>
         </div>
       </footer>
