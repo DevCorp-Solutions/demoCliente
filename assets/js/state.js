@@ -211,10 +211,10 @@ class AppStore {
   }
 
   // Carrito
-  addToCart(item, notes = "") {
+  addToCart(item, notes = "", qty = 1) {
     const existing = this.state.cart.find(c => c.id === item.id && c.notes === notes);
     if (existing) {
-      existing.qty += 1;
+      existing.qty += qty;
     } else {
       this.state.cart.push({
         id: item.id,
@@ -222,7 +222,7 @@ class AppStore {
         price: item.price,
         image: item.image,
         notes: notes,
-        qty: 1
+        qty: qty
       });
     }
     this.save();

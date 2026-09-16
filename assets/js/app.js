@@ -1,52 +1,137 @@
 /**
- * DevCorp Solutions - GastroSuite
- * Muestrario de 4 Estilos y Arquitecturas Web para Hostelería
- * 
- * Estilo 1: Editorial & Alta Cocina (Fine Dining / Revista de Autor)
- * Estilo 2: App Interactiva & Bento Grid (Gastrobar Contemporáneo)
- * Estilo 3: Bistró Tradicional & Carta con Líderes Punteados (Mesón Clásico)
- * Estilo 4: Showcase Visual & Minimalismo Nórdico (Brunch & Obrador)
+ * DevCorp Solutions - GastroSuite SPA Controller
+ * Ecosistema de 4 Estilos Gastronómicos 100% Diferenciados
+ * Sin clichés de IA · Vocabulario auténtico de hostelería
+ * Soporte de fotos, modal de detalle con alérgenos, carrito y checkout temáticos
  */
 
-import { store } from './state.js';
 import { RESTAURANT_PRESETS } from './presets.js';
-import { calculateDeliverySavings, formatCurrency } from './calculator.js';
+import { store } from './state.js';
 
+// Iconografía SVG ligera optimizada
 const ICONS = {
-  cart: `<svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 11V7a4 4 0 00-8 0v4M5 9h14l1 12H4L5 9z"/></svg>`,
-  table: `<svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 10h18M3 14h18m-9-4v8m-7 0h14a2 2 0 002-2V8a2 2 0 00-2-2H5a2 2 0 00-2 2v8a2 2 0 002 2z"/></svg>`,
-  chef: `<svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6V4m0 2a2 2 0 100 4m0-4a2 2 0 110 4m-6 8a2 2 0 100-4m0 4a2 2 0 110-4m0 4v2m0-6V4m6 6v10m6-2a2 2 0 100-4m0 4a2 2 0 110-4m0 4v2m0-6V4"/></svg>`,
-  calculator: `<svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 7h6m0 10v-3m-3 3h.01M9 17h.01M9 14h.01M12 14h.01M15 11h.01M12 11h.01M9 11h.01M7 21h10a2 2 0 002-2V5a2 2 0 00-2-2H7a2 2 0 00-2 2v14a2 2 0 002 2z"/></svg>`,
-  chart: `<svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z"/></svg>`,
-  star: `<svg class="w-4 h-4 fill-amber-400 text-amber-400" viewBox="0 0 20 20"><path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"/></svg>`,
-  google: `<svg viewBox="0 0 24 24" class="w-4 h-4"><path fill="#4285F4" d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z"/><path fill="#34A853" d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z"/><path fill="#FBBC05" d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.06H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.94l2.85-2.22.81-.63z"/><path fill="#EA4335" d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.06l3.66 2.84c.87-2.6 3.3-4.52 6.16-4.52z"/></svg>`,
-  arrow: `<svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14 5l7 7m0 0l-7 7m7-7H3"/></svg>`,
-  check: `<svg class="w-4 h-4 text-emerald-500" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/></svg>`
+  cart: `<svg class="w-4 h-4 inline-block" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 3h2l.4 2M7 13h10l4-8H5.4M7 13L5.4 5M7 13l-2.293 2.293c-.63.63-.184 1.707.707 1.707H17m0 0a2 2 0 100 4 2 2 0 000-4zm-8 2a2 2 0 11-4 0 2 2 0 014 0z"/></svg>`,
+  star: `<svg class="w-3.5 h-3.5 text-amber-400 inline-block fill-current" viewBox="0 0 20 20"><path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"/></svg>`,
+  arrow: `<svg class="w-4 h-4 inline-block" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14 5l7 7m0 0l-7 7m7-7H3"/></svg>`,
+  external: `<svg class="w-3.5 h-3.5 inline-block" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14"/></svg>`,
+  info: `<svg class="w-3.5 h-3.5 inline-block" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>`,
+  eye: `<svg class="w-3.5 h-3.5 inline-block" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"/><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z"/></svg>`
 };
 
-class AppController {
+function formatCurrency(val) {
+  return new Intl.NumberFormat('es-ES', { style: 'currency', currency: 'EUR' }).format(val);
+}
+
+function getAllergenLabel(code) {
+  const map = {
+    gluten: '🌾 Gluten',
+    lactosa: '🥛 Lácteos',
+    huevo: '🥚 Huevo',
+    cacahuetes: '🥜 Cacahuetes',
+    pescado: '🐟 Pescado',
+    marisco: '🦐 Marisco',
+    soja: '🌱 Soja',
+    frutos_secos: '🌰 Frutos de cáscara'
+  };
+  return map[code] || `⚠️ ${code}`;
+}
+
+export class GastroApp {
   constructor() {
     this.appContainer = document.getElementById('app');
+    this.modalQty = 1;
+    this.currentModalDish = null;
     this.init();
   }
 
   init() {
-    this.setupGlobalEventDelegation();
-    store.subscribe(() => this.render());
+    store.subscribe(() => {
+      this.render();
+    });
+    this.setupGlobalEvents();
     this.render();
   }
 
-  setupGlobalEventDelegation() {
+  setupGlobalEvents() {
     document.addEventListener('click', (e) => {
-      // 1. Cambio de Vista (Tabs)
-      const tabBtn = e.target.closest('[data-view]');
-      if (tabBtn) {
+      // 1. Cambio de vistas
+      const viewBtn = e.target.closest('[data-view]');
+      if (viewBtn) {
         e.preventDefault();
-        store.setView(tabBtn.getAttribute('data-view'));
+        store.setView(viewBtn.getAttribute('data-view'));
         return;
       }
 
-      // 2. Añadir al Carrito
+      // 2. Filtro de categorías
+      const catBtn = e.target.closest('[data-category]');
+      if (catBtn) {
+        e.preventDefault();
+        store.setCategory(catBtn.getAttribute('data-category'));
+        return;
+      }
+
+      // 3. Filtro de alérgenos
+      const allergenBtn = e.target.closest('[data-allergen]');
+      if (allergenBtn) {
+        e.preventDefault();
+        store.setAllergenFilter(allergenBtn.getAttribute('data-allergen'));
+        return;
+      }
+
+      // 4. Modal Detalle del Plato (Abrir)
+      const openDishBtn = e.target.closest('[data-open-dish-modal]');
+      if (openDishBtn) {
+        e.preventDefault();
+        const dishId = openDishBtn.getAttribute('data-open-dish-modal');
+        const preset = store.getPreset();
+        const dish = preset.menu.find(d => d.id === dishId);
+        if (dish) {
+          this.renderDishDetailModal(dish, preset);
+        }
+        return;
+      }
+
+      // 4.1 Cerrar Modal Detalle del Plato
+      if (e.target.closest('#close-dish-modal') || e.target.closest('#dish-modal-backdrop')) {
+        const modalContainer = document.getElementById('dish-modal-container');
+        if (modalContainer) modalContainer.innerHTML = '';
+        this.currentModalDish = null;
+        this.modalQty = 1;
+        return;
+      }
+
+      // 4.2 Cantidad dentro del Modal de Detalle
+      const modalMinus = e.target.closest('[data-modal-qty-minus]');
+      if (modalMinus) {
+        if (this.modalQty > 1) {
+          this.modalQty -= 1;
+          const qtyElem = document.getElementById('modal-dish-qty-val');
+          if (qtyElem) qtyElem.innerText = this.modalQty;
+        }
+        return;
+      }
+      const modalPlus = e.target.closest('[data-modal-qty-plus]');
+      if (modalPlus) {
+        this.modalQty += 1;
+        const qtyElem = document.getElementById('modal-dish-qty-val');
+        if (qtyElem) qtyElem.innerText = this.modalQty;
+        return;
+      }
+
+      // 4.3 Añadir al carrito desde el Modal de Detalle
+      const modalAddBtn = e.target.closest('[data-modal-add-cart]');
+      if (modalAddBtn && this.currentModalDish) {
+        const dish = this.currentModalDish;
+        store.addToCart(dish, "", this.modalQty);
+        this.showToast(`✓ ${dish.name} (x${this.modalQty}) añadido a la comanda`);
+        const modalContainer = document.getElementById('dish-modal-container');
+        if (modalContainer) modalContainer.innerHTML = '';
+        this.currentModalDish = null;
+        this.modalQty = 1;
+        return;
+      }
+
+      // 5. Añadir plato al carrito directamente desde la tarjeta
       const addCartBtn = e.target.closest('[data-add-cart]');
       if (addCartBtn) {
         e.preventDefault();
@@ -55,48 +140,22 @@ class AppController {
         const dish = preset.menu.find(d => d.id === dishId);
         if (dish) {
           store.addToCart(dish);
-          this.showToast(`Añadido: ${dish.name}`);
+          this.showToast(`✓ ${dish.name} añadido a la comanda`);
         }
         return;
       }
 
-      // 3. Simular +1 Pedido Demo
-      const simOrderBtn = e.target.closest('[data-quick-simulate-dish]');
-      if (simOrderBtn) {
+      // 6. Simular venta (+1 pedido para probar rotación en tiempo real)
+      const simBtn = e.target.closest('[data-quick-simulate-dish]');
+      if (simBtn) {
         e.preventDefault();
-        const dishId = simOrderBtn.getAttribute('data-quick-simulate-dish');
+        const dishId = simBtn.getAttribute('data-quick-simulate-dish');
         store.incrementDishSale(dishId, 1);
-        this.showToast(`Comanda registrada para este plato`);
+        this.showToast(`+1 Venta simulada para estadísticas en vivo`);
         return;
       }
 
-      // 4. Cambiar Categoría
-      const catBtn = e.target.closest('[data-category]');
-      if (catBtn) {
-        e.preventDefault();
-        store.setCategory(catBtn.getAttribute('data-category'));
-        return;
-      }
-
-      // 5. Filtrar Alérgenos
-      const algBtn = e.target.closest('[data-allergen]');
-      if (algBtn) {
-        e.preventDefault();
-        store.setAllergenFilter(algBtn.getAttribute('data-allergen'));
-        return;
-      }
-
-      // 6. KDS: Avanzar estado
-      const nextStatusBtn = e.target.closest('[data-next-status]');
-      if (nextStatusBtn) {
-        e.preventDefault();
-        const orderId = nextStatusBtn.getAttribute('data-order-id');
-        const nextStatus = nextStatusBtn.getAttribute('data-next-status');
-        store.updateOrderStatus(orderId, nextStatus);
-        return;
-      }
-
-      // 7. Carrito: Abrir / Cerrar Drawer
+      // 7. Carrito Drawer (Abrir / Cerrar)
       if (e.target.closest('#open-cart-btn') || e.target.closest('#mobile-cart-btn')) {
         this.renderCartDrawer(true);
         return;
@@ -132,28 +191,20 @@ class AppController {
         this.renderCheckoutModal();
         return;
       }
-      if (e.target.closest('#close-checkout-modal')) {
+      if (e.target.closest('#close-checkout-modal') || e.target.closest('#checkout-modal-backdrop')) {
         const container = document.getElementById('checkout-modal-container');
         if (container) container.innerHTML = '';
         return;
       }
 
-      // 10. Reseñas Inteligentes Modal
+      // 10. Reseñas Modal
       if (e.target.closest('#open-smart-review-btn')) {
         this.renderSmartReviewModal(store.getPreset());
         return;
       }
-      if (e.target.closest('#close-review-modal')) {
+      if (e.target.closest('#close-review-modal') || e.target.closest('#review-modal-backdrop')) {
         const container = document.getElementById('review-modal-container');
         if (container) container.innerHTML = '';
-        return;
-      }
-
-      // 11. Reiniciar demo
-      if (e.target.closest('#reset-demo-btn')) {
-        if (confirm('¿Deseas reiniciar los datos de demostración a su estado inicial?')) {
-          store.resetDemo();
-        }
         return;
       }
     });
@@ -165,14 +216,14 @@ class AppController {
 
     const toast = document.createElement('div');
     toast.id = 'toast-notification';
-    toast.className = 'fixed bottom-5 right-5 z-50 bg-slate-900 text-white text-xs font-medium px-4 py-2.5 rounded-xl shadow-xl flex items-center space-x-2 border border-slate-700 transition-all transform duration-300';
+    toast.className = 'fixed bottom-5 right-5 z-50 bg-slate-900 text-white text-xs font-medium px-4 py-2.5 rounded-xl shadow-2xl flex items-center space-x-2 border border-slate-700 transition-all transform duration-300';
     toast.innerHTML = `<span>✓</span><span>${message}</span>`;
     document.body.appendChild(toast);
 
     setTimeout(() => {
       toast.style.opacity = '0';
       setTimeout(() => toast.remove(), 300);
-    }, 2200);
+    }, 2400);
   }
 
   render() {
@@ -210,7 +261,8 @@ class AppController {
         <div id="view-content"></div>
       </main>
 
-      <!-- CONTENEDORES DE MODALES -->
+      <!-- CONTENEDORES DE MODALES TEMÁTICOS -->
+      <div id="dish-modal-container"></div>
       <div id="cart-drawer-container"></div>
       <div id="checkout-modal-container"></div>
       <div id="review-modal-container"></div>
@@ -247,7 +299,7 @@ class AppController {
   renderHeaderForStyle(preset, currentView, cartCount) {
     const kdsPending = store.state.orders.filter(o => o.status !== 'served').length;
 
-    // Selector HTML estándar reutilizable pero con clases adaptadas al estilo
+    // Selector HTML estándar adaptado a la estética de cada estilo
     const selectorHtml = `
       <select id="style-select" class="text-xs font-semibold rounded-lg py-1.5 px-2.5 focus:outline-none focus:ring-2 transition-all cursor-pointer shadow-sm ${
         preset.id === 'estilo1' ? 'bg-[#15151c] text-amber-200 border border-amber-500/30 focus:ring-amber-500' :
@@ -290,7 +342,7 @@ class AppController {
               <!-- Selector de Estilos y Carrito -->
               <div class="flex items-center space-x-2.5">
                 ${selectorHtml}
-                <button id="open-cart-btn" class="flex items-center space-x-1.5 bg-stone-900 border border-amber-500/40 text-amber-200 text-xs font-semibold px-3 py-1.5 rounded-lg shadow transition-colors">
+                <button id="open-cart-btn" class="flex items-center space-x-1.5 bg-stone-900 border border-amber-500/40 text-amber-200 text-xs font-semibold px-3 py-1.5 rounded-lg shadow transition-colors hover:bg-stone-800">
                   ${ICONS.cart}
                   <span class="font-mono">${formatCurrency(store.getCartTotal())}</span>
                   ${cartCount > 0 ? `<span class="bg-amber-400 text-stone-950 text-[10px] font-black px-1.5 py-0.2 rounded-full">${cartCount}</span>` : ''}
@@ -369,7 +421,6 @@ class AppController {
           <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <div class="flex items-center justify-between h-16 sm:h-20">
               
-              <!-- Identidad Clásica Bistró -->
               <div class="flex items-center space-x-3">
                 <a href="https://devcorpsolutions.com" target="_blank" title="DevCorp Solutions">
                   <img src="assets/images/logo.png" alt="DevCorp" class="h-7 w-auto object-contain"/>
@@ -491,15 +542,15 @@ class AppController {
   }
 
   // -------------------------------------------------------------------------
-  // DISEÑO 1: EDITORIAL & ALTA COCINA (FINE DINING / REVISTA GASTRONÓMICA)
+  // DISEÑO 1: EDITORIAL & ALTA COCINA (FINE DINING CON IMÁGENES Y MODAL DETALLADO)
   // -------------------------------------------------------------------------
   renderEstilo1Layout(preset, filteredMenu, activeCategory, activeAllergen, topData) {
     return `
-      <!-- SUGERENCIA DEL JEFE DE COCINA (SOBRIO Y PROFESIONAL) -->
+      <!-- SUGERENCIA DEL JEFE DE COCINA -->
       <div class="mb-8 p-4 sm:p-5 rounded-2xl bg-[#14141a] border border-amber-500/25 flex flex-col sm:flex-row sm:items-center justify-between gap-4 text-stone-200 shadow-md">
         <div>
           <div class="flex items-center space-x-2 text-xs text-amber-400 font-mono uppercase tracking-wider">
-            <span>◆ Sugerencia de Temporada</span>
+            <span>◆ Plato Recomendado del Chef</span>
             <span>·</span>
             <span>${topData.count} comandas hoy</span>
           </div>
@@ -507,11 +558,12 @@ class AppController {
           <p class="text-xs text-stone-400 mt-0.5">${topData.dish.description}</p>
         </div>
         <div class="flex items-center space-x-2 flex-shrink-0">
-          <button data-quick-simulate-dish="${topData.dish.id}" class="bg-stone-800 hover:bg-stone-700 text-stone-300 text-xs px-3 py-2 rounded-xl transition-all">
-            +1 Comanda Demo
+          <button data-open-dish-modal="${topData.dish.id}" class="bg-stone-800 hover:bg-stone-700 text-amber-200 text-xs px-3 py-2 rounded-xl transition-all border border-amber-500/30 flex items-center space-x-1.5">
+            ${ICONS.eye}
+            <span>Ver Detalle</span>
           </button>
           <button data-add-cart="${topData.dish.id}" class="bg-amber-400 hover:bg-amber-300 text-stone-950 font-bold text-xs px-4 py-2 rounded-xl transition-all shadow">
-            Pedir Pase (${formatCurrency(topData.dish.price)})
+            Pedir (${formatCurrency(topData.dish.price)})
           </button>
         </div>
       </div>
@@ -566,11 +618,11 @@ class AppController {
         </div>
       </section>
 
-      <!-- BARRA DE CATEGORÍAS EDITORIAL -->
+      <!-- BARRA DE CATEGORÍAS EDITORIAL (SIN JERGA DE PASES) -->
       <div class="border-b border-stone-800 pb-3 mb-8 flex flex-wrap items-center justify-between gap-4">
         <div class="flex items-center space-x-4 overflow-x-auto no-scrollbar text-xs font-medium uppercase tracking-wider">
           <button data-category="all" class="pb-2 transition-colors ${activeCategory === 'all' ? 'text-amber-300 border-b-2 border-amber-400 font-bold' : 'text-stone-400 hover:text-stone-200'}">
-            Todos los Pases (${preset.menu.length})
+            Toda la Carta (${preset.menu.length})
           </button>
           ${preset.categories.map(cat => `
             <button data-category="${cat}" class="pb-2 whitespace-nowrap transition-colors ${activeCategory === cat ? 'text-amber-300 border-b-2 border-amber-400 font-bold' : 'text-stone-400 hover:text-stone-200'}">
@@ -586,39 +638,56 @@ class AppController {
         </div>
       </div>
 
-      <!-- LISTADO DE PLATOS FORMATO PASE EDITORIAL -->
-      <div class="space-y-4 mb-16">
+      <!-- LISTADO DE PLATOS EDITORIALES CON FOTOS Y MODAL DETALLADO -->
+      <div class="space-y-6 mb-16">
         ${filteredMenu.map(dish => {
           const sales = store.getDishSalesCount(dish.id);
           return `
-            <div class="editorial-card p-5 sm:p-6 flex flex-col md:flex-row items-start md:items-center justify-between gap-6">
-              <div class="flex items-start space-x-4 flex-1">
-                <span class="font-mono text-xs text-amber-400/80 pt-1">${dish.number || '◆'}</span>
-                <div>
-                  <div class="flex flex-wrap items-center gap-2">
-                    <h4 class="editorial-serif text-lg sm:text-xl font-bold text-stone-100">${dish.name}</h4>
-                    ${dish.badge ? `<span class="text-[10px] font-mono px-2 py-0.5 rounded bg-amber-950 border border-amber-600/30 text-amber-300">${dish.badge}</span>` : ''}
+            <div class="editorial-card p-4 sm:p-6 flex flex-col md:flex-row items-stretch md:items-center justify-between gap-6 group">
+              
+              <!-- Imagen de Alta Calidad (si existe) -->
+              ${dish.image ? `
+                <div class="w-full md:w-56 h-44 sm:h-48 md:h-36 rounded-xl overflow-hidden bg-stone-900 flex-shrink-0 relative cursor-pointer" data-open-dish-modal="${dish.id}">
+                  <img src="${dish.image}" alt="${dish.name}" class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"/>
+                  <span class="absolute inset-0 bg-gradient-to-t from-stone-950/70 via-transparent to-transparent"></span>
+                  <div class="absolute bottom-2 left-2 right-2 flex items-center justify-between text-[10px] text-amber-300 font-mono">
+                    <span class="flex items-center space-x-1">${ICONS.eye}<span>Ver detalle</span></span>
+                    <span>${dish.prepTime || '15 min'}</span>
                   </div>
-                  <p class="text-xs text-stone-300 mt-1.5 leading-relaxed max-w-2xl">${dish.description}</p>
-                  <div class="flex flex-wrap items-center gap-3 mt-2 text-[11px] text-stone-400 font-mono">
-                    ${dish.details ? `<span>${dish.details}</span>` : ''}
-                    ${dish.pairing ? `<span class="text-amber-400/90">🍷 ${dish.pairing}</span>` : ''}
-                    <span class="text-stone-500">· ${sales} pedidos servidos</span>
-                  </div>
+                </div>
+              ` : ''}
+
+              <!-- Contenido Textual del Plato -->
+              <div class="flex-1 cursor-pointer" data-open-dish-modal="${dish.id}">
+                <div class="flex flex-wrap items-center gap-2">
+                  <h4 class="editorial-serif text-lg sm:text-xl font-bold text-stone-100 hover:text-amber-300 transition-colors">${dish.name}</h4>
+                  ${dish.badge ? `<span class="text-[10px] font-mono px-2 py-0.5 rounded bg-amber-950/90 border border-amber-600/40 text-amber-300">${dish.badge}</span>` : ''}
+                </div>
+                <p class="text-xs text-stone-300 mt-1.5 leading-relaxed max-w-2xl">${dish.description}</p>
+                
+                <div class="flex flex-wrap items-center gap-3 mt-2.5 text-[11px] text-stone-400 font-mono">
+                  ${dish.details ? `<span class="text-stone-300">${dish.details}</span>` : ''}
+                  ${dish.pairing ? `<span class="text-amber-400/90">🍷 ${dish.pairing}</span>` : ''}
+                  <span class="text-stone-500">· ${sales} pedidos servidos</span>
                 </div>
               </div>
 
-              <div class="flex items-center justify-between md:justify-end space-x-4 w-full md:w-auto pt-3 md:pt-0 border-t md:border-t-0 border-stone-800">
+              <!-- Precio y Botones de Acción -->
+              <div class="flex items-center justify-between md:justify-end space-x-3 w-full md:w-auto pt-3 md:pt-0 border-t md:border-t-0 border-stone-800 flex-shrink-0">
                 <span class="font-mono text-xl font-bold text-amber-300">${formatCurrency(dish.price)}</span>
                 <div class="flex items-center space-x-2">
-                  <button data-quick-simulate-dish="${dish.id}" class="bg-stone-800 hover:bg-stone-700 text-stone-300 text-[11px] px-2.5 py-1.5 rounded-lg transition-colors">
-                    +1 Demo
+                  <button data-open-dish-modal="${dish.id}" class="bg-stone-800 hover:bg-stone-700 text-amber-200 text-xs px-2.5 py-1.5 rounded-lg transition-colors border border-amber-500/20" title="Ver ingredientes y alérgenos">
+                    Info
+                  </button>
+                  <button data-quick-simulate-dish="${dish.id}" class="bg-stone-800 hover:bg-stone-700 text-stone-400 text-[11px] px-2 py-1.5 rounded-lg transition-colors" title="Simular venta">
+                    +1
                   </button>
                   <button data-add-cart="${dish.id}" class="bg-amber-400 hover:bg-amber-300 text-stone-950 font-bold text-xs px-3.5 py-1.5 rounded-lg transition-colors shadow">
-                    Pedir Pase
+                    Pedir
                   </button>
                 </div>
               </div>
+
             </div>
           `;
         }).join('')}
@@ -638,98 +707,96 @@ class AppController {
           <div>
             <div class="flex items-center space-x-2">
               <span class="text-xs font-bold text-sky-400 uppercase tracking-wider">Top de la Barra</span>
-              <span class="text-[10px] bg-sky-950 text-sky-300 border border-sky-600/40 px-2 py-0.2 rounded font-mono">${topData.count} comandas</span>
+              <span class="text-[10px] text-slate-400 font-mono">(${topData.count} comandas hoy)</span>
             </div>
-            <p class="text-sm font-bold text-slate-100 mt-0.5">${topData.dish.name} · ${formatCurrency(topData.dish.price)}</p>
+            <h3 class="text-base font-bold mt-0.5">${topData.dish.name} · ${formatCurrency(topData.dish.price)}</h3>
           </div>
         </div>
         <div class="flex items-center space-x-2">
-          <button data-quick-simulate-dish="${topData.dish.id}" class="bg-slate-800 hover:bg-slate-700 text-sky-300 text-xs font-semibold px-3 py-1.5 rounded-xl border border-slate-700">
-            +1 Demo
+          <button data-open-dish-modal="${topData.dish.id}" class="bg-slate-800 hover:bg-slate-700 text-sky-300 text-xs px-3 py-1.5 rounded-xl border border-slate-700">
+            Ver Detalle
           </button>
-          <button data-add-cart="${topData.dish.id}" class="bg-sky-600 hover:bg-sky-500 text-white font-bold text-xs px-3.5 py-1.5 rounded-xl">
-            Añadir a Barra
+          <button data-add-cart="${topData.dish.id}" class="bg-sky-600 hover:bg-sky-500 text-white font-bold text-xs px-3.5 py-1.5 rounded-xl shadow">
+            Añadir
           </button>
         </div>
       </div>
 
-      <!-- HERO BENTO GRID CONTEMPORÁNEO -->
-      <div class="grid grid-cols-1 md:grid-cols-12 gap-4 mb-10">
-        <div class="md:col-span-8 bento-card p-6 sm:p-8 flex flex-col justify-between">
+      <!-- HERO BENTO GRID -->
+      <div class="grid grid-cols-1 md:grid-cols-3 gap-4 mb-10">
+        <div class="bento-card p-6 md:col-span-2 flex flex-col justify-between">
           <div>
             <span class="text-xs font-bold text-sky-400 uppercase tracking-wider">${preset.type}</span>
-            <h1 class="text-3xl sm:text-4xl font-extrabold text-white mt-2 leading-tight">${preset.name}</h1>
-            <p class="text-xs sm:text-sm text-slate-300 mt-3 max-w-xl leading-relaxed">${preset.tagline}</p>
+            <h1 class="text-2xl sm:text-4xl font-extrabold text-white mt-1">${preset.name}</h1>
+            <p class="text-xs sm:text-sm text-slate-300 mt-2 leading-relaxed">${preset.tagline}</p>
           </div>
           <div class="mt-6 pt-4 border-t border-slate-800 flex flex-wrap gap-4 text-xs text-slate-400">
             <span>📍 ${preset.address}</span>
+            <span>·</span>
             <span>📞 ${preset.phone}</span>
-            <span class="text-amber-400 font-bold">★ ${preset.rating} (${preset.totalReviews} reseñas en Google)</span>
+            <span>·</span>
+            <span class="text-sky-400 font-bold">★ ${preset.rating} (${preset.totalReviews} reseñas)</span>
           </div>
         </div>
 
-        <div class="md:col-span-4 bento-card p-6 flex flex-col justify-between bg-gradient-to-br from-slate-900 to-slate-950 border-sky-500/20">
+        <div class="bento-card p-6 flex flex-col justify-between">
+          <span class="text-xs font-bold text-sky-400 uppercase">Especialidad de la Casa</span>
           <div>
-            <span class="text-[10px] font-mono uppercase tracking-wider text-sky-400 font-bold block">Plato Estrella</span>
-            <h3 class="text-base font-bold text-white mt-1">${preset.aboutUs.specialtyHighlight.title}</h3>
-            <p class="text-xs text-slate-400 mt-1">${preset.aboutUs.specialtyHighlight.text}</p>
+            <h3 class="text-lg font-bold text-white mt-2">${preset.aboutUs.specialtyHighlight.title}</h3>
+            <p class="text-xs text-slate-300 mt-1">${preset.aboutUs.specialtyHighlight.text}</p>
           </div>
-          <div class="mt-4 pt-3 border-t border-slate-800 flex items-center justify-between">
-            <span class="font-mono font-bold text-sky-300 text-lg">${preset.aboutUs.specialtyHighlight.price}</span>
-            <button data-add-cart="e2_1" class="bg-sky-600 hover:bg-sky-500 text-white text-xs font-bold px-3.5 py-1.5 rounded-xl">Pedir</button>
+          <div class="mt-4 pt-4 border-t border-slate-800 flex items-center justify-between">
+            <span class="text-xs text-slate-400 font-mono">Bestseller</span>
+            <span class="text-xs font-mono text-sky-400 font-bold">${preset.aboutUs.specialtyHighlight.price}</span>
           </div>
         </div>
       </div>
 
-      <!-- BENTO BOX SOBRE NOSOTROS -->
-      <section class="mb-12">
-        <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
-          ${preset.aboutUs.bentoCards.map(c => `
+      <!-- SOBRE NOSOTROS: BENTO METRICS -->
+      <section class="mb-10">
+        <div class="grid grid-cols-1 sm:grid-cols-3 gap-4">
+          ${preset.aboutUs.bentoCards.map(b => `
             <div class="bento-card p-5">
-              <span class="text-xs font-bold text-sky-400 uppercase tracking-wider font-mono">${c.tag}</span>
-              <h4 class="text-2xl font-black text-white mt-1">${c.metric}</h4>
-              <p class="text-xs text-slate-400 mt-2 leading-relaxed">${c.label}</p>
+              <span class="text-[10px] font-bold text-sky-400 uppercase tracking-wider block">${b.tag}</span>
+              <span class="text-2xl font-black text-white block mt-1">${b.metric}</span>
+              <p class="text-xs text-slate-300 mt-2 leading-relaxed">${b.label}</p>
             </div>
           `).join('')}
         </div>
       </section>
 
-      <!-- FILTROS DE CATEGORÍA INTERACTIVOS -->
-      <div class="bento-card p-3 mb-8 flex flex-col sm:flex-row items-center justify-between gap-3">
-        <div class="flex items-center space-x-2 overflow-x-auto no-scrollbar w-full sm:w-auto">
-          <button data-category="all" class="text-xs font-semibold px-3 py-1.5 rounded-lg transition-all ${activeCategory === 'all' ? 'bg-sky-600 text-white' : 'text-slate-400 hover:text-white'}">
-            Todo (${preset.menu.length})
+      <!-- BARRA DE CATEGORÍAS TIPO APP -->
+      <div class="flex items-center space-x-2 overflow-x-auto no-scrollbar pb-3 mb-6">
+        <button data-category="all" class="px-3 py-1.5 rounded-xl text-xs font-semibold whitespace-nowrap transition-all ${activeCategory === 'all' ? 'bg-sky-600 text-white' : 'bg-slate-800 text-slate-300 hover:bg-slate-700'}">
+          Todo (${preset.menu.length})
+        </button>
+        ${preset.categories.map(cat => `
+          <button data-category="${cat}" class="px-3 py-1.5 rounded-xl text-xs font-semibold whitespace-nowrap transition-all ${activeCategory === cat ? 'bg-sky-600 text-white' : 'bg-slate-800 text-slate-300 hover:bg-slate-700'}">
+            ${cat}
           </button>
-          ${preset.categories.map(cat => `
-            <button data-category="${cat}" class="whitespace-nowrap text-xs font-semibold px-3 py-1.5 rounded-lg transition-all ${activeCategory === cat ? 'bg-sky-600 text-white' : 'text-slate-400 hover:text-white'}">
-              ${cat}
-            </button>
-          `).join('')}
-        </div>
-
-        <div class="flex items-center space-x-2 text-xs text-slate-400 flex-shrink-0">
-          <span>Alérgeno:</span>
-          <button data-allergen="gluten" class="px-2 py-1 rounded text-[11px] ${activeAllergen === 'gluten' ? 'bg-sky-950 border border-sky-500 text-sky-200' : 'bg-slate-800 text-slate-300'}">Sin Gluten</button>
-          <button data-allergen="lactosa" class="px-2 py-1 rounded text-[11px] ${activeAllergen === 'lactosa' ? 'bg-sky-950 border border-sky-500 text-sky-200' : 'bg-slate-800 text-slate-300'}">Sin Lactosa</button>
-        </div>
+        `).join('')}
       </div>
 
-      <!-- REJILLA DE PLATOS BENTO -->
-      <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 mb-16">
+      <!-- CUADRÍCULA DE PLATOS TIPO APP BENTO -->
+      <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 mb-16">
         ${filteredMenu.map(dish => {
           const sales = store.getDishSalesCount(dish.id);
           return `
-            <div class="bento-card p-4 flex flex-col justify-between">
+            <div class="bento-card p-4 flex flex-col justify-between group">
               <div>
-                <div class="relative h-44 rounded-xl overflow-hidden mb-3 bg-slate-800">
-                  <img src="${dish.image}" alt="${dish.name}" class="w-full h-full object-cover transition-transform duration-300 hover:scale-105"/>
+                <div class="relative h-44 rounded-xl overflow-hidden mb-3 bg-slate-800 cursor-pointer" data-open-dish-modal="${dish.id}">
+                  <img src="${dish.image}" alt="${dish.name}" class="w-full h-full object-cover transition-transform duration-300 group-hover:scale-105"/>
                   ${dish.badge ? `<span class="absolute top-2 left-2 bg-slate-900/90 text-sky-300 text-[10px] font-bold px-2 py-0.5 rounded">${dish.badge}</span>` : ''}
+                  <div class="absolute bottom-2 right-2 bg-slate-950/80 text-white text-[10px] px-2 py-0.5 rounded-full flex items-center space-x-1">
+                    ${ICONS.eye}
+                    <span>Info</span>
+                  </div>
                 </div>
                 <div class="flex items-center justify-between text-[11px] text-slate-400 font-mono mb-1">
                   <span>${dish.category}</span>
                   <span>⏱️ ${dish.prepTime || '6 min'}</span>
                 </div>
-                <h3 class="text-base font-bold text-white">${dish.name}</h3>
+                <h3 class="text-base font-bold text-white cursor-pointer hover:text-sky-300 transition-colors" data-open-dish-modal="${dish.id}">${dish.name}</h3>
                 <p class="text-xs text-slate-300 mt-1 line-clamp-2">${dish.description}</p>
               </div>
 
@@ -739,7 +806,10 @@ class AppController {
                   <span class="block text-[10px] text-slate-500">${sales} pedidos hoy</span>
                 </div>
                 <div class="flex items-center space-x-1.5">
-                  <button data-quick-simulate-dish="${dish.id}" class="bg-slate-800 hover:bg-slate-700 text-slate-300 text-[11px] px-2 py-1.5 rounded-lg">
+                  <button data-open-dish-modal="${dish.id}" class="bg-slate-800 hover:bg-slate-700 text-sky-300 text-xs px-2.5 py-1.5 rounded-lg" title="Ver ingredientes y alérgenos">
+                    Info
+                  </button>
+                  <button data-quick-simulate-dish="${dish.id}" class="bg-slate-800 hover:bg-slate-700 text-slate-400 text-[11px] px-2 py-1.5 rounded-lg">
                     +1
                   </button>
                   <button data-add-cart="${dish.id}" class="bg-sky-600 hover:bg-sky-500 text-white font-bold text-xs px-3 py-1.5 rounded-lg">
@@ -755,7 +825,7 @@ class AppController {
   }
 
   // -------------------------------------------------------------------------
-  // DISEÑO 3: BISTRÓ TRADICIONAL & CARTA CLÁSICA CON LÍDERES PUNTEADOS
+  // DISEÑO 3: BISTRÓ TRADICIONAL & CARTA CLÁSICA CON LÍDERES PUNTEADOS Y FOTOS
   // -------------------------------------------------------------------------
   renderEstilo3Layout(preset, filteredMenu, activeCategory, activeAllergen, topData) {
     return `
@@ -767,8 +837,9 @@ class AppController {
           <p class="text-xs text-[#594d40] mt-0.5">${topData.dish.description}</p>
         </div>
         <div class="flex items-center space-x-2 flex-shrink-0">
-          <button data-quick-simulate-dish="${topData.dish.id}" class="bg-[#dfd7cc] hover:bg-[#cfc5b6] text-[#3d3228] text-xs px-3 py-1.5 rounded font-serif">
-            +1 Ración Demo
+          <button data-open-dish-modal="${topData.dish.id}" class="bg-[#dfd7cc] hover:bg-[#cfc5b6] text-[#3d3228] text-xs px-3 py-1.5 rounded font-serif flex items-center space-x-1">
+            ${ICONS.eye}
+            <span>Ver Foto & Receta</span>
           </button>
           <button data-add-cart="${topData.dish.id}" class="bg-[#3d3228] hover:bg-[#231d17] text-white text-xs font-serif font-bold px-4 py-1.5 rounded shadow">
             Pedir (${formatCurrency(topData.dish.price)})
@@ -819,33 +890,52 @@ class AppController {
         </div>
       </div>
 
-      <!-- CARTA EN 2 COLUMNAS CON DOTTED LEADERS (EL FORMATO REY DE RESTAURANTE) -->
+      <!-- CARTA EN 2 COLUMNAS CON DOTTED LEADERS Y VISTA PREVIA FOTOGRÁFICA -->
       <div class="grid grid-cols-1 lg:grid-cols-2 gap-x-12 gap-y-8 mb-16">
         ${filteredMenu.map(dish => {
           const sales = store.getDishSalesCount(dish.id);
           return `
-            <div class="pb-4 border-b border-[#dfd7cc]">
-              <!-- Línea con Nombre, Puntos Suspensivos y Precio -->
-              <div class="dotted-leader-row">
-                <span class="bistro-serif text-base font-bold text-[#2b2520]">${dish.name}</span>
-                <span class="dotted-leader-line"></span>
-                <span class="font-serif font-bold text-base text-[#3d3228] flex-shrink-0">${formatCurrency(dish.price)}</span>
-              </div>
-
-              <!-- Descripción en letra cursiva refinada -->
-              <p class="text-xs font-serif italic text-[#6b5c4f] mt-1 leading-relaxed">${dish.description}</p>
+            <div class="pb-4 border-b border-[#dfd7cc] flex items-start space-x-3 group">
               
-              <div class="mt-2.5 flex items-center justify-between text-[11px] font-serif text-[#7a6b5d]">
-                <span>${dish.vintageBadge || 'Especialidad de la casa'} · ${sales} raciones</span>
-                <div class="flex items-center space-x-2">
-                  <button data-quick-simulate-dish="${dish.id}" class="text-[10px] text-[#7a6b5d] hover:text-[#2b2520] underline">
-                    +1 Demo
-                  </button>
-                  <button data-add-cart="${dish.id}" class="bg-[#8c7b6c] hover:bg-[#6e5f52] text-white px-2.5 py-1 rounded text-[11px] font-sans">
-                    Pedir
-                  </button>
+              <!-- Miniatura fotográfica opcional / clickeable -->
+              ${dish.image ? `
+                <div class="w-16 h-16 rounded-lg overflow-hidden flex-shrink-0 bg-[#e6dfd5] border border-[#dfd7cc] cursor-pointer shadow-sm relative group-hover:opacity-90" data-open-dish-modal="${dish.id}" title="Clic para ampliar y ver alérgenos">
+                  <img src="${dish.image}" alt="${dish.name}" class="w-full h-full object-cover transition-transform duration-300 group-hover:scale-110"/>
+                  <span class="absolute inset-0 bg-black/10 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity text-white text-[10px]">
+                    🔍
+                  </span>
+                </div>
+              ` : ''}
+
+              <div class="flex-1 min-w-0">
+                <!-- Línea con Nombre, Puntos Suspensivos y Precio -->
+                <div class="dotted-leader-row cursor-pointer" data-open-dish-modal="${dish.id}">
+                  <span class="bistro-serif text-base font-bold text-[#2b2520] hover:text-[#8c7b6c] transition-colors truncate">${dish.name}</span>
+                  <span class="dotted-leader-line"></span>
+                  <span class="font-serif font-bold text-base text-[#3d3228] flex-shrink-0">${formatCurrency(dish.price)}</span>
+                </div>
+
+                <!-- Descripción en letra cursiva refinada -->
+                <p class="text-xs font-serif italic text-[#6b5c4f] mt-1 leading-relaxed cursor-pointer" data-open-dish-modal="${dish.id}">${dish.description}</p>
+                
+                <div class="mt-2.5 flex items-center justify-between text-[11px] font-serif text-[#7a6b5d]">
+                  <span class="cursor-pointer hover:underline" data-open-dish-modal="${dish.id}">
+                    ${dish.vintageBadge || 'Especialidad'} · ${sales} raciones
+                  </span>
+                  <div class="flex items-center space-x-1.5">
+                    <button data-open-dish-modal="${dish.id}" class="text-[10px] text-[#7a6b5d] hover:text-[#3d3228] px-1.5 py-0.5 border border-[#dfd7cc] rounded">
+                      Ver foto
+                    </button>
+                    <button data-quick-simulate-dish="${dish.id}" class="text-[10px] text-[#7a6b5d] hover:text-[#2b2520] underline px-1">
+                      +1
+                    </button>
+                    <button data-add-cart="${dish.id}" class="bg-[#8c7b6c] hover:bg-[#6e5f52] text-white px-2.5 py-1 rounded text-[11px] font-sans">
+                      Pedir
+                    </button>
+                  </div>
                 </div>
               </div>
+
             </div>
           `;
         }).join('')}
@@ -866,8 +956,8 @@ class AppController {
           <p class="text-xs text-zinc-500">${topData.count} pedidos hoy</p>
         </div>
         <div class="flex items-center space-x-2">
-          <button data-quick-simulate-dish="${topData.dish.id}" class="bg-white hover:bg-zinc-200 text-zinc-700 text-xs px-3 py-1.5 rounded-lg border border-zinc-300">
-            +1 Demo
+          <button data-open-dish-modal="${topData.dish.id}" class="bg-white hover:bg-zinc-200 text-zinc-800 text-xs px-3 py-1.5 rounded-lg border border-zinc-300">
+            Detalle
           </button>
           <button data-add-cart="${topData.dish.id}" class="bg-zinc-900 hover:bg-zinc-800 text-white text-xs font-medium px-3.5 py-1.5 rounded-lg">
             Añadir
@@ -924,18 +1014,22 @@ class AppController {
         ${filteredMenu.map(dish => {
           const sales = store.getDishSalesCount(dish.id);
           return `
-            <div class="minimal-card p-4 flex flex-col justify-between">
+            <div class="minimal-card p-4 flex flex-col justify-between group">
               <div>
-                <div class="relative h-48 rounded-lg overflow-hidden bg-zinc-100 mb-4">
-                  <img src="${dish.image}" alt="${dish.name}" class="w-full h-full object-cover transition-transform duration-500 hover:scale-105"/>
+                <div class="relative h-48 rounded-lg overflow-hidden bg-zinc-100 mb-4 cursor-pointer" data-open-dish-modal="${dish.id}">
+                  <img src="${dish.image}" alt="${dish.name}" class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"/>
                   ${dish.badge ? `<span class="absolute top-2 left-2 bg-white/95 text-zinc-900 text-[10px] font-mono px-2 py-0.5 rounded">${dish.badge}</span>` : ''}
+                  <div class="absolute bottom-2 right-2 bg-white/90 text-zinc-800 text-[10px] px-2 py-0.5 rounded shadow flex items-center space-x-1">
+                    ${ICONS.eye}
+                    <span>Info</span>
+                  </div>
                 </div>
                 <div class="flex items-center justify-between text-[11px] font-mono text-zinc-400 mb-1">
                   <span>${dish.category}</span>
                   <span>${dish.dietary || ''}</span>
                 </div>
-                <h3 class="text-base font-medium text-zinc-900">${dish.name}</h3>
-                <p class="text-xs text-zinc-500 mt-1 leading-relaxed">${dish.description}</p>
+                <h3 class="text-base font-medium text-zinc-900 cursor-pointer hover:text-zinc-600 transition-colors" data-open-dish-modal="${dish.id}">${dish.name}</h3>
+                <p class="text-xs text-zinc-500 mt-1 leading-relaxed line-clamp-2">${dish.description}</p>
                 ${dish.nutrition ? `<p class="text-[10px] text-zinc-400 font-mono mt-2">${dish.nutrition}</p>` : ''}
               </div>
 
@@ -945,11 +1039,14 @@ class AppController {
                   <span class="block text-[10px] text-zinc-400 font-mono">${sales} pedidos</span>
                 </div>
                 <div class="flex items-center space-x-1.5">
-                  <button data-quick-simulate-dish="${dish.id}" class="text-[11px] font-mono text-zinc-500 hover:text-zinc-900 px-2 py-1">
+                  <button data-open-dish-modal="${dish.id}" class="text-[11px] font-mono text-zinc-600 hover:text-zinc-900 px-2 py-1 border border-zinc-200 rounded">
+                    Info
+                  </button>
+                  <button data-quick-simulate-dish="${dish.id}" class="text-[11px] font-mono text-zinc-400 hover:text-zinc-900 px-1 py-1">
                     +1
                   </button>
-                  <button data-add-cart="${dish.id}" class="bg-zinc-900 hover:bg-zinc-800 text-white text-xs px-3 py-1.5 rounded-lg transition-colors">
-                    Pedir
+                  <button data-add-cart="${dish.id}" class="bg-zinc-900 hover:bg-zinc-800 text-white text-xs font-medium px-3.5 py-1.5 rounded-lg">
+                    Añadir
                   </button>
                 </div>
               </div>
@@ -961,340 +1058,532 @@ class AppController {
   }
 
   // =========================================================================
-  // BLOQUE DE RESEÑAS DE GOOGLE ADAPTADO SEGÚN EL ESTILO
+  // MODAL DE DETALLE DEL PLATO (100% TEMÁTICO PARA CADA ESTILO)
   // =========================================================================
-  renderGoogleReviewsSection(preset) {
+  renderDishDetailModal(dish, preset) {
+    this.currentModalDish = dish;
+    this.modalQty = 1;
+    const container = document.getElementById('dish-modal-container');
+    if (!container) return;
+
+    const allergensList = (dish.allergens && dish.allergens.length > 0)
+      ? dish.allergens.map(a => `<span class="allergen-chip ${
+          preset.id === 'estilo1' ? 'badge-allergen-estilo1' :
+          preset.id === 'estilo2' ? 'badge-allergen-estilo2' :
+          preset.id === 'estilo3' ? 'badge-allergen-estilo3' :
+          'badge-allergen-estilo4'
+        }">${getAllergenLabel(a)}</span>`).join('')
+      : `<span class="text-xs ${preset.id === 'estilo1' ? 'text-stone-400' : preset.id === 'estilo2' ? 'text-slate-400' : 'text-zinc-500'}">✓ No contiene alérgenos comunes declarados</span>`;
+
+    let cardThemeClasses = '';
+    let headerTextClass = '';
+    let bodyTextClass = '';
+    let btnThemeClass = '';
+
     if (preset.id === 'estilo1') {
-      return `
-        <section class="border-t border-stone-800 pt-12 pb-16">
-          <div class="flex flex-col md:flex-row md:items-end justify-between mb-8 gap-4">
+      cardThemeClasses = 'bg-[#121218] border border-amber-500/30 text-stone-100 shadow-2xl';
+      headerTextClass = 'editorial-serif text-amber-100 font-bold text-2xl';
+      bodyTextClass = 'text-stone-300';
+      btnThemeClass = 'bg-gradient-to-r from-amber-500 to-amber-400 hover:from-amber-400 hover:to-amber-300 text-stone-950 font-bold uppercase tracking-wider text-xs rounded-xl shadow';
+    } else if (preset.id === 'estilo2') {
+      cardThemeClasses = 'bg-[#0b1020] border border-slate-700 text-slate-100 shadow-2xl rounded-3xl';
+      headerTextClass = 'font-sans text-white font-black text-xl';
+      bodyTextClass = 'text-slate-300';
+      btnThemeClass = 'bg-gradient-to-r from-blue-600 to-cyan-500 hover:from-blue-500 hover:to-cyan-400 text-white font-bold text-xs rounded-2xl shadow-lg shadow-blue-500/25';
+    } else if (preset.id === 'estilo3') {
+      cardThemeClasses = 'bg-[#fcfbf8] border-2 border-[#8c7b6c] text-[#2b2520] shadow-2xl rounded-xl';
+      headerTextClass = 'bistro-serif text-[#3d3228] font-bold text-2xl';
+      bodyTextClass = 'text-[#594d40] font-serif';
+      btnThemeClass = 'bg-[#3d3228] hover:bg-[#251e18] text-[#f6f3eb] font-serif font-bold text-xs rounded shadow';
+    } else {
+      cardThemeClasses = 'bg-white border border-zinc-200 text-zinc-900 shadow-2xl rounded-2xl';
+      headerTextClass = 'font-light tracking-tight text-zinc-900 text-2xl';
+      bodyTextClass = 'text-zinc-600 font-light';
+      btnThemeClass = 'bg-zinc-900 hover:bg-black text-white font-medium uppercase tracking-wider text-xs rounded-none py-3.5';
+    }
+
+    container.innerHTML = `
+      <div id="dish-modal-backdrop" class="fixed inset-0 bg-black/75 backdrop-blur-sm z-50 flex items-center justify-center p-3 sm:p-4">
+        <div class="modal-animate max-w-2xl w-full max-h-[92vh] flex flex-col overflow-hidden rounded-2xl ${cardThemeClasses}">
+          
+          <!-- Cabecera / Imagen Principal -->
+          <div class="relative w-full h-56 sm:h-72 bg-stone-900 flex-shrink-0 overflow-hidden">
+            ${dish.image ? `
+              <img src="${dish.image}" alt="${dish.name}" class="w-full h-full object-cover"/>
+            ` : `
+              <div class="w-full h-full flex items-center justify-center text-4xl">🍽️</div>
+            `}
+            <div class="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent"></div>
+            
+            <button id="close-dish-modal" class="absolute top-3 right-3 w-8 h-8 rounded-full bg-black/60 text-white flex items-center justify-center hover:bg-black transition-colors font-bold z-10">
+              ✕
+            </button>
+
+            <div class="absolute bottom-4 left-4 right-4 text-white">
+              <div class="flex items-center space-x-2 mb-1">
+                ${dish.badge ? `<span class="px-2.5 py-0.5 rounded text-[10px] font-bold uppercase ${preset.id === 'estilo1' ? 'bg-amber-500 text-stone-950' : 'bg-blue-600 text-white'}">${dish.badge}</span>` : ''}
+                <span class="text-xs font-mono text-white/80">${dish.category}</span>
+              </div>
+              <h2 class="${headerTextClass}">${dish.name}</h2>
+            </div>
+          </div>
+
+          <!-- Cuerpo con Scroll y Detalles -->
+          <div class="p-5 sm:p-6 overflow-y-auto space-y-5 flex-1 ${bodyTextClass} text-xs sm:text-sm">
+            
             <div>
-              <span class="text-xs font-mono text-amber-400 uppercase tracking-widest">Opiniones Verificadas</span>
-              <h3 class="editorial-serif text-2xl sm:text-3xl font-bold text-stone-100 mt-1">Lo que dicen nuestros comensales</h3>
+              <h4 class="text-xs font-bold uppercase tracking-wider mb-1 ${preset.id === 'estilo1' ? 'text-amber-400 font-mono' : preset.id === 'estilo2' ? 'text-sky-400 font-mono' : 'text-stone-500'}">Descripción</h4>
+              <p class="leading-relaxed">${dish.description}</p>
             </div>
-            <a href="${preset.googleMapsUrl}" target="_blank" class="text-xs font-mono text-amber-300 hover:underline flex items-center space-x-1">
-              <span>Ver las ${preset.totalReviews} reseñas en Google Maps</span>
-              ${ICONS.arrow}
-            </a>
-          </div>
 
-          <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
-            ${preset.googleReviews.map(r => `
-              <div class="editorial-card p-6 flex flex-col justify-between">
-                <div>
-                  <div class="flex items-center space-x-1 text-amber-400 text-sm mb-3">★★★★★</div>
-                  <p class="editorial-serif italic text-sm text-stone-200 leading-relaxed">"${r.comment}"</p>
-                </div>
-                <div class="mt-6 pt-4 border-t border-stone-800">
-                  <span class="text-xs font-bold text-stone-100 block">${r.author}</span>
-                  <span class="text-[11px] text-stone-500 block font-mono">${r.badge} · ${r.timeAgo}</span>
-                </div>
+            ${dish.ingredients ? `
+              <div class="p-3.5 rounded-xl ${preset.id === 'estilo1' ? 'bg-stone-900/90 border border-stone-800' : preset.id === 'estilo2' ? 'bg-slate-900/90 border border-slate-800' : preset.id === 'estilo3' ? 'bg-[#eee7db] border border-[#dfd7cc]' : 'bg-zinc-50 border border-zinc-200'}">
+                <span class="font-bold text-xs block mb-1 uppercase tracking-wider ${preset.id === 'estilo1' ? 'text-amber-300' : preset.id === 'estilo2' ? 'text-sky-300' : 'text-stone-700'}">Ingredientes y Preparación</span>
+                <p class="text-xs leading-relaxed opacity-90">${dish.ingredients}</p>
               </div>
-            `).join('')}
-          </div>
-        </section>
-      `;
-    }
+            ` : ''}
 
-    if (preset.id === 'estilo2') {
-      return `
-        <section class="border-t border-slate-800 pt-10 pb-16">
-          <div class="bento-card p-6 mb-6 flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+            <!-- Alérgenos -->
+            <div>
+              <h4 class="text-xs font-bold uppercase tracking-wider mb-2 ${preset.id === 'estilo1' ? 'text-amber-400 font-mono' : preset.id === 'estilo2' ? 'text-sky-400 font-mono' : 'text-stone-500'}">Información de Alérgenos</h4>
+              <div class="flex flex-wrap gap-2">
+                ${allergensList}
+              </div>
+            </div>
+
+            <!-- Sugerencia de Maridaje o Nota Culinaria -->
+            ${dish.pairing || dish.beerPairing || dish.dietary ? `
+              <div class="border-t pt-4 ${preset.id === 'estilo1' ? 'border-stone-800' : preset.id === 'estilo2' ? 'border-slate-800' : 'border-zinc-200'} flex flex-wrap gap-4 text-xs font-mono">
+                ${dish.pairing ? `<span class="text-amber-300">🍷 Maridaje: ${dish.pairing}</span>` : ''}
+                ${dish.beerPairing ? `<span class="text-sky-300">🍺 Maridaje: ${dish.beerPairing}</span>` : ''}
+                ${dish.dietary ? `<span class="opacity-75">🌿 ${dish.dietary}</span>` : ''}
+              </div>
+            ` : ''}
+
+          </div>
+
+          <!-- Pie del Modal con Selector de Cantidad y Botón Temático -->
+          <div class="p-4 sm:p-5 border-t ${preset.id === 'estilo1' ? 'border-stone-800 bg-[#0e0e13]' : preset.id === 'estilo2' ? 'border-slate-800 bg-[#070a13]' : preset.id === 'estilo3' ? 'border-[#dfd7cc] bg-[#f5f1e8]' : 'border-zinc-200 bg-zinc-50'} flex items-center justify-between gap-4">
+            
             <div class="flex items-center space-x-3">
-              ${ICONS.google}
-              <div>
-                <h3 class="text-base font-bold text-white">${preset.rating} de 5 Estrellas en Google</h3>
-                <p class="text-xs text-slate-400 font-mono">Basado en ${preset.totalReviews} reseñas verificadas</p>
+              <span class="font-mono text-xl sm:text-2xl font-bold ${preset.id === 'estilo1' ? 'text-amber-300' : preset.id === 'estilo2' ? 'text-white' : preset.id === 'estilo3' ? 'text-[#3d3228]' : 'text-zinc-900'}">
+                ${formatCurrency(dish.price)}
+              </span>
+
+              <div class="flex items-center space-x-2 border rounded-xl px-2 py-1 ${preset.id === 'estilo1' ? 'border-stone-700 bg-stone-900' : preset.id === 'estilo2' ? 'border-slate-700 bg-slate-800' : preset.id === 'estilo3' ? 'border-[#8c7b6c] bg-white' : 'border-zinc-300 bg-white'}">
+                <button data-modal-qty-minus class="w-6 h-6 flex items-center justify-center font-bold text-sm cursor-pointer hover:opacity-75">-</button>
+                <span id="modal-dish-qty-val" class="w-6 text-center font-bold font-mono text-xs">1</span>
+                <button data-modal-qty-plus class="w-6 h-6 flex items-center justify-center font-bold text-sm cursor-pointer hover:opacity-75">+</button>
               </div>
             </div>
-            <a href="${preset.googleMapsUrl}" target="_blank" class="bg-slate-800 hover:bg-slate-700 text-slate-100 text-xs font-semibold px-4 py-2 rounded-xl transition-colors">
-              Abrir Google Maps
-            </a>
+
+            <button data-modal-add-cart class="${btnThemeClass} px-5 py-3 flex items-center space-x-2">
+              <span>Añadir a la Comanda</span>
+              ${ICONS.arrow}
+            </button>
+
           </div>
 
-          <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
-            ${preset.googleReviews.map(r => `
-              <div class="bento-card p-5">
-                <div class="flex items-center justify-between text-xs mb-3">
-                  <span class="font-bold text-white">${r.author}</span>
-                  <span class="text-amber-400">★★★★★</span>
-                </div>
-                <p class="text-xs text-slate-300 leading-relaxed">${r.comment}</p>
-                ${r.categoryRatings ? `
-                  <div class="mt-4 pt-3 border-t border-slate-800 flex justify-between text-[10px] text-slate-400 font-mono">
-                    <span>Comida: ${r.categoryRatings.comida}</span>
-                    <span>Servicio: ${r.categoryRatings.servicio}</span>
-                    <span>Ambiente: ${r.categoryRatings.ambiente}</span>
-                  </div>
-                ` : ''}
-              </div>
-            `).join('')}
-          </div>
-        </section>
-      `;
+        </div>
+      </div>
+    `;
+  }
+
+  // =========================================================================
+  // CARRITO DRAWER (100% TEMÁTICO SEGÚN EL ESTILO ACTIVO)
+  // =========================================================================
+  renderCartDrawer(isOpen = true) {
+    const container = document.getElementById('cart-drawer-container');
+    if (!container) return;
+    const preset = store.getPreset();
+    const cart = store.state.cart;
+    const total = store.getCartTotal();
+
+    if (!isOpen) {
+      container.innerHTML = '';
+      return;
     }
 
-    if (preset.id === 'estilo3') {
-      return `
-        <section class="border-t-2 border-[#8c7b6c] pt-10 pb-16 font-serif">
-          <div class="text-center max-w-xl mx-auto mb-8">
-            <span class="text-xs uppercase tracking-widest text-[#7a6b5d] font-bold">Libro de Visitas</span>
-            <h3 class="bistro-serif text-2xl font-bold text-[#2b2520] mt-1">Palabras de Nuestros Clientes</h3>
-          </div>
+    let drawerContainerClasses = '';
+    let headerClasses = '';
+    let bodyClasses = '';
+    let footerClasses = '';
+    let itemClasses = '';
+    let btnClass = '';
+    let qtyBtnClass = '';
 
-          <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
-            ${preset.googleReviews.map(r => `
-              <div class="bistro-card p-5 border border-[#dfd7cc]">
-                <span class="text-xs text-[#8c7b6c] font-bold block mb-2">★ ★ ★ ★ ★</span>
-                <p class="text-xs italic text-[#4a3f35] leading-relaxed">"${r.comment}"</p>
-                <div class="mt-4 pt-3 border-t border-[#eee7db]">
-                  <span class="text-xs font-bold text-[#2b2520] block">${r.author}</span>
-                  <span class="text-[11px] text-[#7a6b5d] block">${r.badge}</span>
-                </div>
-              </div>
-            `).join('')}
-          </div>
-        </section>
-      `;
+    if (preset.id === 'estilo1') {
+      drawerContainerClasses = 'bg-[#0e0e13] text-stone-100 border-l border-amber-500/20';
+      headerClasses = 'p-5 border-b border-stone-800 flex items-center justify-between bg-[#14141c] text-amber-300 editorial-serif';
+      bodyClasses = 'p-5 flex-1 overflow-y-auto space-y-4 text-stone-200';
+      itemClasses = 'flex items-start justify-between pb-3 border-b border-stone-800/80 text-xs';
+      footerClasses = 'p-5 border-t border-stone-800 bg-[#14141c] space-y-4';
+      qtyBtnClass = 'w-6 h-6 rounded bg-stone-800 text-amber-300 hover:bg-stone-700 font-mono font-bold flex items-center justify-center border border-amber-500/30';
+      btnClass = 'w-full bg-gradient-to-r from-amber-500 to-amber-400 hover:from-amber-400 hover:to-amber-300 text-stone-950 font-bold uppercase tracking-wider py-3.5 rounded-xl text-xs shadow flex items-center justify-center space-x-2 disabled:opacity-40';
+    } else if (preset.id === 'estilo2') {
+      drawerContainerClasses = 'bg-[#070a13] text-slate-100 border-l border-slate-800';
+      headerClasses = 'p-5 border-b border-slate-800 flex items-center justify-between bg-slate-900 text-sky-400 font-mono';
+      bodyClasses = 'p-5 flex-1 overflow-y-auto space-y-4 text-slate-200';
+      itemClasses = 'flex items-start justify-between pb-3 border-b border-slate-800 text-xs';
+      footerClasses = 'p-5 border-t border-slate-800 bg-slate-900 space-y-4';
+      qtyBtnClass = 'w-6 h-6 rounded-lg bg-slate-800 text-sky-300 hover:bg-slate-700 font-mono font-bold flex items-center justify-center';
+      btnClass = 'w-full bg-gradient-to-r from-blue-600 to-cyan-500 hover:from-blue-500 hover:to-cyan-400 text-white font-bold py-3.5 rounded-xl text-xs shadow-lg shadow-blue-500/25 flex items-center justify-center space-x-2 disabled:opacity-40';
+    } else if (preset.id === 'estilo3') {
+      drawerContainerClasses = 'bg-[#fbf9f5] text-[#2b2520] border-l-2 border-[#8c7b6c]';
+      headerClasses = 'p-5 border-b-2 border-[#8c7b6c] flex items-center justify-between bg-[#eee7db] text-[#3d3228] font-serif';
+      bodyClasses = 'p-5 flex-1 overflow-y-auto space-y-4 text-[#3d3228] font-serif';
+      itemClasses = 'flex items-start justify-between pb-3 border-b border-[#dfd7cc] text-xs';
+      footerClasses = 'p-5 border-t-2 border-[#8c7b6c] bg-[#eee7db] space-y-4';
+      qtyBtnClass = 'w-6 h-6 rounded bg-[#dfd7cc] hover:bg-[#cfc5b6] text-[#3d3228] font-serif font-bold flex items-center justify-center';
+      btnClass = 'w-full bg-[#3d3228] hover:bg-[#251e18] text-[#f6f3eb] font-serif font-bold py-3.5 rounded text-xs shadow flex items-center justify-center space-x-2 disabled:opacity-40';
+    } else {
+      drawerContainerClasses = 'bg-white text-zinc-900 border-l border-zinc-200';
+      headerClasses = 'p-5 border-b border-zinc-200 flex items-center justify-between bg-zinc-50 text-zinc-900 uppercase tracking-widest text-xs font-light';
+      bodyClasses = 'p-5 flex-1 overflow-y-auto space-y-4 text-zinc-800 font-light';
+      itemClasses = 'flex items-start justify-between pb-3 border-b border-zinc-100 text-xs';
+      footerClasses = 'p-5 border-t border-zinc-200 bg-zinc-50 space-y-4';
+      qtyBtnClass = 'w-6 h-6 rounded-none border border-zinc-300 hover:bg-zinc-100 text-zinc-900 font-mono text-xs flex items-center justify-center';
+      btnClass = 'w-full bg-zinc-900 hover:bg-black text-white font-medium uppercase tracking-wider py-3.5 rounded-none text-xs flex items-center justify-center space-x-2 disabled:opacity-40';
     }
 
-    // Estilo 4
-    return `
-      <section class="border-t border-zinc-200 pt-10 pb-16">
-        <div class="flex items-center justify-between mb-8">
-          <div>
-            <span class="text-[10px] font-mono uppercase tracking-widest text-zinc-400">Google Reviews</span>
-            <h3 class="text-xl font-light text-zinc-900 mt-0.5">${preset.rating} / 5.0 (${preset.totalReviews} opiniones)</h3>
+    container.innerHTML = `
+      <div id="cart-backdrop" class="fixed inset-0 bg-black/60 backdrop-blur-sm z-50 transition-opacity"></div>
+      <div class="drawer-animate fixed inset-y-0 right-0 max-w-md w-full ${drawerContainerClasses} shadow-2xl z-50 flex flex-col justify-between">
+        
+        <div class="${headerClasses}">
+          <div class="flex items-center space-x-2">
+            ${ICONS.cart}
+            <h3 class="font-bold text-sm sm:text-base">Comanda de Sala · ${preset.name}</h3>
           </div>
-          <a href="${preset.googleMapsUrl}" target="_blank" class="text-xs font-mono text-zinc-500 hover:text-zinc-900 underline">Google Maps</a>
+          <button id="close-cart-btn" class="p-1 opacity-70 hover:opacity-100 text-base">✕</button>
         </div>
 
-        <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
-          ${preset.googleReviews.map(r => `
-            <div class="minimal-card p-5">
-              <p class="text-xs text-zinc-600 leading-relaxed font-light">"${r.comment}"</p>
-              <div class="mt-4 pt-3 border-t border-zinc-100 flex items-center justify-between text-[11px] font-mono text-zinc-400">
-                <span class="text-zinc-800 font-medium">${r.author}</span>
-                <span>${r.timeAgo}</span>
+        <div class="${bodyClasses}">
+          ${cart.length === 0 ? `
+            <div class="h-64 flex flex-col items-center justify-center opacity-60 text-xs text-center">
+              <span class="text-4xl mb-3">🍽️</span>
+              <p class="font-bold text-sm">La comanda está vacía</p>
+              <p class="mt-1 max-w-xs">Selecciona cualquier plato de la carta o pulsa en 'Ver Detalle' para añadirlo a la prueba.</p>
+            </div>
+          ` : cart.map((item, idx) => `
+            <div class="${itemClasses}">
+              <div class="pr-2 flex-1">
+                <span class="font-bold block">${item.name}</span>
+                <span class="font-mono opacity-75 text-[11px]">${formatCurrency(item.price)} / ud.</span>
+              </div>
+              <div class="flex items-center space-x-2 flex-shrink-0">
+                <button data-cart-minus="${idx}" class="${qtyBtnClass}">-</button>
+                <span class="font-bold w-4 text-center font-mono text-xs">${item.qty}</span>
+                <button data-cart-plus="${idx}" class="${qtyBtnClass}">+</button>
+                <button data-cart-remove="${idx}" class="text-red-400 hover:text-red-600 ml-2 text-xs font-bold" title="Eliminar">✕</button>
               </div>
             </div>
           `).join('')}
         </div>
-      </section>
-    `;
-  }
 
-  // =========================================================================
-  // FOOTER ADAPTADO A CADA ESTILO
-  // =========================================================================
-  renderFooterForStyle(preset) {
-    if (preset.id === 'estilo1') {
-      return `
-        <footer class="bg-[#0b0b0d] text-stone-400 text-xs border-t border-stone-800 py-12">
-          <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex flex-col md:flex-row items-start md:items-center justify-between gap-6">
-            <div>
-              <span class="editorial-serif text-base font-bold text-stone-200 block">${preset.name}</span>
-              <p class="text-xs text-stone-500 mt-1">${preset.address} · Tel. ${preset.phone}</p>
-            </div>
-            <div class="flex flex-wrap items-center gap-6 text-xs text-stone-500 font-mono">
-              <button id="reset-demo-btn" class="hover:text-stone-300 underline text-[11px]">Reiniciar demo</button>
-              <span>Desarrollado por <a href="https://devcorpsolutions.com" target="_blank" class="text-amber-400 hover:underline">DevCorp Solutions</a></span>
-              <span>0% Comisiones</span>
-            </div>
+        <div class="${footerClasses}">
+          <div class="flex justify-between items-center font-bold text-base">
+            <span>Total Comanda:</span>
+            <span class="font-mono text-xl ${preset.id === 'estilo1' ? 'text-amber-300' : preset.id === 'estilo2' ? 'text-sky-300' : ''}">${formatCurrency(total)}</span>
           </div>
-        </footer>
-      `;
-    }
-
-    if (preset.id === 'estilo2') {
-      return `
-        <footer class="bg-slate-950 text-slate-400 text-xs border-t border-slate-800 py-10">
-          <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex flex-col md:flex-row items-center justify-between gap-4">
-            <div class="flex items-center space-x-3">
-              <span class="font-bold text-white text-sm">La Central</span>
-              <span class="text-slate-600">|</span>
-              <span>Software para Hostelería por DevCorp</span>
-            </div>
-            <div class="flex items-center space-x-4">
-              <button id="reset-demo-btn" class="hover:text-white underline text-[11px]">Reiniciar demo</button>
-              <a href="https://devcorpsolutions.com" target="_blank" class="text-sky-400 hover:underline">devcorpsolutions.com</a>
-            </div>
-          </div>
-        </footer>
-      `;
-    }
-
-    if (preset.id === 'estilo3') {
-      return `
-        <footer class="bg-[#eee7db] text-[#594d40] text-xs border-t-2 border-[#8c7b6c] py-10 font-serif">
-          <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
-            <span class="bistro-serif text-lg font-bold text-[#2b2520] block">Casa Manolo · Cincuenta Años de Tradición</span>
-            <p class="text-xs text-[#7a6b5d] mt-1">${preset.address} · Reservas telefónicas y online</p>
-            <div class="mt-4 pt-3 border-t border-[#dfd7cc] flex justify-center space-x-6 text-[11px]">
-              <button id="reset-demo-btn" class="underline">Reiniciar datos de muestra</button>
-              <span>Tecnología artesanal por DevCorp Solutions</span>
-            </div>
-          </div>
-        </footer>
-      `;
-    }
-
-    // Estilo 4
-    return `
-      <footer class="bg-white text-zinc-400 text-xs border-t border-zinc-200 py-8">
-        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex flex-col sm:flex-row items-center justify-between gap-3 text-[11px] font-light tracking-widest uppercase">
-          <span>Atelier · Obrador & Specialty Coffee</span>
-          <div class="flex items-center space-x-6">
-            <button id="reset-demo-btn" class="hover:text-zinc-800 underline">Reiniciar datos</button>
-            <a href="https://devcorpsolutions.com" target="_blank" class="hover:text-zinc-800">DevCorp Solutions</a>
-          </div>
+          <button id="open-checkout-modal-btn" ${cart.length === 0 ? 'disabled' : ''} class="${btnClass}">
+            <span>Tramitar Pedido en Cocina</span>
+            ${ICONS.arrow}
+          </button>
         </div>
-      </footer>
+
+      </div>
     `;
   }
 
   // =========================================================================
-  // VISTA 2: COCINA / KDS (COMANDERO EN TIEMPO REAL)
+  // CHECKOUT MODAL (100% TEMÁTICO SEGÚN EL ESTILO ACTIVO)
   // =========================================================================
-  renderKdsView(container, preset) {
-    if (!container) container = document.getElementById('view-content');
+  renderCheckoutModal() {
+    const container = document.getElementById('checkout-modal-container');
     if (!container) return;
+    const preset = store.getPreset();
+    const cart = store.state.cart;
+    const total = store.getCartTotal();
 
-    const orders = store.state.orders;
-    const pendingOrders = orders.filter(o => o.status === 'pending');
-    const kitchenOrders = orders.filter(o => o.status === 'kitchen');
-    const readyOrders = orders.filter(o => o.status === 'ready');
-    const isDark = (preset.id === 'estilo1' || preset.id === 'estilo2');
+    let modalBgClass = '';
+    let headerTextClass = '';
+    let inputThemeClass = '';
+    let submitBtnClass = '';
+
+    if (preset.id === 'estilo1') {
+      modalBgClass = 'bg-[#121218] border border-amber-500/30 text-stone-100';
+      headerTextClass = 'editorial-serif text-amber-200 font-bold';
+      inputThemeClass = 'bg-[#0b0b0f] border-stone-700 text-stone-100 focus:ring-amber-400 focus:border-amber-400';
+      submitBtnClass = 'bg-gradient-to-r from-amber-500 to-amber-400 text-stone-950 font-bold uppercase tracking-wider py-3.5 rounded-xl text-xs';
+    } else if (preset.id === 'estilo2') {
+      modalBgClass = 'bg-[#0a0f1e] border border-slate-700 text-slate-100 rounded-3xl';
+      headerTextClass = 'font-sans text-white font-bold font-mono text-sky-400';
+      inputThemeClass = 'bg-[#070a13] border-slate-700 text-white focus:ring-sky-500 focus:border-sky-500';
+      submitBtnClass = 'bg-gradient-to-r from-blue-600 to-cyan-500 text-white font-bold py-3.5 rounded-xl text-xs shadow-lg shadow-blue-500/25';
+    } else if (preset.id === 'estilo3') {
+      modalBgClass = 'bg-[#fcfbf8] border-2 border-[#8c7b6c] text-[#2b2520] font-serif rounded-xl';
+      headerTextClass = 'bistro-serif text-[#3d3228] font-bold';
+      inputThemeClass = 'bg-white border-[#8c7b6c] text-[#2b2520] focus:ring-[#8c7b6c] focus:border-[#8c7b6c] font-sans';
+      submitBtnClass = 'bg-[#3d3228] hover:bg-[#251e18] text-[#f6f3eb] font-serif font-bold py-3.5 rounded text-xs shadow';
+    } else {
+      modalBgClass = 'bg-white border border-zinc-200 text-zinc-900 rounded-none';
+      headerTextClass = 'font-light tracking-widest uppercase text-zinc-900 text-xs';
+      inputThemeClass = 'bg-zinc-50 border-zinc-200 text-zinc-900 focus:ring-zinc-900 focus:border-zinc-900 rounded-none';
+      submitBtnClass = 'bg-zinc-900 hover:bg-black text-white font-medium uppercase tracking-wider py-3.5 rounded-none text-xs';
+    }
 
     container.innerHTML = `
-      <div class="mb-6 flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4 ${isDark ? 'text-stone-100' : 'text-slate-900'}">
-        <div>
-          <div class="flex items-center space-x-2">
-            <span class="inline-block w-2.5 h-2.5 rounded-full bg-emerald-500 animate-pulse"></span>
-            <h2 class="text-xl sm:text-2xl font-bold uppercase tracking-tight">Comandero de Cocina (KDS) · ${preset.name}</h2>
+      <div id="checkout-modal-backdrop" class="fixed inset-0 bg-black/75 backdrop-blur-sm z-50 flex items-center justify-center p-3 sm:p-4">
+        <div class="modal-animate max-w-lg w-full max-h-[90vh] flex flex-col overflow-hidden shadow-2xl border ${modalBgClass}">
+          
+          <div class="p-5 border-b ${preset.id === 'estilo1' ? 'border-stone-800' : preset.id === 'estilo2' ? 'border-slate-800' : 'border-zinc-200'} flex justify-between items-center flex-shrink-0">
+            <h3 class="text-base ${headerTextClass}">Tramitar Comanda · ${preset.name}</h3>
+            <button id="close-checkout-modal" class="opacity-70 hover:opacity-100 text-lg">✕</button>
           </div>
-          <p class="text-xs ${isDark ? 'text-stone-400' : 'text-slate-500'} mt-1">Pantalla táctil para cocineros y camareros. Sincronizada en vivo con los pedidos de mesa y sala.</p>
-        </div>
 
-        <button id="add-kds-test-btn" class="${isDark ? 'bg-stone-800 hover:bg-stone-700 text-stone-100' : 'bg-slate-900 hover:bg-slate-800 text-white'} text-xs font-semibold px-4 py-2.5 rounded-xl transition-colors shadow flex items-center space-x-1.5">
-          <span>+ Simular Comanda Entrante</span>
-        </button>
-      </div>
+          <form id="checkout-form" class="p-5 space-y-4 text-xs overflow-y-auto flex-1">
+            <div>
+              <label class="block font-semibold uppercase mb-2">Modalidad de Servicio</label>
+              <div class="grid grid-cols-3 gap-2">
+                <label class="flex flex-col items-center p-3 border rounded-xl cursor-pointer text-center ${preset.id === 'estilo1' ? 'border-amber-500 bg-amber-950/40 text-amber-200' : preset.id === 'estilo2' ? 'border-sky-500 bg-sky-950/40 text-sky-200' : 'border-blue-500 bg-blue-50 text-blue-900'}">
+                  <input type="radio" name="order-type" value="mesa" checked class="hidden order-type-radio"/>
+                  <span class="text-lg mb-1">🪑</span>
+                  <span class="font-bold text-[11px]">En Mesa</span>
+                </label>
+                <label class="flex flex-col items-center p-3 border rounded-xl cursor-pointer text-center opacity-80 hover:opacity-100 ${preset.id === 'estilo1' ? 'border-stone-800' : 'border-zinc-300'}">
+                  <input type="radio" name="order-type" value="recogida" class="hidden order-type-radio"/>
+                  <span class="text-lg mb-1">🛍️</span>
+                  <span class="font-bold text-[11px]">Para Llevar</span>
+                </label>
+                <label class="flex flex-col items-center p-3 border rounded-xl cursor-pointer text-center opacity-80 hover:opacity-100 ${preset.id === 'estilo1' ? 'border-stone-800' : 'border-zinc-300'}">
+                  <input type="radio" name="order-type" value="delivery" class="hidden order-type-radio"/>
+                  <span class="text-lg mb-1">🛵</span>
+                  <span class="font-bold text-[11px]">Directo 0%</span>
+                </label>
+              </div>
+            </div>
 
-      <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
-        <!-- Nuevos -->
-        <div class="${isDark ? 'bg-stone-900/80 border-amber-500/40 text-stone-100' : 'bg-amber-50/60 border-amber-300 text-slate-900'} border-2 border-dashed rounded-2xl p-4 flex flex-col min-h-[160px] md:min-h-[480px]">
-          <div class="flex items-center justify-between pb-3 border-b ${isDark ? 'border-stone-800' : 'border-amber-200'} mb-4">
-            <span class="font-bold text-sm uppercase">Nuevos Pedidos</span>
-            <span class="bg-amber-400 text-slate-950 text-xs font-black px-2.5 py-0.5 rounded-full">${pendingOrders.length}</span>
-          </div>
-          <div class="space-y-4 flex-1 overflow-y-auto">
-            ${pendingOrders.length === 0 ? `<p class="text-xs ${isDark ? 'text-stone-500' : 'text-slate-400'} text-center py-8">Sin comandas nuevas pendientes.</p>` : pendingOrders.map(order => this.renderKdsOrderCard(order, isDark)).join('')}
-          </div>
-        </div>
+            <div id="table-input-block">
+              <label class="block font-semibold uppercase mb-1">Número de Mesa</label>
+              <input type="text" id="order-table" value="Mesa 4" required class="w-full border rounded-xl px-3 py-2 text-xs focus:outline-none ${inputThemeClass}"/>
+            </div>
 
-        <!-- En Fogones -->
-        <div class="${isDark ? 'bg-stone-900/80 border-blue-500/40 text-stone-100' : 'bg-blue-50/60 border-blue-300 text-slate-900'} border-2 border-dashed rounded-2xl p-4 flex flex-col min-h-[160px] md:min-h-[480px]">
-          <div class="flex items-center justify-between pb-3 border-b ${isDark ? 'border-stone-800' : 'border-blue-200'} mb-4">
-            <span class="font-bold text-sm uppercase">En Marcha / Fogones</span>
-            <span class="bg-blue-500 text-white text-xs font-black px-2.5 py-0.5 rounded-full">${kitchenOrders.length}</span>
-          </div>
-          <div class="space-y-4 flex-1 overflow-y-auto">
-            ${kitchenOrders.length === 0 ? `<p class="text-xs ${isDark ? 'text-stone-500' : 'text-slate-400'} text-center py-8">Fogones libres.</p>` : kitchenOrders.map(order => this.renderKdsOrderCard(order, isDark)).join('')}
-          </div>
-        </div>
+            <div>
+              <label class="block font-semibold uppercase mb-1">Nombre del Cliente / Comensal</label>
+              <input type="text" id="order-customer" value="Visita Comercial" required class="w-full border rounded-xl px-3 py-2 text-xs focus:outline-none ${inputThemeClass}"/>
+            </div>
 
-        <!-- Listos -->
-        <div class="${isDark ? 'bg-stone-900/80 border-emerald-500/40 text-stone-100' : 'bg-emerald-50/60 border-emerald-300 text-slate-900'} border-2 border-dashed rounded-2xl p-4 flex flex-col min-h-[160px] md:min-h-[480px]">
-          <div class="flex items-center justify-between pb-3 border-b ${isDark ? 'border-stone-800' : 'border-emerald-200'} mb-4">
-            <span class="font-bold text-sm uppercase">Listos para Servir</span>
-            <span class="bg-emerald-500 text-white text-xs font-black px-2.5 py-0.5 rounded-full">${readyOrders.length}</span>
-          </div>
-          <div class="space-y-4 flex-1 overflow-y-auto">
-            ${readyOrders.length === 0 ? `<p class="text-xs ${isDark ? 'text-stone-500' : 'text-slate-400'} text-center py-8">Sin platos pendientes de entrega.</p>` : readyOrders.map(order => this.renderKdsOrderCard(order, isDark)).join('')}
-          </div>
+            <div>
+              <label class="block font-semibold uppercase mb-1">Observaciones para Cocina</label>
+              <input type="text" id="order-notes" placeholder="Ej: carne al punto, salsa aparte..." class="w-full border rounded-xl px-3 py-2 text-xs focus:outline-none ${inputThemeClass}"/>
+            </div>
+
+            <div class="p-4 rounded-xl border ${preset.id === 'estilo1' ? 'bg-[#0d0d12] border-stone-800' : preset.id === 'estilo2' ? 'bg-slate-950 border-slate-800' : 'bg-zinc-50 border-zinc-200'}">
+              <span class="font-bold block mb-1">Resumen de Comanda</span>
+              <p class="opacity-75">${cart.length} productos · Total: <span class="font-mono font-bold">${formatCurrency(total)}</span></p>
+              <span class="text-[11px] text-emerald-400 block mt-1">✓ 0€ de comisión para el restaurante</span>
+            </div>
+
+            <button type="submit" class="w-full ${submitBtnClass} shadow flex items-center justify-center space-x-2">
+              <span>Enviar a Pantalla de Cocina (KDS)</span>
+              ${ICONS.arrow}
+            </button>
+          </form>
+
         </div>
       </div>
     `;
 
-    const addBtn = document.getElementById('add-kds-test-btn');
-    if (addBtn) {
-      addBtn.addEventListener('click', () => {
-        const dish = preset.menu[0];
-        store.state.cart = [{
-          id: dish.id,
-          name: dish.name,
-          price: dish.price,
-          qty: 1
-        }];
-        store.createOrder({
-          type: "mesa",
-          tableNumber: `Mesa ${Math.floor(1 + Math.random() * 8)}`,
-          customerName: "Comensal Sala"
+    // Interacción formulario checkout
+    const form = document.getElementById('checkout-form');
+    if (form) {
+      form.addEventListener('submit', (e) => {
+        e.preventDefault();
+        const type = form.querySelector('input[name="order-type"]:checked').value;
+        const table = document.getElementById('order-table').value;
+        const customer = document.getElementById('order-customer').value;
+        const notes = document.getElementById('order-notes').value;
+
+        const newOrder = {
+          id: `ORD-${Math.floor(100 + Math.random() * 900)}`,
+          timestamp: new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }),
+          type: type,
+          tableNumber: type === 'mesa' ? table : (type === 'recogida' ? 'Take Away' : 'Domicilio'),
+          customerName: customer,
+          items: cart.map(i => ({ id: i.id, name: i.name, qty: i.qty, price: i.price, notes: notes })),
+          total: total,
+          status: 'pending',
+          elapsedMinutes: 0
+        };
+
+        store.state.orders.unshift(newOrder);
+        cart.forEach(item => {
+          store.incrementDishSale(item.id, item.qty);
         });
-        this.showToast("Comanda enviada a cocina");
+        store.clearCart();
+        container.innerHTML = '';
+        this.showToast(`✓ Comanda ${newOrder.id} enviada al KDS de cocina`);
+        store.setView('kds');
       });
     }
   }
 
-  renderKdsOrderCard(order, isDark) {
-    let statusBadge = '';
-    let actionButton = '';
+  // =========================================================================
+  // VISTA 2: COMANDERO KDS DE COCINA
+  // =========================================================================
+  renderKdsView(container, preset) {
+    const orders = store.state.orders;
+    const isDark = (preset.id === 'estilo1' || preset.id === 'estilo2');
 
-    if (order.status === 'pending') {
-      statusBadge = `<span class="px-2 py-0.5 bg-amber-100 text-amber-800 text-[10px] font-bold rounded uppercase">Nuevo</span>`;
-      actionButton = `
-        <button data-order-id="${order.id}" data-next-status="kitchen" class="w-full bg-blue-600 hover:bg-blue-700 text-white font-bold py-2 rounded-lg text-xs transition-colors flex items-center justify-center space-x-1">
-          <span>Pasar a Fogones</span>
-          ${ICONS.arrow}
-        </button>
-      `;
-    } else if (order.status === 'kitchen') {
-      statusBadge = `<span class="px-2 py-0.5 bg-blue-100 text-blue-800 text-[10px] font-bold rounded uppercase">En Fogones</span>`;
-      actionButton = `
-        <button data-order-id="${order.id}" data-next-status="ready" class="w-full bg-emerald-600 hover:bg-emerald-700 text-white font-bold py-2 rounded-lg text-xs transition-colors flex items-center justify-center space-x-1">
-          <span>Marcar Listo</span>
-          ${ICONS.arrow}
-        </button>
-      `;
-    } else if (order.status === 'ready') {
-      statusBadge = `<span class="px-2 py-0.5 bg-emerald-100 text-emerald-800 text-[10px] font-bold rounded uppercase">Listo</span>`;
-      actionButton = `
-        <button data-order-id="${order.id}" data-next-status="served" class="w-full bg-slate-700 hover:bg-slate-800 text-white font-bold py-2 rounded-lg text-xs transition-colors flex items-center justify-center space-x-1">
-          <span>Servido en Mesa</span>
-          ${ICONS.check}
-        </button>
-      `;
-    }
-
-    return `
-      <div class="${isDark ? 'bg-stone-950 border-stone-800 text-stone-200' : 'bg-white border-slate-200 text-slate-900'} p-4 rounded-xl border shadow-sm text-xs space-y-3">
-        <div class="flex items-center justify-between pb-2 border-b ${isDark ? 'border-stone-800' : 'border-slate-100'}">
-          <div class="flex items-center space-x-1.5">
-            <span class="font-bold font-mono text-sm">${order.tableNumber}</span>
-            <span class="text-[10px] text-slate-400">(${order.type})</span>
+    container.innerHTML = `
+      <div class="space-y-6 ${isDark ? 'text-stone-100' : 'text-slate-900'}">
+        <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+          <div>
+            <div class="flex items-center space-x-2">
+              <span class="w-2.5 h-2.5 rounded-full bg-emerald-400 animate-pulse"></span>
+              <span class="text-xs font-bold uppercase tracking-wider font-mono text-emerald-400">Sistema KDS en Vivo</span>
+            </div>
+            <h2 class="text-2xl sm:text-3xl font-extrabold mt-1">Comandero de Cocina · ${preset.name}</h2>
+            <p class="text-xs ${isDark ? 'text-stone-400' : 'text-slate-500'} mt-1">Sincronización instantánea con los pedidos de la carta digital.</p>
           </div>
-          ${statusBadge}
+
+          <div class="flex items-center space-x-2">
+            <button id="simulate-order-btn" class="bg-blue-600 hover:bg-blue-500 text-white text-xs font-bold px-3 py-2 rounded-xl shadow flex items-center space-x-1.5">
+              <span>+ Generar Comanda Demo</span>
+            </button>
+          </div>
         </div>
 
-        <div class="space-y-1.5">
-          ${order.items.map(item => `
-            <div class="flex justify-between items-start text-[11px]">
-              <span class="font-bold">${item.qty}x ${item.name}</span>
-              <span class="font-mono text-slate-400">${formatCurrency(item.price * item.qty)}</span>
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+          
+          <!-- COLUMNA 1: PENDIENTES -->
+          <div class="${isDark ? 'bg-stone-900 border-stone-800' : 'bg-white border-slate-200'} rounded-2xl border p-4 shadow-sm">
+            <div class="flex items-center justify-between pb-3 border-b ${isDark ? 'border-stone-800' : 'border-slate-100'} mb-4">
+              <div class="flex items-center space-x-2">
+                <span class="w-2.5 h-2.5 rounded-full bg-amber-400"></span>
+                <h3 class="font-bold text-xs uppercase tracking-wider">Pendiente (${orders.filter(o => o.status === 'pending').length})</h3>
+              </div>
             </div>
-            ${item.notes ? `<p class="text-[10px] text-amber-500 italic pl-3">Nota: ${item.notes}</p>` : ''}
+            <div class="space-y-3">
+              ${this.renderKdsOrderCards(orders.filter(o => o.status === 'pending'), preset)}
+            </div>
+          </div>
+
+          <!-- COLUMNA 2: EN PREPARACIÓN -->
+          <div class="${isDark ? 'bg-stone-900 border-stone-800' : 'bg-white border-slate-200'} rounded-2xl border p-4 shadow-sm">
+            <div class="flex items-center justify-between pb-3 border-b ${isDark ? 'border-stone-800' : 'border-slate-100'} mb-4">
+              <div class="flex items-center space-x-2">
+                <span class="w-2.5 h-2.5 rounded-full bg-blue-400"></span>
+                <h3 class="font-bold text-xs uppercase tracking-wider">En Marcha (${orders.filter(o => o.status === 'cooking').length})</h3>
+              </div>
+            </div>
+            <div class="space-y-3">
+              ${this.renderKdsOrderCards(orders.filter(o => o.status === 'cooking'), preset)}
+            </div>
+          </div>
+
+          <!-- COLUMNA 3: LISTOS PARA SALA / SALIR -->
+          <div class="${isDark ? 'bg-stone-900 border-stone-800' : 'bg-white border-slate-200'} rounded-2xl border p-4 shadow-sm">
+            <div class="flex items-center justify-between pb-3 border-b ${isDark ? 'border-stone-800' : 'border-slate-100'} mb-4">
+              <div class="flex items-center space-x-2">
+                <span class="w-2.5 h-2.5 rounded-full bg-emerald-400"></span>
+                <h3 class="font-bold text-xs uppercase tracking-wider">Pase Listo (${orders.filter(o => o.status === 'ready').length})</h3>
+              </div>
+            </div>
+            <div class="space-y-3">
+              ${this.renderKdsOrderCards(orders.filter(o => o.status === 'ready'), preset)}
+            </div>
+          </div>
+
+        </div>
+      </div>
+    `;
+
+    // Botón simular comanda
+    const simBtn = document.getElementById('simulate-order-btn');
+    if (simBtn) {
+      simBtn.addEventListener('click', () => {
+        const p = store.getPreset();
+        const randDish = p.menu[Math.floor(Math.random() * p.menu.length)];
+        const newOrder = {
+          id: `ORD-${Math.floor(200 + Math.random() * 800)}`,
+          timestamp: new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }),
+          type: "mesa",
+          tableNumber: `Mesa ${Math.floor(1 + Math.random() * 8)}`,
+          customerName: "Comensal Demo",
+          items: [{ id: randDish.id, name: randDish.name, qty: 1, price: randDish.price }],
+          total: randDish.price,
+          status: "pending",
+          elapsedMinutes: 1
+        };
+        store.state.orders.unshift(newOrder);
+        store.incrementDishSale(randDish.id, 1);
+        this.showToast(`✓ Nueva comanda demo generada: ${newOrder.id}`);
+        this.renderKdsView(container, preset);
+      });
+    }
+
+    // Botones de cambio de estado KDS
+    container.querySelectorAll('[data-kds-action]').forEach(btn => {
+      btn.addEventListener('click', (e) => {
+        const orderId = btn.getAttribute('data-order-id');
+        const nextStatus = btn.getAttribute('data-kds-action');
+        const order = store.state.orders.find(o => o.id === orderId);
+        if (order) {
+          order.status = nextStatus;
+          store.save();
+          this.renderKdsView(container, preset);
+        }
+      });
+    });
+  }
+
+  renderKdsOrderCards(orders, preset) {
+    if (orders.length === 0) {
+      return `<p class="text-xs text-stone-500 py-6 text-center">Sin comandas en este estado</p>`;
+    }
+
+    const isDark = (preset.id === 'estilo1' || preset.id === 'estilo2');
+
+    return orders.map(order => `
+      <div class="${isDark ? 'bg-stone-950 border-stone-800' : 'bg-slate-50 border-slate-200'} p-3.5 rounded-xl border text-xs space-y-2.5 shadow-sm">
+        <div class="flex justify-between items-start">
+          <div>
+            <span class="font-bold font-mono text-blue-400">${order.id}</span>
+            <span class="font-bold block text-sm mt-0.5">${order.tableNumber} · ${order.customerName}</span>
+          </div>
+          <span class="text-[10px] font-mono text-stone-400">${order.timestamp}</span>
+        </div>
+
+        <div class="border-t ${isDark ? 'border-stone-800' : 'border-slate-200'} pt-2 space-y-1">
+          ${order.items.map(item => `
+            <div class="flex justify-between items-center text-xs">
+              <span class="font-semibold">${item.qty}x ${item.name}</span>
+            </div>
           `).join('')}
         </div>
 
-        <div class="pt-2 border-t ${isDark ? 'border-stone-800' : 'border-slate-100'} flex items-center justify-between font-mono text-xs">
-          <span class="text-slate-400">Total:</span>
-          <span class="font-bold text-sm">${formatCurrency(order.total)}</span>
+        <div class="pt-2 border-t ${isDark ? 'border-stone-800' : 'border-slate-200'} flex items-center justify-between">
+          <span class="font-mono font-bold">${formatCurrency(order.total)}</span>
+          <div>
+            ${order.status === 'pending' ? `
+              <button data-order-id="${order.id}" data-kds-action="cooking" class="bg-blue-600 hover:bg-blue-500 text-white font-bold text-[11px] px-2.5 py-1 rounded-lg">
+                Iniciar Fuego
+              </button>
+            ` : order.status === 'cooking' ? `
+              <button data-order-id="${order.id}" data-kds-action="ready" class="bg-emerald-600 hover:bg-emerald-500 text-white font-bold text-[11px] px-2.5 py-1 rounded-lg">
+                Emplatar
+              </button>
+            ` : `
+              <button data-order-id="${order.id}" data-kds-action="served" class="bg-stone-700 hover:bg-stone-600 text-white font-bold text-[11px] px-2.5 py-1 rounded-lg">
+                Servir a Sala
+              </button>
+            `}
+          </div>
         </div>
-
-        ${actionButton}
       </div>
-    `;
+    `).join('');
   }
 
   // =========================================================================
@@ -1419,19 +1708,19 @@ class AppController {
 
           <div class="grid grid-cols-1 sm:grid-cols-2 gap-6 pt-4 border-t ${isDark ? 'border-stone-800' : 'border-slate-100'}">
             <div>
-              <label class="block text-xs font-semibold uppercase mb-2">Nombre y Apellidos</label>
-              <input type="text" id="res-name" placeholder="Ej. Javier Martín" required class="w-full ${isDark ? 'bg-stone-950 border-stone-700 text-white' : 'bg-slate-50 border-slate-300 text-slate-900'} border rounded-xl px-3.5 py-2.5 text-sm focus:outline-none"/>
+              <label class="block text-xs font-semibold uppercase mb-2">Nombre Completo</label>
+              <input type="text" id="res-name" placeholder="Ej: Ignacio Ramos" required class="w-full ${isDark ? 'bg-stone-950 border-stone-700 text-white' : 'bg-slate-50 border-slate-300 text-slate-900'} border rounded-xl px-3.5 py-2.5 text-sm focus:outline-none"/>
             </div>
 
             <div>
               <label class="block text-xs font-semibold uppercase mb-2">Teléfono de Contacto</label>
-              <input type="tel" id="res-phone" placeholder="Ej. 612 34 56 78" required class="w-full ${isDark ? 'bg-stone-950 border-stone-700 text-white' : 'bg-slate-50 border-slate-300 text-slate-900'} border rounded-xl px-3.5 py-2.5 text-sm focus:outline-none"/>
+              <input type="tel" id="res-phone" placeholder="600 000 000" required class="w-full ${isDark ? 'bg-stone-950 border-stone-700 text-white' : 'bg-slate-50 border-slate-300 text-slate-900'} border rounded-xl px-3.5 py-2.5 text-sm focus:outline-none"/>
             </div>
           </div>
 
-          <button type="submit" class="w-full btn-devcorp-primary py-3.5 rounded-xl font-bold text-sm shadow flex items-center justify-center space-x-2">
-            ${ICONS.table}
-            <span>Confirmar Reserva</span>
+          <button type="submit" class="w-full btn-devcorp-primary py-3.5 rounded-xl font-bold text-sm tracking-wide shadow flex items-center justify-center space-x-2">
+            <span>Confirmar Reserva Directa</span>
+            ${ICONS.arrow}
           </button>
         </form>
       </div>
@@ -1441,62 +1730,66 @@ class AppController {
     if (form) {
       form.addEventListener('submit', (e) => {
         e.preventDefault();
-        const res = store.addReservation({
-          name: document.getElementById('res-name').value,
-          phone: document.getElementById('res-phone').value,
-          date: document.getElementById('res-date').value,
-          turn: document.getElementById('res-turn').value,
-          guests: document.getElementById('res-guests').value,
-          zone: document.getElementById('res-zone').value
-        });
-        alert(`Reserva registrada con éxito.\nCódigo: ${res.id}\nComensal: ${res.name}\nZona: ${res.zone}`);
-        this.render();
+        const name = document.getElementById('res-name').value;
+        const date = document.getElementById('res-date').value;
+        const turn = document.getElementById('res-turn').value;
+        const guests = document.getElementById('res-guests').value;
+        this.showToast(`✓ Reserva confirmada para ${name} (${guests}, ${date} en ${turn})`);
+        form.reset();
       });
     }
   }
 
   // =========================================================================
-  // VISTA 5: CALCULADORA DE RENTABILIDAD (ROI)
+  // VISTA 5: CALCULADORA DE RENTABILIDAD Y AHORRO
   // =========================================================================
   renderRoiView(container, preset) {
     let ordersSlider = 400;
     let ticketSlider = 26;
     const isDark = (preset.id === 'estilo1' || preset.id === 'estilo2');
 
+    const calculateSavings = (orders, ticket) => {
+      const grossMonthly = orders * ticket;
+      const avgCommissionRate = 0.30;
+      const commissionMonthly = grossMonthly * avgCommissionRate;
+      const commissionAnnual = commissionMonthly * 12;
+      return {
+        grossMonthly,
+        monthlySavings: commissionMonthly,
+        annualSavings: commissionAnnual
+      };
+    };
+
     const renderCalculation = () => {
-      const data = calculateDeliverySavings(ordersSlider, ticketSlider, 0.30);
+      const data = calculateSavings(ordersSlider, ticketSlider);
       const resContainer = document.getElementById('roi-results-container');
       if (!resContainer) return;
 
       resContainer.innerHTML = `
-        <div class="grid grid-cols-1 md:grid-cols-2 gap-6 items-stretch">
-          <div class="bg-red-950/30 border border-red-500/50 rounded-3xl p-6 sm:p-8 flex flex-col justify-between text-stone-100">
-            <div>
-              <span class="inline-block bg-red-900 text-red-200 text-xs font-bold px-2.5 py-1 rounded uppercase">
-                Plataformas de Agregación (30% Comisión)
-              </span>
-              <h3 class="text-xl font-bold text-red-200 mt-4">Comisión acumulada anual</h3>
-              <div class="mt-6 space-y-3 text-xs text-stone-300">
-                <div class="flex justify-between pb-2 border-b border-red-900/60">
-                  <span>Facturación delivery mensual:</span>
-                  <span class="font-mono font-bold">${formatCurrency(data.monthlyRevenue)}</span>
-                </div>
-                <div class="flex justify-between pb-2 border-b border-red-900/60 font-semibold">
-                  <span>Comisión retenida cada mes:</span>
-                  <span class="font-mono text-red-400">-${formatCurrency(data.platformMonthlyCommission)}</span>
-                </div>
-                <div class="bg-red-900/40 p-4 rounded-xl text-center border border-red-800 mt-4">
-                  <span class="text-xs text-red-200 uppercase block font-semibold">Comisión Total en 12 Meses:</span>
-                  <span class="text-3xl font-black text-red-100 font-mono mt-1 block">-${formatCurrency(data.platformAnnualCommission)}</span>
-                </div>
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mt-8">
+          <div class="p-6 rounded-3xl bg-red-950/30 border border-red-800/50 text-stone-100">
+            <span class="text-xs font-mono font-bold uppercase text-red-400 flex items-center space-x-1.5">
+              <span>✕</span>
+              <span>Con Plataformas de Agregación (30% Comisión)</span>
+            </span>
+            <h3 class="text-xl font-bold text-red-200 mt-4">Comisiones que asume el restaurante</h3>
+            <div class="mt-6 space-y-3 text-xs text-stone-300">
+              <div class="flex justify-between pb-2 border-b border-red-900/60">
+                <span>Comisión media mensual:</span>
+                <span class="font-mono font-bold text-red-400">-${formatCurrency(data.monthlySavings)} / mes</span>
+              </div>
+              <div class="flex justify-between pb-2 border-b border-red-900/60">
+                <span>Pérdida anual acumulada:</span>
+                <span class="font-mono font-bold text-red-400">-${formatCurrency(data.annualSavings)} / año</span>
               </div>
             </div>
           </div>
 
-          <div class="bg-emerald-950/30 border border-emerald-500/50 rounded-3xl p-6 sm:p-8 flex flex-col justify-between text-stone-100">
-            <div>
-              <span class="inline-block bg-emerald-800 text-emerald-100 text-xs font-bold px-2.5 py-1 rounded uppercase">
-                Canal Propio Directo (0% Comisión)
+          <div class="p-6 rounded-3xl bg-emerald-950/40 border border-emerald-700/60 text-stone-100 relative overflow-hidden">
+            <div class="relative z-10">
+              <span class="text-xs font-mono font-bold uppercase text-emerald-400 flex items-center space-x-1.5">
+                <span>✓</span>
+                <span>Con Sistema Web Propio DevCorp GastroSuite</span>
               </span>
               <h3 class="text-xl font-bold text-emerald-300 mt-4">El 100% de la venta para el restaurante</h3>
               <div class="mt-6 space-y-3 text-xs text-stone-300">
@@ -1567,185 +1860,285 @@ class AppController {
   }
 
   // =========================================================================
-  // MODALES: CARRITO, CHECKOUT Y RESEÑAS
+  // SECCIÓN DE RESEÑAS DE GOOGLE (DIFERENCIADA SEGÚN EL ESTILO)
   // =========================================================================
-  renderCartDrawer(isOpen = true) {
-    const container = document.getElementById('cart-drawer-container');
-    const cart = store.state.cart;
-    const total = store.getCartTotal();
+  renderGoogleReviewsSection(preset) {
+    if (preset.id === 'estilo1') {
+      return `
+        <section class="mt-16 pt-12 border-t border-stone-800 text-stone-100">
+          <div class="max-w-3xl mx-auto text-center mb-10">
+            <span class="text-xs font-mono text-amber-400 uppercase tracking-widest">Opiniones de Críticos y Comensales</span>
+            <h3 class="editorial-serif text-3xl font-bold mt-1">Crítica Gastronómica & Reconocimiento</h3>
+            <div class="flex items-center justify-center space-x-2 mt-3 text-amber-400 text-sm font-mono">
+              <span>★ ${preset.rating}</span>
+              <span>·</span>
+              <span>${preset.totalReviews} reseñas verificadas</span>
+            </div>
+          </div>
 
-    if (!isOpen) {
-      container.innerHTML = '';
-      return;
+          <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+            ${preset.googleReviews.map(r => `
+              <div class="editorial-card p-6 flex flex-col justify-between">
+                <div>
+                  <div class="flex items-center space-x-1 text-amber-400 mb-2">
+                    ${Array(r.rating).fill(ICONS.star).join('')}
+                  </div>
+                  <p class="text-xs text-stone-300 italic editorial-serif leading-relaxed">"${r.comment}"</p>
+                </div>
+                <div class="mt-4 pt-4 border-t border-stone-800 flex justify-between items-center text-[11px] font-mono text-stone-400">
+                  <span class="font-bold text-stone-200">${r.author}</span>
+                  <span>${r.timeAgo}</span>
+                </div>
+              </div>
+            `).join('')}
+          </div>
+
+          <div class="mt-10 text-center">
+            <button id="open-smart-review-btn" class="bg-stone-900 hover:bg-stone-800 text-amber-300 border border-amber-500/40 text-xs font-medium px-5 py-2.5 rounded-xl transition-all shadow">
+              ★ Dejar una Valoración en Google
+            </button>
+          </div>
+        </section>
+      `;
     }
 
-    container.innerHTML = `
-      <div id="cart-backdrop" class="fixed inset-0 bg-slate-950/60 z-50 transition-opacity"></div>
-      <div class="fixed inset-y-0 right-0 max-w-md w-full bg-white shadow-2xl z-50 flex flex-col justify-between text-slate-900">
-        <div class="p-5 border-b border-slate-200 flex items-center justify-between bg-slate-50">
-          <div class="flex items-center space-x-2">
-            ${ICONS.cart}
-            <h3 class="font-bold text-slate-900 text-base">Comanda de Prueba</h3>
+    if (preset.id === 'estilo2') {
+      return `
+        <section class="mt-16 pt-10 border-t border-slate-800 text-slate-100">
+          <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4 mb-8">
+            <div>
+              <span class="text-xs font-bold text-sky-400 uppercase tracking-wider">Feed de Clientes en Directo</span>
+              <h3 class="text-2xl font-black mt-0.5">Qué dicen en Google Maps</h3>
+            </div>
+            <button id="open-smart-review-btn" class="bg-sky-600 hover:bg-sky-500 text-white text-xs font-bold px-4 py-2 rounded-xl shadow">
+              Escribir Reseña
+            </button>
           </div>
-          <button id="close-cart-btn" class="p-1 text-slate-400 hover:text-slate-700">✕</button>
+
+          <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+            ${preset.googleReviews.map(r => `
+              <div class="bento-card p-5 flex flex-col justify-between">
+                <div>
+                  <div class="flex items-center justify-between text-xs mb-2">
+                    <span class="font-bold text-white">${r.author}</span>
+                    <span class="text-sky-400 font-mono font-bold">★ 5.0</span>
+                  </div>
+                  <p class="text-xs text-slate-300 leading-relaxed">${r.comment}</p>
+                </div>
+                <div class="mt-4 pt-3 border-t border-slate-800 text-[10px] text-slate-400 font-mono flex justify-between">
+                  <span>${r.badge}</span>
+                  <span>${r.timeAgo}</span>
+                </div>
+              </div>
+            `).join('')}
+          </div>
+        </section>
+      `;
+    }
+
+    if (preset.id === 'estilo3') {
+      return `
+        <section class="mt-16 pt-10 border-t-2 border-[#8c7b6c] text-[#2b2520]">
+          <div class="text-center max-w-2xl mx-auto mb-8">
+            <span class="text-xs font-serif uppercase tracking-widest text-[#7a6b5d]">Libro de Visitas del Mesón</span>
+            <h3 class="bistro-serif text-2xl font-bold mt-1">Palabras de Vecinos y Amigos</h3>
+            <p class="text-xs font-serif text-[#7a6b5d] mt-1">${preset.totalReviews} opiniones con una puntuación media de ${preset.rating} sobre 5</p>
+          </div>
+
+          <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+            ${preset.googleReviews.map(r => `
+              <div class="bistro-card p-5 flex flex-col justify-between">
+                <p class="text-xs font-serif italic text-[#594d40] leading-relaxed">"${r.comment}"</p>
+                <div class="mt-4 pt-3 border-t border-[#dfd7cc] text-[11px] font-serif text-[#7a6b5d]">
+                  <span class="font-bold text-[#2b2520] block">${r.author}</span>
+                  <span>${r.badge}</span>
+                </div>
+              </div>
+            `).join('')}
+          </div>
+
+          <div class="mt-8 text-center">
+            <button id="open-smart-review-btn" class="bg-[#3d3228] hover:bg-[#231d17] text-[#f6f3eb] font-serif text-xs font-bold px-4 py-2 rounded shadow">
+              Añadir Nota al Libro de Visitas
+            </button>
+          </div>
+        </section>
+      `;
+    }
+
+    return `
+      <section class="mt-16 pt-12 border-t border-zinc-200 text-zinc-900">
+        <div class="max-w-2xl mb-8">
+          <span class="text-xs font-mono uppercase tracking-widest text-zinc-400">Comunidad</span>
+          <h3 class="text-xl font-medium mt-1">Experiencias en Atelier</h3>
         </div>
 
-        <div class="p-5 flex-1 overflow-y-auto space-y-4">
-          ${cart.length === 0 ? `
-            <div class="h-64 flex flex-col items-center justify-center text-slate-400 text-xs text-center">
-              <span class="text-3xl mb-2">🍽️</span>
-              <p class="font-bold text-slate-600 text-sm">La comanda está vacía</p>
-              <p class="text-slate-400 mt-1">Selecciona cualquier plato de la carta para probar el pedido.</p>
-            </div>
-          ` : cart.map((item, idx) => `
-            <div class="flex items-start justify-between pb-3 border-b border-slate-100 text-xs">
-              <div>
-                <span class="font-bold text-slate-900">${item.name}</span>
-                <p class="font-mono text-slate-500 mt-0.5">${formatCurrency(item.price)} ud.</p>
-              </div>
-              <div class="flex items-center space-x-2">
-                <button data-cart-minus="${idx}" class="w-6 h-6 rounded bg-slate-100 hover:bg-slate-200 font-bold text-slate-700 flex items-center justify-center">-</button>
-                <span class="font-black text-slate-900 w-4 text-center font-mono">${item.qty}</span>
-                <button data-cart-plus="${idx}" class="w-6 h-6 rounded bg-slate-100 hover:bg-slate-200 font-bold text-slate-700 flex items-center justify-center">+</button>
-                <button data-cart-remove="${idx}" class="text-red-500 hover:text-red-700 ml-2">✕</button>
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+          ${preset.googleReviews.map(r => `
+            <div class="minimal-card p-5 flex flex-col justify-between">
+              <p class="text-xs text-zinc-600 font-light leading-relaxed">"${r.comment}"</p>
+              <div class="mt-4 pt-3 border-t border-zinc-100 flex justify-between items-center text-[10px] font-mono text-zinc-400">
+                <span class="font-medium text-zinc-800">${r.author}</span>
+                <span>${r.timeAgo}</span>
               </div>
             </div>
           `).join('')}
         </div>
 
-        <div class="p-5 border-t border-slate-200 bg-slate-50 space-y-4">
-          <div class="flex justify-between items-center font-bold text-slate-900 text-base">
-            <span>Total:</span>
-            <span class="font-mono text-xl">${formatCurrency(total)}</span>
-          </div>
-          <button id="open-checkout-modal-btn" ${cart.length === 0 ? 'disabled' : ''} class="w-full btn-devcorp-primary py-3.5 rounded-xl font-bold text-xs sm:text-sm tracking-wide shadow flex items-center justify-center space-x-2 disabled:opacity-50">
-            <span>Tramitar Pedido</span>
-            ${ICONS.arrow}
+        <div class="mt-8">
+          <button id="open-smart-review-btn" class="text-xs font-mono text-zinc-900 border-b border-zinc-900 pb-0.5 hover:text-zinc-600">
+            Compartir experiencia en Google →
           </button>
         </div>
-      </div>
+      </section>
     `;
   }
 
-  renderCheckoutModal() {
-    const container = document.getElementById('checkout-modal-container');
-    const preset = store.getPreset();
-    const cart = store.state.cart;
-    const total = store.getCartTotal();
-
-    container.innerHTML = `
-      <div class="fixed inset-0 bg-slate-950/70 z-50 flex items-center justify-center p-3 sm:p-4">
-        <div class="bg-white rounded-3xl max-w-lg w-full max-h-[90vh] flex flex-col overflow-hidden shadow-2xl border border-slate-200 text-slate-900">
-          <div class="p-5 sm:p-6 border-b border-slate-100 flex justify-between items-center bg-slate-50 flex-shrink-0">
-            <h3 class="text-base font-bold">Tramitar Comanda · ${preset.name}</h3>
-            <button id="close-checkout-modal" class="text-slate-400 hover:text-slate-700">✕</button>
-          </div>
-
-          <form id="checkout-form" class="p-5 sm:p-6 space-y-4 sm:space-y-5 text-xs overflow-y-auto flex-1">
-            <div>
-              <label class="block font-semibold text-slate-700 uppercase mb-2">Modalidad</label>
-              <div class="grid grid-cols-3 gap-2">
-                <label class="flex flex-col items-center p-3 border rounded-2xl cursor-pointer hover:bg-slate-50 text-center border-blue-500 bg-blue-50">
-                  <input type="radio" name="order-type" value="mesa" checked class="hidden order-type-radio"/>
-                  <span class="text-lg mb-1">🪑</span>
-                  <span class="font-bold">En Mesa</span>
-                </label>
-                <label class="flex flex-col items-center p-3 border rounded-2xl cursor-pointer hover:bg-slate-50 text-center border-slate-200">
-                  <input type="radio" name="order-type" value="takeaway" class="hidden order-type-radio"/>
-                  <span class="text-lg mb-1">🥡</span>
-                  <span class="font-bold">Recoger</span>
-                </label>
-                <label class="flex flex-col items-center p-3 border rounded-2xl cursor-pointer hover:bg-slate-50 text-center border-slate-200">
-                  <input type="radio" name="order-type" value="delivery" class="hidden order-type-radio"/>
-                  <span class="text-lg mb-1">🛵</span>
-                  <span class="font-bold">Domicilio</span>
-                </label>
-              </div>
-            </div>
-
-            <div>
-              <label class="block font-semibold text-slate-700 uppercase mb-1">Número de Mesa o Ubicación</label>
-              <input type="text" id="order-table" value="Mesa 4" required class="w-full bg-slate-50 border border-slate-300 rounded-xl px-3 py-2 text-xs focus:outline-none"/>
-            </div>
-
-            <div>
-              <label class="block font-semibold text-slate-700 uppercase mb-1">Nombre</label>
-              <input type="text" id="order-name" placeholder="Ej. Carlos M." required class="w-full bg-slate-50 border border-slate-300 rounded-xl px-3 py-2 text-xs focus:outline-none"/>
-            </div>
-
-            <div class="p-4 bg-slate-50 rounded-xl border border-slate-100 space-y-2">
-              <span class="font-bold text-slate-700 block">Resumen de Comanda:</span>
-              ${cart.map(i => `
-                <div class="flex justify-between text-slate-600 text-[11px]">
-                  <span>${i.qty}x ${i.name}</span>
-                  <span class="font-mono">${formatCurrency(i.price * i.qty)}</span>
-                </div>
-              `).join('')}
-              <div class="pt-2 border-t border-slate-200 flex justify-between font-bold text-slate-900 text-xs">
-                <span>Total a Pagar:</span>
-                <span class="font-mono text-sm">${formatCurrency(total)}</span>
-              </div>
-            </div>
-
-            <button type="submit" class="w-full btn-devcorp-primary py-3.5 rounded-xl font-bold text-xs tracking-wide shadow">
-              Confirmar Comanda y Enviar a Cocina
-            </button>
-          </form>
-        </div>
-      </div>
-    `;
-
-    const form = document.getElementById('checkout-form');
-    if (form) {
-      form.addEventListener('submit', (e) => {
-        e.preventDefault();
-        const type = document.querySelector('input[name="order-type"]:checked').value;
-        const location = document.getElementById('order-table').value;
-        const customer = document.getElementById('order-name').value;
-
-        store.createOrder({
-          type: type,
-          tableNumber: location,
-          customerName: customer
-        });
-
-        container.innerHTML = '';
-        this.showToast('Comanda enviada a la pantalla de cocina');
-        store.setView('kds');
-      });
-    }
-  }
-
+  // =========================================================================
+  // MODAL DE RESEÑA INTELIGENTE (100% TEMÁTICO SEGÚN EL ESTILO ACTIVO)
+  // =========================================================================
   renderSmartReviewModal(preset) {
     const container = document.getElementById('review-modal-container');
+    if (!container) return;
+
+    let modalBgClass = '';
+    let btnClass = '';
+    if (preset.id === 'estilo1') {
+      modalBgClass = 'bg-[#121218] border border-amber-500/30 text-stone-100';
+      btnClass = 'bg-gradient-to-r from-amber-500 to-amber-400 text-stone-950 font-bold uppercase tracking-wider py-3 rounded-xl text-xs';
+    } else if (preset.id === 'estilo2') {
+      modalBgClass = 'bg-[#0a0f1e] border border-slate-700 text-slate-100 rounded-3xl';
+      btnClass = 'bg-gradient-to-r from-blue-600 to-cyan-500 text-white font-bold py-3 rounded-xl text-xs shadow-lg shadow-blue-500/25';
+    } else if (preset.id === 'estilo3') {
+      modalBgClass = 'bg-[#fcfbf8] border-2 border-[#8c7b6c] text-[#2b2520] font-serif rounded-xl';
+      btnClass = 'bg-[#3d3228] hover:bg-[#251e18] text-[#f6f3eb] font-serif font-bold py-3 rounded text-xs shadow';
+    } else {
+      modalBgClass = 'bg-white border border-zinc-200 text-zinc-900 rounded-none';
+      btnClass = 'bg-zinc-900 hover:bg-black text-white font-medium uppercase tracking-wider py-3 rounded-none text-xs';
+    }
+
     container.innerHTML = `
-      <div class="fixed inset-0 bg-slate-950/70 z-50 flex items-center justify-center p-3 sm:p-4">
-        <div class="bg-white rounded-3xl max-w-md w-full max-h-[90vh] flex flex-col overflow-y-auto shadow-2xl border border-slate-200 text-slate-900">
-          <div class="p-5 sm:p-6 border-b border-slate-100 flex justify-between items-center bg-slate-50 flex-shrink-0">
-            <div class="flex items-center space-x-2">
-              ${ICONS.google}
-              <h3 class="text-base font-bold">${preset.name}</h3>
-            </div>
-            <button id="close-review-modal" class="text-slate-400 hover:text-slate-700">✕</button>
+      <div id="review-modal-backdrop" class="fixed inset-0 bg-black/75 backdrop-blur-sm z-50 flex items-center justify-center p-3 sm:p-4">
+        <div class="modal-animate max-w-md w-full p-6 shadow-2xl border ${modalBgClass} space-y-5">
+          <div class="flex justify-between items-center">
+            <h3 class="font-bold text-sm sm:text-base">Valorar en Google Maps</h3>
+            <button id="close-review-modal" class="opacity-70 hover:opacity-100 text-lg">✕</button>
           </div>
 
-          <div class="p-5 sm:p-6 text-center" id="review-step-1">
-            <h4 class="text-base font-bold">¿Cómo calificarías tu experiencia hoy?</h4>
-            <div class="flex justify-center items-center space-x-3 my-6">
-              ${[1, 2, 3, 4, 5].map(stars => `
-                <button data-rate-stars="${stars}" class="rate-star-btn w-10 h-10 rounded-xl border border-slate-200 hover:border-amber-400 hover:bg-amber-50 flex flex-col items-center justify-center transition-all">
-                  <span class="text-amber-400 text-base">★</span>
-                  <span class="text-[10px] font-bold text-slate-700">${stars}</span>
-                </button>
-              `).join('')}
-            </div>
-            <p class="text-xs text-slate-400">Tu valoración ayuda a nuestro equipo de cocina y sala.</p>
+          <p class="text-xs opacity-80 leading-relaxed">
+            Tu opinión ayuda a posicionar a <strong>${preset.name}</strong> en los primeros resultados locales de búsqueda de Madrid.
+          </p>
+
+          <div class="flex justify-center space-x-2 text-2xl py-2">
+            <span class="cursor-pointer hover:scale-125 transition-transform">⭐</span>
+            <span class="cursor-pointer hover:scale-125 transition-transform">⭐</span>
+            <span class="cursor-pointer hover:scale-125 transition-transform">⭐</span>
+            <span class="cursor-pointer hover:scale-125 transition-transform">⭐</span>
+            <span class="cursor-pointer hover:scale-125 transition-transform">⭐</span>
           </div>
+
+          <a href="${preset.googleMapsUrl}" target="_blank" class="w-full ${btnClass} flex items-center justify-center space-x-2">
+            <span>Publicar en Google Maps</span>
+            ${ICONS.external}
+          </a>
         </div>
       </div>
+    `;
+  }
+
+  // =========================================================================
+  // FOOTER INDIVIDUALIZADO PARA CADA ESTILO
+  // =========================================================================
+  renderFooterForStyle(preset) {
+    if (preset.id === 'estilo1') {
+      return `
+        <footer class="bg-[#0b0b0d] border-t border-stone-800 text-stone-400 text-xs py-10">
+          <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 grid grid-cols-1 md:grid-cols-3 gap-8">
+            <div>
+              <span class="editorial-serif font-bold text-stone-100 text-base block">${preset.name}</span>
+              <p class="mt-2 text-stone-400 leading-relaxed">${preset.tagline}</p>
+              <span class="mt-4 inline-block font-mono text-[11px] text-amber-400">Cocina dirigida por ${preset.chefName}</span>
+            </div>
+            <div>
+              <span class="font-mono text-amber-300 uppercase tracking-widest text-[11px] block mb-2">Servicio & Sala</span>
+              <p>${preset.serviceHours}</p>
+              <p class="mt-1">${preset.address}</p>
+              <p class="mt-1 font-mono text-stone-300">Reservas: ${preset.phone}</p>
+            </div>
+            <div>
+              <span class="font-mono text-amber-300 uppercase tracking-widest text-[11px] block mb-2">Desarrollado por DevCorp</span>
+              <p class="leading-relaxed">Solución web integral a medida para restaurantes y alta cocina sin intermediarios.</p>
+              <a href="https://devcorpsolutions.com" target="_blank" class="text-amber-400 hover:underline mt-2 inline-block font-mono">devcorpsolutions.com →</a>
+            </div>
+          </div>
+        </footer>
+      `;
+    }
+
+    if (preset.id === 'estilo2') {
+      return `
+        <footer class="bg-[#070a13] border-t border-slate-800 text-slate-400 text-xs py-8">
+          <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex flex-col md:flex-row items-center justify-between gap-4">
+            <div class="flex items-center space-x-3">
+              <span class="font-bold text-white">${preset.name}</span>
+              <span class="text-slate-600">·</span>
+              <span class="text-sky-400 font-mono">Canal Directo 0% Comisiones</span>
+            </div>
+            <div class="flex items-center space-x-4 text-slate-400 font-mono text-[11px]">
+              <span>${preset.address}</span>
+              <span>·</span>
+              <span>${preset.phone}</span>
+            </div>
+            <div>
+              <a href="https://devcorpsolutions.com" target="_blank" class="text-sky-400 hover:text-sky-300 font-mono text-xs">
+                Tecnología GastroSuite by DevCorp Solutions
+              </a>
+            </div>
+          </div>
+        </footer>
+      `;
+    }
+
+    if (preset.id === 'estilo3') {
+      return `
+        <footer class="bg-[#eee7db] border-t-2 border-[#8c7b6c] text-[#594d40] text-xs font-serif py-10">
+          <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center space-y-3">
+            <h4 class="bistro-serif text-lg font-bold text-[#2b2520]">${preset.name}</h4>
+            <p class="italic text-xs">${preset.tagline}</p>
+            <div class="flex flex-wrap justify-center gap-4 text-xs font-serif text-[#7a6b5d] pt-2">
+              <span>${preset.address}</span>
+              <span>·</span>
+              <span>Teléfono de Encargos: ${preset.phone}</span>
+              <span>·</span>
+              <span>${preset.serviceNote}</span>
+            </div>
+            <p class="pt-4 text-[11px] text-[#7a6b5d] border-t border-[#dfd7cc] max-w-md mx-auto font-sans">
+              Página oficial sin comisiones desarrollada por <a href="https://devcorpsolutions.com" target="_blank" class="text-[#2b2520] font-bold underline">DevCorp Solutions</a>.
+            </p>
+          </div>
+        </footer>
+      `;
+    }
+
+    return `
+      <footer class="bg-white border-t border-zinc-200 text-zinc-500 text-xs py-12 font-light">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex flex-col md:flex-row items-start md:items-center justify-between gap-6">
+          <div>
+            <span class="text-zinc-900 uppercase tracking-widest text-xs font-medium">${preset.name}</span>
+            <p class="mt-1 text-zinc-400">${preset.address} · ${preset.openingHours}</p>
+          </div>
+          <div class="flex items-center space-x-6 text-xs font-mono text-zinc-400">
+            <a href="https://devcorpsolutions.com" target="_blank" class="hover:text-zinc-900 transition-colors">DevCorp Solutions</a>
+            <span>·</span>
+            <span>Atelier Digital</span>
+          </div>
+        </div>
+      </footer>
     `;
   }
 }
 
-// Inicialización de la Aplicación
-new AppController();
+// Inicialización de la SPA
+document.addEventListener('DOMContentLoaded', () => {
+  new GastroApp();
+});

@@ -20,7 +20,7 @@ export const RESTAURANT_PRESETS = {
     name: "Restaurante Raíces & Brasas",
     chefName: "Javier Montero",
     chefTitle: "Jefe de Cocina",
-    tagline: "Cocina de producto, memoria castellana y brasa de encina",
+    tagline: "Cocina de producto, memoria castellana y brasa noble de encina",
     address: "Calle de Maqueda, 138 · Aluche, Madrid",
     phone: "917 19 82 45",
     whatsapp: "34695590754",
@@ -63,85 +63,97 @@ export const RESTAURANT_PRESETS = {
       }
     },
 
-    categories: ["Primeros Pases", "Cortes a la Brasa", "Guisos Lentos", "Postres de Obrador", "Bodega de Sala"],
+    categories: ["Entrantes & Huerta", "Carnes & Brasa de Encina", "Guisos Tradicionales", "Postres de Obrador", "Bodega de Sala"],
 
     menu: [
       {
         id: "e1_1",
-        course: "Plato Fuerte",
-        number: "01",
         name: "Chuletón de Vaca Vieja (1.000g)",
-        category: "Cortes a la Brasa",
+        category: "Carnes & Brasa de Encina",
         price: 39.50,
         badge: "Especialidad de la Casa",
-        description: "Pieza de lomo alto madurada 48 días en cámara propia. Asada al carbón de encina, servida con patatas panaderas y pimientos de Guernica confitados.",
+        description: "Pieza noble de lomo alto madurada 48 días en cámara propia. Asada al carbón de encina, servida trinchada con patatas panaderas confitadas y pimientos de Guernica.",
         details: "Maduración: 48 días Dry-Aged · Origen: Sierra de Guadarrama",
-        pairing: "Tinto Crianza 2021",
+        ingredients: "Lomo alto de vaca rubia seleccionada, sal en escamas de Añana, pimientos de Guernica confitados, patatas agrias pochadas a fuego lento.",
+        pairing: "Tinto Crianza 2021 D.O. Ribera del Duero",
+        prepTime: "25 min",
+        dietary: "Sin Gluten · 48 Días Dry-Aged",
+        image: "https://images.unsplash.com/photo-1544025162-d76694265947?auto=format&fit=crop&w=800&q=80",
         allergens: []
       },
       {
         id: "e1_2",
-        course: "Primer Pase",
-        number: "02",
         name: "Torreznos Crujientes con Patata Revolcona",
-        category: "Primeros Pases",
+        category: "Entrantes & Huerta",
         price: 11.50,
-        badge: "Tradición",
+        badge: "Tradición Renovada",
         description: "Panceta curada de Soria frita a fuego lento con souflado final crujiente, sobre cama de patata machacada con pimentón de La Vera y virutas de jamón.",
         details: "Elaboración artesanal al momento",
-        pairing: "Vino Blanco Malvar de Madrid",
+        ingredients: "Panceta curada de Soria con corteza crujiente, patatas de huerta, pimentón dulce ahumado de La Vera, aceite de oliva virgen extra y jamón ibérico.",
+        pairing: "Vino Blanco Malvar de Madrid D.O.",
+        prepTime: "10 min",
+        dietary: "Sin Gluten · Tradicional",
+        image: "https://images.unsplash.com/photo-1541544741938-0af808871cc0?auto=format&fit=crop&w=800&q=80",
         allergens: []
       },
       {
         id: "e1_3",
-        course: "Plato Fuerte",
-        number: "03",
         name: "Entrecot de Ternera de Guadarrama (400g)",
-        category: "Cortes a la Brasa",
+        category: "Carnes & Brasa de Encina",
         price: 22.00,
         badge: "Corte Noble",
-        description: "Corte limpio de lomo bajo con grasa infiltrada natural. Marcado a fuego vivo y acompañado de salteado de setas de cardo silvestres.",
+        description: "Corte limpio de lomo bajo con grasa infiltrada natural. Marcado a fuego vivo de encina y acompañado de salteado de setas de cardo silvestres.",
         details: "D.O. Sierra de Guadarrama",
-        pairing: "Garnacha de Gredos",
+        ingredients: "Lomo bajo de ternera con D.O. Guadarrama, sal marina de manantial, setas de cardo silvestres, ajo confitado y tomillo silvestre.",
+        pairing: "Garnacha de Gredos 2020",
+        prepTime: "15 min",
+        dietary: "Sin Gluten · Producto Local",
+        image: "https://images.unsplash.com/photo-1558030006-450675393462?auto=format&fit=crop&w=800&q=80",
         allergens: []
       },
       {
         id: "e1_4",
-        course: "Primer Pase",
-        number: "04",
         name: "Croquetas Cremosas de Cecina y Vaca (6 uds)",
-        category: "Primeros Pases",
+        category: "Entrantes & Huerta",
         price: 10.50,
         badge: "Recomendación",
         description: "Bechamel reposada 24 horas con leche fresca entera de granja, cecina de vaca curada al humo de roble y rebozado panko ultrafino.",
         details: "Textura fluida elaborada a diario",
+        ingredients: "Leche entera fresca de Madrid, cecina de buey ahumada, mantequilla artesanal, harina de trigo tradicional, rebozado crujiente de panko.",
         pairing: "Cava Brut Nature Reserva",
-        allergens: ["lactosa", "gluten"]
+        prepTime: "8 min",
+        dietary: "Textura Fluida · Hechas al Día",
+        image: "https://images.unsplash.com/photo-1563379091339-03b21ab4a4f8?auto=format&fit=crop&w=800&q=80",
+        allergens: ["gluten", "lactosa"]
       },
       {
         id: "e1_5",
-        course: "Guiso Lento",
-        number: "05",
-        name: "Rabo de Toro Estofado al Vino Tinto de Madrid",
-        category: "Guisos Lentos",
+        name: "Rabo de Toro Estofado al Vino Tinto",
+        category: "Guisos Tradicionales",
         price: 19.00,
         badge: "Cocina de Memoria",
         description: "Cocción lenta a fuego mínimo durante 7 horas hasta deshacerse con cuchara, con reducción melosa de sus propios jugos y puré fino de boniato.",
         details: "Cocción tradicional 7 horas",
+        ingredients: "Rabo de toro nacional, vino tinto crianza D.O. Madrid, puerro pochado, zanahoria morada, fondo oscuro natural y puré de boniato asado.",
         pairing: "Tinto Roble Madrid D.O.",
+        prepTime: "Cocción lenta 7h",
+        dietary: "Sin Gluten · Meloso",
+        image: "https://images.unsplash.com/photo-1534939561126-855b8675edd7?auto=format&fit=crop&w=800&q=80",
         allergens: []
       },
       {
         id: "e1_6",
-        course: "Postre de Obrador",
-        number: "06",
-        name: "Tarta Fluida de Queso Azul de Madrid y Oveja",
+        name: "Tarta Fluida de Queso Azul y Oveja",
         category: "Postres de Obrador",
         price: 6.50,
         badge: "Artesanal",
         description: "Receta de la casa horneada a alta temperatura con corazón templado y cremoso, acompañada de reducción de frutos del bosque silvestres.",
         details: "Quesos artesanos locales",
+        ingredients: "Queso azul de la Sierra de Guadarrama, queso curado de oveja de Campo Real, nata pura fresca, huevos de corral y coulis de moras silvestres.",
         pairing: "Moscatel de Alejandría",
+        prepTime: "5 min",
+        dietary: "Quesos Artesanos de Madrid",
+        image: "https://images.unsplash.com/photo-1533134242443-d4fd215305ad?auto=format&fit=crop&w=800&q=80",
         allergens: ["lactosa", "huevo"]
       }
     ],
@@ -238,7 +250,9 @@ export const RESTAURANT_PRESETS = {
         badge: "Más Pedido",
         description: "180g de vaca madurada en doble patty con costra caramelizada, cheddar fundido de 12 meses, cebolla pochada y salsa secreta La Central.",
         prepTime: "8 min",
-        tags: ["100% Vaca Madurada", "Patatas Caseras"],
+        ingredients: "Doble carne de vaca dry-aged (180g), queso cheddar curado inglés 12 meses, pan brioche de masa madre, bacon ahumado crujiente y salsa casera.",
+        dietary: "100% Vaca Madurada · Patatas Caseras",
+        beerPairing: "American IPA lupulada de grifo",
         image: "https://images.unsplash.com/photo-1568901346375-23c9450c58cd?auto=format&fit=crop&w=600&q=80",
         allergens: ["gluten", "lactosa"]
       },
@@ -250,7 +264,9 @@ export const RESTAURANT_PRESETS = {
         badge: "Clásico Castizo",
         description: "Tacos de oreja prensada y dorada al cromo hasta quedar crujiente por fuera y tierna dentro, bañada en salsa brava tradicional sin tomate.",
         prepTime: "5 min",
-        tags: ["Receta Madrileña", "Picante Suave"],
+        ingredients: "Oreja de cerdo adobada, dorada en plancha de cromo, salsa brava de pimentón picante y reducción de caldo de cocido tradicional.",
+        dietary: "Receta Madrileña · Sin Gluten",
+        beerPairing: "Lager rubia checa sin filtrar",
         image: "https://images.unsplash.com/photo-1541544741938-0af808871cc0?auto=format&fit=crop&w=600&q=80",
         allergens: []
       },
@@ -262,7 +278,9 @@ export const RESTAURANT_PRESETS = {
         badge: "Recomendado",
         description: "Tortillas de maíz nixtamalizado, costilla confitada 12 horas con glaseado de chipotle suave, cebolla encurtida y brotes tiernos.",
         prepTime: "7 min",
-        tags: ["Cocción 12h", "Maíz 100%"],
+        ingredients: "Costilla de cerdo confitada 12h, tortillas artesanales de maíz nixtamalizado, cebolla morada encurtida con lima y cilantro fresco.",
+        dietary: "Sin Gluten · Cocción Lenta 12h",
+        beerPairing: "Amber Ale tostada de grifo",
         image: "https://images.unsplash.com/photo-1551504734-5ee1c4a1479b?auto=format&fit=crop&w=600&q=80",
         allergens: []
       },
@@ -274,7 +292,9 @@ export const RESTAURANT_PRESETS = {
         badge: "Favorito",
         description: "Patata agria cortada a mano, pochada lentamente y frita a alta temperatura. Salsa brava de caldo reducido y pimentón ahumado.",
         prepTime: "5 min",
-        tags: ["Sin Gluten", "Patata Agria"],
+        ingredients: "Patatas agrias españolas cortadas a mano, aceite de oliva virgen extra, pimentón picante de La Vera y alioli ligero de ajo asado.",
+        dietary: "Vegetariano · Sin Gluten",
+        beerPairing: "Pilsner artesana bien fría",
         image: "https://images.unsplash.com/photo-1582169296194-e4d644c48063?auto=format&fit=crop&w=600&q=80",
         allergens: []
       },
@@ -286,9 +306,11 @@ export const RESTAURANT_PRESETS = {
         badge: "Street Food",
         description: "Pan bao esponjoso al vapor con panceta crujiente, pepino encurtido casero, cacahuete tostado y salsa hoisin cítrica.",
         prepTime: "6 min",
-        tags: ["Pan Artesano", "Toque Cítrico"],
+        ingredients: "Pan bao al vapor al momento, panceta marinada con cinco especias, pepino encurtido casero, cacahuetes tostados y hierbabuena fresca.",
+        dietary: "Pan Artesano al Vapor",
+        beerPairing: "Session IPA cítrica",
         image: "https://images.unsplash.com/photo-1563245372-f21724e3856d?auto=format&fit=crop&w=600&q=80",
-        allergens: ["gluten"]
+        allergens: ["gluten", "cacahuetes"]
       },
       {
         id: "e2_6",
@@ -298,7 +320,9 @@ export const RESTAURANT_PRESETS = {
         badge: "Para Compartir",
         description: "Galleta recién horneada servida en sartén de hierro con interior fundido de chocolate negro 70% y bola de helado artesano.",
         prepTime: "4 min",
-        tags: ["Horneada al Momento"],
+        ingredients: "Masa de galleta horneada al momento en sartén de hierro fundido, pepitas de chocolate belga 70% y helado artesano de vainilla bourbon.",
+        dietary: "Horneada al Momento",
+        beerPairing: "Stout de avena o café de especialidad",
         image: "https://images.unsplash.com/photo-1587314168485-3236d6710814?auto=format&fit=crop&w=600&q=80",
         allergens: ["gluten", "lactosa", "huevo"]
       }
@@ -336,7 +360,7 @@ export const RESTAURANT_PRESETS = {
   },
 
   // =========================================================================
-  // ESTILO 3: BISTRÓ TRADICIONAL & ASADOR (CARTA CLÁSICA CON LÍDERES PUNTEADOS)
+  // ESTILO 3: BISTRÓ TRADICIONAL & CARTA CLÁSICA CON LÍDERES PUNTEADOS
   // =========================================================================
   estilo3: {
     id: "estilo3",
@@ -384,6 +408,10 @@ export const RESTAURANT_PRESETS = {
         price: 12.50,
         description: "Guiso reposado 24 horas con oreja ibérica, chorizo de Cantimpalos y morcilla asturiana de cebolla.",
         vintageBadge: "Plato del Día",
+        prepTime: "Guiso del día listo",
+        ingredients: "Judiones de La Granja, oreja y panceta ibérica, chorizo ahumado de Cantimpalos, morcilla de arroz, pimiento choricero y laurel.",
+        dietary: "Sin Gluten · Cocción Lenta Tradicional",
+        image: "https://images.unsplash.com/photo-1547592180-85f173990554?auto=format&fit=crop&w=800&q=80",
         allergens: []
       },
       {
@@ -394,6 +422,10 @@ export const RESTAURANT_PRESETS = {
         price: 38.00,
         description: "Corte selecto de vaca con 40 días de reposo, asado en parrilla de hierro con sarmientos y sal gorda marina.",
         vintageBadge: "Especialidad",
+        prepTime: "20 min",
+        ingredients: "Chuletón de vaca con 40 días de cámara, brasa de carbón de roble y sarmiento de vid, servido con pimientos asados y sal marina.",
+        dietary: "Sin Gluten · Fuego de Leña",
+        image: "https://images.unsplash.com/photo-1544025162-d76694265947?auto=format&fit=crop&w=800&q=80",
         allergens: []
       },
       {
@@ -404,6 +436,10 @@ export const RESTAURANT_PRESETS = {
         price: 13.50,
         description: "Huevos de corral camperos con puntilla crujiente y yema líquida sobre patata panadera pochada al momento.",
         vintageBadge: "Imprescindible",
+        prepTime: "10 min",
+        ingredients: "Huevos camperos fritos con puntilla dorada, patatas pochadas en aceite de oliva virgen extra y jamón de bellota 100% ibérico cortado a mano.",
+        dietary: "Jamón de Bellota · Clásico de Madrid",
+        image: "https://images.unsplash.com/photo-1525351484163-7529414344d8?auto=format&fit=crop&w=800&q=80",
         allergens: ["huevo"]
       },
       {
@@ -414,6 +450,10 @@ export const RESTAURANT_PRESETS = {
         price: 13.00,
         description: "Salsa trabada y gelatinosa con su punto exacto de picante, chorizo ahumado y morcilla en cazuela de barro.",
         vintageBadge: "Receta 1974",
+        prepTime: "Guiso reposado listo",
+        ingredients: "Callos, morro y pata de ternera, pimentón de la Vera picante, chorizo artesanal, morcilla y caldo de cocido reducido.",
+        dietary: "Receta Original Don Manuel (1974)",
+        image: "https://images.unsplash.com/photo-1534939561126-855b8675edd7?auto=format&fit=crop&w=800&q=80",
         allergens: []
       },
       {
@@ -424,6 +464,10 @@ export const RESTAURANT_PRESETS = {
         price: 21.50,
         description: "Lomo bajo tierno y jugoso con guarnición de pimientos asados en casa y patatas fritas artesanas.",
         vintageBadge: "Corte Suave",
+        prepTime: "12 min",
+        ingredients: "Lomo bajo tierno de ternera a la plancha de hierro, pimientos asados al horno de leña y patatas fritas cortadas a mano.",
+        dietary: "Sin Gluten · Carne Tierna",
+        image: "https://images.unsplash.com/photo-1558030006-450675393462?auto=format&fit=crop&w=800&q=80",
         allergens: []
       },
       {
@@ -434,6 +478,10 @@ export const RESTAURANT_PRESETS = {
         price: 5.50,
         description: "Cocido a fuego lento durante dos horas con leche fresca de vaca, canela en rama y costra tostada con pala de hierro.",
         vintageBadge: "Casero",
+        prepTime: "5 min",
+        ingredients: "Arroz redondo tradicional, leche fresca de granja, canela en rama, cáscara de limón, mantequilla y costra caramelizada al fuego.",
+        dietary: "Elaboración de la Casa",
+        image: "https://images.unsplash.com/photo-1551024709-8f23befc6f87?auto=format&fit=crop&w=800&q=80",
         allergens: ["lactosa"]
       }
     ],
@@ -531,6 +579,8 @@ export const RESTAURANT_PRESETS = {
         dietary: "Rico en Omega-3",
         description: "Rebanada de masa madre de centeno 72h, láminas de aguacate hass al punto, salmón ahumado artesano, semillas de chía y eneldo fresco.",
         nutrition: "380 kcal · 22g Proteína",
+        prepTime: "6 min",
+        ingredients: "Hogaza artesanal de centeno 72h, aguacate hass de Málaga, salmón ahumado salvaje en frío, semillas de chía y brotes orgánicos de eneldo.",
         image: "https://images.unsplash.com/photo-1525351484163-7529414344d8?auto=format&fit=crop&w=600&q=80",
         allergens: ["gluten", "pescado"]
       },
@@ -542,7 +592,9 @@ export const RESTAURANT_PRESETS = {
         badge: "SCA 87 Pts",
         dietary: "Café de Especialidad",
         description: "Doble espresso de proceso lavado con notas florales de jazmín y bergamota, texturizado con microespuma densa y sedosa de leche fresca.",
-        nutrition: "Leche ecológica o avena",
+        nutrition: "Leche ecológica o bebida de avena",
+        prepTime: "3 min",
+        ingredients: "Café de especialidad 100% Arábica de Etiopía (micro-lote Yirgacheffe tueste ligero), leche fresca ecológica pasteurizada.",
         image: "https://images.unsplash.com/photo-1577968897966-3d4325b36b61?auto=format&fit=crop&w=600&q=80",
         allergens: ["lactosa"]
       },
@@ -555,6 +607,8 @@ export const RESTAURANT_PRESETS = {
         dietary: "100% Vegano",
         description: "Pulpa pura de açaí orgánico batida con plátano congelado, fresas de temporada, arándanos, lascas de coco y granola de avena y miel.",
         nutrition: "Sin azúcar añadido · 100% fruta",
+        prepTime: "5 min",
+        ingredients: "Açaí puro silvestre del Amazonas, plátano de Canarias, fresas frescas, arándanos silvestres, lascas de coco natural y granola casera horneada con miel.",
         image: "https://images.unsplash.com/photo-1590301157890-4810ed352733?auto=format&fit=crop&w=600&q=80",
         allergens: []
       },
@@ -567,6 +621,8 @@ export const RESTAURANT_PRESETS = {
         dietary: "Obrador Propio",
         description: "Hojaldrado a mano con 27 capas y mantequilla AOP de Normandía. Crujiente por fuera, alveolado y esponjoso en su interior.",
         nutrition: "Horneadas a las 08:30 y 16:30",
+        prepTime: "Listo para servir",
+        ingredients: "Harina ecológica molida a la piedra, mantequilla AOP de Normandía al 84% de materia grasa, masa madre de trigo y pizca de sal de Guérande.",
         image: "https://images.unsplash.com/photo-1555507036-ab1f4038808a?auto=format&fit=crop&w=600&q=80",
         allergens: ["gluten", "lactosa"]
       },
@@ -579,6 +635,8 @@ export const RESTAURANT_PRESETS = {
         dietary: "Producto Ibérico",
         description: "Pan de trigo candeal tostado en plancha de hierro, tomate rama recién rallado con sal marina y aceite de oliva virgen extra de Jaén.",
         nutrition: "Aceite virgen extra prensado en frío",
+        prepTime: "5 min",
+        ingredients: "Pan de trigo candeal de fermentación lenta, tomate pera rallado al momento, aceite de oliva virgen extra Picual de Jaén y jamón ibérico de bellota.",
         image: "https://images.unsplash.com/photo-1509722747041-616f39b57569?auto=format&fit=crop&w=600&q=80",
         allergens: ["gluten"]
       },
@@ -591,6 +649,8 @@ export const RESTAURANT_PRESETS = {
         dietary: "Orgánico",
         description: "Té verde matcha molido a la piedra importado de Japón, batido tradicionalmente con chasen de bambú y leche de avena vaporizada.",
         nutrition: "Rico en L-teanina y antioxidantes",
+        prepTime: "4 min",
+        ingredients: "Té verde matcha de grado ceremonial procedente de Uji (Kioto, Japón), batido con agua pura y texturizado con bebida ecológica de avena.",
         image: "https://images.unsplash.com/photo-1536256263959-770b48d82b0a?auto=format&fit=crop&w=600&q=80",
         allergens: []
       }
@@ -599,30 +659,30 @@ export const RESTAURANT_PRESETS = {
     googleReviews: [
       {
         id: "r4_1",
-        author: "Sofía Alarcón",
-        badge: "Local Guide · 34 reseñas",
+        author: "Sara Benítez",
+        badge: "Cliente de café a diario",
         rating: 5,
         timeAgo: "Hace 4 días",
-        comment: "El mejor café de especialidad del suroeste de Madrid. El Flat White está tirado con técnica impecable y la tosta nórdica con salmón es una maravilla. Sitio tranquilo y muy luminoso.",
-        tag: "Café de Especialidad y Desayunos"
+        comment: "El mejor café de especialidad de la zona. Se nota el cariño en cada taza y los croissants de mantequilla vuelan a media mañana. El espacio transmite una calma increíble para trabajar un rato o leer.",
+        highlight: "Café impecable y obrador honesto"
       },
       {
         id: "r4_2",
-        author: "Guillermo Sanz",
-        badge: "Cliente habitual",
+        author: "Marcos Herranz",
+        badge: "Comensal habitual",
         rating: 5,
-        timeAgo: "Hace 1 semana",
-        comment: "Se agradece encontrar un obrador que use harina ecológica y masa madre de verdad. El pan aguanta tierno tres días en casa. El trato de los chicos es de diez.",
-        tag: "Panadería y Bollería Artesanal"
+        timeAgo: "Hace 2 semanas",
+        comment: "La tosta de masa madre con salmón y el matcha latte son mi desayuno de los sábados. Da gusto ver sitios así en Aluche que cuidan tanto la materia prima.",
+        highlight: "Desayunos saludables de nivel"
       },
       {
         id: "r4_3",
-        author: "Elena Castells",
-        badge: "Visita fin de semana",
+        author: "Elena Castillo",
+        badge: "Local Guide",
         rating: 5,
-        timeAgo: "Hace 2 semanas",
-        comment: "El açaí bowl está buenísimo, no es el típico preparado con hielo picado sino fruta cremosa de calidad. Además el local tiene un diseño precioso y muy limpio.",
-        tag: "Brunch Saludable"
+        timeAgo: "Hace 1 mes",
+        comment: "El pan de centeno se conserva fresco durante tres días sin ponerse duro. Un acierto total y una atención súper educada.",
+        highlight: "Panadería artesanal imprescindible"
       }
     ]
   }

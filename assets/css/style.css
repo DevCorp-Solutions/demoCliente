@@ -52,13 +52,15 @@ body.theme-estilo-1,
 .editorial-card {
   background: #121216;
   border: 1px solid #24242e;
-  border-radius: 1rem;
-  transition: all 0.3s ease;
+  border-radius: 1.25rem;
+  transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+  overflow: hidden;
 }
 
 .editorial-card:hover {
   border-color: rgba(212, 175, 55, 0.5);
-  box-shadow: 0 12px 30px -10px rgba(0, 0, 0, 0.6);
+  box-shadow: 0 16px 36px -12px rgba(0, 0, 0, 0.7);
+  transform: translateY(-2px);
 }
 
 
@@ -186,13 +188,48 @@ body.theme-estilo-4,
   background: linear-gradient(135deg, #1e40af 0%, #1d4ed8 100%);
 }
 
-.allergen-chip {
-  font-size: 0.68rem;
-  font-weight: 600;
-  padding: 2px 7px;
-  border-radius: 9999px;
-  text-transform: uppercase;
-  letter-spacing: 0.04em;
+/* Animaciones suaves para drawer y modales */
+@keyframes drawerSlideIn {
+  from { transform: translateX(100%); }
+  to { transform: translateX(0); }
+}
+
+.drawer-animate {
+  animation: drawerSlideIn 0.25s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+
+@keyframes modalFadeIn {
+  from { opacity: 0; transform: scale(0.96) translateY(8px); }
+  to { opacity: 1; transform: scale(1) translateY(0); }
+}
+
+.modal-animate {
+  animation: modalFadeIn 0.2s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+
+/* Badges de alérgenos adaptados a cada estilo */
+.badge-allergen-estilo1 {
+  background: rgba(217, 119, 6, 0.15);
+  border: 1px solid rgba(217, 119, 6, 0.35);
+  color: #fcd34d;
+}
+
+.badge-allergen-estilo2 {
+  background: rgba(56, 189, 248, 0.15);
+  border: 1px solid rgba(56, 189, 248, 0.35);
+  color: #38bdf8;
+}
+
+.badge-allergen-estilo3 {
+  background: #ede6da;
+  border: 1px solid #8c7b6c;
+  color: #3d3228;
+}
+
+.badge-allergen-estilo4 {
+  background: #f4f4f5;
+  border: 1px solid #e4e4e7;
+  color: #27272a;
 }
 
 /* Scrollbars sutiles */
