@@ -213,6 +213,7 @@ export class GastroApp {
     this.appContainer = document.getElementById('app');
     this.modalQty = 1;
     this.currentModalDish = null;
+    this.menuMode = 'cards';
     this.init();
   }
 
@@ -259,17 +260,78 @@ export class GastroApp {
     });
 
     document.addEventListener('click', (e) => {
-      // 0. Lightbox de imagen a pantalla completa (Abrir / Cerrar)
+      // 0. CERRAR MODAL DETALLE DEL PLATO (Prioridad máxima: botón X o clic directo en fondo exterior)
+      if (e.target.closest('#close-dish-modal') || e.target.id === 'dish-modal-backdrop') {
+        e.preventDefault();
+        e.stopPropagation();
+        const modalContainer = document.getElementById('dish-modal-container');
+        if (modalContainer) modalContainer.innerHTML = '';
+        this.currentModalDish = null;
+        this.modalQty = 1;
+        return;
+      }
+
+      // 0.1 Cantidad dentro del Modal de Detalle (evita cerrar el modal y no propaga)
+      const modalMinus = e.target.closest('[data-modal-qty-minus]');
+      if (modalMinus) {
+        e.preventDefault();
+        e.stopPropagation();
+        if (this.modalQty > 1) {
+          this.modalQty -= 1;
+          const qtyElem = document.getElementById('modal-dish-qty-val');
+          if (qtyElem) qtyElem.innerText = this.modalQty;
+        }
+        return;
+      }
+      const modalPlus = e.target.closest('[data-modal-qty-plus]');
+      if (modalPlus) {
+        e.preventDefault();
+        e.stopPropagation();
+        this.modalQty += 1;
+        const qtyElem = document.getElementById('modal-dish-qty-val');
+        if (qtyElem) qtyElem.innerText = this.modalQty;
+        return;
+      }
+
+      // 0.2 Añadir al carrito desde el Modal de Detalle
+      const modalAddBtn = e.target.closest('[data-modal-add-cart]');
+      if (modalAddBtn && this.currentModalDish) {
+        e.preventDefault();
+        e.stopPropagation();
+        const dish = this.currentModalDish;
+        store.addToCart(dish, "", this.modalQty);
+        this.showToast(`✓ ${dish.name} (x${this.modalQty}) añadido a la comanda`);
+        const modalContainer = document.getElementById('dish-modal-container');
+        if (modalContainer) modalContainer.innerHTML = '';
+        this.currentModalDish = null;
+        this.modalQty = 1;
+        return;
+      }
+
+      // 0.3 Modo de vista de Carta (Tarjetas con foto vs Lista Rápida Completa)
+      const modeBtn = e.target.closest('[data-menu-mode]');
+      if (modeBtn) {
+        e.preventDefault();
+        this.menuMode = modeBtn.getAttribute('data-menu-mode');
+        this.render();
+        return;
+      }
+
+      // 0.4 Lightbox de imagen a pantalla completa (Abrir / Cerrar)
       const lbBtn = e.target.closest('[data-open-lightbox]');
       if (lbBtn) {
         e.preventDefault();
         e.stopPropagation();
         const imgUrl = lbBtn.getAttribute('data-open-lightbox');
         const imgTitle = lbBtn.getAttribute('data-lightbox-title') || 'Plato';
-        this.renderLightbox(imgUrl, imgTitle);
+        if (imgUrl) {
+          this.renderLightbox(imgUrl, imgTitle);
+        }
         return;
       }
-      if (e.target.closest('#close-lightbox-btn') || e.target.closest('#lightbox-backdrop')) {
+      if (e.target.closest('#close-lightbox-btn') || e.target.id === 'lightbox-backdrop') {
+        e.preventDefault();
+        e.stopPropagation();
         const lbContainer = document.getElementById('lightbox-container');
         if (lbContainer) lbContainer.innerHTML = '';
         return;
@@ -309,46 +371,6 @@ export class GastroApp {
         if (dish) {
           this.renderDishDetailModal(dish, preset);
         }
-        return;
-      }
-
-      // 4.1 Cerrar Modal Detalle del Plato
-      if (e.target.closest('#close-dish-modal') || e.target.closest('#dish-modal-backdrop')) {
-        const modalContainer = document.getElementById('dish-modal-container');
-        if (modalContainer) modalContainer.innerHTML = '';
-        this.currentModalDish = null;
-        this.modalQty = 1;
-        return;
-      }
-
-      // 4.2 Cantidad dentro del Modal de Detalle
-      const modalMinus = e.target.closest('[data-modal-qty-minus]');
-      if (modalMinus) {
-        if (this.modalQty > 1) {
-          this.modalQty -= 1;
-          const qtyElem = document.getElementById('modal-dish-qty-val');
-          if (qtyElem) qtyElem.innerText = this.modalQty;
-        }
-        return;
-      }
-      const modalPlus = e.target.closest('[data-modal-qty-plus]');
-      if (modalPlus) {
-        this.modalQty += 1;
-        const qtyElem = document.getElementById('modal-dish-qty-val');
-        if (qtyElem) qtyElem.innerText = this.modalQty;
-        return;
-      }
-
-      // 4.3 Añadir al carrito desde el Modal de Detalle
-      const modalAddBtn = e.target.closest('[data-modal-add-cart]');
-      if (modalAddBtn && this.currentModalDish) {
-        const dish = this.currentModalDish;
-        store.addToCart(dish, "", this.modalQty);
-        this.showToast(`✓ ${dish.name} (x${this.modalQty}) añadido a la comanda`);
-        const modalContainer = document.getElementById('dish-modal-container');
-        if (modalContainer) modalContainer.innerHTML = '';
-        this.currentModalDish = null;
-        this.modalQty = 1;
         return;
       }
 
@@ -412,7 +434,7 @@ export class GastroApp {
         this.renderCheckoutModal();
         return;
       }
-      if (e.target.closest('#close-checkout-modal') || e.target.closest('#checkout-modal-backdrop')) {
+      if (e.target.closest('#close-checkout-modal') || e.target.id === 'checkout-modal-backdrop') {
         const container = document.getElementById('checkout-modal-container');
         if (container) container.innerHTML = '';
         return;
@@ -898,8 +920,8 @@ export class GastroApp {
         </div>
       </section>
 
-      <!-- BARRA DE CATEGORÍAS EN MONTSERRAT -->
-      <div class="border-b-2 border-stone-200 pb-3 mb-6 flex flex-wrap items-center justify-between gap-4">
+      <!-- BARRA DE CATEGORÍAS EN MONTSERRAT (STICKY & RESPONSIVE) -->
+      <div class="sticky top-20 sm:top-24 z-30 bg-[#FAF9F7]/95 backdrop-blur-md border-y-2 border-stone-200 py-3 mb-6 px-2 flex flex-wrap items-center justify-between gap-4 shadow-sm rounded-xl">
         <div class="flex items-center space-x-3 sm:space-x-5 overflow-x-auto no-scrollbar text-xs vukata-font-title font-bold">
           <button data-category="all" class="pb-1.5 transition-colors whitespace-nowrap ${activeCategory === 'all' ? 'text-[#8B1E1E] border-b-2 border-[#8B1E1E]' : 'text-stone-500 hover:text-stone-800'}">
             Toda la Carta (${preset.menu.length})
@@ -911,14 +933,26 @@ export class GastroApp {
           `).join('')}
         </div>
 
-        <!-- Indicador de Alérgeno Activo -->
-        ${activeAllergen ? `
-          <div class="flex items-center space-x-2 bg-red-50 border border-[#8B1E1E]/30 px-3 py-1 rounded-full text-xs">
-            <span class="text-[11px] text-stone-600 font-sans">Filtrando sin:</span>
-            ${renderAllergenBadge(activeAllergen, 'xs', true)}
-            <button data-allergen="${activeAllergen}" class="ml-1 font-bold text-red-600 hover:text-red-800 text-xs" title="Quitar filtro">✕</button>
+        <div class="flex items-center space-x-2">
+          <!-- Indicador de Alérgeno Activo si existe -->
+          ${activeAllergen ? `
+            <div class="flex items-center space-x-2 bg-red-50 border border-[#8B1E1E]/30 px-3 py-1 rounded-full text-xs">
+              <span class="text-[11px] text-stone-600 font-sans">Sin:</span>
+              ${renderAllergenBadge(activeAllergen, 'xs', true)}
+              <button data-allergen="${activeAllergen}" class="ml-1 font-bold text-red-600 hover:text-red-800 text-xs" title="Quitar filtro">✕</button>
+            </div>
+          ` : ''}
+
+          <!-- Selector de Modo de Vista: Tarjetas con Foto / Lista Rápida Completa -->
+          <div class="inline-flex rounded-xl bg-stone-100 p-0.5 border border-stone-300 text-xs font-semibold shadow-inner">
+            <button data-menu-mode="cards" class="px-2.5 sm:px-3 py-1.5 rounded-lg transition-all ${this.menuMode !== 'compact' ? 'bg-[#8B1E1E] text-white shadow font-bold' : 'text-stone-600 hover:text-stone-900'}" title="Vista con fotos grandes">
+              🖼️ Tarjetas
+            </button>
+            <button data-menu-mode="compact" class="px-2.5 sm:px-3 py-1.5 rounded-lg transition-all ${this.menuMode === 'compact' ? 'bg-[#8B1E1E] text-white shadow font-bold' : 'text-stone-600 hover:text-stone-900'}" title="Vista compacta de lista rápida (todos los precios visibles de un vistazo con scroll)">
+              📋 Lista Rápida
+            </button>
           </div>
-        ` : ''}
+        </div>
       </div>
 
       <!-- SELECTOR RÁPIDO DE ALÉRGENOS INTERACTIVO (14 ALÉRGENOS) -->
@@ -947,100 +981,171 @@ export class GastroApp {
         </div>
       </div>
 
-      <!-- LISTADO DE PLATOS CON CABECERAS ROJAS Y SELLOS DE ALÉRGENOS -->
-      <div class="space-y-10 mb-16">
-        ${categoriesToRender.map(catName => {
-          const categoryDishes = filteredMenu.filter(d => d.category === catName);
-          if (categoryDishes.length === 0) return '';
-
-          return `
-            <div class="category-block">
-              <!-- Encabezado de Categoría con Línea Divisoria Carmesí idéntica al menú físico -->
-              <div class="vukata-section-bar mb-6">
-                <h3 class="vukata-font-title text-xl sm:text-2xl">${catName}</h3>
-                <div class="vukata-section-line"></div>
+      ${this.menuMode === 'compact' ? `
+        <!-- VISTA COMPACTA DE LISTA RÁPIDA: TODOS LOS PLATOS Y PRECIOS VISIBLES AL INSTANTE -->
+        <div class="bg-white border-2 border-stone-200 rounded-2xl shadow-sm p-4 sm:p-6 mb-16">
+          <div class="flex flex-col sm:flex-row sm:items-center justify-between pb-4 border-b border-stone-200 mb-6 gap-2">
+            <div>
+              <div class="flex items-center space-x-2">
+                <span class="w-2.5 h-2.5 rounded-full bg-[#8B1E1E]"></span>
+                <h3 class="vukata-font-title text-xl font-black text-stone-950">Carta Completa Vukata · Vista de Sala</h3>
               </div>
+              <p class="text-xs text-stone-600 font-sans mt-0.5">Todos los platos y precios con acceso directo sin recortes</p>
+            </div>
+            <div class="flex items-center space-x-2">
+              <span class="text-xs font-bold text-[#8B1E1E] bg-red-50 border border-red-200 px-2.5 py-1 rounded-lg font-mono">${filteredMenu.length} Platos</span>
+              <span class="text-xs text-stone-500 font-sans">· Scroll ágil</span>
+            </div>
+          </div>
 
-              <!-- Listado de Platos de la Categoría -->
-              <div class="space-y-4 sm:space-y-5">
-                ${categoryDishes.map(dish => {
-                  const sales = store.getDishSalesCount(dish.id);
-                  return `
-                    <div class="vukata-card p-4 sm:p-5 flex flex-col md:flex-row items-stretch md:items-center justify-between gap-5 group">
-                      
-                      <!-- Fotografía Gastronómica (Sin fotos de hojas escaneadas) -->
-                      ${dish.image ? `
-                        <div class="w-full md:w-52 h-44 sm:h-48 md:h-36 rounded-xl overflow-hidden bg-stone-100 flex-shrink-0 relative cursor-pointer group" data-open-dish-modal="${dish.id}">
-                          <img src="${dish.image}" alt="${dish.name}" class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105" loading="lazy"/>
-                          <button data-open-lightbox="${dish.image}" data-lightbox-title="${dish.name}" class="absolute top-2 right-2 bg-black/70 hover:bg-black text-white p-1.5 rounded-lg text-xs backdrop-blur-sm transition-opacity" title="Ampliar imagen">
-                            ${ICONS.zoom}
-                          </button>
-                          <div class="absolute bottom-2 left-2 bg-stone-900/80 backdrop-blur-sm px-2 py-0.5 rounded text-[10px] text-white font-sans flex items-center space-x-1">
-                            ${ICONS.eye}
-                            <span>Detalle</span>
+          <div class="space-y-8 max-h-[720px] overflow-y-auto pr-2">
+            ${categoriesToRender.map(catName => {
+              const categoryDishes = filteredMenu.filter(d => d.category === catName);
+              if (categoryDishes.length === 0) return '';
+              return `
+                <div class="category-compact-block">
+                  <div class="flex items-center justify-between pb-2 mb-3 border-b-2 border-[#8B1E1E]/30 bg-stone-50/70 px-3 py-1.5 rounded-lg">
+                    <h4 class="vukata-font-title text-sm sm:text-base font-black text-[#8B1E1E] uppercase tracking-wider">${catName}</h4>
+                    <span class="text-xs text-stone-500 font-sans font-semibold">${categoryDishes.length} opciones</span>
+                  </div>
+
+                  <div class="divide-y divide-stone-100">
+                    ${categoryDishes.map(dish => {
+                      return `
+                        <div class="py-2.5 px-2 hover:bg-stone-50 rounded-xl transition-colors flex flex-wrap sm:flex-nowrap items-center justify-between gap-3 group">
+                          <div class="flex items-center space-x-3 min-w-0 flex-1">
+                            ${dish.image ? `
+                              <div class="w-12 h-12 sm:w-14 sm:h-14 rounded-xl overflow-hidden flex-shrink-0 bg-stone-100 cursor-pointer shadow-sm relative group/thumb" data-open-dish-modal="${dish.id}">
+                                <img src="${dish.image}" alt="${dish.name}" class="w-full h-full object-cover transition-transform group-hover/thumb:scale-110" loading="lazy"/>
+                              </div>
+                            ` : `
+                              <div class="w-12 h-12 rounded-xl bg-stone-100 flex items-center justify-center text-xl flex-shrink-0">🍽️</div>
+                            `}
+
+                            <div class="min-w-0 flex-1 cursor-pointer" data-open-dish-modal="${dish.id}">
+                              <div class="flex items-center space-x-2 flex-wrap">
+                                <span class="vukata-font-dish font-bold text-sm sm:text-base text-stone-900 group-hover:text-[#8B1E1E] transition-colors">${dish.name}</span>
+                                ${dish.badge ? `<span class="text-[9px] font-sans font-bold px-1.5 py-0.2 rounded bg-stone-100 border border-stone-300 text-[#8B1E1E] whitespace-nowrap">${dish.badge}</span>` : ''}
+                                ${renderAllergenBadges(dish.allergens, 'xs')}
+                              </div>
+                              <p class="text-xs text-stone-500 truncate max-w-lg font-sans mt-0.5">${dish.description}</p>
+                            </div>
+                          </div>
+
+                          <div class="flex items-center space-x-3 flex-shrink-0 self-end sm:self-center">
+                            <span class="vukata-font-price text-base sm:text-lg font-black text-stone-900 whitespace-nowrap">${formatCurrency(dish.price)}</span>
+                            <button data-open-dish-modal="${dish.id}" class="bg-stone-100 hover:bg-stone-200 text-stone-700 text-xs px-2.5 py-1.5 rounded-lg border border-stone-300 font-medium cursor-pointer" title="Ver detalle">
+                              Info
+                            </button>
+                            <button data-add-cart="${dish.id}" class="btn-vukata-primary text-xs px-3.5 py-1.5 rounded-lg shadow whitespace-nowrap cursor-pointer">
+                              Pedir
+                            </button>
                           </div>
                         </div>
-                      ` : ''}
+                      `;
+                    }).join('')}
+                  </div>
+                </div>
+              `;
+            }).join('')}
+          </div>
+        </div>
+      ` : `
+        <!-- LISTADO DE PLATOS CON CABECERAS ROJAS Y SELLOS DE ALÉRGENOS (VISTA TARJETAS CON FOTO) -->
+        <div class="space-y-10 mb-16 pb-4">
+          ${categoriesToRender.map(catName => {
+            const categoryDishes = filteredMenu.filter(d => d.category === catName);
+            if (categoryDishes.length === 0) return '';
 
-                      <!-- Información y Alérgenos del Plato -->
-                      <div class="flex-1 cursor-pointer" data-open-dish-modal="${dish.id}">
+            return `
+              <div class="category-block">
+                <!-- Encabezado de Categoría con Línea Divisoria Carmesí idéntica al menú físico -->
+                <div class="vukata-section-bar mb-6">
+                  <h3 class="vukata-font-title text-xl sm:text-2xl">${catName}</h3>
+                  <div class="vukata-section-line"></div>
+                </div>
+
+                <!-- Listado de Platos de la Categoría -->
+                <div class="space-y-4 sm:space-y-5">
+                  ${categoryDishes.map(dish => {
+                    const sales = store.getDishSalesCount(dish.id);
+                    return `
+                      <div class="vukata-card p-4 sm:p-5 flex flex-col md:flex-row items-stretch md:items-center justify-between gap-5 group">
                         
-                        <!-- Título en Barlow Condensed + Sellos Circulares de Alérgenos -->
-                        <div class="flex flex-wrap items-center gap-2">
-                          <h4 class="vukata-font-dish text-lg sm:text-xl font-black text-stone-900 group-hover:text-[#8B1E1E] transition-colors">
-                            ${dish.name}
-                          </h4>
+                        <!-- Fotografía Gastronómica (Sin fotos de hojas escaneadas) -->
+                        ${dish.image ? `
+                          <div class="w-full md:w-52 h-44 sm:h-48 md:h-36 rounded-xl overflow-hidden bg-stone-100 flex-shrink-0 relative cursor-pointer group" data-open-dish-modal="${dish.id}">
+                            <img src="${dish.image}" alt="${dish.name}" class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105" loading="lazy"/>
+                            <button data-open-lightbox="${dish.image}" data-lightbox-title="${dish.name}" class="absolute top-2 right-2 bg-black/70 hover:bg-black text-white p-1.5 rounded-lg text-xs backdrop-blur-sm transition-opacity cursor-pointer" title="Ampliar imagen">
+                              ${ICONS.zoom}
+                            </button>
+                            <div class="absolute bottom-2 left-2 bg-stone-900/80 backdrop-blur-sm px-2 py-0.5 rounded text-[10px] text-white font-sans flex items-center space-x-1">
+                              ${ICONS.eye}
+                              <span>Detalle</span>
+                            </div>
+                          </div>
+                        ` : ''}
 
-                          <!-- Sellos Circulares Oficiales de Alérgenos -->
-                          ${renderAllergenBadges(dish.allergens, 'sm')}
+                        <!-- Información y Alérgenos del Plato (min-w-0 para evitar desbordes en flexbox) -->
+                        <div class="flex-1 min-w-0 cursor-pointer" data-open-dish-modal="${dish.id}">
+                          
+                          <!-- Título en Barlow Condensed + Sellos Circulares de Alérgenos -->
+                          <div class="flex flex-wrap items-center gap-2">
+                            <h4 class="vukata-font-dish text-lg sm:text-xl font-black text-stone-900 group-hover:text-[#8B1E1E] transition-colors break-words">
+                              ${dish.name}
+                            </h4>
 
-                          ${dish.badge ? `
-                            <span class="text-[10px] font-sans font-bold px-2 py-0.5 rounded-md bg-stone-100 border border-stone-300 text-[#8B1E1E]">
-                              ${dish.badge}
-                            </span>
-                          ` : ''}
+                            <!-- Sellos Circulares Oficiales de Alérgenos -->
+                            ${renderAllergenBadges(dish.allergens, 'sm')}
+
+                            ${dish.badge ? `
+                              <span class="text-[10px] font-sans font-bold px-2 py-0.5 rounded-md bg-stone-100 border border-stone-300 text-[#8B1E1E] whitespace-nowrap">
+                                ${dish.badge}
+                              </span>
+                            ` : ''}
+                          </div>
+
+                          <!-- Descripción en Cursiva -->
+                          <p class="vukata-font-desc text-xs sm:text-sm text-stone-600 mt-1 leading-relaxed max-w-2xl">
+                            ${dish.description}
+                          </p>
+                          
+                          <!-- Detalles y tiempo de preparación -->
+                          <div class="flex flex-wrap items-center gap-3 mt-2 text-[11px] text-stone-500 font-sans">
+                            ${dish.details ? `<span class="text-stone-700 font-medium">${dish.details}</span>` : ''}
+                            ${dish.prepTime ? `<span>⏱️ ${dish.prepTime}</span>` : ''}
+                            <span>· ${sales} comandas</span>
+                          </div>
                         </div>
 
-                        <!-- Descripción en Cursiva -->
-                        <p class="vukata-font-desc text-xs sm:text-sm text-stone-600 mt-1 leading-relaxed max-w-2xl">
-                          ${dish.description}
-                        </p>
-                        
-                        <!-- Detalles y tiempo de preparación -->
-                        <div class="flex flex-wrap items-center gap-3 mt-2 text-[11px] text-stone-500 font-sans">
-                          ${dish.details ? `<span class="text-stone-700 font-medium">${dish.details}</span>` : ''}
-                          ${dish.prepTime ? `<span>⏱️ ${dish.prepTime}</span>` : ''}
-                          <span>· ${sales} comandas</span>
+                        <!-- Precio y Botones de Acción (NUNCA recortado) -->
+                        <div class="flex items-center justify-between md:justify-end gap-3 w-full md:w-auto pt-3 md:pt-0 border-t md:border-t-0 border-stone-200 flex-shrink-0">
+                          <span class="vukata-font-price text-xl sm:text-2xl font-black text-[#8B1E1E] md:text-stone-900 whitespace-nowrap">
+                            ${formatCurrency(dish.price)}
+                          </span>
+
+                          <div class="flex items-center space-x-2 flex-shrink-0">
+                            <button data-open-dish-modal="${dish.id}" class="bg-stone-100 hover:bg-stone-200 text-stone-700 text-xs px-2.5 py-1.5 rounded-lg transition-colors border border-stone-300 font-medium cursor-pointer" title="Ver ingredientes y alérgenos">
+                              Info
+                            </button>
+                            <button data-quick-simulate-dish="${dish.id}" class="bg-stone-100 hover:bg-stone-200 text-stone-400 text-[11px] px-2 py-1.5 rounded-lg transition-colors cursor-pointer" title="Simular venta">
+                              +1
+                            </button>
+                            <button data-add-cart="${dish.id}" class="btn-vukata-primary text-xs px-4 py-1.5 rounded-lg transition-colors shadow whitespace-nowrap cursor-pointer">
+                              Pedir
+                            </button>
+                          </div>
                         </div>
+
                       </div>
-
-                      <!-- Precio y Botones de Acción -->
-                      <div class="flex items-center justify-between md:justify-end space-x-3 w-full md:w-auto pt-3 md:pt-0 border-t md:border-t-0 border-stone-200 flex-shrink-0">
-                        <span class="vukata-font-price text-xl sm:text-2xl font-black text-stone-900">
-                          ${formatCurrency(dish.price)}
-                        </span>
-
-                        <div class="flex items-center space-x-2">
-                          <button data-open-dish-modal="${dish.id}" class="bg-stone-100 hover:bg-stone-200 text-stone-700 text-xs px-2.5 py-1.5 rounded-lg transition-colors border border-stone-300 font-medium" title="Ver ingredientes y alérgenos">
-                            Info
-                          </button>
-                          <button data-quick-simulate-dish="${dish.id}" class="bg-stone-100 hover:bg-stone-200 text-stone-400 text-[11px] px-2 py-1.5 rounded-lg transition-colors" title="Simular venta">
-                            +1
-                          </button>
-                          <button data-add-cart="${dish.id}" class="btn-vukata-primary text-xs px-4 py-1.5 rounded-lg transition-colors shadow">
-                            Pedir
-                          </button>
-                        </div>
-                      </div>
-
-                    </div>
-                  `;
-                }).join('')}
+                    `;
+                  }).join('')}
+                </div>
               </div>
-            </div>
-          `;
-        }).join('')}
-      </div>
+            `;
+          }).join('')}
+        </div>
+      `}
 
       <!-- LEYENDA OFICIAL DE ALÉRGENOS DE VUKATA (IDÉNTICA A LA PORTADA) -->
       ${renderVukataAllergenLegend()}
@@ -1501,30 +1606,30 @@ export class GastroApp {
 
     container.innerHTML = `
       <div id="dish-modal-backdrop" class="fixed inset-0 bg-black/80 backdrop-blur-sm z-50 flex items-center justify-center p-3 sm:p-4">
-        <div class="modal-animate max-w-2xl w-full max-h-[92vh] flex flex-col overflow-hidden rounded-2xl ${cardThemeClasses}">
+        <div class="modal-animate relative max-w-2xl w-full max-h-[92vh] flex flex-col overflow-hidden rounded-2xl ${cardThemeClasses}" onclick="event.stopPropagation()">
           
+          <!-- Botón de Cerrar Modal (FUERA de la imagen y con máxima prioridad z-index) -->
+          <button type="button" id="close-dish-modal" class="absolute top-3 right-3 w-10 h-10 rounded-full bg-black/80 hover:bg-black text-white flex items-center justify-center transition-all hover:scale-105 font-bold z-30 shadow-2xl border border-white/30 cursor-pointer" title="Cerrar modal (Esc)">
+            ✕
+          </button>
+
           <!-- Fotografía Nítida (Sin velos oscuros) con botón de ampliación -->
-          <div class="relative w-full h-64 sm:h-80 bg-stone-900 flex-shrink-0 overflow-hidden cursor-zoom-in group" data-open-lightbox="${dish.image}" data-lightbox-title="${dish.name}" title="Clic para ampliar imagen completa">
+          <div class="relative w-full h-56 sm:h-72 bg-stone-900 flex-shrink-0 overflow-hidden cursor-zoom-in group" data-open-lightbox="${dish.image || ''}" data-lightbox-title="${dish.name}" title="Clic para ampliar imagen completa">
             ${dish.image ? `
-              <img src="${dish.image}" alt="${dish.name}" class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"/>
+              <img src="${dish.image}" alt="${dish.name}" class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105 pointer-events-none"/>
             ` : `
               <div class="w-full h-full flex items-center justify-center text-5xl">🍽️</div>
             `}
             
-            <!-- Botón de Cerrar Modal -->
-            <button id="close-dish-modal" class="absolute top-3 right-3 w-9 h-9 rounded-full bg-black/70 text-white flex items-center justify-center hover:bg-black transition-colors font-bold z-10 shadow" title="Cerrar">
-              ✕
-            </button>
-
-            <!-- Botón llamativo de "Ampliar Imagen Completa" -->
-            <button data-open-lightbox="${dish.image}" data-lightbox-title="${dish.name}" class="absolute bottom-3 right-3 bg-black/80 hover:bg-black text-white text-xs px-3.5 py-2 rounded-xl backdrop-blur-md border border-white/30 flex items-center space-x-2 shadow-2xl transition-transform group-hover:scale-105">
+            <!-- Botón llamativo de 'Ampliar Imagen Completa' -->
+            <div class="absolute bottom-3 right-3 bg-black/80 hover:bg-black text-white text-xs px-3.5 py-2 rounded-xl backdrop-blur-md border border-white/30 flex items-center space-x-2 shadow-2xl transition-transform group-hover:scale-105 pointer-events-none">
               ${ICONS.zoom}
               <span class="font-semibold">Ampliar foto completa</span>
-            </button>
+            </div>
           </div>
 
           <!-- Cabecera de Texto del Plato debajo de la foto para máxima legibilidad -->
-          <div class="p-5 sm:p-6 pb-2 border-b ${preset.id === 'estilo1' ? 'border-stone-200 bg-[#FAF9F7]' : preset.id === 'estilo2' ? 'border-slate-800' : 'border-zinc-200'}">
+          <div class="p-5 sm:p-6 pb-2 border-b ${preset.id === 'estilo1' ? 'border-stone-200 bg-[#FAF9F7]' : preset.id === 'estilo2' ? 'border-slate-800' : 'border-zinc-200'} flex-shrink-0">
             <div class="flex items-center space-x-2 mb-1.5">
               ${dish.badge ? `<span class="px-2.5 py-0.5 rounded text-[10px] font-bold uppercase ${preset.id === 'estilo1' ? 'bg-[#8B1E1E] text-white' : 'bg-blue-600 text-white'}">${dish.badge}</span>` : ''}
               <span class="text-xs font-mono opacity-70">${dish.category}</span>
@@ -1567,7 +1672,7 @@ export class GastroApp {
           </div>
 
           <!-- Pie del Modal con Selector de Cantidad y Botón Temático -->
-          <div class="p-4 sm:p-5 border-t ${preset.id === 'estilo1' ? 'border-stone-200 bg-[#F4F5F7]' : preset.id === 'estilo2' ? 'border-slate-800 bg-[#070a13]' : preset.id === 'estilo3' ? 'border-[#dfd7cc] bg-[#f5f1e8]' : 'border-zinc-200 bg-zinc-50'} flex items-center justify-between gap-4">
+          <div class="p-4 sm:p-5 border-t ${preset.id === 'estilo1' ? 'border-stone-200 bg-[#F4F5F7]' : preset.id === 'estilo2' ? 'border-slate-800 bg-[#070a13]' : preset.id === 'estilo3' ? 'border-[#dfd7cc] bg-[#f5f1e8]' : 'border-zinc-200 bg-zinc-50'} flex items-center justify-between gap-4 flex-shrink-0">
             
             <div class="flex items-center space-x-3">
               <span class="text-xl sm:text-2xl font-bold ${preset.id === 'estilo1' ? 'text-[#8B1E1E] vukata-font-dish font-black text-3xl' : preset.id === 'estilo2' ? 'text-white font-mono' : preset.id === 'estilo3' ? 'text-[#3d3228] font-mono' : 'text-zinc-900 font-mono'}">
@@ -1575,13 +1680,13 @@ export class GastroApp {
               </span>
 
               <div class="flex items-center space-x-2 border rounded-xl px-2 py-1 ${preset.id === 'estilo1' ? 'border-stone-300 bg-white text-stone-900' : preset.id === 'estilo2' ? 'border-slate-700 bg-slate-800' : preset.id === 'estilo3' ? 'border-[#8c7b6c] bg-white' : 'border-zinc-300 bg-white'}">
-                <button data-modal-qty-minus class="w-7 h-7 flex items-center justify-center font-bold text-base cursor-pointer hover:opacity-75">-</button>
-                <span id="modal-dish-qty-val" class="w-6 text-center font-bold font-mono text-sm">1</span>
-                <button data-modal-qty-plus class="w-7 h-7 flex items-center justify-center font-bold text-base cursor-pointer hover:opacity-75">+</button>
+                <button type="button" data-modal-qty-minus class="w-7 h-7 flex items-center justify-center font-bold text-base cursor-pointer hover:opacity-75 select-none">-</button>
+                <span id="modal-dish-qty-val" class="w-6 text-center font-bold font-mono text-sm select-none">1</span>
+                <button type="button" data-modal-qty-plus class="w-7 h-7 flex items-center justify-center font-bold text-base cursor-pointer hover:opacity-75 select-none">+</button>
               </div>
             </div>
 
-            <button data-modal-add-cart class="${btnThemeClass} px-5 py-3 flex items-center space-x-2">
+            <button type="button" data-modal-add-cart class="${btnThemeClass} px-5 py-3 flex items-center space-x-2 cursor-pointer select-none">
               <span>Añadir a la Comanda</span>
               ${ICONS.arrow}
             </button>
@@ -2140,8 +2245,14 @@ export class GastroApp {
 
           <!-- Ranking en Tiempo Real -->
           <div class="bg-white border-2 border-stone-200 p-6 sm:p-8 rounded-3xl shadow-sm">
-            <h3 class="vukata-font-title font-bold text-base text-stone-950 mb-4">Rotación de Platos en Sala (Tiempo Real)</h3>
-            <div class="space-y-3">
+            <div class="flex items-center justify-between mb-4">
+              <div>
+                <h3 class="vukata-font-title font-bold text-base text-stone-950">Rotación de Platos en Sala (Tiempo Real)</h3>
+                <p class="text-xs text-stone-500 font-sans mt-0.5">Listado completo con scroll independiente y visualización de precios unitarios</p>
+              </div>
+              <span class="text-xs font-mono font-bold text-[#8B1E1E] bg-red-50 border border-red-200 px-2.5 py-1 rounded-lg">${preset.menu.length} Platos</span>
+            </div>
+            <div class="space-y-3 max-h-[500px] overflow-y-auto pr-2">
               ${preset.menu.map(dish => {
                 const count = store.getDishSalesCount(dish.id);
                 return `
@@ -2151,7 +2262,8 @@ export class GastroApp {
                       <span class="vukata-font-dish font-black text-base text-stone-950 truncate max-w-[160px] sm:max-w-none">${dish.name}</span>
                       <span class="text-stone-500 hidden sm:inline font-sans text-xs">(${dish.category})</span>
                     </div>
-                    <div class="flex items-center space-x-2 flex-shrink-0">
+                    <div class="flex items-center space-x-3 flex-shrink-0">
+                      <span class="text-stone-500 font-mono text-[11px] hidden sm:inline">PVP: ${formatCurrency(dish.price)}</span>
                       <span class="vukata-font-dish font-black text-base text-[#8B1E1E]">${formatCurrency(dish.price * count)}</span>
                       <button data-quick-simulate-dish="${dish.id}" class="btn-vukata-primary text-white px-2.5 py-1 rounded-lg text-[11px] font-bold cursor-pointer">
                         +1 Venta
@@ -2197,8 +2309,11 @@ export class GastroApp {
 
           <!-- Ranking en Tiempo Real -->
           <div class="${isDark ? 'bg-stone-900 border-stone-800' : 'bg-white border-slate-200'} p-6 rounded-3xl border shadow-sm">
-            <h3 class="font-bold text-base mb-4">Rotación de Platos en Sala (Tiempo Real)</h3>
-            <div class="space-y-3">
+            <div class="flex items-center justify-between mb-4">
+              <h3 class="font-bold text-base">Rotación de Platos en Sala (Tiempo Real)</h3>
+              <span class="text-xs font-mono opacity-60">${preset.menu.length} Platos</span>
+            </div>
+            <div class="space-y-3 max-h-[500px] overflow-y-auto pr-2">
               ${preset.menu.map(dish => {
                 const count = store.getDishSalesCount(dish.id);
                 return `
@@ -2208,7 +2323,8 @@ export class GastroApp {
                       <span class="font-semibold truncate max-w-[160px] sm:max-w-none">${dish.name}</span>
                       <span class="text-slate-400 hidden sm:inline">(${dish.category})</span>
                     </div>
-                    <div class="flex items-center space-x-2 flex-shrink-0">
+                    <div class="flex items-center space-x-3 flex-shrink-0">
+                      <span class="font-mono text-[11px] opacity-60 hidden sm:inline">PVP: ${formatCurrency(dish.price)}</span>
                       <span class="font-mono font-bold">${formatCurrency(dish.price * count)}</span>
                       <button data-quick-simulate-dish="${dish.id}" class="bg-blue-600 hover:bg-blue-700 text-white px-2.5 py-1 rounded-lg text-[11px] font-bold">
                         +1 Venta
