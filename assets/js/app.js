@@ -16,7 +16,9 @@ const ICONS = {
   external: `<svg class="w-3.5 h-3.5 inline-block" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14"/></svg>`,
   eye: `<svg class="w-3.5 h-3.5 inline-block" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"/><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z"/></svg>`,
   zoom: `<svg class="w-4 h-4 inline-block" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0zM10 7v3m0 0v3m0-3h3m-3 0H7"/></svg>`,
-  google: `<svg class="w-4 h-4 inline-block flex-shrink-0" viewBox="0 0 24 24"><path fill="#4285F4" d="M23.745 12.27c0-.7-.06-1.4-.19-2.07H12v4.51h6.6c-.29 1.52-1.14 2.82-2.4 3.68v3.05h3.88c2.27-2.09 3.665-5.17 3.665-9.17z"/><path fill="#34A853" d="M12 24c3.24 0 5.95-1.08 7.93-2.91l-3.88-3.05c-1.08.72-2.45 1.16-4.05 1.16-3.12 0-5.77-2.1-6.72-4.93H1.25v3.15C3.26 21.36 7.33 24 12 24z"/><path fill="#FBBC05" d="M5.28 14.27c-.25-.72-.38-1.49-.38-2.27s.13-1.55.38-2.27V6.58H1.25C.45 8.18 0 9.99 0 12s.45 3.82 1.25 5.42l4.03-3.15z"/><path fill="#EA4335" d="M12 4.75c1.77 0 3.35.61 4.6 1.8l3.42-3.42C17.95 1.19 15.24 0 12 0 7.33 0 3.26 2.64 1.25 6.58l4.03 3.15c.95-2.83 3.6-4.98 6.72-4.98z"/></svg>`
+  google: `<svg class="w-4 h-4 inline-block flex-shrink-0" viewBox="0 0 24 24"><path fill="#4285F4" d="M23.745 12.27c0-.7-.06-1.4-.19-2.07H12v4.51h6.6c-.29 1.52-1.14 2.82-2.4 3.68v3.05h3.88c2.27-2.09 3.665-5.17 3.665-9.17z"/><path fill="#34A853" d="M12 24c3.24 0 5.95-1.08 7.93-2.91l-3.88-3.05c-1.08.72-2.45 1.16-4.05 1.16-3.12 0-5.77-2.1-6.72-4.93H1.25v3.15C3.26 21.36 7.33 24 12 24z"/><path fill="#FBBC05" d="M5.28 14.27c-.25-.72-.38-1.49-.38-2.27s.13-1.55.38-2.27V6.58H1.25C.45 8.18 0 9.99 0 12s.45 3.82 1.25 5.42l4.03-3.15z"/><path fill="#EA4335" d="M12 4.75c1.77 0 3.35.61 4.6 1.8l3.42-3.42C17.95 1.19 15.24 0 12 0 7.33 0 3.26 2.64 1.25 6.58l4.03 3.15c.95-2.83 3.6-4.98 6.72-4.98z"/></svg>`,
+  whatsapp: `<svg class="w-4 h-4 inline-block flex-shrink-0" fill="currentColor" viewBox="0 0 24 24"><path d="M.057 24l1.687-6.163c-1.041-1.804-1.588-3.849-1.587-5.946.003-6.556 5.338-11.891 11.893-11.891 3.181.001 6.167 1.24 8.413 3.488 2.245 2.248 3.481 5.236 3.48 8.414-.003 6.557-5.338 11.892-11.893 11.892-1.99-.001-3.951-.5-5.688-1.448l-6.305 1.654zm6.597-3.807c1.676.995 3.276 1.591 5.392 1.592 5.448 0 9.886-4.434 9.889-9.885.002-5.462-4.415-9.89-9.881-9.892-5.452 0-9.887 4.434-9.889 9.884-.001 2.225.651 3.891 1.746 5.634l-.999 3.648 3.742-.981zm11.387-5.464c-.074-.124-.272-.198-.57-.347-.297-.149-1.758-.868-2.031-.967-.272-.099-.47-.149-.669.149-.198.297-.768.967-.941 1.165-.173.198-.347.223-.644.074-.297-.149-1.255-.462-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.297-.347.446-.521.151-.172.2-.296.3-.495.099-.198.05-.372-.025-.521-.075-.148-.669-1.611-.916-2.206-.242-.579-.487-.501-.669-.51l-.57-.01c-.198 0-.52.074-.792.372s-1.04 1.016-1.04 2.479 1.065 2.876 1.213 3.074c.149.198 2.095 3.2 5.076 4.487.709.306 1.263.489 1.694.626.712.226 1.36.194 1.872.118.571-.085 1.758-.719 2.006-1.413.248-.695.248-1.29.173-1.414z"/></svg>`,
+  mail: `<svg class="w-4 h-4 inline-block flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"/></svg>`
 };
 
 function formatCurrency(val) {
@@ -252,7 +254,7 @@ export class GastroApp {
         this.renderSmartReviewModal(store.getPreset());
         return;
       }
-      if (e.target.closest('#close-review-modal') || e.target.closest('#review-modal-backdrop')) {
+      if (e.target.closest('#close-review-modal') || e.target.id === 'review-modal-backdrop') {
         const container = document.getElementById('review-modal-container');
         if (container) container.innerHTML = '';
         return;
@@ -2188,53 +2190,275 @@ export class GastroApp {
     const container = document.getElementById('review-modal-container');
     if (!container) return;
 
-    let modalBgClass = '';
-    let btnClass = '';
+    let theme = {
+      card: '',
+      headerBorder: '',
+      titleClass: '',
+      starBtn: '',
+      positiveBtn: '',
+      negativeWaBtn: '',
+      negativeMailBtn: '',
+      badgePos: '',
+      badgeNeg: '',
+      feedbackBox: '',
+      feedbackInput: '',
+      feedbackBtn: '',
+      backBtn: ''
+    };
+
     if (preset.id === 'estilo1') {
-      modalBgClass = 'bg-[#121218] border border-amber-500/30 text-stone-100';
-      btnClass = 'bg-gradient-to-r from-amber-500 to-amber-400 text-stone-950 font-bold uppercase tracking-wider py-3.5 rounded-xl text-xs shadow-lg';
+      theme = {
+        card: 'bg-[#121218] border border-amber-500/30 text-stone-100 rounded-2xl',
+        headerBorder: 'border-b border-stone-800',
+        titleClass: 'editorial-serif font-bold text-stone-100',
+        starBtn: 'border border-amber-500/30 bg-[#1a1a24] hover:border-amber-400 hover:bg-amber-500/20 text-amber-400 rounded-xl',
+        positiveBtn: 'bg-gradient-to-r from-amber-500 via-amber-400 to-amber-300 hover:from-amber-400 hover:to-amber-200 text-stone-950 font-bold uppercase tracking-wider rounded-xl shadow-lg shadow-amber-500/20',
+        negativeWaBtn: 'bg-emerald-600 hover:bg-emerald-500 text-white font-bold rounded-xl shadow-lg',
+        negativeMailBtn: 'bg-stone-800 hover:bg-stone-700 text-amber-300 border border-amber-500/30 font-bold rounded-xl',
+        badgePos: 'bg-amber-500/10 border border-amber-500/30 text-amber-300',
+        badgeNeg: 'bg-stone-800 border border-stone-700 text-stone-300',
+        feedbackBox: 'bg-[#0d0d12] border border-stone-800 text-stone-200 rounded-xl placeholder-stone-600 focus:border-amber-400',
+        feedbackInput: 'bg-[#0d0d12] border border-stone-800 text-stone-200 rounded-xl placeholder-stone-600 focus:border-amber-400',
+        feedbackBtn: 'bg-gradient-to-r from-amber-500 to-amber-400 text-stone-950 font-bold rounded-xl hover:from-amber-400',
+        backBtn: 'text-stone-400 hover:text-amber-300'
+      };
     } else if (preset.id === 'estilo2') {
-      modalBgClass = 'bg-[#0a0f1e] border border-slate-700 text-slate-100 rounded-3xl';
-      btnClass = 'bg-gradient-to-r from-blue-600 to-cyan-500 text-white font-bold py-3.5 rounded-xl text-xs shadow-lg shadow-blue-500/25';
+      theme = {
+        card: 'bg-[#0a0f1e] border border-slate-700 text-slate-100 rounded-3xl shadow-2xl shadow-blue-500/10',
+        headerBorder: 'border-b border-slate-800',
+        titleClass: 'font-mono font-bold text-cyan-400',
+        starBtn: 'border border-slate-700 bg-slate-900 hover:border-cyan-400 hover:bg-cyan-950/40 text-cyan-400 rounded-2xl',
+        positiveBtn: 'bg-gradient-to-r from-blue-600 via-sky-600 to-cyan-500 hover:from-blue-500 hover:to-cyan-400 text-white font-bold rounded-xl shadow-lg shadow-blue-500/25',
+        negativeWaBtn: 'bg-emerald-600 hover:bg-emerald-500 text-white font-bold rounded-xl shadow-lg shadow-emerald-500/20',
+        negativeMailBtn: 'bg-slate-800 hover:bg-slate-700 text-cyan-300 border border-slate-700 font-bold rounded-xl',
+        badgePos: 'bg-cyan-950/50 border border-cyan-500/30 text-cyan-300',
+        badgeNeg: 'bg-slate-800/80 border border-slate-700 text-slate-300',
+        feedbackBox: 'bg-slate-900 border border-slate-700 text-slate-200 rounded-xl placeholder-slate-500 focus:border-cyan-400',
+        feedbackInput: 'bg-slate-900 border border-slate-700 text-slate-200 rounded-xl placeholder-slate-500 focus:border-cyan-400',
+        feedbackBtn: 'bg-gradient-to-r from-blue-600 to-cyan-500 text-white font-bold rounded-xl hover:from-blue-500',
+        backBtn: 'text-slate-400 hover:text-cyan-300'
+      };
     } else if (preset.id === 'estilo3') {
-      modalBgClass = 'bg-[#fcfbf8] border-2 border-[#8c7b6c] text-[#2b2520] font-serif rounded-xl';
-      btnClass = 'bg-[#3d3228] hover:bg-[#251e18] text-[#f6f3eb] font-serif font-bold py-3.5 rounded text-xs shadow';
+      theme = {
+        card: 'bg-[#fcfbf8] border-2 border-[#8c7b6c] text-[#2b2520] font-serif rounded-xl shadow-2xl',
+        headerBorder: 'border-b-2 border-[#8c7b6c]',
+        titleClass: 'font-serif font-bold text-[#2b2520]',
+        starBtn: 'border border-[#8c7b6c] bg-[#f5efe6] hover:bg-[#ebdcc9] hover:border-[#5a4330] text-[#8c7b6c] hover:text-[#3d3228] rounded-lg',
+        positiveBtn: 'bg-[#3d3228] hover:bg-[#251e18] text-[#f6f3eb] font-serif font-bold shadow rounded',
+        negativeWaBtn: 'bg-[#1e5a32] hover:bg-[#154224] text-white font-serif font-bold rounded shadow',
+        negativeMailBtn: 'bg-[#dfd7cc] hover:bg-[#cfc5b6] text-[#3d3228] border border-[#8c7b6c] font-serif font-bold rounded',
+        badgePos: 'bg-[#eee7db] border border-[#8c7b6c] text-[#3d3228]',
+        badgeNeg: 'bg-[#f0ebe3] border border-[#8c7b6c] text-[#3d3228]',
+        feedbackBox: 'bg-[#fbf9f5] border border-[#8c7b6c] text-[#2b2520] font-serif rounded placeholder-[#8c7b6c] focus:border-[#3d3228]',
+        feedbackInput: 'bg-[#fbf9f5] border border-[#8c7b6c] text-[#2b2520] font-serif rounded placeholder-[#8c7b6c] focus:border-[#3d3228]',
+        feedbackBtn: 'bg-[#3d3228] hover:bg-[#251e18] text-[#f6f3eb] font-serif font-bold rounded',
+        backBtn: 'text-[#6e5d50] hover:text-[#2b2520]'
+      };
     } else {
-      modalBgClass = 'bg-white border border-zinc-200 text-zinc-900 rounded-none';
-      btnClass = 'bg-zinc-900 hover:bg-black text-white font-medium uppercase tracking-wider py-3.5 rounded-none text-xs';
+      theme = {
+        card: 'bg-white border border-zinc-200 text-zinc-900 rounded-none shadow-2xl',
+        headerBorder: 'border-b border-zinc-200',
+        titleClass: 'font-light uppercase tracking-widest text-zinc-900 text-xs',
+        starBtn: 'border border-zinc-300 bg-zinc-50 hover:bg-zinc-900 hover:text-white hover:border-zinc-900 text-zinc-800 rounded-none',
+        positiveBtn: 'bg-zinc-900 hover:bg-black text-white font-medium uppercase tracking-wider py-3.5 rounded-none',
+        negativeWaBtn: 'bg-emerald-700 hover:bg-emerald-800 text-white font-medium uppercase tracking-wider py-3 rounded-none shadow-sm',
+        negativeMailBtn: 'bg-zinc-100 hover:bg-zinc-200 text-zinc-900 border border-zinc-300 font-medium uppercase tracking-wider py-3 rounded-none',
+        badgePos: 'bg-zinc-100 border border-zinc-200 text-zinc-800',
+        badgeNeg: 'bg-zinc-100 border border-zinc-200 text-zinc-800',
+        feedbackBox: 'bg-zinc-50 border border-zinc-300 text-zinc-900 rounded-none placeholder-zinc-400 focus:border-zinc-900',
+        feedbackInput: 'bg-zinc-50 border border-zinc-300 text-zinc-900 rounded-none placeholder-zinc-400 focus:border-zinc-900',
+        feedbackBtn: 'bg-zinc-900 hover:bg-black text-white font-medium uppercase tracking-wider rounded-none',
+        backBtn: 'text-zinc-500 hover:text-zinc-900'
+      };
     }
 
     container.innerHTML = `
-      <div id="review-modal-backdrop" class="fixed inset-0 bg-black/75 backdrop-blur-sm z-50 flex items-center justify-center p-3 sm:p-4">
-        <div class="modal-animate max-w-md w-full p-6 shadow-2xl border ${modalBgClass} space-y-5">
-          <div class="flex justify-between items-center">
-            <div class="flex items-center space-x-2">
+      <div class="fixed inset-0 z-50 flex items-center justify-center p-3 sm:p-4">
+        <div id="review-modal-backdrop" class="fixed inset-0 bg-black/75 backdrop-blur-sm cursor-pointer"></div>
+        
+        <div class="modal-animate relative z-10 max-w-md w-full p-6 shadow-2xl border ${theme.card} overflow-hidden">
+          
+          <!-- Header -->
+          <div class="flex justify-between items-center pb-4 ${theme.headerBorder}">
+            <div class="flex items-center space-x-2.5">
               ${ICONS.google}
-              <h3 class="font-bold text-sm sm:text-base">Valorar en Google Maps</h3>
+              <h3 class="font-bold text-sm sm:text-base ${theme.titleClass}">${preset.name}</h3>
             </div>
-            <button id="close-review-modal" class="opacity-70 hover:opacity-100 text-lg">✕</button>
+            <button id="close-review-modal" class="opacity-60 hover:opacity-100 text-lg transition-opacity p-1 leading-none">✕</button>
           </div>
 
-          <p class="text-xs opacity-80 leading-relaxed">
-            Tu opinión ayuda a posicionar a <strong>${preset.name}</strong> en los primeros resultados locales de búsqueda en Google.
-          </p>
+          <!-- Paso 1: Valoración de 1 a 5 estrellas -->
+          <div id="review-step-stars" class="pt-5 pb-2 text-center space-y-4">
+            <div class="w-12 h-12 rounded-2xl flex items-center justify-center mx-auto text-2xl ${theme.badgePos}">⭐</div>
+            <div>
+              <h4 class="font-bold text-base sm:text-lg">¿Cómo ha sido tu experiencia hoy?</h4>
+              <p class="text-xs opacity-75 mt-1 max-w-xs mx-auto leading-relaxed">
+                Selecciona tu puntuación para ofrecernos tu valoración sincera:
+              </p>
+            </div>
 
-          <div class="flex justify-center space-x-2 text-3xl py-2">
-            <span class="cursor-pointer hover:scale-125 transition-transform">⭐</span>
-            <span class="cursor-pointer hover:scale-125 transition-transform">⭐</span>
-            <span class="cursor-pointer hover:scale-125 transition-transform">⭐</span>
-            <span class="cursor-pointer hover:scale-125 transition-transform">⭐</span>
-            <span class="cursor-pointer hover:scale-125 transition-transform">⭐</span>
+            <div class="flex justify-center items-center space-x-2.5 py-3">
+              ${[1, 2, 3, 4, 5].map(stars => `
+                <button type="button" data-rate-stars="${stars}" class="w-11 h-11 sm:w-12 sm:h-12 flex flex-col items-center justify-center transition-all transform hover:scale-110 shadow-sm cursor-pointer ${theme.starBtn}">
+                  <span class="text-lg leading-none">★</span>
+                  <span class="text-[10px] font-mono font-bold mt-0.5">${stars}</span>
+                </button>
+              `).join('')}
+            </div>
+
+            <div class="pt-2 border-t ${theme.headerBorder} text-[11px] opacity-70 flex justify-around">
+              <span>★ 1-3: Atención con gerencia</span>
+              <span>•</span>
+              <span>★ 4-5: Reseña en Google</span>
+            </div>
           </div>
 
-          <a href="${preset.googleMapsUrl}" target="_blank" class="w-full ${btnClass} flex items-center justify-center space-x-2">
-            ${ICONS.google}
-            <span>Publicar Reseña en Google Maps</span>
-            ${ICONS.external}
-          </a>
+          <!-- Paso 2A: Puntuación Alta (4 o 5 estrellas) -> Publicar en Google Maps -->
+          <div id="review-step-positive" class="pt-5 pb-2 text-center space-y-4 hidden">
+            <div class="w-14 h-14 rounded-full flex items-center justify-center mx-auto text-3xl ${theme.badgePos}">🎉</div>
+            <div class="space-y-1">
+              <span id="pos-stars-badge" class="inline-block px-3 py-1 text-[11px] font-bold rounded-full ${theme.badgePos}">★★★★★ (5/5)</span>
+              <h4 class="font-bold text-base sm:text-lg">¡Nos alegra muchísimo tu satisfacción!</h4>
+              <p class="text-xs opacity-80 mt-1 max-w-sm mx-auto leading-relaxed">
+                Tu opinión en Google Maps ayuda a posicionar a <strong>${preset.name}</strong> y apoya directamente a nuestro equipo. ¿Nos dedicas 15 segundos para publicarla?
+              </p>
+            </div>
+
+            <div class="pt-2 space-y-3">
+              <a href="${preset.googleMapsUrl}" target="_blank" class="w-full ${theme.positiveBtn} py-3.5 px-5 flex items-center justify-center space-x-2 text-xs transition-transform transform hover:scale-[1.02] cursor-pointer">
+                ${ICONS.google}
+                <span>Publicar Reseña en Google Maps</span>
+                ${ICONS.external}
+              </a>
+
+              <button type="button" id="review-back-btn-pos" class="block mx-auto text-xs ${theme.backBtn} underline cursor-pointer pt-1">
+                ← Cambiar valoración
+              </button>
+            </div>
+          </div>
+
+          <!-- Paso 2B: Puntuación Baja (1, 2 o 3 estrellas) -> Contacto directo con Gerente por WhatsApp o Email -->
+          <div id="review-step-negative" class="pt-4 pb-1 text-center space-y-3.5 hidden">
+            <div class="w-12 h-12 rounded-full flex items-center justify-center mx-auto text-2xl ${theme.badgeNeg}">🤝</div>
+            <div class="space-y-1">
+              <span id="neg-stars-badge" class="inline-block px-3 py-0.5 text-[11px] font-bold rounded-full ${theme.badgeNeg}">★★★☆☆ (3/5)</span>
+              <h4 class="font-bold text-base">Queremos corregirlo de inmediato</h4>
+              <p class="text-xs opacity-80 leading-relaxed max-w-sm mx-auto">
+                Lamentamos profundamente si algún detalle no cumplió tus expectativas. En <strong>${preset.name}</strong> tu experiencia es lo primero. Contacta directamente con la dirección para darte una solución personalizada:
+              </p>
+            </div>
+
+            <!-- Botones de contacto directo -->
+            <div class="grid grid-cols-1 sm:grid-cols-2 gap-2 pt-1 text-left">
+              <a id="review-wa-link" href="#" target="_blank" class="${theme.negativeWaBtn} py-2.5 px-3 flex items-center justify-center space-x-2 text-xs transition-transform hover:scale-[1.02] cursor-pointer text-center">
+                ${ICONS.whatsapp}
+                <span>WhatsApp Gerencia</span>
+              </a>
+              <a id="review-mail-link" href="#" class="${theme.negativeMailBtn} py-2.5 px-3 flex items-center justify-center space-x-2 text-xs transition-transform hover:scale-[1.02] cursor-pointer text-center">
+                ${ICONS.mail}
+                <span>Email Privado</span>
+              </a>
+            </div>
+
+            <div class="text-[11px] opacity-70 font-mono text-center">
+              Atiende: <span class="font-bold">${preset.managerName || 'Dirección de Sala'}</span>
+            </div>
+
+            <!-- Formulario de mensaje privado en el propio modal -->
+            <div class="pt-2 border-t ${theme.headerBorder} text-left space-y-2">
+              <p class="text-[11px] font-medium opacity-80">O déjanos tu mensaje y te contactamos hoy mismo:</p>
+              <textarea id="private-feedback-msg" rows="2" placeholder="¿Qué podemos mejorar de tu visita?..." class="w-full p-2.5 text-xs outline-none ${theme.feedbackBox}"></textarea>
+              <div class="flex space-x-2">
+                <input type="tel" id="private-feedback-phone" placeholder="Tu teléfono de contacto" class="flex-1 p-2 text-xs outline-none ${theme.feedbackInput}" />
+                <button type="button" id="send-private-feedback-btn" class="px-3.5 py-2 text-xs font-bold transition-all cursor-pointer ${theme.feedbackBtn}">
+                  Enviar
+                </button>
+              </div>
+            </div>
+
+            <button type="button" id="review-back-btn-neg" class="block mx-auto text-xs ${theme.backBtn} underline cursor-pointer pt-1">
+              ← Cambiar valoración
+            </button>
+          </div>
+
         </div>
       </div>
     `;
+
+    const stepStars = document.getElementById('review-step-stars');
+    const stepPos = document.getElementById('review-step-positive');
+    const stepNeg = document.getElementById('review-step-negative');
+    const posBadge = document.getElementById('pos-stars-badge');
+    const negBadge = document.getElementById('neg-stars-badge');
+    const waLink = document.getElementById('review-wa-link');
+    const mailLink = document.getElementById('review-mail-link');
+    const backBtnPos = document.getElementById('review-back-btn-pos');
+    const backBtnNeg = document.getElementById('review-back-btn-neg');
+    const sendFeedbackBtn = document.getElementById('send-private-feedback-btn');
+
+    // Manejador de clic en estrellas
+    container.querySelectorAll('[data-rate-stars]').forEach(btn => {
+      btn.addEventListener('click', (e) => {
+        e.preventDefault();
+        const stars = parseInt(btn.getAttribute('data-rate-stars'), 10);
+        stepStars.classList.add('hidden');
+
+        if (stars >= 4) {
+          // Puntuación positiva (4 o 5) -> Google Maps
+          const starIcons = '★'.repeat(stars) + '☆'.repeat(5 - stars);
+          if (posBadge) posBadge.textContent = `${starIcons} (${stars}/5)`;
+          stepPos.classList.remove('hidden');
+          stepNeg.classList.add('hidden');
+        } else {
+          // Puntuación baja (1, 2 o 3) -> Contacto privado con gerente
+          const starIcons = '★'.repeat(stars) + '☆'.repeat(5 - stars);
+          if (negBadge) negBadge.textContent = `${starIcons} (${stars}/5)`;
+
+          const waText = `Hola, estuve en ${preset.name} y quería comentar un detalle sobre mi servicio (valoración ${stars}/5) con ${preset.managerName || 'la gerencia'}: `;
+          if (waLink) {
+            waLink.href = `https://wa.me/${preset.whatsapp}?text=${encodeURIComponent(waText)}`;
+          }
+
+          const mailSubject = `Comentario sobre el servicio (${stars}/5) - ${preset.name}`;
+          const mailBody = `Hola ${preset.managerName || 'Gerencia'},\n\nQuería comentaros mi experiencia en ${preset.name} tras valorar el servicio con ${stars}/5 estrellas:\n\n[Escribe aquí tu comentario]\n\nAtentamente,\n`;
+          if (mailLink) {
+            mailLink.href = `mailto:${preset.email}?subject=${encodeURIComponent(mailSubject)}&body=${encodeURIComponent(mailBody)}`;
+          }
+
+          stepNeg.classList.remove('hidden');
+          stepPos.classList.add('hidden');
+        }
+      });
+    });
+
+    // Botones para volver al selector de estrellas
+    const resetToStars = (e) => {
+      e.preventDefault();
+      stepStars.classList.remove('hidden');
+      stepPos.classList.add('hidden');
+      stepNeg.classList.add('hidden');
+    };
+    if (backBtnPos) backBtnPos.addEventListener('click', resetToStars);
+    if (backBtnNeg) backBtnNeg.addEventListener('click', resetToStars);
+
+    // Envío del feedback privado dentro del modal
+    if (sendFeedbackBtn) {
+      sendFeedbackBtn.addEventListener('click', (e) => {
+        e.preventDefault();
+        const msgElem = document.getElementById('private-feedback-msg');
+        const phoneElem = document.getElementById('private-feedback-phone');
+        const msg = msgElem ? msgElem.value.trim() : '';
+        const phone = phoneElem ? phoneElem.value.trim() : '';
+
+        if (!msg && !phone) {
+          alert('Por favor, introduce un breve comentario o teléfono para poder contactarte.');
+          return;
+        }
+
+        container.innerHTML = '';
+        this.showToast(`✓ Mensaje enviado a ${preset.managerName || 'dirección'}. Nos pondremos en contacto contigo.`);
+      });
+    }
   }
 
   // =========================================================================
