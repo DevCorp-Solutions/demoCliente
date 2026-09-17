@@ -161,6 +161,58 @@ body.theme-estilo-1,
   animation-play-state: paused;
 }
 
+/* Cabecera Vukata: transparente sobre el héroe de brasas y sólida al bajar */
+.vukata-header {
+  background-color: transparent;
+  box-shadow: none;
+}
+
+.vukata-header.is-solid {
+  background-color: rgba(253, 249, 244, 0.92);
+  box-shadow: 0 1px 8px rgba(0, 0, 0, 0.04);
+}
+
+.vukata-header:not(.is-solid) .vukata-header-name,
+.vukata-header:not(.is-solid) .vukata-header-cart {
+  color: #fdf9f4;
+}
+
+.vukata-header:not(.is-solid) .vukata-header-tagline {
+  color: #f8bb70;
+}
+
+.vukata-header:not(.is-solid) .vukata-header-brand {
+  border-color: rgba(253, 249, 244, 0.25);
+}
+
+.vukata-header:not(.is-solid) .vukata-header-nav,
+.vukata-header:not(.is-solid) .vukata-header-bar {
+  background-color: rgba(255, 255, 255, 0.08);
+  border-color: rgba(253, 249, 244, 0.18);
+}
+
+.vukata-header:not(.is-solid) .vukata-nav-link {
+  color: #ddd9d5;
+}
+
+.vukata-header:not(.is-solid) .vukata-nav-link:hover {
+  color: #ffffff;
+}
+
+.vukata-header:not(.is-solid) .vukata-nav-link.is-active {
+  background-color: rgba(253, 249, 244, 0.16);
+  color: #ffffff;
+}
+
+.vukata-header:not(.is-solid) .vukata-header-cart {
+  background-color: rgba(255, 255, 255, 0.1);
+  border-color: rgba(253, 249, 244, 0.25);
+}
+
+.vukata-header:not(.is-solid) .vukata-header-cart:hover {
+  background-color: rgba(255, 255, 255, 0.2);
+}
+
 /* Compatibilidad con clases previas de Vukata */
 .vukata-font-title {
   font-family: 'Playfair Display', 'Montserrat', serif;

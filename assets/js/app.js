@@ -1777,39 +1777,51 @@ function renderAllergenBadges(allergenList, size = 'sm') {
   `;
 }
 
-function renderVukataAllergenLegend() {
+function renderVukataAllergenLegend(activeAllergens = []) {
   const allergens = Object.values(VUKATA_ALLERGENS);
   return `
-    <div class="mt-14 border-t-2 border-[#8B1E1E]/20 bg-white/90 backdrop-blur-sm rounded-2xl p-6 sm:p-8 border border-stone-200/90 shadow-sm">
-      <div class="text-center max-w-2xl mx-auto mb-8">
-        <div class="inline-flex items-center space-x-2 text-[#8B1E1E] mb-1">
-          <span class="text-sm font-bold tracking-widest uppercase">Directiva Oficial Europea</span>
+    <section class="bg-[#f7f3ee] rounded-3xl p-8 lg:p-12 grid grid-cols-1 lg:grid-cols-12 gap-10 lg:gap-14">
+
+      <div class="lg:col-span-4 space-y-5">
+        <div class="flex items-center gap-2">
+          <span class="w-6 h-[2px] bg-[#8B1E1E]"></span>
+          <span class="font-kicker-eyebrow text-[#8B1E1E] uppercase tracking-[0.2em]">REGLAMENTO UE 1169/2011</span>
         </div>
-        <h4 class="vukata-font-title text-base sm:text-xl text-[#8B1E1E]">Información de Alérgenos de Nuestra Carta</h4>
-        <p class="text-xs text-stone-600 mt-1">
-          Reglamento (UE) Nº 1169/2011 sobre alérgenos e ingredientes alimentarios.
+        <h3 class="font-headline-md text-[#1c1c19] font-semibold">Alérgenos declarados en la carta</h3>
+        <p class="font-body-md text-[#57423f] leading-relaxed">
+          Cada preparación de la brasa tiene su ficha técnica. Pulsa un alérgeno para ocultar al instante los platos que lo contienen.
         </p>
-      </div>
-
-      <!-- Cuadrícula de 14 alérgenos idéntica a la portada de la carta física de Vukata -->
-      <div class="grid grid-cols-2 sm:grid-cols-4 md:grid-cols-7 gap-3 sm:gap-4 justify-items-center">
-        ${allergens.map(a => `
-          <button data-allergen="${a.id}" class="flex flex-col items-center text-center group cursor-pointer p-2.5 rounded-xl hover:bg-stone-100 transition-all w-full border border-stone-100 hover:border-stone-300" title="Filtrar platos con ${a.name}">
-            <span class="w-10 h-10 rounded-full flex items-center justify-center text-white shadow-md transition-transform group-hover:scale-110 flex-shrink-0" style="background-color: ${a.color};">
-              <span class="w-5 h-5 flex items-center justify-center">${a.svg}</span>
-            </span>
-            <span class="text-[10px] sm:text-[11px] font-bold text-stone-700 uppercase tracking-tight mt-2 leading-tight group-hover:text-[#8B1E1E]">
-              ${a.name}
-            </span>
+        ${activeAllergens.length > 0 ? `
+          <button type="button" data-clear-allergens class="inline-flex items-center gap-2 bg-[#8B1E1E] hover:bg-[#721414] text-white font-label-action text-[13px] px-5 py-2.5 rounded-full transition-colors cursor-pointer">
+            <span class="material-symbols-outlined text-[16px]">filter_alt_off</span>
+            <span>Quitar ${activeAllergens.length} ${activeAllergens.length === 1 ? 'filtro' : 'filtros'}</span>
           </button>
-        `).join('')}
+        ` : ''}
+        <div class="pt-4 space-y-1.5 font-body-sm text-[#645d5a]">
+          <p>Todos los precios incluyen IVA. Los platos se mantienen hasta fin de existencias.</p>
+          <p class="text-[#8B1E1E] font-semibold">Consulta siempre al personal de sala ante cualquier intolerancia.</p>
+        </div>
       </div>
 
-      <div class="mt-8 pt-6 border-t border-stone-200 text-center space-y-1.5 text-xs text-stone-600">
-        <p class="font-bold text-stone-800 text-sm">Todos los precios de nuestra carta incluyen el Iva. Los platos se mantendrán hasta fin de existencias.</p>
-        <p class="text-[#8B1E1E] font-medium">Consulte siempre a nuestro personal sobre los alérgenos y opciones para intolerancias.</p>
+      <div class="lg:col-span-8 grid grid-cols-2 sm:grid-cols-3 xl:grid-cols-4 gap-3">
+        ${allergens.map(a => {
+          const isActive = activeAllergens.includes(a.id);
+          return `
+            <button data-allergen="${a.id}" class="flex items-center gap-3 p-3 rounded-[14px] border transition-colors cursor-pointer text-left ${
+              isActive
+                ? 'bg-[#1c1c19] border-[#1c1c19] text-[#f4f0eb]'
+                : 'bg-white border-[#e6dfd5] hover:border-[#8B1E1E]/40 text-[#1c1c19]'
+            }" title="${isActive ? 'Mostrar de nuevo los platos con ' + a.name : 'Ocultar los platos con ' + a.name}">
+              <span class="w-9 h-9 rounded-full flex items-center justify-center text-white flex-shrink-0" style="background-color: ${a.color};">
+                <span class="w-4 h-4 flex items-center justify-center">${a.svg}</span>
+              </span>
+              <span class="font-body-sm font-semibold leading-tight">${a.name}</span>
+            </button>
+          `;
+        }).join('')}
       </div>
-    </div>
+
+    </section>
   `;
 }
 
@@ -1817,6 +1829,74 @@ function getAllergenLabel(code) {
   const def = getAllergenDef(code);
   return def ? def.name : code;
 }
+
+// Variantes de rejilla y cabecera por categoría del mockup Ember & Ash (Estilo 1 Vukata)
+const VUKATA_CATEGORY_LAYOUTS = {
+  'A la Brasa': {
+    title: 'Cortes Nobles a la Brasa',
+    icon: 'local_fire_department',
+    chip: 'bg-[#9c382c] text-white',
+    tagColor: 'text-[#8B1E1E]',
+    subtitle: 'Hechos al momento en parrilla abierta de leña y carbón de encina natural',
+    tag: n => `${n} Cortes Selección`,
+    layout: 'featured'
+  },
+  'Entrantes': {
+    title: 'Entrantes de la Casa',
+    icon: 'tapas',
+    chip: 'bg-[#e8deda] text-[#1c1c19]',
+    tagColor: 'text-[#645d5a]',
+    subtitle: 'Para abrir boca mientras las brasas toman temperatura',
+    tag: 'Recetas Propias'
+  },
+  'Ensaladas': {
+    title: 'Ensaladas de Huerta',
+    icon: 'nutrition',
+    chip: 'bg-[#e8deda] text-[#1c1c19]',
+    tagColor: 'text-[#645d5a]',
+    subtitle: 'Verduras de temporada para acompañar los cortes a la brasa',
+    tag: 'Producto de Mercado'
+  },
+  'Chivito al Plato': {
+    title: 'Chivito al Plato',
+    icon: 'lunch_dining',
+    chip: 'bg-[#9c382c] text-white',
+    tagColor: 'text-[#8B1E1E]',
+    subtitle: 'La receta rioplatense completa servida al plato',
+    tag: 'Receta de la Casa'
+  },
+  'Pollo Asado': {
+    title: 'Pollo Asado a la Brasa',
+    icon: 'outdoor_grill',
+    chip: 'bg-[#9c382c] text-white',
+    tagColor: 'text-[#8B1E1E]',
+    subtitle: 'Pollos de corral asados despacio sobre el carbón de encina',
+    tag: 'Asado Lento'
+  },
+  'Postres': {
+    title: 'El Broche Dulce',
+    icon: 'bakery_dining',
+    chip: 'bg-[#f8bb70] text-[#2a1700]',
+    tagColor: 'text-[#645d5a]',
+    subtitle: 'Elaborados a diario en nuestro obrador con recetas familiares',
+    tag: '100% Casero'
+  },
+  'Cafés': {
+    title: 'Cafés y Sobremesa',
+    icon: 'local_cafe',
+    chip: 'bg-[#e8deda] text-[#1c1c19]',
+    tagColor: 'text-[#645d5a]',
+    subtitle: 'Para cerrar la sobremesa sin prisa',
+    tag: 'Tueste Natural'
+  },
+  default: {
+    icon: 'restaurant',
+    chip: 'bg-[#e8deda] text-[#1c1c19]',
+    tagColor: 'text-[#645d5a]',
+    subtitle: 'Preparado al momento en parrilla abierta con leña y carbón de encina natural',
+    tag: n => `${n} Opciones`
+  }
+};
 
 class GastroApp {
   constructor() {
@@ -1836,6 +1916,9 @@ class GastroApp {
   }
 
   setupGlobalEvents() {
+    // Cabecera translúcida sobre el héroe oscuro y sólida en cuanto se baja
+    window.addEventListener('scroll', () => this.updateHeaderChrome(), { passive: true });
+
     // Tecla Escape para cerrar modales y lightbox
     document.addEventListener('keydown', (e) => {
       if (e.key === 'Escape') {
@@ -1878,6 +1961,15 @@ class GastroApp {
         if (modalContainer) modalContainer.innerHTML = '';
         this.currentModalDish = null;
         this.modalQty = 1;
+        return;
+      }
+
+      // 0.05 CERRAR MODAL DE VALORACIÓN DE EXPERIENCIA (botón X o clic en el fondo)
+      if (e.target.closest('#close-review-modal') || e.target.id === 'review-modal-backdrop') {
+        e.preventDefault();
+        e.stopPropagation();
+        const reviewContainer = document.getElementById('review-modal-container');
+        if (reviewContainer) reviewContainer.innerHTML = '';
         return;
       }
 
@@ -1954,15 +2046,12 @@ class GastroApp {
         if (hash && hash.length > 1) {
           if (store.state.view !== 'menu') {
             store.setView('menu');
-            setTimeout(() => {
-              const target = document.querySelector(hash);
-              if (target) target.scrollIntoView({ behavior: 'smooth' });
-            }, 80);
+            setTimeout(() => this.scrollToAnchor(hash), 80);
           } else {
             const target = document.querySelector(hash);
             if (target) {
               e.preventDefault();
-              target.scrollIntoView({ behavior: 'smooth' });
+              this.scrollToAnchor(hash);
             }
           }
         }
@@ -1973,21 +2062,6 @@ class GastroApp {
       if (viewBtn) {
         e.preventDefault();
         store.setView(viewBtn.getAttribute('data-view'));
-        return;
-      }
-
-      // 1.9 Manejador de filtros por píldora de categoría en subnav Stitch
-      const catPill = e.target.closest('.cat-filter');
-      if (catPill) {
-        e.preventDefault();
-        const cat = catPill.getAttribute('data-cat');
-        if (cat === 'all') {
-          store.setCategory('all');
-        } else {
-          const preset = store.getPreset();
-          const match = preset.categories.find(c => c.toLowerCase().includes(cat.toLowerCase()) || cat.toLowerCase().includes(c.toLowerCase()));
-          store.setCategory(match || cat);
-        }
         return;
       }
 
@@ -2186,7 +2260,7 @@ class GastroApp {
       <!-- CONTENEDOR PRINCIPAL -->
       ${preset.id === 'estilo1' ? `
         <!-- CONTENEDOR PRINCIPAL ESTILO 1 (FULL WIDTH STITCH) -->
-        <main class="w-full pt-20 bg-surface flex-1">
+        <main class="w-full ${currentView === 'menu' ? '' : 'pt-[8.25rem] 2xl:pt-20'} bg-surface flex-1">
           <div id="view-content" class="flex flex-col w-full"></div>
         </main>
       ` : `
@@ -2216,6 +2290,11 @@ class GastroApp {
 
     // Renderizar la vista activa
     const content = document.getElementById('view-content');
+    if (preset.id === 'estilo1') {
+      content.className = currentView === 'menu'
+        ? 'flex flex-col w-full'
+        : 'max-w-[1360px] mx-auto px-6 lg:px-10 py-10 w-full';
+    }
     if (currentView === 'menu') {
       this.renderMenuView(content, preset);
     } else if (currentView === 'reservations') {
@@ -2227,11 +2306,31 @@ class GastroApp {
     } else if (currentView === 'roi') {
       this.renderRoiView(content, preset);
     }
+
+    this.updateHeaderChrome();
   }
 
   // =========================================================================
   // LIGHTBOX INTERACTIVO A PANTALLA COMPLETA
   // =========================================================================
+  // La cabecera solo puede ser translúcida mientras se ve el héroe oscuro
+  updateHeaderChrome() {
+    const header = document.querySelector('.vukata-header');
+    if (!header) return;
+    const heroVisible = !!document.getElementById('el-asador') && window.scrollY < 40;
+    header.classList.toggle('is-solid', !heroVisible);
+  }
+
+  // Desplaza a un ancla dejando libre la altura de la cabecera fija
+  scrollToAnchor(hash) {
+    const target = document.querySelector(hash);
+    if (!target) return;
+    const header = document.querySelector('header');
+    const offset = (header ? header.offsetHeight : 0) + 12;
+    const top = target.getBoundingClientRect().top + window.scrollY - offset;
+    window.scrollTo({ top: Math.max(top, 0), behavior: 'smooth' });
+  }
+
   renderLightbox(imageUrl, title) {
     const container = document.getElementById('lightbox-container');
     if (!container) return;
@@ -2266,7 +2365,7 @@ class GastroApp {
 
     // Selector HTML estándar adaptado a la estética de cada estilo
     const selectorHtml = `
-      <select id="style-select" class="text-xs font-semibold rounded-xl py-2 px-3 focus:outline-none focus:ring-2 transition-all cursor-pointer shadow-sm ${
+      <select id="style-select" class="text-xs font-semibold rounded-xl py-2 px-2 sm:px-3 focus:outline-none focus:ring-2 transition-all cursor-pointer shadow-sm ${
         preset.id === 'estilo1' ? 'bg-white text-stone-900 border-2 border-[#8B1E1E]/40 focus:ring-[#8B1E1E]' :
         preset.id === 'estilo2' ? 'bg-slate-900 text-sky-300 border border-slate-700 focus:ring-sky-500' :
         preset.id === 'estilo3' ? 'bg-white text-[#3d3228] border-2 border-[#8c7b6c] focus:ring-[#8c7b6c] font-serif' :
@@ -2282,33 +2381,33 @@ class GastroApp {
     // --- CABECERA ESTILO 1: RESTAURANTE PARRILLA VUKATA (EMBER & ASH STITCH) ---
     if (preset.id === 'estilo1') {
       return `
-        <header class="fixed top-0 w-full z-50 bg-surface/90 backdrop-blur-xl shadow-[0_1px_8px_rgba(0,0,0,0.04)]">
-          <div class="h-20 max-w-[1360px] mx-auto px-4 sm:px-6 lg:px-10 flex items-center justify-between gap-4">
-            
+        <header class="vukata-header fixed top-0 w-full z-50 backdrop-blur-xl transition-colors duration-300">
+          <div class="h-20 max-w-[1360px] 2xl:max-w-[1560px] mx-auto px-4 sm:px-6 lg:px-10 flex items-center justify-between gap-4">
+
             <!-- Identidad: Logo DevCorp + Logotipo Vukata con KA en rojo -->
             <div class="flex items-center space-x-3 sm:space-x-4 flex-shrink-0">
-              <a href="https://devcorpsolutions.com" target="_blank" class="flex items-center group" title="DevCorp Solutions">
+              <a href="https://devcorpsolutions.com" target="_blank" class="hidden sm:flex items-center group" title="DevCorp Solutions">
                 <img src="assets/images/logo.png" alt="DevCorp Solutions" class="h-9 sm:h-11 w-auto object-contain transition-transform group-hover:scale-105"/>
               </a>
 
-              <a href="#el-asador" class="flex items-center gap-2.5 group text-decoration-none border-l border-outline-variant/40 pl-3">
+              <a href="#el-asador" class="vukata-header-brand flex items-center gap-2.5 group text-decoration-none sm:border-l sm:border-outline-variant/40 sm:pl-3">
                 <span class="material-symbols-outlined text-primary text-[28px] transition-transform duration-300 group-hover:scale-110">local_fire_department</span>
                 <div class="flex flex-col">
-                  <span class="font-headline-sm text-headline-sm tracking-tight text-on-surface leading-none font-semibold">VU<span class="text-[#E52D27]">KA</span>TA</span>
-                  <span class="font-kicker-eyebrow text-kicker-eyebrow tracking-[0.2em] text-primary uppercase mt-1">ASADOR · PARRILLA</span>
+                  <span class="vukata-header-name font-headline-sm text-headline-sm tracking-tight text-on-surface leading-none font-semibold">VU<span class="text-[#E52D27]">KA</span>TA</span>
+                  <span class="vukata-header-tagline hidden sm:block font-kicker-eyebrow text-kicker-eyebrow tracking-[0.2em] text-primary uppercase mt-1">ASADOR · PARRILLA</span>
                 </div>
               </a>
             </div>
 
             <!-- Navegación Central Stitch (Cápsula Segmentada) -->
-            <nav class="hidden xl:flex items-center gap-1 bg-surface-container-low px-3 py-1.5 rounded-full shadow-[0_1px_4px_rgba(0,0,0,0.02)] border border-outline-variant/30">
-              <a class="px-3.5 py-2 font-label-action text-label-action transition-colors bg-secondary-container text-on-surface font-semibold rounded-full cursor-pointer" href="#el-asador">El Asador</a>
-              <a class="font-label-action text-label-action text-on-surface-variant hover:text-on-surface px-3.5 py-2 rounded-full transition-colors cursor-pointer" href="#especialidades">Especialidades</a>
-              <a class="font-label-action text-label-action text-on-surface-variant hover:text-on-surface px-3.5 py-2 rounded-full transition-colors cursor-pointer" href="#carta-section">Carta &amp; Menú</a>
-              <a class="font-label-action text-label-action text-on-surface-variant hover:text-on-surface px-3.5 py-2 rounded-full transition-colors cursor-pointer" href="#reservas-direct">Reservas</a>
-              <a class="font-label-action text-label-action text-on-surface-variant hover:text-on-surface px-3.5 py-2 rounded-full transition-colors cursor-pointer" href="#reservas-direct">Take away</a>
-              <a class="font-label-action text-label-action text-on-surface-variant hover:text-on-surface px-3.5 py-2 rounded-full transition-colors cursor-pointer" href="#opiniones">Opiniones</a>
-              <a class="font-label-action text-label-action text-on-surface-variant hover:text-on-surface px-3.5 py-2 rounded-full transition-colors cursor-pointer" href="#donde-estamos">Dónde estamos</a>
+            <nav class="vukata-header-nav hidden 2xl:flex flex-1 min-w-0 justify-center items-center gap-0.5 bg-surface-container-low px-2.5 py-1.5 rounded-full shadow-[0_1px_4px_rgba(0,0,0,0.02)] border border-outline-variant/30 overflow-x-auto no-scrollbar">
+              <a class="vukata-nav-link is-active px-2.5 py-2 font-label-action text-label-action whitespace-nowrap transition-colors bg-secondary-container text-on-surface font-semibold rounded-full cursor-pointer" href="#el-asador">El Asador</a>
+              <a class="vukata-nav-link font-label-action text-label-action whitespace-nowrap text-on-surface-variant hover:text-on-surface px-2.5 py-2 rounded-full transition-colors cursor-pointer" href="#especialidades">Especialidades</a>
+              <a class="vukata-nav-link font-label-action text-label-action whitespace-nowrap text-on-surface-variant hover:text-on-surface px-2.5 py-2 rounded-full transition-colors cursor-pointer" href="#carta-section">Carta &amp; Menú</a>
+              <a class="vukata-nav-link font-label-action text-label-action whitespace-nowrap text-on-surface-variant hover:text-on-surface px-2.5 py-2 rounded-full transition-colors cursor-pointer" href="#reservas-direct">Reservas</a>
+              <a class="vukata-nav-link font-label-action text-label-action whitespace-nowrap text-on-surface-variant hover:text-on-surface px-2.5 py-2 rounded-full transition-colors cursor-pointer" href="#reservas-direct">Take away</a>
+              <a class="vukata-nav-link font-label-action text-label-action whitespace-nowrap text-on-surface-variant hover:text-on-surface px-2.5 py-2 rounded-full transition-colors cursor-pointer" href="#opiniones">Opiniones</a>
+              <a class="vukata-nav-link font-label-action text-label-action whitespace-nowrap text-on-surface-variant hover:text-on-surface px-2.5 py-2 rounded-full transition-colors cursor-pointer" href="#donde-estamos">Dónde estamos</a>
             </nav>
 
             <!-- Acciones: Selector de Estilos, Botón Reservar y Carrito -->
@@ -2320,9 +2419,9 @@ class GastroApp {
                 <span class="hidden sm:inline">Reservar mesa</span>
               </a>
 
-              <button id="open-cart-btn" class="relative inline-flex items-center gap-2 bg-white border border-outline-variant/40 hover:bg-surface-container text-primary px-3.5 py-2 rounded-full font-label-action text-label-action transition-colors shadow-sm cursor-pointer" title="Ver comanda">
+              <button id="open-cart-btn" class="vukata-header-cart relative inline-flex items-center gap-2 bg-white border border-outline-variant/40 hover:bg-surface-container text-primary px-3.5 py-2 rounded-full font-label-action text-label-action transition-colors shadow-sm cursor-pointer" title="Ver comanda">
                 <span class="material-symbols-outlined text-[18px]">shopping_bag</span>
-                <span class="font-bold font-mono text-xs sm:text-sm">${formatCurrency(store.getCartTotal())}</span>
+                <span class="hidden sm:inline font-bold font-mono text-xs sm:text-sm">${formatCurrency(store.getCartTotal())}</span>
                 ${cartCount > 0 ? `<span class="bg-primary text-on-primary text-[10px] font-black px-1.5 py-0.5 rounded-full">${cartCount}</span>` : ''}
               </button>
             </div>
@@ -2330,17 +2429,17 @@ class GastroApp {
           </div>
 
           <!-- Barra táctil de secciones y módulos DevCorp para móviles y tablets -->
-          <div class="xl:hidden bg-surface-container-low border-t border-outline-variant/30 px-4 py-2 overflow-x-auto no-scrollbar flex items-center gap-2 text-xs font-label-action whitespace-nowrap">
-            <a href="#el-asador" class="px-3 py-1 rounded-full bg-secondary-container text-on-surface font-semibold">El Asador</a>
-            <a href="#especialidades" class="px-3 py-1 rounded-full text-on-surface-variant hover:text-on-surface">Especialidades</a>
-            <a href="#carta-section" class="px-3 py-1 rounded-full text-on-surface-variant hover:text-on-surface">Carta</a>
-            <a href="#reservas-direct" class="px-3 py-1 rounded-full text-on-surface-variant hover:text-on-surface">Reservas</a>
-            <a href="#opiniones" class="px-3 py-1 rounded-full text-on-surface-variant hover:text-on-surface">Opiniones</a>
-            <a href="#donde-estamos" class="px-3 py-1 rounded-full text-on-surface-variant hover:text-on-surface">Ubicación</a>
+          <div class="vukata-header-bar 2xl:hidden bg-surface-container-low border-t border-outline-variant/30 px-4 py-2 overflow-x-auto no-scrollbar flex items-center gap-2 text-xs font-label-action whitespace-nowrap">
+            <a href="#el-asador" class="vukata-nav-link is-active px-3 py-1 rounded-full bg-secondary-container text-on-surface font-semibold">El Asador</a>
+            <a href="#especialidades" class="vukata-nav-link px-3 py-1 rounded-full text-on-surface-variant hover:text-on-surface">Especialidades</a>
+            <a href="#carta-section" class="vukata-nav-link px-3 py-1 rounded-full text-on-surface-variant hover:text-on-surface">Carta</a>
+            <a href="#reservas-direct" class="vukata-nav-link px-3 py-1 rounded-full text-on-surface-variant hover:text-on-surface">Reservas</a>
+            <a href="#opiniones" class="vukata-nav-link px-3 py-1 rounded-full text-on-surface-variant hover:text-on-surface">Opiniones</a>
+            <a href="#donde-estamos" class="vukata-nav-link px-3 py-1 rounded-full text-on-surface-variant hover:text-on-surface">Ubicación</a>
             <span class="text-outline-variant">|</span>
-            <button data-view="kds" class="px-3 py-1 rounded-full bg-primary/10 text-primary font-bold">KDS (${kdsPending})</button>
-            <button data-view="metrics" class="px-3 py-1 rounded-full text-on-surface-variant">Métricas</button>
-            <button data-view="roi" class="px-3 py-1 rounded-full text-on-surface-variant">Rentabilidad</button>
+            <button data-view="kds" class="vukata-nav-link px-3 py-1 rounded-full bg-primary/10 text-primary font-bold">KDS (${kdsPending})</button>
+            <button data-view="metrics" class="vukata-nav-link px-3 py-1 rounded-full text-on-surface-variant">Métricas</button>
+            <button data-view="roi" class="vukata-nav-link px-3 py-1 rounded-full text-on-surface-variant">Rentabilidad</button>
           </div>
         </header>
       `;
@@ -2540,13 +2639,13 @@ class GastroApp {
 
     return `
       <!-- HERO SECTION: Atmospheric Dark Ember Hearth (Stitch Redesign) -->
-      <section class="relative w-full bg-[#14100E] text-[#f1ede8] overflow-hidden pt-10 pb-16 lg:pt-16 lg:pb-24 rounded-3xl mb-12 shadow-2xl">
+      <section id="el-asador" class="relative w-full bg-[#14100E] text-[#f1ede8] overflow-hidden pt-[9.5rem] pb-20 2xl:pt-32 lg:pb-28">
         <!-- Embers ambient background overlay -->
         <div class="absolute inset-0 pointer-events-none opacity-40 bg-[radial-gradient(ellipse_at_center,_var(--tw-gradient-stops))] from-[#9c382c]/30 via-transparent to-transparent"></div>
         <div class="absolute -right-24 top-1/4 w-96 h-96 rounded-full bg-[#8B1E1E]/10 blur-3xl pointer-events-none"></div>
 
         <div class="max-w-[1360px] mx-auto px-6 lg:px-10 relative z-10">
-          <div class="grid grid-cols-1 lg:grid-cols-12 gap-10 lg:gap-8 items-center">
+          <div class="grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-8 items-center">
             
             <!-- Hero Content (7 Cols) -->
             <div class="lg:col-span-7 flex flex-col items-start space-y-6">
@@ -2584,9 +2683,9 @@ class GastroApp {
             <!-- Hero Focal Media & Live Grill Ambience (5 Cols) -->
             <div class="lg:col-span-5 relative">
               <div class="relative rounded-2xl overflow-hidden shadow-2xl bg-white/5 p-2 border border-white/10">
-                <img alt="Corte de carne selecta a las brasas" class="w-full h-[360px] lg:h-[440px] object-cover rounded-xl transform transition-transform duration-700 hover:scale-105" src="assets/images/vukata/chuleton.jpg"/>
+                <img alt="Corte de carne selecta a las brasas" class="w-full h-[420px] lg:h-[500px] object-cover rounded-xl transform transition-transform duration-700 hover:scale-105" src="assets/images/vukata/chuleton.jpg"/>
                 <div class="absolute inset-0 bg-gradient-to-t from-[#14100E] via-transparent to-transparent opacity-80 rounded-xl"></div>
-                <div class="absolute bottom-5 left-5 right-5 flex items-center justify-between bg-white/95 backdrop-blur-md p-4 rounded-xl text-[#1c1c19] shadow-lg">
+                <div class="absolute bottom-6 left-6 right-6 flex items-center justify-between bg-white/95 backdrop-blur-md p-4 rounded-xl text-[#1c1c19] shadow-lg">
                   <div class="flex items-center gap-3">
                     <span class="material-symbols-outlined text-[#8B1E1E] text-[28px]">local_fire_department</span>
                     <div>
@@ -2602,7 +2701,7 @@ class GastroApp {
           </div>
 
           <!-- Highlight Stats Row -->
-          <div class="mt-14 pt-8 border-t border-white/10 bg-white/5 rounded-2xl p-6 lg:p-8 backdrop-blur-sm">
+          <div class="mt-16 pt-10 bg-white/5 rounded-2xl p-6 lg:p-8 backdrop-blur-sm">
             <div class="grid grid-cols-2 lg:grid-cols-4 gap-6 lg:gap-8 text-center sm:text-left">
               <div class="flex flex-col">
                 <span class="font-stat-number text-white leading-none mb-1">1996</span>
@@ -2632,7 +2731,7 @@ class GastroApp {
       </section>
 
       <!-- TICKER MARQUEE RIBBON -->
-      <div class="w-full bg-[#e8deda] py-3.5 overflow-hidden shadow-inner flex select-none mb-12 rounded-2xl border border-[#ddc0bb]">
+      <div class="w-full bg-[#e8deda] py-3.5 overflow-hidden shadow-inner flex select-none">
         <div class="flex items-center gap-8 whitespace-nowrap animate-marquee">
           <span class="font-title-italic text-[16px] text-[#1c1c19] italic">Carbón natural</span>
           <span class="material-symbols-outlined text-[#8B1E1E] text-[16px]">local_fire_department</span>
@@ -2663,9 +2762,9 @@ class GastroApp {
       </div>
 
       <!-- FEATURED SHOWCASE DISH: Directo de la Brasa (50/50 Spotlight Card) -->
-      <section class="mb-14 w-full">
-        <div class="flex flex-col md:flex-row md:items-end justify-between mb-8 gap-4">
-          <div class="space-y-1.5">
+      <section id="especialidades" class="max-w-[1360px] mx-auto px-6 lg:px-10 py-16 lg:py-24 w-full">
+        <div class="flex flex-col md:flex-row md:items-end justify-between mb-12 gap-6">
+          <div class="space-y-2">
             <div class="flex items-center gap-2">
               <span class="w-6 h-[2px] bg-[#8B1E1E]"></span>
               <span class="font-kicker-eyebrow text-[#8B1E1E] uppercase tracking-[0.2em]">DIRECTO DE LA BRASA</span>
@@ -2682,11 +2781,11 @@ class GastroApp {
         </div>
 
         <!-- Spotlight 50/50 Card -->
-        <div class="bg-[#f7f3ee] rounded-3xl overflow-hidden border border-[#e6dfd5] shadow-lg grid grid-cols-1 lg:grid-cols-12 items-stretch">
-          <div class="relative lg:col-span-7 min-h-[340px] lg:min-h-[440px]">
+        <div class="bg-[#f7f3ee] rounded-3xl overflow-hidden shadow-lg grid grid-cols-1 lg:grid-cols-12 items-stretch">
+          <div class="relative lg:col-span-7 min-h-[380px] lg:min-h-[480px]">
             <img alt="${topData.dish.name}" class="w-full h-full object-cover" src="${topData.dish.image || 'assets/images/vukata/asado_tira.jpg'}"/>
-            <div class="absolute top-5 left-5">
-              <span class="font-kicker-eyebrow text-[10px] uppercase bg-[#8B1E1E] text-white px-3 py-1.5 rounded-full tracking-widest shadow-md">
+            <div class="absolute top-6 left-6">
+              <span class="font-kicker-eyebrow uppercase bg-[#8B1E1E] text-white px-3 py-1.5 rounded-full tracking-widest shadow-md">
                 LA CASA
               </span>
             </div>
@@ -2695,29 +2794,29 @@ class GastroApp {
             </button>
           </div>
 
-          <div class="lg:col-span-5 p-8 lg:p-10 flex flex-col justify-between bg-white">
-            <div class="space-y-4">
+          <div class="lg:col-span-5 p-8 lg:p-12 flex flex-col justify-between bg-white">
+            <div class="space-y-6">
               <div class="flex items-center justify-between">
-                <span class="font-kicker-eyebrow text-[10px] text-[#645d5a] uppercase tracking-[0.2em]">${topData.dish.badge || 'PIEZA 400 G APROX.'}</span>
+                <span class="font-kicker-eyebrow text-[#645d5a] uppercase tracking-[0.2em]">${topData.dish.badge || 'PIEZA 400 G APROX.'}</span>
                 ${renderAllergenBadges(topData.dish.allergens, 'sm')}
               </div>
               <h3 class="font-headline-md text-[#1c1c19] font-semibold">${topData.dish.name}</h3>
               <p class="font-body-md text-[#57423f] leading-relaxed">
                 ${topData.dish.description}
               </p>
-              <div class="grid grid-cols-2 gap-3 pt-2">
-                <div class="bg-[#f7f3ee] p-3 rounded-xl">
+              <div class="grid grid-cols-2 gap-4 pt-2">
+                <div class="bg-[#f7f3ee] p-3.5 rounded-xl">
                   <span class="font-kicker-eyebrow text-[10px] text-[#645d5a] uppercase block">ORIGEN</span>
                   <span class="font-body-sm font-semibold text-[#1c1c19]">Vaca Seleccionada</span>
                 </div>
-                <div class="bg-[#f7f3ee] p-3 rounded-xl">
+                <div class="bg-[#f7f3ee] p-3.5 rounded-xl">
                   <span class="font-kicker-eyebrow text-[10px] text-[#645d5a] uppercase block">TÉCNICA</span>
                   <span class="font-body-sm font-semibold text-[#1c1c19]">${topData.dish.prepTime || 'Fuego Lento 45 Min'}</span>
                 </div>
               </div>
             </div>
 
-            <div class="pt-6 mt-6 border-t border-[#e6dfd5] flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+            <div class="pt-8 mt-6 flex flex-col sm:flex-row sm:items-center justify-between gap-4">
               <div>
                 <span class="font-kicker-eyebrow text-[10px] text-[#645d5a] uppercase block">PRECIO RACIÓN</span>
                 <span class="font-label-price text-[#8B1E1E] font-bold">${formatCurrency(topData.dish.price)}</span>
@@ -2737,8 +2836,8 @@ class GastroApp {
       </section>
 
       <!-- STICKY FILTER SUBNAV & SEARCH -->
-      <section class="sticky top-20 z-30 bg-[#fdf9f4]/95 backdrop-blur-md py-4 border-y border-[#e6dfd5] mb-8" id="carta-section">
-        <div class="flex flex-col md:flex-row items-center justify-between gap-4">
+      <section class="sticky top-[8.25rem] 2xl:top-20 z-40 bg-[#fdf9f4]/95 backdrop-blur-md py-4 shadow-sm w-full" id="carta-section">
+        <div class="max-w-[1360px] mx-auto px-6 lg:px-10 flex flex-col md:flex-row items-center justify-between gap-4">
           
           <!-- Category Pill Carousel -->
           <div class="flex items-center gap-2 overflow-x-auto w-full md:w-auto pb-1 md:pb-0 scrollbar-none" id="category-pills">
@@ -2770,7 +2869,7 @@ class GastroApp {
       </section>
 
       <!-- ALLERGENS INFO BANNER & MULTI-SELECT MATRIX (Collapsible via JS) -->
-      <div class="${activeAllergens.length > 0 ? '' : 'hidden'} mb-8 w-full transition-all" id="allergen-box">
+      <div class="${activeAllergens.length > 0 ? '' : 'hidden'} max-w-[1360px] mx-auto px-6 lg:px-10 mt-4 w-full transition-all" id="allergen-box">
         <div class="bg-[#ffddb8]/30 border border-[#ddc0bb] p-5 rounded-2xl text-[#2a1700] shadow-sm">
           <div class="flex items-start gap-3">
             <span class="material-symbols-outlined text-[#5f3a00] mt-0.5 text-[24px]">verified_user</span>
@@ -2811,9 +2910,10 @@ class GastroApp {
       </div>
 
       <!-- MAIN MENU SHOWCASE CONTAINER -->
+      <div class="max-w-[1360px] mx-auto px-6 lg:px-10 py-12 w-full">
       ${this.menuMode === 'compact' ? `
         <!-- VISTA COMPACTA DE LISTA RÁPIDA: TODOS LOS PLATOS Y PRECIOS VISIBLES CON SCROLL -->
-        <div class="bg-white border border-[#e6dfd5] rounded-3xl shadow-sm p-6 sm:p-8 mb-16">
+        <div class="bg-white border border-[#e6dfd5] rounded-3xl shadow-sm p-6 sm:p-8">
           <div class="flex flex-col sm:flex-row sm:items-center justify-between pb-4 border-b border-[#e6dfd5] mb-6 gap-2">
             <div>
               <div class="flex items-center space-x-2">
@@ -2879,106 +2979,19 @@ class GastroApp {
         </div>
       ` : `
         <!-- VISTA TARJETAS SHOWCASE DE ALTA RESTAURACIÓN (Stitch Grid Layout) -->
-        <div class="space-y-16 mb-16">
+        <div class="space-y-16">
           ${categoriesToRender.map(catName => {
             const categoryDishes = filteredMenu.filter(d => d.category === catName);
             if (categoryDishes.length === 0) return '';
-
-            return `
-              <section class="menu-group" data-group="${catName.toLowerCase()}">
-                
-                <!-- Category Section Banner -->
-                <div class="flex items-center justify-between pb-6 mb-8 bg-[#f7f3ee] p-6 rounded-2xl border border-[#e6dfd5]">
-                  <div class="flex items-center gap-3">
-                    <span class="p-2.5 rounded-full bg-[#9c382c] text-white">
-                      <span class="material-symbols-outlined text-[24px]">local_fire_department</span>
-                    </span>
-                    <div>
-                      <h3 class="font-headline-md text-[#1c1c19] font-semibold">${catName}</h3>
-                      <p class="font-body-sm text-[#57423f]">Preparado al momento en parrilla abierta con leña y carbón de encina natural</p>
-                    </div>
-                  </div>
-                  <span class="hidden md:inline-block font-kicker-eyebrow text-[#8B1E1E] uppercase bg-white px-3.5 py-1.5 rounded-full border border-[#e6dfd5] shadow-xs">
-                    ${categoryDishes.length} Opciones
-                  </span>
-                </div>
-
-                <!-- Cards Grid -->
-                <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-                  ${categoryDishes.map(dish => {
-                    const sales = store.getDishSalesCount(dish.id);
-                    return `
-                      <div class="dish-card bg-white rounded-2xl overflow-hidden border border-[#e6dfd5] shadow-sm hover:shadow-md transition-all duration-300 flex flex-col justify-between group">
-                        
-                        <!-- Media Container -->
-                        <div class="relative overflow-hidden h-56 bg-[#f1ede8]">
-                          ${dish.image ? `
-                            <img alt="${dish.name}" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500 cursor-pointer" data-open-dish-modal="${dish.id}" src="${dish.image}" loading="lazy"/>
-                            <button data-open-lightbox="${dish.image}" data-lightbox-title="${dish.name}" class="absolute top-3 right-3 bg-black/70 hover:bg-black text-white p-1.5 rounded-lg text-xs backdrop-blur-sm transition-opacity cursor-pointer" title="Ampliar imagen completa">
-                              ${ICONS.zoom}
-                            </button>
-                          ` : `
-                            <div class="w-full h-full flex items-center justify-center text-4xl">🔥</div>
-                          `}
-                          ${dish.badge ? `
-                            <div class="absolute top-3 left-3 bg-[#31302d]/90 backdrop-blur-sm text-[#f4f0eb] px-2.5 py-1 rounded-md font-kicker-eyebrow text-[10px] tracking-widest uppercase">
-                              ${dish.badge}
-                            </div>
-                          ` : ''}
-                        </div>
-
-                        <!-- Content Dossier -->
-                        <div class="p-6 flex flex-col flex-grow justify-between">
-                          <div>
-                            <div class="flex items-start justify-between gap-2 mb-2">
-                              <h4 class="font-headline-sm text-[#1c1c19] font-semibold leading-snug cursor-pointer hover:text-[#8B1E1E] transition-colors" data-open-dish-modal="${dish.id}">
-                                ${dish.name}
-                              </h4>
-                              <span class="font-label-price text-[#8B1E1E] font-bold whitespace-nowrap">
-                                ${formatCurrency(dish.price)}
-                              </span>
-                            </div>
-
-                            <p class="font-body-md text-[#57423f] mb-3 line-clamp-2">
-                              ${dish.description}
-                            </p>
-
-                            <!-- Alérgenos Declarados -->
-                            <div class="mb-2">
-                              ${renderAllergenBadges(dish.allergens, 'sm')}
-                            </div>
-                          </div>
-
-                          <div class="pt-4 border-t border-[#f1ede8] flex items-center justify-between">
-                            <span class="font-body-sm text-[#645d5a] flex items-center gap-1">
-                              <span class="material-symbols-outlined text-[16px] text-[#8B1E1E]">skillet</span>
-                              <span>${dish.prepTime || 'Punto recomendado'}</span>
-                            </span>
-                            <div class="flex items-center gap-1.5">
-                              <button data-open-dish-modal="${dish.id}" class="p-2 rounded-full bg-[#f1ede8] hover:bg-[#e8deda] text-[#1c1c19] transition-colors cursor-pointer" title="Ver detalle">
-                                <span class="material-symbols-outlined text-[18px]">info</span>
-                              </button>
-                              <button data-add-cart="${dish.id}" class="p-2 rounded-full bg-[#f1ede8] hover:bg-[#9c382c] hover:text-white text-[#8B1E1E] transition-colors cursor-pointer shadow-xs" title="Añadir a la comanda">
-                                <span class="material-symbols-outlined text-[20px]">add</span>
-                              </button>
-                            </div>
-                          </div>
-
-                        </div>
-                      </div>
-                    `;
-                  }).join('')}
-                </div>
-
-              </section>
-            `;
+            return this.renderVukataCategoryBlock(catName, categoryDishes);
           }).join('')}
         </div>
       `}
+      </div>
 
       
       <!-- GOOGLE REVIEWS SECTION (Social Proof & Reputation de Stitch) -->
-      <section class="bg-surface-container-low py-20 w-full mt-12" id="opiniones">
+      <section class="bg-[#f7f3ee] py-20 lg:py-24 w-full" id="opiniones">
         <div class="max-w-[1360px] mx-auto px-6 lg:px-10">
           <div class="flex flex-col md:flex-row md:items-end justify-between mb-12 gap-6">
             <div>
@@ -2989,134 +3002,167 @@ class GastroApp {
               <h2 class="font-headline-lg text-headline-lg text-on-surface">Opiniones de nuestros clientes</h2>
               <p class="font-body-md text-body-md text-on-surface-variant">Más de 28 años encendiendo la leña a diario en el barrio de Aluche.</p>
             </div>
-            <div class="flex items-center gap-4 bg-surface-container-lowest p-4 rounded-2xl shadow-sm">
-              <div class="w-12 h-12 rounded-full bg-[#14100E] flex items-center justify-center text-tertiary-fixed-dim">
+            <div class="flex items-center gap-4 bg-white p-4 rounded-2xl shadow-sm">
+              <div class="w-12 h-12 rounded-full bg-[#14100E] flex items-center justify-center text-[#f8bb70]">
                 <span class="material-symbols-outlined text-[28px]">reviews</span>
               </div>
               <div>
                 <div class="flex items-center gap-1.5">
-                  <span class="font-headline-sm text-headline-sm font-bold text-on-surface">4.8</span>
+                  <span class="font-headline-sm font-bold text-[#1c1c19]">${preset.rating}</span>
                   <div class="flex text-[#e39c28]">
-                    <span class="material-symbols-outlined text-[18px]" style="font-variation-settings: 'FILL' 1;">star</span>
-                    <span class="material-symbols-outlined text-[18px]" style="font-variation-settings: 'FILL' 1;">star</span>
-                    <span class="material-symbols-outlined text-[18px]" style="font-variation-settings: 'FILL' 1;">star</span>
-                    <span class="material-symbols-outlined text-[18px]" style="font-variation-settings: 'FILL' 1;">star</span>
-                    <span class="material-symbols-outlined text-[18px]" style="font-variation-settings: 'FILL' 1;">star</span>
+                    ${Array(5).fill(`<span class="material-symbols-outlined text-[18px]" style="font-variation-settings: 'FILL' 1;">star</span>`).join('')}
                   </div>
                 </div>
-                <span class="font-body-sm text-body-sm text-secondary">Basado en 348 reseñas de Google Maps</span>
+                <span class="font-body-sm text-[#645d5a]">Basado en ${preset.totalReviews} reseñas de Google Maps</span>
               </div>
             </div>
           </div>
           <!-- Testimonial Cards Grid -->
           <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
-            <!-- Review 1 -->
-            <div class="bg-surface-container-lowest p-8 rounded-2xl shadow-sm flex flex-col justify-between">
-              <div class="space-y-4">
-                <div class="flex text-[#e39c28]">
-                  <span class="material-symbols-outlined text-[20px]" style="font-variation-settings: 'FILL' 1;">star</span>
-                  <span class="material-symbols-outlined text-[20px]" style="font-variation-settings: 'FILL' 1;">star</span>
-                  <span class="material-symbols-outlined text-[20px]" style="font-variation-settings: 'FILL' 1;">star</span>
-                  <span class="material-symbols-outlined text-[20px]" style="font-variation-settings: 'FILL' 1;">star</span>
-                  <span class="material-symbols-outlined text-[20px]" style="font-variation-settings: 'FILL' 1;">star</span>
+            ${preset.googleReviews.slice(0, 3).map(review => `
+              <div class="bg-white p-8 rounded-2xl shadow-sm flex flex-col justify-between">
+                <div class="space-y-4">
+                  <div class="flex items-center justify-between">
+                    <div class="flex text-[#e39c28]">
+                      ${Array(review.rating || 5).fill(`<span class="material-symbols-outlined text-[20px]" style="font-variation-settings: 'FILL' 1;">star</span>`).join('')}
+                    </div>
+                    <span class="font-kicker-eyebrow text-[10px] text-emerald-800 bg-emerald-50 px-2.5 py-1 rounded-full uppercase tracking-wider font-bold">Verificada</span>
+                  </div>
+                  <p class="font-body-md text-[#1c1c19] italic">"${review.comment}"</p>
                 </div>
-                <p class="font-body-md text-body-md text-on-surface italic">
-                  "El asado de tira y la entraña son de otro nivel. Se nota el carbón de verdad y la mano de quien lleva décadas en la parrilla. Sitio indispensable en Aluche si te gusta la carne bien hecha."
-                </p>
-              </div>
-              <div class="pt-6 mt-6 border-t-0 flex items-center gap-3">
-                <div class="w-10 h-10 rounded-full bg-secondary-container flex items-center justify-center font-bold text-on-surface">MG</div>
-                <div>
-                  <h5 class="font-label-action text-label-action text-on-surface font-semibold">Manuel Gómez</h5>
-                  <span class="font-body-sm text-body-sm text-secondary">Guía Local de Google · Reseña verificada</span>
+                <div class="pt-6 mt-6 flex items-center gap-3">
+                  <div class="w-10 h-10 rounded-full bg-[#e8deda] flex items-center justify-center font-bold text-[#1c1c19]">
+                    ${review.author.split(' ').map(w => w[0]).join('').slice(0, 2).toUpperCase()}
+                  </div>
+                  <div>
+                    <h5 class="font-label-action text-[#1c1c19] font-semibold">${review.author}</h5>
+                    <span class="font-body-sm text-[#645d5a]">${review.badge} · ${review.timeAgo}</span>
+                  </div>
                 </div>
               </div>
+            `).join('')}
+          </div>
+
+          <!-- Valorar experiencia: abre el flujo inteligente de reseñas -->
+          <div class="mt-12 bg-white rounded-2xl p-8 flex flex-col lg:flex-row lg:items-center justify-between gap-6 shadow-sm">
+            <div class="space-y-1.5">
+              <div class="flex items-center gap-2">
+                <span class="w-6 h-[2px] bg-[#8B1E1E]"></span>
+                <span class="font-kicker-eyebrow text-[#8B1E1E] uppercase tracking-[0.2em]">¿YA HA COMIDO CON NOSOTROS?</span>
+              </div>
+              <h3 class="font-headline-sm text-[#1c1c19] font-semibold">Valore su experiencia en la parrilla</h3>
+              <p class="font-body-md text-[#57423f] max-w-xl">
+                Cuéntenos qué tal fue su visita. Nos ayuda a mejorar el servicio y a que otros vecinos de Aluche nos encuentren.
+              </p>
             </div>
-            <!-- Review 2 -->
-            <div class="bg-surface-container-lowest p-8 rounded-2xl shadow-sm flex flex-col justify-between">
-              <div class="space-y-4">
-                <div class="flex text-[#e39c28]">
-                  <span class="material-symbols-outlined text-[20px]" style="font-variation-settings: 'FILL' 1;">star</span>
-                  <span class="material-symbols-outlined text-[20px]" style="font-variation-settings: 'FILL' 1;">star</span>
-                  <span class="material-symbols-outlined text-[20px]" style="font-variation-settings: 'FILL' 1;">star</span>
-                  <span class="material-symbols-outlined text-[20px]" style="font-variation-settings: 'FILL' 1;">star</span>
-                  <span class="material-symbols-outlined text-[20px]" style="font-variation-settings: 'FILL' 1;">star</span>
-                </div>
-                <p class="font-body-md text-body-md text-on-surface italic">
-                  "Pedimos la parrillada para dos y salimos fascinados. La empanada criolla tiene una masa auténtica y el punto de las carnes vino tal cual pedimos. Trato cercano y precio muy ajustado para la calidad."
-                </p>
-              </div>
-              <div class="pt-6 mt-6 border-t-0 flex items-center gap-3">
-                <div class="w-10 h-10 rounded-full bg-secondary-container flex items-center justify-center font-bold text-on-surface">MM</div>
-                <div>
-                  <h5 class="font-label-action text-label-action text-on-surface font-semibold">María C. Montes</h5>
-                  <span class="font-body-sm text-body-sm text-secondary">Cliente habitual · Reseña verificada</span>
-                </div>
-              </div>
-            </div>
-            <!-- Review 3 -->
-            <div class="bg-surface-container-lowest p-8 rounded-2xl shadow-sm flex flex-col justify-between">
-              <div class="space-y-4">
-                <div class="flex text-[#e39c28]">
-                  <span class="material-symbols-outlined text-[20px]" style="font-variation-settings: 'FILL' 1;">star</span>
-                  <span class="material-symbols-outlined text-[20px]" style="font-variation-settings: 'FILL' 1;">star</span>
-                  <span class="material-symbols-outlined text-[20px]" style="font-variation-settings: 'FILL' 1;">star</span>
-                  <span class="material-symbols-outlined text-[20px]" style="font-variation-settings: 'FILL' 1;">star</span>
-                  <span class="material-symbols-outlined text-[20px]" style="font-variation-settings: 'FILL' 1;">star</span>
-                </div>
-                <p class="font-body-md text-body-md text-on-surface italic">
-                  "El chuletón finlandés madurado es una joya. Tierno, con un toque de brasa limpio que no satura. Y dejen sitio para la tarta de queso casera porque vale cada euro."
-                </p>
-              </div>
-              <div class="pt-6 mt-6 border-t-0 flex items-center gap-3">
-                <div class="w-10 h-10 rounded-full bg-secondary-container flex items-center justify-center font-bold text-on-surface">JP</div>
-                <div>
-                  <h5 class="font-label-action text-label-action text-on-surface font-semibold">Javier del Pozo</h5>
-                  <span class="font-body-sm text-body-sm text-secondary">Crítico gastronómico amateur</span>
-                </div>
-              </div>
+            <div class="flex flex-col sm:flex-row items-center gap-4 flex-shrink-0">
+              <button id="open-smart-review-btn" class="btn-vukata-primary font-label-action text-[13px] px-8 py-3.5 rounded-full shadow-md transition-all transform hover:scale-105 inline-flex items-center gap-2.5 cursor-pointer">
+                <span class="material-symbols-outlined text-[18px]">rate_review</span>
+                <span>Valorar mi experiencia</span>
+              </button>
+              <a href="${preset.googleMapsUrl}" target="_blank" class="inline-flex items-center gap-2 font-label-action text-[13px] text-[#8B1E1E] hover:underline">
+                <span>Ver ficha en Google Maps</span>
+                <span class="material-symbols-outlined text-[16px]">open_in_new</span>
+              </a>
             </div>
           </div>
         </div>
       </section>
 
-      <!-- TAKE AWAY & RESERVAS COMPONENT (Direct Action Block) -->
-      <section class="w-full mb-14" id="reservas-direct">
-        <div class="bg-[#14100E] text-[#f1ede8] rounded-3xl p-8 lg:p-14 relative overflow-hidden shadow-2xl">
-          <!-- Ambient Glow Decorator -->
-          <div class="absolute -left-20 -bottom-20 w-80 h-80 bg-[#8B1E1E]/20 rounded-full blur-3xl pointer-events-none"></div>
+      <!-- RESERVA DE MESA: BLOQUE GRANATE CON CONTACTO DIRECTO, HORARIOS Y FORMULARIO -->
+      <section class="w-full bg-[#4a1512] text-[#f4ede7]" id="reservas-direct">
+        <div class="max-w-[1360px] mx-auto px-6 lg:px-10 py-16 lg:py-24">
+          <div class="grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-16 items-start">
 
-          <div class="grid grid-cols-1 lg:grid-cols-12 gap-10 items-center relative z-10">
-            <div class="lg:col-span-7 space-y-6">
-              <div class="flex items-center gap-2 text-[#ffdad5]">
-                <span class="material-symbols-outlined text-[22px]">calendar_today</span>
-                <span class="font-kicker-eyebrow uppercase tracking-widest">RESERVA INMEDIATA SIN ESPERAS</span>
+            <!-- Columna narrativa con contacto directo -->
+            <div class="space-y-7">
+              <div class="flex items-center gap-3">
+                <span class="w-8 h-[2px] bg-[#D49B53]"></span>
+                <span class="font-kicker-eyebrow text-[#D49B53] uppercase tracking-[0.22em]">RESERVA DE MESA</span>
               </div>
+
               <h2 class="font-headline-lg lg:font-display-hero text-white leading-tight">
-                Reserve su mesa frente a las brasas de Aluche
+                Te guardamos sitio<br/>junto a la brasa
               </h2>
-              <p class="font-body-lg text-[#ddd9d5] max-w-xl">
-                Asegure su sitio para disfrutar de nuestras carnes con el punto exacto de asado. Atendemos peticiones de mesas familiares y celebraciones.
+
+              <p class="font-body-md text-[#e4d6cf] max-w-lg leading-relaxed">
+                Los fines de semana se llena pronto. Llámanos y te reservamos sin complicaciones, o escríbenos por WhatsApp y te confirmamos en minutos. Si venís en grupo, avísanos con un día de antelación.
               </p>
-              <div class="flex flex-wrap items-center gap-6 pt-2 text-[#ddd9d5]">
-                <div class="flex items-center gap-2.5">
-                  <span class="material-symbols-outlined text-[#f8bb70]">timer</span>
-                  <span class="font-body-md">Comidas: 12:00h - 17:00h</span>
-                </div>
-                <div class="flex items-center gap-2.5">
-                  <span class="material-symbols-outlined text-[#f8bb70]">dinner_dining</span>
-                  <span class="font-body-md">Cenas: 19:30h - 00:00h</span>
-                </div>
-                <div class="flex items-center gap-2.5">
-                  <span class="material-symbols-outlined text-[#f8bb70]">call</span>
-                  <a href="tel:+34915098576" class="font-body-md hover:underline">+34 915 09 85 76</a>
+
+              <ul class="space-y-4 pt-2">
+                <li class="flex items-center gap-4">
+                  <span class="w-10 h-10 rounded-full bg-white/10 flex items-center justify-center text-[#f8bb70] flex-shrink-0">
+                    <span class="material-symbols-outlined text-[20px]">groups</span>
+                  </span>
+                  <span class="font-body-md text-[#f4ede7]">Mesas para grupos hasta 20 comensales</span>
+                </li>
+                <li class="flex items-center gap-4">
+                  <span class="w-10 h-10 rounded-full bg-white/10 flex items-center justify-center text-[#f8bb70] flex-shrink-0">
+                    <span class="material-symbols-outlined text-[20px]">restaurant</span>
+                  </span>
+                  <span class="font-body-md text-[#f4ede7]">Comidas y cenas de miércoles a lunes</span>
+                </li>
+                <li class="flex items-center gap-4">
+                  <span class="w-10 h-10 rounded-full bg-white/10 flex items-center justify-center text-[#f8bb70] flex-shrink-0">
+                    <span class="material-symbols-outlined text-[20px]">local_parking</span>
+                  </span>
+                  <span class="font-body-md text-[#f4ede7]">Aparcamiento fácil en Calle de Maqueda</span>
+                </li>
+              </ul>
+
+              <div class="flex flex-wrap items-center gap-4 pt-4">
+                <a href="tel:${preset.phone.replace(/\s+/g, '')}" class="inline-flex items-center gap-2.5 bg-[#fdf9f4] hover:bg-white text-[#4a1512] font-label-action px-7 py-3.5 rounded-full transition-colors shadow-lg">
+                  <span class="material-symbols-outlined text-[18px]">call</span>
+                  <span>Llamar al ${preset.phone.replace('+34 ', '')}</span>
+                </a>
+                <a href="https://wa.me/${preset.whatsapp}" target="_blank" class="inline-flex items-center gap-2.5 border border-white/40 hover:border-white hover:bg-white/10 text-white font-label-action px-7 py-3.5 rounded-full transition-colors">
+                  ${ICONS.whatsapp}
+                  <span>Reservar por WhatsApp</span>
+                </a>
+              </div>
+            </div>
+
+            <!-- Columna visual: sala y horarios de cocina -->
+            <div class="space-y-8">
+              <div class="rounded-2xl overflow-hidden shadow-2xl">
+                <img alt="Parrilla de encina encendida en el comedor de Vukata" class="w-full h-[320px] object-cover" src="assets/images/vukata/asado_tira.jpg"/>
+              </div>
+
+              <div class="border border-white/15 rounded-2xl p-7">
+                <span class="font-kicker-eyebrow text-[#D49B53] uppercase tracking-[0.22em] block mb-5">HORARIO DE BRASAS Y COCINA</span>
+                <div class="divide-y divide-white/10">
+                  <div class="flex items-center justify-between py-3.5">
+                    <span class="font-body-md text-[#f4ede7]">Lunes</span>
+                    <span class="font-body-md text-[#e4d6cf]">12:00 – 17:00 · 19:30 – 00:00</span>
+                  </div>
+                  <div class="flex items-center justify-between py-3.5">
+                    <span class="font-body-md text-[#f4ede7]">Martes</span>
+                    <span class="font-body-md font-semibold text-[#ffb4a9]">Cerrado por descanso</span>
+                  </div>
+                  <div class="flex items-center justify-between py-3.5">
+                    <span class="font-body-md text-[#f4ede7]">Miércoles a Jueves</span>
+                    <span class="font-body-md text-[#e4d6cf]">12:00 – 17:00 · 19:30 – 00:00</span>
+                  </div>
+                  <div class="flex items-center justify-between py-3.5">
+                    <span class="font-body-md text-[#f4ede7]">Viernes y Sábado</span>
+                    <span class="font-body-md text-[#e4d6cf]">12:00 – 17:00 · 19:30 – 00:00</span>
+                  </div>
+                  <div class="flex items-center justify-between py-3.5">
+                    <span class="font-body-md text-[#f4ede7]">Domingo</span>
+                    <span class="font-body-md text-[#e4d6cf]">12:00 – 17:00</span>
+                  </div>
                 </div>
               </div>
             </div>
 
-            <!-- Quick Interactive Booking Panel -->
-            <div class="lg:col-span-5 bg-white text-[#1c1c19] p-8 rounded-2xl shadow-xl">
-              <h3 class="font-headline-sm font-semibold mb-4 text-[#1c1c19]">Confirmar Comensales</h3>
+          </div>
+
+          <!-- Reserva online directa, sin comisiones de intermediarios -->
+          <div class="mt-14 bg-white text-[#1c1c19] p-8 lg:p-10 rounded-2xl shadow-xl max-w-3xl mx-auto">
+              <div class="mb-6 text-center">
+                <span class="font-kicker-eyebrow text-[#8B1E1E] uppercase tracking-[0.22em] block mb-1">RESERVA ONLINE SIN COMISIONES</span>
+                <h3 class="font-headline-sm font-semibold text-[#1c1c19]">Confirma tu mesa en un minuto</h3>
+              </div>
               <form id="reservas-direct-form" class="space-y-4">
                 <div>
                   <label class="font-kicker-eyebrow text-[11px] text-[#645d5a] uppercase block mb-1">Nombre Completo</label>
@@ -3157,13 +3203,170 @@ class GastroApp {
                   <span>Confirmar Reserva</span>
                 </button>
               </form>
-            </div>
           </div>
         </div>
       </section>
 
       <!-- LEYENDA OFICIAL DE ALÉRGENOS DE VUKATA (IDÉNTICA A LA PORTADA) -->
-      ${renderVukataAllergenLegend()}
+      <div class="max-w-[1360px] mx-auto px-6 lg:px-10 pb-20 w-full">
+        ${renderVukataAllergenLegend(activeAllergens)}
+      </div>
+    `;
+  }
+
+  // -------------------------------------------------------------------------
+  // BLOQUES DE CATEGORÍA DE LA CARTA VUKATA (VARIANTES DE REJILLA DEL MOCKUP)
+  // -------------------------------------------------------------------------
+  renderVukataCategoryBlock(catName, dishes) {
+    const config = VUKATA_CATEGORY_LAYOUTS[catName] || VUKATA_CATEGORY_LAYOUTS.default;
+    const tagLabel = typeof config.tag === 'function' ? config.tag(dishes.length) : config.tag;
+
+    let gridHtml = '';
+    if (config.layout === 'featured' && dishes.length >= 3) {
+      const featured = dishes.reduce((best, d) => (d.price > best.price ? d : best), dishes[0]);
+      const rest = dishes.filter(d => d !== featured);
+      gridHtml = `
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 auto-rows-fr gap-6">
+          ${rest.slice(0, 3).map(dish => this.renderVukataDishCard(dish)).join('')}
+          ${this.renderVukataFeaturedDishCard(featured)}
+          ${rest.slice(3).map(dish => this.renderVukataDishCard(dish)).join('')}
+        </div>
+      `;
+    } else {
+      gridHtml = `
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 auto-rows-fr gap-6">
+          ${dishes.map(dish => this.renderVukataDishCard(dish)).join('')}
+        </div>
+      `;
+    }
+
+    return `
+      <section class="menu-group" data-group="${catName.toLowerCase()}">
+        <div class="flex items-center justify-between pb-6 mb-8 bg-[#f7f3ee] p-6 rounded-2xl">
+          <div class="flex items-center gap-3">
+            <span class="p-2.5 rounded-full ${config.chip}">
+              <span class="material-symbols-outlined text-[24px]">${config.icon}</span>
+            </span>
+            <div>
+              <h3 class="font-headline-md text-[#1c1c19] font-semibold">${config.title || catName}</h3>
+              <p class="font-body-sm text-[#57423f]">${config.subtitle}</p>
+            </div>
+          </div>
+          <span class="hidden md:inline-block font-kicker-eyebrow ${config.tagColor} uppercase bg-[#f1ede8] px-3 py-1 rounded-full">
+            ${tagLabel}
+          </span>
+        </div>
+        ${gridHtml}
+      </section>
+    `;
+  }
+
+  renderVukataDishCard(dish) {
+    const badgeHtml = dish.badge ? `
+      <div class="absolute top-3 left-3 bg-[#31302d]/85 backdrop-blur-sm text-[#f4f0eb] px-2.5 py-1 rounded-md font-kicker-eyebrow text-[10px] tracking-widest uppercase">
+        ${dish.badge}
+      </div>
+    ` : '';
+
+    const mediaHtml = `
+      ${dish.image ? `
+        <img alt="${dish.name}" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500 cursor-pointer" data-open-dish-modal="${dish.id}" src="${dish.image}" loading="lazy"/>
+        <button data-open-lightbox="${dish.image}" data-lightbox-title="${dish.name}" class="absolute top-3 right-3 bg-black/70 hover:bg-black text-white p-1.5 rounded-lg text-xs backdrop-blur-sm transition-opacity cursor-pointer" title="Ampliar imagen completa">
+          ${ICONS.zoom}
+        </button>
+      ` : `
+        <div class="w-full h-full flex items-center justify-center text-4xl">🔥</div>
+      `}
+      ${badgeHtml}
+    `;
+
+    const dossierHtml = `
+      <div>
+        <div class="flex items-start justify-between gap-2 mb-2">
+          <h4 class="font-headline-sm text-[#1c1c19] font-semibold leading-snug line-clamp-2 min-h-[3.75rem] cursor-pointer hover:text-[#8B1E1E] transition-colors" data-open-dish-modal="${dish.id}">
+            ${dish.name}
+          </h4>
+          <span class="font-label-price text-[#8B1E1E] font-bold whitespace-nowrap">
+            ${formatCurrency(dish.price)}
+          </span>
+        </div>
+        <p class="font-body-md text-[#57423f] mb-3 line-clamp-2 min-h-[3rem]">
+          ${dish.description}
+        </p>
+        <div class="mb-2 min-h-[1.5rem]">
+          ${renderAllergenBadges(dish.allergens, 'sm')}
+        </div>
+      </div>
+
+      <div class="pt-4 flex items-center justify-between">
+        <span class="font-body-sm text-[#645d5a] flex items-center gap-1">
+          <span class="material-symbols-outlined text-[16px] text-[#8B1E1E]">skillet</span>
+          <span>${dish.prepTime || 'Punto recomendado'}</span>
+        </span>
+        <div class="flex items-center gap-1.5">
+          <button data-open-dish-modal="${dish.id}" class="p-2 rounded-full bg-[#f1ede8] hover:bg-[#e8deda] text-[#1c1c19] transition-colors cursor-pointer" title="Ver detalle">
+            <span class="material-symbols-outlined text-[18px]">info</span>
+          </button>
+          <button data-add-cart="${dish.id}" class="p-2 rounded-full bg-[#f1ede8] hover:bg-[#9c382c] hover:text-white text-[#8B1E1E] transition-colors cursor-pointer" title="Añadir a la comanda">
+            <span class="material-symbols-outlined text-[20px]">add</span>
+          </button>
+        </div>
+      </div>
+    `;
+
+    return `
+      <div class="dish-card bg-white rounded-2xl overflow-hidden shadow-sm hover:shadow-md transition-all duration-300 flex flex-col justify-between group">
+        <div class="relative overflow-hidden h-56 bg-[#f1ede8]">
+          ${mediaHtml}
+        </div>
+        <div class="p-6 flex flex-col flex-grow justify-between">
+          ${dossierHtml}
+        </div>
+      </div>
+    `;
+  }
+
+  renderVukataFeaturedDishCard(dish) {
+    return `
+      <div class="dish-card md:col-span-2 bg-gradient-to-br from-[#f7f3ee] via-white to-[#f7f3ee] rounded-2xl overflow-hidden shadow-sm hover:shadow-md transition-all duration-300 grid grid-cols-1 md:grid-cols-12 group">
+        <div class="relative md:col-span-6 h-64 md:h-auto overflow-hidden bg-[#f1ede8]">
+          ${dish.image ? `
+            <img alt="${dish.name}" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500 cursor-pointer" data-open-dish-modal="${dish.id}" src="${dish.image}" loading="lazy"/>
+            <button data-open-lightbox="${dish.image}" data-lightbox-title="${dish.name}" class="absolute bottom-4 right-4 bg-black/70 hover:bg-black text-white p-2 rounded-xl text-xs backdrop-blur-sm cursor-pointer" title="Ampliar imagen completa">
+              ${ICONS.zoom}
+            </button>
+          ` : `
+            <div class="w-full h-full flex items-center justify-center text-5xl">🔥</div>
+          `}
+          <div class="absolute top-4 left-4 bg-[#8B1E1E] text-white px-3 py-1 rounded-full font-kicker-eyebrow text-[10px] tracking-widest uppercase shadow">
+            MADURACIÓN 45+ DÍAS
+          </div>
+        </div>
+
+        <div class="p-8 md:col-span-6 flex flex-col justify-between">
+          <div class="space-y-3">
+            <div class="flex items-center justify-between gap-3">
+              <span class="font-kicker-eyebrow text-[#645d5a] uppercase tracking-widest">${dish.badge || 'CORTE SUPREMO'}</span>
+              ${renderAllergenBadges(dish.allergens, 'sm')}
+            </div>
+            <h4 class="font-headline-md text-[#1c1c19] font-semibold cursor-pointer hover:text-[#8B1E1E] transition-colors" data-open-dish-modal="${dish.id}">${dish.name}</h4>
+            <p class="font-body-md text-[#57423f] leading-relaxed">
+              ${dish.description}
+            </p>
+          </div>
+
+          <div class="pt-6 mt-4 flex items-center justify-between gap-4">
+            <div>
+              <span class="font-kicker-eyebrow text-[10px] text-[#645d5a] uppercase block">POR PIEZA</span>
+              <span class="font-label-price text-[#8B1E1E] font-bold">${formatCurrency(dish.price)}</span>
+            </div>
+            <button data-add-cart="${dish.id}" class="inline-flex items-center gap-2 bg-[#9c382c] hover:bg-[#7c2118] text-white px-5 py-2.5 rounded-full font-label-action transition-colors cursor-pointer">
+              <span>Pedir corte</span>
+              <span class="material-symbols-outlined text-[16px]">arrow_forward</span>
+            </button>
+          </div>
+        </div>
+      </div>
     `;
   }
 
@@ -4715,77 +4918,12 @@ class GastroApp {
   }
 
   // =========================================================================
-  // SECCIÓN DE RESEÑAS DE GOOGLE (LLAMATIVAS CON ESTRELLAS Y BOTONES EN LOS 4 ESTILOS)
+  // SECCIÓN DE RESEÑAS DE GOOGLE PARA LOS ESTILOS 2, 3 Y 4
+  // (el Estilo 1 lleva su propio bloque de opiniones dentro de renderEstilo1Layout)
   // =========================================================================
   renderGoogleReviewsSection(preset) {
     const starRow = Array(5).fill(ICONS.star).join('');
 
-    // --- ESTILO 1: RESTAURANTE PARRILLA VUKATA (EMBER & ASH STITCH) ---
-    if (preset.id === 'estilo1') {
-      return `
-        <section class="mb-16 pt-10 border-t border-[#e6dfd5] text-[#1c1c19]">
-          <div class="max-w-[1360px] mx-auto">
-            
-            <div class="flex flex-col md:flex-row md:items-end justify-between mb-10 gap-4">
-              <div class="space-y-2">
-                <div class="flex items-center gap-2">
-                  <span class="w-6 h-[2px] bg-[#8B1E1E]"></span>
-                  <span class="font-kicker-eyebrow text-[#8B1E1E] uppercase tracking-[0.2em]">TESTIMONIOS REALES EN ALUCHE</span>
-                </div>
-                <h3 class="font-headline-lg text-[#1c1c19]">Lo que opinan de nuestras brasas</h3>
-                <p class="font-body-md text-[#57423f] max-w-xl">
-                  Reseñas verificadas directamente en Google Maps de comensales que se sientan a nuestra mesa.
-                </p>
-              </div>
-
-              <!-- Google Badge Card -->
-              <div class="inline-flex items-center gap-3 bg-white border border-[#e6dfd5] px-5 py-3 rounded-2xl shadow-xs">
-                ${ICONS.google}
-                <div>
-                  <div class="flex items-center gap-1.5">
-                    <span class="font-stat-number text-[20px] font-black text-[#1c1c19]">${preset.rating}</span>
-                    <div class="flex text-amber-500">${starRow}</div>
-                  </div>
-                  <span class="font-body-sm text-xs text-[#57423f]">${preset.totalReviews} reseñas verificadas</span>
-                </div>
-              </div>
-            </div>
-
-            <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
-              ${preset.googleReviews.map(r => `
-                <div class="bg-white border border-[#e6dfd5] p-7 rounded-2xl shadow-xs hover:shadow-md transition-all flex flex-col justify-between">
-                  <div>
-                    <div class="flex items-center justify-between mb-4">
-                      <div class="flex space-x-1">${starRow}</div>
-                      <span class="font-kicker-eyebrow text-[10px] text-emerald-800 bg-emerald-50 px-2.5 py-1 rounded-full uppercase tracking-wider font-bold">Verificado</span>
-                    </div>
-                    <p class="font-body-md text-[#57423f] italic leading-relaxed">"${r.comment}"</p>
-                  </div>
-                  <div class="mt-6 pt-4 border-t border-[#f1ede8] flex justify-between items-center text-xs">
-                    <span class="font-body-md font-bold text-[#1c1c19]">${r.author}</span>
-                    <span class="text-[#645d5a] font-sans">${r.timeAgo}</span>
-                  </div>
-                </div>
-              `).join('')}
-            </div>
-
-            <div class="mt-10 flex flex-col sm:flex-row items-center justify-center gap-4">
-              <button id="open-smart-review-btn" class="btn-vukata-primary font-label-action text-[13px] px-8 py-3.5 rounded-full shadow-md transition-all transform hover:scale-105 inline-flex items-center space-x-2.5 cursor-pointer">
-                ${ICONS.google}
-                <span>Escribir Reseña en Google Maps (+5★)</span>
-              </button>
-              <a href="${preset.googleMapsUrl}" target="_blank" class="inline-flex items-center space-x-2 text-xs font-label-action text-[#8B1E1E] hover:underline">
-                <span>Ver ficha oficial de Parrilla Vukata en Google Maps</span>
-                <span class="material-symbols-outlined text-[16px]">open_in_new</span>
-              </a>
-            </div>
-
-          </div>
-        </section>
-      `;
-    }
-
-    // --- ESTILO 2: APP & BENTO GRID ---
     if (preset.id === 'estilo2') {
       return `
         <section class="mt-16 pt-10 border-t border-slate-800 text-slate-100">
@@ -5218,20 +5356,20 @@ class GastroApp {
   renderFooterForStyle(preset) {
     if (preset.id === 'estilo1') {
       return `
-        <footer class="w-full bg-[#f3ede4] text-[#1c1c19] py-16 border-t border-[#e2d8cc]">
+        <footer id="donde-estamos" class="w-full bg-[#14100E] text-[#f4f0eb] py-16">
           <div class="max-w-[1360px] mx-auto px-6 lg:px-10">
             <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-10 mb-14">
-              
+
               <!-- Col 1: Marca y Tradición -->
               <div class="space-y-4">
                 <div class="flex items-center gap-2">
-                  <span class="material-symbols-outlined text-[#8B1E1E] text-[26px]">local_fire_department</span>
-                  <span class="font-headline-sm text-xl tracking-tight text-[#1c1c19] font-bold">VU<span class="text-[#E52D27]">KA</span>TA</span>
+                  <span class="material-symbols-outlined text-[#E52D27] text-[26px]">local_fire_department</span>
+                  <span class="font-headline-sm text-xl tracking-tight text-white font-bold">VU<span class="text-[#E52D27]">KA</span>TA</span>
                 </div>
-                <p class="font-body-md text-[#57423f] leading-relaxed">
+                <p class="font-body-md text-[#ddd9d5] leading-relaxed">
                   Parrilla tradicional al carbón de encina y maduración artesanal de cortes nobles en Aluche. Experiencia carnívora de excelencia.
                 </p>
-                <div class="flex items-center gap-2 pt-2 text-[#8B1E1E]">
+                <div class="flex items-center gap-2 pt-2 text-[#D49B53]">
                   <span class="material-symbols-outlined text-[20px]">verified</span>
                   <span class="font-kicker-eyebrow text-[11px] uppercase tracking-widest font-bold">Carbón de encina 100%</span>
                 </div>
@@ -5239,38 +5377,44 @@ class GastroApp {
 
               <!-- Col 2: Ubicación & Contacto -->
               <div class="space-y-3">
-                <span class="font-kicker-eyebrow text-[11px] text-[#8B1E1E] uppercase tracking-widest block font-bold">Ubicación & Contacto</span>
+                <span class="font-kicker-eyebrow text-[11px] text-[#ffb4a9] uppercase tracking-widest block font-bold">Dirección & Contacto</span>
                 <div class="flex items-start gap-3">
                   <span class="material-symbols-outlined text-[#D49B53] text-[20px] mt-0.5">location_on</span>
-                  <p class="font-body-md text-[#57423f]">${preset.address}<br/>Aluche, 28024 Madrid</p>
+                  <p class="font-body-md text-[#ddd9d5]">${preset.address}<br/>Aluche, 28024 Madrid</p>
                 </div>
                 <div class="flex items-center gap-3 pt-2">
                   <span class="material-symbols-outlined text-[#D49B53] text-[20px]">call</span>
-                  <a class="font-body-md text-[#1c1c19] hover:text-[#8B1E1E] transition-colors font-medium" href="tel:${preset.phone.replace(/\s+/g, '')}">${preset.phone}</a>
+                  <a class="font-body-md text-white hover:text-[#D49B53] transition-colors font-medium" href="tel:${preset.phone.replace(/\s+/g, '')}">${preset.phone}</a>
+                </div>
+                <div class="pt-1">
+                  <a href="${preset.googleMapsUrl}" target="_blank" class="inline-flex items-center gap-2 font-label-action text-[13px] text-[#ffb4a9] hover:text-white transition-colors font-semibold">
+                    <span class="material-symbols-outlined text-[18px]">map</span>
+                    <span>Cómo llegar en Google Maps →</span>
+                  </a>
                 </div>
               </div>
 
               <!-- Col 3: Horarios de Brasas -->
               <div class="space-y-3">
-                <span class="font-kicker-eyebrow text-[11px] text-[#8B1E1E] uppercase tracking-widest block font-bold">Horarios de Brasas</span>
+                <span class="font-kicker-eyebrow text-[11px] text-[#ffb4a9] uppercase tracking-widest block font-bold">Horarios de Cocina</span>
                 <div class="flex items-start gap-3">
                   <span class="material-symbols-outlined text-[#D49B53] text-[20px] mt-0.5">schedule</span>
-                  <div class="space-y-1.5 font-body-md text-[#57423f]">
-                    <p><strong class="text-[#1c1c19] font-semibold">Comidas:</strong> 12:00 a 17:00</p>
-                    <p><strong class="text-[#1c1c19] font-semibold">Cenas:</strong> 19:30 a 00:00</p>
-                    <p class="text-[#8B1E1E] font-medium pt-1">Martes cerrado por descanso</p>
+                  <div class="space-y-1.5 font-body-md text-[#ddd9d5]">
+                    <p><strong class="text-white font-semibold">Comidas:</strong> 12:00 a 17:00</p>
+                    <p><strong class="text-white font-semibold">Cenas:</strong> 19:30 a 00:00</p>
+                    <p class="text-[#ffb4a9] font-medium pt-1">Martes cerrado por descanso</p>
                   </div>
                 </div>
               </div>
 
               <!-- Col 4: Servicios & Pedidos -->
               <div class="space-y-3">
-                <span class="font-kicker-eyebrow text-[11px] text-[#8B1E1E] uppercase tracking-widest block font-bold">Servicios & Pedidos</span>
-                <p class="font-body-md text-[#57423f] leading-relaxed">
+                <span class="font-kicker-eyebrow text-[11px] text-[#ffb4a9] uppercase tracking-widest block font-bold">Servicios & Pedidos</span>
+                <p class="font-body-md text-[#ddd9d5] leading-relaxed">
                   Disfrute de nuestros asados al momento en sala o solicite recogida en local a través de nuestro servicio take away sin intermediarios ni comisiones.
                 </p>
                 <div class="pt-2">
-                  <a href="#reservas-direct" class="inline-flex items-center gap-2 font-label-action text-[13px] text-[#1c1c19] hover:text-[#8B1E1E] transition-colors font-semibold">
+                  <a href="#reservas-direct" class="inline-flex items-center gap-2 font-label-action text-[13px] text-white hover:text-[#D49B53] transition-colors font-semibold">
                     <span class="material-symbols-outlined text-[18px]">shopping_bag</span>
                     <span>Reservar Mesa / Take Away →</span>
                   </a>
@@ -5280,12 +5424,12 @@ class GastroApp {
             </div>
 
             <!-- Barra Inferior Legal -->
-            <div class="pt-8 mt-8 flex flex-col sm:flex-row items-center justify-between gap-4 text-[#786b5f] text-xs bg-[#e9e1d5]/60 px-6 py-4 rounded-xl border border-[#ded5c8]">
-              <p>© 2024 Vukata Asador · GastroSuite by <a href="https://devcorpsolutions.com" target="_blank" class="underline font-semibold hover:text-[#1c1c19]">DevCorp Solutions</a>. Todos los derechos reservados.</p>
+            <div class="pt-8 mt-8 border-t border-white/10 flex flex-col sm:flex-row items-center justify-between gap-4 text-[#a8a29c] text-xs">
+              <p>© 2024 Vukata Asador · GastroSuite by <a href="https://devcorpsolutions.com" target="_blank" class="underline font-semibold hover:text-white">DevCorp Solutions</a>. Todos los derechos reservados.</p>
               <div class="flex items-center gap-6 font-medium">
-                <a class="hover:text-[#1c1c19] transition-colors" href="#">Aviso Legal</a>
-                <a class="hover:text-[#1c1c19] transition-colors" href="#">Privacidad</a>
-                <a class="hover:text-[#1c1c19] transition-colors" href="https://devcorpsolutions.com" target="_blank">devcorpsolutions.com</a>
+                <a class="hover:text-white transition-colors" href="#">Aviso Legal</a>
+                <a class="hover:text-white transition-colors" href="#">Privacidad</a>
+                <a class="hover:text-white transition-colors" href="https://devcorpsolutions.com" target="_blank">devcorpsolutions.com</a>
               </div>
             </div>
 
