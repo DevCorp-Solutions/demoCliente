@@ -1,12 +1,1622 @@
 /**
+ * DevCorp Solutions - Ecosistema de Plantillas Web de Hostelería
+ * Datos Oficiales de los Locales del Excel adaptados a 4 Estilos y Arquitecturas de Diseño:
+ * 
+ * Estilo 1: Restaurante Parrilla Vukata (Aluche) -> Editorial & Alta Cocina / Asador de Brasas
+ * Estilo 2: Cervecería 27 & Bar Mala Pata (Lucero / Aluche) -> App Interactiva & Bento Grid
+ * Estilo 3: Pizzería Carlos Carabanchel (Carabanchel) -> Carta Clásica Bistró & Horno de Leña
+ * Estilo 4: Cafetería Campamento & Desayunos Yebes (Campamento) -> Showcase Visual & Minimalismo Nórdico
+ */
+
+const RESTAURANT_PRESETS = {
+  // =========================================================================
+  // ESTILO 1: RESTAURANTE PARRILLA VUKATA (ALUCHE) - EDITORIAL & ALTA COCINA
+  // =========================================================================
+  estilo1: {
+    id: "estilo1",
+    styleName: "Estilo 1",
+    styleSubtitle: "Editorial & Brasas Nobles",
+    layoutType: "editorial",
+    themeClass: "theme-estilo-1",
+    name: "Restaurante Parrilla Vukata",
+    chefName: "Goran Vukata",
+    chefTitle: "Maestro Parrillero",
+    tagline: "Maestros Asadores al Carbón de Encina & Carnes Maduradas en Aluche",
+    neighborhood: "Aluche (Madrid)",
+    address: "Calle de Maqueda, 138 · Aluche, 28024 Madrid",
+    phone: "+34 915 09 85 76",
+    whatsapp: "34695590754",
+    email: "gerencia@parrillavukata.es",
+    managerName: "Goran Vukata (Maestro Parrillero)",
+    googleMapsUrl: "https://www.google.com/maps/search/?api=1&query=Restaurante+Parrilla+Vukata,+Calle+de+Maqueda,+138,+28024+Madrid",
+    type: "Asador Castellano & Carnicería Selecta",
+    rating: 4.8,
+    totalReviews: 348,
+    serviceHours: "Comidas: 12:00 a 17:00 · Cenas: 19:30 a 00:00 (Martes cerrado)",
+    bannerImg: "https://images.unsplash.com/photo-1555939594-58d7cb561ad1?auto=format&fit=crop&w=1600&q=80",
+    
+    aboutUs: {
+      headline: "28 Años de Pasión por el Fuego Vivo, el Carbón de Encina y el Buen Comer en Aluche",
+      story: "Fundado en la calle Maqueda, Restaurante Parrilla Vukata nació con una premisa innegociable: respetar el producto al máximo. Lo que empezó como un querido asador de barrio se ha convertido en el templo de la carne de referencia en el suroeste de Madrid. Cada mañana seleccionamos personalmente los mejores lomos de vacuno, entrañas, asados de tira y chuletones madurados, dejándolos reposar antes de pasar por el fuego vivo de nuestras brasas.",
+      quote: "La brasa no perdona: o tienes la mejor carne de Madrid y el carbón de encina en su punto exacto, o no hay dónde esconderse.",
+      quoteAuthor: "Goran Vukata, Maestro Parrillero",
+      pillars: [
+        {
+          num: "01",
+          title: "Cámara Dry-Aged Propia",
+          desc: "Maduración en seco controlada de más de 40 días para concentrar ternura, aroma y jugosidad extrema."
+        },
+        {
+          num: "02",
+          title: "Carbón de Encina Extremeño",
+          desc: "Brasas a 350ºC constante que sellan la pieza por fuera caramelizando sus jugos y dejando el interior sedoso y caliente."
+        },
+        {
+          num: "03",
+          title: "Take Away de Carta Completa",
+          desc: "Toda nuestra carta disponible para recoger en local con envase térmico especial que preserva el punto del asador."
+        }
+      ],
+      specialtyHighlight: {
+        title: "Parrillada de Carne Completa Vukata",
+        badge: "Especialidad Parrillera",
+        weight: "Formato 2 y 3 PAX",
+        aging: "Chorizo criollo, morcilla, asado de tira, entraña y vacío",
+        pairing: "Maridaje sugerido: Tinto Ribera del Duero o Cerveza fría",
+        text: "Selección maestra servida sobre brasero caliente para mantener el punto exacto y los aromas ahumados de la leña en mesa."
+      }
+    },
+
+    categories: ["Entrantes", "A la Brasa", "Ensaladas", "Chivito al Plato", "Pollo Asado", "Postres", "Cafés"],
+
+    menu: [
+      // --- ENTRANTES ---
+      {
+        id: "e1_emp",
+        name: "Empanada Criolla",
+        category: "Entrantes",
+        price: 4.80,
+        badge: "Casera",
+        description: "Empanada criolla artesana al horno rellena de ternera cortada a cuchillo, cebolla pochada, huevo y especias tradicionales.",
+        details: "Horneada al momento · Masa fina artesanal",
+        ingredients: "Harina de trigo, carne vacuna seleccionada, cebolla dulce, huevo duro, pimentón y comino.",
+        prepTime: "8 min",
+        popular: true,
+        image: "https://images.unsplash.com/photo-1628840042765-356cda07504e?auto=format&fit=crop&w=800&q=80",
+        allergens: ["gluten", "huevos", "lacteos", "crustaceos", "pescado", "apio", "mostaza", "sesamo"]
+      },
+      {
+        id: "e1_cho",
+        name: "Chorizo a la Parrilla",
+        category: "Entrantes",
+        price: 5.00,
+        badge: "Al Carbón",
+        description: "Chorizo criollo seleccionado asado a la brasa de carbón de encina con toque ahumado.",
+        details: "Asado a fuego vivo · Crujiente por fuera y tierno por dentro",
+        ingredients: "Magro de cerdo, pimentón natural, ajo, sal marina y tripa natural.",
+        prepTime: "10 min",
+        popular: false,
+        image: "https://images.unsplash.com/photo-1544025162-d76694265947?auto=format&fit=crop&w=800&q=80",
+        allergens: []
+      },
+      {
+        id: "e1_mor",
+        name: "Morcilla de Ávila a la Parrilla",
+        category: "Entrantes",
+        price: 5.50,
+        badge: "Ávila",
+        description: "Morcilla tradicional de cebolla y especias de Ávila asada lentamente sobre parrilla de hierro.",
+        details: "Elaboración artesana tradicional",
+        ingredients: "Cebolla horcal, arroz, sangre de cerdo, pimentón y manteca de cerdo.",
+        prepTime: "10 min",
+        popular: false,
+        image: "https://images.unsplash.com/photo-1555939594-58d7cb561ad1?auto=format&fit=crop&w=800&q=80",
+        allergens: []
+      },
+      {
+        id: "e1_ore",
+        name: "Oreja a la Plancha",
+        category: "Entrantes",
+        price: 13.00,
+        badge: "Clásico Madrileño",
+        description: "Oreja de cerdo crujiente a la plancha aliñada con ajo picado fino, perejil fresco y pimentón.",
+        details: "Punto tostado crujiente exterior · Muy tierna",
+        ingredients: "Oreja de cerdo cocida y dorada a la plancha, ajo, perejil fresco y aceite de oliva virgen.",
+        prepTime: "12 min",
+        popular: false,
+        image: "https://images.unsplash.com/photo-1565299585323-38d6b0865b47?auto=format&fit=crop&w=800&q=80",
+        allergens: []
+      },
+      {
+        id: "e1_pro",
+        name: "Provoleta Rellena",
+        category: "Entrantes",
+        price: 13.00,
+        badge: "Especialidad",
+        description: "Queso provolone fundido en cazuela refractaria a la brasa con orégano silvestre y corazón cremoso.",
+        details: "Servida hirviendo en cazuela parrillera",
+        ingredients: "Queso provolone hilado, orégano de monte, ají molido y aceite de oliva virgen.",
+        prepTime: "10 min",
+        popular: true,
+        image: "assets/images/vukata/provoleta.jpg",
+        allergens: ["gluten", "lacteos"]
+      },
+      {
+        id: "e1_hue",
+        name: "Huevos Rotos Ecológicos con Torreznos",
+        category: "Entrantes",
+        price: 16.00,
+        badge: "Huevos de Montaña",
+        description: "Huevos ecológicos de gallinas criadas en montaña con música. Probablemente los mejores huevos del mercado.",
+        details: "Huevos ecológicos certificados · Patatas pochadas caseras",
+        ingredients: "Huevos de granja ecológica de montaña, torreznos crujientes y patatas pochadas al momento.",
+        prepTime: "12 min",
+        popular: true,
+        image: "https://images.unsplash.com/photo-1525351484163-7529414344d8?auto=format&fit=crop&w=800&q=80",
+        allergens: ["gluten", "huevos", "sulfitos"]
+      },
+      {
+        id: "e1_pin",
+        name: "Pincho Moruno y Bravas",
+        category: "Entrantes",
+        price: 15.75,
+        badge: "Adobo Moruno",
+        description: "Brochetas de magro adobado con mezcla tradicional de especias morunas a la brasa con patatas bravas.",
+        details: "Maceración en especias 24h · Salsa brava casera",
+        ingredients: "Magro de cerdo especiado, pimentón, comino, ajo, patatas bravas y alioli.",
+        prepTime: "14 min",
+        popular: false,
+        image: "https://images.unsplash.com/photo-1529193591184-b1d58069ecdd?auto=format&fit=crop&w=800&q=80",
+        allergens: ["mostaza", "huevos", "soja", "sulfitos"]
+      },
+      {
+        id: "e1_pul",
+        name: "Pata de Pulpo a la Brasa con Guacamole",
+        category: "Entrantes",
+        price: 24.00,
+        badge: "Pulpo de Roca",
+        description: "Pata entera de pulpo marcada sobre parrilla viva servida con base suave de guacamole casero y pimentón.",
+        details: "Pulpo de roca braseado al carbón de encina",
+        ingredients: "Pulpo de roca, aguacate fresco, lima, cebolla morada, pimentón dulce y sal marina en escamas.",
+        prepTime: "15 min",
+        popular: true,
+        image: "https://images.unsplash.com/photo-1535400255456-984241443b29?auto=format&fit=crop&w=800&q=80",
+        allergens: ["moluscos", "lacteos", "sulfitos"]
+      },
+      {
+        id: "e1_croj",
+        name: "Croquetas de Jamón Ibérico",
+        category: "Entrantes",
+        price: 13.50,
+        badge: "Jamón de Bellota",
+        description: "Bechamel reposada elaborada con jamón ibérico de bellota y rebozado extra crujiente.",
+        details: "Elaboración casera diaria · Ración de 6 unidades",
+        ingredients: "Leche entera fresca, mantequilla, jamón ibérico de bellota, harina de trigo y panko crujiente.",
+        prepTime: "8 min",
+        popular: true,
+        image: "https://images.unsplash.com/photo-1563379091339-03b21ab4a4f8?auto=format&fit=crop&w=800&q=80",
+        allergens: ["gluten", "huevos", "lacteos", "apio", "crustaceos", "soja", "moluscos", "pescado", "sulfitos"]
+      },
+      {
+        id: "e1_crob",
+        name: "Croquetas de Boletus o Pulpo",
+        category: "Entrantes",
+        price: 13.50,
+        badge: "Boletus / Pulpo",
+        description: "Croquetas melosas a elegir de boletus edulis de temporada o de pulpo a la brasa.",
+        details: "Ración de 6 unidades generosas",
+        ingredients: "Leche fresca, boletus edulis o pulpo, harina, mantequilla y pan rallado crujiente.",
+        prepTime: "8 min",
+        popular: false,
+        image: "https://images.unsplash.com/photo-1541544741938-0af808871cc0?auto=format&fit=crop&w=800&q=80",
+        allergens: ["gluten", "huevos", "lacteos", "moluscos"]
+      },
+      {
+        id: "e1_croc",
+        name: "Croquetas de Carabineros con Velo Ibérico",
+        category: "Entrantes",
+        price: 14.00,
+        badge: "Carabinero & Velo",
+        description: "Intensas croquetas de marisco con carabinero, velo fino de tocino ibérico curado y alioli suave de ajo negro.",
+        details: "Sabor marino concentrado y contraste ibérico",
+        ingredients: "Carabineros, fondo de marisco, tocino ibérico curado, ajo negro y emulsión.",
+        prepTime: "8 min",
+        popular: true,
+        image: "https://images.unsplash.com/photo-1563379091339-03b21ab4a4f8?auto=format&fit=crop&w=800&q=80",
+        allergens: ["gluten", "huevos", "lacteos", "crustaceos"]
+      },
+      {
+        id: "e1_tor",
+        name: "Torrezno de Soria con Patatas (Unidad)",
+        category: "Entrantes",
+        price: 6.00,
+        badge: "Marca de Garantía",
+        description: "Panceta curada de Soria frita a fuego lento con souflado final crujiente y patatas caseras.",
+        details: "Corteza dorada souflada y magro tierno",
+        ingredients: "Panceta curada con Marca de Garantía Torrezno de Soria y patatas fritas.",
+        prepTime: "10 min",
+        popular: true,
+        image: "https://images.unsplash.com/photo-1544025162-d76694265947?auto=format&fit=crop&w=800&q=80",
+        allergens: []
+      },
+      {
+        id: "e1_ant",
+        name: "Anticucho a la Parrilla",
+        category: "Entrantes",
+        price: 15.50,
+        badge: "Parrillero",
+        description: "Brochetas tradicionales de vacuno maceradas en salsa de ají panca, ajo y vinagre, braseadas a fuego vivo.",
+        details: "Adobo parrillero tradicional",
+        ingredients: "Carne de vacuno seleccionada, ají panca, vinagre tinto, ajo y comino.",
+        prepTime: "12 min",
+        popular: false,
+        image: "https://images.unsplash.com/photo-1529193591184-b1d58069ecdd?auto=format&fit=crop&w=800&q=80",
+        allergens: []
+      },
+      {
+        id: "e1_can",
+        name: "Cangrejos de Río en Salsa (Según existencias)",
+        category: "Entrantes",
+        price: 15.00,
+        badge: "Temporada",
+        description: "Cangrejos de río salteados y cocinados en salsa marinera tradicional con tomate y ligero toque picante.",
+        details: "Receta clásica castellana",
+        ingredients: "Cangrejos de río, sofrito de tomate natural, pimiento, cebolla, laurel y guindilla.",
+        prepTime: "12 min",
+        popular: false,
+        image: "https://images.unsplash.com/photo-1559742811-822873691df8?auto=format&fit=crop&w=800&q=80",
+        allergens: ["crustaceos"]
+      },
+      {
+        id: "e1_rab",
+        name: "Rabo de Cerdo Estofado",
+        category: "Entrantes",
+        price: 18.00,
+        badge: "Guiso de Cuchara",
+        description: "Guiso meloso a fuego lento de rabo de cerdo con verduras de la huerta y reducción de vino tinto.",
+        details: "Cocción pausada durante 4 horas",
+        ingredients: "Rabo de cerdo, zanahoria, puerro, cebolla, caldo oscuro y vino de Madrid.",
+        prepTime: "10 min",
+        popular: false,
+        image: "https://images.unsplash.com/photo-1544025162-d76694265947?auto=format&fit=crop&w=800&q=80",
+        allergens: []
+      },
+
+      // --- A LA BRASA ---
+      {
+        id: "e1_asado",
+        name: "Asado de Tira (Pieza 400g aprox)",
+        category: "A la Brasa",
+        price: 17.50,
+        badge: "400g Aprox",
+        description: "Corte transversal de costillar vacuno con hueso asado lentamente sobre brasas vivas de carbón de encina.",
+        details: "Pieza de 400g aprox. · Sabor intenso de hueso",
+        ingredients: "Costillar vacuno seleccionado, sal gorda marina y fuego de encina.",
+        prepTime: "16 min",
+        popular: true,
+        image: "assets/images/vukata/asado_tira.jpg",
+        allergens: []
+      },
+      {
+        id: "e1_entrana",
+        name: "Entraña (Pieza 400g aprox)",
+        category: "A la Brasa",
+        price: 17.50,
+        badge: "400g Aprox",
+        description: "Corte emblemático de asador con su membrana fina crocante e interior extremadamente tierno y jugoso.",
+        details: "Pieza de 400g aprox. · Corte tradicional",
+        ingredients: "Entraña de ternera y escamas de sal marina.",
+        prepTime: "14 min",
+        popular: true,
+        image: "https://images.unsplash.com/photo-1558030006-450675393462?auto=format&fit=crop&w=800&q=80",
+        allergens: []
+      },
+      {
+        id: "e1_vacio",
+        name: "Vacío (Pieza 400g aprox)",
+        category: "A la Brasa",
+        price: 18.00,
+        badge: "400g Aprox",
+        description: "Pieza magra y fibrosa entre las costillas y la cadera, asada a fuego medio para lograr máxima terneza.",
+        details: "Pieza de 400g aprox. · Jugosidad equilibrada",
+        ingredients: "Corte de vacío vacuno seleccionado y sal marina.",
+        prepTime: "15 min",
+        popular: false,
+        image: "https://images.unsplash.com/photo-1544025162-d76694265947?auto=format&fit=crop&w=800&q=80",
+        allergens: []
+      },
+      {
+        id: "e1_wagyu",
+        name: "Auténtico Chuletón de Buey (Wagyu) Certificado",
+        category: "A la Brasa",
+        price: 65.00,
+        badge: "Según Existencias",
+        description: "Chuletón de infiltración grasa marmolada insuperable con certificado oficial de raza.",
+        details: "Corte prémium de lujo · Servido en plato refractario caliente a 90ºC",
+        ingredients: "Lomo de buey Wagyu certificado y sal de escamas de Añana.",
+        prepTime: "22 min",
+        popular: true,
+        image: "assets/images/vukata/chuleton.jpg",
+        allergens: []
+      },
+      {
+        id: "e1_finlandes",
+        name: "Chuletón de Vaca Finlandés",
+        category: "A la Brasa",
+        price: 55.00,
+        badge: "Según Existencias",
+        description: "Vaca alimentada en pastos nórdicos seleccionada por su grasa amarilla dulce y gran aroma a la brasa.",
+        details: "Maduración Dry-Aged propia en cámara de Aluche",
+        ingredients: "Lomo alto de vaca finlandesa y sal marina en escamas.",
+        prepTime: "20 min",
+        popular: false,
+        image: "assets/images/vukata/chuleton.jpg",
+        allergens: []
+      },
+      {
+        id: "e1_entrecot",
+        name: "Entrecot de Vaca Finlandés (+40 días maduración)",
+        category: "A la Brasa",
+        price: 28.50,
+        badge: "Pieza 350g aprox",
+        description: "Pieza de 350gr aprox. Maduración superior a 40 días en seco, textura mantecosa y profundidad cárnica.",
+        details: "Maduración Dry-Aged superior a 40 días",
+        ingredients: "Lomo de vaca madurado y escamas de sal marina.",
+        prepTime: "15 min",
+        popular: true,
+        image: "https://images.unsplash.com/photo-1546964124-0cce460f38ef?auto=format&fit=crop&w=800&q=80",
+        allergens: []
+      },
+      {
+        id: "e1_parr2",
+        name: "Parrillada de Carne para 2 PAX",
+        category: "A la Brasa",
+        price: 43.00,
+        badge: "Para 2 Personas",
+        description: "Chorizo criollo, morcilla, asado de tira, entraña y vacío servidos calientes sobre brasero parrillero.",
+        details: "Selección completa de nuestras mejores carnes al carbón",
+        ingredients: "Chorizo criollo, morcilla de Ávila, asado de tira, entraña y vacío vacuno.",
+        prepTime: "20 min",
+        popular: true,
+        image: "https://images.unsplash.com/photo-1555939594-58d7cb561ad1?auto=format&fit=crop&w=800&q=80",
+        allergens: []
+      },
+      {
+        id: "e1_parr2d",
+        name: "Parrillada de Carne para 2 PAX Dimateo",
+        category: "A la Brasa",
+        price: 46.50,
+        badge: "Especial Dimateo",
+        description: "Chorizo criollo, morcilla, asado de tira, entraña, vacío y pechuga de pollo a la parrilla.",
+        details: "Con pechuga de pollo de corral a la brasa",
+        ingredients: "Chorizo criollo, morcilla, asado de tira, entraña, vacío y pechuga de pollo.",
+        prepTime: "20 min",
+        popular: false,
+        image: "https://images.unsplash.com/photo-1555939594-58d7cb561ad1?auto=format&fit=crop&w=800&q=80",
+        allergens: []
+      },
+      {
+        id: "e1_parr3",
+        name: "Parrillada de Carne para 3 PAX",
+        category: "A la Brasa",
+        price: 53.00,
+        badge: "Para 3 Personas",
+        description: "Chorizo criollo, morcilla, asado de tira, entraña y vacío en formato generoso para tres comensales.",
+        details: "Gran surtido parrillero al fuego de encina",
+        ingredients: "Chorizo criollo, morcilla, asado de tira, entraña y vacío vacuno.",
+        prepTime: "22 min",
+        popular: false,
+        image: "https://images.unsplash.com/photo-1555939594-58d7cb561ad1?auto=format&fit=crop&w=800&q=80",
+        allergens: []
+      },
+      {
+        id: "e1_parr3d",
+        name: "Parrillada de Carne para 3 PAX Dimateo",
+        category: "A la Brasa",
+        price: 56.50,
+        badge: "Especial Dimateo 3P",
+        description: "Chorizo criollo, morcilla, asado de tira, entraña, vacío y pechuga de pollo a la parrilla.",
+        details: "Formato para tres personas con pechuga de corral",
+        ingredients: "Chorizo criollo, morcilla, asado de tira, entraña, vacío y pechuga de pollo.",
+        prepTime: "22 min",
+        popular: false,
+        image: "https://images.unsplash.com/photo-1555939594-58d7cb561ad1?auto=format&fit=crop&w=800&q=80",
+        allergens: []
+      },
+      {
+        id: "e1_guarn_pat",
+        name: "Guarnición de Patatas o Ensalada",
+        category: "A la Brasa",
+        price: 5.00,
+        badge: "Guarnición",
+        description: "Ración de patatas fritas caseras en aceite de oliva o ensalada de lechuga fresca y tomate.",
+        details: "Acompañamiento perfecto de asados",
+        ingredients: "Patatas agrias o vegetales frescos de huerta.",
+        prepTime: "5 min",
+        popular: false,
+        image: "https://images.unsplash.com/photo-1573080496219-bb080dd4f877?auto=format&fit=crop&w=800&q=80",
+        allergens: []
+      },
+      {
+        id: "e1_guarn_pim",
+        name: "Guarnición de Pimientos del Piquillo",
+        category: "A la Brasa",
+        price: 8.00,
+        badge: "Al Fuego",
+        description: "Pimientos del piquillo enteros confitados despacio a la brasa con ajo y aceite de oliva virgen extra.",
+        details: "Confitados lentamente",
+        ingredients: "Pimientos del piquillo enteros, ajos asados y AOVE.",
+        prepTime: "6 min",
+        popular: false,
+        image: "https://images.unsplash.com/photo-1563379091339-03b21ab4a4f8?auto=format&fit=crop&w=800&q=80",
+        allergens: []
+      },
+
+      // --- ENSALADAS ---
+      {
+        id: "e1_ens_tem",
+        name: "Ensalada Templada",
+        category: "Ensaladas",
+        price: 13.75,
+        badge: "Queso de Cabra",
+        description: "Mezcla de lechugas, nueces, pasas, tomate cherrys, endivias, queso de cabra, confitura de tomate y vinagreta de frutos del bosque.",
+        details: "Queso de cabra tostado a la brasa",
+        ingredients: "Hojas verdes, nueces, pasas moscatel, cherrys, endivias, rulo de cabra caramelizado y reducción de frutos rojos.",
+        prepTime: "8 min",
+        popular: true,
+        image: "https://images.unsplash.com/photo-1540420773420-3366772f4999?auto=format&fit=crop&w=800&q=80",
+        allergens: ["lacteos", "frutos_cascara"]
+      },
+      {
+        id: "e1_ens_cal",
+        name: "Ensalada California",
+        category: "Ensaladas",
+        price: 13.75,
+        badge: "Pollo Brasa",
+        description: "Mezcla de lechugas, tomate, pollo a la parrilla, bacon, picatostes, pasas, parmesano y salsa California.",
+        details: "Pollo recién salido de la brasa",
+        ingredients: "Lechugas crujientes, pollo al carbón, tiras de bacon dorado, picatostes de pan, parmesano curado y aderezo California.",
+        prepTime: "8 min",
+        popular: false,
+        image: "https://images.unsplash.com/photo-1512621776951-a57141f2eefd?auto=format&fit=crop&w=800&q=80",
+        allergens: ["gluten", "huevos", "frutos_cascara", "mostaza"]
+      },
+      {
+        id: "e1_ens_nik",
+        name: "Ensalada Nikoleta",
+        category: "Ensaladas",
+        price: 13.75,
+        badge: "Tomate Raf",
+        description: "Tomate Raf aliñado con piparras y aceitunas.",
+        details: "Tomate de temporada en su punto dulce y carnoso",
+        ingredients: "Tomate Raf seleccionado, piparras de Navarra, aceitunas y AOVE virgen extra.",
+        prepTime: "6 min",
+        popular: false,
+        image: "https://images.unsplash.com/photo-1592417817098-8f3d6910985b?auto=format&fit=crop&w=800&q=80",
+        allergens: []
+      },
+      {
+        id: "e1_ens_pim",
+        name: "Ensalada de Pimientos Asados al Fuego con Ventresca",
+        category: "Ensaladas",
+        price: 15.50,
+        badge: "Ventresca",
+        description: "Pimientos asados a fuego vivo con ventresca de bonito del norte y aceite de oliva virgen extra.",
+        details: "Pimientos asados a la leña con ventresca jugosa",
+        ingredients: "Pimientos rojos braseados, ventresca de atún en aceite de oliva y sal gorda.",
+        prepTime: "7 min",
+        popular: true,
+        image: "https://images.unsplash.com/photo-1540420773420-3366772f4999?auto=format&fit=crop&w=800&q=80",
+        allergens: ["pescado"]
+      },
+
+      // --- CHIVITO AL PLATO ---
+      {
+        id: "e1_chi",
+        name: "Chivito al Plato",
+        category: "Chivito al Plato",
+        price: 17.00,
+        badge: "Plato Completo",
+        description: "Filete de ternera, jamón, mozzarella, bacon, huevo frito, patatas fritas y ensalada de lechuga y tomate.",
+        details: "Especialidad rioplatense servida al plato",
+        ingredients: "Filete de ternera tierno, jamón cocido, mozzarella fundida, bacon crujiente, huevo campero frito y patatas.",
+        prepTime: "15 min",
+        popular: true,
+        image: "https://images.unsplash.com/photo-1568901346375-23c9450c58cd?auto=format&fit=crop&w=800&q=80",
+        allergens: ["gluten", "huevos", "lacteos"]
+      },
+
+      // --- POLLO ASADO ---
+      {
+        id: "e1_pol_med",
+        name: "1/2 Pollo al Carbón",
+        category: "Pollo Asado",
+        price: 16.00,
+        badge: "Al Carbón",
+        description: "Con patatas fritas, ensalada y 3 salsas (consumo en restaurante).",
+        details: "Piel dorada y crujiente al fuego de encina",
+        ingredients: "Medio pollo de corral marinado, patatas fritas caseras, ensalada mixta y 3 salsas artesanas.",
+        prepTime: "14 min",
+        popular: false,
+        image: "https://images.unsplash.com/photo-1598515214211-89d3c73ae83b?auto=format&fit=crop&w=800&q=80",
+        allergens: ["gluten", "frutos_cascara", "cacahuete", "soja", "mostaza", "sulfitos"]
+      },
+      {
+        id: "e1_pol_ent",
+        name: "Pollo al Carbón Entero",
+        category: "Pollo Asado",
+        price: 26.50,
+        badge: "Familiar",
+        description: "Con patatas fritas, ensalada y 3 salsas (consumo en restaurante).",
+        details: "Pollo entero asado a la brasa para compartir",
+        ingredients: "Pollo entero asado al carbón, ración generosa de patatas, ensalada de la casa y 3 salsas.",
+        prepTime: "18 min",
+        popular: true,
+        image: "https://images.unsplash.com/photo-1598515214211-89d3c73ae83b?auto=format&fit=crop&w=800&q=80",
+        allergens: ["gluten", "frutos_cascara", "cacahuete", "soja", "mostaza", "sulfitos"]
+      },
+
+      // --- POSTRES ---
+      {
+        id: "e1_coulant",
+        name: "Coulant de Chocolate con Helado de Vainilla",
+        category: "Postres",
+        price: 6.50,
+        badge: "Volcán Fundente",
+        description: "Bizcocho tibio de chocolate negro con corazón fluido fundente y helado de vainilla Bourbon.",
+        details: "Servido recién horneado y caliente",
+        ingredients: "Chocolate negro 70%, huevos, mantequilla, harina, azúcar y helado artesano de vainilla.",
+        prepTime: "7 min",
+        popular: true,
+        image: "https://images.unsplash.com/photo-1606313564200-e75d5e30476c?auto=format&fit=crop&w=800&q=80",
+        allergens: ["gluten", "huevos", "lacteos", "frutos_cascara", "soja"]
+      },
+      {
+        id: "e1_panq",
+        name: "Panqueque Relleno de Biscoff",
+        category: "Postres",
+        price: 6.50,
+        badge: "Biscoff Dulce",
+        description: "Crepe artesano relleno generosamente de crema de galleta Biscoff caramelizada y azúcar glas.",
+        details: "Hecho al momento a la plancha dulce",
+        ingredients: "Masa fina de panqueque, crema de galleta Biscoff caramelizada y azúcar glas.",
+        prepTime: "6 min",
+        popular: false,
+        image: "https://images.unsplash.com/photo-1528736235302-52922df5c122?auto=format&fit=crop&w=800&q=80",
+        allergens: ["gluten", "lacteos", "huevos", "soja"]
+      },
+      {
+        id: "e1_copa",
+        name: "Copa Di Mateo",
+        category: "Postres",
+        price: 6.50,
+        badge: "Con Crema de Orujo",
+        description: "Helado de chocolate, topping de nueces y crema de orujo.",
+        details: "Postre para adultos con licor tradicional",
+        ingredients: "Helado de chocolate belga, nueces picadas y crema de orujo artesano.",
+        prepTime: "5 min",
+        popular: false,
+        image: "https://images.unsplash.com/photo-1563805042-7684c019e1cb?auto=format&fit=crop&w=800&q=80",
+        allergens: ["huevos", "frutos_cascara", "soja", "lacteos"]
+      },
+      {
+        id: "e1_tarta",
+        name: "Tarta de Queso Cremosa",
+        category: "Postres",
+        price: 6.50,
+        badge: "Receta del Asador",
+        description: "Horneada a diario con centro cremoso fundente sobre base crocante de galleta tostada.",
+        details: "Textura cremosa y caramelizado al horno",
+        ingredients: "Queso crema, nata pura 35%, huevos camperos, azúcar y base de galleta de mantequilla.",
+        prepTime: "5 min",
+        popular: true,
+        image: "https://images.unsplash.com/photo-1533134242443-d4fd215305ad?auto=format&fit=crop&w=800&q=80",
+        allergens: ["gluten", "huevos", "soja", "lacteos"]
+      },
+
+      // --- CAFÉS ---
+      {
+        id: "e1_caf_solo",
+        name: "Con Leche, Cortado o Solo",
+        category: "Cafés",
+        price: 1.75,
+        badge: "Café Natural",
+        description: "Café 100% arábica de tueste natural en máquina espresso italiana con leche fresca vaporizada.",
+        details: "Servido en taza caliente",
+        ingredients: "Café espresso y leche entera o vegetal.",
+        prepTime: "3 min",
+        popular: false,
+        image: "https://images.unsplash.com/photo-1514432324607-a09d9b4aefdd?auto=format&fit=crop&w=800&q=80",
+        allergens: ["lacteos"]
+      },
+      {
+        id: "e1_infusion",
+        name: "Manzanilla o Poleo Menta",
+        category: "Cafés",
+        price: 2.20,
+        badge: "Infusiones",
+        description: "Flor natural en pirámide aromática con agua mineral caliente.",
+        details: "Infusiones digestivas",
+        ingredients: "Flor de manzanilla o poleo menta natural.",
+        prepTime: "4 min",
+        popular: false,
+        image: "https://images.unsplash.com/photo-1576092768241-dec231879fc3?auto=format&fit=crop&w=800&q=80",
+        allergens: []
+      },
+      {
+        id: "e1_tes",
+        name: "Tés Especiales",
+        category: "Cafés",
+        price: 2.50,
+        badge: "Selección",
+        description: "Variedad de té verde sencha, té negro Earl Grey con bergamota o rooibos especiado.",
+        details: "Selección de cosechas aromáticas",
+        ingredients: "Hojas de té seleccionadas en infusión a 90ºC.",
+        prepTime: "4 min",
+        popular: false,
+        image: "https://images.unsplash.com/photo-1597481499750-3e6b22637e12?auto=format&fit=crop&w=800&q=80",
+        allergens: []
+      }
+    ],
+
+    googleReviews: [
+      {
+        id: "rev-v1",
+        author: "Manuel Gómez",
+        avatar: "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?auto=format&fit=crop&w=120&q=80",
+        badge: "Local Guide · 42 reseñas",
+        rating: 5,
+        timeAgo: "Hace 4 días",
+        comment: "El mejor chuletón de todo Aluche sin ninguna duda. La carne en su punto exacto al carbón y el torrezno súper crujiente. Pedir en mesa con el QR de la carta web fue rapidísimo.",
+        ownerResponse: "¡Muchísimas gracias Manuel! Seleccionamos cada lomo semanalmente en Mercamadrid. Te esperamos pronto en Maqueda."
+      },
+      {
+        id: "rev-v2",
+        author: "Beatriz S.",
+        avatar: "https://images.unsplash.com/photo-1494790108377-be9c29b29330?auto=format&fit=crop&w=120&q=80",
+        badge: "Local Guide · 18 reseñas",
+        rating: 5,
+        timeAgo: "Hace 2 semanas",
+        comment: "Fuimos a cenar en familia 6 personas en la terraza. Las croquetas de cecina y la tarta de queso al horno son obligatorias. Servicio impecable y trato cercano.",
+        ownerResponse: null
+      },
+      {
+        id: "rev-v3",
+        author: "Javier M. del Pozo",
+        avatar: "https://images.unsplash.com/photo-1500648767791-00dcc994a43e?auto=format&fit=crop&w=120&q=80",
+        badge: "Cliente verificado",
+        rating: 5,
+        timeAgo: "Hace 3 semanas",
+        comment: "Trato de 10 por parte de los camareros. Pedimos para recoger porque vivimos cerca en Maqueda y estaba empaquetado perfecto, caliente y sin sobrecostes.",
+        ownerResponse: "¡Gracias Javier! Nos alegra que el servicio para llevar funcione tan bien. Un fuerte abrazo del equipo de Parrilla Vukata."
+      }
+    ]
+  },
+
+  // =========================================================================
+  // ESTILO 2: CERVECERÍA 27 & BAR MALA PATA (LUCERO) - APP & BENTO GRID
+  // =========================================================================
+  estilo2: {
+    id: "estilo2",
+    styleName: "Estilo 2",
+    styleSubtitle: "App Interactiva & Bento Grid",
+    layoutType: "bento-app",
+    themeClass: "theme-estilo-2",
+    name: "Cervecería 27 & Bar Mala Pata",
+    chefName: "Paco 'El Chato'",
+    chefTitle: "Jefe de Barra & Plancha",
+    tagline: "El Auténtico Templo del Tapeo y la Cerveza Helada de Barrio",
+    neighborhood: "Lucero / Aluche (Madrid)",
+    address: "Calle de Quero, 61 · Aluche / Lucero, 28024 Madrid",
+    phone: "+34 919 42 36 96",
+    whatsapp: "34695590754",
+    email: "contacto@barmalapata.es",
+    managerName: "Paco 'El Chato' (Dirección de Barra)",
+    googleMapsUrl: "https://www.google.com/maps/search/?api=1&query=Bar+Mala+Pata,+Calle+de+Quero,+61,+28024+Madrid",
+    type: "Cervecería Urbana & Taberna Castiza",
+    rating: 4.7,
+    totalReviews: 482,
+    serviceStatus: "Grifos a -2ºC & Plancha Activa",
+    bannerImg: "https://images.unsplash.com/photo-1514933651103-005eec06c04b?auto=format&fit=crop&w=1600&q=80",
+    
+    aboutUs: {
+      headline: "Más de 40 Años Tirando Cañas con Maestría y Sirviendo el Mejor Tapeo en Calle Quero",
+      story: "En el Bar Mala Pata y Cervecería 27 no hay etiquetas ni florituras: hay cañas bien tiradas con dos dedos de crema y raciones abundantes que unen a vecinos, familias y grupos de amigos. Paco fundó la taberna con una plancha de cromo y la receta secreta de salsa brava casera de su madre. Hoy seguimos con la misma filosofía: producto fresco comprado en el mercado de Lucero, raciones hechas al momento y un ambiente castizo inigualable.",
+      pillars: [
+        {
+          icon: "🍻",
+          title: "Tanque de Bodega sin Pasteurizar",
+          desc: "Cerveza directa de fábrica a -2ºC, servida con serpentín helado y golpe de grifo maestro con doble crema."
+        },
+        {
+          icon: "🥘",
+          title: "Plancha de Cromo al Momento",
+          desc: "Ni microondas ni recalentados: oreja dorada, calamares y patatas salen volando de la plancha a tu mesa."
+        },
+        {
+          icon: "☀️",
+          title: "Terraza Viva 365 Días",
+          desc: "El corazón social de la calle Quero con toldos frescos en verano y estufas calientes en invierno."
+        }
+      ],
+      specialtyHighlight: {
+        title: "Oreja Crujiente a la Plancha con Salsa Brava Casera",
+        subtitle: "Crujiente por fuera, tierna por dentro",
+        badge: "Nº 1 de la Barra",
+        text: "Cocemos la oreja durante 3 horas con laurel, ajo morado y pimienta. Al entrar a la plancha a 280ºC con nuestro aliño de ajo-perejil y toque de limón, logra ese crujido legendario que enamora a todo Madrid."
+      }
+    },
+
+    categories: ["Raciones Clásicas", "Tapas & Plancha", "Huevos Rotos", "Bocatas en Cristal", "Cervezas & Barra"],
+
+    menu: [
+      {
+        id: "e2_1",
+        name: "Oreja Crujiente a la Plancha con Brava Casera",
+        category: "Raciones Clásicas",
+        price: 9.80,
+        badge: "Nº 1 de la Barra",
+        description: "Dorada a fuego fuerte con ajo, perejil, chorrito de vino blanco y nuestra salsa brava picantona casera.",
+        details: "Ración generosa · Plancha de cromo al momento",
+        ingredients: "Oreja cocida 3h prensada, aliño de ajo morado y perejil fresco, limón y salsa brava tradicional de la casa.",
+        pairing: "Doble de cerveza de bodega bien fría",
+        prepTime: "8 min",
+        dietary: "Sin Gluten · Receta Secreta 1984",
+        popular: true,
+        image: "https://images.unsplash.com/photo-1544025162-d76694265947?auto=format&fit=crop&w=800&q=80",
+        allergens: []
+      },
+      {
+        id: "e2_2",
+        name: "Patatas Bravas 'Mala Pata' con Doble Salsa",
+        category: "Raciones Clásicas",
+        price: 7.50,
+        badge: "Fórmula de 1984",
+        description: "Patatas agrias de Madrid pochadas y fritas a la orden con brava de pimentón de la Vera y alioli casero emulsionado.",
+        details: "Doble fritura crujiente por fuera y tierna dentro",
+        ingredients: "Patata agria seleccionada, salsa brava de pimentón de La Vera, caldo reducido y alioli casero de ajo suave.",
+        pairing: "Caña helada de barril",
+        prepTime: "6 min",
+        dietary: "Sin Gluten · Caseras 100%",
+        popular: true,
+        image: "https://images.unsplash.com/photo-1573080496219-bb080dd4f877?auto=format&fit=crop&w=800&q=80",
+        allergens: ["huevo"]
+      },
+      {
+        id: "e2_3",
+        name: "Sartén de Huevos Camperos con Jamón Ibérico",
+        category: "Huevos Rotos",
+        price: 11.50,
+        badge: "Puntilla Garantizada",
+        description: "3 huevos de corral con puntilla fritos en aceite de oliva virgen extra sobre patatas panaderas y virutas de jamón ibérico.",
+        details: "Huevos de granja camperos · Aceite virgen extra",
+        ingredients: "3 huevos de gallinas camperas, patatas pochadas, jamón ibérico de bellota y sal en escamas.",
+        pairing: "Vino Tinto de la Casa o Cerveza Tostada",
+        prepTime: "7 min",
+        dietary: "Sin Gluten · Huevos de Corral",
+        popular: true,
+        image: "https://images.unsplash.com/photo-1525351484163-7529414344d8?auto=format&fit=crop&w=800&q=80",
+        allergens: ["huevo"]
+      },
+      {
+        id: "e2_4",
+        name: "Calamares a la Andaluza con Limón Fresco",
+        category: "Raciones Clásicas",
+        price: 11.00,
+        badge: "Rebozado Andaluz",
+        description: "Rebozado ultra fino en harina de garbanzo sin exceso de aceite, frito a 190ºC. Tiernos como la mantequilla.",
+        details: "Harina de garbanzo · Fritura limpia",
+        ingredients: "Anillas de calamar fresco, harina de garbanzo andaluza, aceite de oliva virgen y gajos de limón fresco.",
+        pairing: "Vermut de grifo de Madrid",
+        prepTime: "6 min",
+        dietary: "Fritura ligera y crujiente",
+        popular: true,
+        image: "https://images.unsplash.com/photo-1599488615731-7e5c2823ff28?auto=format&fit=crop&w=800&q=80",
+        allergens: ["pescado", "gluten"]
+      },
+      {
+        id: "e2_5",
+        name: "Bocadillo de Calamares en Pan de Cristal Tostado",
+        category: "Bocatas en Cristal",
+        price: 6.50,
+        badge: "Pan de Cristal",
+        description: "El clásico madrileño elevado: pan de cristal aireado y crujiente, calamares recién fritos y suave mayonesa cítrica.",
+        details: "Pan de cristal con triple fermentación",
+        ingredients: "Pan de cristal tostado al momento, calamares rebozados a la andaluza, aceite de oliva y alioli suave opcional.",
+        pairing: "Caña doble de cerveza de bodega",
+        prepTime: "5 min",
+        dietary: "Icono Gastronómico de Madrid",
+        popular: true,
+        image: "https://images.unsplash.com/photo-1509722747041-616f39b57569?auto=format&fit=crop&w=800&q=80",
+        allergens: ["gluten", "pescado", "huevo"]
+      },
+      {
+        id: "e2_6",
+        name: "Doble de Cerveza de Bodega sin Pasteurizar",
+        category: "Cervezas & Barra",
+        price: 2.80,
+        badge: "-2ºC en Copa",
+        description: "Tirada en copa helada con dos dedos de crema densa. La cerveza más fresca y natural del distrito de Lucero.",
+        details: "Tanque directo sin pasteurizar · Serpentín helado",
+        ingredients: "Cerveza rubia de bodega sin pasteurizar directa de tanque refrigerado a -2ºC.",
+        pairing: "Acompaña a cualquiera de nuestras raciones",
+        prepTime: "1 min",
+        dietary: "La caña mejor tirada de Madrid",
+        popular: true,
+        image: "https://images.unsplash.com/photo-1535958636474-b021ee887b13?auto=format&fit=crop&w=800&q=80",
+        allergens: ["gluten"]
+      }
+    ],
+
+    googleReviews: [
+      {
+        id: "rev-c1",
+        author: "David Serrano",
+        avatar: "https://images.unsplash.com/photo-1535713875002-d1d0cf377fde?auto=format&fit=crop&w=120&q=80",
+        badge: "Local Guide · 84 reseñas",
+        rating: 5,
+        timeAgo: "Hace 1 semana",
+        comment: "El tapeo de toda la vida pero con una organización de 10. La oreja a la plancha está en su punto crujiente exacto y las patatas bravas pican lo justo. Las cañas salen con la crema perfecta.",
+        ownerResponse: "¡Grande David! Esa oreja lleva el aliño de la casa desde hace 30 años en la calle Quero. ¡Salud!"
+      },
+      {
+        id: "rev-c2",
+        author: "Sara Martín",
+        avatar: "https://images.unsplash.com/photo-1544005313-94ddf0286df2?auto=format&fit=crop&w=120&q=80",
+        badge: "Vecina de Lucero",
+        rating: 5,
+        timeAgo: "Hace 3 semanas",
+        comment: "La terraza en verano se llena, pero ahora pidiendo directamente desde el móvil te sirven en 5 minutos sin tener que esperar a llamar al camarero. ¡Un acierto total!",
+        ownerResponse: null
+      },
+      {
+        id: "rev-c3",
+        author: "Antonio Ramos",
+        avatar: "https://images.unsplash.com/photo-1570295999919-56ceb5ecca61?auto=format&fit=crop&w=120&q=80",
+        badge: "Local Guide · 29 reseñas",
+        rating: 5,
+        timeAgo: "Hace 1 mes",
+        comment: "Muy buenos los huevos rotos y el bocadillo de calamares en pan crujiente. Calidad-precio inmejorable para el barrio de Lucero y Aluche.",
+        ownerResponse: null
+      }
+    ]
+  },
+
+  // =========================================================================
+  // ESTILO 3: PIZZERÍA CARLOS CARABANCHEL - TRATTORIA CLÁSICA & BISTRÓ
+  // =========================================================================
+  estilo3: {
+    id: "estilo3",
+    styleName: "Estilo 3",
+    styleSubtitle: "Trattoria & Forno Napolitano",
+    layoutType: "bistro",
+    themeClass: "theme-estilo-3",
+    name: "Pizzería Carlos Carabanchel",
+    chefName: "Matteo Bellini",
+    chefTitle: "Maestro Pizzaiolo",
+    tagline: "L'Arte della Pizza Napoletana Contemporanea in Forno a Legna",
+    neighborhood: "Carabanchel (Madrid)",
+    address: "Calle del Toboso, 114 · Carabanchel, 28019 Madrid",
+    phone: "+34 914 22 13 13",
+    whatsapp: "34695590754",
+    email: "gerencia@pizzeriacarlos.es",
+    managerName: "Matteo Bellini (Maestro Pizzaiolo)",
+    googleMapsUrl: "https://www.google.com/maps/search/?api=1&query=Pizzer%C3%ADa+Carlos,+Calle+del+Toboso,+114,+28019+Madrid",
+    type: "Pizzería Artesanal & Trattoria Gourmet",
+    rating: 4.9,
+    totalReviews: 614,
+    serviceNote: "Horno encendido: 13:00 a 16:30 y 20:00 a 00:00 (Reparto a domicilio propio sin comisiones)",
+    bannerImg: "https://images.unsplash.com/photo-1513104890138-7c749659a591?auto=format&fit=crop&w=1600&q=80",
+    
+    aboutUs: {
+      headline: "De Nápoles a Carabanchel: La Verdadera Pizza Ligera que No Hincha",
+      story: "Matteo Bellini creció entre los sacos de harina de Nápoles. Cuando llegó a Carabanchel, trajo consigo una cepa de masa madre viva heredada de su familia y una misión: demostrar que una pizza de verdad es ligera, digestiva y un homenaje al producto de origen. En nuestro obrador de la calle del Toboso no existen las prisas: la masa madura durante 48 a 72 horas en frío antes de entrar a nuestro horno de piedra volcánica a 480ºC.",
+      quote: "La harina, el agua pura, la sal marina y la levadura solo necesitan una virtud que hoy pocos tienen: paciencia y 48 horas de fermentación natural.",
+      quoteAuthor: "Matteo Bellini, Maestro Pizzaiolo",
+      pillars: [
+        {
+          num: "01",
+          title: "Fermentación Natural 48–72h",
+          desc: "Masa altamente hidratada (75%) que madura lentamente en frío para una digestión ultraligera sin pesadez ni sed posterior."
+        },
+        {
+          num: "02",
+          title: "Horno de Piedra a 480ºC",
+          desc: "Cocción relámpago en 70 segundos para inflar un 'cornicione' alveolado, ligero y crujiente con toque ahumado."
+        },
+        {
+          num: "03",
+          title: "100% Ingredientes DOP Campania",
+          desc: "Tomates San Marzano del Vesubio, mozzarella fior di latte fresca de Agerola y albahaca genovesa recién cortada."
+        }
+      ],
+      specialtyHighlight: {
+        title: "Pizza Tartufo & Funghi Porcini Selvatici",
+        badge: "Premiada 2024",
+        doughHydration: "75% Hidratación · Masa Madre 48h",
+        originTag: "Campania & Umbría",
+        text: "Crema de trufa negra de Norcia, fior di latte fresco fundente, boletus edulis silvestres salteados y lascas de Parmigiano Reggiano DOP con 24 meses de curación."
+      }
+    },
+
+    categories: ["Pizzas Gourmet", "Pizzas Clásicas DOP", "Pastas Frescas al Huevo", "Postres Italianos", "Vinos & Birra"],
+
+    menu: [
+      {
+        id: "e3_1",
+        name: "Pizza Tartufo & Funghi Porcini Selvatici",
+        category: "Pizzas Gourmet",
+        price: 15.50,
+        badge: "Premiada 2024",
+        description: "Crema de trufa negra de Norcia, fior di latte fresco, boletus edulis salteados al romero y lascas de Parmigiano Reggiano 24 meses.",
+        details: "75% Hidratación · Harina molida a la piedra",
+        ingredients: "Fior di latte de Agerola, crema de trufa negra de Umbría, boletus edulis, Parmigiano Reggiano DOP 24 meses y AOVE.",
+        pairing: "Vino Tinto Chianti Classico DOCG",
+        prepTime: "10 min",
+        dietary: "Masa Madre 48h · Digestión Ligera",
+        popular: true,
+        image: "https://images.unsplash.com/photo-1513104890138-7c749659a591?auto=format&fit=crop&w=800&q=80",
+        allergens: ["gluten", "lactosa"]
+      },
+      {
+        id: "e3_2",
+        name: "Pizza Burrata Pugliese & Prosciutto di Parma DOP",
+        category: "Pizzas Gourmet",
+        price: 16.00,
+        badge: "Burrata Entera 125g",
+        description: "Base crujiente de masa madre con tomate San Marzano, burrata cremosa fresca de Puglia colocada en frío al salir del horno, jamón de Parma y pesto.",
+        details: "78% Hidratación · Burrata fresca en frío",
+        ingredients: "Tomate San Marzano DOP, burrata fresca de Puglia 125g, Prosciutto di Parma curado 18 meses, pesto genovés y piñones tostados.",
+        pairing: "Vino Blanco Pinot Grigio del Véneto",
+        prepTime: "10 min",
+        dietary: "Producto DOP Importado de Italia",
+        popular: true,
+        image: "https://images.unsplash.com/photo-1574071318508-1cdbab80d002?auto=format&fit=crop&w=800&q=80",
+        allergens: ["gluten", "lactosa", "frutos_secos"]
+      },
+      {
+        id: "e3_3",
+        name: "Pizza Diavola Piccante Spianata Calabra",
+        category: "Pizzas Clásicas DOP",
+        price: 13.50,
+        badge: "Picante Equilibrado",
+        description: "Tomates San Marzano triturados a mano, mozzarella fundente, auténtica spianata picante de Calabria y aceite aromatizado con guindilla fresca.",
+        details: "Calabria DOP · Toque ahumado en horno de piedra",
+        ingredients: "Tomate San Marzano DOP, mozzarella fior di latte, salami spianata piccante calabra, albahaca fresca y aceite de guindilla.",
+        pairing: "Birra Moretti helada",
+        prepTime: "8 min",
+        dietary: "Picante Tradicional Italiano",
+        popular: true,
+        image: "https://images.unsplash.com/photo-1628840042765-356cda07504e?auto=format&fit=crop&w=800&q=80",
+        allergens: ["gluten", "lactosa"]
+      },
+      {
+        id: "e3_4",
+        name: "Ravioli de Calabaza Asada y Ricotta con Salvia",
+        category: "Pastas Frescas al Huevo",
+        price: 14.20,
+        badge: "Pasta Fresca del Día",
+        description: "Pasta fresca al huevo estirada a mano cada mañana, rellena de calabaza asada caramelizada, ricotta fresca de oveja, mantequilla dorada y avellanas.",
+        details: "Elaborada artesanalmente cada mañana",
+        ingredients: "Harina de sémola de trigo duro, huevo de corral, calabaza asada, ricotta fresca, mantequilla de pasto, hojas de salvia y avellanas.",
+        pairing: "Vino Blanco Vermentino di Sardegna",
+        prepTime: "12 min",
+        dietary: "Vegetariano · Pasta Hecha a Mano",
+        popular: false,
+        image: "https://images.unsplash.com/photo-1551183053-bf91a1d81141?auto=format&fit=crop&w=800&q=80",
+        allergens: ["gluten", "lactosa", "huevo", "frutos_secos"]
+      },
+      {
+        id: "e3_5",
+        name: "Lasagna Tradizionale Bolognese al Forno",
+        category: "Pastas Frescas al Huevo",
+        price: 13.00,
+        badge: "Receta de la Nonna",
+        description: "Capas de pasta al huevo fina con ragú boloñés cocinado a fuego lento durante 4 horas, bechamel suave y gratén de Parmigiano Reggiano.",
+        details: "Cocción lenta de 4 horas · Gratinado al horno",
+        ingredients: "Láminas de pasta al huevo, carne de ternera y cerdo picada a cuchillo, sofrito de verduras, tomate San Marzano, bechamel y parmesano.",
+        pairing: "Vino Tinto Barbera d'Asti",
+        prepTime: "14 min",
+        dietary: "Receta Familiar Tradicional",
+        popular: true,
+        image: "https://images.unsplash.com/photo-1574894709920-11b28e7367e3?auto=format&fit=crop&w=800&q=80",
+        allergens: ["gluten", "lactosa", "huevo"]
+      },
+      {
+        id: "e3_6",
+        name: "Auténtico Tiramisú Tradizionale di Treviso",
+        category: "Postres Italianos",
+        price: 6.00,
+        badge: "Cremoso & Casero",
+        description: "Bizcochos savoiardi empapados en café espresso Illy recién extraído, crema densa de mascarpone italiano y lluvia de cacao puro amargo.",
+        details: "Receta Original de Treviso 1970",
+        ingredients: "Queso mascarpone italiano, café espresso Illy 100% arábica, bizcochos savoiardi de huevo, azúcar de caña y cacao amargo en polvo.",
+        pairing: "Licor Amaretto o Café Espresso",
+        prepTime: "3 min",
+        dietary: "Sin Conservantes · Clásico Napolitano",
+        popular: true,
+        image: "https://images.unsplash.com/photo-1571877227200-a0d98ea607e9?auto=format&fit=crop&w=800&q=80",
+        allergens: ["gluten", "lactosa", "huevo"]
+      }
+    ],
+
+    googleReviews: [
+      {
+        id: "rev-p1",
+        author: "Claudia Rossi",
+        avatar: "https://images.unsplash.com/photo-1534528741775-53994a69daeb?auto=format&fit=crop&w=120&q=80",
+        badge: "Local Guide · 110 reseñas",
+        rating: 5,
+        timeAgo: "Hace 5 días",
+        comment: "Soy italiana y vivo en Carabanchel: esta pizza en la calle del Toboso es lo más cercano a Nápoles que he probado en Madrid. La masa es ligera como una nube y la burrata fresquísima.",
+        ownerResponse: "Grazie mille Claudia! Usiamo solo farina di tipo 00 e lievitazione di 48 ore. A presto a Carabanchel!"
+      },
+      {
+        id: "rev-p2",
+        author: "Sergio Navarro",
+        avatar: "https://images.unsplash.com/photo-1506794778202-cad84cf45f1d?auto=format&fit=crop&w=120&q=80",
+        badge: "Cliente habitual",
+        rating: 5,
+        timeAgo: "Hace 2 semanas",
+        comment: "Hicimos el pedido a domicilio desde su propia web y nos llegó en 25 minutos perfecto. Mucho mejor que pedir por intermediarios porque la pizza llega en su caja térmica crujiente y caliente.",
+        ownerResponse: null
+      },
+      {
+        id: "rev-p3",
+        author: "Elena Vidal",
+        avatar: "https://images.unsplash.com/photo-1517841905240-472988babdf9?auto=format&fit=crop&w=120&q=80",
+        badge: "Local Guide · 36 reseñas",
+        rating: 5,
+        timeAgo: "Hace 1 mes",
+        comment: "El tiramisú es espectacular y la pizza Tartufo un pecado. Muy buena atención tanto en el local como por teléfono. Ya somos clientes fijos de los domingos.",
+        ownerResponse: null
+      }
+    ]
+  },
+
+  // =========================================================================
+  // ESTILO 4: CAFETERÍA CAMPAMENTO & DESAYUNOS YEBES - SHOWCASE NÓRDICO
+  // =========================================================================
+  estilo4: {
+    id: "estilo4",
+    styleName: "Estilo 4",
+    styleSubtitle: "Showcase Visual & Specialty Coffee",
+    layoutType: "minimal",
+    themeClass: "theme-estilo-4",
+    name: "Cafetería Campamento & Desayunos Yebes",
+    chefName: "Clara Yebes",
+    chefTitle: "Head Barista & Obrador",
+    tagline: "Specialty Coffee Roasters, Organic Brunch & Obrador Artesano",
+    neighborhood: "Campamento / Aluche (Madrid)",
+    address: "Avenida del Padre Piquer, 1 · Campamento, 28024 Madrid",
+    phone: "+34 646 62 17 93",
+    whatsapp: "34695590754",
+    email: "hola@cafeteriacampamento.es",
+    managerName: "Clara Yebes (Coordinación de Obrador)",
+    googleMapsUrl: "https://www.google.com/maps/search/?api=1&query=Cafeteria+Campamento,+Avenida+del+Padre+Piquer,+1,+28024+Madrid",
+    type: "Café de Especialidad & Obrador Brunch",
+    rating: 4.8,
+    totalReviews: 395,
+    openingHours: "Lunes a Domingo: 07:30 a 19:30 (Desayunos y brunch ininterrumpidos)",
+    bannerImg: "https://images.unsplash.com/photo-1501339847302-ac426a4a7cbb?auto=format&fit=crop&w=1600&q=80",
+    
+    aboutUs: {
+      headline: "Café de Especialidad con Alma, Masas Madres Vivas y Desayunos Conscientes en Campamento",
+      story: "Cafetería Campamento nació con el propósito de acercar la cultura del café de especialidad y la comida saludable de obrador al corazón de Campamento y Aluche. Desterramos el torrefacto comercial y nos asociamos con micro-tostadores locales que compran directamente a pequeños productores de Colombia, Etiopía y Guatemala a precios justos. En nuestro obrador horneamos bollería con mantequilla pura francesa y preparamos tostas con hogazas de masa madre fermentadas durante 24 horas.",
+      pillars: [
+        {
+          icon: "☕",
+          title: "Puntuación SCA >86 Puntos",
+          desc: "100% café de especialidad arábica trazable por finca, proceso de lavado y fecha semanal de tueste local."
+        },
+        {
+          icon: "🥖",
+          title: "Masa Madre Viva 24 Horas",
+          desc: "Hogazas fermentadas en frío durante 24 horas con harinas ecológicas sin aditivos ni mejorantes químicos."
+        },
+        {
+          icon: "🥑",
+          title: "Cocina Consciente & Fresca",
+          desc: "Aguacates Hass en su punto óptimo, salmón ahumado salvaje y fruta fresca de temporada cortada al momento."
+        }
+      ],
+      specialtyHighlight: {
+        title: "Flat White Doble con Leche de Avena Barista",
+        badge: "Barista Signature",
+        roastType: "Tueste Medio · Origen Colombia Huila SCA 87.5",
+        dietInfo: "Sin Azúcares Añadidos",
+        text: "Extraemos nuestro espresso a 93ºC exactos con doble cestillo de 18 gramos durante 27 segundos. La leche de avena barista se microemulsiona a 62ºC para crear una textura de terciopelo que resalta la dulzura natural del grano."
+      }
+    },
+
+    categories: ["Tostas Artesanas", "Cafés & Especialidad", "Bowls & Saludable", "Bollería de Obrador", "Zumos Naturales"],
+
+    menu: [
+      {
+        id: "e4_1",
+        name: "Tosta de Aguacate Hass, Salmón Ahumado y Semillas",
+        category: "Tostas Artesanas",
+        price: 7.20,
+        badge: "Favorito Brunch",
+        description: "Hogaza crujiente de masa madre viva, aguacate Hass laminado con limón, salmón ahumado salvaje, gomasio y brotes frescos.",
+        details: "Pan de masa madre 24h · Aguacate fresco",
+        ingredients: "Hogaza de trigo ecológico de masa madre, aguacate Hass, salmón noruego salvaje, gomasio de sésamo tostado y brotes verdes.",
+        pairing: "Cold Brew o Zumo de naranja recién exprimido",
+        prepTime: "5 min",
+        dietary: "Rico en Omega-3 · Alto en Proteína",
+        popular: true,
+        image: "https://images.unsplash.com/photo-1525351484163-7529414344d8?auto=format&fit=crop&w=800&q=80",
+        allergens: ["gluten", "pescado", "sesamo"]
+      },
+      {
+        id: "e4_2",
+        name: "Flat White Doble con Leche de Avena Barista",
+        category: "Cafés & Especialidad",
+        price: 2.60,
+        badge: "Grano Selección",
+        description: "Doble espresso de origen Colombia Huila con microespuma sedosa de avena barista y diseño de latte art en taza cerámica artesanal.",
+        details: "Puntuación SCA 87.5 · Tueste fresco",
+        ingredients: "Café de especialidad 100% arábica Colombia Huila, agua filtrada y leche de avena barista ecológica sin azúcares.",
+        pairing: "Croissant de mantequilla francesa recién horneado",
+        prepTime: "3 min",
+        dietary: "Sin Gluten · Vegano · Café de Especialidad",
+        popular: true,
+        image: "https://images.unsplash.com/photo-1534778101976-62847782c213?auto=format&fit=crop&w=800&q=80",
+        allergens: []
+      },
+      {
+        id: "e4_3",
+        name: "Açaí Bowl Orgánico con Granola Casera y Fruta Fresca",
+        category: "Bowls & Saludable",
+        price: 7.90,
+        badge: "Energía 100% Vital",
+        description: "Açaí puro del Amazonas batido espeso con plátano de Canarias, fresas frescas de temporada, granola casera horneada y coco tostado.",
+        details: "Açaí silvestre orgánico · Granola casera",
+        ingredients: "Pulpa pura de açaí orgánico, plátano de Canarias, fresas de temporada, arándanos silvestres, granola de avena con miel y semillas de cáñamo.",
+        pairing: "Té Matcha Ceremonial o Kombucha de jengibre",
+        prepTime: "6 min",
+        dietary: "Sin Azúcar Añadido · Alto en Antioxidantes",
+        popular: true,
+        image: "https://images.unsplash.com/photo-1590080875515-8a3a8dc5735e?auto=format&fit=crop&w=800&q=80",
+        allergens: ["frutos_secos"]
+      },
+      {
+        id: "e4_4",
+        name: "Croissant Francés de Mantequilla de Normandía",
+        category: "Bollería de Obrador",
+        price: 2.20,
+        badge: "Hojaldre Perfecto",
+        description: "Hojaldrado a mano con 27 capas crujientes y aroma intenso a mantequilla fresca de Normandía. Horneado cada 2 horas en nuestro obrador.",
+        details: "Mantequilla AOC Normandía · Horneado diario",
+        ingredients: "Harina de trigo de fuerza, mantequilla pura de Normandía 84% M.G., masa madre viva, leche entera, sal marina y huevo para dorar.",
+        pairing: "Cappuccino o Café Filtrado V60",
+        prepTime: "2 min",
+        dietary: "Horneado Cada 2 Horas",
+        popular: true,
+        image: "https://images.unsplash.com/photo-1555507036-ab1f4038808a?auto=format&fit=crop&w=800&q=80",
+        allergens: ["gluten", "lactosa", "huevo"]
+      },
+      {
+        id: "e4_5",
+        name: "Tosta Ibérica con Tomate Rallado y Aceite Picual",
+        category: "Tostas Artesanas",
+        price: 4.80,
+        badge: "Desayuno Estrella",
+        description: "Hogaza tostada crujiente, tomate de rama recién rallado a mano con AOVE picual de Jaén y virutas de jamón de bodega.",
+        details: "Pan de pueblo tostado al momento",
+        ingredients: "Pan de pueblo de masa madre, tomate pera maduro rallado, aceite de oliva virgen extra de cosecha temprana y jamón curado de bodega.",
+        pairing: "Café con leche o Zumo de naranja natural",
+        prepTime: "4 min",
+        dietary: "100% Ingredientes Naturales",
+        popular: true,
+        image: "https://images.unsplash.com/photo-1509722747041-616f39b57569?auto=format&fit=crop&w=800&q=80",
+        allergens: ["gluten"]
+      },
+      {
+        id: "e4_6",
+        name: "Matcha Latte Ceremonial con Leche de Almendras",
+        category: "Cafés & Especialidad",
+        price: 3.40,
+        badge: "Grado Ceremonial Uji",
+        description: "Té verde matcha japonés de grado ceremonial de Uji (Kioto), batido con chasen de bambú y combinado con leche de almendras emulsionada.",
+        details: "Matcha 100% puro de Kioto · Sin aditivos",
+        ingredients: "Polvo de té verde matcha ceremonial de Uji, agua a 80ºC y bebida de almendras tostadas sin azúcar.",
+        pairing: "Cookie artesana de chocolate negro o Croissant",
+        prepTime: "4 min",
+        dietary: "Sin Lactosa · Vegano · Calma y Enfoque",
+        popular: true,
+        image: "https://images.unsplash.com/photo-1536256263959-770b48d82b0a?auto=format&fit=crop&w=800&q=80",
+        allergens: ["frutos_secos"]
+      }
+    ],
+
+    googleReviews: [
+      {
+        id: "rev-cf1",
+        author: "Lucía Fernández",
+        avatar: "https://images.unsplash.com/photo-1524504388940-b1c1722653e1?auto=format&fit=crop&w=120&q=80",
+        badge: "Local Guide · 52 reseñas",
+        rating: 5,
+        timeAgo: "Hace 3 días",
+        comment: "Hacía falta una cafetería con este nivel en Campamento. El Flat White con leche de avena es pura seda y la tosta de salmón y aguacate en Padre Piquer está riquísima. Sitio precioso con wifi rápido.",
+        ownerResponse: "¡Gracias Lucía! Tostamos el café semanalmente con tostadores de Madrid. ¡Un placer tenerte en Campamento!"
+      },
+      {
+        id: "rev-cf2",
+        author: "Pablo Ortega",
+        avatar: "https://images.unsplash.com/photo-1522075469751-3a6694fb2f61?auto=format&fit=crop&w=120&q=80",
+        badge: "Cliente habitual",
+        rating: 5,
+        timeAgo: "Hace 1 semana",
+        comment: "Pido el desayuno para llevar casi todas las mañanas antes de coger el metro en Campamento. Con la carta web lo pido desde casa y cuando llego ya está en la barra listo. Impecable.",
+        ownerResponse: null
+      },
+      {
+        id: "rev-cf3",
+        author: "Marta Carrasco",
+        avatar: "https://images.unsplash.com/photo-1517841905240-472988babdf9?auto=format&fit=crop&w=120&q=80",
+        badge: "Local Guide · 19 reseñas",
+        rating: 5,
+        timeAgo: "Hace 2 semanas",
+        comment: "El açaí bowl y los croissants recién horneados son adictivos. Buen ambiente, música tranquila y trato súper cercano.",
+        ownerResponse: null
+      }
+    ]
+  }
+};
+
+
+/**
+ * Estado Global Reactivo de la Demo DevCorp GastroSuite
+ * Maneja el estilo activo (Estilo 1, Estilo 2, Estilo 3, Estilo 4),
+ * el carrito de pedidos, el comandero en vivo (KDS), las reservas
+ * y el contador de platos más pedidos en tiempo real.
+ */
+
+
+const STORAGE_KEY = 'devcorp_gastrosuite_state_v5';
+
+const INITIAL_DISH_SALES = {
+  // Estilo 1: Restaurante Parrilla Vukata
+  "e1_asado": 54, // Asado de Tira
+  "e1_emp": 48,   // Empanada Criolla
+  "e1_pro": 39,   // Provoleta Rellena
+  "e1_hue": 42,   // Huevos Rotos con Torreznos
+  "e1_parr2": 37, // Parrillada 2 PAX
+  "e1_tarta": 45, // Tarta de Queso Cremosa
+  // Estilo 2: App Interactiva & Bento Grid
+  "e2_1": 78, // Smash Burger
+  "e2_2": 52, // Oreja
+  "e2_3": 41, // Tacos
+  "e2_4": 64, // Bravas
+  "e2_5": 39, // Bao
+  "e2_6": 47, // Cookie
+  // Estilo 3: Bistró Tradicional & Carta Clásica
+  "e3_1": 65, // Judiones
+  "e3_2": 44, // Chuletón
+  "e3_3": 58, // Huevos rotos
+  "e3_4": 49, // Callos
+  "e3_5": 32, // Entrecot
+  "e3_6": 41, // Arroz con leche
+  // Estilo 4: Showcase Visual & Minimalismo
+  "e4_1": 82, // Tosta salmón
+  "e4_2": 114, // Flat White
+  "e4_3": 56, // Açaí bowl
+  "e4_4": 69, // Croissant
+  "e4_5": 48, // Tosta jamón
+  "e4_6": 39  // Matcha Latte
+};
+
+const INITIAL_DEMO_ORDERS = [
+  {
+    id: "ORD-101",
+    timestamp: new Date(Date.now() - 1000 * 60 * 14).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }),
+    type: "mesa",
+    tableNumber: "Mesa 4 (Comedor)",
+    customerName: "Carlos M.",
+    items: [
+      { id: "e1_pro", name: "Provoleta Rellena", qty: 1, price: 13.00 },
+      { id: "e1_asado", name: "Asado de Tira (Pieza 400g aprox)", qty: 1, price: 17.50, notes: "Al punto" }
+    ],
+    total: 30.50,
+    status: "kitchen",
+    elapsedMinutes: 14
+  },
+  {
+    id: "ORD-102",
+    timestamp: new Date(Date.now() - 1000 * 60 * 6).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }),
+    type: "takeaway",
+    tableNumber: "Recogida Local (Take Away)",
+    customerName: "Laura G.",
+    items: [
+      { id: "e1_emp", name: "Empanada Criolla", qty: 4, price: 4.80 },
+      { id: "e1_tarta", name: "Tarta de Queso Cremosa", qty: 2, price: 6.50 }
+    ],
+    total: 32.20,
+    status: "pending",
+    elapsedMinutes: 6
+  },
+  {
+    id: "ORD-103",
+    timestamp: new Date(Date.now() - 1000 * 60 * 22).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }),
+    type: "delivery",
+    tableNumber: "Entrega Domicilio",
+    customerName: "Marcos S.",
+    items: [
+      { id: "e1_parr2", name: "Parrillada de Carne para 2 PAX", qty: 1, price: 43.00, notes: "Carne jugosa" },
+      { id: "e1_hue", name: "Huevos Rotos Ecológicos con Torreznos", qty: 1, price: 16.00 }
+    ],
+    total: 59.00,
+    status: "ready",
+    elapsedMinutes: 22
+  }
+];
+
+class AppStore {
+  constructor() {
+    this.subscribers = [];
+    this.state = this.loadState();
+  }
+
+  loadState() {
+    try {
+      const saved = localStorage.getItem(STORAGE_KEY);
+      if (saved) {
+        const parsed = JSON.parse(saved);
+        return {
+          presetId: (parsed.presetId && RESTAURANT_PRESETS[parsed.presetId]) ? parsed.presetId : 'estilo1',
+          currentView: parsed.currentView || 'menu',
+          cart: parsed.cart || [],
+          orders: (parsed.orders && parsed.orders.length > 0) ? parsed.orders : INITIAL_DEMO_ORDERS,
+          reservations: parsed.reservations || [],
+          dishSales: parsed.dishSales || INITIAL_DISH_SALES,
+          activeCategory: 'all',
+          activeAllergenFilter: null,
+          activeAllergenFilters: []
+        };
+      }
+    } catch (e) {
+      console.warn("Could not read local state, fallback to initial", e);
+    }
+
+    return {
+      presetId: 'estilo1',
+      currentView: 'menu',
+      cart: [],
+      orders: INITIAL_DEMO_ORDERS,
+      reservations: [],
+      dishSales: { ...INITIAL_DISH_SALES },
+      activeCategory: 'all',
+      activeAllergenFilter: null,
+      activeAllergenFilters: []
+    };
+  }
+
+  save() {
+    try {
+      localStorage.setItem(STORAGE_KEY, JSON.stringify({
+        presetId: this.state.presetId,
+        currentView: this.state.currentView,
+        cart: this.state.cart,
+        orders: this.state.orders,
+        reservations: this.state.reservations,
+        dishSales: this.state.dishSales
+      }));
+    } catch (e) {
+      console.warn("Could not save state", e);
+    }
+    this.notify();
+  }
+
+  subscribe(callback) {
+    this.subscribers.push(callback);
+    return () => {
+      this.subscribers = this.subscribers.filter(cb => cb !== callback);
+    };
+  }
+
+  notify() {
+    this.subscribers.forEach(cb => cb(this.state));
+  }
+
+  getPreset() {
+    return RESTAURANT_PRESETS[this.state.presetId] || RESTAURANT_PRESETS.estilo1;
+  }
+
+  setPreset(presetId) {
+    if (RESTAURANT_PRESETS[presetId]) {
+      this.state.presetId = presetId;
+      this.state.cart = [];
+      this.state.activeCategory = 'all';
+      this.state.activeAllergenFilter = null;
+      this.state.activeAllergenFilters = [];
+      this.save();
+    }
+  }
+
+  setView(viewName) {
+    this.state.currentView = viewName;
+    this.save();
+  }
+
+  setCategory(cat) {
+    this.state.activeCategory = cat;
+    this.notify();
+  }
+
+  toggleAllergenFilter(allergen) {
+    if (!this.state.activeAllergenFilters) {
+      this.state.activeAllergenFilters = [];
+    }
+    const idx = this.state.activeAllergenFilters.indexOf(allergen);
+    if (idx > -1) {
+      this.state.activeAllergenFilters.splice(idx, 1);
+    } else {
+      this.state.activeAllergenFilters.push(allergen);
+    }
+    this.state.activeAllergenFilter = this.state.activeAllergenFilters[0] || null;
+    this.notify();
+  }
+
+  clearAllergenFilters() {
+    this.state.activeAllergenFilters = [];
+    this.state.activeAllergenFilter = null;
+    this.notify();
+  }
+
+  setAllergenFilter(allergen) {
+    this.toggleAllergenFilter(allergen);
+  }
+
+  // --- LÓGICA EN TIEMPO REAL DEL PLATO MÁS PEDIDO ---
+  getDishSalesCount(dishId) {
+    return this.state.dishSales[dishId] || 15;
+  }
+
+  getMostOrderedDish() {
+    const preset = this.getPreset();
+    let topDish = preset.menu[0];
+    let maxCount = -1;
+
+    preset.menu.forEach(dish => {
+      const count = this.getDishSalesCount(dish.id);
+      if (count > maxCount) {
+        maxCount = count;
+        topDish = dish;
+      }
+    });
+
+    return {
+      dish: topDish,
+      count: maxCount
+    };
+  }
+
+  incrementDishSale(dishId, qty = 1) {
+    if (!this.state.dishSales[dishId]) {
+      this.state.dishSales[dishId] = 15;
+    }
+    this.state.dishSales[dishId] += qty;
+    this.save();
+  }
+
+  // Carrito
+  addToCart(item, notes = "", qty = 1) {
+    const existing = this.state.cart.find(c => c.id === item.id && c.notes === notes);
+    if (existing) {
+      existing.qty += qty;
+    } else {
+      this.state.cart.push({
+        id: item.id,
+        name: item.name,
+        price: item.price,
+        image: item.image,
+        notes: notes,
+        qty: qty
+      });
+    }
+    this.save();
+  }
+
+  removeFromCart(index) {
+    if (this.state.cart[index]) {
+      this.state.cart.splice(index, 1);
+      this.save();
+    }
+  }
+
+  updateCartQty(index, delta) {
+    if (this.state.cart[index]) {
+      this.state.cart[index].qty += delta;
+      if (this.state.cart[index].qty <= 0) {
+        this.state.cart.splice(index, 1);
+      }
+      this.save();
+    }
+  }
+
+  clearCart() {
+    this.state.cart = [];
+    this.save();
+  }
+
+  getCartTotal() {
+    return this.state.cart.reduce((sum, item) => sum + (item.price * item.qty), 0);
+  }
+
+  getCartItemCount() {
+    return this.state.cart.reduce((sum, item) => sum + item.qty, 0);
+  }
+
+  // Creación de comanda
+  createOrder(orderData) {
+    const items = [...this.state.cart];
+    
+    // Incrementar en tiempo real las ventas de cada plato
+    items.forEach(item => {
+      this.incrementDishSale(item.id, item.qty);
+    });
+
+    const newOrder = {
+      id: `ORD-${Math.floor(100 + Math.random() * 900)}`,
+      timestamp: new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }),
+      type: orderData.type || 'mesa',
+      tableNumber: orderData.tableNumber || 'Mesa 1',
+      customerName: orderData.customerName || 'Comensal',
+      customerPhone: orderData.customerPhone || '',
+      items: items,
+      total: this.getCartTotal(),
+      status: 'pending',
+      elapsedMinutes: 0
+    };
+
+    this.state.orders.unshift(newOrder);
+    this.clearCart();
+    this.save();
+    return newOrder;
+  }
+
+  updateOrderStatus(orderId, nextStatus) {
+    const order = this.state.orders.find(o => o.id === orderId);
+    if (order) {
+      order.status = nextStatus;
+      this.save();
+    }
+  }
+
+  addReservation(reservationData) {
+    const reservation = {
+      id: `RES-${Math.floor(1000 + Math.random() * 9000)}`,
+      createdAt: new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }),
+      ...reservationData
+    };
+    this.state.reservations.unshift(reservation);
+    this.save();
+    return reservation;
+  }
+
+  resetDemo() {
+    this.state.orders = INITIAL_DEMO_ORDERS;
+    this.state.cart = [];
+    this.state.reservations = [];
+    this.state.dishSales = { ...INITIAL_DISH_SALES };
+    this.save();
+  }
+}
+
+const store = new AppStore();
+if (typeof window !== "undefined") window.store = store;
+
+
+/**
  * DevCorp Solutions - GastroSuite SPA Controller
  * Ecosistema de 4 Estilos Gastronómicos 100% Diferenciados
  * Logo ampliado · Lightbox de fotos completas · Filtros de alérgenos en todos los estilos
  * Reseñas de Google llamativas con estrellas y botones de alta conversión en todos los estilos
  */
 
-import { RESTAURANT_PRESETS } from './presets.js';
-import { store } from './state.js';
+
+
 
 // Iconografía SVG ligera optimizada
 const ICONS = {
@@ -25,7 +1635,7 @@ function formatCurrency(val) {
   return new Intl.NumberFormat('es-ES', { style: 'currency', currency: 'EUR' }).format(val);
 }
 
-export const VUKATA_ALLERGENS = {
+const VUKATA_ALLERGENS = {
   apio: {
     id: "apio",
     name: "Apio",
@@ -120,7 +1730,7 @@ const ALLERGEN_ALIAS = {
   frutos_secos: 'frutos_cascara'
 };
 
-export function getAllergenDef(code) {
+function getAllergenDef(code) {
   if (!code) return null;
   const normalized = ALLERGEN_ALIAS[code] || code;
   return VUKATA_ALLERGENS[normalized] || {
@@ -131,7 +1741,7 @@ export function getAllergenDef(code) {
   };
 }
 
-export function renderAllergenBadge(code, size = 'sm', showLabel = false) {
+function renderAllergenBadge(code, size = 'sm', showLabel = false) {
   const def = getAllergenDef(code);
   if (!def) return '';
 
@@ -158,7 +1768,7 @@ export function renderAllergenBadge(code, size = 'sm', showLabel = false) {
   `;
 }
 
-export function renderAllergenBadges(allergenList, size = 'sm') {
+function renderAllergenBadges(allergenList, size = 'sm') {
   if (!allergenList || !Array.isArray(allergenList) || allergenList.length === 0) return '';
   return `
     <div class="inline-flex items-center gap-1 flex-wrap align-middle" title="Alérgenos presentes">
@@ -167,7 +1777,7 @@ export function renderAllergenBadges(allergenList, size = 'sm') {
   `;
 }
 
-export function renderVukataAllergenLegend() {
+function renderVukataAllergenLegend() {
   const allergens = Object.values(VUKATA_ALLERGENS);
   return `
     <div class="mt-14 border-t-2 border-[#8B1E1E]/20 bg-white/90 backdrop-blur-sm rounded-2xl p-6 sm:p-8 border border-stone-200/90 shadow-sm">
@@ -208,7 +1818,7 @@ function getAllergenLabel(code) {
   return def ? def.name : code;
 }
 
-export class GastroApp {
+class GastroApp {
   constructor() {
     this.appContainer = document.getElementById('app');
     this.modalQty = 1;
@@ -337,11 +1947,47 @@ export class GastroApp {
         return;
       }
 
+      // 0.9 Manejador de navegación por anclas suaves (#el-asador, #especialidades, #carta-section, etc.)
+      const anchorLink = e.target.closest('a[href^="#"]');
+      if (anchorLink) {
+        const hash = anchorLink.getAttribute('href');
+        if (hash && hash.length > 1) {
+          if (store.state.view !== 'menu') {
+            store.setView('menu');
+            setTimeout(() => {
+              const target = document.querySelector(hash);
+              if (target) target.scrollIntoView({ behavior: 'smooth' });
+            }, 80);
+          } else {
+            const target = document.querySelector(hash);
+            if (target) {
+              e.preventDefault();
+              target.scrollIntoView({ behavior: 'smooth' });
+            }
+          }
+        }
+      }
+
       // 1. Cambio de vistas
       const viewBtn = e.target.closest('[data-view]');
       if (viewBtn) {
         e.preventDefault();
         store.setView(viewBtn.getAttribute('data-view'));
+        return;
+      }
+
+      // 1.9 Manejador de filtros por píldora de categoría en subnav Stitch
+      const catPill = e.target.closest('.cat-filter');
+      if (catPill) {
+        e.preventDefault();
+        const cat = catPill.getAttribute('data-cat');
+        if (cat === 'all') {
+          store.setCategory('all');
+        } else {
+          const preset = store.getPreset();
+          const match = preset.categories.find(c => c.toLowerCase().includes(cat.toLowerCase()) || cat.toLowerCase().includes(c.toLowerCase()));
+          store.setCategory(match || cat);
+        }
         return;
       }
 
@@ -538,9 +2184,17 @@ export class GastroApp {
       ${headerHtml}
 
       <!-- CONTENEDOR PRINCIPAL -->
-      <main class="max-w-7xl mx-auto px-3 sm:px-6 lg:px-8 py-6 sm:py-8 flex-1 w-full">
-        <div id="view-content"></div>
-      </main>
+      ${preset.id === 'estilo1' ? `
+        <!-- CONTENEDOR PRINCIPAL ESTILO 1 (FULL WIDTH STITCH) -->
+        <main class="w-full pt-20 bg-surface flex-1">
+          <div id="view-content" class="flex flex-col w-full"></div>
+        </main>
+      ` : `
+        <!-- CONTENEDOR PRINCIPAL ESTILOS 2, 3 Y 4 -->
+        <main class="max-w-7xl mx-auto px-3 sm:px-6 lg:px-8 py-6 sm:py-8 flex-1 w-full">
+          <div id="view-content"></div>
+        </main>
+      `}
 
       <!-- CONTENEDORES DE MODALES TEMÁTICOS Y LIGHTBOX -->
       <div id="lightbox-container"></div>
@@ -628,70 +2282,66 @@ export class GastroApp {
     // --- CABECERA ESTILO 1: RESTAURANTE PARRILLA VUKATA (EMBER & ASH STITCH) ---
     if (preset.id === 'estilo1') {
       return `
-        <header class="sticky top-0 z-40 bg-[#fdf9f4]/95 backdrop-blur-xl text-[#1c1c19] border-b border-[#e6dfd5] shadow-[0_1px_8px_rgba(0,0,0,0.04)]">
-          <div class="max-w-[1360px] mx-auto px-4 sm:px-6 lg:px-10">
-            <div class="flex items-center justify-between h-20 py-2 gap-4">
-              
-              <!-- Identidad: Logo DevCorp + Logotipo Vukata con KA en rojo -->
-              <div class="flex items-center space-x-3 sm:space-x-5 flex-shrink-0">
-                <a href="https://devcorpsolutions.com" target="_blank" class="flex items-center group" title="DevCorp Solutions">
-                  <img src="assets/images/logo.png" alt="DevCorp Solutions" class="h-10 sm:h-12 w-auto object-contain transition-transform group-hover:scale-105"/>
-                </a>
+        <header class="fixed top-0 w-full z-50 bg-surface/90 backdrop-blur-xl shadow-[0_1px_8px_rgba(0,0,0,0.04)]">
+          <div class="h-20 max-w-[1360px] mx-auto px-4 sm:px-6 lg:px-10 flex items-center justify-between gap-4">
+            
+            <!-- Identidad: Logo DevCorp + Logotipo Vukata con KA en rojo -->
+            <div class="flex items-center space-x-3 sm:space-x-4 flex-shrink-0">
+              <a href="https://devcorpsolutions.com" target="_blank" class="flex items-center group" title="DevCorp Solutions">
+                <img src="assets/images/logo.png" alt="DevCorp Solutions" class="h-9 sm:h-11 w-auto object-contain transition-transform group-hover:scale-105"/>
+              </a>
 
-                <div class="hidden sm:flex items-center space-x-3 border-l border-[#e6dfd5] pl-3 sm:pl-4">
-                  <span class="material-symbols-outlined text-[#8B1E1E] text-[28px] transition-transform group-hover:scale-110">local_fire_department</span>
-                  <div class="flex flex-col">
-                    <span class="font-headline-sm text-[20px] tracking-tight text-[#1c1c19] leading-none font-bold">VU<span class="text-[#E52D27]">KA</span>TA</span>
-                    <span class="font-kicker-eyebrow text-[10px] tracking-[0.2em] text-[#8B1E1E] uppercase mt-0.5">ASADOR · PARRILLA</span>
-                  </div>
+              <a href="#el-asador" class="flex items-center gap-2.5 group text-decoration-none border-l border-outline-variant/40 pl-3">
+                <span class="material-symbols-outlined text-primary text-[28px] transition-transform duration-300 group-hover:scale-110">local_fire_department</span>
+                <div class="flex flex-col">
+                  <span class="font-headline-sm text-headline-sm tracking-tight text-on-surface leading-none font-semibold">VU<span class="text-[#E52D27]">KA</span>TA</span>
+                  <span class="font-kicker-eyebrow text-kicker-eyebrow tracking-[0.2em] text-primary uppercase mt-1">ASADOR · PARRILLA</span>
                 </div>
-              </div>
-
-              <!-- Cápsula Segmentada de Navegación (Ember & Ash Pill Bar) -->
-              <nav class="hidden lg:flex items-center gap-1 bg-[#f7f3ee] px-3 py-1.5 rounded-full border border-[#e6dfd5] shadow-[0_1px_4px_rgba(0,0,0,0.02)]">
-                <button data-view="menu" class="font-label-action text-[13px] px-4 py-2 rounded-full transition-all ${currentView === 'menu' ? 'bg-[#e8deda] text-[#1c1c19] font-bold shadow-xs' : 'text-[#57423f] hover:text-[#1c1c19]'}">
-                  Carta al Carbón
-                </button>
-                <button data-view="reservations" class="font-label-action text-[13px] px-4 py-2 rounded-full transition-all ${currentView === 'reservations' ? 'bg-[#e8deda] text-[#1c1c19] font-bold shadow-xs' : 'text-[#57423f] hover:text-[#1c1c19]'}">
-                  Reservas
-                </button>
-                <button data-view="kds" class="font-label-action text-[13px] px-4 py-2 rounded-full transition-all flex items-center space-x-1.5 ${currentView === 'kds' ? 'bg-[#e8deda] text-[#1c1c19] font-bold shadow-xs' : 'text-[#57423f] hover:text-[#1c1c19]'}">
-                  <span>Cocina KDS</span>
-                  ${kdsPending > 0 ? `<span class="bg-[#8B1E1E] text-white text-[10px] px-1.5 py-0.2 rounded-full font-mono font-bold">${kdsPending}</span>` : ''}
-                </button>
-                <button data-view="metrics" class="font-label-action text-[13px] px-4 py-2 rounded-full transition-all ${currentView === 'metrics' ? 'bg-[#e8deda] text-[#1c1c19] font-bold shadow-xs' : 'text-[#57423f] hover:text-[#1c1c19]'}">
-                  Métricas
-                </button>
-                <button data-view="roi" class="font-label-action text-[13px] px-4 py-2 rounded-full transition-all ${currentView === 'roi' ? 'bg-[#e8deda] text-[#1c1c19] font-bold shadow-xs' : 'text-[#57423f] hover:text-[#1c1c19]'}">
-                  Rentabilidad
-                </button>
-              </nav>
-
-              <!-- Selector de Estilos, Botón Reservar y Carrito -->
-              <div class="flex items-center space-x-3 flex-shrink-0">
-                ${selectorHtml}
-                <a href="#reservas-direct" data-view="reservations" class="hidden sm:inline-flex items-center gap-2 bg-[#9c382c] hover:bg-[#7c2118] text-white font-label-action text-[13px] px-5 py-2.5 rounded-full transition-all duration-300 shadow-[0_4px_14px_rgba(156,56,44,0.22)] cursor-pointer">
-                  <span class="material-symbols-outlined text-[17px]">restaurant</span>
-                  <span>Reservar mesa</span>
-                </a>
-                <button id="open-cart-btn" class="flex items-center space-x-2 bg-white border border-[#e6dfd5] text-[#8B1E1E] text-xs font-bold px-3.5 py-2.5 rounded-full shadow-sm transition-colors hover:bg-[#f7f3ee]">
-                  ${ICONS.cart}
-                  <span class="font-mono">${formatCurrency(store.getCartTotal())}</span>
-                  ${cartCount > 0 ? `<span class="bg-[#8B1E1E] text-white text-[10px] font-black px-1.5 py-0.2 rounded-full">${cartCount}</span>` : ''}
-                </button>
-              </div>
-
+              </a>
             </div>
+
+            <!-- Navegación Central Stitch (Cápsula Segmentada) -->
+            <nav class="hidden xl:flex items-center gap-1 bg-surface-container-low px-3 py-1.5 rounded-full shadow-[0_1px_4px_rgba(0,0,0,0.02)] border border-outline-variant/30">
+              <a class="px-3.5 py-2 font-label-action text-label-action transition-colors bg-secondary-container text-on-surface font-semibold rounded-full cursor-pointer" href="#el-asador">El Asador</a>
+              <a class="font-label-action text-label-action text-on-surface-variant hover:text-on-surface px-3.5 py-2 rounded-full transition-colors cursor-pointer" href="#especialidades">Especialidades</a>
+              <a class="font-label-action text-label-action text-on-surface-variant hover:text-on-surface px-3.5 py-2 rounded-full transition-colors cursor-pointer" href="#carta-section">Carta &amp; Menú</a>
+              <a class="font-label-action text-label-action text-on-surface-variant hover:text-on-surface px-3.5 py-2 rounded-full transition-colors cursor-pointer" href="#reservas-direct">Reservas</a>
+              <a class="font-label-action text-label-action text-on-surface-variant hover:text-on-surface px-3.5 py-2 rounded-full transition-colors cursor-pointer" href="#reservas-direct">Take away</a>
+              <a class="font-label-action text-label-action text-on-surface-variant hover:text-on-surface px-3.5 py-2 rounded-full transition-colors cursor-pointer" href="#opiniones">Opiniones</a>
+              <a class="font-label-action text-label-action text-on-surface-variant hover:text-on-surface px-3.5 py-2 rounded-full transition-colors cursor-pointer" href="#donde-estamos">Dónde estamos</a>
+            </nav>
+
+            <!-- Acciones: Selector de Estilos, Botón Reservar y Carrito -->
+            <div class="flex items-center gap-2 sm:gap-3 flex-shrink-0">
+              ${selectorHtml}
+
+              <a href="#reservas-direct" class="inline-flex items-center gap-2 bg-primary-container hover:bg-primary text-on-primary font-label-action text-label-action px-4 sm:px-5 py-2.5 rounded-full transition-all duration-300 shadow-[0_4px_16px_rgba(156,56,44,0.2)] cursor-pointer">
+                <span class="material-symbols-outlined text-[18px]">restaurant</span>
+                <span class="hidden sm:inline">Reservar mesa</span>
+              </a>
+
+              <button id="open-cart-btn" class="relative inline-flex items-center gap-2 bg-white border border-outline-variant/40 hover:bg-surface-container text-primary px-3.5 py-2 rounded-full font-label-action text-label-action transition-colors shadow-sm cursor-pointer" title="Ver comanda">
+                <span class="material-symbols-outlined text-[18px]">shopping_bag</span>
+                <span class="font-bold font-mono text-xs sm:text-sm">${formatCurrency(store.getCartTotal())}</span>
+                ${cartCount > 0 ? `<span class="bg-primary text-on-primary text-[10px] font-black px-1.5 py-0.5 rounded-full">${cartCount}</span>` : ''}
+              </button>
+            </div>
+
           </div>
 
-          <!-- Barra móvil táctil Stitch -->
-          <nav class="lg:hidden bg-[#f7f3ee] border-t border-[#e6dfd5] px-3 py-2 overflow-x-auto no-scrollbar flex items-center space-x-2 text-xs font-label-action font-semibold min-w-max">
-            <button data-view="menu" class="px-3 py-1 rounded-full ${currentView === 'menu' ? 'bg-[#e8deda] text-[#1c1c19] font-bold' : 'text-[#57423f]'}">Carta</button>
-            <button data-view="reservations" class="px-3 py-1 rounded-full ${currentView === 'reservations' ? 'bg-[#e8deda] text-[#1c1c19] font-bold' : 'text-[#57423f]'}">Reservas</button>
-            <button data-view="kds" class="px-3 py-1 rounded-full ${currentView === 'kds' ? 'bg-[#e8deda] text-[#1c1c19] font-bold' : 'text-[#57423f]'}">Cocina (${kdsPending})</button>
-            <button data-view="metrics" class="px-3 py-1 rounded-full ${currentView === 'metrics' ? 'bg-[#e8deda] text-[#1c1c19] font-bold' : 'text-[#57423f]'}">Métricas</button>
-            <button data-view="roi" class="px-3 py-1 rounded-full ${currentView === 'roi' ? 'bg-[#e8deda] text-[#1c1c19] font-bold' : 'text-[#57423f]'}">Rentabilidad</button>
-          </nav>
+          <!-- Barra táctil de secciones y módulos DevCorp para móviles y tablets -->
+          <div class="xl:hidden bg-surface-container-low border-t border-outline-variant/30 px-4 py-2 overflow-x-auto no-scrollbar flex items-center gap-2 text-xs font-label-action whitespace-nowrap">
+            <a href="#el-asador" class="px-3 py-1 rounded-full bg-secondary-container text-on-surface font-semibold">El Asador</a>
+            <a href="#especialidades" class="px-3 py-1 rounded-full text-on-surface-variant hover:text-on-surface">Especialidades</a>
+            <a href="#carta-section" class="px-3 py-1 rounded-full text-on-surface-variant hover:text-on-surface">Carta</a>
+            <a href="#reservas-direct" class="px-3 py-1 rounded-full text-on-surface-variant hover:text-on-surface">Reservas</a>
+            <a href="#opiniones" class="px-3 py-1 rounded-full text-on-surface-variant hover:text-on-surface">Opiniones</a>
+            <a href="#donde-estamos" class="px-3 py-1 rounded-full text-on-surface-variant hover:text-on-surface">Ubicación</a>
+            <span class="text-outline-variant">|</span>
+            <button data-view="kds" class="px-3 py-1 rounded-full bg-primary/10 text-primary font-bold">KDS (${kdsPending})</button>
+            <button data-view="metrics" class="px-3 py-1 rounded-full text-on-surface-variant">Métricas</button>
+            <button data-view="roi" class="px-3 py-1 rounded-full text-on-surface-variant">Rentabilidad</button>
+          </div>
         </header>
       `;
     }
@@ -873,7 +2523,7 @@ export class GastroApp {
       layoutHtml = this.renderEstilo4Layout(preset, filteredMenu, activeCategory, activeAllergens, topData);
     }
 
-    const reviewsHtml = this.renderGoogleReviewsSection(preset);
+    const reviewsHtml = preset.id === 'estilo1' ? '' : this.renderGoogleReviewsSection(preset);
 
     container.innerHTML = `
       ${layoutHtml}
@@ -1326,6 +2976,110 @@ export class GastroApp {
         </div>
       `}
 
+      
+      <!-- GOOGLE REVIEWS SECTION (Social Proof & Reputation de Stitch) -->
+      <section class="bg-surface-container-low py-20 w-full mt-12" id="opiniones">
+        <div class="max-w-[1360px] mx-auto px-6 lg:px-10">
+          <div class="flex flex-col md:flex-row md:items-end justify-between mb-12 gap-6">
+            <div>
+              <div class="flex items-center gap-2 mb-2">
+                <span class="w-6 h-[2px] bg-primary"></span>
+                <span class="font-kicker-eyebrow text-kicker-eyebrow text-primary uppercase tracking-[0.2em]">TESTIMONIOS REALES</span>
+              </div>
+              <h2 class="font-headline-lg text-headline-lg text-on-surface">Opiniones de nuestros clientes</h2>
+              <p class="font-body-md text-body-md text-on-surface-variant">Más de 28 años encendiendo la leña a diario en el barrio de Aluche.</p>
+            </div>
+            <div class="flex items-center gap-4 bg-surface-container-lowest p-4 rounded-2xl shadow-sm">
+              <div class="w-12 h-12 rounded-full bg-[#14100E] flex items-center justify-center text-tertiary-fixed-dim">
+                <span class="material-symbols-outlined text-[28px]">reviews</span>
+              </div>
+              <div>
+                <div class="flex items-center gap-1.5">
+                  <span class="font-headline-sm text-headline-sm font-bold text-on-surface">4.8</span>
+                  <div class="flex text-[#e39c28]">
+                    <span class="material-symbols-outlined text-[18px]" style="font-variation-settings: 'FILL' 1;">star</span>
+                    <span class="material-symbols-outlined text-[18px]" style="font-variation-settings: 'FILL' 1;">star</span>
+                    <span class="material-symbols-outlined text-[18px]" style="font-variation-settings: 'FILL' 1;">star</span>
+                    <span class="material-symbols-outlined text-[18px]" style="font-variation-settings: 'FILL' 1;">star</span>
+                    <span class="material-symbols-outlined text-[18px]" style="font-variation-settings: 'FILL' 1;">star</span>
+                  </div>
+                </div>
+                <span class="font-body-sm text-body-sm text-secondary">Basado en 348 reseñas de Google Maps</span>
+              </div>
+            </div>
+          </div>
+          <!-- Testimonial Cards Grid -->
+          <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+            <!-- Review 1 -->
+            <div class="bg-surface-container-lowest p-8 rounded-2xl shadow-sm flex flex-col justify-between">
+              <div class="space-y-4">
+                <div class="flex text-[#e39c28]">
+                  <span class="material-symbols-outlined text-[20px]" style="font-variation-settings: 'FILL' 1;">star</span>
+                  <span class="material-symbols-outlined text-[20px]" style="font-variation-settings: 'FILL' 1;">star</span>
+                  <span class="material-symbols-outlined text-[20px]" style="font-variation-settings: 'FILL' 1;">star</span>
+                  <span class="material-symbols-outlined text-[20px]" style="font-variation-settings: 'FILL' 1;">star</span>
+                  <span class="material-symbols-outlined text-[20px]" style="font-variation-settings: 'FILL' 1;">star</span>
+                </div>
+                <p class="font-body-md text-body-md text-on-surface italic">
+                  "El asado de tira y la entraña son de otro nivel. Se nota el carbón de verdad y la mano de quien lleva décadas en la parrilla. Sitio indispensable en Aluche si te gusta la carne bien hecha."
+                </p>
+              </div>
+              <div class="pt-6 mt-6 border-t-0 flex items-center gap-3">
+                <div class="w-10 h-10 rounded-full bg-secondary-container flex items-center justify-center font-bold text-on-surface">MG</div>
+                <div>
+                  <h5 class="font-label-action text-label-action text-on-surface font-semibold">Manuel Gómez</h5>
+                  <span class="font-body-sm text-body-sm text-secondary">Guía Local de Google · Reseña verificada</span>
+                </div>
+              </div>
+            </div>
+            <!-- Review 2 -->
+            <div class="bg-surface-container-lowest p-8 rounded-2xl shadow-sm flex flex-col justify-between">
+              <div class="space-y-4">
+                <div class="flex text-[#e39c28]">
+                  <span class="material-symbols-outlined text-[20px]" style="font-variation-settings: 'FILL' 1;">star</span>
+                  <span class="material-symbols-outlined text-[20px]" style="font-variation-settings: 'FILL' 1;">star</span>
+                  <span class="material-symbols-outlined text-[20px]" style="font-variation-settings: 'FILL' 1;">star</span>
+                  <span class="material-symbols-outlined text-[20px]" style="font-variation-settings: 'FILL' 1;">star</span>
+                  <span class="material-symbols-outlined text-[20px]" style="font-variation-settings: 'FILL' 1;">star</span>
+                </div>
+                <p class="font-body-md text-body-md text-on-surface italic">
+                  "Pedimos la parrillada para dos y salimos fascinados. La empanada criolla tiene una masa auténtica y el punto de las carnes vino tal cual pedimos. Trato cercano y precio muy ajustado para la calidad."
+                </p>
+              </div>
+              <div class="pt-6 mt-6 border-t-0 flex items-center gap-3">
+                <div class="w-10 h-10 rounded-full bg-secondary-container flex items-center justify-center font-bold text-on-surface">MM</div>
+                <div>
+                  <h5 class="font-label-action text-label-action text-on-surface font-semibold">María C. Montes</h5>
+                  <span class="font-body-sm text-body-sm text-secondary">Cliente habitual · Reseña verificada</span>
+                </div>
+              </div>
+            </div>
+            <!-- Review 3 -->
+            <div class="bg-surface-container-lowest p-8 rounded-2xl shadow-sm flex flex-col justify-between">
+              <div class="space-y-4">
+                <div class="flex text-[#e39c28]">
+                  <span class="material-symbols-outlined text-[20px]" style="font-variation-settings: 'FILL' 1;">star</span>
+                  <span class="material-symbols-outlined text-[20px]" style="font-variation-settings: 'FILL' 1;">star</span>
+                  <span class="material-symbols-outlined text-[20px]" style="font-variation-settings: 'FILL' 1;">star</span>
+                  <span class="material-symbols-outlined text-[20px]" style="font-variation-settings: 'FILL' 1;">star</span>
+                  <span class="material-symbols-outlined text-[20px]" style="font-variation-settings: 'FILL' 1;">star</span>
+                </div>
+                <p class="font-body-md text-body-md text-on-surface italic">
+                  "El chuletón finlandés madurado es una joya. Tierno, con un toque de brasa limpio que no satura. Y dejen sitio para la tarta de queso casera porque vale cada euro."
+                </p>
+              </div>
+              <div class="pt-6 mt-6 border-t-0 flex items-center gap-3">
+                <div class="w-10 h-10 rounded-full bg-secondary-container flex items-center justify-center font-bold text-on-surface">JP</div>
+                <div>
+                  <h5 class="font-label-action text-label-action text-on-surface font-semibold">Javier del Pozo</h5>
+                  <span class="font-body-sm text-body-sm text-secondary">Crítico gastronómico amateur</span>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
       <!-- TAKE AWAY & RESERVAS COMPONENT (Direct Action Block) -->
       <section class="w-full mb-14" id="reservas-direct">
         <div class="bg-[#14100E] text-[#f1ede8] rounded-3xl p-8 lg:p-14 relative overflow-hidden shadow-2xl">
@@ -1466,7 +3220,7 @@ export class GastroApp {
           </div>
           <div class="mt-4 pt-4 border-t border-slate-800 flex items-center justify-between">
             <span class="text-xs text-slate-400 font-mono">Bestseller</span>
-            <span class="text-xs font-mono text-sky-400 font-bold">${preset.aboutUs.specialtyHighlight.price}</span>
+            <span class="text-xs font-mono text-sky-400 font-bold">${preset.aboutUs.specialtyHighlight.price || preset.aboutUs.specialtyHighlight.badge || ""}</span>
           </div>
         </div>
       </div>
@@ -1474,11 +3228,11 @@ export class GastroApp {
       <!-- SOBRE NOSOTROS: BENTO METRICS -->
       <section class="mb-10">
         <div class="grid grid-cols-1 sm:grid-cols-3 gap-4">
-          ${preset.aboutUs.bentoCards.map(b => `
+          ${(preset.aboutUs.bentoCards || preset.aboutUs.pillars || []).map(b => `
             <div class="bento-card p-5">
-              <span class="text-[10px] font-bold text-sky-400 uppercase tracking-wider block">${b.tag}</span>
-              <span class="text-2xl font-black text-white block mt-1">${b.metric}</span>
-              <p class="text-xs text-slate-300 mt-2 leading-relaxed">${b.label}</p>
+              <span class="text-[10px] font-bold text-sky-400 uppercase tracking-wider block">${b.tag || b.icon || "DESTACADO"}</span>
+              <span class="text-xl sm:text-2xl font-black text-white block mt-1">${b.metric || b.title}</span>
+              <p class="text-xs text-slate-300 mt-2 leading-relaxed">${b.label || b.desc}</p>
             </div>
           `).join('')}
         </div>
@@ -1605,7 +3359,7 @@ export class GastroApp {
         <p class="text-xs sm:text-sm text-[#594d40] text-center max-w-2xl mx-auto leading-relaxed mb-6">${preset.aboutUs.story}</p>
         
         <div class="grid grid-cols-1 md:grid-cols-3 gap-4 pt-6 border-t border-[#dfd7cc]">
-          ${preset.aboutUs.timeline.map(t => `
+          ${(preset.aboutUs.timeline || preset.aboutUs.pillars || []).map(t => `
             <div class="text-center p-3">
               <span class="font-serif font-bold text-base text-[#8c7b6c] block">${t.year}</span>
               <p class="text-xs text-[#594d40] mt-1">${t.event}</p>
@@ -1739,7 +3493,7 @@ export class GastroApp {
         </div>
 
         <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
-          ${preset.aboutUs.principles.map(p => `
+          ${(preset.aboutUs.principles || preset.aboutUs.pillars || []).map(p => `
             <div>
               <span class="text-xs font-mono text-zinc-400 font-semibold">${p.code}</span>
               <h4 class="text-sm font-medium text-zinc-900 mt-1">${p.title}</h4>
@@ -3604,6 +5358,11 @@ export class GastroApp {
 }
 
 // Inicialización de la SPA
-document.addEventListener('DOMContentLoaded', () => {
-  new GastroApp();
-});
+// Inicialización universal segura (compatible con file://, local server y GitHub Pages)
+if (document.readyState === 'loading') {
+  document.addEventListener('DOMContentLoaded', () => {
+    window.gastroApp = new GastroApp();
+  });
+} else {
+  window.gastroApp = new GastroApp();
+}
