@@ -1,0 +1,1166 @@
+<!DOCTYPE html>
+
+<html class="scroll-smooth" lang="es"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Vukata Parrilla al Carbón | Aluche, Madrid | Desde 1996</title>
+<!-- Fonts: Public Sans & Plus Jakarta Sans as per Theme & Material Symbols -->
+<link href="https://fonts.googleapis.com" rel="preconnect"/>
+<link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&amp;family=Public+Sans:wght@400;500;600;700;800;900&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<!-- Tailwind CSS v3 -->
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<script id="tailwind-config">
+    tailwind.config = {
+      darkMode: "class",
+      theme: {
+        extend: {
+          colors: {
+            primary: "#8B1E1E",
+            "primary-container": "#F8D7DA",
+            "on-primary-container": "#4A0F0F",
+            flame: "#E52D27",
+            ember: "#D97706",
+            charcoal: "#1C1917",
+            "charcoal-dark": "#121110",
+            surface: "#FAF9F7",
+            "surface-container": "#F4ECE1",
+            "surface-container-highest": "#EAE4DA",
+            "on-surface": "#1C1917",
+            "on-surface-variant": "#57534E",
+            "outline-variant": "#D6D3D1",
+            kraft: "#F4ECE1",
+            iron: "#292524"
+          },
+          borderRadius: {
+            DEFAULT: "0.25rem",
+            lg: "0.5rem",
+            xl: "0.75rem",
+            full: "9999px"
+          },
+          fontFamily: {
+            headline: ["Public Sans", "sans-serif"],
+            display: ["Public Sans", "sans-serif"],
+            body: ["Plus Jakarta Sans", "sans-serif"],
+            label: ["Public Sans", "sans-serif"]
+          }
+        },
+      },
+    }
+  </script>
+<style>
+    .font-mono-numbers {
+      font-feature-settings: "tnum" on, "lnum" on;
+    }
+    .embossed-border {
+      box-shadow: inset 0 1px 0 0 rgba(255, 255, 255, 0.4), 0 1px 3px 0 rgba(0, 0, 0, 0.08);
+    }
+  </style>
+</head>
+<body class="bg-surface text-on-surface font-body antialiased selection:bg-primary selection:text-white min-h-screen flex flex-col">
+<!-- 1. TOP UTILITY STRIP -->
+<div class="bg-charcoal text-white text-xs border-b border-stone-800">
+<div class="max-w-7xl mx-auto px-4 md:px-8 py-2 flex flex-wrap items-center justify-between gap-3">
+<div class="flex items-center gap-4 flex-wrap">
+<span class="inline-flex items-center gap-1.5 font-medium text-amber-400">
+<span class="material-symbols-outlined text-sm text-red-500" data-icon="local_fire_department">local_fire_department</span>
+          Brasas al Carbón de Encina Encendidas · Servicio Activo
+        </span>
+<span class="hidden sm:inline text-stone-500">|</span>
+<span class="flex items-center gap-1 text-stone-300">
+<span class="material-symbols-outlined text-sm text-stone-400" data-icon="location_on">location_on</span>
+          Calle Maqueda 138, Aluche, Madrid
+        </span>
+</div>
+<div class="flex items-center gap-4 ml-auto">
+<a class="flex items-center gap-1.5 text-stone-200 hover:text-white font-medium transition-colors" href="tel:917198244">
+<span class="material-symbols-outlined text-sm text-amber-500" data-icon="call">call</span>
+<span class="font-mono tracking-tight font-semibold">91 719 82 44</span>
+</a>
+<span class="inline-flex items-center px-2 py-0.5 rounded text-[11px] font-semibold bg-emerald-950/80 text-emerald-300 border border-emerald-800">
+          Abierto hoy mediodía y noche
+        </span>
+</div>
+</div>
+</div>
+<!-- 2. PRIMARY HEADER (Using TopNavBar Shared Component Specifications) -->
+<header class="bg-surface dark:bg-surface border-b border-outline-variant dark:border-outline-variant shadow-sm dark:shadow-none docked full-width top-0 sticky z-50">
+<div class="w-full max-w-7xl mx-auto px-4 md:px-8 flex items-center justify-between h-20">
+<!-- Brand Logo Anchor -->
+<a class="flex flex-col group" href="#">
+<div class="flex items-center tracking-widest font-black font-headline text-2xl md:text-3xl uppercase leading-none">
+<span class="text-charcoal group-hover:text-black transition-colors">VU</span>
+<span class="text-flame px-0.5">KA</span>
+<span class="text-charcoal group-hover:text-black transition-colors">TA</span>
+</div>
+<span class="text-[9px] md:text-[10px] uppercase font-bold tracking-widest text-primary mt-1 font-label">
+          Parrilla al Carbón · Aluche 1996
+        </span>
+</a>
+<!-- Desktop Nav -->
+<nav class="hidden lg:flex items-center gap-6 font-body text-sm font-medium tracking-normal">
+<a class="text-primary dark:text-primary border-b-2 border-primary font-bold pb-1" href="#carta">
+          La Carta
+        </a>
+<a class="text-on-surface-variant dark:text-on-surface-variant hover:text-on-surface transition-colors pb-1" href="#cortes-dia">
+          Cortes del Día
+        </a>
+<a class="text-on-surface-variant dark:text-on-surface-variant hover:text-on-surface transition-colors pb-1" href="#parrilla-vivo">
+          Parrilla en Vivo
+        </a>
+<a class="text-on-surface-variant dark:text-on-surface-variant hover:text-on-surface transition-colors pb-1" href="#take-away">
+          Llevar a Casa
+        </a>
+<a class="text-on-surface-variant dark:text-on-surface-variant hover:text-on-surface transition-colors pb-1 flex items-center gap-1" href="#alergenos">
+<span class="material-symbols-outlined text-base text-ember" data-icon="verified_user">verified_user</span>
+          Alérgenos UE
+        </a>
+<a class="text-on-surface-variant dark:text-on-surface-variant hover:text-on-surface transition-colors pb-1 flex items-center gap-1 text-xs bg-surface-container px-2.5 py-1 rounded-full border border-outline-variant" href="#opiniones">
+<span class="material-symbols-outlined text-xs text-amber-600" data-icon="star" data-weight="fill" style="font-variation-settings: 'FILL' 1;">star</span>
+<span class="font-bold text-stone-900">4.4</span> (2.410+)
+        </a>
+</nav>
+<!-- Trailing Primary & Secondary Actions -->
+<div class="flex items-center gap-2 sm:gap-3">
+<button class="hidden sm:inline-flex items-center gap-1.5 px-3.5 py-2 rounded text-xs uppercase font-bold tracking-wider font-headline border border-charcoal text-charcoal hover:bg-charcoal hover:text-white transition-colors duration-150 active:scale-95" onclick="document.getElementById('booking-modal').classList.remove('hidden')">
+<span class="material-symbols-outlined text-sm" data-icon="restaurant">restaurant</span>
+          Reservar Mesa
+        </button>
+<button class="inline-flex items-center gap-2 px-3.5 py-2 bg-primary hover:bg-primary/90 text-white rounded text-xs uppercase font-bold tracking-wider font-headline transition-transform active:scale-95 shadow-sm" onclick="toggleComandaDrawer()">
+<span class="material-symbols-outlined text-base" data-icon="shopping_bag">shopping_bag</span>
+<span class="hidden xs:inline">Comanda (3) · </span>
+<span class="font-mono-numbers font-bold">65,30 €</span>
+</button>
+</div>
+</div>
+</header>
+<!-- 3. GROUNDED EDITORIAL HERO & MAESTRO PARRILLERO -->
+<section class="relative bg-charcoal text-white overflow-hidden border-b border-stone-800">
+<!-- Subtle textured background overlay -->
+<div class="absolute inset-0 opacity-25 mix-blend-luminosity bg-cover bg-center pointer-events-none" data-alt="A warm atmospheric macro shot of red-hot holm oak embers inside an authentic Madrid iron grill, glowing with deep scarlet and amber hues with fine wood ashes and smoke tendrils drifting upward. The image showcases grounded culinary craft with rustic charcoal textures and intense vulcanized fire tones." style="background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuDpm3NQvbVaGRBM1FzI6eBih08yTkVs4p3fXx90Jhz8EXg1c2QzkUIKQYbr3OOgC9CTr4uGrqA1HVHnYXsD--Gl_N7oj4UtZfNffIJM20MiHSPM6M2AwLiAXTVEAsscE_58c28EBvTcYHMi1C5qTJmEa1djZxjDhdES09N_b90iBJI68erf9gzYDAcw0HA7pZgbfEcuL7HqQ1cyR7yhj-RWyGPKgQXMvz4zD_WdYvu2ESlL4BCt-T1D0ffVanKZN8OdAC9ZH_wJajc')"></div>
+<div class="absolute inset-0 bg-gradient-to-r from-charcoal-dark via-charcoal/95 to-transparent"></div>
+<div class="relative max-w-7xl mx-auto px-4 md:px-8 py-12 md:py-16 grid grid-cols-1 lg:grid-cols-12 gap-10 items-center">
+<!-- Left Column: Editorial Philosophy -->
+<div class="lg:col-span-7 space-y-6">
+<div class="inline-flex items-center gap-2 px-3 py-1 rounded-sm bg-primary/30 border border-primary/50 text-red-300 text-xs font-headline uppercase tracking-widest font-semibold">
+<span class="w-2 h-2 rounded-full bg-flame animate-pulse"></span>
+          Institución Gastronómica de Aluche desde 1996
+        </div>
+<h1 class="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-headline font-black uppercase tracking-tight text-white leading-none">
+          El Arte del Carbón de Encina y el Fuego Vivo
+        </h1>
+<p class="text-stone-300 text-base sm:text-lg font-body leading-relaxed max-w-2xl font-light">
+          Maduración seleccionada en cámara de <strong class="text-white font-semibold">30 a 45 días</strong>, corte artesanal a cuchillo y brasas puras de leña de encina sin gas ni piedra volcánica. Servimos la autenticidad de la brasa con el peso y la temperatura exactos que demanda cada pieza.
+        </p>
+<!-- Highlights Row -->
+<div class="grid grid-cols-1 sm:grid-cols-3 gap-3 pt-2">
+<div class="bg-stone-900/80 border border-stone-700/80 p-3 rounded">
+<span class="text-amber-500 material-symbols-outlined text-xl mb-1 block" data-icon="skillet">skillet</span>
+<div class="text-xs uppercase font-headline font-bold tracking-wider text-stone-200">Parrilla Abierta</div>
+<div class="text-[11px] text-stone-400">A la vista del comensal</div>
+</div>
+<div class="bg-stone-900/80 border border-stone-700/80 p-3 rounded">
+<span class="text-flame material-symbols-outlined text-xl mb-1 block" data-icon="verified">verified</span>
+<div class="text-xs uppercase font-headline font-bold tracking-wider text-stone-200">Carne Certificada</div>
+<div class="text-[11px] text-stone-400">Nacional &amp; Importación selecta</div>
+</div>
+<div class="bg-stone-900/80 border border-stone-700/80 p-3 rounded">
+<span class="text-emerald-400 material-symbols-outlined text-xl mb-1 block" data-icon="grain">grain</span>
+<div class="text-xs uppercase font-headline font-bold tracking-wider text-stone-200">Sin Gluten 100%</div>
+<div class="text-[11px] text-stone-400">Parrilla y freidoras dedicadas</div>
+</div>
+</div>
+</div>
+<!-- Right Column: Sugerencia del Parrillero Spotlight Card -->
+<div class="lg:col-span-5">
+<div class="bg-surface-container text-on-surface rounded-lg p-5 md:p-6 border-2 border-stone-300 relative shadow-2xl">
+<!-- Butcher Stamp Badge -->
+<div class="absolute -top-3.5 -right-2 bg-primary text-white text-[11px] font-headline uppercase font-black tracking-widest px-3 py-1 rounded shadow transform rotate-2">
+            Recomendación del Día
+          </div>
+<div class="flex items-start justify-between border-b border-stone-300 pb-3 mb-4">
+<div>
+<span class="text-[11px] uppercase font-bold text-primary tracking-widest">Corte Estrella de la Semana</span>
+<h3 class="text-xl md:text-2xl font-headline font-black uppercase text-charcoal leading-tight">
+                Asado de Tira Especial
+              </h3>
+<p class="text-xs text-stone-600 font-medium">Corte transversal con hueso · 400g aprox</p>
+</div>
+<div class="text-right">
+<span class="text-2xl font-headline font-black text-primary font-mono-numbers">17,50 €</span>
+<span class="block text-[10px] text-stone-500 uppercase font-semibold">IVA incluido</span>
+</div>
+</div>
+<!-- Visual preview image -->
+<div class="relative h-44 w-full rounded overflow-hidden mb-4 border border-stone-300">
+<img class="w-full h-full object-cover" data-alt="A juicy grilled short rib cut cooked over charcoal with caramelized diamond sear marks, served on an artisan dark wooden cutting board with coarse sea salt flakes, fresh chimichurri in a small terracotta bowl, and holm oak smoke rising softly under warm taberna lighting." src="https://lh3.googleusercontent.com/aida-public/AB6AXuD94GvYyN1IS4i8e48VQRvUODRLna7xAZudyPKYrBs3BI1taL6WdIFfMfaNjDEPB6BPvvR4P-7iMZ17p0ueRLxymQVZHu9VMVWOXpfh1EsG4kXkJDibGbwD4xhOYyO52be09jHr1fftFD4gTlhoq-BEdHs3Ve0q-r9343iDavEkY58ClJza4XGsJNcBa8DdrNTL4VhfbMktv8sYdLSXY7-f1zBDxqur7ELRWdHaw-bKW3E_c7d2HIz3Sa9meVW7pgiz0CqViHnXl68"/>
+<div class="absolute bottom-2 left-2 flex gap-1.5">
+<span class="bg-charcoal/90 text-white text-[10px] font-semibold px-2 py-0.5 rounded">Sin Gluten</span>
+<span class="bg-charcoal/90 text-white text-[10px] font-semibold px-2 py-0.5 rounded">Sin Lactosa</span>
+</div>
+</div>
+<!-- Temperature selector -->
+<div class="space-y-2 mb-4">
+<label class="text-xs font-headline font-bold uppercase tracking-wider text-stone-700 flex justify-between">
+<span>Punto de Brasa Solicitado:</span>
+<span class="text-primary font-bold" id="temp-label">Al Punto (Recomendado)</span>
+</label>
+<div class="grid grid-cols-3 gap-1.5 text-xs">
+<button class="py-1.5 px-2 border border-stone-300 rounded font-medium text-stone-700 hover:border-primary hover:text-primary transition-colors text-center text-[11px]" onclick="setTemp('Poco hecho')">
+                Poco hecho
+              </button>
+<button class="py-1.5 px-2 border-2 border-primary bg-primary text-white rounded font-bold transition-colors text-center text-[11px]" onclick="setTemp('Al punto')">
+                Al punto
+              </button>
+<button class="py-1.5 px-2 border border-stone-300 rounded font-medium text-stone-700 hover:border-primary hover:text-primary transition-colors text-center text-[11px]" onclick="setTemp('Muy hecho')">
+                Muy hecho
+              </button>
+</div>
+</div>
+<!-- Actions -->
+<button class="w-full py-3 bg-primary hover:bg-flame text-white font-headline font-bold uppercase tracking-wider text-sm rounded flex items-center justify-center gap-2 transition-transform active:scale-[0.98] shadow" onclick="addItemToCart('Asado de Tira Especial', 17.50)">
+<span class="material-symbols-outlined text-base" data-icon="add_shopping_cart">add_shopping_cart</span>
+            Añadir a la Comanda · 17,50 €
+          </button>
+</div>
+</div>
+</div>
+</section>
+<!-- 4. INTERACTIVE 14-ALLERGEN EXCLUSION FILTER (REGLAMENTO UE 1169/2011) -->
+<section class="bg-surface-container-highest border-b border-outline-variant py-8" id="alergenos">
+<div class="max-w-7xl mx-auto px-4 md:px-8">
+<div class="flex flex-col md:flex-row md:items-center justify-between gap-4 mb-6">
+<div>
+<div class="flex items-center gap-2">
+<span class="material-symbols-outlined text-primary text-2xl" data-icon="health_and_safety">health_and_safety</span>
+<h2 class="text-lg md:text-xl font-headline font-bold uppercase tracking-wide text-charcoal">
+              Filtro Oficial de Alérgenos (Reglamento UE 1169/2011)
+            </h2>
+</div>
+<p class="text-xs text-on-surface-variant font-body mt-0.5">
+            Seleccione las sustancias que desea <strong class="text-primary font-semibold">excluir de la carta</strong> para visualizar únicamente platos 100% seguros y libres de contaminación cruzada.
+          </p>
+</div>
+<div class="flex items-center gap-3">
+<span class="text-xs font-headline font-bold bg-white text-emerald-800 border border-emerald-300 px-3 py-1 rounded" id="safe-counter">
+            Mostrando 24 platos 100% compatibles
+          </span>
+<button class="text-xs font-semibold text-stone-600 hover:text-primary underline flex items-center gap-1 transition-colors" onclick="resetAllAllergens()">
+<span class="material-symbols-outlined text-sm" data-icon="refresh">refresh</span>
+            Limpiar Filtros
+          </button>
+</div>
+</div>
+<!-- The 14 official allergens complete grid -->
+<div class="grid grid-cols-2 sm:grid-cols-4 md:grid-cols-7 gap-2">
+<!-- 1. Gluten -->
+<button class="allergen-btn flex items-center justify-between p-2 rounded bg-white hover:bg-stone-50 border border-stone-300 text-left transition-all text-xs group" onclick="toggleAllergen(this, 'gluten')">
+<span class="flex items-center gap-1.5 font-medium text-stone-800">
+<span class="material-symbols-outlined text-sm text-stone-500 group-hover:text-primary" data-icon="grain">grain</span>
+            Gluten
+          </span>
+<span class="allergen-badge text-[10px] font-mono px-1 rounded bg-stone-100 text-stone-500">Apto</span>
+</button>
+<!-- 2. Crustáceos -->
+<button class="allergen-btn flex items-center justify-between p-2 rounded bg-white hover:bg-stone-50 border border-stone-300 text-left transition-all text-xs group" onclick="toggleAllergen(this, 'crustaceos')">
+<span class="flex items-center gap-1.5 font-medium text-stone-800">
+<span class="material-symbols-outlined text-sm text-stone-500 group-hover:text-primary" data-icon="set_meal">set_meal</span>
+            Crustáceos
+          </span>
+<span class="allergen-badge text-[10px] font-mono px-1 rounded bg-stone-100 text-stone-500">Apto</span>
+</button>
+<!-- 3. Huevos -->
+<button class="allergen-btn flex items-center justify-between p-2 rounded bg-white hover:bg-stone-50 border border-stone-300 text-left transition-all text-xs group" onclick="toggleAllergen(this, 'huevos')">
+<span class="flex items-center gap-1.5 font-medium text-stone-800">
+<span class="material-symbols-outlined text-sm text-stone-500 group-hover:text-primary" data-icon="egg">egg</span>
+            Huevos
+          </span>
+<span class="allergen-badge text-[10px] font-mono px-1 rounded bg-stone-100 text-stone-500">Apto</span>
+</button>
+<!-- 4. Pescado -->
+<button class="allergen-btn flex items-center justify-between p-2 rounded bg-white hover:bg-stone-50 border border-stone-300 text-left transition-all text-xs group" onclick="toggleAllergen(this, 'pescado')">
+<span class="flex items-center gap-1.5 font-medium text-stone-800">
+<span class="material-symbols-outlined text-sm text-stone-500 group-hover:text-primary" data-icon="phishing">phishing</span>
+            Pescado
+          </span>
+<span class="allergen-badge text-[10px] font-mono px-1 rounded bg-stone-100 text-stone-500">Apto</span>
+</button>
+<!-- 5. Cacahuetes -->
+<button class="allergen-btn flex items-center justify-between p-2 rounded bg-white hover:bg-stone-50 border border-stone-300 text-left transition-all text-xs group" onclick="toggleAllergen(this, 'cacahuetes')">
+<span class="flex items-center gap-1.5 font-medium text-stone-800">
+<span class="material-symbols-outlined text-sm text-stone-500 group-hover:text-primary" data-icon="nutrition">nutrition</span>
+            Cacahuetes
+          </span>
+<span class="allergen-badge text-[10px] font-mono px-1 rounded bg-stone-100 text-stone-500">Apto</span>
+</button>
+<!-- 6. Soja -->
+<button class="allergen-btn flex items-center justify-between p-2 rounded bg-white hover:bg-stone-50 border border-stone-300 text-left transition-all text-xs group" onclick="toggleAllergen(this, 'soja')">
+<span class="flex items-center gap-1.5 font-medium text-stone-800">
+<span class="material-symbols-outlined text-sm text-stone-500 group-hover:text-primary" data-icon="spa">spa</span>
+            Soja
+          </span>
+<span class="allergen-badge text-[10px] font-mono px-1 rounded bg-stone-100 text-stone-500">Apto</span>
+</button>
+<!-- 7. Lácteos -->
+<button class="allergen-btn flex items-center justify-between p-2 rounded bg-white hover:bg-stone-50 border border-stone-300 text-left transition-all text-xs group" onclick="toggleAllergen(this, 'lacteos')">
+<span class="flex items-center gap-1.5 font-medium text-stone-800">
+<span class="material-symbols-outlined text-sm text-stone-500 group-hover:text-primary" data-icon="water_full">water_full</span>
+            Lácteos
+          </span>
+<span class="allergen-badge text-[10px] font-mono px-1 rounded bg-stone-100 text-stone-500">Apto</span>
+</button>
+<!-- 8. Frutos Cáscara -->
+<button class="allergen-btn flex items-center justify-between p-2 rounded bg-white hover:bg-stone-50 border border-stone-300 text-left transition-all text-xs group" onclick="toggleAllergen(this, 'frutos-cascara')">
+<span class="flex items-center gap-1.5 font-medium text-stone-800">
+<span class="material-symbols-outlined text-sm text-stone-500 group-hover:text-primary" data-icon="eco">eco</span>
+            F. Cáscara
+          </span>
+<span class="allergen-badge text-[10px] font-mono px-1 rounded bg-stone-100 text-stone-500">Apto</span>
+</button>
+<!-- 9. Apio -->
+<button class="allergen-btn flex items-center justify-between p-2 rounded bg-white hover:bg-stone-50 border border-stone-300 text-left transition-all text-xs group" onclick="toggleAllergen(this, 'apio')">
+<span class="flex items-center gap-1.5 font-medium text-stone-800">
+<span class="material-symbols-outlined text-sm text-stone-500 group-hover:text-primary" data-icon="psychiatry">psychiatry</span>
+            Apio
+          </span>
+<span class="allergen-badge text-[10px] font-mono px-1 rounded bg-stone-100 text-stone-500">Apto</span>
+</button>
+<!-- 10. Mostaza -->
+<button class="allergen-btn flex items-center justify-between p-2 rounded bg-white hover:bg-stone-50 border border-stone-300 text-left transition-all text-xs group" onclick="toggleAllergen(this, 'mostaza')">
+<span class="flex items-center gap-1.5 font-medium text-stone-800">
+<span class="material-symbols-outlined text-sm text-stone-500 group-hover:text-primary" data-icon="liquor">liquor</span>
+            Mostaza
+          </span>
+<span class="allergen-badge text-[10px] font-mono px-1 rounded bg-stone-100 text-stone-500">Apto</span>
+</button>
+<!-- 11. Sésamo -->
+<button class="allergen-btn flex items-center justify-between p-2 rounded bg-white hover:bg-stone-50 border border-stone-300 text-left transition-all text-xs group" onclick="toggleAllergen(this, 'sesamo')">
+<span class="flex items-center gap-1.5 font-medium text-stone-800">
+<span class="material-symbols-outlined text-sm text-stone-500 group-hover:text-primary" data-icon="scatter_plot">scatter_plot</span>
+            Sésamo
+          </span>
+<span class="allergen-badge text-[10px] font-mono px-1 rounded bg-stone-100 text-stone-500">Apto</span>
+</button>
+<!-- 12. Sulfitos -->
+<button class="allergen-btn flex items-center justify-between p-2 rounded bg-white hover:bg-stone-50 border border-stone-300 text-left transition-all text-xs group" onclick="toggleAllergen(this, 'sulfitos')">
+<span class="flex items-center gap-1.5 font-medium text-stone-800">
+<span class="material-symbols-outlined text-sm text-stone-500 group-hover:text-primary" data-icon="wine_bar">wine_bar</span>
+            Sulfitos
+          </span>
+<span class="allergen-badge text-[10px] font-mono px-1 rounded bg-stone-100 text-stone-500">Apto</span>
+</button>
+<!-- 13. Altramuces -->
+<button class="allergen-btn flex items-center justify-between p-2 rounded bg-white hover:bg-stone-50 border border-stone-300 text-left transition-all text-xs group" onclick="toggleAllergen(this, 'altramuces')">
+<span class="flex items-center gap-1.5 font-medium text-stone-800">
+<span class="material-symbols-outlined text-sm text-stone-500 group-hover:text-primary" data-icon="grass">grass</span>
+            Altramuces
+          </span>
+<span class="allergen-badge text-[10px] font-mono px-1 rounded bg-stone-100 text-stone-500">Apto</span>
+</button>
+<!-- 14. Moluscos -->
+<button class="allergen-btn flex items-center justify-between p-2 rounded bg-white hover:bg-stone-50 border border-stone-300 text-left transition-all text-xs group" onclick="toggleAllergen(this, 'moluscos')">
+<span class="flex items-center gap-1.5 font-medium text-stone-800">
+<span class="material-symbols-outlined text-sm text-stone-500 group-hover:text-primary" data-icon="waves">waves</span>
+            Moluscos
+          </span>
+<span class="allergen-badge text-[10px] font-mono px-1 rounded bg-stone-100 text-stone-500">Apto</span>
+</button>
+</div>
+</div>
+</section>
+<!-- 5. CATEGORY TABS & DUAL-MODE MENU -->
+<section class="py-10 bg-surface flex-1" id="carta">
+<div class="max-w-7xl mx-auto px-4 md:px-8">
+<!-- Category Bar with View Switcher -->
+<div class="flex flex-col md:flex-row md:items-center justify-between gap-4 pb-6 border-b border-stone-300">
+<!-- Category Pill Navigation -->
+<div class="flex items-center gap-2 overflow-x-auto pb-2 md:pb-0 text-xs font-headline font-bold uppercase tracking-wider">
+<button class="px-4 py-2 rounded-full border border-stone-300 text-stone-600 hover:text-stone-950 whitespace-nowrap">
+            Entrantes Criollos
+          </button>
+<button class="px-4 py-2 rounded-full bg-primary text-white shadow-sm whitespace-nowrap">
+            Cortes a la Brasa
+          </button>
+<button class="px-4 py-2 rounded-full border border-stone-300 text-stone-600 hover:text-stone-950 whitespace-nowrap">
+            Parrilladas para Compartir
+          </button>
+<button class="px-4 py-2 rounded-full border border-stone-300 text-stone-600 hover:text-stone-950 whitespace-nowrap">
+            Hamburguesas al Carbón
+          </button>
+<button class="px-4 py-2 rounded-full border border-stone-300 text-stone-600 hover:text-stone-950 whitespace-nowrap">
+            Guarniciones Huerta
+          </button>
+<button class="px-4 py-2 rounded-full border border-stone-300 text-stone-600 hover:text-stone-950 whitespace-nowrap">
+            Postres Artesanos
+          </button>
+</div>
+<!-- View mode toggle -->
+<div class="flex items-center gap-1 self-end md:self-auto bg-stone-200/80 p-1 rounded">
+<button class="px-2.5 py-1 text-xs font-semibold rounded bg-white text-charcoal shadow-xs flex items-center gap-1" id="btn-view-cards" onclick="setViewMode('cards')">
+<span class="material-symbols-outlined text-sm" data-icon="grid_view">grid_view</span>
+<span class="hidden sm:inline">Tarjetas</span>
+</button>
+<button class="px-2.5 py-1 text-xs font-semibold rounded text-stone-600 hover:text-stone-900 flex items-center gap-1" id="btn-view-list" onclick="setViewMode('list')">
+<span class="material-symbols-outlined text-sm" data-icon="table_rows">table_rows</span>
+<span class="hidden sm:inline">Lista Sala</span>
+</button>
+</div>
+</div>
+<!-- Dish Catalog (Cards View) -->
+<div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 pt-8" id="catalog-cards-view">
+<!-- Dish 1 -->
+<article class="dish-item bg-white border border-stone-200 rounded-lg p-5 flex flex-col justify-between shadow-sm hover:border-primary/40 transition-all" data-allergens="gluten,huevos">
+<div>
+<div class="flex justify-between items-start mb-2">
+<span class="text-[10px] uppercase font-bold tracking-widest text-ember bg-amber-50 px-2 py-0.5 rounded border border-amber-200">
+                Entrante Tradicional · 150g
+              </span>
+<span class="text-xs text-stone-500 font-mono flex items-center gap-0.5">
+<span class="material-symbols-outlined text-xs text-stone-400" data-icon="schedule">schedule</span>
+                8 min
+              </span>
+</div>
+<h3 class="text-lg font-headline font-bold uppercase text-charcoal leading-snug">
+              Empanada Criolla de Ternera Cortada a Cuchillo
+            </h3>
+<p class="text-xs text-stone-600 mt-2 font-body leading-relaxed">
+              Receta tradicional bonaerense y madrileña, masa casera frita super crujiente, carne de ternera sazonada con comino dulce y cebolla tierna en su jugo.
+            </p>
+<div class="flex items-center gap-2 mt-3 pt-3 border-t border-stone-100">
+<span class="text-[10px] font-bold uppercase text-stone-500">Contiene:</span>
+<span class="inline-flex items-center gap-0.5 text-[11px] text-stone-700 bg-stone-100 px-1.5 py-0.5 rounded">
+<span class="material-symbols-outlined text-xs text-stone-500" data-icon="grain">grain</span> Gluten
+              </span>
+<span class="inline-flex items-center gap-0.5 text-[11px] text-stone-700 bg-stone-100 px-1.5 py-0.5 rounded">
+<span class="material-symbols-outlined text-xs text-stone-500" data-icon="egg">egg</span> Huevo
+              </span>
+</div>
+</div>
+<div class="mt-5 pt-3 border-t border-stone-200 flex items-center justify-between">
+<span class="text-xl font-headline font-black text-primary font-mono-numbers">4,80 €</span>
+<div class="flex items-center gap-2">
+<button class="px-3 py-1.5 bg-stone-900 hover:bg-primary text-white text-xs font-headline uppercase font-bold tracking-wider rounded transition-colors flex items-center gap-1" onclick="addItemToCart('Empanada Criolla de Ternera', 4.80)">
+<span class="material-symbols-outlined text-xs" data-icon="add">add</span> Añadir
+              </button>
+</div>
+</div>
+</article>
+<!-- Dish 2 -->
+<article class="dish-item bg-white border border-stone-200 rounded-lg p-5 flex flex-col justify-between shadow-sm hover:border-primary/40 transition-all" data-allergens="lacteos">
+<div>
+<div class="flex justify-between items-start mb-2">
+<span class="text-[10px] uppercase font-bold tracking-widest text-primary bg-red-50 px-2 py-0.5 rounded border border-red-200">
+                Cazuela de Hierro · 280g
+              </span>
+<span class="text-xs text-stone-500 font-mono flex items-center gap-0.5">
+<span class="material-symbols-outlined text-xs text-stone-400" data-icon="schedule">schedule</span>
+                12 min
+              </span>
+</div>
+<h3 class="text-lg font-headline font-bold uppercase text-charcoal leading-snug">
+              Provoleta Rellena a las Brasas con Jamón Ibérico
+            </h3>
+<p class="text-xs text-stone-600 mt-2 font-body leading-relaxed">
+              Queso provolone fundido directamente al carbón en cazuela de hierro fundido con pimiento asado a la leña, lascas de jamón ibérico y orégano silvestre.
+            </p>
+<div class="flex items-center gap-2 mt-3 pt-3 border-t border-stone-100">
+<span class="text-[10px] font-bold uppercase text-stone-500">Contiene:</span>
+<span class="inline-flex items-center gap-0.5 text-[11px] text-stone-700 bg-stone-100 px-1.5 py-0.5 rounded">
+<span class="material-symbols-outlined text-xs text-stone-500" data-icon="water_full">water_full</span> Lácteos
+              </span>
+</div>
+</div>
+<div class="mt-5 pt-3 border-t border-stone-200 flex items-center justify-between">
+<span class="text-xl font-headline font-black text-primary font-mono-numbers">13,00 €</span>
+<div class="flex items-center gap-2">
+<button class="px-3 py-1.5 bg-stone-900 hover:bg-primary text-white text-xs font-headline uppercase font-bold tracking-wider rounded transition-colors flex items-center gap-1" onclick="addItemToCart('Provoleta Rellena a las Brasas', 13.00)">
+<span class="material-symbols-outlined text-xs" data-icon="add">add</span> Añadir
+              </button>
+</div>
+</div>
+</article>
+<!-- Dish 3 -->
+<article class="dish-item bg-white border-2 border-stone-900 rounded-lg p-5 flex flex-col justify-between shadow-md relative" data-allergens="sulfitos">
+<div class="absolute -top-3 left-4 bg-charcoal text-white text-[9px] uppercase font-bold tracking-widest px-2 py-0.5 rounded">
+            El Más Pedido para Grupos
+          </div>
+<div>
+<div class="flex justify-between items-start mb-2 pt-1">
+<span class="text-[10px] uppercase font-bold tracking-widest text-flame bg-red-50 px-2 py-0.5 rounded border border-red-200">
+                2 a 3 Personas · 1.100g aprox
+              </span>
+<span class="text-xs text-stone-500 font-mono flex items-center gap-0.5">
+<span class="material-symbols-outlined text-xs text-stone-400" data-icon="schedule">schedule</span>
+                22 min
+              </span>
+</div>
+<h3 class="text-lg font-headline font-bold uppercase text-charcoal leading-snug">
+              Parrillada de Carne Vukata Especial
+            </h3>
+<p class="text-xs text-stone-600 mt-2 font-body leading-relaxed">
+              Combinación completa: Asado de tira al corte, Entraña de novillo, Chorizo criollo artesano, Morcilla de Burgos a la brasa y patatas panaderas con chimichurri casero.
+            </p>
+<div class="flex items-center gap-2 mt-3 pt-3 border-t border-stone-100">
+<span class="text-[10px] font-bold uppercase text-stone-500">Contiene:</span>
+<span class="inline-flex items-center gap-0.5 text-[11px] text-stone-700 bg-stone-100 px-1.5 py-0.5 rounded">
+<span class="material-symbols-outlined text-xs text-stone-500" data-icon="wine_bar">wine_bar</span> Sulfitos
+              </span>
+<span class="text-[10px] font-bold text-emerald-700 bg-emerald-50 px-1 rounded">Apto sin gluten</span>
+</div>
+</div>
+<div class="mt-5 pt-3 border-t border-stone-200 flex items-center justify-between">
+<span class="text-xl font-headline font-black text-primary font-mono-numbers">43,00 €</span>
+<div class="flex items-center gap-2">
+<button class="px-3 py-1.5 bg-primary hover:bg-flame text-white text-xs font-headline uppercase font-bold tracking-wider rounded transition-colors flex items-center gap-1 shadow" onclick="addItemToCart('Parrillada de Carne Vukata Especial', 43.00)">
+<span class="material-symbols-outlined text-xs" data-icon="add">add</span> Añadir
+              </button>
+</div>
+</div>
+</article>
+<!-- Dish 4 -->
+<article class="dish-item bg-white border border-stone-200 rounded-lg p-5 flex flex-col justify-between shadow-sm hover:border-primary/40 transition-all" data-allergens="">
+<div>
+<div class="flex justify-between items-start mb-2">
+<span class="text-[10px] uppercase font-bold tracking-widest text-primary bg-stone-100 px-2 py-0.5 rounded border border-stone-300">
+                Maduración Dry-Aged · 1 kg aprox
+              </span>
+<span class="text-xs text-stone-500 font-mono flex items-center gap-0.5">
+<span class="material-symbols-outlined text-xs text-stone-400" data-icon="schedule">schedule</span>
+                20 min
+              </span>
+</div>
+<h3 class="text-lg font-headline font-bold uppercase text-charcoal leading-snug">
+              Chuletón de Vaca Madurada 45 Días al Peso
+            </h3>
+<p class="text-xs text-stone-600 mt-2 font-body leading-relaxed">
+              Lomo alto de vaca rubia con infiltración grasa equilibrada, afinada en cámara propia. Sellada a fuego vivo sobre carbón de encina y rematada con sal marina en escamas.
+            </p>
+<div class="flex items-center gap-2 mt-3 pt-3 border-t border-stone-100">
+<span class="inline-flex items-center gap-1 text-[11px] font-bold text-emerald-700 bg-emerald-50 px-2 py-0.5 rounded border border-emerald-200">
+<span class="material-symbols-outlined text-xs" data-icon="check_circle">check_circle</span> 100% Libre de Alérgenos
+              </span>
+</div>
+</div>
+<div class="mt-5 pt-3 border-t border-stone-200 flex items-center justify-between">
+<span class="text-xl font-headline font-black text-primary font-mono-numbers">62,00 € <span class="text-xs text-stone-500 font-normal">/ kg</span></span>
+<div class="flex items-center gap-2">
+<button class="px-3 py-1.5 bg-stone-900 hover:bg-primary text-white text-xs font-headline uppercase font-bold tracking-wider rounded transition-colors flex items-center gap-1" onclick="addItemToCart('Chuletón Vaca Madurada 45 Días', 62.00)">
+<span class="material-symbols-outlined text-xs" data-icon="add">add</span> Añadir
+              </button>
+</div>
+</div>
+</article>
+<!-- Dish 5 -->
+<article class="dish-item bg-white border border-stone-200 rounded-lg p-5 flex flex-col justify-between shadow-sm hover:border-primary/40 transition-all" data-allergens="">
+<div>
+<div class="flex justify-between items-start mb-2">
+<span class="text-[10px] uppercase font-bold tracking-widest text-stone-700 bg-stone-100 px-2 py-0.5 rounded border border-stone-300">
+                Corte Noble · 350g
+              </span>
+<span class="text-xs text-stone-500 font-mono flex items-center gap-0.5">
+<span class="material-symbols-outlined text-xs text-stone-400" data-icon="schedule">schedule</span>
+                15 min
+              </span>
+</div>
+<h3 class="text-lg font-headline font-bold uppercase text-charcoal leading-snug">
+              Entraña de Novillo a la Brasa
+            </h3>
+<p class="text-xs text-stone-600 mt-2 font-body leading-relaxed">
+              Corte sumamente jugoso con su fina membrana crujiente al punto exacto. Servida sobre tabla de madera de roble con cuenco de salsa criolla de pimientos y vinagre de vino.
+            </p>
+<div class="flex items-center gap-2 mt-3 pt-3 border-t border-stone-100">
+<span class="inline-flex items-center gap-1 text-[11px] font-bold text-emerald-700 bg-emerald-50 px-2 py-0.5 rounded border border-emerald-200">
+<span class="material-symbols-outlined text-xs" data-icon="check_circle">check_circle</span> 100% Libre de Alérgenos
+              </span>
+</div>
+</div>
+<div class="mt-5 pt-3 border-t border-stone-200 flex items-center justify-between">
+<span class="text-xl font-headline font-black text-primary font-mono-numbers">18,90 €</span>
+<div class="flex items-center gap-2">
+<button class="px-3 py-1.5 bg-stone-900 hover:bg-primary text-white text-xs font-headline uppercase font-bold tracking-wider rounded transition-colors flex items-center gap-1" onclick="addItemToCart('Entraña de Novillo a la Brasa', 18.90)">
+<span class="material-symbols-outlined text-xs" data-icon="add">add</span> Añadir
+              </button>
+</div>
+</div>
+</article>
+<!-- Dish 6 -->
+<article class="dish-item bg-white border border-stone-200 rounded-lg p-5 flex flex-col justify-between shadow-sm hover:border-primary/40 transition-all" data-allergens="lacteos,huevos,gluten">
+<div>
+<div class="flex justify-between items-start mb-2">
+<span class="text-[10px] uppercase font-bold tracking-widest text-ember bg-amber-50 px-2 py-0.5 rounded border border-amber-200">
+                Obrador Propio Diario
+              </span>
+<span class="text-xs text-stone-500 font-mono flex items-center gap-0.5">
+<span class="material-symbols-outlined text-xs text-stone-400" data-icon="bolt">bolt</span>
+                Inmediato
+              </span>
+</div>
+<h3 class="text-lg font-headline font-bold uppercase text-charcoal leading-snug">
+              Tarta de Queso Fluida Casera al Horno
+            </h3>
+<p class="text-xs text-stone-600 mt-2 font-body leading-relaxed">
+              Elaborada a diario con queso curado manchego y queso crema fresco, horneada a muy alta temperatura para conseguir un tostado exterior y un corazón cremoso fluido.
+            </p>
+<div class="flex items-center gap-2 mt-3 pt-3 border-t border-stone-100">
+<span class="text-[10px] font-bold uppercase text-stone-500">Contiene:</span>
+<span class="inline-flex items-center gap-0.5 text-[11px] text-stone-700 bg-stone-100 px-1.5 py-0.5 rounded">
+<span class="material-symbols-outlined text-xs text-stone-500" data-icon="water_full">water_full</span> Lácteos
+              </span>
+<span class="inline-flex items-center gap-0.5 text-[11px] text-stone-700 bg-stone-100 px-1.5 py-0.5 rounded">
+<span class="material-symbols-outlined text-xs text-stone-500" data-icon="egg">egg</span> Huevo
+              </span>
+<span class="inline-flex items-center gap-0.5 text-[11px] text-stone-700 bg-stone-100 px-1.5 py-0.5 rounded">
+<span class="material-symbols-outlined text-xs text-stone-500" data-icon="grain">grain</span> Gluten
+              </span>
+</div>
+</div>
+<div class="mt-5 pt-3 border-t border-stone-200 flex items-center justify-between">
+<span class="text-xl font-headline font-black text-primary font-mono-numbers">6,50 €</span>
+<div class="flex items-center gap-2">
+<button class="px-3 py-1.5 bg-stone-900 hover:bg-primary text-white text-xs font-headline uppercase font-bold tracking-wider rounded transition-colors flex items-center gap-1" onclick="addItemToCart('Tarta de Queso Fluida', 6.50)">
+<span class="material-symbols-outlined text-xs" data-icon="add">add</span> Añadir
+              </button>
+</div>
+</div>
+</article>
+</div>
+<!-- Quick Room Table View (Hidden by default, toggleable via JavaScript) -->
+<div class="hidden pt-6 overflow-x-auto" id="catalog-list-view">
+<table class="w-full text-left border-collapse text-xs">
+<thead>
+<tr class="border-b-2 border-stone-800 font-headline uppercase tracking-wider text-stone-700 bg-stone-100">
+<th class="p-3">Plato / Elaboración</th>
+<th class="p-3">Gramaje</th>
+<th class="p-3">Alérgenos Declarados</th>
+<th class="p-3">T. Salida</th>
+<th class="p-3 text-right">Precio</th>
+<th class="p-3 text-center">Acción</th>
+</tr>
+</thead>
+<tbody class="divide-y divide-stone-200 bg-white">
+<tr>
+<td class="p-3 font-semibold text-charcoal">Empanada Criolla de Ternera Cortada a Cuchillo</td>
+<td class="p-3 text-stone-600">150g</td>
+<td class="p-3"><span class="bg-stone-100 px-1.5 py-0.5 rounded text-[11px]">Gluten, Huevos</span></td>
+<td class="p-3 text-stone-500">8 min</td>
+<td class="p-3 text-right font-bold text-primary font-mono-numbers">4,80 €</td>
+<td class="p-3 text-center">
+<button class="px-2 py-1 bg-stone-900 text-white rounded font-headline uppercase font-bold text-[10px]" onclick="addItemToCart('Empanada Criolla', 4.80)">Añadir</button>
+</td>
+</tr>
+<tr>
+<td class="p-3 font-semibold text-charcoal">Provoleta Rellena a las Brasas con Jamón Ibérico</td>
+<td class="p-3 text-stone-600">280g</td>
+<td class="p-3"><span class="bg-stone-100 px-1.5 py-0.5 rounded text-[11px]">Lácteos</span></td>
+<td class="p-3 text-stone-500">12 min</td>
+<td class="p-3 text-right font-bold text-primary font-mono-numbers">13,00 €</td>
+<td class="p-3 text-center">
+<button class="px-2 py-1 bg-stone-900 text-white rounded font-headline uppercase font-bold text-[10px]" onclick="addItemToCart('Provoleta Rellena', 13.00)">Añadir</button>
+</td>
+</tr>
+<tr>
+<td class="p-3 font-semibold text-charcoal">Parrillada de Carne Vukata Especial (2-3 pax)</td>
+<td class="p-3 text-stone-600">1.100g</td>
+<td class="p-3"><span class="bg-stone-100 px-1.5 py-0.5 rounded text-[11px]">Sulfitos</span></td>
+<td class="p-3 text-stone-500">22 min</td>
+<td class="p-3 text-right font-bold text-primary font-mono-numbers">43,00 €</td>
+<td class="p-3 text-center">
+<button class="px-2 py-1 bg-primary text-white rounded font-headline uppercase font-bold text-[10px]" onclick="addItemToCart('Parrillada Vukata', 43.00)">Añadir</button>
+</td>
+</tr>
+<tr>
+<td class="p-3 font-semibold text-charcoal">Chuletón de Vaca Madurada 45 Días al Peso</td>
+<td class="p-3 text-stone-600">1 kg aprox</td>
+<td class="p-3"><span class="text-emerald-700 font-semibold">Sin Alérgenos</span></td>
+<td class="p-3 text-stone-500">20 min</td>
+<td class="p-3 text-right font-bold text-primary font-mono-numbers">62,00 €</td>
+<td class="p-3 text-center">
+<button class="px-2 py-1 bg-stone-900 text-white rounded font-headline uppercase font-bold text-[10px]" onclick="addItemToCart('Chuletón Madurado', 62.00)">Añadir</button>
+</td>
+</tr>
+<tr>
+<td class="p-3 font-semibold text-charcoal">Entraña de Novillo a la Brasa</td>
+<td class="p-3 text-stone-600">350g</td>
+<td class="p-3"><span class="text-emerald-700 font-semibold">Sin Alérgenos</span></td>
+<td class="p-3 text-stone-500">15 min</td>
+<td class="p-3 text-right font-bold text-primary font-mono-numbers">18,90 €</td>
+<td class="p-3 text-center">
+<button class="px-2 py-1 bg-stone-900 text-white rounded font-headline uppercase font-bold text-[10px]" onclick="addItemToCart('Entraña de Novillo', 18.90)">Añadir</button>
+</td>
+</tr>
+<tr>
+<td class="p-3 font-semibold text-charcoal">Tarta de Queso Fluida Casera al Horno</td>
+<td class="p-3 text-stone-600">Ración</td>
+<td class="p-3"><span class="bg-stone-100 px-1.5 py-0.5 rounded text-[11px]">Lácteos, Huevos, Gluten</span></td>
+<td class="p-3 text-stone-500">Inmediato</td>
+<td class="p-3 text-right font-bold text-primary font-mono-numbers">6,50 €</td>
+<td class="p-3 text-center">
+<button class="px-2 py-1 bg-stone-900 text-white rounded font-headline uppercase font-bold text-[10px]" onclick="addItemToCart('Tarta de Queso', 6.50)">Añadir</button>
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+</section>
+<!-- 6. TAKE AWAY DIRECTO & SIN INTERMEDIARIOS (KRAFT BANNER) -->
+<section class="bg-surface-container py-12 border-y border-outline-variant" id="take-away">
+<div class="max-w-7xl mx-auto px-4 md:px-8">
+<div class="bg-kraft p-6 md:p-8 rounded-lg border-2 border-dashed border-stone-400 shadow-sm">
+<div class="grid grid-cols-1 lg:grid-cols-12 gap-8 items-center">
+<div class="lg:col-span-8 space-y-4">
+<div class="inline-flex items-center gap-1.5 text-primary text-xs font-headline uppercase font-black tracking-widest">
+<span class="material-symbols-outlined text-sm" data-icon="local_mall">local_mall</span>
+              Servicio Directo Vukata Para Llevar
+            </div>
+<h2 class="text-2xl md:text-3xl font-headline font-black uppercase text-charcoal tracking-tight">
+              Toda nuestra carta al carbón lista para encargar y recoger caliente en el local
+            </h2>
+<!-- 3 Pillars -->
+<div class="grid grid-cols-1 sm:grid-cols-3 gap-4 pt-2">
+<div class="flex items-start gap-2.5">
+<span class="material-symbols-outlined text-primary text-xl" data-icon="price_check">price_check</span>
+<div>
+<div class="text-xs font-headline uppercase font-bold text-charcoal">Sin Sobrecostes</div>
+<div class="text-[11px] text-stone-600">Un 15% más económico que en aplicaciones externas</div>
+</div>
+</div>
+<div class="flex items-start gap-2.5">
+<span class="material-symbols-outlined text-primary text-xl" data-icon="timer">timer</span>
+<div>
+<div class="text-xs font-headline uppercase font-bold text-charcoal">Punto Exacto</div>
+<div class="text-[11px] text-stone-600">La carne reposa y se empaca directa de la brasa</div>
+</div>
+</div>
+<div class="flex items-start gap-2.5">
+<span class="material-symbols-outlined text-primary text-xl" data-icon="inventory_2">inventory_2</span>
+<div>
+<div class="text-xs font-headline uppercase font-bold text-charcoal">Envase Térmico</div>
+<div class="text-[11px] text-stone-600">Cajas microcanal transpirables para no reblandecer</div>
+</div>
+</div>
+</div>
+</div>
+<!-- Direct Order Action Box -->
+<div class="lg:col-span-4 bg-white p-5 rounded-lg border border-stone-300 space-y-3 shadow-sm text-center">
+<div class="inline-flex items-center gap-1 text-xs font-bold text-stone-700 bg-stone-100 px-3 py-1 rounded-full">
+<span class="material-symbols-outlined text-sm text-amber-600" data-icon="timelapse">timelapse</span>
+              Tiempo estimado: 15 – 20 minutos
+            </div>
+<p class="text-xs text-stone-600">
+              Llámenos o envíenos su pedido por WhatsApp y lo tendremos preparado al llegar a la barra.
+            </p>
+<div class="space-y-2 pt-1">
+<a class="w-full py-2.5 bg-charcoal hover:bg-stone-800 text-white font-headline font-bold uppercase tracking-wider text-xs rounded flex items-center justify-center gap-2 transition-colors" href="tel:917198244">
+<span class="material-symbols-outlined text-sm text-amber-400" data-icon="call">call</span>
+                Llamar: 91 719 82 44
+              </a>
+<a class="w-full py-2.5 bg-emerald-700 hover:bg-emerald-800 text-white font-headline font-bold uppercase tracking-wider text-xs rounded flex items-center justify-center gap-2 transition-colors" href="https://wa.me/34917198244" rel="noopener noreferrer" target="_blank">
+<span class="material-symbols-outlined text-sm" data-icon="chat">chat</span>
+                Pedir por WhatsApp Directo
+              </a>
+</div>
+</div>
+</div>
+</div>
+</div>
+</section>
+<!-- 7. VERIFIED DINER REVIEWS & LOCAL REPUTATION (GOOGLE MAPS 4.4★) -->
+<section class="py-12 bg-surface" id="opiniones">
+<div class="max-w-7xl mx-auto px-4 md:px-8">
+<!-- Reputation Header -->
+<div class="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 mb-8">
+<div>
+<div class="flex items-center gap-2">
+<span class="text-2xl font-headline font-black text-charcoal">4.4</span>
+<div class="flex text-amber-500">
+<span class="material-symbols-outlined text-lg" data-icon="star" data-weight="fill" style="font-variation-settings: 'FILL' 1;">star</span>
+<span class="material-symbols-outlined text-lg" data-icon="star" data-weight="fill" style="font-variation-settings: 'FILL' 1;">star</span>
+<span class="material-symbols-outlined text-lg" data-icon="star" data-weight="fill" style="font-variation-settings: 'FILL' 1;">star</span>
+<span class="material-symbols-outlined text-lg" data-icon="star" data-weight="fill" style="font-variation-settings: 'FILL' 1;">star</span>
+<span class="material-symbols-outlined text-lg" data-icon="star_half">star_half</span>
+</div>
+<span class="text-xs font-semibold text-stone-500">Google Maps Reviews</span>
+</div>
+<h2 class="text-xl md:text-2xl font-headline font-bold uppercase text-charcoal mt-1">
+            2.410+ Reseñas Verificadas de Vecinos y Amantes de la Buena Brasa
+          </h2>
+</div>
+<a class="text-xs font-headline font-bold uppercase tracking-wider text-primary hover:underline flex items-center gap-1" href="https://maps.google.com" rel="noopener noreferrer" target="_blank">
+          Ver todas las reseñas en Google Maps
+          <span class="material-symbols-outlined text-sm" data-icon="open_in_new">open_in_new</span>
+</a>
+</div>
+<!-- Real Review Cards Grid -->
+<div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+<!-- Review 1 -->
+<div class="bg-white border border-stone-200 p-5 rounded-lg shadow-xs flex flex-col justify-between">
+<div>
+<div class="flex items-center justify-between mb-3">
+<div class="flex items-center gap-2">
+<div class="w-8 h-8 rounded-full bg-stone-200 text-charcoal font-bold text-xs flex items-center justify-center font-headline">
+                  CM
+                </div>
+<div>
+<div class="text-xs font-bold text-charcoal leading-tight">Carlos M.</div>
+<div class="text-[10px] text-stone-500 flex items-center gap-0.5">
+<span class="material-symbols-outlined text-[11px] text-amber-600" data-icon="verified">verified</span>
+                    Guía Local · Nivel 6
+                  </div>
+</div>
+</div>
+<div class="flex text-amber-500 text-xs">
+                ★★★★★
+              </div>
+</div>
+<p class="text-xs text-stone-700 italic font-body leading-relaxed">
+              "La mejor carne a la brasa de todo Aluche y Carabanchel sin discusión. La entraña y las empanadas son de otro planeta, y el chimichurri casero inmejorable. El olor a carbón de encina desde que doblas la esquina te abre el apetito."
+            </p>
+</div>
+<div class="text-[10px] text-stone-400 mt-4 pt-2 border-t border-stone-100">
+            Visita verificada · Almuerzo en sala
+          </div>
+</div>
+<!-- Review 2 -->
+<div class="bg-white border border-stone-200 p-5 rounded-lg shadow-xs flex flex-col justify-between">
+<div>
+<div class="flex items-center justify-between mb-3">
+<div class="flex items-center gap-2">
+<div class="w-8 h-8 rounded-full bg-stone-200 text-charcoal font-bold text-xs flex items-center justify-center font-headline">
+                  EG
+                </div>
+<div>
+<div class="text-xs font-bold text-charcoal leading-tight">Elena G.</div>
+<div class="text-[10px] text-stone-500">Cliente habitual de fines de semana</div>
+</div>
+</div>
+<div class="flex text-amber-500 text-xs">
+                ★★★★★
+              </div>
+</div>
+<p class="text-xs text-stone-700 italic font-body leading-relaxed">
+              "Sitio de los que ya casi no quedan en Madrid: brasas de verdad, camareros de los de toda la vida súper atentos y raciones muy generosas. El chuletón madurado espectacular y a un precio honesto."
+            </p>
+</div>
+<div class="text-[10px] text-stone-400 mt-4 pt-2 border-t border-stone-100">
+            Cena con reserva previa · Mesa de 4
+          </div>
+</div>
+<!-- Review 3 -->
+<div class="bg-white border border-stone-200 p-5 rounded-lg shadow-xs flex flex-col justify-between">
+<div>
+<div class="flex items-center justify-between mb-3">
+<div class="flex items-center gap-2">
+<div class="w-8 h-8 rounded-full bg-stone-200 text-charcoal font-bold text-xs flex items-center justify-center font-headline">
+                  DR
+                </div>
+<div>
+<div class="text-xs font-bold text-charcoal leading-tight">David R.</div>
+<div class="text-[10px] text-stone-500 flex items-center gap-0.5">
+<span class="material-symbols-outlined text-[11px] text-emerald-600" data-icon="check_circle">check_circle</span>
+                    Alergias Alimentarias
+                  </div>
+</div>
+</div>
+<div class="flex text-amber-500 text-xs">
+                ★★★★★
+              </div>
+</div>
+<p class="text-xs text-stone-700 italic font-body leading-relaxed">
+              "Atención de diez con el tema de celiaquía. Nos sacaron pan sin gluten tostado aparte y casi toda la carta de carnes es apta al no llevar añadidos raros más que sal y brasa limpia. Da muchísima tranquilidad comer aquí."
+            </p>
+</div>
+<div class="text-[10px] text-stone-400 mt-4 pt-2 border-t border-stone-100">
+            Visita en familia · Comida domingo
+          </div>
+</div>
+</div>
+</div>
+</section>
+<!-- 8. COMPREHENSIVE RESTAURANT FOOTER (Shared Component Alignment) -->
+<footer class="bg-surface-container-highest dark:bg-surface-container-highest border-t border-outline-variant dark:border-outline-variant w-full relative mt-auto">
+<div class="max-w-7xl mx-auto px-4 md:px-8 py-12">
+<!-- Top Grid Information -->
+<div class="grid grid-cols-1 md:grid-cols-4 gap-8 mb-10 pb-8 border-b border-stone-300">
+<!-- Col 1: Identity -->
+<div class="space-y-3">
+<div class="font-headline text-lg font-black tracking-widest uppercase text-on-surface dark:text-on-surface">
+            Vukata Parrilla al Carbón
+          </div>
+<p class="text-xs text-on-surface-variant font-body leading-relaxed">
+            Artesanía en brasa de encina desde 1996. Especialistas en carnes maduradas seleccionadas, cortes criollos tradicionales y servicio cercano en el barrio de Aluche.
+          </p>
+<div class="text-xs font-semibold text-primary">
+            Calle Maqueda 138, 28024 Madrid
+          </div>
+</div>
+<!-- Col 2: Horarios de Parrilla -->
+<div class="space-y-2">
+<div class="font-headline font-bold uppercase tracking-wider text-base text-charcoal">
+            Horarios de Parrilla
+          </div>
+<ul class="text-xs text-stone-600 space-y-1.5 font-body">
+<li class="flex justify-between">
+<span>Almuerzos (M-D):</span>
+<span class="font-semibold text-charcoal">13:00 a 16:30</span>
+</li>
+<li class="flex justify-between">
+<span>Cenas (M-S):</span>
+<span class="font-semibold text-charcoal">20:00 a 23:45</span>
+</li>
+<li class="flex justify-between text-primary font-semibold">
+<span>Domingo Noche:</span>
+<span>Cerrado</span>
+</li>
+<li class="flex justify-between text-stone-500">
+<span>Lunes:</span>
+<span>Descanso del personal</span>
+</li>
+</ul>
+</div>
+<!-- Col 3: Ubicación y Accesos -->
+<div class="space-y-2">
+<div class="font-headline font-bold uppercase tracking-wider text-base text-charcoal">
+            Cómo Llegar (Aluche)
+          </div>
+<ul class="text-xs text-stone-600 space-y-1.5 font-body">
+<li class="flex items-start gap-1">
+<span class="material-symbols-outlined text-sm text-stone-400" data-icon="subway">subway</span>
+<span>Metro Aluche (L5) y Cercanías Renfe C-5 (a 4 min a pie)</span>
+</li>
+<li class="flex items-start gap-1">
+<span class="material-symbols-outlined text-sm text-stone-400" data-icon="directions_bus">directions_bus</span>
+<span>Líneas EMT 17, 31, 138, 155</span>
+</li>
+<li class="flex items-start gap-1">
+<span class="material-symbols-outlined text-sm text-stone-400" data-icon="local_parking">local_parking</span>
+<span>Fácil aparcamiento en zonas aledañas</span>
+</li>
+</ul>
+</div>
+<!-- Col 4: Enlaces y Reservas -->
+<div class="space-y-3">
+<div class="font-headline font-bold uppercase tracking-wider text-base text-charcoal">
+            Contacto Directo
+          </div>
+<div class="space-y-2 text-xs">
+<a class="block font-bold text-primary text-base font-mono-numbers hover:underline" href="tel:917198244">
+              91 719 82 44
+            </a>
+<p class="text-[11px] text-stone-500">
+              Recomendamos reservar con 24-48h de antelación para fines de semana.
+            </p>
+<button class="w-full py-2 bg-charcoal text-white rounded text-xs font-headline uppercase font-bold tracking-wider hover:bg-stone-800 transition-colors" onclick="document.getElementById('booking-modal').classList.remove('hidden')">
+              Reservar Mesa Online
+            </button>
+</div>
+</div>
+</div>
+<!-- Legal Links & EU Statement -->
+<div class="flex flex-col md:flex-row justify-between items-start md:items-center gap-4 text-xs text-on-surface-variant font-body">
+<p class="max-w-2xl text-[11px] leading-relaxed">
+          © 1996–2025 Restaurante Vukata Parrilla al Carbón. Calle Camarena, Aluche, Madrid. Artesanía en brasa de encina.
+          Cumplimiento estricto del <strong class="text-stone-700">Reglamento UE 1169/2011</strong> sobre alérgenos e información nutricional facilitada al consumidor.
+        </p>
+<div class="flex flex-wrap gap-4 text-[11px]">
+<a class="text-on-surface-variant dark:text-on-surface-variant text-xs hover:text-primary dark:hover:text-primary underline transition-colors duration-150" href="#alergenos">
+            Aviso Legal &amp; Alérgenos (Reg. UE 1169/2011)
+          </a>
+<a class="text-on-surface-variant dark:text-on-surface-variant text-xs hover:text-primary dark:hover:text-primary underline transition-colors duration-150" href="#">
+            Política de Privacidad
+          </a>
+<a class="text-on-surface-variant dark:text-on-surface-variant text-xs hover:text-primary dark:hover:text-primary underline transition-colors duration-150" href="#">
+            Horarios de Parrilla
+          </a>
+<a class="text-on-surface-variant dark:text-on-surface-variant text-xs hover:text-primary dark:hover:text-primary underline transition-colors duration-150" href="#">
+            Cómo Llegar (Aluche)
+          </a>
+<a class="text-on-surface-variant dark:text-on-surface-variant text-xs hover:text-primary dark:hover:text-primary underline transition-colors duration-150" href="#">
+            Contacto Directo
+          </a>
+</div>
+</div>
+</div>
+</footer>
+<!-- RESERVATION MODAL (Simple, accessible dialog) -->
+<div class="fixed inset-0 bg-black/60 z-50 flex items-center justify-center p-4 hidden backdrop-blur-xs" id="booking-modal">
+<div class="bg-white rounded-lg max-w-md w-full p-6 shadow-2xl border border-stone-300 relative">
+<button class="absolute top-4 right-4 text-stone-400 hover:text-stone-700" onclick="document.getElementById('booking-modal').classList.add('hidden')">
+<span class="material-symbols-outlined" data-icon="close">close</span>
+</button>
+<div class="mb-4">
+<span class="text-xs font-headline uppercase font-bold text-primary">Reserva de Sala</span>
+<h3 class="text-xl font-headline font-bold uppercase text-charcoal">Vukata Parrilla al Carbón</h3>
+<p class="text-xs text-stone-600 mt-1">Indique fecha, comensales y teléfono para confirmar su mesa.</p>
+</div>
+<form class="space-y-3 text-xs" onsubmit="event.preventDefault(); alert('Solicitud de reserva enviada. Le contactaremos en menos de 2 horas.'); document.getElementById('booking-modal').classList.add('hidden');">
+<div>
+<label class="block font-bold text-stone-700 mb-1">Nombre Completo</label>
+<input class="w-full border-stone-300 rounded p-2 text-xs focus:ring-primary focus:border-primary" placeholder="Ej: Santiago Pérez" required="" type="text"/>
+</div>
+<div class="grid grid-cols-2 gap-2">
+<div>
+<label class="block font-bold text-stone-700 mb-1">Teléfono de Contacto</label>
+<input class="w-full border-stone-300 rounded p-2 text-xs focus:ring-primary focus:border-primary" placeholder="600 000 000" required="" type="tel"/>
+</div>
+<div>
+<label class="block font-bold text-stone-700 mb-1">Nº Comensales</label>
+<select class="w-full border-stone-300 rounded p-2 text-xs focus:ring-primary focus:border-primary">
+<option>2 Personas</option>
+<option>3 Personas</option>
+<option>4 Personas</option>
+<option>5-6 Personas</option>
+<option>Grupo (+6)</option>
+</select>
+</div>
+</div>
+<div class="grid grid-cols-2 gap-2">
+<div>
+<label class="block font-bold text-stone-700 mb-1">Fecha</label>
+<input class="w-full border-stone-300 rounded p-2 text-xs focus:ring-primary focus:border-primary" required="" type="date"/>
+</div>
+<div>
+<label class="block font-bold text-stone-700 mb-1">Turno</label>
+<select class="w-full border-stone-300 rounded p-2 text-xs focus:ring-primary focus:border-primary">
+<option>Comida (13:30)</option>
+<option>Comida (14:45)</option>
+<option>Comida (15:30)</option>
+<option>Cena (20:30)</option>
+<option>Cena (21:45)</option>
+<option>Cena (22:30)</option>
+</select>
+</div>
+</div>
+<div>
+<label class="block font-bold text-stone-700 mb-1">Alergias o notas especiales</label>
+<input class="w-full border-stone-300 rounded p-2 text-xs focus:ring-primary focus:border-primary" placeholder="Ej: Dos personas celíacas / trona bebé" type="text"/>
+</div>
+<button class="w-full py-2.5 bg-primary hover:bg-flame text-white font-headline font-bold uppercase tracking-wider text-xs rounded transition-colors mt-2" type="submit">
+          Confirmar Solicitud de Reserva
+        </button>
+</form>
+</div>
+</div>
+<!-- COMANDA DRAWER / TOAST SIMULATOR -->
+<div class="fixed bottom-4 right-4 bg-charcoal text-white p-3 rounded-lg shadow-xl border border-stone-700 z-50 text-xs flex items-center gap-3 transition-opacity duration-300 opacity-0 pointer-events-none" id="comanda-toast">
+<span class="material-symbols-outlined text-emerald-400" data-icon="check_circle">check_circle</span>
+<span id="toast-message">Plato añadido a la comanda</span>
+</div>
+<!-- INTERACTION JAVASCRIPT -->
+<script>
+    // Cooking Temp Selector
+    function setTemp(tempName) {
+      document.getElementById('temp-label').innerText = tempName;
+    }
+
+    // View switcher (Cards vs List)
+    function setViewMode(mode) {
+      const cardsView = document.getElementById('catalog-cards-view');
+      const listView = document.getElementById('catalog-list-view');
+      const btnCards = document.getElementById('btn-view-cards');
+      const btnList = document.getElementById('btn-view-list');
+
+      if (mode === 'cards') {
+        cardsView.classList.remove('hidden');
+        listView.classList.add('hidden');
+        btnCards.classList.add('bg-white', 'text-charcoal', 'shadow-xs');
+        btnCards.classList.remove('text-stone-600');
+        btnList.classList.remove('bg-white', 'text-charcoal', 'shadow-xs');
+        btnList.classList.add('text-stone-600');
+      } else {
+        cardsView.classList.add('hidden');
+        listView.classList.remove('hidden');
+        btnList.classList.add('bg-white', 'text-charcoal', 'shadow-xs');
+        btnList.classList.remove('text-stone-600');
+        btnCards.classList.remove('bg-white', 'text-charcoal', 'shadow-xs');
+        btnCards.classList.add('text-stone-600');
+      }
+    }
+
+    // Interactive 14-Allergen Exclusion Filter
+    const activeExclusions = new Set();
+
+    function toggleAllergen(button, allergenKey) {
+      const badge = button.querySelector('.allergen-badge');
+      if (activeExclusions.has(allergenKey)) {
+        activeExclusions.delete(allergenKey);
+        button.classList.remove('border-primary', 'bg-red-50');
+        badge.innerText = 'Apto';
+        badge.classList.remove('bg-red-200', 'text-red-900', 'font-bold');
+        badge.classList.add('bg-stone-100', 'text-stone-500');
+      } else {
+        activeExclusions.add(allergenKey);
+        button.classList.add('border-primary', 'bg-red-50');
+        badge.innerText = 'Excluido';
+        badge.classList.add('bg-red-200', 'text-red-900', 'font-bold');
+        badge.classList.remove('bg-stone-100', 'text-stone-500');
+      }
+      filterDishes();
+    }
+
+    function resetAllAllergens() {
+      activeExclusions.clear();
+      document.querySelectorAll('.allergen-btn').forEach(btn => {
+        btn.classList.remove('border-primary', 'bg-red-50');
+        const badge = btn.querySelector('.allergen-badge');
+        badge.innerText = 'Apto';
+        badge.classList.remove('bg-red-200', 'text-red-900', 'font-bold');
+        badge.classList.add('bg-stone-100', 'text-stone-500');
+      });
+      filterDishes();
+    }
+
+    function filterDishes() {
+      const dishCards = document.querySelectorAll('.dish-item');
+      let visibleCount = 0;
+
+      dishCards.forEach(dish => {
+        const dishAllergens = (dish.getAttribute('data-allergens') || '').split(',').filter(Boolean);
+        let hasExcluded = false;
+
+        for (const allergen of activeExclusions) {
+          if (dishAllergens.includes(allergen)) {
+            hasExcluded = true;
+            break;
+          }
+        }
+
+        if (hasExcluded) {
+          dish.style.opacity = '0.2';
+          dish.style.pointerEvents = 'none';
+        } else {
+          dish.style.opacity = '1';
+          dish.style.pointerEvents = 'auto';
+          visibleCount++;
+        }
+      });
+
+      const counter = document.getElementById('safe-counter');
+      if (activeExclusions.size > 0) {
+        counter.innerText = `Filtro activo: ${visibleCount} de ${dishCards.length} platos aptos`;
+      } else {
+        counter.innerText = 'Mostrando 24 platos 100% compatibles';
+      }
+    }
+
+    // Comanda feedback simulation
+    function addItemToCart(dishName, price) {
+      const toast = document.getElementById('comanda-toast');
+      const message = document.getElementById('toast-message');
+      message.innerText = `Añadido: ${dishName} (${price.toFixed(2)} €)`;
+      toast.classList.remove('opacity-0', 'pointer-events-none');
+      toast.classList.add('opacity-100');
+      setTimeout(() => {
+        toast.classList.remove('opacity-100');
+        toast.classList.add('opacity-0', 'pointer-events-none');
+      }, 2500);
+    }
+
+    function toggleComandaDrawer() {
+      alert('Resumen Comanda Vukata:\n\n• Asado de Tira Especial (17,50 €)\n• Parrillada Vukata Especial (43,00 €)\n• Empanada Criolla (4,80 €)\n\nTotal: 65,30 €\n\nListo para recoger en Calle Maqueda 138 o servir en mesa.');
+    }
+  </script>
+</body></html>
+
