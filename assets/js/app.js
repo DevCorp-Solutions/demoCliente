@@ -353,11 +353,18 @@ export class GastroApp {
         return;
       }
 
-      // 3. Filtro de alérgenos (Activo en todos los estilos)
+      // 3. Filtro de alérgenos (Activo en todos los estilos con multiselección toggle y limpiar)
       const allergenBtn = e.target.closest('[data-allergen]');
       if (allergenBtn) {
         e.preventDefault();
-        store.setAllergenFilter(allergenBtn.getAttribute('data-allergen'));
+        store.toggleAllergenFilter(allergenBtn.getAttribute('data-allergen'));
+        return;
+      }
+
+      const clearAllergensBtn = e.target.closest('[data-clear-allergens]');
+      if (clearAllergensBtn) {
+        e.preventDefault();
+        store.clearAllergenFilters();
         return;
       }
 
@@ -798,26 +805,34 @@ export class GastroApp {
   // =========================================================================
   renderMenuView(container, preset) {
     const activeCategory = store.state.activeCategory;
-    const activeAllergen = store.state.activeAllergenFilter;
+    const activeAllergens = (store.state.activeAllergenFilters && Array.isArray(store.state.activeAllergenFilters))
+      ? store.state.activeAllergenFilters
+      : (store.state.activeAllergenFilter ? [store.state.activeAllergenFilter] : []);
     const topData = store.getMostOrderedDish();
 
     let filteredMenu = preset.menu;
     if (activeCategory !== 'all') {
       filteredMenu = filteredMenu.filter(d => d.category === activeCategory);
     }
-    if (activeAllergen) {
-      filteredMenu = filteredMenu.filter(d => !d.allergens || !d.allergens.includes(activeAllergen));
+    if (activeAllergens.length > 0) {
+      filteredMenu = filteredMenu.filter(d => {
+        if (!d.allergens || !Array.isArray(d.allergens)) return true;
+        return !d.allergens.some(a => {
+          const norm = ALLERGEN_ALIAS[a] || a;
+          return activeAllergens.includes(norm) || activeAllergens.includes(a);
+        });
+      });
     }
 
     let layoutHtml = '';
     if (preset.id === 'estilo1') {
-      layoutHtml = this.renderEstilo1Layout(preset, filteredMenu, activeCategory, activeAllergen, topData);
+      layoutHtml = this.renderEstilo1Layout(preset, filteredMenu, activeCategory, activeAllergens, topData);
     } else if (preset.id === 'estilo2') {
-      layoutHtml = this.renderEstilo2Layout(preset, filteredMenu, activeCategory, activeAllergen, topData);
+      layoutHtml = this.renderEstilo2Layout(preset, filteredMenu, activeCategory, activeAllergens, topData);
     } else if (preset.id === 'estilo3') {
-      layoutHtml = this.renderEstilo3Layout(preset, filteredMenu, activeCategory, activeAllergen, topData);
+      layoutHtml = this.renderEstilo3Layout(preset, filteredMenu, activeCategory, activeAllergens, topData);
     } else {
-      layoutHtml = this.renderEstilo4Layout(preset, filteredMenu, activeCategory, activeAllergen, topData);
+      layoutHtml = this.renderEstilo4Layout(preset, filteredMenu, activeCategory, activeAllergens, topData);
     }
 
     const reviewsHtml = this.renderGoogleReviewsSection(preset);
@@ -833,7 +848,7 @@ export class GastroApp {
   // DISEÑO 1: RESTAURANTE PARRILLA VUKATA (ALUCHE)
   // BRUSHED STEEL, VULCAN CRIMSON, CONDENSED FONTS & 14 ALLERGEN SYSTEM
   // -------------------------------------------------------------------------
-  renderEstilo1Layout(preset, filteredMenu, activeCategory, activeAllergen, topData) {
+  renderEstilo1Layout(preset, filteredMenu, activeCategory, activeAllergens, topData) {
     const categoriesToRender = activeCategory === 'all' ? preset.categories : [activeCategory];
 
     return `
@@ -933,13 +948,22 @@ export class GastroApp {
           `).join('')}
         </div>
 
-        <div class="flex items-center space-x-2">
-          <!-- Indicador de Alérgeno Activo si existe -->
-          ${activeAllergen ? `
-            <div class="flex items-center space-x-2 bg-red-50 border border-[#8B1E1E]/30 px-3 py-1 rounded-full text-xs">
-              <span class="text-[11px] text-stone-600 font-sans">Sin:</span>
-              ${renderAllergenBadge(activeAllergen, 'xs', true)}
-              <button data-allergen="${activeAllergen}" class="ml-1 font-bold text-red-600 hover:text-red-800 text-xs" title="Quitar filtro">✕</button>
+        <div class="flex items-center space-x-2 flex-wrap gap-2">
+          <!-- Indicador de Alérgenos Activos si existen -->
+          ${activeAllergens && activeAllergens.length > 0 ? `
+            <div class="flex items-center space-x-1.5 bg-red-50 border border-[#8B1E1E]/30 px-3 py-1 rounded-full text-xs">
+              <span class="text-[11px] text-stone-600 font-sans font-medium">Excluyendo:</span>
+              <div class="flex items-center space-x-1 flex-wrap">
+                ${activeAllergens.map(code => `
+                  <span class="inline-flex items-center space-x-0.5">
+                    ${renderAllergenBadge(code, 'xs', true)}
+                    <button data-allergen="${code}" class="font-bold text-red-600 hover:text-red-900 text-xs px-0.5 cursor-pointer" title="Quitar este filtro">✕</button>
+                  </span>
+                `).join('')}
+              </div>
+              <button data-clear-allergens class="ml-1 text-[11px] font-bold text-[#8B1E1E] underline hover:text-[#5c1313] cursor-pointer">
+                Limpiar todo
+              </button>
             </div>
           ` : ''}
 
@@ -955,26 +979,45 @@ export class GastroApp {
         </div>
       </div>
 
-      <!-- SELECTOR RÁPIDO DE ALÉRGENOS INTERACTIVO (14 ALÉRGENOS) -->
-      <div class="mb-8 p-3.5 bg-white/80 border border-stone-200 rounded-xl shadow-sm flex items-center justify-between gap-3 overflow-x-auto no-scrollbar">
-        <div class="flex items-center space-x-2 text-xs font-bold text-stone-700 flex-shrink-0">
-          <span class="text-sm">🛡️</span>
-          <span class="vukata-font-title text-[11px] text-[#8B1E1E]">Filtrar Alérgenos:</span>
+      <!-- SELECTOR DE ALÉRGENOS MULTISELECCIÓN (14 ALÉRGENOS SIN CORTES CON WRAP) -->
+      <div class="mb-8 p-4 bg-white/95 border border-stone-200 rounded-2xl shadow-sm">
+        <div class="flex flex-wrap items-center justify-between gap-2 pb-2.5 mb-3 border-b border-stone-100">
+          <div class="flex items-center space-x-2">
+            <span class="text-base">🛡️</span>
+            <div>
+              <span class="vukata-font-title text-xs font-bold text-[#8B1E1E] uppercase tracking-wider">Filtro de Alérgenos</span>
+              <span class="text-[11px] text-stone-500 font-sans ml-1 sm:inline block">(Selecciona uno o varios para excluir platos de la carta)</span>
+            </div>
+          </div>
+          <div class="flex items-center space-x-2">
+            ${activeAllergens && activeAllergens.length > 0 ? `
+              <span class="text-[11px] font-bold text-[#8B1E1E] bg-red-50 border border-red-200 px-2 py-0.5 rounded-full">
+                ${activeAllergens.length} seleccionado${activeAllergens.length > 1 ? 's' : ''}
+              </span>
+              <button type="button" data-clear-allergens class="text-xs font-bold text-[#8B1E1E] hover:text-[#5c1313] hover:underline cursor-pointer flex items-center space-x-1">
+                <span>✕ Limpiar filtros</span>
+              </button>
+            ` : `
+              <span class="text-[11px] text-stone-400 font-sans">14 alérgenos de la UE</span>
+            `}
+          </div>
         </div>
 
-        <div class="flex items-center space-x-1.5 overflow-x-auto no-scrollbar py-1">
+        <!-- Botones con wrapping automático: ¡los 14 alérgenos son visibles sin recortes! -->
+        <div class="flex flex-wrap items-center gap-1.5 sm:gap-2">
           ${Object.values(VUKATA_ALLERGENS).map(a => {
-            const isSelected = activeAllergen === a.id;
+            const isSelected = activeAllergens && activeAllergens.includes(a.id);
             return `
-              <button data-allergen="${a.id}" class="inline-flex items-center space-x-1 px-2.5 py-1 rounded-full text-[11px] transition-all border ${
+              <button type="button" data-allergen="${a.id}" class="inline-flex items-center space-x-1.5 px-2.5 py-1.5 rounded-xl text-xs transition-all border cursor-pointer select-none ${
                 isSelected 
-                  ? 'bg-stone-900 text-white font-bold border-stone-900 shadow-md ring-2 ring-[#8B1E1E]' 
-                  : 'bg-stone-50 text-stone-700 border-stone-200 hover:border-stone-400 hover:bg-stone-100'
-              }" title="Filtrar platos que no contengan ${a.name}">
-                <span class="w-3.5 h-3.5 rounded-full flex items-center justify-center text-white" style="background-color: ${a.color};">
+                  ? 'bg-[#8B1E1E] text-white font-bold border-[#8B1E1E] shadow-sm ring-2 ring-red-200 scale-105' 
+                  : 'bg-stone-50 hover:bg-stone-100 text-stone-700 border-stone-200 hover:border-stone-400'
+              }" title="${isSelected ? 'Quitar filtro de ' + a.name : 'Excluir platos con ' + a.name}">
+                <span class="w-4 h-4 rounded-full flex items-center justify-center text-white flex-shrink-0" style="background-color: ${a.color};">
                   <span class="w-2.5 h-2.5 flex items-center justify-center">${a.svg}</span>
                 </span>
-                <span class="font-semibold whitespace-nowrap">${a.name}</span>
+                <span class="font-medium whitespace-nowrap">${a.name}</span>
+                ${isSelected ? `<span class="text-[11px] font-bold ml-0.5">✕</span>` : ''}
               </button>
             `;
           }).join('')}
@@ -1155,7 +1198,7 @@ export class GastroApp {
   // -------------------------------------------------------------------------
   // DISEÑO 2: APP INTERACTIVA & BENTO GRID (CON FILTROS Y FOTOS CLARAS)
   // -------------------------------------------------------------------------
-  renderEstilo2Layout(preset, filteredMenu, activeCategory, activeAllergen, topData) {
+  renderEstilo2Layout(preset, filteredMenu, activeCategory, activeAllergens, topData) {
     return `
       <!-- TOP DESTACADO EN BENTO APP -->
       <div class="mb-6 p-4 rounded-2xl bento-card flex flex-col sm:flex-row sm:items-center justify-between gap-3 text-slate-100">
@@ -1239,12 +1282,15 @@ export class GastroApp {
         <!-- Filtro de alérgenos estilo App -->
         <div class="flex items-center space-x-2 text-xs font-mono">
           <span class="text-slate-400 text-[11px]">Alérgenos:</span>
-          <button data-allergen="gluten" class="px-3 py-1.5 rounded-xl border text-xs font-semibold transition-all ${activeAllergen === 'gluten' ? 'bg-sky-600 border-sky-400 text-white font-bold' : 'bg-slate-800 border-slate-700 text-slate-300 hover:bg-slate-700'}">
+          <button data-allergen="gluten" class="px-3 py-1.5 rounded-xl border text-xs font-semibold transition-all ${activeAllergens && activeAllergens.includes('gluten') ? 'bg-sky-600 border-sky-400 text-white font-bold' : 'bg-slate-800 border-slate-700 text-slate-300 hover:bg-slate-700'}">
             🌾 Sin Gluten
           </button>
-          <button data-allergen="lactosa" class="px-3 py-1.5 rounded-xl border text-xs font-semibold transition-all ${activeAllergen === 'lactosa' ? 'bg-sky-600 border-sky-400 text-white font-bold' : 'bg-slate-800 border-slate-700 text-slate-300 hover:bg-slate-700'}">
+          <button data-allergen="lactosa" class="px-3 py-1.5 rounded-xl border text-xs font-semibold transition-all ${(activeAllergens && (activeAllergens.includes('lactosa') || activeAllergens.includes('lacteos'))) ? 'bg-sky-600 border-sky-400 text-white font-bold' : 'bg-slate-800 border-slate-700 text-slate-300 hover:bg-slate-700'}">
             🥛 Sin Lactosa
           </button>
+          ${activeAllergens && activeAllergens.length > 0 ? `
+            <button data-clear-allergens class="text-xs text-sky-400 hover:underline px-1.5">✕ Limpiar</button>
+          ` : ''}
         </div>
       </div>
 
@@ -1301,7 +1347,7 @@ export class GastroApp {
   // -------------------------------------------------------------------------
   // DISEÑO 3: BISTRÓ TRADICIONAL & CARTA CLÁSICA CON FILTROS Y FOTOS
   // -------------------------------------------------------------------------
-  renderEstilo3Layout(preset, filteredMenu, activeCategory, activeAllergen, topData) {
+  renderEstilo3Layout(preset, filteredMenu, activeCategory, activeAllergens, topData) {
     return `
       <!-- SUGERENCIA DEL DÍA CON MARCO TRADICIONAL -->
       <div class="mb-8 p-5 bistro-card border-2 border-[#8c7b6c] flex flex-col sm:flex-row sm:items-center justify-between gap-4">
@@ -1313,9 +1359,9 @@ export class GastroApp {
         <div class="flex items-center space-x-2 flex-shrink-0">
           <button data-open-dish-modal="${topData.dish.id}" class="bg-[#dfd7cc] hover:bg-[#cfc5b6] text-[#3d3228] text-xs px-3 py-1.5 rounded font-serif flex items-center space-x-1">
             ${ICONS.eye}
-            <span>Ver Foto & Receta</span>
+            <span>Detalle</span>
           </button>
-          <button data-add-cart="${topData.dish.id}" class="bg-[#3d3228] hover:bg-[#231d17] text-white text-xs font-serif font-bold px-4 py-1.5 rounded shadow">
+          <button data-add-cart="${topData.dish.id}" class="bg-[#3d3228] hover:bg-[#2b2520] text-white text-xs px-3.5 py-1.5 rounded font-serif font-bold shadow">
             Pedir (${formatCurrency(topData.dish.price)})
           </button>
         </div>
@@ -1366,12 +1412,15 @@ export class GastroApp {
         <!-- Filtros de alérgenos estilo Mesón -->
         <div class="flex items-center space-x-2 text-xs">
           <span class="text-[#7a6b5d]">Alérgenos:</span>
-          <button data-allergen="gluten" class="px-2.5 py-1 rounded border text-xs transition-all ${activeAllergen === 'gluten' ? 'bg-[#3d3228] text-white border-[#3d3228] font-bold' : 'border-[#8c7b6c] text-[#3d3228] bg-white hover:bg-[#eee7db]'}">
+          <button data-allergen="gluten" class="px-2.5 py-1 rounded border text-xs transition-all ${activeAllergens && activeAllergens.includes('gluten') ? 'bg-[#3d3228] text-white border-[#3d3228] font-bold' : 'border-[#8c7b6c] text-[#3d3228] bg-white hover:bg-[#eee7db]'}">
             🌾 Sin Gluten
           </button>
-          <button data-allergen="lactosa" class="px-2.5 py-1 rounded border text-xs transition-all ${activeAllergen === 'lactosa' ? 'bg-[#3d3228] text-white border-[#3d3228] font-bold' : 'border-[#8c7b6c] text-[#3d3228] bg-white hover:bg-[#eee7db]'}">
+          <button data-allergen="lactosa" class="px-2.5 py-1 rounded border text-xs transition-all ${(activeAllergens && (activeAllergens.includes('lactosa') || activeAllergens.includes('lacteos'))) ? 'bg-[#3d3228] text-white border-[#3d3228] font-bold' : 'border-[#8c7b6c] text-[#3d3228] bg-white hover:bg-[#eee7db]'}">
             🥛 Sin Lactosa
           </button>
+          ${activeAllergens && activeAllergens.length > 0 ? `
+            <button data-clear-allergens class="text-xs text-[#7a6b5d] hover:text-[#2b2520] underline px-1">✕ Limpiar</button>
+          ` : ''}
         </div>
       </div>
 
@@ -1431,7 +1480,7 @@ export class GastroApp {
   // -------------------------------------------------------------------------
   // DISEÑO 4: SHOWCASE VISUAL & MINIMALISMO NÓRDICO (CON FILTROS Y FOTOS)
   // -------------------------------------------------------------------------
-  renderEstilo4Layout(preset, filteredMenu, activeCategory, activeAllergen, topData) {
+  renderEstilo4Layout(preset, filteredMenu, activeCategory, activeAllergens, topData) {
     return `
       <!-- BANNER MINIMALISTA NÓRDICO -->
       <div class="mb-8 p-4 bg-zinc-100 border border-zinc-200 rounded-xl flex flex-col sm:flex-row sm:items-center justify-between gap-3 text-zinc-800">
@@ -1498,12 +1547,15 @@ export class GastroApp {
         <!-- Filtro de alérgenos minimalista -->
         <div class="flex items-center space-x-2 font-mono uppercase tracking-wider text-[11px]">
           <span class="text-zinc-400">Alérgenos:</span>
-          <button data-allergen="gluten" class="px-2.5 py-1 border transition-all ${activeAllergen === 'gluten' ? 'bg-zinc-900 text-white border-zinc-900 font-bold' : 'border-zinc-300 text-zinc-600 hover:text-zinc-900'}">
+          <button data-allergen="gluten" class="px-2.5 py-1 border transition-all ${activeAllergens && activeAllergens.includes('gluten') ? 'bg-zinc-900 text-white border-zinc-900 font-bold' : 'border-zinc-300 text-zinc-600 hover:text-zinc-900'}">
             🌾 Sin Gluten
           </button>
-          <button data-allergen="lactosa" class="px-2.5 py-1 border transition-all ${activeAllergen === 'lactosa' ? 'bg-zinc-900 text-white border-zinc-900 font-bold' : 'border-zinc-300 text-zinc-600 hover:text-zinc-900'}">
+          <button data-allergen="lactosa" class="px-2.5 py-1 border transition-all ${(activeAllergens && (activeAllergens.includes('lactosa') || activeAllergens.includes('lacteos'))) ? 'bg-zinc-900 text-white border-zinc-900 font-bold' : 'border-zinc-300 text-zinc-600 hover:text-zinc-900'}">
             🥛 Sin Lactosa
           </button>
+          ${activeAllergens && activeAllergens.length > 0 ? `
+            <button data-clear-allergens class="text-xs text-zinc-500 hover:text-zinc-900 underline px-1">✕ Limpiar</button>
+          ` : ''}
         </div>
       </div>
 
@@ -1606,7 +1658,7 @@ export class GastroApp {
 
     container.innerHTML = `
       <div id="dish-modal-backdrop" class="fixed inset-0 bg-black/80 backdrop-blur-sm z-50 flex items-center justify-center p-3 sm:p-4">
-        <div class="modal-animate relative max-w-2xl w-full max-h-[92vh] flex flex-col overflow-hidden rounded-2xl ${cardThemeClasses}" onclick="event.stopPropagation()">
+        <div class="modal-animate relative max-w-2xl w-full max-h-[92vh] flex flex-col overflow-hidden rounded-2xl ${cardThemeClasses}">
           
           <!-- Botón de Cerrar Modal (FUERA de la imagen y con máxima prioridad z-index) -->
           <button type="button" id="close-dish-modal" class="absolute top-3 right-3 w-10 h-10 rounded-full bg-black/80 hover:bg-black text-white flex items-center justify-center transition-all hover:scale-105 font-bold z-30 shadow-2xl border border-white/30 cursor-pointer" title="Cerrar modal (Esc)">

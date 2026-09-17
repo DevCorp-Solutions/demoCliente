@@ -103,7 +103,8 @@ class AppStore {
           reservations: parsed.reservations || [],
           dishSales: parsed.dishSales || INITIAL_DISH_SALES,
           activeCategory: 'all',
-          activeAllergenFilter: null
+          activeAllergenFilter: null,
+          activeAllergenFilters: []
         };
       }
     } catch (e) {
@@ -118,7 +119,8 @@ class AppStore {
       reservations: [],
       dishSales: { ...INITIAL_DISH_SALES },
       activeCategory: 'all',
-      activeAllergenFilter: null
+      activeAllergenFilter: null,
+      activeAllergenFilters: []
     };
   }
 
@@ -159,6 +161,7 @@ class AppStore {
       this.state.cart = [];
       this.state.activeCategory = 'all';
       this.state.activeAllergenFilter = null;
+      this.state.activeAllergenFilters = [];
       this.save();
     }
   }
@@ -173,9 +176,28 @@ class AppStore {
     this.notify();
   }
 
-  setAllergenFilter(allergen) {
-    this.state.activeAllergenFilter = (this.state.activeAllergenFilter === allergen) ? null : allergen;
+  toggleAllergenFilter(allergen) {
+    if (!this.state.activeAllergenFilters) {
+      this.state.activeAllergenFilters = [];
+    }
+    const idx = this.state.activeAllergenFilters.indexOf(allergen);
+    if (idx > -1) {
+      this.state.activeAllergenFilters.splice(idx, 1);
+    } else {
+      this.state.activeAllergenFilters.push(allergen);
+    }
+    this.state.activeAllergenFilter = this.state.activeAllergenFilters[0] || null;
     this.notify();
+  }
+
+  clearAllergenFilters() {
+    this.state.activeAllergenFilters = [];
+    this.state.activeAllergenFilter = null;
+    this.notify();
+  }
+
+  setAllergenFilter(allergen) {
+    this.toggleAllergenFilter(allergen);
   }
 
   // --- LÓGICA EN TIEMPO REAL DEL PLATO MÁS PEDIDO ---
