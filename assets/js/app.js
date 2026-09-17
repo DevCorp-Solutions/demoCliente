@@ -656,6 +656,76 @@ const RESTAURANT_PRESETS = {
         popular: false,
         image: "https://images.unsplash.com/photo-1597481499750-3e6b22637e12?auto=format&fit=crop&w=800&q=80",
         allergens: []
+      },
+      {
+        id: "e1_matambre",
+        name: "Matambre a la Brasa",
+        category: "A la Brasa",
+        price: 17.50,
+        badge: "Típico Asador",
+        description: "Fina capa de carne vacuna entre el cuero y el costillar, tiernizada y asada a fuego lento con limón fresco y chimichurri casero.",
+        details: "Asado a la brasa viva de encina",
+        ingredients: "Corte vacuno seleccionado, sal marina, limón fresco, ajo y hierbas campestres.",
+        prepTime: "15 min",
+        popular: true,
+        image: "https://images.unsplash.com/photo-1544025162-d76694265947?auto=format&fit=crop&w=800&q=80",
+        allergens: []
+      },
+      {
+        id: "e1_mollejas",
+        name: "Mollejas de Ternera al Limón",
+        category: "A la Brasa",
+        price: 16.00,
+        badge: "Manjar de Brasas",
+        description: "Mollejas de corazón crujientes por fuera y de textura suave y cremosa por dentro, doradas sobre la parrilla con zumo de limón.",
+        details: "Doble cocción sobre parrilla",
+        ingredients: "Molleja vacuna de corazón, limón natural, sal en escamas y pimienta negra.",
+        prepTime: "12 min",
+        popular: true,
+        image: "https://images.unsplash.com/photo-1555939594-58d7cb561ad1?auto=format&fit=crop&w=800&q=80",
+        allergens: []
+      },
+      {
+        id: "e1_ens_tomate",
+        name: "Ensalada de Tomate Rosa y Cebolla Morada",
+        category: "Ensaladas",
+        price: 11.50,
+        badge: "Huerta Seleccionada",
+        description: "Tomate rosa madurado al sol con cebolla morada fina, lascas de sal Maldon y aceite de oliva virgen extra de primera prensa.",
+        details: "Producto fresco de cercanía",
+        ingredients: "Tomate rosa, cebolla morada, flor de sal y AOVE arbequina.",
+        prepTime: "5 min",
+        popular: false,
+        image: "https://images.unsplash.com/photo-1540420773420-3366772f4999?auto=format&fit=crop&w=800&q=80",
+        allergens: []
+      },
+      {
+        id: "e1_flan",
+        name: "Flan Casero con Dulce de Leche",
+        category: "Postres",
+        price: 5.50,
+        badge: "Receta de la Abuela",
+        description: "Flan de huevo tradicional horneado al baño maría con caramelo tostado y copete generoso de dulce de leche artesano.",
+        details: "100% Casero en nuestro obrador",
+        ingredients: "Huevos camperos, leche entera, azúcar, vainilla natural y dulce de leche.",
+        prepTime: "5 min",
+        popular: true,
+        image: "https://images.unsplash.com/photo-1541783245831-57d6fb0926d3?auto=format&fit=crop&w=800&q=80",
+        allergens: ["huevos", "lacteos"]
+      },
+      {
+        id: "e1_alfajor",
+        name: "Alfajor Artesanal de Nuez y Dulce de Leche",
+        category: "Postres",
+        price: 4.00,
+        badge: "Elaboración Propia",
+        description: "Masa suave de mantequilla y maicena rellena de abundante dulce de leche repostero y rebozada en nueces picadas.",
+        details: "Elaboración artesana diaria",
+        ingredients: "Harina de trigo, maicena, mantequilla, dulce de leche y nueces seleccionadas.",
+        prepTime: "3 min",
+        popular: false,
+        image: "https://images.unsplash.com/photo-1558961363-fa8fdf82db35?auto=format&fit=crop&w=800&q=80",
+        allergens: ["gluten", "huevos", "lacteos", "frutos_cascara"]
       }
     ],
 
@@ -1777,37 +1847,47 @@ function renderAllergenBadges(allergenList, size = 'sm') {
   `;
 }
 
-function renderVukataAllergenLegend() {
+function renderVukataAllergenLegend(activeAllergens = []) {
   const allergens = Object.values(VUKATA_ALLERGENS);
   return `
-    <div class="mt-14 border-t-2 border-[#8B1E1E]/20 bg-white/90 backdrop-blur-sm rounded-2xl p-6 sm:p-8 border border-stone-200/90 shadow-sm">
-      <div class="text-center max-w-2xl mx-auto mb-8">
-        <div class="inline-flex items-center space-x-2 text-[#8B1E1E] mb-1">
-          <span class="text-sm font-bold tracking-widest uppercase">Directiva Oficial Europea</span>
+    <div class="w-full">
+      <div class="text-center max-w-3xl mx-auto mb-10">
+        <div class="inline-flex items-center gap-2 text-primary mb-2">
+          <span class="w-6 h-[2px] bg-primary"></span>
+          <span class="font-kicker-eyebrow text-kicker-eyebrow tracking-[0.2em] uppercase font-bold text-primary">DIRECTIVA OFICIAL EUROPEA</span>
+          <span class="w-6 h-[2px] bg-primary"></span>
         </div>
-        <h4 class="vukata-font-title text-base sm:text-xl text-[#8B1E1E]">Información de Alérgenos de Nuestra Carta</h4>
-        <p class="text-xs text-stone-600 mt-1">
-          Reglamento (UE) Nº 1169/2011 sobre alérgenos e ingredientes alimentarios.
+        <h3 class="font-headline-md text-2xl sm:text-3xl text-on-surface font-semibold">Información de Alérgenos de Nuestra Carta</h3>
+        <p class="font-body-md text-on-surface-variant text-sm mt-2">
+          Reglamento (UE) Nº 1169/2011 sobre alérgenos e información alimentaria facilitada al consumidor. Pulsa sobre cualquier alérgeno para filtrar u ocultar platos automáticamente en la carta.
         </p>
       </div>
 
-      <!-- Cuadrícula de 14 alérgenos idéntica a la portada de la carta física de Vukata -->
+      <!-- Cuadrícula de 14 alérgenos con tarjetas nítidas sobre fondo blanco alargado -->
       <div class="grid grid-cols-2 sm:grid-cols-4 md:grid-cols-7 gap-3 sm:gap-4 justify-items-center">
-        ${allergens.map(a => `
-          <button data-allergen="${a.id}" class="flex flex-col items-center text-center group cursor-pointer p-2.5 rounded-xl hover:bg-stone-100 transition-all w-full border border-stone-100 hover:border-stone-300" title="Filtrar platos con ${a.name}">
-            <span class="w-10 h-10 rounded-full flex items-center justify-center text-white shadow-md transition-transform group-hover:scale-110 flex-shrink-0" style="background-color: ${a.color};">
-              <span class="w-5 h-5 flex items-center justify-center">${a.svg}</span>
-            </span>
-            <span class="text-[10px] sm:text-[11px] font-bold text-stone-700 uppercase tracking-tight mt-2 leading-tight group-hover:text-[#8B1E1E]">
-              ${a.name}
-            </span>
-          </button>
-        `).join('')}
+        ${allergens.map(a => {
+          const isSelected = activeAllergens && activeAllergens.includes(a.id);
+          return `
+            <button data-allergen="${a.id}" class="flex flex-col items-center text-center group cursor-pointer p-3 sm:p-4 rounded-2xl transition-all w-full border ${
+              isSelected
+                ? 'bg-primary/5 border-primary shadow-md ring-2 ring-primary/30'
+                : 'bg-surface-container-low hover:bg-surface-container-highest border-outline-variant/30 hover:border-outline-variant/60 shadow-xs'
+            }" title="${isSelected ? 'Quitar filtro de ' + a.name : 'Filtrar platos con ' + a.name}">
+              <span class="w-11 h-11 rounded-full flex items-center justify-center text-white shadow-sm transition-transform group-hover:scale-110 flex-shrink-0" style="background-color: ${a.color};">
+                <span class="w-5 h-5 flex items-center justify-center">${a.svg}</span>
+              </span>
+              <span class="font-kicker-eyebrow text-[11px] font-bold text-on-surface uppercase tracking-tight mt-2.5 leading-tight group-hover:text-primary transition-colors">
+                ${a.name}
+              </span>
+              ${isSelected ? '<span class="text-[10px] text-primary font-bold mt-1">✕ Activo</span>' : ''}
+            </button>
+          `;
+        }).join('')}
       </div>
 
-      <div class="mt-8 pt-6 border-t border-stone-200 text-center space-y-1.5 text-xs text-stone-600">
-        <p class="font-bold text-stone-800 text-sm">Todos los precios de nuestra carta incluyen el Iva. Los platos se mantendrán hasta fin de existencias.</p>
-        <p class="text-[#8B1E1E] font-medium">Consulte siempre a nuestro personal sobre los alérgenos y opciones para intolerancias.</p>
+      <div class="mt-10 pt-8 border-t border-outline-variant/20 text-center space-y-1.5 text-xs text-on-surface-variant">
+        <p class="font-bold text-on-surface text-sm">Todos los precios de nuestra carta incluyen el IVA. Los platos se mantendrán hasta fin de existencias.</p>
+        <p class="text-primary font-medium">Consulte siempre a nuestro personal de sala sobre alérgenos específicos, protocolos de cocina y opciones para intolerancias.</p>
       </div>
     </div>
   `;
@@ -1836,6 +1916,13 @@ class GastroApp {
   }
 
   setupGlobalEvents() {
+    // Listener de scroll para cambiar el color de la cabecera en Estilo 1 (oscuro arriba, claro al scroll)
+    if (typeof window !== 'undefined' && typeof window.addEventListener === 'function') {
+      window.addEventListener('scroll', () => {
+        this.updateHeaderScroll();
+      }, { passive: true });
+    }
+
     // Tecla Escape para cerrar modales y lightbox
     document.addEventListener('keydown', (e) => {
       if (e.key === 'Escape') {
@@ -1980,19 +2067,36 @@ class GastroApp {
       const catPill = e.target.closest('.cat-filter');
       if (catPill) {
         e.preventDefault();
-        const cat = catPill.getAttribute('data-cat');
-        if (cat === 'all') {
-          store.setCategory('all');
-        } else {
-          const preset = store.getPreset();
-          const match = preset.categories.find(c => c.toLowerCase().includes(cat.toLowerCase()) || cat.toLowerCase().includes(c.toLowerCase()));
-          store.setCategory(match || cat);
-        }
+        const cat = catPill.getAttribute('data-cat') || 'all';
+        const catName = catPill.getAttribute('data-category-name');
+        
+        // Actualizar visualmente los botones de filtro
+        document.querySelectorAll('.cat-filter').forEach(btn => {
+          btn.classList.remove('active', 'bg-inverse-surface', 'text-inverse-on-surface');
+          btn.classList.add('bg-surface-container', 'text-on-surface-variant');
+        });
+        catPill.classList.add('active', 'bg-inverse-surface', 'text-inverse-on-surface');
+        catPill.classList.remove('bg-surface-container', 'text-on-surface-variant');
+
+        // Mostrar / ocultar grupos de carta en vivo sin salto brusco de scroll
+        const groups = document.querySelectorAll('.menu-group');
+        groups.forEach(g => {
+          const gId = g.getAttribute('data-group');
+          const gCat = g.getAttribute('data-category');
+          if (cat === 'all' || gId === cat || gCat === cat || (catName && gCat === catName)) {
+            g.style.display = 'block';
+          } else {
+            g.style.display = 'none';
+          }
+        });
+
+        // Registrar en estado
+        store.state.activeCategory = cat;
         return;
       }
 
       // 2. Filtro de categorías
-      const catBtn = e.target.closest('[data-category]');
+      const catBtn = e.target.closest('button[data-category]');
       if (catBtn) {
         e.preventDefault();
         store.setCategory(catBtn.getAttribute('data-category'));
@@ -2093,9 +2197,16 @@ class GastroApp {
         return;
       }
 
-      // 10. Reseñas Modal
+      // 10. Reseñas Modal (Abrir y Cerrar garantizado)
       if (e.target.closest('#open-smart-review-btn')) {
         this.renderSmartReviewModal(store.getPreset());
+        return;
+      }
+      if (e.target.closest('#close-review-modal') || e.target.id === 'review-modal-backdrop') {
+        e.preventDefault();
+        e.stopPropagation();
+        const container = document.getElementById('review-modal-container');
+        if (container) container.innerHTML = '';
         return;
       }
       // 11. Toggle de panel de alérgenos
@@ -2153,6 +2264,25 @@ class GastroApp {
     }, 2400);
   }
 
+  updateHeaderScroll() {
+    const header = document.getElementById('main-header');
+    if (!header) return;
+    const preset = store.getPreset();
+    if (preset.id !== 'estilo1') return;
+
+    const isMenu = (store.state.currentView === 'menu');
+    const scrollY = (typeof window !== 'undefined') ? (window.scrollY || (document.documentElement && document.documentElement.scrollTop) || 0) : 0;
+    const isAtTop = isMenu && scrollY <= 45;
+
+    if (isAtTop) {
+      header.classList.add('is-transparent-dark');
+      header.classList.remove('is-light-scrolled');
+    } else {
+      header.classList.remove('is-transparent-dark');
+      header.classList.add('is-light-scrolled');
+    }
+  }
+
   render() {
     const preset = store.getPreset();
     const currentView = store.state.currentView;
@@ -2187,7 +2317,7 @@ class GastroApp {
       ${preset.id === 'estilo1' ? `
         <!-- CONTENEDOR PRINCIPAL ESTILO 1 (FULL WIDTH STITCH) -->
         <main class="w-full pt-20 bg-surface flex-1">
-          <div id="view-content" class="flex flex-col w-full"></div>
+          <div id="view-content" class="flex flex-col w-full ${currentView !== 'menu' ? 'max-w-[1360px] mx-auto px-6 lg:px-10 py-10' : ''}"></div>
         </main>
       ` : `
         <!-- CONTENEDOR PRINCIPAL ESTILOS 2, 3 Y 4 -->
@@ -2213,6 +2343,9 @@ class GastroApp {
         store.setPreset(e.target.value);
       });
     }
+
+    // Actualizar cabecera con el estado de scroll actual
+    this.updateHeaderScroll();
 
     // Renderizar la vista activa
     const content = document.getElementById('view-content');
@@ -2281,46 +2414,58 @@ class GastroApp {
 
     // --- CABECERA ESTILO 1: RESTAURANTE PARRILLA VUKATA (EMBER & ASH STITCH) ---
     if (preset.id === 'estilo1') {
-      return `
-        <header class="fixed top-0 w-full z-50 bg-surface/90 backdrop-blur-xl shadow-[0_1px_8px_rgba(0,0,0,0.04)]">
-          <div class="h-20 max-w-[1360px] mx-auto px-4 sm:px-6 lg:px-10 flex items-center justify-between gap-4">
-            
-            <!-- Identidad: Logo DevCorp + Logotipo Vukata con KA en rojo -->
-            <div class="flex items-center space-x-3 sm:space-x-4 flex-shrink-0">
-              <a href="https://devcorpsolutions.com" target="_blank" class="flex items-center group" title="DevCorp Solutions">
-                <img src="assets/images/logo.png" alt="DevCorp Solutions" class="h-9 sm:h-11 w-auto object-contain transition-transform group-hover:scale-105"/>
-              </a>
+      const scrollY = (typeof window !== 'undefined') ? (window.scrollY || (document.documentElement && document.documentElement.scrollTop) || 0) : 0;
+      const isAtTop = (currentView === 'menu' && scrollY <= 45);
 
-              <a href="#el-asador" class="flex items-center gap-2.5 group text-decoration-none border-l border-outline-variant/40 pl-3">
+      return `
+        <header id="main-header" class="fixed top-0 w-full z-50 transition-all duration-300 ${isAtTop ? 'is-transparent-dark' : 'is-light-scrolled'}">
+          <div class="h-20 max-w-[1360px] mx-auto px-6 lg:px-10 flex items-center justify-between gap-4">
+            
+            <!-- Identidad: Logo DevCorp Oficial + Separador + Logotipo Vukata -->
+            <div class="flex items-center gap-3 sm:gap-4 flex-shrink-0">
+              <a href="https://devcorpsolutions.com" target="_blank" class="flex items-center group flex-shrink-0" title="DevCorp Solutions">
+                <img src="assets/images/logo.png" alt="DevCorp Solutions" class="h-10 sm:h-12 md:h-14 w-auto object-contain drop-shadow transition-transform group-hover:scale-105"/>
+              </a>
+              <div class="h-8 w-[1px] header-divider hidden sm:block"></div>
+              <button data-view="menu" class="flex items-center gap-2.5 group text-decoration-none cursor-pointer bg-transparent border-0 text-left p-0">
                 <span class="material-symbols-outlined text-primary text-[28px] transition-transform duration-300 group-hover:scale-110">local_fire_department</span>
                 <div class="flex flex-col">
-                  <span class="font-headline-sm text-headline-sm tracking-tight text-on-surface leading-none font-semibold">VU<span class="text-[#E52D27]">KA</span>TA</span>
-                  <span class="font-kicker-eyebrow text-kicker-eyebrow tracking-[0.2em] text-primary uppercase mt-1">ASADOR · PARRILLA</span>
+                  <span class="font-headline-sm text-headline-sm tracking-tight leading-none font-semibold header-brand-title">VU<span class="text-[#E52D27]">KA</span>TA</span>
+                  <span class="font-kicker-eyebrow text-kicker-eyebrow tracking-[0.2em] uppercase mt-1 header-brand-sub">ASADOR · PARRILLA</span>
                 </div>
-              </a>
+              </button>
             </div>
 
-            <!-- Navegación Central Stitch (Cápsula Segmentada) -->
-            <nav class="hidden xl:flex items-center gap-1 bg-surface-container-low px-3 py-1.5 rounded-full shadow-[0_1px_4px_rgba(0,0,0,0.02)] border border-outline-variant/30">
-              <a class="px-3.5 py-2 font-label-action text-label-action transition-colors bg-secondary-container text-on-surface font-semibold rounded-full cursor-pointer" href="#el-asador">El Asador</a>
-              <a class="font-label-action text-label-action text-on-surface-variant hover:text-on-surface px-3.5 py-2 rounded-full transition-colors cursor-pointer" href="#especialidades">Especialidades</a>
-              <a class="font-label-action text-label-action text-on-surface-variant hover:text-on-surface px-3.5 py-2 rounded-full transition-colors cursor-pointer" href="#carta-section">Carta &amp; Menú</a>
-              <a class="font-label-action text-label-action text-on-surface-variant hover:text-on-surface px-3.5 py-2 rounded-full transition-colors cursor-pointer" href="#reservas-direct">Reservas</a>
-              <a class="font-label-action text-label-action text-on-surface-variant hover:text-on-surface px-3.5 py-2 rounded-full transition-colors cursor-pointer" href="#reservas-direct">Take away</a>
-              <a class="font-label-action text-label-action text-on-surface-variant hover:text-on-surface px-3.5 py-2 rounded-full transition-colors cursor-pointer" href="#opiniones">Opiniones</a>
-              <a class="font-label-action text-label-action text-on-surface-variant hover:text-on-surface px-3.5 py-2 rounded-full transition-colors cursor-pointer" href="#donde-estamos">Dónde estamos</a>
+            <!-- Navegación Central Stitch (Cápsula Segmentada con las Vistas del Sistema) -->
+            <nav class="hidden md:flex items-center gap-1 header-nav-capsule px-2 py-1.5 rounded-full shadow-[0_1px_4px_rgba(0,0,0,0.02)] border">
+              <button data-view="menu" class="header-nav-btn px-3.5 py-2 font-label-action text-label-action transition-colors rounded-full cursor-pointer ${currentView === 'menu' ? 'active-view font-semibold shadow-xs' : ''}">
+                Carta
+              </button>
+              <button data-view="reservations" class="header-nav-btn px-3.5 py-2 font-label-action text-label-action transition-colors rounded-full cursor-pointer ${currentView === 'reservations' ? 'active-view font-semibold shadow-xs' : ''}">
+                Reservas
+              </button>
+              <button data-view="kds" class="header-nav-btn px-3.5 py-2 font-label-action text-label-action transition-colors rounded-full cursor-pointer flex items-center gap-1.5 ${currentView === 'kds' ? 'active-view font-semibold shadow-xs' : ''}">
+                <span>Cocina</span>
+                ${kdsPending > 0 ? `<span class="bg-primary text-on-primary text-[10px] font-bold px-1.5 py-0.2 rounded-full">${kdsPending}</span>` : ''}
+              </button>
+              <button data-view="metrics" class="header-nav-btn px-3.5 py-2 font-label-action text-label-action transition-colors rounded-full cursor-pointer ${currentView === 'metrics' ? 'active-view font-semibold shadow-xs' : ''}">
+                Métricas
+              </button>
+              <button data-view="roi" class="header-nav-btn px-3.5 py-2 font-label-action text-label-action transition-colors rounded-full cursor-pointer ${currentView === 'roi' ? 'active-view font-semibold shadow-xs' : ''}">
+                Rentabilidad
+              </button>
             </nav>
 
             <!-- Acciones: Selector de Estilos, Botón Reservar y Carrito -->
             <div class="flex items-center gap-2 sm:gap-3 flex-shrink-0">
               ${selectorHtml}
 
-              <a href="#reservas-direct" class="inline-flex items-center gap-2 bg-primary-container hover:bg-primary text-on-primary font-label-action text-label-action px-4 sm:px-5 py-2.5 rounded-full transition-all duration-300 shadow-[0_4px_16px_rgba(156,56,44,0.2)] cursor-pointer">
+              <button data-view="reservations" class="inline-flex items-center gap-2 bg-primary-container hover:bg-primary text-on-primary font-label-action text-label-action px-5 py-2.5 rounded-full transition-all duration-300 shadow-[0_4px_16px_rgba(156,56,44,0.2)] cursor-pointer">
                 <span class="material-symbols-outlined text-[18px]">restaurant</span>
                 <span class="hidden sm:inline">Reservar mesa</span>
-              </a>
+              </button>
 
-              <button id="open-cart-btn" class="relative inline-flex items-center gap-2 bg-white border border-outline-variant/40 hover:bg-surface-container text-primary px-3.5 py-2 rounded-full font-label-action text-label-action transition-colors shadow-sm cursor-pointer" title="Ver comanda">
+              <button id="open-cart-btn" class="relative inline-flex items-center gap-2 px-3.5 py-2 rounded-full font-label-action text-label-action transition-colors shadow-sm cursor-pointer border" title="Ver comanda">
                 <span class="material-symbols-outlined text-[18px]">shopping_bag</span>
                 <span class="font-bold font-mono text-xs sm:text-sm">${formatCurrency(store.getCartTotal())}</span>
                 ${cartCount > 0 ? `<span class="bg-primary text-on-primary text-[10px] font-black px-1.5 py-0.5 rounded-full">${cartCount}</span>` : ''}
@@ -2329,22 +2474,19 @@ class GastroApp {
 
           </div>
 
-          <!-- Barra táctil de secciones y módulos DevCorp para móviles y tablets -->
-          <div class="xl:hidden bg-surface-container-low border-t border-outline-variant/30 px-4 py-2 overflow-x-auto no-scrollbar flex items-center gap-2 text-xs font-label-action whitespace-nowrap">
-            <a href="#el-asador" class="px-3 py-1 rounded-full bg-secondary-container text-on-surface font-semibold">El Asador</a>
-            <a href="#especialidades" class="px-3 py-1 rounded-full text-on-surface-variant hover:text-on-surface">Especialidades</a>
-            <a href="#carta-section" class="px-3 py-1 rounded-full text-on-surface-variant hover:text-on-surface">Carta</a>
-            <a href="#reservas-direct" class="px-3 py-1 rounded-full text-on-surface-variant hover:text-on-surface">Reservas</a>
-            <a href="#opiniones" class="px-3 py-1 rounded-full text-on-surface-variant hover:text-on-surface">Opiniones</a>
-            <a href="#donde-estamos" class="px-3 py-1 rounded-full text-on-surface-variant hover:text-on-surface">Ubicación</a>
-            <span class="text-outline-variant">|</span>
-            <button data-view="kds" class="px-3 py-1 rounded-full bg-primary/10 text-primary font-bold">KDS (${kdsPending})</button>
-            <button data-view="metrics" class="px-3 py-1 rounded-full text-on-surface-variant">Métricas</button>
-            <button data-view="roi" class="px-3 py-1 rounded-full text-on-surface-variant">Rentabilidad</button>
+          <!-- Barra táctil de vistas para móviles y tablets -->
+          <div id="mobile-nav-bar" class="md:hidden border-t px-4 py-2 overflow-x-auto no-scrollbar flex items-center gap-2 text-xs font-label-action whitespace-nowrap">
+            <button data-view="menu" class="px-3 py-1.5 rounded-full ${currentView === 'menu' ? 'active-view font-semibold shadow-xs' : ''}">Carta</button>
+            <button data-view="reservations" class="px-3 py-1.5 rounded-full ${currentView === 'reservations' ? 'active-view font-semibold shadow-xs' : ''}">Reservas</button>
+            <button data-view="kds" class="px-3 py-1.5 rounded-full ${currentView === 'kds' ? 'active-view font-semibold shadow-xs' : ''}">Cocina (${kdsPending})</button>
+            <button data-view="metrics" class="px-3 py-1.5 rounded-full ${currentView === 'metrics' ? 'active-view font-semibold shadow-xs' : ''}">Métricas</button>
+            <button data-view="roi" class="px-3 py-1.5 rounded-full ${currentView === 'roi' ? 'active-view font-semibold shadow-xs' : ''}">Rentabilidad</button>
           </div>
         </header>
       `;
     }
+
+    
 
     // --- CABECERA ESTILO 2: APP INTERACTIVA & BENTO GRID ---
     if (preset.id === 'estilo2') {
@@ -2536,46 +2678,119 @@ class GastroApp {
   // PALETA HUESO, BRASA, CARMÍN VUKATA Y TIPOGRAFÍA PLAYFAIR / PLUS JAKARTA SANS
   // -------------------------------------------------------------------------
   renderEstilo1Layout(preset, filteredMenu, activeCategory, activeAllergens, topData) {
-    const categoriesToRender = activeCategory === 'all' ? preset.categories : [activeCategory];
+    // Definición de las categorías y metadatos oficiales del diseño maestro de Stitch (code.html)
+    const CATEGORY_ORDER = ['A la Brasa', 'Entrantes', 'Ensaladas', 'Chivito al Plato', 'Pollo Asado', 'Postres', 'Cafés'];
+
+    const CATEGORY_META = {
+      'A la Brasa': {
+        id: 'brasa',
+        title: 'Cortes Nobles a la Brasa',
+        subtitle: 'Hechos al momento en parrilla abierta de leña y carbón de encina natural',
+        icon: 'local_fire_department',
+        iconBg: 'bg-primary-container text-on-primary',
+        badgeSuffix: 'Cortes Selección'
+      },
+      'Entrantes': {
+        id: 'entrantes',
+        title: 'Entrantes de la Casa',
+        subtitle: 'Para abrir boca mientras las brasas toman temperatura',
+        icon: 'tapas',
+        iconBg: 'bg-secondary-container text-on-surface',
+        badgeSuffix: 'Recetas Propias'
+      },
+      'Ensaladas': {
+        id: 'ensaladas',
+        title: 'Ensaladas Frescas y Huerto',
+        subtitle: 'Hortalizas seleccionadas y aliños artesanos para refrescar el paladar',
+        icon: 'eco',
+        iconBg: 'bg-secondary-container text-on-surface',
+        badgeSuffix: 'Opciones de Huerta'
+      },
+      'Chivito al Plato': {
+        id: 'chivito',
+        title: 'Chivito al Plato Tradicional',
+        subtitle: 'Especialidad rioplatense completa con carnes nobles, huevo, jamón y guarnición',
+        icon: 'lunch_dining',
+        iconBg: 'bg-primary-container text-on-primary',
+        badgeSuffix: 'Especialidad'
+      },
+      'Pollo Asado': {
+        id: 'pollo',
+        title: 'Pollo al Carbón de Encina',
+        subtitle: 'Asado a fuego pausado con adobo tradicional de hierbas aromáticas',
+        icon: 'dinner_dining',
+        iconBg: 'bg-secondary-container text-on-surface',
+        badgeSuffix: 'Formatos al Carbón'
+      },
+      'Postres': {
+        id: 'postres',
+        title: 'El Broche Dulce',
+        subtitle: 'Elaborados a diario en nuestro obrador con recetas familiares',
+        icon: 'bakery_dining',
+        iconBg: 'bg-tertiary-fixed-dim text-on-tertiary-fixed',
+        badgeSuffix: '100% Caseros'
+      },
+      'Cafés': {
+        id: 'cafes',
+        title: 'Cafetería & Sobremesa',
+        subtitle: 'Cafés selectos, infusiones digestivas y sobremesa reposada',
+        icon: 'coffee',
+        iconBg: 'bg-secondary-container text-on-surface',
+        badgeSuffix: 'Sobremesa'
+      }
+    };
+
+    // Helper para verificar exclusión por alérgenos seleccionados
+    const isDishExcluded = (dishAllergens) => {
+      if (!activeAllergens || activeAllergens.length === 0) return false;
+      if (!dishAllergens || dishAllergens.length === 0) return false;
+      return dishAllergens.some(a => {
+        const norm = ALLERGEN_ALIAS[a] || a;
+        return activeAllergens.includes(norm) || activeAllergens.includes(a);
+      });
+    };
+
+    // Plato destacado para el Spotlight 50/50
+    const featuredSpotlightDish = preset.menu.find(d => d.id === 'e1_asado') || preset.menu[0];
 
     return `
-      <!-- HERO SECTION: Atmospheric Dark Ember Hearth (Stitch Redesign) -->
-      <section class="relative w-full bg-[#14100E] text-[#f1ede8] overflow-hidden pt-10 pb-16 lg:pt-16 lg:pb-24 rounded-3xl mb-12 shadow-2xl">
+      <!-- HERO SECTION: Atmospheric Dark Ember Hearth (Stitch Redesign idéntico a code.html) -->
+      <section class="relative w-full bg-[#14100E] text-surface-container overflow-hidden pt-12 pb-20 lg:pt-20 lg:pb-28" id="el-asador">
         <!-- Embers ambient background overlay -->
-        <div class="absolute inset-0 pointer-events-none opacity-40 bg-[radial-gradient(ellipse_at_center,_var(--tw-gradient-stops))] from-[#9c382c]/30 via-transparent to-transparent"></div>
-        <div class="absolute -right-24 top-1/4 w-96 h-96 rounded-full bg-[#8B1E1E]/10 blur-3xl pointer-events-none"></div>
+        <div class="absolute inset-0 pointer-events-none opacity-40 bg-[radial-gradient(ellipse_at_center,_var(--tw-gradient-stops))] from-primary-container/30 via-transparent to-transparent"></div>
+        <div class="absolute -right-24 top-1/4 w-96 h-96 rounded-full bg-primary/10 blur-3xl pointer-events-none"></div>
 
         <div class="max-w-[1360px] mx-auto px-6 lg:px-10 relative z-10">
-          <div class="grid grid-cols-1 lg:grid-cols-12 gap-10 lg:gap-8 items-center">
+          <div class="grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-8 items-center">
             
             <!-- Hero Content (7 Cols) -->
             <div class="lg:col-span-7 flex flex-col items-start space-y-6">
               <div class="flex items-center gap-3">
-                <span class="w-8 h-[2px] bg-[#E52D27]"></span>
-                <span class="font-kicker-eyebrow tracking-[0.22em] text-[#ffdad5] uppercase">ALUCHE · MADRID — DESDE 1996</span>
+                <span class="w-8 h-[2px] bg-primary"></span>
+                <span class="font-kicker-eyebrow text-kicker-eyebrow tracking-[0.22em] text-primary-fixed uppercase">ALUCHE · MADRID — DESDE 1996</span>
               </div>
               
-              <h1 class="font-display-hero text-white tracking-tight">
-                La brasa <span class="font-title-italic italic text-[#D49B53] font-normal">no perdona.</span><br/>
+              <h1 class="font-display-hero text-display-hero text-surface-bright tracking-tight">
+                La brasa <span class="font-title-italic text-title-italic italic text-tertiary-fixed-dim font-normal">no perdona.</span><br/>
                 La carne, tampoco.
               </h1>
 
-              <p class="font-body-lg text-[#ddd9d5] max-w-xl leading-relaxed">
-                <strong class="text-white font-semibold">VU<span class="text-[#E52D27]">KA</span>TA</strong> es un asador y parrilla al carbón de encina. Elegimos la pieza, maduramos el corte en casa y lo llevamos al punto exacto. Sin atajos, sin gas, sin esconder nada.
+              <p class="font-body-lg text-body-lg text-surface-dim max-w-xl leading-relaxed">
+                <strong class="text-surface-bright font-semibold">VU<span class="text-[#E52D27]">KA</span>TA</span></strong> es un asador y parrilla al carbón de encina. Elegimos la pieza, maduramos el corte en casa y lo llevamos al punto exacto. Sin atajos, sin gas, sin esconder nada.
               </p>
 
               <!-- CTAs -->
-              <div class="flex flex-wrap items-center gap-4 pt-2">
-                <a class="inline-flex items-center gap-2.5 bg-[#9c382c] hover:bg-[#7c2118] text-white font-label-action px-7 py-3.5 rounded-full transition-all duration-300 shadow-[0_8px_24px_rgba(156,56,44,0.35)] transform hover:-translate-y-0.5 cursor-pointer" href="#reservas-direct">
+              <div class="flex flex-wrap items-center gap-4 pt-4">
+                <a class="inline-flex items-center gap-2.5 bg-primary-container hover:bg-primary text-on-primary font-label-action text-label-action px-7 py-3.5 rounded-full transition-all duration-300 shadow-[0_8px_24px_rgba(156,56,44,0.35)] transform hover:-translate-y-0.5 cursor-pointer" href="#reservas-direct">
                   <span class="material-symbols-outlined text-[18px]">calendar_month</span>
                   <span>Reservar mesa</span>
                 </a>
-                <a class="inline-flex items-center gap-2.5 bg-white/10 hover:bg-white/20 text-white font-label-action px-6 py-3.5 rounded-full transition-all duration-200 backdrop-blur-sm cursor-pointer" href="#carta-section">
+                <a class="inline-flex items-center gap-2.5 bg-surface-container-highest/10 hover:bg-surface-container-highest/20 text-surface-bright font-label-action text-label-action px-6 py-3.5 rounded-full transition-all duration-200 backdrop-blur-sm cursor-pointer" href="#carta-section">
                   <span class="material-symbols-outlined text-[18px]">shopping_bag</span>
                   <span>Pedir para llevar</span>
                 </a>
-                <a class="inline-flex items-center gap-2 text-[#ddd9d5] hover:text-[#D49B53] font-label-action px-3 py-2 transition-colors cursor-pointer" href="tel:+34915098576">
-                  <span class="material-symbols-outlined text-[18px] text-[#D49B53]">call</span>
+                <a class="inline-flex items-center gap-2 text-surface-dim hover:text-tertiary-fixed-dim font-label-action text-label-action px-3 py-2 transition-colors cursor-pointer" href="tel:+34915098576">
+                  <span class="material-symbols-outlined text-[18px] text-tertiary-fixed-dim">call</span>
                   <span>+34 915 09 85 76</span>
                 </a>
               </div>
@@ -2583,18 +2798,18 @@ class GastroApp {
 
             <!-- Hero Focal Media & Live Grill Ambience (5 Cols) -->
             <div class="lg:col-span-5 relative">
-              <div class="relative rounded-2xl overflow-hidden shadow-2xl bg-white/5 p-2 border border-white/10">
-                <img alt="Corte de carne selecta a las brasas" class="w-full h-[360px] lg:h-[440px] object-cover rounded-xl transform transition-transform duration-700 hover:scale-105" src="assets/images/vukata/chuleton.jpg"/>
+              <div class="relative rounded-2xl overflow-hidden shadow-2xl bg-surface-container-high/10 p-2">
+                <img alt="Corte de chuletón premium a las brasas" class="w-full h-[420px] lg:h-[500px] object-cover rounded-xl transform transition-transform duration-700 hover:scale-105" src="https://lh3.googleusercontent.com/aida/AEtjO1UYMArAbOKJy-nAX3Qc_2IJya_Bql0cJvc91zUPpLB9bxmc4t1cip035CmBB92HLBbxHii_LCOt1nmeFVm2NbcbMlY4kc-xk2eFzqJUueJLEZoSBQLOi4Rb60e6uV0zgdSAMHWmaWaUlK5Z4dNmoAU7wDu19kj9LDkg8jJYVO0KpW__jqq6aX36nujvZ-wuwTY4yU9FQTXyvB-rloVWJGz6HmUwS-700tOvtq0TpuD_ySFDnKKwh-shvl38"/>
                 <div class="absolute inset-0 bg-gradient-to-t from-[#14100E] via-transparent to-transparent opacity-80 rounded-xl"></div>
-                <div class="absolute bottom-5 left-5 right-5 flex items-center justify-between bg-white/95 backdrop-blur-md p-4 rounded-xl text-[#1c1c19] shadow-lg">
+                <div class="absolute bottom-6 left-6 right-6 flex items-center justify-between bg-surface/90 backdrop-blur-md p-4 rounded-xl text-on-surface shadow-lg">
                   <div class="flex items-center gap-3">
-                    <span class="material-symbols-outlined text-[#8B1E1E] text-[28px]">local_fire_department</span>
+                    <span class="material-symbols-outlined text-primary text-[28px]">local_fire_department</span>
                     <div>
-                      <span class="font-kicker-eyebrow text-[10px] uppercase text-[#8B1E1E] tracking-wider block">PARRILLA VIVA</span>
-                      <span class="font-headline-sm text-[15px] leading-tight font-semibold text-[#1c1c19]">Carbón de encina extremeño</span>
+                      <span class="font-kicker-eyebrow text-kicker-eyebrow uppercase text-primary tracking-wider block">PARRILLA VIVA</span>
+                      <span class="font-headline-sm text-[16px] leading-tight font-medium text-on-surface">Carbón de encina extremeño</span>
                     </div>
                   </div>
-                  <span class="font-label-action text-[11px] bg-[#e8deda] text-[#1c1c19] px-2.5 py-1 rounded-full uppercase tracking-wider font-bold">En directo</span>
+                  <span class="font-label-action text-[11px] bg-secondary-container text-on-surface px-2.5 py-1 rounded-full uppercase tracking-wider font-bold">En directo</span>
                 </div>
               </div>
             </div>
@@ -2602,28 +2817,28 @@ class GastroApp {
           </div>
 
           <!-- Highlight Stats Row -->
-          <div class="mt-14 pt-8 border-t border-white/10 bg-white/5 rounded-2xl p-6 lg:p-8 backdrop-blur-sm">
-            <div class="grid grid-cols-2 lg:grid-cols-4 gap-6 lg:gap-8 text-center sm:text-left">
+          <div class="mt-16 pt-10 border-t-0 bg-surface-container-high/5 rounded-2xl p-6 lg:p-8 backdrop-blur-sm">
+            <div class="grid grid-cols-2 lg:grid-cols-4 gap-6 lg:gap-8">
               <div class="flex flex-col">
-                <span class="font-stat-number text-white leading-none mb-1">1996</span>
-                <span class="font-kicker-eyebrow text-[#ddd9d5] uppercase tracking-[0.16em]">AÑO DE APERTURA</span>
+                <span class="font-stat-number text-stat-number text-surface-bright leading-none mb-1">1996</span>
+                <span class="font-kicker-eyebrow text-kicker-eyebrow text-surface-dim uppercase tracking-[0.16em]">AÑO DE APERTURA</span>
               </div>
               <div class="flex flex-col">
-                <span class="font-stat-number text-white leading-none mb-1">40+</span>
-                <span class="font-kicker-eyebrow text-[#ddd9d5] uppercase tracking-[0.16em]">DÍAS DE MADURACIÓN</span>
+                <span class="font-stat-number text-stat-number text-surface-bright leading-none mb-1">40+</span>
+                <span class="font-kicker-eyebrow text-kicker-eyebrow text-surface-dim uppercase tracking-[0.16em]">DÍAS DE MADURACIÓN</span>
               </div>
               <div class="flex flex-col">
-                <span class="font-stat-number text-white leading-none mb-1">100%</span>
-                <span class="font-kicker-eyebrow text-[#ddd9d5] uppercase tracking-[0.16em]">CARBÓN DE ENCINA</span>
+                <span class="font-stat-number text-stat-number text-surface-bright leading-none mb-1">100%</span>
+                <span class="font-kicker-eyebrow text-kicker-eyebrow text-surface-dim uppercase tracking-[0.16em]">CARBÓN DE ENCINA</span>
               </div>
               <div class="flex flex-col">
-                <div class="flex items-center justify-center sm:justify-start gap-1.5 mb-1">
-                  <span class="font-stat-number text-white leading-none">4,8</span>
-                  <div class="flex text-[#D49B53]">
-                    <span class="material-symbols-outlined text-[22px]">star</span>
+                <div class="flex items-center gap-1.5 mb-1">
+                  <span class="font-stat-number text-stat-number text-surface-bright leading-none">4,8</span>
+                  <div class="flex text-tertiary-fixed-dim">
+                    <span class="material-symbols-outlined text-[20px]" style="font-variation-settings: 'FILL' 1;">star</span>
                   </div>
                 </div>
-                <a href="${preset.googleMapsUrl}" target="_blank" class="font-kicker-eyebrow text-[#ddd9d5] hover:text-white uppercase tracking-[0.16em] transition-colors">GOOGLE MAPS · 348 RESEÑAS ↗</a>
+                <span class="font-kicker-eyebrow text-kicker-eyebrow text-surface-dim uppercase tracking-[0.16em]">GOOGLE MAPS · 348 RESEÑAS</span>
               </div>
             </div>
           </div>
@@ -2632,102 +2847,104 @@ class GastroApp {
       </section>
 
       <!-- TICKER MARQUEE RIBBON -->
-      <div class="w-full bg-[#e8deda] py-3.5 overflow-hidden shadow-inner flex select-none mb-12 rounded-2xl border border-[#ddc0bb]">
+      <div class="w-full bg-secondary-container py-3.5 overflow-hidden shadow-inner flex select-none">
         <div class="flex items-center gap-8 whitespace-nowrap animate-marquee">
-          <span class="font-title-italic text-[16px] text-[#1c1c19] italic">Carbón natural</span>
-          <span class="material-symbols-outlined text-[#8B1E1E] text-[16px]">local_fire_department</span>
-          <span class="font-title-italic text-[16px] text-[#1c1c19] italic">Desde 1996</span>
-          <span class="material-symbols-outlined text-[#8B1E1E] text-[16px]">local_fire_department</span>
-          <span class="font-title-italic text-[16px] text-[#1c1c19] italic">Brasa de encina</span>
-          <span class="material-symbols-outlined text-[#8B1E1E] text-[16px]">local_fire_department</span>
-          <span class="font-title-italic text-[16px] text-[#1c1c19] italic">Maduración propia</span>
-          <span class="material-symbols-outlined text-[#8B1E1E] text-[16px]">local_fire_department</span>
-          <span class="font-title-italic text-[16px] text-[#1c1c19] italic">Corte a cuchillo</span>
-          <span class="material-symbols-outlined text-[#8B1E1E] text-[16px]">local_fire_department</span>
-          <span class="font-title-italic text-[16px] text-[#1c1c19] italic">Cocina de mercado</span>
-          <span class="material-symbols-outlined text-[#8B1E1E] text-[16px]">local_fire_department</span>
-          <!-- Duplicate set for seamless continuous loop -->
-          <span class="font-title-italic text-[16px] text-[#1c1c19] italic">Carbón natural</span>
-          <span class="material-symbols-outlined text-[#8B1E1E] text-[16px]">local_fire_department</span>
-          <span class="font-title-italic text-[16px] text-[#1c1c19] italic">Desde 1996</span>
-          <span class="material-symbols-outlined text-[#8B1E1E] text-[16px]">local_fire_department</span>
-          <span class="font-title-italic text-[16px] text-[#1c1c19] italic">Brasa de encina</span>
-          <span class="material-symbols-outlined text-[#8B1E1E] text-[16px]">local_fire_department</span>
-          <span class="font-title-italic text-[16px] text-[#1c1c19] italic">Maduración propia</span>
-          <span class="material-symbols-outlined text-[#8B1E1E] text-[16px]">local_fire_department</span>
-          <span class="font-title-italic text-[16px] text-[#1c1c19] italic">Corte a cuchillo</span>
-          <span class="material-symbols-outlined text-[#8B1E1E] text-[16px]">local_fire_department</span>
-          <span class="font-title-italic text-[16px] text-[#1c1c19] italic">Cocina de mercado</span>
-          <span class="material-symbols-outlined text-[#8B1E1E] text-[16px]">local_fire_department</span>
+          <span class="font-title-italic text-[16px] text-on-surface italic">Carbón natural</span>
+          <span class="material-symbols-outlined text-primary text-[16px]">local_fire_department</span>
+          <span class="font-title-italic text-[16px] text-on-surface italic">Desde 1996</span>
+          <span class="material-symbols-outlined text-primary text-[16px]">local_fire_department</span>
+          <span class="font-title-italic text-[16px] text-on-surface italic">Brasa de encina</span>
+          <span class="material-symbols-outlined text-primary text-[16px]">local_fire_department</span>
+          <span class="font-title-italic text-[16px] text-on-surface italic">Maduración propia</span>
+          <span class="material-symbols-outlined text-primary text-[16px]">local_fire_department</span>
+          <span class="font-title-italic text-[16px] text-on-surface italic">Corte a cuchillo</span>
+          <span class="material-symbols-outlined text-primary text-[16px]">local_fire_department</span>
+          <span class="font-title-italic text-[16px] text-on-surface italic">Cocina de mercado</span>
+          <span class="material-symbols-outlined text-primary text-[16px]">local_fire_department</span>
+          <!-- Duplicate set for seamless flow -->
+          <span class="font-title-italic text-[16px] text-on-surface italic">Carbón natural</span>
+          <span class="material-symbols-outlined text-primary text-[16px]">local_fire_department</span>
+          <span class="font-title-italic text-[16px] text-on-surface italic">Desde 1996</span>
+          <span class="material-symbols-outlined text-primary text-[16px]">local_fire_department</span>
+          <span class="font-title-italic text-[16px] text-on-surface italic">Brasa de encina</span>
+          <span class="material-symbols-outlined text-primary text-[16px]">local_fire_department</span>
+          <span class="font-title-italic text-[16px] text-on-surface italic">Maduración propia</span>
+          <span class="material-symbols-outlined text-primary text-[16px]">local_fire_department</span>
+          <span class="font-title-italic text-[16px] text-on-surface italic">Corte a cuchillo</span>
+          <span class="material-symbols-outlined text-primary text-[16px]">local_fire_department</span>
+          <span class="font-title-italic text-[16px] text-on-surface italic">Cocina de mercado</span>
+          <span class="material-symbols-outlined text-primary text-[16px]">local_fire_department</span>
         </div>
       </div>
 
-      <!-- FEATURED SHOWCASE DISH: Directo de la Brasa (50/50 Spotlight Card) -->
-      <section class="mb-14 w-full">
-        <div class="flex flex-col md:flex-row md:items-end justify-between mb-8 gap-4">
-          <div class="space-y-1.5">
+      <!-- FEATURED SHOWCASE DISH: Directo de la Brasa (Spotlight 50/50 Card) -->
+      <section class="max-w-[1360px] mx-auto px-6 lg:px-10 py-16 lg:py-24 w-full" id="especialidades">
+        <div class="flex flex-col md:flex-row md:items-end justify-between mb-12 gap-6">
+          <div class="space-y-2">
             <div class="flex items-center gap-2">
-              <span class="w-6 h-[2px] bg-[#8B1E1E]"></span>
-              <span class="font-kicker-eyebrow text-[#8B1E1E] uppercase tracking-[0.2em]">DIRECTO DE LA BRASA</span>
+              <span class="w-6 h-[2px] bg-primary"></span>
+              <span class="font-kicker-eyebrow text-kicker-eyebrow text-primary uppercase tracking-[0.2em]">DIRECTO DE LA BRASA</span>
             </div>
-            <h2 class="font-headline-lg text-[#1c1c19]">Las piezas que la gente vuelve a pedir</h2>
-            <p class="font-body-md text-[#57423f] max-w-xl">
-              No tenemos una carta enorme. Tenemos pocos platos y cada uno mimado hasta el último segundo sobre la encina.
+            <h2 class="font-headline-lg text-headline-lg text-on-surface">Las piezas que la gente vuelve a pedir</h2>
+            <p class="font-body-md text-body-md text-on-surface-variant max-w-xl">
+              No tenemos una carta enorme. Tenemos platos mimados hasta el último segundo sobre la encina.
             </p>
           </div>
-          <a class="inline-flex items-center gap-2 text-[#1c1c19] bg-[#f1ede8] hover:bg-[#ebe8e3] px-5 py-2.5 rounded-full font-label-action text-[13px] transition-all" href="#carta-section">
-            <span>Ver la carta completa</span>
+          <a class="inline-flex items-center gap-2 text-on-surface bg-surface-container hover:bg-surface-container-high px-5 py-2.5 rounded-full font-label-action text-label-action transition-all cursor-pointer" href="#carta-section">
+            <span>Ver la carta completa (${preset.menu.length})</span>
             <span class="material-symbols-outlined text-[16px]">arrow_forward</span>
           </a>
         </div>
 
         <!-- Spotlight 50/50 Card -->
-        <div class="bg-[#f7f3ee] rounded-3xl overflow-hidden border border-[#e6dfd5] shadow-lg grid grid-cols-1 lg:grid-cols-12 items-stretch">
-          <div class="relative lg:col-span-7 min-h-[340px] lg:min-h-[440px]">
-            <img alt="${topData.dish.name}" class="w-full h-full object-cover" src="${topData.dish.image || 'assets/images/vukata/asado_tira.jpg'}"/>
-            <div class="absolute top-5 left-5">
-              <span class="font-kicker-eyebrow text-[10px] uppercase bg-[#8B1E1E] text-white px-3 py-1.5 rounded-full tracking-widest shadow-md">
+        <div class="bg-surface-container-low rounded-3xl overflow-hidden shadow-lg grid grid-cols-1 lg:grid-cols-12 items-stretch border border-outline-variant/30">
+          <!-- Media Side (7 Cols) -->
+          <div class="relative lg:col-span-7 min-h-[380px] lg:min-h-[480px]">
+            <img alt="${featuredSpotlightDish.name}" class="w-full h-full object-cover cursor-pointer" data-open-dish-modal="${featuredSpotlightDish.id}" src="${featuredSpotlightDish.image}"/>
+            <div class="absolute top-6 left-6">
+              <span class="font-kicker-eyebrow text-kicker-eyebrow uppercase bg-primary text-on-primary px-3 py-1.5 rounded-full tracking-widest shadow-md">
                 LA CASA
               </span>
             </div>
-            <button data-open-lightbox="${topData.dish.image || 'assets/images/vukata/asado_tira.jpg'}" data-lightbox-title="${topData.dish.name}" class="absolute bottom-4 right-4 bg-black/70 hover:bg-black text-white p-2 rounded-xl text-xs backdrop-blur-sm cursor-pointer" title="Ampliar foto">
+            <button data-open-lightbox="${featuredSpotlightDish.image}" data-lightbox-title="${featuredSpotlightDish.name}" class="absolute bottom-4 right-4 bg-black/70 hover:bg-black text-white p-2 rounded-xl text-xs backdrop-blur-sm cursor-pointer" title="Ampliar foto">
               ${ICONS.zoom}
             </button>
           </div>
 
-          <div class="lg:col-span-5 p-8 lg:p-10 flex flex-col justify-between bg-white">
-            <div class="space-y-4">
+          <!-- Information Dossier Side (5 Cols) -->
+          <div class="lg:col-span-5 p-8 lg:p-12 flex flex-col justify-between bg-surface-container-lowest">
+            <div class="space-y-6">
               <div class="flex items-center justify-between">
-                <span class="font-kicker-eyebrow text-[10px] text-[#645d5a] uppercase tracking-[0.2em]">${topData.dish.badge || 'PIEZA 400 G APROX.'}</span>
-                ${renderAllergenBadges(topData.dish.allergens, 'sm')}
+                <span class="font-kicker-eyebrow text-kicker-eyebrow text-secondary uppercase tracking-[0.2em]">${featuredSpotlightDish.badge || 'PIEZA 400 G APROX.'}</span>
+                ${renderAllergenBadges(featuredSpotlightDish.allergens, 'sm')}
               </div>
-              <h3 class="font-headline-md text-[#1c1c19] font-semibold">${topData.dish.name}</h3>
-              <p class="font-body-md text-[#57423f] leading-relaxed">
-                ${topData.dish.description}
+              <h3 class="font-headline-md text-headline-md text-on-surface font-semibold cursor-pointer hover:text-primary transition-colors" data-open-dish-modal="${featuredSpotlightDish.id}">${featuredSpotlightDish.name}</h3>
+              <p class="font-body-md text-body-md text-on-surface-variant leading-relaxed">
+                ${featuredSpotlightDish.description}
               </p>
-              <div class="grid grid-cols-2 gap-3 pt-2">
-                <div class="bg-[#f7f3ee] p-3 rounded-xl">
-                  <span class="font-kicker-eyebrow text-[10px] text-[#645d5a] uppercase block">ORIGEN</span>
-                  <span class="font-body-sm font-semibold text-[#1c1c19]">Vaca Seleccionada</span>
+              <div class="grid grid-cols-2 gap-4 pt-2">
+                <div class="bg-surface-container-low p-3.5 rounded-xl">
+                  <span class="font-kicker-eyebrow text-[10px] text-secondary uppercase block">ORIGEN</span>
+                  <span class="font-body-sm font-semibold text-on-surface">Vaca Seleccionada</span>
                 </div>
-                <div class="bg-[#f7f3ee] p-3 rounded-xl">
-                  <span class="font-kicker-eyebrow text-[10px] text-[#645d5a] uppercase block">TÉCNICA</span>
-                  <span class="font-body-sm font-semibold text-[#1c1c19]">${topData.dish.prepTime || 'Fuego Lento 45 Min'}</span>
+                <div class="bg-surface-container-low p-3.5 rounded-xl">
+                  <span class="font-kicker-eyebrow text-[10px] text-secondary uppercase block">TÉCNICA</span>
+                  <span class="font-body-sm font-semibold text-on-surface">${featuredSpotlightDish.prepTime || 'Fuego Lento 45 Min'}</span>
                 </div>
               </div>
             </div>
 
-            <div class="pt-6 mt-6 border-t border-[#e6dfd5] flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+            <div class="pt-8 mt-6 border-t border-surface-container flex flex-col sm:flex-row sm:items-center justify-between gap-4">
               <div>
-                <span class="font-kicker-eyebrow text-[10px] text-[#645d5a] uppercase block">PRECIO RACIÓN</span>
-                <span class="font-label-price text-[#8B1E1E] font-bold">${formatCurrency(topData.dish.price)}</span>
+                <span class="font-kicker-eyebrow text-[10px] text-secondary uppercase block">PRECIO RACIÓN</span>
+                <span class="font-label-price text-label-price text-primary font-bold">${formatCurrency(featuredSpotlightDish.price)}</span>
               </div>
               <div class="flex items-center gap-2">
-                <button data-open-dish-modal="${topData.dish.id}" class="bg-[#f1ede8] hover:bg-[#ebe8e3] text-[#1c1c19] font-label-action text-[13px] px-4 py-2.5 rounded-full transition-all">
+                <button data-open-dish-modal="${featuredSpotlightDish.id}" class="bg-surface-container hover:bg-surface-container-high text-on-surface font-label-action text-label-action px-4 py-3 rounded-full transition-all cursor-pointer">
                   Ver Detalle
                 </button>
-                <button data-add-cart="${topData.dish.id}" class="btn-vukata-primary font-label-action text-[13px] px-6 py-2.5 rounded-full flex items-center gap-2">
-                  <span class="material-symbols-outlined text-[17px]">restaurant</span>
+                <button data-add-cart="${featuredSpotlightDish.id}" class="inline-flex items-center justify-center gap-2 bg-primary-container hover:bg-primary text-on-primary font-label-action text-label-action px-6 py-3 rounded-full transition-all duration-200 shadow-sm cursor-pointer">
+                  <span class="material-symbols-outlined text-[18px]">restaurant</span>
                   <span>Pedir plato</span>
                 </button>
               </div>
@@ -2737,233 +2954,251 @@ class GastroApp {
       </section>
 
       <!-- STICKY FILTER SUBNAV & SEARCH -->
-      <section class="sticky top-20 z-30 bg-[#fdf9f4]/95 backdrop-blur-md py-4 border-y border-[#e6dfd5] mb-8" id="carta-section">
-        <div class="flex flex-col md:flex-row items-center justify-between gap-4">
+      <section class="sticky top-20 z-40 bg-surface/95 backdrop-blur-md py-4 shadow-sm border-y border-outline-variant/20" id="carta-section">
+        <div class="max-w-[1360px] mx-auto px-6 lg:px-10 flex flex-col md:flex-row items-center justify-between gap-4">
           
           <!-- Category Pill Carousel -->
           <div class="flex items-center gap-2 overflow-x-auto w-full md:w-auto pb-1 md:pb-0 scrollbar-none" id="category-pills">
-            <button data-category="all" class="cat-filter px-4 py-2 rounded-full font-label-action text-[13px] whitespace-nowrap transition-all ${activeCategory === 'all' ? 'bg-[#1c1c19] text-white shadow-sm font-semibold' : 'bg-[#f1ede8] hover:bg-[#ebe8e3] text-[#57423f]'}">
+            <button class="cat-filter ${activeCategory === 'all' ? 'active bg-inverse-surface text-inverse-on-surface' : 'bg-surface-container hover:bg-surface-container-high text-on-surface-variant'} px-4 py-2 rounded-full font-label-action text-label-action whitespace-nowrap transition-all shadow-sm cursor-pointer" data-cat="all">
               Todos (${preset.menu.length})
             </button>
-            ${preset.categories.map(cat => `
-              <button data-category="${cat}" class="cat-filter px-4 py-2 rounded-full font-label-action text-[13px] whitespace-nowrap transition-all ${activeCategory === cat ? 'bg-[#1c1c19] text-white shadow-sm font-semibold' : 'bg-[#f1ede8] hover:bg-[#ebe8e3] text-[#57423f]'}">
-                ${cat}
-              </button>
-            `).join('')}
+            ${CATEGORY_ORDER.map(catName => {
+              const meta = CATEGORY_META[catName] || { id: catName };
+              const isActive = activeCategory === catName || activeCategory === meta.id;
+              return `
+                <button class="cat-filter ${isActive ? 'active bg-inverse-surface text-inverse-on-surface' : 'bg-surface-container hover:bg-surface-container-high text-on-surface-variant'} px-4 py-2 rounded-full font-label-action text-label-action whitespace-nowrap transition-all cursor-pointer" data-cat="${meta.id}" data-category-name="${catName}">
+                  ${catName}
+                </button>
+              `;
+            }).join('')}
           </div>
 
           <!-- Quick Allergen & View Controls -->
-          <div class="flex items-center gap-3 w-full md:w-auto justify-end">
-            <button id="toggle-allergens" class="inline-flex items-center gap-1.5 bg-[#f7f3ee] hover:bg-[#f1ede8] text-[#57423f] px-4 py-2 rounded-full font-label-action text-[12px] border border-[#e6dfd5] transition-colors cursor-pointer">
-              <span class="material-symbols-outlined text-[16px] text-[#5f3a00]">info</span>
-              <span>Info Alérgenos (14 UE)</span>
-              ${activeAllergens.length > 0 ? `<span class="bg-[#8B1E1E] text-white text-[10px] px-1.5 py-0.2 rounded-full font-bold">${activeAllergens.length}</span>` : ''}
+          <div class="flex items-center gap-3 w-full md:w-auto justify-end flex-shrink-0">
+            <button class="inline-flex items-center gap-1.5 bg-surface-container-low hover:bg-surface-container text-on-surface-variant px-3.5 py-2 rounded-full font-label-action text-[12px] transition-colors cursor-pointer border border-outline-variant/30" id="toggle-allergens">
+              <span class="material-symbols-outlined text-[16px] text-tertiary">info</span>
+              <span>Info Alérgenos</span>
+              ${activeAllergens.length > 0 ? `<span class="bg-primary text-on-primary text-[10px] px-1.5 py-0.2 rounded-full font-bold">${activeAllergens.length}</span>` : ''}
             </button>
             
-            <div class="flex items-center bg-[#f1ede8] p-1 rounded-full text-[#645d5a]">
-              <button data-menu-mode="cards" class="px-3.5 py-1 rounded-full text-xs font-medium transition-all ${this.menuMode !== 'compact' ? 'bg-white text-[#1c1c19] shadow-sm font-bold' : 'text-[#645d5a] hover:text-[#1c1c19]'}">Tarjetas</button>
-              <button data-menu-mode="compact" class="px-3.5 py-1 rounded-full text-xs font-medium transition-all ${this.menuMode === 'compact' ? 'bg-white text-[#1c1c19] shadow-sm font-bold' : 'text-[#645d5a] hover:text-[#1c1c19]'}">Lista rápida</button>
+            <div class="hidden sm:flex items-center bg-surface-container p-1 rounded-full text-secondary">
+              <button id="view-cards" data-menu-mode="cards" class="px-3 py-1 rounded-full ${this.menuMode !== 'compact' ? 'bg-surface-container-lowest text-on-surface shadow-xs font-bold' : 'text-secondary hover:text-on-surface'} text-xs font-medium cursor-pointer">Tarjetas</button>
+              <button id="view-list" data-menu-mode="compact" class="px-3 py-1 rounded-full ${this.menuMode === 'compact' ? 'bg-surface-container-lowest text-on-surface shadow-xs font-bold' : 'text-secondary hover:text-on-surface'} text-xs font-medium cursor-pointer">Lista rápida</button>
             </div>
           </div>
 
         </div>
       </section>
 
-      <!-- ALLERGENS INFO BANNER & MULTI-SELECT MATRIX (Collapsible via JS) -->
-      <div class="${activeAllergens.length > 0 ? '' : 'hidden'} mb-8 w-full transition-all" id="allergen-box">
-        <div class="bg-[#ffddb8]/30 border border-[#ddc0bb] p-5 rounded-2xl text-[#2a1700] shadow-sm">
-          <div class="flex items-start gap-3">
-            <span class="material-symbols-outlined text-[#5f3a00] mt-0.5 text-[24px]">verified_user</span>
-            <div class="flex-1">
-              <div class="flex flex-wrap items-center justify-between gap-2">
-                <p class="font-semibold text-sm">Aviso de intolerancias alimentarias y alérgenos (Reglamento UE 1169/2011)</p>
-                ${activeAllergens.length > 0 ? `
-                  <button type="button" data-clear-allergens class="text-xs font-bold text-[#8B1E1E] hover:underline cursor-pointer">
-                    ✕ Limpiar filtros (${activeAllergens.length})
+      <!-- ALLERGENS INFO BANNER (Collapsible via JS) -->
+      <div class="${activeAllergens.length > 0 ? '' : 'hidden'} max-w-[1360px] mx-auto px-6 lg:px-10 mt-4 w-full" id="allergen-box">
+        <div class="bg-tertiary-fixed/30 p-5 rounded-2xl flex flex-col sm:flex-row items-start gap-3 text-on-tertiary-fixed border border-outline-variant/30 shadow-sm">
+          <span class="material-symbols-outlined text-tertiary mt-0.5 text-[24px]">verified_user</span>
+          <div class="text-body-sm flex-1">
+            <div class="flex flex-wrap items-center justify-between gap-2 mb-1">
+              <p class="font-semibold text-sm">Aviso de intolerancias alimentarias y alérgenos (Reglamento UE 1169/2011)</p>
+              ${activeAllergens.length > 0 ? `
+                <button type="button" data-clear-allergens class="text-xs font-bold text-primary hover:underline cursor-pointer">
+                  ✕ Limpiar filtros (${activeAllergens.length})
+                </button>
+              ` : ''}
+            </div>
+            <p class="text-on-surface-variant text-xs mb-3">
+              Disponemos de fichas técnicas para cada preparación sobre brasas. Si presenta alguna alergia a gluten, lácteos, sulfitos o frutos secos, pulse en cualquiera de los alérgenos para filtrar la carta:
+            </p>
+            
+            <!-- 14 Allergen Interactive Chips -->
+            <div class="flex flex-wrap items-center gap-1.5 sm:gap-2">
+              ${Object.values(VUKATA_ALLERGENS).map(a => {
+                const isSelected = activeAllergens.includes(a.id);
+                return `
+                  <button type="button" data-allergen="${a.id}" class="inline-flex items-center space-x-1.5 px-3 py-1.5 rounded-full text-xs transition-all border cursor-pointer select-none ${
+                    isSelected 
+                      ? 'bg-primary text-on-primary font-bold border-primary shadow-sm ring-2 ring-red-200' 
+                      : 'bg-surface-container-lowest hover:bg-surface-container text-on-surface border-outline-variant/40'
+                  }" title="${isSelected ? 'Quitar filtro de ' + a.name : 'Excluir platos con ' + a.name}">
+                    <span class="w-4 h-4 rounded-full flex items-center justify-center text-white flex-shrink-0" style="background-color: ${a.color};">
+                      <span class="w-2.5 h-2.5 flex items-center justify-center">${a.svg}</span>
+                    </span>
+                    <span class="font-medium whitespace-nowrap">${a.name}</span>
+                    ${isSelected ? `<span class="text-[10px] font-bold ml-0.5">✕</span>` : ''}
                   </button>
-                ` : ''}
-              </div>
-              <p class="text-xs text-[#57423f] mt-1 mb-3">
-                Disponemos de fichas técnicas para cada preparación sobre brasas. Selecciona cualquier alérgeno para excluir platos de la carta en tiempo real.
-              </p>
-              <!-- 14 Allergen Pills -->
-              <div class="flex flex-wrap items-center gap-1.5 sm:gap-2">
-                ${Object.values(VUKATA_ALLERGENS).map(a => {
-                  const isSelected = activeAllergens.includes(a.id);
-                  return `
-                    <button type="button" data-allergen="${a.id}" class="inline-flex items-center space-x-1.5 px-3 py-1.5 rounded-full text-xs transition-all border cursor-pointer select-none ${
-                      isSelected 
-                        ? 'bg-[#8B1E1E] text-white font-bold border-[#8B1E1E] shadow-sm ring-2 ring-red-200' 
-                        : 'bg-white hover:bg-[#f7f3ee] text-[#1c1c19] border-[#e6dfd5]'
-                    }" title="${isSelected ? 'Quitar filtro de ' + a.name : 'Excluir platos con ' + a.name}">
-                      <span class="w-4 h-4 rounded-full flex items-center justify-center text-white flex-shrink-0" style="background-color: ${a.color};">
-                        <span class="w-2.5 h-2.5 flex items-center justify-center">${a.svg}</span>
-                      </span>
-                      <span class="font-medium whitespace-nowrap">${a.name}</span>
-                      ${isSelected ? `<span class="text-[10px] font-bold ml-0.5">✕</span>` : ''}
-                    </button>
-                  `;
-                }).join('')}
-              </div>
+                `;
+              }).join('')}
             </div>
           </div>
         </div>
       </div>
 
-      <!-- MAIN MENU SHOWCASE CONTAINER -->
-      ${this.menuMode === 'compact' ? `
-        <!-- VISTA COMPACTA DE LISTA RÁPIDA: TODOS LOS PLATOS Y PRECIOS VISIBLES CON SCROLL -->
-        <div class="bg-white border border-[#e6dfd5] rounded-3xl shadow-sm p-6 sm:p-8 mb-16">
-          <div class="flex flex-col sm:flex-row sm:items-center justify-between pb-4 border-b border-[#e6dfd5] mb-6 gap-2">
-            <div>
-              <div class="flex items-center space-x-2">
-                <span class="w-2.5 h-2.5 rounded-full bg-[#8B1E1E]"></span>
-                <h3 class="font-headline-sm text-xl font-bold text-[#1c1c19]">Carta Completa Vukata · Vista de Sala</h3>
-              </div>
-              <p class="text-xs text-[#57423f] font-sans mt-0.5">Todos los cortes y raciones con precios transparentes sin recortes</p>
-            </div>
-            <div class="flex items-center space-x-2">
-              <span class="text-xs font-bold text-[#8B1E1E] bg-[#f7f3ee] border border-[#e6dfd5] px-3 py-1 rounded-full font-mono">${filteredMenu.length} Platos</span>
-            </div>
-          </div>
-
-          <div class="space-y-8 max-h-[750px] overflow-y-auto pr-2">
-            ${categoriesToRender.map(catName => {
-              const categoryDishes = filteredMenu.filter(d => d.category === catName);
+      <!-- MAIN MENU SHOWCASE CONTAINER: TODAS LAS CATEGORÍAS Y LOS 46 PLATOS EN DISEÑO STITCH -->
+      <div class="max-w-[1360px] mx-auto px-6 lg:px-10 py-12 w-full space-y-16" id="carta-menu">
+        
+        ${this.menuMode === 'compact' ? `
+          <!-- VISTA COMPACTA LISTA RÁPIDA: TODOS LOS 46 PLATOS DENTRO DE 1360PX -->
+          <div class="space-y-12">
+            ${CATEGORY_ORDER.map(catName => {
+              const meta = CATEGORY_META[catName] || { id: catName, title: catName, subtitle: '', icon: 'restaurant_menu', iconBg: 'bg-primary-container text-on-primary', badgeSuffix: 'Opciones' };
+              const categoryDishes = preset.menu.filter(d => d.category === catName);
               if (categoryDishes.length === 0) return '';
+              const isGroupVisible = activeCategory === 'all' || activeCategory === meta.id || activeCategory === catName;
+
               return `
-                <div class="category-compact-block">
-                  <div class="flex items-center justify-between pb-2 mb-3 border-b-2 border-[#8B1E1E]/30 bg-[#f7f3ee] px-4 py-2 rounded-xl">
-                    <h4 class="font-headline-sm text-base font-bold text-[#8B1E1E]">${catName}</h4>
-                    <span class="text-xs text-[#57423f] font-sans font-semibold">${categoryDishes.length} opciones</span>
+                <div class="menu-group bg-surface-container-lowest p-6 rounded-2xl border border-outline-variant/30 shadow-sm" data-group="${meta.id}" data-category="${catName}" style="${isGroupVisible ? 'display:block;' : 'display:none;'}">
+                  <div class="flex items-center justify-between pb-4 mb-4 border-b border-surface-container">
+                    <div class="flex items-center gap-2.5">
+                      <span class="p-1.5 rounded-full ${meta.iconBg}">
+                        <span class="material-symbols-outlined text-[18px]">${meta.icon}</span>
+                      </span>
+                      <h3 class="font-headline-sm text-lg font-semibold text-on-surface">${meta.title}</h3>
+                    </div>
+                    <span class="text-xs font-semibold text-primary font-mono">${categoryDishes.length} ${meta.badgeSuffix}</span>
                   </div>
-
-                  <div class="divide-y divide-[#f1ede8]">
-                    ${categoryDishes.map(dish => `
-                      <div class="py-3 px-2 hover:bg-[#f7f3ee]/50 rounded-xl transition-colors flex flex-wrap sm:flex-nowrap items-center justify-between gap-3 group">
-                        <div class="flex items-center space-x-3 min-w-0 flex-1">
-                          ${dish.image ? `
-                            <div class="w-12 h-12 sm:w-14 sm:h-14 rounded-xl overflow-hidden flex-shrink-0 bg-[#f1ede8] cursor-pointer shadow-sm relative group/thumb" data-open-dish-modal="${dish.id}">
-                              <img src="${dish.image}" alt="${dish.name}" class="w-full h-full object-cover transition-transform group-hover/thumb:scale-110" loading="lazy"/>
+                  <div class="divide-y divide-surface-container">
+                    ${categoryDishes.map(d => {
+                      const excluded = isDishExcluded(d.allergens);
+                      return `
+                        <div class="py-3 flex items-center justify-between gap-4 group ${excluded ? 'opacity-40 grayscale' : ''}">
+                          <div class="flex items-center gap-3.5 min-w-0 flex-1">
+                            <img src="${d.image}" alt="${d.name}" class="w-14 h-14 rounded-xl object-cover flex-shrink-0 cursor-pointer" data-open-dish-modal="${d.id}"/>
+                            <div class="min-w-0">
+                              <div class="flex items-center gap-2 flex-wrap">
+                                <span class="font-headline-sm text-base font-semibold text-on-surface group-hover:text-primary transition-colors cursor-pointer" data-open-dish-modal="${d.id}">${d.name}</span>
+                                ${d.badge ? `<span class="text-[10px] font-bold px-2 py-0.5 rounded-full bg-secondary-container text-on-surface">${d.badge}</span>` : ''}
+                                ${renderAllergenBadges(d.allergens, 'xs')}
+                              </div>
+                              <p class="font-body-sm text-xs text-on-surface-variant truncate max-w-xl">${d.description}</p>
                             </div>
-                          ` : `
-                            <div class="w-12 h-12 rounded-xl bg-[#f1ede8] flex items-center justify-center text-xl flex-shrink-0">🍽️</div>
-                          `}
-
-                          <div class="min-w-0 flex-1 cursor-pointer" data-open-dish-modal="${dish.id}">
-                            <div class="flex items-center space-x-2 flex-wrap">
-                              <span class="font-headline-sm font-semibold text-sm sm:text-base text-[#1c1c19] group-hover:text-[#8B1E1E] transition-colors">${dish.name}</span>
-                              ${dish.badge ? `<span class="text-[9px] font-sans font-bold px-2 py-0.5 rounded-full bg-[#f1ede8] text-[#8B1E1E] border border-[#e6dfd5] whitespace-nowrap">${dish.badge}</span>` : ''}
-                              ${renderAllergenBadges(dish.allergens, 'xs')}
-                            </div>
-                            <p class="text-xs text-[#57423f] truncate max-w-lg font-sans mt-0.5">${dish.description}</p>
+                          </div>
+                          <div class="flex items-center gap-3 flex-shrink-0">
+                            <span class="font-label-price text-base font-bold text-primary">${formatCurrency(d.price)}</span>
+                            <button data-open-dish-modal="${d.id}" class="px-3 py-1 rounded-full bg-surface-container hover:bg-surface-container-high text-xs font-medium text-on-surface cursor-pointer">Detalle</button>
+                            <button data-add-cart="${d.id}" class="px-3.5 py-1 rounded-full bg-primary hover:bg-primary-container text-on-primary text-xs font-bold cursor-pointer">Pedir</button>
                           </div>
                         </div>
-
-                        <div class="flex items-center space-x-3 flex-shrink-0 self-end sm:self-center">
-                          <span class="font-label-price text-base sm:text-lg font-bold text-[#1c1c19] whitespace-nowrap">${formatCurrency(dish.price)}</span>
-                          <button data-open-dish-modal="${dish.id}" class="bg-[#f1ede8] hover:bg-[#e8deda] text-[#1c1c19] text-xs px-3 py-1.5 rounded-full border border-[#e6dfd5] font-medium cursor-pointer" title="Ver detalle">
-                            Info
-                          </button>
-                          <button data-add-cart="${dish.id}" class="btn-vukata-primary text-xs px-4 py-1.5 rounded-full shadow whitespace-nowrap cursor-pointer">
-                            Pedir
-                          </button>
-                        </div>
-                      </div>
-                    `).join('')}
+                      `;
+                    }).join('')}
                   </div>
                 </div>
               `;
             }).join('')}
           </div>
-        </div>
-      ` : `
-        <!-- VISTA TARJETAS SHOWCASE DE ALTA RESTAURACIÓN (Stitch Grid Layout) -->
-        <div class="space-y-16 mb-16">
-          ${categoriesToRender.map(catName => {
-            const categoryDishes = filteredMenu.filter(d => d.category === catName);
+        ` : `
+          <!-- VISTA TARJETAS SHOWCASE IDÉNTICA AL BOCETO STITCH PARA CADA CATEGORÍA -->
+          ${CATEGORY_ORDER.map(catName => {
+            const meta = CATEGORY_META[catName] || { id: catName, title: catName, subtitle: '', icon: 'restaurant_menu', iconBg: 'bg-primary-container text-on-primary', badgeSuffix: 'Opciones' };
+            const categoryDishes = preset.menu.filter(d => d.category === catName);
             if (categoryDishes.length === 0) return '';
+            const isGroupVisible = activeCategory === 'all' || activeCategory === meta.id || activeCategory === catName;
 
             return `
-              <section class="menu-group" data-group="${catName.toLowerCase()}">
+              <section class="menu-group" data-group="${meta.id}" data-category="${catName}" style="${isGroupVisible ? 'display:block;' : 'display:none;'}">
                 
-                <!-- Category Section Banner -->
-                <div class="flex items-center justify-between pb-6 mb-8 bg-[#f7f3ee] p-6 rounded-2xl border border-[#e6dfd5]">
+                <!-- Category Banner idéntico al boceto Stitch -->
+                <div class="flex items-center justify-between pb-6 mb-8 bg-surface-container-low p-6 rounded-2xl border border-outline-variant/30">
                   <div class="flex items-center gap-3">
-                    <span class="p-2.5 rounded-full bg-[#9c382c] text-white">
-                      <span class="material-symbols-outlined text-[24px]">local_fire_department</span>
+                    <span class="p-2.5 rounded-full ${meta.iconBg}">
+                      <span class="material-symbols-outlined text-[24px]">${meta.icon}</span>
                     </span>
                     <div>
-                      <h3 class="font-headline-md text-[#1c1c19] font-semibold">${catName}</h3>
-                      <p class="font-body-sm text-[#57423f]">Preparado al momento en parrilla abierta con leña y carbón de encina natural</p>
+                      <h3 class="font-headline-md text-headline-md text-on-surface font-semibold">${meta.title}</h3>
+                      <p class="font-body-sm text-body-sm text-on-surface-variant">${meta.subtitle}</p>
                     </div>
                   </div>
-                  <span class="hidden md:inline-block font-kicker-eyebrow text-[#8B1E1E] uppercase bg-white px-3.5 py-1.5 rounded-full border border-[#e6dfd5] shadow-xs">
-                    ${categoryDishes.length} Opciones
+                  <span class="hidden md:inline-block font-kicker-eyebrow text-kicker-eyebrow text-primary uppercase bg-surface-container px-3.5 py-1.5 rounded-full border border-outline-variant/20">
+                    ${categoryDishes.length} ${meta.badgeSuffix}
                   </span>
                 </div>
 
                 <!-- Cards Grid -->
                 <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
                   ${categoryDishes.map(dish => {
-                    const sales = store.getDishSalesCount(dish.id);
-                    return `
-                      <div class="dish-card bg-white rounded-2xl overflow-hidden border border-[#e6dfd5] shadow-sm hover:shadow-md transition-all duration-300 flex flex-col justify-between group">
-                        
-                        <!-- Media Container -->
-                        <div class="relative overflow-hidden h-56 bg-[#f1ede8]">
-                          ${dish.image ? `
-                            <img alt="${dish.name}" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500 cursor-pointer" data-open-dish-modal="${dish.id}" src="${dish.image}" loading="lazy"/>
-                            <button data-open-lightbox="${dish.image}" data-lightbox-title="${dish.name}" class="absolute top-3 right-3 bg-black/70 hover:bg-black text-white p-1.5 rounded-lg text-xs backdrop-blur-sm transition-opacity cursor-pointer" title="Ampliar imagen completa">
+                    const excluded = isDishExcluded(dish.allergens);
+
+                    // Si es el Chuletón Selección, aplicamos la tarjeta destacada de doble columna de Stitch
+                    if (dish.id === 'e1_finlandes') {
+                      return `
+                        <div class="dish-card md:col-span-2 bg-gradient-to-br from-surface-container-low via-surface-container-lowest to-surface-container-low rounded-2xl overflow-hidden shadow-sm hover:shadow-md transition-all duration-300 grid grid-cols-1 md:grid-cols-12 group border border-outline-variant/30 ${excluded ? 'opacity-40 grayscale' : ''}">
+                          <div class="relative md:col-span-6 h-64 md:h-auto overflow-hidden">
+                            <img alt="${dish.name}" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500 cursor-pointer" data-open-dish-modal="${dish.id}" src="${dish.image}"/>
+                            <div class="absolute top-4 left-4 bg-primary text-on-primary px-3 py-1 rounded-full font-kicker-eyebrow text-[10px] tracking-widest uppercase shadow">
+                              ${dish.badge || 'MADURACIÓN 45+ DÍAS'}
+                            </div>
+                            <button data-open-lightbox="${dish.image}" data-lightbox-title="${dish.name}" class="absolute bottom-3 right-3 bg-black/70 hover:bg-black text-white p-1.5 rounded-lg text-xs backdrop-blur-sm transition-opacity cursor-pointer" title="Ampliar imagen completa">
                               ${ICONS.zoom}
                             </button>
-                          ` : `
-                            <div class="w-full h-full flex items-center justify-center text-4xl">🔥</div>
-                          `}
+                          </div>
+                          <div class="p-8 md:col-span-6 flex flex-col justify-between">
+                            <div class="space-y-3">
+                              <div class="flex items-center justify-between">
+                                <span class="font-kicker-eyebrow text-kicker-eyebrow text-secondary uppercase tracking-widest">CORTE SUPREMO · 1 KG APROX</span>
+                                ${renderAllergenBadges(dish.allergens, 'sm')}
+                              </div>
+                              <h4 class="font-headline-md text-headline-md text-on-surface font-semibold cursor-pointer hover:text-primary transition-colors" data-open-dish-modal="${dish.id}">${dish.name}</h4>
+                              <p class="font-body-md text-body-md text-on-surface-variant leading-relaxed">
+                                ${dish.description}
+                              </p>
+                            </div>
+                            <div class="pt-6 mt-4 flex items-center justify-between border-t border-surface-container">
+                              <div>
+                                <span class="font-kicker-eyebrow text-[10px] text-secondary uppercase block">POR PIEZA</span>
+                                <span class="font-label-price text-label-price text-primary font-bold">${formatCurrency(dish.price)}</span>
+                              </div>
+                              <div class="flex items-center gap-2">
+                                <button data-open-dish-modal="${dish.id}" class="bg-surface-container hover:bg-surface-container-high text-on-surface px-4 py-2.5 rounded-full font-label-action text-label-action transition-colors cursor-pointer">
+                                  Detalle
+                                </button>
+                                <button data-add-cart="${dish.id}" class="inline-flex items-center gap-2 bg-primary-container text-on-primary px-5 py-2.5 rounded-full font-label-action text-label-action hover:bg-primary transition-colors cursor-pointer shadow-sm">
+                                  <span>Pedir corte</span>
+                                  <span class="material-symbols-outlined text-[16px]">add</span>
+                                </button>
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                      `;
+                    }
+
+                    // Tarjeta estándar de 3 columnas de Stitch
+                    return `
+                      <div class="dish-card bg-surface-container-lowest rounded-2xl overflow-hidden shadow-sm hover:shadow-md transition-all duration-300 flex flex-col justify-between group border border-outline-variant/20 ${excluded ? 'opacity-40 grayscale' : ''}">
+                        <div class="relative overflow-hidden h-56 bg-surface-container">
+                          <img alt="${dish.name}" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500 cursor-pointer" data-open-dish-modal="${dish.id}" src="${dish.image}" loading="lazy"/>
                           ${dish.badge ? `
-                            <div class="absolute top-3 left-3 bg-[#31302d]/90 backdrop-blur-sm text-[#f4f0eb] px-2.5 py-1 rounded-md font-kicker-eyebrow text-[10px] tracking-widest uppercase">
+                            <div class="absolute top-3 left-3 bg-inverse-surface/85 backdrop-blur-sm text-inverse-on-surface px-2.5 py-1 rounded-md font-kicker-eyebrow text-[10px] tracking-widest uppercase">
                               ${dish.badge}
                             </div>
                           ` : ''}
+                          <button data-open-lightbox="${dish.image}" data-lightbox-title="${dish.name}" class="absolute top-3 right-3 bg-black/70 hover:bg-black text-white p-1.5 rounded-lg text-xs backdrop-blur-sm transition-opacity cursor-pointer" title="Ampliar imagen completa">
+                            ${ICONS.zoom}
+                          </button>
                         </div>
-
-                        <!-- Content Dossier -->
                         <div class="p-6 flex flex-col flex-grow justify-between">
                           <div>
                             <div class="flex items-start justify-between gap-2 mb-2">
-                              <h4 class="font-headline-sm text-[#1c1c19] font-semibold leading-snug cursor-pointer hover:text-[#8B1E1E] transition-colors" data-open-dish-modal="${dish.id}">
-                                ${dish.name}
-                              </h4>
-                              <span class="font-label-price text-[#8B1E1E] font-bold whitespace-nowrap">
-                                ${formatCurrency(dish.price)}
-                              </span>
+                              <h4 class="font-headline-sm text-headline-sm text-on-surface font-semibold leading-snug cursor-pointer hover:text-primary transition-colors" data-open-dish-modal="${dish.id}">${dish.name}</h4>
+                              <span class="font-label-price text-label-price text-primary font-bold whitespace-nowrap">${formatCurrency(dish.price)}</span>
                             </div>
-
-                            <p class="font-body-md text-[#57423f] mb-3 line-clamp-2">
+                            <p class="font-body-md text-body-md text-on-surface-variant mb-4 line-clamp-2">
                               ${dish.description}
                             </p>
-
-                            <!-- Alérgenos Declarados -->
                             <div class="mb-2">
                               ${renderAllergenBadges(dish.allergens, 'sm')}
                             </div>
                           </div>
-
-                          <div class="pt-4 border-t border-[#f1ede8] flex items-center justify-between">
-                            <span class="font-body-sm text-[#645d5a] flex items-center gap-1">
-                              <span class="material-symbols-outlined text-[16px] text-[#8B1E1E]">skillet</span>
+                          <div class="pt-4 flex items-center justify-between border-t border-surface-container">
+                            <span class="font-body-sm text-body-sm text-secondary flex items-center gap-1">
+                              <span class="material-symbols-outlined text-[16px] text-primary">skillet</span>
                               <span>${dish.prepTime || 'Punto recomendado'}</span>
                             </span>
                             <div class="flex items-center gap-1.5">
-                              <button data-open-dish-modal="${dish.id}" class="p-2 rounded-full bg-[#f1ede8] hover:bg-[#e8deda] text-[#1c1c19] transition-colors cursor-pointer" title="Ver detalle">
+                              <button data-open-dish-modal="${dish.id}" class="p-2 rounded-full bg-surface-container hover:bg-surface-container-high text-on-surface transition-colors cursor-pointer" title="Ver detalle">
                                 <span class="material-symbols-outlined text-[18px]">info</span>
                               </button>
-                              <button data-add-cart="${dish.id}" class="p-2 rounded-full bg-[#f1ede8] hover:bg-[#9c382c] hover:text-white text-[#8B1E1E] transition-colors cursor-pointer shadow-xs" title="Añadir a la comanda">
+                              <button data-add-cart="${dish.id}" class="p-2 rounded-full bg-surface-container hover:bg-primary-container hover:text-on-primary text-primary transition-colors cursor-pointer shadow-xs" title="Añadir a la comanda">
                                 <span class="material-symbols-outlined text-[20px]">add</span>
                               </button>
                             </div>
                           </div>
-
                         </div>
                       </div>
                     `;
@@ -2973,11 +3208,11 @@ class GastroApp {
               </section>
             `;
           }).join('')}
-        </div>
-      `}
+        `}
 
-      
-      <!-- GOOGLE REVIEWS SECTION (Social Proof & Reputation de Stitch) -->
+      </div>
+
+      <!-- GOOGLE REVIEWS SECTION (Social Proof & Reputation de Stitch + Botón de Valorar Experiencia) -->
       <section class="bg-surface-container-low py-20 w-full mt-12" id="opiniones">
         <div class="max-w-[1360px] mx-auto px-6 lg:px-10">
           <div class="flex flex-col md:flex-row md:items-end justify-between mb-12 gap-6">
@@ -2989,29 +3224,39 @@ class GastroApp {
               <h2 class="font-headline-lg text-headline-lg text-on-surface">Opiniones de nuestros clientes</h2>
               <p class="font-body-md text-body-md text-on-surface-variant">Más de 28 años encendiendo la leña a diario en el barrio de Aluche.</p>
             </div>
-            <div class="flex items-center gap-4 bg-surface-container-lowest p-4 rounded-2xl shadow-sm">
-              <div class="w-12 h-12 rounded-full bg-[#14100E] flex items-center justify-center text-tertiary-fixed-dim">
-                <span class="material-symbols-outlined text-[28px]">reviews</span>
-              </div>
-              <div>
-                <div class="flex items-center gap-1.5">
-                  <span class="font-headline-sm text-headline-sm font-bold text-on-surface">4.8</span>
-                  <div class="flex text-[#e39c28]">
-                    <span class="material-symbols-outlined text-[18px]" style="font-variation-settings: 'FILL' 1;">star</span>
-                    <span class="material-symbols-outlined text-[18px]" style="font-variation-settings: 'FILL' 1;">star</span>
-                    <span class="material-symbols-outlined text-[18px]" style="font-variation-settings: 'FILL' 1;">star</span>
-                    <span class="material-symbols-outlined text-[18px]" style="font-variation-settings: 'FILL' 1;">star</span>
-                    <span class="material-symbols-outlined text-[18px]" style="font-variation-settings: 'FILL' 1;">star</span>
-                  </div>
+            <div class="flex flex-wrap items-center gap-4">
+              <!-- Rating card -->
+              <div class="flex items-center gap-4 bg-surface-container-lowest p-4 rounded-2xl shadow-sm border border-outline-variant/30">
+                <div class="w-12 h-12 rounded-full bg-[#14100E] flex items-center justify-center text-tertiary-fixed-dim">
+                  <span class="material-symbols-outlined text-[28px]">reviews</span>
                 </div>
-                <span class="font-body-sm text-body-sm text-secondary">Basado en 348 reseñas de Google Maps</span>
+                <div>
+                  <div class="flex items-center gap-1.5">
+                    <span class="font-headline-sm text-headline-sm font-bold text-on-surface">4.8</span>
+                    <div class="flex text-[#e39c28]">
+                      <span class="material-symbols-outlined text-[18px]" style="font-variation-settings: 'FILL' 1;">star</span>
+                      <span class="material-symbols-outlined text-[18px]" style="font-variation-settings: 'FILL' 1;">star</span>
+                      <span class="material-symbols-outlined text-[18px]" style="font-variation-settings: 'FILL' 1;">star</span>
+                      <span class="material-symbols-outlined text-[18px]" style="font-variation-settings: 'FILL' 1;">star</span>
+                      <span class="material-symbols-outlined text-[18px]" style="font-variation-settings: 'FILL' 1;">star</span>
+                    </div>
+                  </div>
+                  <span class="font-body-sm text-body-sm text-secondary">Basado en 348 reseñas de Google Maps</span>
+                </div>
               </div>
+
+              <!-- Botón Valorar Experiencia / Escribir Reseña (Solicitado explícitamente por el cliente) -->
+              <button id="open-smart-review-btn" class="inline-flex items-center gap-2 bg-primary-container hover:bg-primary text-on-primary font-label-action text-label-action px-6 py-3.5 rounded-full transition-all duration-300 shadow-[0_4px_16px_rgba(156,56,44,0.25)] cursor-pointer">
+                <span class="material-symbols-outlined text-[20px]">rate_review</span>
+                <span>Valorar experiencia</span>
+              </button>
             </div>
           </div>
+
           <!-- Testimonial Cards Grid -->
           <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
             <!-- Review 1 -->
-            <div class="bg-surface-container-lowest p-8 rounded-2xl shadow-sm flex flex-col justify-between">
+            <div class="bg-surface-container-lowest p-8 rounded-2xl shadow-sm flex flex-col justify-between border border-outline-variant/20">
               <div class="space-y-4">
                 <div class="flex text-[#e39c28]">
                   <span class="material-symbols-outlined text-[20px]" style="font-variation-settings: 'FILL' 1;">star</span>
@@ -3024,7 +3269,7 @@ class GastroApp {
                   "El asado de tira y la entraña son de otro nivel. Se nota el carbón de verdad y la mano de quien lleva décadas en la parrilla. Sitio indispensable en Aluche si te gusta la carne bien hecha."
                 </p>
               </div>
-              <div class="pt-6 mt-6 border-t-0 flex items-center gap-3">
+              <div class="pt-6 mt-6 border-t border-surface-container flex items-center gap-3">
                 <div class="w-10 h-10 rounded-full bg-secondary-container flex items-center justify-center font-bold text-on-surface">MG</div>
                 <div>
                   <h5 class="font-label-action text-label-action text-on-surface font-semibold">Manuel Gómez</h5>
@@ -3032,8 +3277,9 @@ class GastroApp {
                 </div>
               </div>
             </div>
+
             <!-- Review 2 -->
-            <div class="bg-surface-container-lowest p-8 rounded-2xl shadow-sm flex flex-col justify-between">
+            <div class="bg-surface-container-lowest p-8 rounded-2xl shadow-sm flex flex-col justify-between border border-outline-variant/20">
               <div class="space-y-4">
                 <div class="flex text-[#e39c28]">
                   <span class="material-symbols-outlined text-[20px]" style="font-variation-settings: 'FILL' 1;">star</span>
@@ -3046,7 +3292,7 @@ class GastroApp {
                   "Pedimos la parrillada para dos y salimos fascinados. La empanada criolla tiene una masa auténtica y el punto de las carnes vino tal cual pedimos. Trato cercano y precio muy ajustado para la calidad."
                 </p>
               </div>
-              <div class="pt-6 mt-6 border-t-0 flex items-center gap-3">
+              <div class="pt-6 mt-6 border-t border-surface-container flex items-center gap-3">
                 <div class="w-10 h-10 rounded-full bg-secondary-container flex items-center justify-center font-bold text-on-surface">MM</div>
                 <div>
                   <h5 class="font-label-action text-label-action text-on-surface font-semibold">María C. Montes</h5>
@@ -3054,8 +3300,9 @@ class GastroApp {
                 </div>
               </div>
             </div>
+
             <!-- Review 3 -->
-            <div class="bg-surface-container-lowest p-8 rounded-2xl shadow-sm flex flex-col justify-between">
+            <div class="bg-surface-container-lowest p-8 rounded-2xl shadow-sm flex flex-col justify-between border border-outline-variant/20">
               <div class="space-y-4">
                 <div class="flex text-[#e39c28]">
                   <span class="material-symbols-outlined text-[20px]" style="font-variation-settings: 'FILL' 1;">star</span>
@@ -3068,7 +3315,7 @@ class GastroApp {
                   "El chuletón finlandés madurado es una joya. Tierno, con un toque de brasa limpio que no satura. Y dejen sitio para la tarta de queso casera porque vale cada euro."
                 </p>
               </div>
-              <div class="pt-6 mt-6 border-t-0 flex items-center gap-3">
+              <div class="pt-6 mt-6 border-t border-surface-container flex items-center gap-3">
                 <div class="w-10 h-10 rounded-full bg-secondary-container flex items-center justify-center font-bold text-on-surface">JP</div>
                 <div>
                   <h5 class="font-label-action text-label-action text-on-surface font-semibold">Javier del Pozo</h5>
@@ -3076,60 +3323,62 @@ class GastroApp {
                 </div>
               </div>
             </div>
+
           </div>
         </div>
       </section>
 
-      <!-- TAKE AWAY & RESERVAS COMPONENT (Direct Action Block) -->
-      <section class="w-full mb-14" id="reservas-direct">
-        <div class="bg-[#14100E] text-[#f1ede8] rounded-3xl p-8 lg:p-14 relative overflow-hidden shadow-2xl">
-          <!-- Ambient Glow Decorator -->
-          <div class="absolute -left-20 -bottom-20 w-80 h-80 bg-[#8B1E1E]/20 rounded-full blur-3xl pointer-events-none"></div>
+      <!-- SECCIÓN DE RESERVAS FRENTE A LAS BRASAS (Fondo alargado de extremo a extremo, estilo idéntico a opiniones) -->
+      <section class="w-full bg-[#14100E] text-surface py-20 lg:py-24 relative overflow-hidden border-t border-[#2a221e]" id="reservas-direct">
+        <!-- Ambient Glow Decorator a lo ancho -->
+        <div class="absolute -left-20 -bottom-20 w-96 h-96 bg-primary/20 rounded-full blur-3xl pointer-events-none"></div>
+        <div class="absolute -right-20 -top-20 w-96 h-96 bg-primary/10 rounded-full blur-3xl pointer-events-none"></div>
 
-          <div class="grid grid-cols-1 lg:grid-cols-12 gap-10 items-center relative z-10">
+        <div class="max-w-[1360px] mx-auto px-6 lg:px-10 relative z-10">
+          <div class="grid grid-cols-1 lg:grid-cols-12 gap-10 lg:gap-14 items-center">
             <div class="lg:col-span-7 space-y-6">
-              <div class="flex items-center gap-2 text-[#ffdad5]">
+              <div class="flex items-center gap-2 text-primary-fixed">
                 <span class="material-symbols-outlined text-[22px]">calendar_today</span>
-                <span class="font-kicker-eyebrow uppercase tracking-widest">RESERVA INMEDIATA SIN ESPERAS</span>
+                <span class="font-kicker-eyebrow text-kicker-eyebrow uppercase tracking-widest">RESERVA INMEDIATA SIN ESPERAS</span>
               </div>
-              <h2 class="font-headline-lg lg:font-display-hero text-white leading-tight">
+              <h2 class="font-display-hero text-headline-lg lg:text-display-hero text-surface-bright leading-tight">
                 Reserve su mesa frente a las brasas de Aluche
               </h2>
-              <p class="font-body-lg text-[#ddd9d5] max-w-xl">
+              <p class="font-body-lg text-body-lg text-surface-dim max-w-xl">
                 Asegure su sitio para disfrutar de nuestras carnes con el punto exacto de asado. Atendemos peticiones de mesas familiares y celebraciones.
               </p>
-              <div class="flex flex-wrap items-center gap-6 pt-2 text-[#ddd9d5]">
+              <div class="flex flex-wrap items-center gap-6 pt-2 text-surface-dim">
                 <div class="flex items-center gap-2.5">
-                  <span class="material-symbols-outlined text-[#f8bb70]">timer</span>
-                  <span class="font-body-md">Comidas: 12:00h - 17:00h</span>
+                  <span class="material-symbols-outlined text-tertiary-fixed-dim">timer</span>
+                  <span class="font-body-md text-body-md">Comidas: 12:00h - 17:00h</span>
                 </div>
                 <div class="flex items-center gap-2.5">
-                  <span class="material-symbols-outlined text-[#f8bb70]">dinner_dining</span>
-                  <span class="font-body-md">Cenas: 19:30h - 00:00h</span>
+                  <span class="material-symbols-outlined text-tertiary-fixed-dim">dinner_dining</span>
+                  <span class="font-body-md text-body-md">Cenas: 19:30h - 00:00h</span>
                 </div>
                 <div class="flex items-center gap-2.5">
-                  <span class="material-symbols-outlined text-[#f8bb70]">call</span>
-                  <a href="tel:+34915098576" class="font-body-md hover:underline">+34 915 09 85 76</a>
+                  <span class="material-symbols-outlined text-tertiary-fixed-dim">call</span>
+                  <a href="tel:+34915098576" class="font-body-md text-body-md hover:underline">+34 915 09 85 76</a>
                 </div>
               </div>
             </div>
 
-            <!-- Quick Interactive Booking Panel -->
-            <div class="lg:col-span-5 bg-white text-[#1c1c19] p-8 rounded-2xl shadow-xl">
-              <h3 class="font-headline-sm font-semibold mb-4 text-[#1c1c19]">Confirmar Comensales</h3>
+            <!-- Panel Interactivo de Reserva Directa -->
+            <div class="lg:col-span-5 bg-surface-container-lowest text-on-surface p-8 lg:p-10 rounded-3xl shadow-2xl border border-outline-variant/20">
+              <h3 class="font-headline-sm text-headline-sm font-semibold mb-4 text-on-surface">Confirmar Comensales</h3>
               <form id="reservas-direct-form" class="space-y-4">
                 <div>
-                  <label class="font-kicker-eyebrow text-[11px] text-[#645d5a] uppercase block mb-1">Nombre Completo</label>
-                  <input id="direct-res-name" class="w-full bg-[#f7f3ee] border border-[#e6dfd5] px-4 py-3 rounded-xl font-body-md text-[#1c1c19] focus:outline-none focus:ring-2 focus:ring-[#8B1E1E]" placeholder="Ej. Carlos Martínez" required="" type="text"/>
+                  <label class="font-kicker-eyebrow text-[11px] text-secondary uppercase block mb-1">Nombre Completo</label>
+                  <input id="direct-res-name" class="w-full bg-surface-container-low px-4 py-3 rounded-xl font-body-md text-on-surface focus:outline-none focus:ring-2 focus:ring-primary border border-outline-variant/30" placeholder="Ej. Carlos Martínez" required="" type="text"/>
                 </div>
                 <div class="grid grid-cols-2 gap-3">
                   <div>
-                    <label class="font-kicker-eyebrow text-[11px] text-[#645d5a] uppercase block mb-1">Teléfono</label>
-                    <input id="direct-res-phone" class="w-full bg-[#f7f3ee] border border-[#e6dfd5] px-4 py-3 rounded-xl font-body-md text-[#1c1c19] focus:outline-none focus:ring-2 focus:ring-[#8B1E1E]" placeholder="600 000 000" required="" type="tel"/>
+                    <label class="font-kicker-eyebrow text-[11px] text-secondary uppercase block mb-1">Teléfono</label>
+                    <input id="direct-res-phone" class="w-full bg-surface-container-low px-4 py-3 rounded-xl font-body-md text-on-surface focus:outline-none focus:ring-2 focus:ring-primary border border-outline-variant/30" placeholder="600 000 000" required="" type="tel"/>
                   </div>
                   <div>
-                    <label class="font-kicker-eyebrow text-[11px] text-[#645d5a] uppercase block mb-1">Personas</label>
-                    <select id="direct-res-guests" class="w-full bg-[#f7f3ee] border border-[#e6dfd5] px-4 py-3 rounded-xl font-body-md text-[#1c1c19] focus:outline-none focus:ring-2 focus:ring-[#8B1E1E]">
+                    <label class="font-kicker-eyebrow text-[11px] text-secondary uppercase block mb-1">Personas</label>
+                    <select id="direct-res-guests" class="w-full bg-surface-container-low px-4 py-3 rounded-xl font-body-md text-on-surface focus:outline-none focus:ring-2 focus:ring-primary border border-outline-variant/30">
                       <option value="2 Personas">2 Comensales</option>
                       <option value="3 Personas">3 Comensales</option>
                       <option value="4 Personas" selected>4 Comensales</option>
@@ -3139,12 +3388,12 @@ class GastroApp {
                 </div>
                 <div class="grid grid-cols-2 gap-3">
                   <div>
-                    <label class="font-kicker-eyebrow text-[11px] text-[#645d5a] uppercase block mb-1">Fecha</label>
-                    <input id="direct-res-date" class="w-full bg-[#f7f3ee] border border-[#e6dfd5] px-3 py-3 rounded-xl font-body-md text-[#1c1c19] focus:outline-none focus:ring-2 focus:ring-[#8B1E1E]" required="" type="date"/>
+                    <label class="font-kicker-eyebrow text-[11px] text-secondary uppercase block mb-1">Fecha</label>
+                    <input id="direct-res-date" class="w-full bg-surface-container-low px-3 py-3 rounded-xl font-body-md text-on-surface focus:outline-none focus:ring-2 focus:ring-primary border border-outline-variant/30" required="" type="date"/>
                   </div>
                   <div>
-                    <label class="font-kicker-eyebrow text-[11px] text-[#645d5a] uppercase block mb-1">Turno</label>
-                    <select id="direct-res-shift" class="w-full bg-[#f7f3ee] border border-[#e6dfd5] px-4 py-3 rounded-xl font-body-md text-[#1c1c19] focus:outline-none focus:ring-2 focus:ring-[#8B1E1E]">
+                    <label class="font-kicker-eyebrow text-[11px] text-secondary uppercase block mb-1">Turno</label>
+                    <select id="direct-res-shift" class="w-full bg-surface-container-low px-4 py-3 rounded-xl font-body-md text-on-surface focus:outline-none focus:ring-2 focus:ring-primary border border-outline-variant/30">
                       <option value="Comida (14:00h)">14:00 (Comida)</option>
                       <option value="Comida (15:00h)">15:00 (Comida)</option>
                       <option value="Cena (21:00h)">21:00 (Cena)</option>
@@ -3152,7 +3401,7 @@ class GastroApp {
                     </select>
                   </div>
                 </div>
-                <button class="w-full bg-[#8B1E1E] hover:bg-[#721414] text-white py-3.5 rounded-xl font-label-action transition-colors shadow-md mt-2 flex items-center justify-center gap-2 cursor-pointer" type="submit">
+                <button class="w-full bg-primary hover:bg-primary-container text-on-primary py-3.5 rounded-xl font-label-action text-label-action transition-colors shadow-md mt-2 flex items-center justify-center gap-2 cursor-pointer" type="submit">
                   <span class="material-symbols-outlined text-[18px]">check_circle</span>
                   <span>Confirmar Reserva</span>
                 </button>
@@ -3162,10 +3411,16 @@ class GastroApp {
         </div>
       </section>
 
-      <!-- LEYENDA OFICIAL DE ALÉRGENOS DE VUKATA (IDÉNTICA A LA PORTADA) -->
-      ${renderVukataAllergenLegend()}
+      <!-- SECCIÓN OFICIAL DE ALÉRGENOS AL PIE (Fondo blanco alargado full-width con contenido centrado a 1360px) -->
+      <section class="w-full bg-white text-stone-900 py-16 lg:py-24 border-t border-outline-variant/20 shadow-[0_-1px_6px_rgba(0,0,0,0.02)]" id="alergenos-info">
+        <div class="max-w-[1360px] mx-auto px-6 lg:px-10">
+          ${renderVukataAllergenLegend(activeAllergens)}
+        </div>
+      </section>
     `;
   }
+
+
 
   // -------------------------------------------------------------------------
   // DISEÑO 2: APP INTERACTIVA & BENTO GRID (CON FILTROS Y FOTOS CLARAS)
@@ -3599,7 +3854,7 @@ class GastroApp {
               preset.id === 'estilo3' ? 'badge-allergen-estilo3' :
               'badge-allergen-estilo4'
             }">${getAllergenLabel(a)}</span>`).join(''))
-      : `<span class="text-xs ${preset.id === 'estilo1' ? 'text-stone-500 font-medium' : preset.id === 'estilo2' ? 'text-slate-400' : 'text-zinc-500'}">✓ No contiene alérgenos comunes declarados</span>`;
+      : `<span class="text-xs ${preset.id === 'estilo1' ? 'text-on-surface-variant font-medium' : preset.id === 'estilo2' ? 'text-slate-400' : 'text-zinc-500'}">✓ No contiene alérgenos comunes declarados</span>`;
 
     let cardThemeClasses = '';
     let headerTextClass = '';
@@ -3607,10 +3862,10 @@ class GastroApp {
     let btnThemeClass = '';
 
     if (preset.id === 'estilo1') {
-      cardThemeClasses = 'bg-white border-2 border-[#8B1E1E]/30 text-stone-900 shadow-2xl';
-      headerTextClass = 'vukata-font-dish text-stone-950 font-black text-2xl sm:text-3xl tracking-wide';
-      bodyTextClass = 'text-stone-700';
-      btnThemeClass = 'btn-vukata-primary py-3.5 px-6 rounded-xl text-xs shadow-md';
+      cardThemeClasses = 'bg-surface-container-lowest border border-outline-variant/30 text-on-surface rounded-3xl shadow-2xl';
+      headerTextClass = 'font-headline-md text-2xl sm:text-3xl text-on-surface font-semibold tracking-tight';
+      bodyTextClass = 'text-on-surface-variant font-body-md';
+      btnThemeClass = 'bg-primary-container hover:bg-primary text-on-primary font-label-action text-label-action px-6 py-3.5 rounded-full shadow-[0_4px_16px_rgba(156,56,44,0.25)] transition-all';
     } else if (preset.id === 'estilo2') {
       cardThemeClasses = 'bg-[#0b1020] border border-slate-700 text-slate-100 shadow-2xl rounded-3xl';
       headerTextClass = 'font-sans text-white font-black text-xl';
@@ -3630,15 +3885,21 @@ class GastroApp {
 
     container.innerHTML = `
       <div id="dish-modal-backdrop" class="fixed inset-0 bg-black/80 backdrop-blur-sm z-50 flex items-center justify-center p-3 sm:p-4">
-        <div class="modal-animate relative max-w-2xl w-full max-h-[92vh] flex flex-col overflow-hidden rounded-2xl ${cardThemeClasses}">
+        <div class="modal-animate relative max-w-2xl w-full max-h-[92vh] flex flex-col overflow-hidden ${cardThemeClasses}">
           
-          <!-- Botón de Cerrar Modal (FUERA de la imagen y con máxima prioridad z-index) -->
-          <button type="button" id="close-dish-modal" class="absolute top-3 right-3 w-10 h-10 rounded-full bg-black/80 hover:bg-black text-white flex items-center justify-center transition-all hover:scale-105 font-bold z-30 shadow-2xl border border-white/30 cursor-pointer" title="Cerrar modal (Esc)">
-            ✕
-          </button>
+          <!-- Botón de Cerrar Modal adaptado a la estética de Stitch -->
+          ${preset.id === 'estilo1' ? `
+            <button type="button" id="close-dish-modal" class="absolute top-4 right-4 w-9 h-9 rounded-full bg-surface-container/90 hover:bg-surface-container-high text-on-surface flex items-center justify-center transition-all hover:scale-105 font-bold z-30 shadow-lg border border-outline-variant/40 cursor-pointer" title="Cerrar modal">
+              <span class="material-symbols-outlined text-[18px]">close</span>
+            </button>
+          ` : `
+            <button type="button" id="close-dish-modal" class="absolute top-3 right-3 w-10 h-10 rounded-full bg-black/80 hover:bg-black text-white flex items-center justify-center transition-all hover:scale-105 font-bold z-30 shadow-2xl border border-white/30 cursor-pointer" title="Cerrar modal (Esc)">
+              ✕
+            </button>
+          `}
 
           <!-- Fotografía Nítida (Sin velos oscuros) con botón de ampliación -->
-          <div class="relative w-full h-56 sm:h-72 bg-stone-900 flex-shrink-0 overflow-hidden cursor-zoom-in group" data-open-lightbox="${dish.image || ''}" data-lightbox-title="${dish.name}" title="Clic para ampliar imagen completa">
+          <div class="relative w-full h-56 sm:h-72 bg-surface-container-highest flex-shrink-0 overflow-hidden cursor-zoom-in group" data-open-lightbox="${dish.image || ''}" data-lightbox-title="${dish.name}" title="Clic para ampliar imagen completa">
             ${dish.image ? `
               <img src="${dish.image}" alt="${dish.name}" class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105 pointer-events-none"/>
             ` : `
@@ -3646,17 +3907,24 @@ class GastroApp {
             `}
             
             <!-- Botón llamativo de 'Ampliar Imagen Completa' -->
-            <div class="absolute bottom-3 right-3 bg-black/80 hover:bg-black text-white text-xs px-3.5 py-2 rounded-xl backdrop-blur-md border border-white/30 flex items-center space-x-2 shadow-2xl transition-transform group-hover:scale-105 pointer-events-none">
-              ${ICONS.zoom}
-              <span class="font-semibold">Ampliar foto completa</span>
-            </div>
+            ${preset.id === 'estilo1' ? `
+              <div class="absolute bottom-3 right-3 bg-surface-container-lowest/90 hover:bg-surface-container-lowest text-on-surface text-xs px-3.5 py-2 rounded-xl backdrop-blur-md border border-outline-variant/30 flex items-center space-x-2 shadow-lg transition-transform group-hover:scale-105 pointer-events-none">
+                <span class="material-symbols-outlined text-[16px] text-primary">zoom_in</span>
+                <span class="font-label-action text-label-action">Ampliar foto completa</span>
+              </div>
+            ` : `
+              <div class="absolute bottom-3 right-3 bg-black/80 hover:bg-black text-white text-xs px-3.5 py-2 rounded-xl backdrop-blur-md border border-white/30 flex items-center space-x-2 shadow-2xl transition-transform group-hover:scale-105 pointer-events-none">
+                ${ICONS.zoom}
+                <span class="font-semibold">Ampliar foto completa</span>
+              </div>
+            `}
           </div>
 
           <!-- Cabecera de Texto del Plato debajo de la foto para máxima legibilidad -->
-          <div class="p-5 sm:p-6 pb-2 border-b ${preset.id === 'estilo1' ? 'border-stone-200 bg-[#FAF9F7]' : preset.id === 'estilo2' ? 'border-slate-800' : 'border-zinc-200'} flex-shrink-0">
-            <div class="flex items-center space-x-2 mb-1.5">
-              ${dish.badge ? `<span class="px-2.5 py-0.5 rounded text-[10px] font-bold uppercase ${preset.id === 'estilo1' ? 'bg-[#8B1E1E] text-white' : 'bg-blue-600 text-white'}">${dish.badge}</span>` : ''}
-              <span class="text-xs font-mono opacity-70">${dish.category}</span>
+          <div class="p-5 sm:p-6 pb-4 border-b ${preset.id === 'estilo1' ? 'border-outline-variant/20 bg-surface-container-low' : preset.id === 'estilo2' ? 'border-slate-800' : 'border-zinc-200'} flex-shrink-0">
+            <div class="flex items-center space-x-2 mb-2">
+              ${dish.badge ? `<span class="px-3 py-1 rounded-full text-[11px] font-kicker-eyebrow uppercase tracking-wider ${preset.id === 'estilo1' ? 'bg-primary-container text-on-primary' : 'bg-blue-600 text-white'}">${dish.badge}</span>` : ''}
+              <span class="text-xs font-mono opacity-70 uppercase tracking-widest">${dish.category}</span>
             </div>
             <h2 class="${headerTextClass}">${dish.name}</h2>
           </div>
@@ -3665,20 +3933,20 @@ class GastroApp {
           <div class="p-5 sm:p-6 overflow-y-auto space-y-5 flex-1 ${bodyTextClass} text-xs sm:text-sm">
             
             <div>
-              <h4 class="text-xs font-bold uppercase tracking-wider mb-1 ${preset.id === 'estilo1' ? 'text-[#8B1E1E] vukata-font-title' : preset.id === 'estilo2' ? 'text-sky-400 font-mono' : 'text-stone-500'}">Descripción</h4>
-              <p class="leading-relaxed text-sm">${dish.description}</p>
+              <h4 class="text-xs font-kicker-eyebrow uppercase tracking-widest mb-1.5 ${preset.id === 'estilo1' ? 'text-primary' : preset.id === 'estilo2' ? 'text-sky-400 font-mono' : 'text-stone-500'}">Descripción</h4>
+              <p class="leading-relaxed font-body-md text-on-surface text-sm">${dish.description}</p>
             </div>
 
             ${dish.ingredients ? `
-              <div class="p-4 rounded-xl ${preset.id === 'estilo1' ? 'bg-[#F4F5F7] border border-stone-200' : preset.id === 'estilo2' ? 'bg-slate-900/90 border border-slate-800' : preset.id === 'estilo3' ? 'bg-[#eee7db] border border-[#dfd7cc]' : 'bg-zinc-50 border border-zinc-200'}">
-                <span class="font-bold text-xs block mb-1 uppercase tracking-wider ${preset.id === 'estilo1' ? 'text-[#8B1E1E] vukata-font-title' : preset.id === 'estilo2' ? 'text-sky-300' : 'text-stone-700'}">Ingredientes y Preparación</span>
-                <p class="text-xs leading-relaxed opacity-90">${dish.ingredients}</p>
+              <div class="p-4 rounded-2xl ${preset.id === 'estilo1' ? 'bg-surface-container-low border border-outline-variant/30' : preset.id === 'estilo2' ? 'bg-slate-900/90 border border-slate-800' : preset.id === 'estilo3' ? 'bg-[#eee7db] border border-[#dfd7cc]' : 'bg-zinc-50 border border-zinc-200'}">
+                <span class="font-kicker-eyebrow text-[11px] block mb-1 uppercase tracking-widest ${preset.id === 'estilo1' ? 'text-primary' : preset.id === 'estilo2' ? 'text-sky-300' : 'text-stone-700'}">Ingredientes y Preparación</span>
+                <p class="text-xs font-body-sm leading-relaxed text-on-surface-variant">${dish.ingredients}</p>
               </div>
             ` : ''}
 
             <!-- Alérgenos -->
             <div>
-              <h4 class="text-xs font-bold uppercase tracking-wider mb-2 ${preset.id === 'estilo1' ? 'text-[#8B1E1E] vukata-font-title' : preset.id === 'estilo2' ? 'text-sky-400 font-mono' : 'text-stone-500'}">Información de Alérgenos (Reglamento UE 1169/2011)</h4>
+              <h4 class="text-xs font-kicker-eyebrow uppercase tracking-widest mb-2.5 ${preset.id === 'estilo1' ? 'text-primary' : preset.id === 'estilo2' ? 'text-sky-400 font-mono' : 'text-stone-500'}">Información de Alérgenos (Reglamento UE 1169/2011)</h4>
               <div class="flex flex-wrap gap-2">
                 ${allergensList}
               </div>
@@ -3686,8 +3954,8 @@ class GastroApp {
 
             <!-- Sugerencia de Maridaje o Nota Culinaria -->
             ${dish.pairing || dish.beerPairing || dish.dietary ? `
-              <div class="border-t pt-4 ${preset.id === 'estilo1' ? 'border-stone-200' : preset.id === 'estilo2' ? 'border-slate-800' : 'border-zinc-200'} flex flex-wrap gap-4 text-xs font-mono">
-                ${dish.pairing ? `<span class="${preset.id === 'estilo1' ? 'text-[#8B1E1E] font-semibold' : 'text-amber-300'}">🍷 Maridaje: ${dish.pairing}</span>` : ''}
+              <div class="border-t pt-4 ${preset.id === 'estilo1' ? 'border-outline-variant/20' : preset.id === 'estilo2' ? 'border-slate-800' : 'border-zinc-200'} flex flex-wrap gap-4 text-xs font-mono">
+                ${dish.pairing ? `<span class="${preset.id === 'estilo1' ? 'text-primary font-semibold' : 'text-amber-300'}">🍷 Maridaje: ${dish.pairing}</span>` : ''}
                 ${dish.beerPairing ? `<span class="text-sky-300">🍺 Maridaje: ${dish.beerPairing}</span>` : ''}
                 ${dish.dietary ? `<span class="opacity-75">🌿 ${dish.dietary}</span>` : ''}
               </div>
@@ -3696,23 +3964,23 @@ class GastroApp {
           </div>
 
           <!-- Pie del Modal con Selector de Cantidad y Botón Temático -->
-          <div class="p-4 sm:p-5 border-t ${preset.id === 'estilo1' ? 'border-stone-200 bg-[#F4F5F7]' : preset.id === 'estilo2' ? 'border-slate-800 bg-[#070a13]' : preset.id === 'estilo3' ? 'border-[#dfd7cc] bg-[#f5f1e8]' : 'border-zinc-200 bg-zinc-50'} flex items-center justify-between gap-4 flex-shrink-0">
+          <div class="p-4 sm:p-5 border-t ${preset.id === 'estilo1' ? 'border-outline-variant/20 bg-surface-container-low' : preset.id === 'estilo2' ? 'border-slate-800 bg-[#070a13]' : preset.id === 'estilo3' ? 'border-[#dfd7cc] bg-[#f5f1e8]' : 'border-zinc-200 bg-zinc-50'} flex items-center justify-between gap-4 flex-shrink-0">
             
             <div class="flex items-center space-x-3">
-              <span class="text-xl sm:text-2xl font-bold ${preset.id === 'estilo1' ? 'text-[#8B1E1E] vukata-font-dish font-black text-3xl' : preset.id === 'estilo2' ? 'text-white font-mono' : preset.id === 'estilo3' ? 'text-[#3d3228] font-mono' : 'text-zinc-900 font-mono'}">
+              <span class="${preset.id === 'estilo1' ? 'text-primary font-headline-md font-bold text-2xl sm:text-3xl' : preset.id === 'estilo2' ? 'text-white font-mono text-xl sm:text-2xl font-bold' : preset.id === 'estilo3' ? 'text-[#3d3228] font-mono text-xl sm:text-2xl font-bold' : 'text-zinc-900 font-mono text-xl sm:text-2xl font-bold'}">
                 ${formatCurrency(dish.price)}
               </span>
 
-              <div class="flex items-center space-x-2 border rounded-xl px-2 py-1 ${preset.id === 'estilo1' ? 'border-stone-300 bg-white text-stone-900' : preset.id === 'estilo2' ? 'border-slate-700 bg-slate-800' : preset.id === 'estilo3' ? 'border-[#8c7b6c] bg-white' : 'border-zinc-300 bg-white'}">
+              <div class="flex items-center space-x-2 border ${preset.id === 'estilo1' ? 'border-outline-variant/40 bg-surface-container-lowest text-on-surface rounded-full px-3 py-1.5' : preset.id === 'estilo2' ? 'border-slate-700 bg-slate-800 rounded-xl px-2 py-1' : preset.id === 'estilo3' ? 'border-[#8c7b6c] bg-white rounded-xl px-2 py-1' : 'border-zinc-300 bg-white rounded-xl px-2 py-1'}">
                 <button type="button" data-modal-qty-minus class="w-7 h-7 flex items-center justify-center font-bold text-base cursor-pointer hover:opacity-75 select-none">-</button>
                 <span id="modal-dish-qty-val" class="w-6 text-center font-bold font-mono text-sm select-none">1</span>
                 <button type="button" data-modal-qty-plus class="w-7 h-7 flex items-center justify-center font-bold text-base cursor-pointer hover:opacity-75 select-none">+</button>
               </div>
             </div>
 
-            <button type="button" data-modal-add-cart class="${btnThemeClass} px-5 py-3 flex items-center space-x-2 cursor-pointer select-none">
+            <button type="button" data-modal-add-cart class="${btnThemeClass} flex items-center space-x-2 cursor-pointer select-none">
               <span>Añadir a la Comanda</span>
-              ${ICONS.arrow}
+              ${preset.id === 'estilo1' ? '<span class="material-symbols-outlined text-[18px]">shopping_basket</span>' : ICONS.arrow}
             </button>
 
           </div>
@@ -3720,6 +3988,69 @@ class GastroApp {
         </div>
       </div>
     `;
+
+    // Direct event listener binding to guarantee 100% responsiveness and reliability
+    const closeDishBtn = document.getElementById('close-dish-modal');
+    const dishBackdrop = document.getElementById('dish-modal-backdrop');
+    const minusBtn = container.querySelector('[data-modal-qty-minus]');
+    const plusBtn = container.querySelector('[data-modal-qty-plus]');
+    const addCartBtn = container.querySelector('[data-modal-add-cart]');
+    const lightboxTrigger = container.querySelector('[data-open-lightbox]');
+
+    const closeDishModal = (e) => {
+      if (e) {
+        e.preventDefault();
+        e.stopPropagation();
+      }
+      container.innerHTML = '';
+      this.currentModalDish = null;
+      this.modalQty = 1;
+    };
+
+    if (closeDishBtn) closeDishBtn.addEventListener('click', closeDishModal);
+    if (dishBackdrop) {
+      dishBackdrop.addEventListener('click', (e) => {
+        if (e.target === dishBackdrop) closeDishModal(e);
+      });
+    }
+    if (minusBtn) {
+      minusBtn.addEventListener('click', (e) => {
+        e.preventDefault();
+        e.stopPropagation();
+        if (this.modalQty > 1) {
+          this.modalQty -= 1;
+          const qtyElem = document.getElementById('modal-dish-qty-val');
+          if (qtyElem) qtyElem.innerText = this.modalQty;
+        }
+      });
+    }
+    if (plusBtn) {
+      plusBtn.addEventListener('click', (e) => {
+        e.preventDefault();
+        e.stopPropagation();
+        this.modalQty += 1;
+        const qtyElem = document.getElementById('modal-dish-qty-val');
+        if (qtyElem) qtyElem.innerText = this.modalQty;
+      });
+    }
+    if (addCartBtn) {
+      addCartBtn.addEventListener('click', (e) => {
+        e.preventDefault();
+        e.stopPropagation();
+        store.addToCart(dish, "", this.modalQty);
+        this.showToast(`✓ ${dish.name} (x${this.modalQty}) añadido a la comanda`);
+        closeDishModal();
+      });
+    }
+    if (lightboxTrigger) {
+      lightboxTrigger.addEventListener('click', (e) => {
+        e.preventDefault();
+        e.stopPropagation();
+        const imgUrl = lightboxTrigger.getAttribute('data-open-lightbox');
+        const imgTitle = lightboxTrigger.getAttribute('data-lightbox-title') || dish.name;
+        if (imgUrl) this.renderLightbox(imgUrl, imgTitle);
+      });
+    }
   }
 
   // =========================================================================
@@ -4959,7 +5290,7 @@ class GastroApp {
 
     if (preset.id === 'estilo1') {
       theme = {
-        card: 'bg-white border-2 border-[#8B1E1E]/30 text-stone-900 rounded-2xl shadow-2xl',
+        card: 'bg-surface-container-lowest border border-outline-variant/30 text-on-surface rounded-3xl shadow-2xl',
         headerBorder: 'border-b border-stone-200 bg-[#F4F5F7]',
         titleClass: 'vukata-font-title font-bold text-[#8B1E1E] tracking-wider',
         starBtn: 'border border-amber-300 bg-amber-50 hover:bg-amber-100 hover:border-amber-500 text-amber-500 rounded-xl',
@@ -5035,7 +5366,7 @@ class GastroApp {
               ${ICONS.google}
               <h3 class="font-bold text-sm sm:text-base ${theme.titleClass}">${preset.name}</h3>
             </div>
-            <button id="close-review-modal" class="opacity-60 hover:opacity-100 text-lg transition-opacity p-1 leading-none">✕</button>
+            <button id="close-review-modal" class="w-8 h-8 rounded-full bg-surface-container hover:bg-surface-container-high text-on-surface flex items-center justify-center text-sm transition-colors cursor-pointer" title="Cerrar modal">✕</button>
           </div>
 
           <!-- Paso 1: Valoración de 1 a 5 estrellas -->
@@ -5181,6 +5512,19 @@ class GastroApp {
         }
       });
     });
+
+    // Botón de cierre directo
+    const closeReviewBtn = document.getElementById('close-review-modal');
+    const reviewBackdrop = document.getElementById('review-modal-backdrop');
+    const closeReviewModal = (e) => {
+      if (e) {
+        e.preventDefault();
+        e.stopPropagation();
+      }
+      container.innerHTML = '';
+    };
+    if (closeReviewBtn) closeReviewBtn.addEventListener('click', closeReviewModal);
+    if (reviewBackdrop) reviewBackdrop.addEventListener('click', closeReviewModal);
 
     // Botones para volver al selector de estrellas
     const resetToStars = (e) => {
