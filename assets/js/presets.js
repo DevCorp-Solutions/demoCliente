@@ -138,7 +138,7 @@ export const RESTAURANT_PRESETS = {
         ingredients: "Queso provolone hilado, orégano de monte, ají molido y aceite de oliva virgen.",
         prepTime: "10 min",
         popular: true,
-        image: "https://images.unsplash.com/photo-1588168333986-5078d3ae3976?auto=format&fit=crop&w=800&q=80",
+        image: "assets/images/vukata/provoleta.jpg",
         allergens: ["gluten", "lacteos"]
       },
       {
@@ -294,7 +294,7 @@ export const RESTAURANT_PRESETS = {
         ingredients: "Costillar vacuno seleccionado, sal gorda marina y fuego de encina.",
         prepTime: "16 min",
         popular: true,
-        image: "https://images.unsplash.com/photo-1544025162-d76694265947?auto=format&fit=crop&w=800&q=80",
+        image: "assets/images/vukata/asado_tira.jpg",
         allergens: []
       },
       {
@@ -336,7 +336,7 @@ export const RESTAURANT_PRESETS = {
         ingredients: "Lomo de buey Wagyu certificado y sal de escamas de Añana.",
         prepTime: "22 min",
         popular: true,
-        image: "https://images.unsplash.com/photo-1603048588665-791ca8aea617?auto=format&fit=crop&w=800&q=80",
+        image: "assets/images/vukata/chuleton.jpg",
         allergens: []
       },
       {
@@ -350,7 +350,7 @@ export const RESTAURANT_PRESETS = {
         ingredients: "Lomo alto de vaca finlandesa y sal marina en escamas.",
         prepTime: "20 min",
         popular: false,
-        image: "https://images.unsplash.com/photo-1600891964599-f61ba0e24092?auto=format&fit=crop&w=800&q=80",
+        image: "assets/images/vukata/chuleton.jpg",
         allergens: []
       },
       {

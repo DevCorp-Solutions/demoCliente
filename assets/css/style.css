@@ -28,50 +28,163 @@ body {
    1. FONDOS GLOBALES Y TEMAS DE CADA ESTILO (CERO FONDO BLANCO AL HACER SCROLL)
    ========================================================================== */
 
-/* --- ESTILO 1: VUKATA RESTAURANTE PARRILLA (BRUSHED STEEL & VULCAN CRIMSON) --- */
+/* --- ESTILO 1: VUKATA RESTAURANTE PARRILLA (EMBER & ASH EDITORIAL - GOOGLE STITCH) --- */
 html.theme-estilo-1, 
 body.theme-estilo-1, 
 .theme-estilo-1,
 .theme-estilo-1 #app {
-  background-color: #f3f4f6 !important;
-  color: #18181b;
+  background-color: #fdf9f4 !important;
+  color: #1c1c19;
 }
 
 .theme-estilo-1 main {
-  background: 
-    radial-gradient(ellipse at 85% 15%, rgba(229, 45, 39, 0.08) 0%, transparent 40%),
-    radial-gradient(ellipse at 15% 60%, rgba(243, 112, 33, 0.07) 0%, transparent 45%),
-    linear-gradient(180deg, #f8f9fa 0%, #eceef1 100%);
-  background-attachment: fixed;
+  background: #fdf9f4;
 }
 
-/* Tipografías oficiales de Vukata */
-.vukata-font-title {
-  font-family: 'Montserrat', sans-serif;
+/* Tipografías oficiales de Vukata & Stitch Ember & Ash Editorial */
+.theme-estilo-1 .font-display-hero {
+  font-family: 'Playfair Display', Georgia, serif;
+  font-size: 56px;
+  line-height: 64px;
+  letter-spacing: -0.02em;
+  font-weight: 400;
+}
+@media (max-width: 768px) {
+  .theme-estilo-1 .font-display-hero {
+    font-size: 34px;
+    line-height: 42px;
+    letter-spacing: -0.01em;
+  }
+}
+
+.theme-estilo-1 .font-headline-lg {
+  font-family: 'Playfair Display', Georgia, serif;
+  font-size: 40px;
+  line-height: 48px;
+  letter-spacing: -0.015em;
+  font-weight: 400;
+}
+@media (max-width: 768px) {
+  .theme-estilo-1 .font-headline-lg {
+    font-size: 26px;
+    line-height: 34px;
+    letter-spacing: 0em;
+  }
+}
+
+.theme-estilo-1 .font-headline-md {
+  font-family: 'Playfair Display', Georgia, serif;
+  font-size: 28px;
+  line-height: 36px;
+  font-weight: 600;
+}
+
+.theme-estilo-1 .font-headline-sm {
+  font-family: 'Playfair Display', Georgia, serif;
+  font-size: 22px;
+  line-height: 30px;
+  font-weight: 600;
+}
+
+.theme-estilo-1 .font-title-italic {
+  font-family: 'Playfair Display', Georgia, serif;
+  font-size: 36px;
+  line-height: 44px;
+  font-weight: 400;
+  font-style: italic;
+}
+
+.theme-estilo-1 .font-kicker-eyebrow {
+  font-family: 'Plus Jakarta Sans', sans-serif;
+  font-size: 11px;
+  line-height: 16px;
+  letter-spacing: 0.18em;
   font-weight: 700;
-  letter-spacing: 0.04em;
   text-transform: uppercase;
+}
+
+.theme-estilo-1 .font-body-lg {
+  font-family: 'Plus Jakarta Sans', sans-serif;
+  font-size: 18px;
+  line-height: 28px;
+  font-weight: 400;
+}
+
+.theme-estilo-1 .font-body-md {
+  font-family: 'Plus Jakarta Sans', sans-serif;
+  font-size: 15px;
+  line-height: 24px;
+  font-weight: 400;
+}
+
+.theme-estilo-1 .font-body-sm {
+  font-family: 'Plus Jakarta Sans', sans-serif;
+  font-size: 13px;
+  line-height: 20px;
+  font-weight: 400;
+}
+
+.theme-estilo-1 .font-label-price {
+  font-family: 'Playfair Display', Georgia, serif;
+  font-size: 24px;
+  line-height: 30px;
+  font-weight: 600;
+}
+
+.theme-estilo-1 .font-label-action {
+  font-family: 'Plus Jakarta Sans', sans-serif;
+  font-size: 13px;
+  line-height: 16px;
+  letter-spacing: 0.02em;
+  font-weight: 600;
+}
+
+.theme-estilo-1 .font-stat-number {
+  font-family: 'Playfair Display', Georgia, serif;
+  font-size: 38px;
+  line-height: 44px;
+  font-weight: 600;
+}
+
+/* Animación de marquesina continua */
+@keyframes marqueeScroll {
+  0% { transform: translateX(0%); }
+  100% { transform: translateX(-50%); }
+}
+
+.animate-marquee {
+  display: inline-flex;
+  animation: marqueeScroll 28s linear infinite;
+}
+
+.animate-marquee:hover {
+  animation-play-state: paused;
+}
+
+/* Compatibilidad con clases previas de Vukata */
+.vukata-font-title {
+  font-family: 'Playfair Display', 'Montserrat', serif;
+  font-weight: 700;
+  letter-spacing: 0.02em;
   color: #8B1E1E;
 }
 
 .vukata-font-dish {
-  font-family: 'Barlow Condensed', sans-serif;
-  font-weight: 700;
-  letter-spacing: 0.02em;
-  text-transform: uppercase;
-  color: #18181b;
+  font-family: 'Playfair Display', 'Barlow Condensed', serif;
+  font-weight: 600;
+  letter-spacing: -0.01em;
+  color: #1c1c19;
 }
 
 .vukata-font-desc {
-  font-family: 'Barlow', 'Inter', sans-serif;
-  font-style: italic;
-  color: #52525b;
+  font-family: 'Plus Jakarta Sans', sans-serif;
+  color: #57423f;
 }
 
 .vukata-font-price {
-  font-family: 'Barlow Condensed', sans-serif;
+  font-family: 'Playfair Display', serif;
   font-weight: 700;
-  color: #18181b;
+  color: #8B1E1E;
 }
 
 /* Barra divisoria carmesí idéntica a la carta física de Vukata */
@@ -84,41 +197,41 @@ body.theme-estilo-1,
 
 .vukata-section-line {
   flex: 1;
-  height: 2.5px;
-  background: linear-gradient(90deg, #8B1E1E 0%, rgba(139, 30, 30, 0.25) 100%);
+  height: 2px;
+  background: linear-gradient(90deg, #8B1E1E 0%, rgba(139, 30, 30, 0.2) 100%);
   border-radius: 2px;
 }
 
-/* Tarjetas y Contenedores de Vukata */
+/* Tarjetas y Contenedores de Vukata con acabado editorial Stitch */
 .vukata-card {
   background: #ffffff;
-  border: 1px solid #e2e4e9;
-  border-radius: 0.75rem;
-  box-shadow: 0 2px 6px -1px rgba(0, 0, 0, 0.06), 0 1px 3px rgba(0, 0, 0, 0.03);
+  border: 1px solid #e6dfd5;
+  border-radius: 1rem;
+  box-shadow: 0 1px 4px rgba(0, 0, 0, 0.03);
   transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1);
 }
 
 .vukata-card:hover {
   border-color: #8B1E1E;
-  box-shadow: 0 10px 25px -5px rgba(139, 30, 30, 0.12), 0 4px 10px rgba(0, 0, 0, 0.04);
+  box-shadow: 0 12px 28px -6px rgba(20, 16, 14, 0.08);
   transform: translateY(-2px);
 }
 
 /* Botón de Pedido Vukata a las Brasas */
 .btn-vukata-primary {
-  background: linear-gradient(135deg, #e52d27 0%, #8B1E1E 100%);
+  background: linear-gradient(135deg, #9C382C 0%, #8B1E1E 100%);
   color: #ffffff;
-  font-family: 'Barlow Condensed', sans-serif;
-  font-weight: 700;
-  letter-spacing: 0.03em;
-  text-transform: uppercase;
+  font-family: 'Plus Jakarta Sans', sans-serif;
+  font-weight: 600;
+  letter-spacing: 0.02em;
+  border-radius: 9999px;
   transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
-  box-shadow: 0 4px 12px rgba(229, 45, 39, 0.25);
+  box-shadow: 0 4px 14px rgba(156, 56, 44, 0.22);
 }
 
 .btn-vukata-primary:hover {
-  background: linear-gradient(135deg, #d32f2f 0%, #721414 100%);
-  box-shadow: 0 6px 16px rgba(229, 45, 39, 0.35);
+  background: linear-gradient(135deg, #B83E2D 0%, #721414 100%);
+  box-shadow: 0 6px 18px rgba(156, 56, 44, 0.32);
   transform: translateY(-1px);
 }
 
@@ -144,8 +257,8 @@ body.theme-estilo-1,
 }
 .editorial-card {
   background: #ffffff;
-  border: 1px solid #e2e4e9;
-  border-radius: 0.75rem;
+  border: 1px solid #e6dfd5;
+  border-radius: 1rem;
   transition: all 0.25s ease;
 }
 

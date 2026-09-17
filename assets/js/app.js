@@ -452,10 +452,41 @@ export class GastroApp {
         this.renderSmartReviewModal(store.getPreset());
         return;
       }
-      if (e.target.closest('#close-review-modal') || e.target.id === 'review-modal-backdrop') {
-        const container = document.getElementById('review-modal-container');
-        if (container) container.innerHTML = '';
+      // 11. Toggle de panel de alérgenos
+      if (e.target.closest('#toggle-allergens')) {
+        e.preventDefault();
+        const box = document.getElementById('allergen-box');
+        if (box) box.classList.toggle('hidden');
         return;
+      }
+    });
+
+    // Manejador del formulario de reserva rápida directa en página de Estilo 1
+    document.addEventListener('submit', (e) => {
+      if (e.target.id === 'reservas-direct-form') {
+        e.preventDefault();
+        const nameInput = document.getElementById('direct-res-name');
+        const phoneInput = document.getElementById('direct-res-phone');
+        const guestsInput = document.getElementById('direct-res-guests');
+        const dateInput = document.getElementById('direct-res-date');
+        const shiftInput = document.getElementById('direct-res-shift');
+        
+        const name = nameInput ? nameInput.value : 'Comensal';
+        const phone = phoneInput ? phoneInput.value : '';
+        const guests = guestsInput ? guestsInput.value : '2 Comensales';
+        const date = dateInput ? dateInput.value : '';
+        const shift = shiftInput ? shiftInput.value : '14:00';
+
+        store.addReservation({
+          customerName: name,
+          customerPhone: phone,
+          guests: guests,
+          date: date,
+          turn: shift
+        });
+
+        this.showToast(`✓ ¡Reserva confirmada en Parrilla Vukata para ${name} (${guests}, ${shift})!`);
+        e.target.reset();
       }
     });
   }
@@ -594,49 +625,56 @@ export class GastroApp {
       </select>
     `;
 
-    // --- CABECERA ESTILO 1: RESTAURANTE PARRILLA VUKATA ---
+    // --- CABECERA ESTILO 1: RESTAURANTE PARRILLA VUKATA (EMBER & ASH STITCH) ---
     if (preset.id === 'estilo1') {
       return `
-        <header class="sticky top-0 z-40 bg-white/95 backdrop-blur-md text-stone-900 border-t-4 border-t-[#8B1E1E] border-b border-stone-200 shadow-sm">
-          <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            <div class="flex items-center justify-between h-20 sm:h-24 py-2">
+        <header class="sticky top-0 z-40 bg-[#fdf9f4]/95 backdrop-blur-xl text-[#1c1c19] border-b border-[#e6dfd5] shadow-[0_1px_8px_rgba(0,0,0,0.04)]">
+          <div class="max-w-[1360px] mx-auto px-4 sm:px-6 lg:px-10">
+            <div class="flex items-center justify-between h-20 py-2 gap-4">
               
-              <!-- Identidad: Logo DevCorp + Logotipo Parrilla Vukata -->
+              <!-- Identidad: Logo DevCorp + Logotipo Vukata con KA en rojo -->
               <div class="flex items-center space-x-3 sm:space-x-5 flex-shrink-0">
                 <a href="https://devcorpsolutions.com" target="_blank" class="flex items-center group" title="DevCorp Solutions">
-                  <img src="assets/images/logo.png" alt="DevCorp Solutions" class="h-10 sm:h-12 md:h-14 w-auto object-contain transition-transform group-hover:scale-105"/>
+                  <img src="assets/images/logo.png" alt="DevCorp Solutions" class="h-10 sm:h-12 w-auto object-contain transition-transform group-hover:scale-105"/>
                 </a>
 
-                <div class="hidden sm:flex items-center space-x-2.5 border-l-2 border-stone-200 pl-3 sm:pl-4">
-                  <!-- Llama Vukata -->
-                  <div class="w-8 h-8 flex items-center justify-center text-[#E52D27] flex-shrink-0">
-                    <svg class="w-7 h-7" viewBox="0 0 24 24" fill="currentColor">
-                      <path d="M12 2c1.5 3 4 5 4 8 0 4-3 6-3 6s3-1 3-4c0-2-1-3.5-1-3.5 2 1.5 4 4 4 7.5C19 19 16 22 12 22S5 19 5 15c0-4 3-7 5-9 0 2 1 3 2 4 0-3-1-6 0-8z"/>
-                    </svg>
-                  </div>
-                  <div>
-                    <span class="vukata-font-title text-base sm:text-lg font-black tracking-widest text-[#18181B] block leading-none">VU<span class="text-[#E52D27]">KA</span>TA</span>
-                    <span class="text-[9px] font-bold tracking-wider text-[#8B1E1E] uppercase block mt-0.5">RESTAURANTE PARRILLA</span>
+                <div class="hidden sm:flex items-center space-x-3 border-l border-[#e6dfd5] pl-3 sm:pl-4">
+                  <span class="material-symbols-outlined text-[#8B1E1E] text-[28px] transition-transform group-hover:scale-110">local_fire_department</span>
+                  <div class="flex flex-col">
+                    <span class="font-headline-sm text-[20px] tracking-tight text-[#1c1c19] leading-none font-bold">VU<span class="text-[#E52D27]">KA</span>TA</span>
+                    <span class="font-kicker-eyebrow text-[10px] tracking-[0.2em] text-[#8B1E1E] uppercase mt-0.5">ASADOR · PARRILLA</span>
                   </div>
                 </div>
               </div>
 
-              <!-- Navegación de Texto Vukata en Montserrat -->
-              <nav class="hidden md:flex items-center space-x-6 text-xs vukata-font-title font-bold">
-                <button data-view="menu" class="transition-colors pb-1.5 ${currentView === 'menu' ? 'text-[#8B1E1E] border-b-2 border-[#8B1E1E]' : 'text-stone-500 hover:text-[#8B1E1E]'}">Carta al Carbón</button>
-                <button data-view="reservations" class="transition-colors pb-1.5 ${currentView === 'reservations' ? 'text-[#8B1E1E] border-b-2 border-[#8B1E1E]' : 'text-stone-500 hover:text-[#8B1E1E]'}">Reservas</button>
-                <button data-view="kds" class="transition-colors pb-1.5 flex items-center space-x-1.5 ${currentView === 'kds' ? 'text-[#8B1E1E] border-b-2 border-[#8B1E1E]' : 'text-stone-500 hover:text-[#8B1E1E]'}">
-                  <span>Cocina KDS</span>
-                  ${kdsPending > 0 ? `<span class="bg-[#8B1E1E] text-white text-[10px] px-1.5 py-0.2 rounded font-mono font-bold">${kdsPending}</span>` : ''}
+              <!-- Cápsula Segmentada de Navegación (Ember & Ash Pill Bar) -->
+              <nav class="hidden lg:flex items-center gap-1 bg-[#f7f3ee] px-3 py-1.5 rounded-full border border-[#e6dfd5] shadow-[0_1px_4px_rgba(0,0,0,0.02)]">
+                <button data-view="menu" class="font-label-action text-[13px] px-4 py-2 rounded-full transition-all ${currentView === 'menu' ? 'bg-[#e8deda] text-[#1c1c19] font-bold shadow-xs' : 'text-[#57423f] hover:text-[#1c1c19]'}">
+                  Carta al Carbón
                 </button>
-                <button data-view="metrics" class="transition-colors pb-1.5 ${currentView === 'metrics' ? 'text-[#8B1E1E] border-b-2 border-[#8B1E1E]' : 'text-stone-500 hover:text-[#8B1E1E]'}">Métricas</button>
-                <button data-view="roi" class="transition-colors pb-1.5 ${currentView === 'roi' ? 'text-[#8B1E1E] border-b-2 border-[#8B1E1E]' : 'text-stone-500 hover:text-[#8B1E1E]'}">Rentabilidad</button>
+                <button data-view="reservations" class="font-label-action text-[13px] px-4 py-2 rounded-full transition-all ${currentView === 'reservations' ? 'bg-[#e8deda] text-[#1c1c19] font-bold shadow-xs' : 'text-[#57423f] hover:text-[#1c1c19]'}">
+                  Reservas
+                </button>
+                <button data-view="kds" class="font-label-action text-[13px] px-4 py-2 rounded-full transition-all flex items-center space-x-1.5 ${currentView === 'kds' ? 'bg-[#e8deda] text-[#1c1c19] font-bold shadow-xs' : 'text-[#57423f] hover:text-[#1c1c19]'}">
+                  <span>Cocina KDS</span>
+                  ${kdsPending > 0 ? `<span class="bg-[#8B1E1E] text-white text-[10px] px-1.5 py-0.2 rounded-full font-mono font-bold">${kdsPending}</span>` : ''}
+                </button>
+                <button data-view="metrics" class="font-label-action text-[13px] px-4 py-2 rounded-full transition-all ${currentView === 'metrics' ? 'bg-[#e8deda] text-[#1c1c19] font-bold shadow-xs' : 'text-[#57423f] hover:text-[#1c1c19]'}">
+                  Métricas
+                </button>
+                <button data-view="roi" class="font-label-action text-[13px] px-4 py-2 rounded-full transition-all ${currentView === 'roi' ? 'bg-[#e8deda] text-[#1c1c19] font-bold shadow-xs' : 'text-[#57423f] hover:text-[#1c1c19]'}">
+                  Rentabilidad
+                </button>
               </nav>
 
-              <!-- Selector de Estilos y Carrito -->
+              <!-- Selector de Estilos, Botón Reservar y Carrito -->
               <div class="flex items-center space-x-3 flex-shrink-0">
                 ${selectorHtml}
-                <button id="open-cart-btn" class="flex items-center space-x-2 bg-white border-2 border-[#8B1E1E]/40 text-[#8B1E1E] text-xs font-bold px-3.5 py-2 rounded-xl shadow-sm transition-colors hover:bg-stone-50">
+                <a href="#reservas-direct" data-view="reservations" class="hidden sm:inline-flex items-center gap-2 bg-[#9c382c] hover:bg-[#7c2118] text-white font-label-action text-[13px] px-5 py-2.5 rounded-full transition-all duration-300 shadow-[0_4px_14px_rgba(156,56,44,0.22)] cursor-pointer">
+                  <span class="material-symbols-outlined text-[17px]">restaurant</span>
+                  <span>Reservar mesa</span>
+                </a>
+                <button id="open-cart-btn" class="flex items-center space-x-2 bg-white border border-[#e6dfd5] text-[#8B1E1E] text-xs font-bold px-3.5 py-2.5 rounded-full shadow-sm transition-colors hover:bg-[#f7f3ee]">
                   ${ICONS.cart}
                   <span class="font-mono">${formatCurrency(store.getCartTotal())}</span>
                   ${cartCount > 0 ? `<span class="bg-[#8B1E1E] text-white text-[10px] font-black px-1.5 py-0.2 rounded-full">${cartCount}</span>` : ''}
@@ -646,13 +684,13 @@ export class GastroApp {
             </div>
           </div>
 
-          <!-- Barra móvil con pestañas de texto elegante -->
-          <nav class="md:hidden bg-stone-50 border-t border-stone-200 px-3 py-2.5 overflow-x-auto no-scrollbar flex items-center space-x-5 text-xs vukata-font-title font-bold min-w-max">
-            <button data-view="menu" class="${currentView === 'menu' ? 'text-[#8B1E1E]' : 'text-stone-500'}">Carta</button>
-            <button data-view="reservations" class="${currentView === 'reservations' ? 'text-[#8B1E1E]' : 'text-stone-500'}">Reservas</button>
-            <button data-view="kds" class="${currentView === 'kds' ? 'text-[#8B1E1E]' : 'text-stone-500'}">Cocina (${kdsPending})</button>
-            <button data-view="metrics" class="${currentView === 'metrics' ? 'text-[#8B1E1E]' : 'text-stone-500'}">Métricas</button>
-            <button data-view="roi" class="${currentView === 'roi' ? 'text-[#8B1E1E]' : 'text-stone-500'}">Rentabilidad</button>
+          <!-- Barra móvil táctil Stitch -->
+          <nav class="lg:hidden bg-[#f7f3ee] border-t border-[#e6dfd5] px-3 py-2 overflow-x-auto no-scrollbar flex items-center space-x-2 text-xs font-label-action font-semibold min-w-max">
+            <button data-view="menu" class="px-3 py-1 rounded-full ${currentView === 'menu' ? 'bg-[#e8deda] text-[#1c1c19] font-bold' : 'text-[#57423f]'}">Carta</button>
+            <button data-view="reservations" class="px-3 py-1 rounded-full ${currentView === 'reservations' ? 'bg-[#e8deda] text-[#1c1c19] font-bold' : 'text-[#57423f]'}">Reservas</button>
+            <button data-view="kds" class="px-3 py-1 rounded-full ${currentView === 'kds' ? 'bg-[#e8deda] text-[#1c1c19] font-bold' : 'text-[#57423f]'}">Cocina (${kdsPending})</button>
+            <button data-view="metrics" class="px-3 py-1 rounded-full ${currentView === 'metrics' ? 'bg-[#e8deda] text-[#1c1c19] font-bold' : 'text-[#57423f]'}">Métricas</button>
+            <button data-view="roi" class="px-3 py-1 rounded-full ${currentView === 'roi' ? 'bg-[#e8deda] text-[#1c1c19] font-bold' : 'text-[#57423f]'}">Rentabilidad</button>
           </nav>
         </header>
       `;
@@ -844,249 +882,345 @@ export class GastroApp {
   }
 
   // -------------------------------------------------------------------------
-  // -------------------------------------------------------------------------
-  // DISEÑO 1: RESTAURANTE PARRILLA VUKATA (ALUCHE)
-  // BRUSHED STEEL, VULCAN CRIMSON, CONDENSED FONTS & 14 ALLERGEN SYSTEM
+  // DISEÑO 1: RESTAURANTE PARRILLA VUKATA (ALUCHE) - EMBER & ASH EDITORIAL (STITCH)
+  // PALETA HUESO, BRASA, CARMÍN VUKATA Y TIPOGRAFÍA PLAYFAIR / PLUS JAKARTA SANS
   // -------------------------------------------------------------------------
   renderEstilo1Layout(preset, filteredMenu, activeCategory, activeAllergens, topData) {
     const categoriesToRender = activeCategory === 'all' ? preset.categories : [activeCategory];
 
     return `
-      <!-- SUGERENCIA DEL MAESTRO PARRILLERO -->
-      <div class="mb-8 p-4 sm:p-5 rounded-2xl bg-white border-2 border-[#8B1E1E]/25 flex flex-col sm:flex-row sm:items-center justify-between gap-4 text-stone-800 shadow-sm">
-        <div class="flex items-start sm:items-center space-x-3.5">
-          <div class="w-10 h-10 rounded-full bg-red-50 text-[#E52D27] flex items-center justify-center flex-shrink-0 shadow-inner">
-            <svg class="w-6 h-6" viewBox="0 0 24 24" fill="currentColor">
-              <path d="M12 2c1.5 3 4 5 4 8 0 4-3 6-3 6s3-1 3-4c0-2-1-3.5-1-3.5 2 1.5 4 4 4 7.5C19 19 16 22 12 22S5 19 5 15c0-4 3-7 5-9 0 2 1 3 2 4 0-3-1-6 0-8z"/>
-            </svg>
-          </div>
-          <div>
-            <div class="flex items-center space-x-2 text-[11px] text-[#8B1E1E] font-bold uppercase tracking-wider">
-              <span>◆ Especialidad de la Brasa</span>
-              <span>·</span>
-              <span class="text-stone-600 font-normal font-sans">${topData.count} comandas servidas hoy</span>
-            </div>
-            <div class="flex items-center space-x-2 mt-0.5">
-              <h3 class="vukata-font-dish text-xl font-bold text-stone-950">${topData.dish.name}</h3>
-              ${renderAllergenBadges(topData.dish.allergens, 'xs')}
-            </div>
-            <p class="text-xs vukata-font-desc text-stone-600">${topData.dish.description}</p>
-          </div>
-        </div>
+      <!-- HERO SECTION: Atmospheric Dark Ember Hearth (Stitch Redesign) -->
+      <section class="relative w-full bg-[#14100E] text-[#f1ede8] overflow-hidden pt-10 pb-16 lg:pt-16 lg:pb-24 rounded-3xl mb-12 shadow-2xl">
+        <!-- Embers ambient background overlay -->
+        <div class="absolute inset-0 pointer-events-none opacity-40 bg-[radial-gradient(ellipse_at_center,_var(--tw-gradient-stops))] from-[#9c382c]/30 via-transparent to-transparent"></div>
+        <div class="absolute -right-24 top-1/4 w-96 h-96 rounded-full bg-[#8B1E1E]/10 blur-3xl pointer-events-none"></div>
 
-        <div class="flex items-center space-x-2 flex-shrink-0 self-end sm:self-center">
-          <button data-open-dish-modal="${topData.dish.id}" class="bg-stone-100 hover:bg-stone-200 text-stone-800 text-xs font-semibold px-3 py-2 rounded-xl transition-all border border-stone-300 flex items-center space-x-1.5">
-            ${ICONS.eye}
-            <span>Ver Detalle</span>
-          </button>
-          <button data-add-cart="${topData.dish.id}" class="btn-vukata-primary text-xs px-4 py-2 rounded-xl shadow">
-            Pedir (${formatCurrency(topData.dish.price)})
-          </button>
+        <div class="max-w-[1360px] mx-auto px-6 lg:px-10 relative z-10">
+          <div class="grid grid-cols-1 lg:grid-cols-12 gap-10 lg:gap-8 items-center">
+            
+            <!-- Hero Content (7 Cols) -->
+            <div class="lg:col-span-7 flex flex-col items-start space-y-6">
+              <div class="flex items-center gap-3">
+                <span class="w-8 h-[2px] bg-[#E52D27]"></span>
+                <span class="font-kicker-eyebrow tracking-[0.22em] text-[#ffdad5] uppercase">ALUCHE · MADRID — DESDE 1996</span>
+              </div>
+              
+              <h1 class="font-display-hero text-white tracking-tight">
+                La brasa <span class="font-title-italic italic text-[#D49B53] font-normal">no perdona.</span><br/>
+                La carne, tampoco.
+              </h1>
+
+              <p class="font-body-lg text-[#ddd9d5] max-w-xl leading-relaxed">
+                <strong class="text-white font-semibold">VU<span class="text-[#E52D27]">KA</span>TA</strong> es un asador y parrilla al carbón de encina. Elegimos la pieza, maduramos el corte en casa y lo llevamos al punto exacto. Sin atajos, sin gas, sin esconder nada.
+              </p>
+
+              <!-- CTAs -->
+              <div class="flex flex-wrap items-center gap-4 pt-2">
+                <a class="inline-flex items-center gap-2.5 bg-[#9c382c] hover:bg-[#7c2118] text-white font-label-action px-7 py-3.5 rounded-full transition-all duration-300 shadow-[0_8px_24px_rgba(156,56,44,0.35)] transform hover:-translate-y-0.5 cursor-pointer" href="#reservas-direct">
+                  <span class="material-symbols-outlined text-[18px]">calendar_month</span>
+                  <span>Reservar mesa</span>
+                </a>
+                <a class="inline-flex items-center gap-2.5 bg-white/10 hover:bg-white/20 text-white font-label-action px-6 py-3.5 rounded-full transition-all duration-200 backdrop-blur-sm cursor-pointer" href="#carta-section">
+                  <span class="material-symbols-outlined text-[18px]">shopping_bag</span>
+                  <span>Pedir para llevar</span>
+                </a>
+                <a class="inline-flex items-center gap-2 text-[#ddd9d5] hover:text-[#D49B53] font-label-action px-3 py-2 transition-colors cursor-pointer" href="tel:+34915098576">
+                  <span class="material-symbols-outlined text-[18px] text-[#D49B53]">call</span>
+                  <span>+34 915 09 85 76</span>
+                </a>
+              </div>
+            </div>
+
+            <!-- Hero Focal Media & Live Grill Ambience (5 Cols) -->
+            <div class="lg:col-span-5 relative">
+              <div class="relative rounded-2xl overflow-hidden shadow-2xl bg-white/5 p-2 border border-white/10">
+                <img alt="Corte de carne selecta a las brasas" class="w-full h-[360px] lg:h-[440px] object-cover rounded-xl transform transition-transform duration-700 hover:scale-105" src="assets/images/vukata/chuleton.jpg"/>
+                <div class="absolute inset-0 bg-gradient-to-t from-[#14100E] via-transparent to-transparent opacity-80 rounded-xl"></div>
+                <div class="absolute bottom-5 left-5 right-5 flex items-center justify-between bg-white/95 backdrop-blur-md p-4 rounded-xl text-[#1c1c19] shadow-lg">
+                  <div class="flex items-center gap-3">
+                    <span class="material-symbols-outlined text-[#8B1E1E] text-[28px]">local_fire_department</span>
+                    <div>
+                      <span class="font-kicker-eyebrow text-[10px] uppercase text-[#8B1E1E] tracking-wider block">PARRILLA VIVA</span>
+                      <span class="font-headline-sm text-[15px] leading-tight font-semibold text-[#1c1c19]">Carbón de encina extremeño</span>
+                    </div>
+                  </div>
+                  <span class="font-label-action text-[11px] bg-[#e8deda] text-[#1c1c19] px-2.5 py-1 rounded-full uppercase tracking-wider font-bold">En directo</span>
+                </div>
+              </div>
+            </div>
+
+          </div>
+
+          <!-- Highlight Stats Row -->
+          <div class="mt-14 pt-8 border-t border-white/10 bg-white/5 rounded-2xl p-6 lg:p-8 backdrop-blur-sm">
+            <div class="grid grid-cols-2 lg:grid-cols-4 gap-6 lg:gap-8 text-center sm:text-left">
+              <div class="flex flex-col">
+                <span class="font-stat-number text-white leading-none mb-1">1996</span>
+                <span class="font-kicker-eyebrow text-[#ddd9d5] uppercase tracking-[0.16em]">AÑO DE APERTURA</span>
+              </div>
+              <div class="flex flex-col">
+                <span class="font-stat-number text-white leading-none mb-1">40+</span>
+                <span class="font-kicker-eyebrow text-[#ddd9d5] uppercase tracking-[0.16em]">DÍAS DE MADURACIÓN</span>
+              </div>
+              <div class="flex flex-col">
+                <span class="font-stat-number text-white leading-none mb-1">100%</span>
+                <span class="font-kicker-eyebrow text-[#ddd9d5] uppercase tracking-[0.16em]">CARBÓN DE ENCINA</span>
+              </div>
+              <div class="flex flex-col">
+                <div class="flex items-center justify-center sm:justify-start gap-1.5 mb-1">
+                  <span class="font-stat-number text-white leading-none">4,8</span>
+                  <div class="flex text-[#D49B53]">
+                    <span class="material-symbols-outlined text-[22px]">star</span>
+                  </div>
+                </div>
+                <a href="${preset.googleMapsUrl}" target="_blank" class="font-kicker-eyebrow text-[#ddd9d5] hover:text-white uppercase tracking-[0.16em] transition-colors">GOOGLE MAPS · 348 RESEÑAS ↗</a>
+              </div>
+            </div>
+          </div>
+
+        </div>
+      </section>
+
+      <!-- TICKER MARQUEE RIBBON -->
+      <div class="w-full bg-[#e8deda] py-3.5 overflow-hidden shadow-inner flex select-none mb-12 rounded-2xl border border-[#ddc0bb]">
+        <div class="flex items-center gap-8 whitespace-nowrap animate-marquee">
+          <span class="font-title-italic text-[16px] text-[#1c1c19] italic">Carbón natural</span>
+          <span class="material-symbols-outlined text-[#8B1E1E] text-[16px]">local_fire_department</span>
+          <span class="font-title-italic text-[16px] text-[#1c1c19] italic">Desde 1996</span>
+          <span class="material-symbols-outlined text-[#8B1E1E] text-[16px]">local_fire_department</span>
+          <span class="font-title-italic text-[16px] text-[#1c1c19] italic">Brasa de encina</span>
+          <span class="material-symbols-outlined text-[#8B1E1E] text-[16px]">local_fire_department</span>
+          <span class="font-title-italic text-[16px] text-[#1c1c19] italic">Maduración propia</span>
+          <span class="material-symbols-outlined text-[#8B1E1E] text-[16px]">local_fire_department</span>
+          <span class="font-title-italic text-[16px] text-[#1c1c19] italic">Corte a cuchillo</span>
+          <span class="material-symbols-outlined text-[#8B1E1E] text-[16px]">local_fire_department</span>
+          <span class="font-title-italic text-[16px] text-[#1c1c19] italic">Cocina de mercado</span>
+          <span class="material-symbols-outlined text-[#8B1E1E] text-[16px]">local_fire_department</span>
+          <!-- Duplicate set for seamless continuous loop -->
+          <span class="font-title-italic text-[16px] text-[#1c1c19] italic">Carbón natural</span>
+          <span class="material-symbols-outlined text-[#8B1E1E] text-[16px]">local_fire_department</span>
+          <span class="font-title-italic text-[16px] text-[#1c1c19] italic">Desde 1996</span>
+          <span class="material-symbols-outlined text-[#8B1E1E] text-[16px]">local_fire_department</span>
+          <span class="font-title-italic text-[16px] text-[#1c1c19] italic">Brasa de encina</span>
+          <span class="material-symbols-outlined text-[#8B1E1E] text-[16px]">local_fire_department</span>
+          <span class="font-title-italic text-[16px] text-[#1c1c19] italic">Maduración propia</span>
+          <span class="material-symbols-outlined text-[#8B1E1E] text-[16px]">local_fire_department</span>
+          <span class="font-title-italic text-[16px] text-[#1c1c19] italic">Corte a cuchillo</span>
+          <span class="material-symbols-outlined text-[#8B1E1E] text-[16px]">local_fire_department</span>
+          <span class="font-title-italic text-[16px] text-[#1c1c19] italic">Cocina de mercado</span>
+          <span class="material-symbols-outlined text-[#8B1E1E] text-[16px]">local_fire_department</span>
         </div>
       </div>
 
-      <!-- BANNER INSTITUCIONAL Y TAKE AWAY VUKATA -->
-      <section class="mb-10 rounded-2xl bg-white border border-stone-200 p-6 sm:p-8 shadow-sm relative overflow-hidden">
-        <div class="absolute -right-10 -bottom-10 w-56 h-56 rounded-full bg-gradient-to-br from-red-500/10 to-orange-500/5 blur-2xl pointer-events-none"></div>
-
-        <div class="grid grid-cols-1 lg:grid-cols-12 gap-6 sm:gap-8 items-center">
-          <div class="lg:col-span-8">
-            <div class="flex items-center space-x-2 text-[#8B1E1E] mb-2 font-bold text-xs uppercase tracking-widest">
-              <span>🔥 ${preset.type}</span>
-              <span>·</span>
-              <span>Desde 1996 en Aluche</span>
+      <!-- FEATURED SHOWCASE DISH: Directo de la Brasa (50/50 Spotlight Card) -->
+      <section class="mb-14 w-full">
+        <div class="flex flex-col md:flex-row md:items-end justify-between mb-8 gap-4">
+          <div class="space-y-1.5">
+            <div class="flex items-center gap-2">
+              <span class="w-6 h-[2px] bg-[#8B1E1E]"></span>
+              <span class="font-kicker-eyebrow text-[#8B1E1E] uppercase tracking-[0.2em]">DIRECTO DE LA BRASA</span>
             </div>
-
-            <h1 class="vukata-font-title text-4xl sm:text-6xl lg:text-7xl font-black text-[#18181B] tracking-tight leading-none">
-              VU<span class="text-[#E52D27]">KA</span>TA
-            </h1>
-            <p class="text-xs sm:text-sm font-bold text-[#8B1E1E] uppercase tracking-widest mt-2 font-sans">
-              RESTAURANTE · PARRILLA AL CARBÓN
+            <h2 class="font-headline-lg text-[#1c1c19]">Las piezas que la gente vuelve a pedir</h2>
+            <p class="font-body-md text-[#57423f] max-w-xl">
+              No tenemos una carta enorme. Tenemos pocos platos y cada uno mimado hasta el último segundo sobre la encina.
             </p>
-            
-            <div class="mt-3 p-3 rounded-xl bg-red-50/70 border border-[#8B1E1E]/20 inline-block max-w-xl">
-              <span class="vukata-font-title text-xs sm:text-sm font-black text-[#8B1E1E] block">
-                TAKE AWAY · TODA NUESTRA CARTA PUEDES PEDIRLA PARA LLEVÁRTELA
-              </span>
-              <span class="text-[11px] text-stone-600 block mt-0.5 font-sans">
-                Llama para encargar y recoger caliente: <strong class="text-[#8B1E1E] font-mono">${preset.phone}</strong> o tramita tu pedido directo aquí sin sobrecostes.
+          </div>
+          <a class="inline-flex items-center gap-2 text-[#1c1c19] bg-[#f1ede8] hover:bg-[#ebe8e3] px-5 py-2.5 rounded-full font-label-action text-[13px] transition-all" href="#carta-section">
+            <span>Ver la carta completa</span>
+            <span class="material-symbols-outlined text-[16px]">arrow_forward</span>
+          </a>
+        </div>
+
+        <!-- Spotlight 50/50 Card -->
+        <div class="bg-[#f7f3ee] rounded-3xl overflow-hidden border border-[#e6dfd5] shadow-lg grid grid-cols-1 lg:grid-cols-12 items-stretch">
+          <div class="relative lg:col-span-7 min-h-[340px] lg:min-h-[440px]">
+            <img alt="${topData.dish.name}" class="w-full h-full object-cover" src="${topData.dish.image || 'assets/images/vukata/asado_tira.jpg'}"/>
+            <div class="absolute top-5 left-5">
+              <span class="font-kicker-eyebrow text-[10px] uppercase bg-[#8B1E1E] text-white px-3 py-1.5 rounded-full tracking-widest shadow-md">
+                LA CASA
               </span>
             </div>
-
-            <p class="text-stone-700 text-xs sm:text-sm mt-3.5 max-w-2xl leading-relaxed vukata-font-desc">
-              "${preset.aboutUs.quote}"
-            </p>
-
-            <div class="mt-4 flex flex-wrap gap-3 sm:gap-4 text-xs text-stone-600 font-sans">
-              <span class="font-medium">📍 ${preset.address}</span>
-              <span>·</span>
-              <span class="text-amber-700 font-bold">★ ${preset.rating} Google Maps (${preset.totalReviews} opiniones)</span>
-            </div>
+            <button data-open-lightbox="${topData.dish.image || 'assets/images/vukata/asado_tira.jpg'}" data-lightbox-title="${topData.dish.name}" class="absolute bottom-4 right-4 bg-black/70 hover:bg-black text-white p-2 rounded-xl text-xs backdrop-blur-sm cursor-pointer" title="Ampliar foto">
+              ${ICONS.zoom}
+            </button>
           </div>
 
-          <div class="lg:col-span-4 bg-stone-50 border border-stone-200 p-5 rounded-xl shadow-inner">
-            <span class="vukata-font-title text-[11px] text-[#8B1E1E] block mb-1">Horario de Brasas & Cocina</span>
-            <p class="text-xs text-stone-700 font-sans leading-relaxed">${preset.serviceHours}</p>
-            <div class="mt-3 pt-3 border-t border-stone-200 flex items-center justify-between text-xs">
-              <span class="text-stone-600">Especialidad</span>
-              <span class="vukata-font-dish text-stone-900 font-bold">Carnes al Carbón de Encina</span>
+          <div class="lg:col-span-5 p-8 lg:p-10 flex flex-col justify-between bg-white">
+            <div class="space-y-4">
+              <div class="flex items-center justify-between">
+                <span class="font-kicker-eyebrow text-[10px] text-[#645d5a] uppercase tracking-[0.2em]">${topData.dish.badge || 'PIEZA 400 G APROX.'}</span>
+                ${renderAllergenBadges(topData.dish.allergens, 'sm')}
+              </div>
+              <h3 class="font-headline-md text-[#1c1c19] font-semibold">${topData.dish.name}</h3>
+              <p class="font-body-md text-[#57423f] leading-relaxed">
+                ${topData.dish.description}
+              </p>
+              <div class="grid grid-cols-2 gap-3 pt-2">
+                <div class="bg-[#f7f3ee] p-3 rounded-xl">
+                  <span class="font-kicker-eyebrow text-[10px] text-[#645d5a] uppercase block">ORIGEN</span>
+                  <span class="font-body-sm font-semibold text-[#1c1c19]">Vaca Seleccionada</span>
+                </div>
+                <div class="bg-[#f7f3ee] p-3 rounded-xl">
+                  <span class="font-kicker-eyebrow text-[10px] text-[#645d5a] uppercase block">TÉCNICA</span>
+                  <span class="font-body-sm font-semibold text-[#1c1c19]">${topData.dish.prepTime || 'Fuego Lento 45 Min'}</span>
+                </div>
+              </div>
+            </div>
+
+            <div class="pt-6 mt-6 border-t border-[#e6dfd5] flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+              <div>
+                <span class="font-kicker-eyebrow text-[10px] text-[#645d5a] uppercase block">PRECIO RACIÓN</span>
+                <span class="font-label-price text-[#8B1E1E] font-bold">${formatCurrency(topData.dish.price)}</span>
+              </div>
+              <div class="flex items-center gap-2">
+                <button data-open-dish-modal="${topData.dish.id}" class="bg-[#f1ede8] hover:bg-[#ebe8e3] text-[#1c1c19] font-label-action text-[13px] px-4 py-2.5 rounded-full transition-all">
+                  Ver Detalle
+                </button>
+                <button data-add-cart="${topData.dish.id}" class="btn-vukata-primary font-label-action text-[13px] px-6 py-2.5 rounded-full flex items-center gap-2">
+                  <span class="material-symbols-outlined text-[17px]">restaurant</span>
+                  <span>Pedir plato</span>
+                </button>
+              </div>
             </div>
           </div>
         </div>
       </section>
 
-      <!-- BARRA DE CATEGORÍAS EN MONTSERRAT (STICKY & RESPONSIVE) -->
-      <div class="sticky top-20 sm:top-24 z-30 bg-[#FAF9F7]/95 backdrop-blur-md border-y-2 border-stone-200 py-3 mb-6 px-2 flex flex-wrap items-center justify-between gap-4 shadow-sm rounded-xl">
-        <div class="flex items-center space-x-3 sm:space-x-5 overflow-x-auto no-scrollbar text-xs vukata-font-title font-bold">
-          <button data-category="all" class="pb-1.5 transition-colors whitespace-nowrap ${activeCategory === 'all' ? 'text-[#8B1E1E] border-b-2 border-[#8B1E1E]' : 'text-stone-500 hover:text-stone-800'}">
-            Toda la Carta (${preset.menu.length})
-          </button>
-          ${preset.categories.map(cat => `
-            <button data-category="${cat}" class="pb-1.5 whitespace-nowrap transition-colors ${activeCategory === cat ? 'text-[#8B1E1E] border-b-2 border-[#8B1E1E]' : 'text-stone-500 hover:text-stone-800'}">
-              ${cat}
+      <!-- STICKY FILTER SUBNAV & SEARCH -->
+      <section class="sticky top-20 z-30 bg-[#fdf9f4]/95 backdrop-blur-md py-4 border-y border-[#e6dfd5] mb-8" id="carta-section">
+        <div class="flex flex-col md:flex-row items-center justify-between gap-4">
+          
+          <!-- Category Pill Carousel -->
+          <div class="flex items-center gap-2 overflow-x-auto w-full md:w-auto pb-1 md:pb-0 scrollbar-none" id="category-pills">
+            <button data-category="all" class="cat-filter px-4 py-2 rounded-full font-label-action text-[13px] whitespace-nowrap transition-all ${activeCategory === 'all' ? 'bg-[#1c1c19] text-white shadow-sm font-semibold' : 'bg-[#f1ede8] hover:bg-[#ebe8e3] text-[#57423f]'}">
+              Todos (${preset.menu.length})
             </button>
-          `).join('')}
-        </div>
+            ${preset.categories.map(cat => `
+              <button data-category="${cat}" class="cat-filter px-4 py-2 rounded-full font-label-action text-[13px] whitespace-nowrap transition-all ${activeCategory === cat ? 'bg-[#1c1c19] text-white shadow-sm font-semibold' : 'bg-[#f1ede8] hover:bg-[#ebe8e3] text-[#57423f]'}">
+                ${cat}
+              </button>
+            `).join('')}
+          </div>
 
-        <div class="flex items-center space-x-2 flex-wrap gap-2">
-          <!-- Indicador de Alérgenos Activos si existen -->
-          ${activeAllergens && activeAllergens.length > 0 ? `
-            <div class="flex items-center space-x-1.5 bg-red-50 border border-[#8B1E1E]/30 px-3 py-1 rounded-full text-xs">
-              <span class="text-[11px] text-stone-600 font-sans font-medium">Excluyendo:</span>
-              <div class="flex items-center space-x-1 flex-wrap">
-                ${activeAllergens.map(code => `
-                  <span class="inline-flex items-center space-x-0.5">
-                    ${renderAllergenBadge(code, 'xs', true)}
-                    <button data-allergen="${code}" class="font-bold text-red-600 hover:text-red-900 text-xs px-0.5 cursor-pointer" title="Quitar este filtro">✕</button>
-                  </span>
-                `).join('')}
+          <!-- Quick Allergen & View Controls -->
+          <div class="flex items-center gap-3 w-full md:w-auto justify-end">
+            <button id="toggle-allergens" class="inline-flex items-center gap-1.5 bg-[#f7f3ee] hover:bg-[#f1ede8] text-[#57423f] px-4 py-2 rounded-full font-label-action text-[12px] border border-[#e6dfd5] transition-colors cursor-pointer">
+              <span class="material-symbols-outlined text-[16px] text-[#5f3a00]">info</span>
+              <span>Info Alérgenos (14 UE)</span>
+              ${activeAllergens.length > 0 ? `<span class="bg-[#8B1E1E] text-white text-[10px] px-1.5 py-0.2 rounded-full font-bold">${activeAllergens.length}</span>` : ''}
+            </button>
+            
+            <div class="flex items-center bg-[#f1ede8] p-1 rounded-full text-[#645d5a]">
+              <button data-menu-mode="cards" class="px-3.5 py-1 rounded-full text-xs font-medium transition-all ${this.menuMode !== 'compact' ? 'bg-white text-[#1c1c19] shadow-sm font-bold' : 'text-[#645d5a] hover:text-[#1c1c19]'}">Tarjetas</button>
+              <button data-menu-mode="compact" class="px-3.5 py-1 rounded-full text-xs font-medium transition-all ${this.menuMode === 'compact' ? 'bg-white text-[#1c1c19] shadow-sm font-bold' : 'text-[#645d5a] hover:text-[#1c1c19]'}">Lista rápida</button>
+            </div>
+          </div>
+
+        </div>
+      </section>
+
+      <!-- ALLERGENS INFO BANNER & MULTI-SELECT MATRIX (Collapsible via JS) -->
+      <div class="${activeAllergens.length > 0 ? '' : 'hidden'} mb-8 w-full transition-all" id="allergen-box">
+        <div class="bg-[#ffddb8]/30 border border-[#ddc0bb] p-5 rounded-2xl text-[#2a1700] shadow-sm">
+          <div class="flex items-start gap-3">
+            <span class="material-symbols-outlined text-[#5f3a00] mt-0.5 text-[24px]">verified_user</span>
+            <div class="flex-1">
+              <div class="flex flex-wrap items-center justify-between gap-2">
+                <p class="font-semibold text-sm">Aviso de intolerancias alimentarias y alérgenos (Reglamento UE 1169/2011)</p>
+                ${activeAllergens.length > 0 ? `
+                  <button type="button" data-clear-allergens class="text-xs font-bold text-[#8B1E1E] hover:underline cursor-pointer">
+                    ✕ Limpiar filtros (${activeAllergens.length})
+                  </button>
+                ` : ''}
               </div>
-              <button data-clear-allergens class="ml-1 text-[11px] font-bold text-[#8B1E1E] underline hover:text-[#5c1313] cursor-pointer">
-                Limpiar todo
-              </button>
+              <p class="text-xs text-[#57423f] mt-1 mb-3">
+                Disponemos de fichas técnicas para cada preparación sobre brasas. Selecciona cualquier alérgeno para excluir platos de la carta en tiempo real.
+              </p>
+              <!-- 14 Allergen Pills -->
+              <div class="flex flex-wrap items-center gap-1.5 sm:gap-2">
+                ${Object.values(VUKATA_ALLERGENS).map(a => {
+                  const isSelected = activeAllergens.includes(a.id);
+                  return `
+                    <button type="button" data-allergen="${a.id}" class="inline-flex items-center space-x-1.5 px-3 py-1.5 rounded-full text-xs transition-all border cursor-pointer select-none ${
+                      isSelected 
+                        ? 'bg-[#8B1E1E] text-white font-bold border-[#8B1E1E] shadow-sm ring-2 ring-red-200' 
+                        : 'bg-white hover:bg-[#f7f3ee] text-[#1c1c19] border-[#e6dfd5]'
+                    }" title="${isSelected ? 'Quitar filtro de ' + a.name : 'Excluir platos con ' + a.name}">
+                      <span class="w-4 h-4 rounded-full flex items-center justify-center text-white flex-shrink-0" style="background-color: ${a.color};">
+                        <span class="w-2.5 h-2.5 flex items-center justify-center">${a.svg}</span>
+                      </span>
+                      <span class="font-medium whitespace-nowrap">${a.name}</span>
+                      ${isSelected ? `<span class="text-[10px] font-bold ml-0.5">✕</span>` : ''}
+                    </button>
+                  `;
+                }).join('')}
+              </div>
             </div>
-          ` : ''}
-
-          <!-- Selector de Modo de Vista: Tarjetas con Foto / Lista Rápida Completa -->
-          <div class="inline-flex rounded-xl bg-stone-100 p-0.5 border border-stone-300 text-xs font-semibold shadow-inner">
-            <button data-menu-mode="cards" class="px-2.5 sm:px-3 py-1.5 rounded-lg transition-all ${this.menuMode !== 'compact' ? 'bg-[#8B1E1E] text-white shadow font-bold' : 'text-stone-600 hover:text-stone-900'}" title="Vista con fotos grandes">
-              🖼️ Tarjetas
-            </button>
-            <button data-menu-mode="compact" class="px-2.5 sm:px-3 py-1.5 rounded-lg transition-all ${this.menuMode === 'compact' ? 'bg-[#8B1E1E] text-white shadow font-bold' : 'text-stone-600 hover:text-stone-900'}" title="Vista compacta de lista rápida (todos los precios visibles de un vistazo con scroll)">
-              📋 Lista Rápida
-            </button>
           </div>
         </div>
       </div>
 
-      <!-- SELECTOR DE ALÉRGENOS MULTISELECCIÓN (14 ALÉRGENOS SIN CORTES CON WRAP) -->
-      <div class="mb-8 p-4 bg-white/95 border border-stone-200 rounded-2xl shadow-sm">
-        <div class="flex flex-wrap items-center justify-between gap-2 pb-2.5 mb-3 border-b border-stone-100">
-          <div class="flex items-center space-x-2">
-            <span class="text-base">🛡️</span>
-            <div>
-              <span class="vukata-font-title text-xs font-bold text-[#8B1E1E] uppercase tracking-wider">Filtro de Alérgenos</span>
-              <span class="text-[11px] text-stone-500 font-sans ml-1 sm:inline block">(Selecciona uno o varios para excluir platos de la carta)</span>
-            </div>
-          </div>
-          <div class="flex items-center space-x-2">
-            ${activeAllergens && activeAllergens.length > 0 ? `
-              <span class="text-[11px] font-bold text-[#8B1E1E] bg-red-50 border border-red-200 px-2 py-0.5 rounded-full">
-                ${activeAllergens.length} seleccionado${activeAllergens.length > 1 ? 's' : ''}
-              </span>
-              <button type="button" data-clear-allergens class="text-xs font-bold text-[#8B1E1E] hover:text-[#5c1313] hover:underline cursor-pointer flex items-center space-x-1">
-                <span>✕ Limpiar filtros</span>
-              </button>
-            ` : `
-              <span class="text-[11px] text-stone-400 font-sans">14 alérgenos de la UE</span>
-            `}
-          </div>
-        </div>
-
-        <!-- Botones con wrapping automático: ¡los 14 alérgenos son visibles sin recortes! -->
-        <div class="flex flex-wrap items-center gap-1.5 sm:gap-2">
-          ${Object.values(VUKATA_ALLERGENS).map(a => {
-            const isSelected = activeAllergens && activeAllergens.includes(a.id);
-            return `
-              <button type="button" data-allergen="${a.id}" class="inline-flex items-center space-x-1.5 px-2.5 py-1.5 rounded-xl text-xs transition-all border cursor-pointer select-none ${
-                isSelected 
-                  ? 'bg-[#8B1E1E] text-white font-bold border-[#8B1E1E] shadow-sm ring-2 ring-red-200 scale-105' 
-                  : 'bg-stone-50 hover:bg-stone-100 text-stone-700 border-stone-200 hover:border-stone-400'
-              }" title="${isSelected ? 'Quitar filtro de ' + a.name : 'Excluir platos con ' + a.name}">
-                <span class="w-4 h-4 rounded-full flex items-center justify-center text-white flex-shrink-0" style="background-color: ${a.color};">
-                  <span class="w-2.5 h-2.5 flex items-center justify-center">${a.svg}</span>
-                </span>
-                <span class="font-medium whitespace-nowrap">${a.name}</span>
-                ${isSelected ? `<span class="text-[11px] font-bold ml-0.5">✕</span>` : ''}
-              </button>
-            `;
-          }).join('')}
-        </div>
-      </div>
-
+      <!-- MAIN MENU SHOWCASE CONTAINER -->
       ${this.menuMode === 'compact' ? `
-        <!-- VISTA COMPACTA DE LISTA RÁPIDA: TODOS LOS PLATOS Y PRECIOS VISIBLES AL INSTANTE -->
-        <div class="bg-white border-2 border-stone-200 rounded-2xl shadow-sm p-4 sm:p-6 mb-16">
-          <div class="flex flex-col sm:flex-row sm:items-center justify-between pb-4 border-b border-stone-200 mb-6 gap-2">
+        <!-- VISTA COMPACTA DE LISTA RÁPIDA: TODOS LOS PLATOS Y PRECIOS VISIBLES CON SCROLL -->
+        <div class="bg-white border border-[#e6dfd5] rounded-3xl shadow-sm p-6 sm:p-8 mb-16">
+          <div class="flex flex-col sm:flex-row sm:items-center justify-between pb-4 border-b border-[#e6dfd5] mb-6 gap-2">
             <div>
               <div class="flex items-center space-x-2">
                 <span class="w-2.5 h-2.5 rounded-full bg-[#8B1E1E]"></span>
-                <h3 class="vukata-font-title text-xl font-black text-stone-950">Carta Completa Vukata · Vista de Sala</h3>
+                <h3 class="font-headline-sm text-xl font-bold text-[#1c1c19]">Carta Completa Vukata · Vista de Sala</h3>
               </div>
-              <p class="text-xs text-stone-600 font-sans mt-0.5">Todos los platos y precios con acceso directo sin recortes</p>
+              <p class="text-xs text-[#57423f] font-sans mt-0.5">Todos los cortes y raciones con precios transparentes sin recortes</p>
             </div>
             <div class="flex items-center space-x-2">
-              <span class="text-xs font-bold text-[#8B1E1E] bg-red-50 border border-red-200 px-2.5 py-1 rounded-lg font-mono">${filteredMenu.length} Platos</span>
-              <span class="text-xs text-stone-500 font-sans">· Scroll ágil</span>
+              <span class="text-xs font-bold text-[#8B1E1E] bg-[#f7f3ee] border border-[#e6dfd5] px-3 py-1 rounded-full font-mono">${filteredMenu.length} Platos</span>
             </div>
           </div>
 
-          <div class="space-y-8 max-h-[720px] overflow-y-auto pr-2">
+          <div class="space-y-8 max-h-[750px] overflow-y-auto pr-2">
             ${categoriesToRender.map(catName => {
               const categoryDishes = filteredMenu.filter(d => d.category === catName);
               if (categoryDishes.length === 0) return '';
               return `
                 <div class="category-compact-block">
-                  <div class="flex items-center justify-between pb-2 mb-3 border-b-2 border-[#8B1E1E]/30 bg-stone-50/70 px-3 py-1.5 rounded-lg">
-                    <h4 class="vukata-font-title text-sm sm:text-base font-black text-[#8B1E1E] uppercase tracking-wider">${catName}</h4>
-                    <span class="text-xs text-stone-500 font-sans font-semibold">${categoryDishes.length} opciones</span>
+                  <div class="flex items-center justify-between pb-2 mb-3 border-b-2 border-[#8B1E1E]/30 bg-[#f7f3ee] px-4 py-2 rounded-xl">
+                    <h4 class="font-headline-sm text-base font-bold text-[#8B1E1E]">${catName}</h4>
+                    <span class="text-xs text-[#57423f] font-sans font-semibold">${categoryDishes.length} opciones</span>
                   </div>
 
-                  <div class="divide-y divide-stone-100">
-                    ${categoryDishes.map(dish => {
-                      return `
-                        <div class="py-2.5 px-2 hover:bg-stone-50 rounded-xl transition-colors flex flex-wrap sm:flex-nowrap items-center justify-between gap-3 group">
-                          <div class="flex items-center space-x-3 min-w-0 flex-1">
-                            ${dish.image ? `
-                              <div class="w-12 h-12 sm:w-14 sm:h-14 rounded-xl overflow-hidden flex-shrink-0 bg-stone-100 cursor-pointer shadow-sm relative group/thumb" data-open-dish-modal="${dish.id}">
-                                <img src="${dish.image}" alt="${dish.name}" class="w-full h-full object-cover transition-transform group-hover/thumb:scale-110" loading="lazy"/>
-                              </div>
-                            ` : `
-                              <div class="w-12 h-12 rounded-xl bg-stone-100 flex items-center justify-center text-xl flex-shrink-0">🍽️</div>
-                            `}
-
-                            <div class="min-w-0 flex-1 cursor-pointer" data-open-dish-modal="${dish.id}">
-                              <div class="flex items-center space-x-2 flex-wrap">
-                                <span class="vukata-font-dish font-bold text-sm sm:text-base text-stone-900 group-hover:text-[#8B1E1E] transition-colors">${dish.name}</span>
-                                ${dish.badge ? `<span class="text-[9px] font-sans font-bold px-1.5 py-0.2 rounded bg-stone-100 border border-stone-300 text-[#8B1E1E] whitespace-nowrap">${dish.badge}</span>` : ''}
-                                ${renderAllergenBadges(dish.allergens, 'xs')}
-                              </div>
-                              <p class="text-xs text-stone-500 truncate max-w-lg font-sans mt-0.5">${dish.description}</p>
+                  <div class="divide-y divide-[#f1ede8]">
+                    ${categoryDishes.map(dish => `
+                      <div class="py-3 px-2 hover:bg-[#f7f3ee]/50 rounded-xl transition-colors flex flex-wrap sm:flex-nowrap items-center justify-between gap-3 group">
+                        <div class="flex items-center space-x-3 min-w-0 flex-1">
+                          ${dish.image ? `
+                            <div class="w-12 h-12 sm:w-14 sm:h-14 rounded-xl overflow-hidden flex-shrink-0 bg-[#f1ede8] cursor-pointer shadow-sm relative group/thumb" data-open-dish-modal="${dish.id}">
+                              <img src="${dish.image}" alt="${dish.name}" class="w-full h-full object-cover transition-transform group-hover/thumb:scale-110" loading="lazy"/>
                             </div>
-                          </div>
+                          ` : `
+                            <div class="w-12 h-12 rounded-xl bg-[#f1ede8] flex items-center justify-center text-xl flex-shrink-0">🍽️</div>
+                          `}
 
-                          <div class="flex items-center space-x-3 flex-shrink-0 self-end sm:self-center">
-                            <span class="vukata-font-price text-base sm:text-lg font-black text-stone-900 whitespace-nowrap">${formatCurrency(dish.price)}</span>
-                            <button data-open-dish-modal="${dish.id}" class="bg-stone-100 hover:bg-stone-200 text-stone-700 text-xs px-2.5 py-1.5 rounded-lg border border-stone-300 font-medium cursor-pointer" title="Ver detalle">
-                              Info
-                            </button>
-                            <button data-add-cart="${dish.id}" class="btn-vukata-primary text-xs px-3.5 py-1.5 rounded-lg shadow whitespace-nowrap cursor-pointer">
-                              Pedir
-                            </button>
+                          <div class="min-w-0 flex-1 cursor-pointer" data-open-dish-modal="${dish.id}">
+                            <div class="flex items-center space-x-2 flex-wrap">
+                              <span class="font-headline-sm font-semibold text-sm sm:text-base text-[#1c1c19] group-hover:text-[#8B1E1E] transition-colors">${dish.name}</span>
+                              ${dish.badge ? `<span class="text-[9px] font-sans font-bold px-2 py-0.5 rounded-full bg-[#f1ede8] text-[#8B1E1E] border border-[#e6dfd5] whitespace-nowrap">${dish.badge}</span>` : ''}
+                              ${renderAllergenBadges(dish.allergens, 'xs')}
+                            </div>
+                            <p class="text-xs text-[#57423f] truncate max-w-lg font-sans mt-0.5">${dish.description}</p>
                           </div>
                         </div>
-                      `;
-                    }).join('')}
+
+                        <div class="flex items-center space-x-3 flex-shrink-0 self-end sm:self-center">
+                          <span class="font-label-price text-base sm:text-lg font-bold text-[#1c1c19] whitespace-nowrap">${formatCurrency(dish.price)}</span>
+                          <button data-open-dish-modal="${dish.id}" class="bg-[#f1ede8] hover:bg-[#e8deda] text-[#1c1c19] text-xs px-3 py-1.5 rounded-full border border-[#e6dfd5] font-medium cursor-pointer" title="Ver detalle">
+                            Info
+                          </button>
+                          <button data-add-cart="${dish.id}" class="btn-vukata-primary text-xs px-4 py-1.5 rounded-full shadow whitespace-nowrap cursor-pointer">
+                            Pedir
+                          </button>
+                        </div>
+                      </div>
+                    `).join('')}
                   </div>
                 </div>
               `;
@@ -1094,101 +1228,185 @@ export class GastroApp {
           </div>
         </div>
       ` : `
-        <!-- LISTADO DE PLATOS CON CABECERAS ROJAS Y SELLOS DE ALÉRGENOS (VISTA TARJETAS CON FOTO) -->
-        <div class="space-y-10 mb-16 pb-4">
+        <!-- VISTA TARJETAS SHOWCASE DE ALTA RESTAURACIÓN (Stitch Grid Layout) -->
+        <div class="space-y-16 mb-16">
           ${categoriesToRender.map(catName => {
             const categoryDishes = filteredMenu.filter(d => d.category === catName);
             if (categoryDishes.length === 0) return '';
 
             return `
-              <div class="category-block">
-                <!-- Encabezado de Categoría con Línea Divisoria Carmesí idéntica al menú físico -->
-                <div class="vukata-section-bar mb-6">
-                  <h3 class="vukata-font-title text-xl sm:text-2xl">${catName}</h3>
-                  <div class="vukata-section-line"></div>
+              <section class="menu-group" data-group="${catName.toLowerCase()}">
+                
+                <!-- Category Section Banner -->
+                <div class="flex items-center justify-between pb-6 mb-8 bg-[#f7f3ee] p-6 rounded-2xl border border-[#e6dfd5]">
+                  <div class="flex items-center gap-3">
+                    <span class="p-2.5 rounded-full bg-[#9c382c] text-white">
+                      <span class="material-symbols-outlined text-[24px]">local_fire_department</span>
+                    </span>
+                    <div>
+                      <h3 class="font-headline-md text-[#1c1c19] font-semibold">${catName}</h3>
+                      <p class="font-body-sm text-[#57423f]">Preparado al momento en parrilla abierta con leña y carbón de encina natural</p>
+                    </div>
+                  </div>
+                  <span class="hidden md:inline-block font-kicker-eyebrow text-[#8B1E1E] uppercase bg-white px-3.5 py-1.5 rounded-full border border-[#e6dfd5] shadow-xs">
+                    ${categoryDishes.length} Opciones
+                  </span>
                 </div>
 
-                <!-- Listado de Platos de la Categoría -->
-                <div class="space-y-4 sm:space-y-5">
+                <!-- Cards Grid -->
+                <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
                   ${categoryDishes.map(dish => {
                     const sales = store.getDishSalesCount(dish.id);
                     return `
-                      <div class="vukata-card p-4 sm:p-5 flex flex-col md:flex-row items-stretch md:items-center justify-between gap-5 group">
+                      <div class="dish-card bg-white rounded-2xl overflow-hidden border border-[#e6dfd5] shadow-sm hover:shadow-md transition-all duration-300 flex flex-col justify-between group">
                         
-                        <!-- Fotografía Gastronómica (Sin fotos de hojas escaneadas) -->
-                        ${dish.image ? `
-                          <div class="w-full md:w-52 h-44 sm:h-48 md:h-36 rounded-xl overflow-hidden bg-stone-100 flex-shrink-0 relative cursor-pointer group" data-open-dish-modal="${dish.id}">
-                            <img src="${dish.image}" alt="${dish.name}" class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105" loading="lazy"/>
-                            <button data-open-lightbox="${dish.image}" data-lightbox-title="${dish.name}" class="absolute top-2 right-2 bg-black/70 hover:bg-black text-white p-1.5 rounded-lg text-xs backdrop-blur-sm transition-opacity cursor-pointer" title="Ampliar imagen">
+                        <!-- Media Container -->
+                        <div class="relative overflow-hidden h-56 bg-[#f1ede8]">
+                          ${dish.image ? `
+                            <img alt="${dish.name}" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500 cursor-pointer" data-open-dish-modal="${dish.id}" src="${dish.image}" loading="lazy"/>
+                            <button data-open-lightbox="${dish.image}" data-lightbox-title="${dish.name}" class="absolute top-3 right-3 bg-black/70 hover:bg-black text-white p-1.5 rounded-lg text-xs backdrop-blur-sm transition-opacity cursor-pointer" title="Ampliar imagen completa">
                               ${ICONS.zoom}
                             </button>
-                            <div class="absolute bottom-2 left-2 bg-stone-900/80 backdrop-blur-sm px-2 py-0.5 rounded text-[10px] text-white font-sans flex items-center space-x-1">
-                              ${ICONS.eye}
-                              <span>Detalle</span>
+                          ` : `
+                            <div class="w-full h-full flex items-center justify-center text-4xl">🔥</div>
+                          `}
+                          ${dish.badge ? `
+                            <div class="absolute top-3 left-3 bg-[#31302d]/90 backdrop-blur-sm text-[#f4f0eb] px-2.5 py-1 rounded-md font-kicker-eyebrow text-[10px] tracking-widest uppercase">
+                              ${dish.badge}
+                            </div>
+                          ` : ''}
+                        </div>
+
+                        <!-- Content Dossier -->
+                        <div class="p-6 flex flex-col flex-grow justify-between">
+                          <div>
+                            <div class="flex items-start justify-between gap-2 mb-2">
+                              <h4 class="font-headline-sm text-[#1c1c19] font-semibold leading-snug cursor-pointer hover:text-[#8B1E1E] transition-colors" data-open-dish-modal="${dish.id}">
+                                ${dish.name}
+                              </h4>
+                              <span class="font-label-price text-[#8B1E1E] font-bold whitespace-nowrap">
+                                ${formatCurrency(dish.price)}
+                              </span>
+                            </div>
+
+                            <p class="font-body-md text-[#57423f] mb-3 line-clamp-2">
+                              ${dish.description}
+                            </p>
+
+                            <!-- Alérgenos Declarados -->
+                            <div class="mb-2">
+                              ${renderAllergenBadges(dish.allergens, 'sm')}
                             </div>
                           </div>
-                        ` : ''}
 
-                        <!-- Información y Alérgenos del Plato (min-w-0 para evitar desbordes en flexbox) -->
-                        <div class="flex-1 min-w-0 cursor-pointer" data-open-dish-modal="${dish.id}">
-                          
-                          <!-- Título en Barlow Condensed + Sellos Circulares de Alérgenos -->
-                          <div class="flex flex-wrap items-center gap-2">
-                            <h4 class="vukata-font-dish text-lg sm:text-xl font-black text-stone-900 group-hover:text-[#8B1E1E] transition-colors break-words">
-                              ${dish.name}
-                            </h4>
-
-                            <!-- Sellos Circulares Oficiales de Alérgenos -->
-                            ${renderAllergenBadges(dish.allergens, 'sm')}
-
-                            ${dish.badge ? `
-                              <span class="text-[10px] font-sans font-bold px-2 py-0.5 rounded-md bg-stone-100 border border-stone-300 text-[#8B1E1E] whitespace-nowrap">
-                                ${dish.badge}
-                              </span>
-                            ` : ''}
+                          <div class="pt-4 border-t border-[#f1ede8] flex items-center justify-between">
+                            <span class="font-body-sm text-[#645d5a] flex items-center gap-1">
+                              <span class="material-symbols-outlined text-[16px] text-[#8B1E1E]">skillet</span>
+                              <span>${dish.prepTime || 'Punto recomendado'}</span>
+                            </span>
+                            <div class="flex items-center gap-1.5">
+                              <button data-open-dish-modal="${dish.id}" class="p-2 rounded-full bg-[#f1ede8] hover:bg-[#e8deda] text-[#1c1c19] transition-colors cursor-pointer" title="Ver detalle">
+                                <span class="material-symbols-outlined text-[18px]">info</span>
+                              </button>
+                              <button data-add-cart="${dish.id}" class="p-2 rounded-full bg-[#f1ede8] hover:bg-[#9c382c] hover:text-white text-[#8B1E1E] transition-colors cursor-pointer shadow-xs" title="Añadir a la comanda">
+                                <span class="material-symbols-outlined text-[20px]">add</span>
+                              </button>
+                            </div>
                           </div>
 
-                          <!-- Descripción en Cursiva -->
-                          <p class="vukata-font-desc text-xs sm:text-sm text-stone-600 mt-1 leading-relaxed max-w-2xl">
-                            ${dish.description}
-                          </p>
-                          
-                          <!-- Detalles y tiempo de preparación -->
-                          <div class="flex flex-wrap items-center gap-3 mt-2 text-[11px] text-stone-500 font-sans">
-                            ${dish.details ? `<span class="text-stone-700 font-medium">${dish.details}</span>` : ''}
-                            ${dish.prepTime ? `<span>⏱️ ${dish.prepTime}</span>` : ''}
-                            <span>· ${sales} comandas</span>
-                          </div>
                         </div>
-
-                        <!-- Precio y Botones de Acción (NUNCA recortado) -->
-                        <div class="flex items-center justify-between md:justify-end gap-3 w-full md:w-auto pt-3 md:pt-0 border-t md:border-t-0 border-stone-200 flex-shrink-0">
-                          <span class="vukata-font-price text-xl sm:text-2xl font-black text-[#8B1E1E] md:text-stone-900 whitespace-nowrap">
-                            ${formatCurrency(dish.price)}
-                          </span>
-
-                          <div class="flex items-center space-x-2 flex-shrink-0">
-                            <button data-open-dish-modal="${dish.id}" class="bg-stone-100 hover:bg-stone-200 text-stone-700 text-xs px-2.5 py-1.5 rounded-lg transition-colors border border-stone-300 font-medium cursor-pointer" title="Ver ingredientes y alérgenos">
-                              Info
-                            </button>
-                            <button data-quick-simulate-dish="${dish.id}" class="bg-stone-100 hover:bg-stone-200 text-stone-400 text-[11px] px-2 py-1.5 rounded-lg transition-colors cursor-pointer" title="Simular venta">
-                              +1
-                            </button>
-                            <button data-add-cart="${dish.id}" class="btn-vukata-primary text-xs px-4 py-1.5 rounded-lg transition-colors shadow whitespace-nowrap cursor-pointer">
-                              Pedir
-                            </button>
-                          </div>
-                        </div>
-
                       </div>
                     `;
                   }).join('')}
                 </div>
-              </div>
+
+              </section>
             `;
           }).join('')}
         </div>
       `}
+
+      <!-- TAKE AWAY & RESERVAS COMPONENT (Direct Action Block) -->
+      <section class="w-full mb-14" id="reservas-direct">
+        <div class="bg-[#14100E] text-[#f1ede8] rounded-3xl p-8 lg:p-14 relative overflow-hidden shadow-2xl">
+          <!-- Ambient Glow Decorator -->
+          <div class="absolute -left-20 -bottom-20 w-80 h-80 bg-[#8B1E1E]/20 rounded-full blur-3xl pointer-events-none"></div>
+
+          <div class="grid grid-cols-1 lg:grid-cols-12 gap-10 items-center relative z-10">
+            <div class="lg:col-span-7 space-y-6">
+              <div class="flex items-center gap-2 text-[#ffdad5]">
+                <span class="material-symbols-outlined text-[22px]">calendar_today</span>
+                <span class="font-kicker-eyebrow uppercase tracking-widest">RESERVA INMEDIATA SIN ESPERAS</span>
+              </div>
+              <h2 class="font-headline-lg lg:font-display-hero text-white leading-tight">
+                Reserve su mesa frente a las brasas de Aluche
+              </h2>
+              <p class="font-body-lg text-[#ddd9d5] max-w-xl">
+                Asegure su sitio para disfrutar de nuestras carnes con el punto exacto de asado. Atendemos peticiones de mesas familiares y celebraciones.
+              </p>
+              <div class="flex flex-wrap items-center gap-6 pt-2 text-[#ddd9d5]">
+                <div class="flex items-center gap-2.5">
+                  <span class="material-symbols-outlined text-[#f8bb70]">timer</span>
+                  <span class="font-body-md">Comidas: 12:00h - 17:00h</span>
+                </div>
+                <div class="flex items-center gap-2.5">
+                  <span class="material-symbols-outlined text-[#f8bb70]">dinner_dining</span>
+                  <span class="font-body-md">Cenas: 19:30h - 00:00h</span>
+                </div>
+                <div class="flex items-center gap-2.5">
+                  <span class="material-symbols-outlined text-[#f8bb70]">call</span>
+                  <a href="tel:+34915098576" class="font-body-md hover:underline">+34 915 09 85 76</a>
+                </div>
+              </div>
+            </div>
+
+            <!-- Quick Interactive Booking Panel -->
+            <div class="lg:col-span-5 bg-white text-[#1c1c19] p-8 rounded-2xl shadow-xl">
+              <h3 class="font-headline-sm font-semibold mb-4 text-[#1c1c19]">Confirmar Comensales</h3>
+              <form id="reservas-direct-form" class="space-y-4">
+                <div>
+                  <label class="font-kicker-eyebrow text-[11px] text-[#645d5a] uppercase block mb-1">Nombre Completo</label>
+                  <input id="direct-res-name" class="w-full bg-[#f7f3ee] border border-[#e6dfd5] px-4 py-3 rounded-xl font-body-md text-[#1c1c19] focus:outline-none focus:ring-2 focus:ring-[#8B1E1E]" placeholder="Ej. Carlos Martínez" required="" type="text"/>
+                </div>
+                <div class="grid grid-cols-2 gap-3">
+                  <div>
+                    <label class="font-kicker-eyebrow text-[11px] text-[#645d5a] uppercase block mb-1">Teléfono</label>
+                    <input id="direct-res-phone" class="w-full bg-[#f7f3ee] border border-[#e6dfd5] px-4 py-3 rounded-xl font-body-md text-[#1c1c19] focus:outline-none focus:ring-2 focus:ring-[#8B1E1E]" placeholder="600 000 000" required="" type="tel"/>
+                  </div>
+                  <div>
+                    <label class="font-kicker-eyebrow text-[11px] text-[#645d5a] uppercase block mb-1">Personas</label>
+                    <select id="direct-res-guests" class="w-full bg-[#f7f3ee] border border-[#e6dfd5] px-4 py-3 rounded-xl font-body-md text-[#1c1c19] focus:outline-none focus:ring-2 focus:ring-[#8B1E1E]">
+                      <option value="2 Personas">2 Comensales</option>
+                      <option value="3 Personas">3 Comensales</option>
+                      <option value="4 Personas" selected>4 Comensales</option>
+                      <option value="5+ Personas">5+ Comensales</option>
+                    </select>
+                  </div>
+                </div>
+                <div class="grid grid-cols-2 gap-3">
+                  <div>
+                    <label class="font-kicker-eyebrow text-[11px] text-[#645d5a] uppercase block mb-1">Fecha</label>
+                    <input id="direct-res-date" class="w-full bg-[#f7f3ee] border border-[#e6dfd5] px-3 py-3 rounded-xl font-body-md text-[#1c1c19] focus:outline-none focus:ring-2 focus:ring-[#8B1E1E]" required="" type="date"/>
+                  </div>
+                  <div>
+                    <label class="font-kicker-eyebrow text-[11px] text-[#645d5a] uppercase block mb-1">Turno</label>
+                    <select id="direct-res-shift" class="w-full bg-[#f7f3ee] border border-[#e6dfd5] px-4 py-3 rounded-xl font-body-md text-[#1c1c19] focus:outline-none focus:ring-2 focus:ring-[#8B1E1E]">
+                      <option value="Comida (14:00h)">14:00 (Comida)</option>
+                      <option value="Comida (15:00h)">15:00 (Comida)</option>
+                      <option value="Cena (21:00h)">21:00 (Cena)</option>
+                      <option value="Cena (22:00h)">22:00 (Cena)</option>
+                    </select>
+                  </div>
+                </div>
+                <button class="w-full bg-[#8B1E1E] hover:bg-[#721414] text-white py-3.5 rounded-xl font-label-action transition-colors shadow-md mt-2 flex items-center justify-center gap-2 cursor-pointer" type="submit">
+                  <span class="material-symbols-outlined text-[18px]">check_circle</span>
+                  <span>Confirmar Reserva</span>
+                </button>
+              </form>
+            </div>
+          </div>
+        </div>
+      </section>
 
       <!-- LEYENDA OFICIAL DE ALÉRGENOS DE VUKATA (IDÉNTICA A LA PORTADA) -->
       ${renderVukataAllergenLegend()}
@@ -2748,51 +2966,66 @@ export class GastroApp {
   renderGoogleReviewsSection(preset) {
     const starRow = Array(5).fill(ICONS.star).join('');
 
-    // --- ESTILO 1: RESTAURANTE PARRILLA VUKATA ---
+    // --- ESTILO 1: RESTAURANTE PARRILLA VUKATA (EMBER & ASH STITCH) ---
     if (preset.id === 'estilo1') {
       return `
-        <section class="mt-16 pt-12 border-t-2 border-[#8B1E1E]/20 text-stone-900">
-          <div class="max-w-3xl mx-auto text-center mb-10">
-            <div class="inline-flex items-center space-x-2 bg-white border border-red-200 px-3.5 py-1.5 rounded-full mb-3 text-xs font-sans text-[#8B1E1E] shadow-sm">
-              ${ICONS.google}
-              <span class="font-bold">Google Maps Oficial · ${preset.rating} de 5.0</span>
-            </div>
-            <h3 class="vukata-font-title text-[#8B1E1E] text-2xl sm:text-3xl font-black uppercase tracking-wider mt-1">Opiniones de Nuestros Clientes</h3>
-            <div class="flex items-center justify-center space-x-2 mt-3 text-amber-500 text-sm font-sans">
-              <div class="flex space-x-0.5">${starRow}</div>
-              <span class="text-stone-700 font-bold">(${preset.totalReviews} reseñas en Google Maps)</span>
-            </div>
-          </div>
-
-          <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
-            ${preset.googleReviews.map(r => `
-              <div class="vukata-card p-6 flex flex-col justify-between bg-white border border-stone-200 shadow-sm rounded-xl">
-                <div>
-                  <div class="flex items-center justify-between mb-3">
-                    <div class="flex space-x-1">${starRow}</div>
-                    <span class="text-[10px] font-sans text-emerald-700 bg-emerald-50 px-2 py-0.5 rounded font-bold uppercase">Verificado</span>
-                  </div>
-                  <p class="text-xs sm:text-sm text-stone-700 italic vukata-font-desc leading-relaxed">"${r.comment}"</p>
+        <section class="mb-16 pt-10 border-t border-[#e6dfd5] text-[#1c1c19]">
+          <div class="max-w-[1360px] mx-auto">
+            
+            <div class="flex flex-col md:flex-row md:items-end justify-between mb-10 gap-4">
+              <div class="space-y-2">
+                <div class="flex items-center gap-2">
+                  <span class="w-6 h-[2px] bg-[#8B1E1E]"></span>
+                  <span class="font-kicker-eyebrow text-[#8B1E1E] uppercase tracking-[0.2em]">TESTIMONIOS REALES EN ALUCHE</span>
                 </div>
-                <div class="mt-5 pt-4 border-t border-stone-100 flex justify-between items-center text-[11px] font-sans text-stone-500">
-                  <span class="font-bold text-stone-900">${r.author}</span>
-                  <span>${r.timeAgo}</span>
+                <h3 class="font-headline-lg text-[#1c1c19]">Lo que opinan de nuestras brasas</h3>
+                <p class="font-body-md text-[#57423f] max-w-xl">
+                  Reseñas verificadas directamente en Google Maps de comensales que se sientan a nuestra mesa.
+                </p>
+              </div>
+
+              <!-- Google Badge Card -->
+              <div class="inline-flex items-center gap-3 bg-white border border-[#e6dfd5] px-5 py-3 rounded-2xl shadow-xs">
+                ${ICONS.google}
+                <div>
+                  <div class="flex items-center gap-1.5">
+                    <span class="font-stat-number text-[20px] font-black text-[#1c1c19]">${preset.rating}</span>
+                    <div class="flex text-amber-500">${starRow}</div>
+                  </div>
+                  <span class="font-body-sm text-xs text-[#57423f]">${preset.totalReviews} reseñas verificadas</span>
                 </div>
               </div>
-            `).join('')}
-          </div>
+            </div>
 
-          <div class="mt-10 text-center space-y-3">
-            <button id="open-smart-review-btn" class="btn-vukata-primary text-white font-bold text-xs uppercase tracking-wider px-8 py-3.5 rounded-xl shadow-md transition-all transform hover:scale-105 inline-flex items-center space-x-2.5 cursor-pointer">
-              ${ICONS.google}
-              <span>★ Escribir Reseña en Google Maps (+5★)</span>
-            </button>
-            <div class="text-center">
-              <a href="${preset.googleMapsUrl}" target="_blank" class="inline-flex items-center space-x-1.5 text-xs text-[#8B1E1E] hover:underline font-sans font-bold">
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+              ${preset.googleReviews.map(r => `
+                <div class="bg-white border border-[#e6dfd5] p-7 rounded-2xl shadow-xs hover:shadow-md transition-all flex flex-col justify-between">
+                  <div>
+                    <div class="flex items-center justify-between mb-4">
+                      <div class="flex space-x-1">${starRow}</div>
+                      <span class="font-kicker-eyebrow text-[10px] text-emerald-800 bg-emerald-50 px-2.5 py-1 rounded-full uppercase tracking-wider font-bold">Verificado</span>
+                    </div>
+                    <p class="font-body-md text-[#57423f] italic leading-relaxed">"${r.comment}"</p>
+                  </div>
+                  <div class="mt-6 pt-4 border-t border-[#f1ede8] flex justify-between items-center text-xs">
+                    <span class="font-body-md font-bold text-[#1c1c19]">${r.author}</span>
+                    <span class="text-[#645d5a] font-sans">${r.timeAgo}</span>
+                  </div>
+                </div>
+              `).join('')}
+            </div>
+
+            <div class="mt-10 flex flex-col sm:flex-row items-center justify-center gap-4">
+              <button id="open-smart-review-btn" class="btn-vukata-primary font-label-action text-[13px] px-8 py-3.5 rounded-full shadow-md transition-all transform hover:scale-105 inline-flex items-center space-x-2.5 cursor-pointer">
+                ${ICONS.google}
+                <span>Escribir Reseña en Google Maps (+5★)</span>
+              </button>
+              <a href="${preset.googleMapsUrl}" target="_blank" class="inline-flex items-center space-x-2 text-xs font-label-action text-[#8B1E1E] hover:underline">
                 <span>Ver ficha oficial de Parrilla Vukata en Google Maps</span>
-                ${ICONS.external}
+                <span class="material-symbols-outlined text-[16px]">open_in_new</span>
               </a>
             </div>
+
           </div>
         </section>
       `;
@@ -3231,27 +3464,77 @@ export class GastroApp {
   renderFooterForStyle(preset) {
     if (preset.id === 'estilo1') {
       return `
-        <footer class="bg-[#F4F5F7] border-t-2 border-[#8B1E1E]/20 text-stone-700 text-xs py-10">
-          <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 grid grid-cols-1 md:grid-cols-3 gap-8">
-            <div>
-              <div class="flex items-center space-x-2">
-                <span class="text-xl">🔥</span>
-                <span class="vukata-font-title font-black text-[#18181B] text-base block tracking-wider">VU<span class="text-[#E52D27]">KA</span>TA</span>
+        <footer class="w-full bg-[#f3ede4] text-[#1c1c19] py-16 border-t border-[#e2d8cc]">
+          <div class="max-w-[1360px] mx-auto px-6 lg:px-10">
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-10 mb-14">
+              
+              <!-- Col 1: Marca y Tradición -->
+              <div class="space-y-4">
+                <div class="flex items-center gap-2">
+                  <span class="material-symbols-outlined text-[#8B1E1E] text-[26px]">local_fire_department</span>
+                  <span class="font-headline-sm text-xl tracking-tight text-[#1c1c19] font-bold">VU<span class="text-[#E52D27]">KA</span>TA</span>
+                </div>
+                <p class="font-body-md text-[#57423f] leading-relaxed">
+                  Parrilla tradicional al carbón de encina y maduración artesanal de cortes nobles en Aluche. Experiencia carnívora de excelencia.
+                </p>
+                <div class="flex items-center gap-2 pt-2 text-[#8B1E1E]">
+                  <span class="material-symbols-outlined text-[20px]">verified</span>
+                  <span class="font-kicker-eyebrow text-[11px] uppercase tracking-widest font-bold">Carbón de encina 100%</span>
+                </div>
               </div>
-              <p class="mt-2 text-stone-600 leading-relaxed">${preset.tagline}</p>
-              <span class="mt-4 inline-block font-sans text-[11px] text-[#8B1E1E] font-bold">Maestros Asadores · Parrilla al Carbón</span>
+
+              <!-- Col 2: Ubicación & Contacto -->
+              <div class="space-y-3">
+                <span class="font-kicker-eyebrow text-[11px] text-[#8B1E1E] uppercase tracking-widest block font-bold">Ubicación & Contacto</span>
+                <div class="flex items-start gap-3">
+                  <span class="material-symbols-outlined text-[#D49B53] text-[20px] mt-0.5">location_on</span>
+                  <p class="font-body-md text-[#57423f]">${preset.address}<br/>Aluche, 28024 Madrid</p>
+                </div>
+                <div class="flex items-center gap-3 pt-2">
+                  <span class="material-symbols-outlined text-[#D49B53] text-[20px]">call</span>
+                  <a class="font-body-md text-[#1c1c19] hover:text-[#8B1E1E] transition-colors font-medium" href="tel:${preset.phone.replace(/\s+/g, '')}">${preset.phone}</a>
+                </div>
+              </div>
+
+              <!-- Col 3: Horarios de Brasas -->
+              <div class="space-y-3">
+                <span class="font-kicker-eyebrow text-[11px] text-[#8B1E1E] uppercase tracking-widest block font-bold">Horarios de Brasas</span>
+                <div class="flex items-start gap-3">
+                  <span class="material-symbols-outlined text-[#D49B53] text-[20px] mt-0.5">schedule</span>
+                  <div class="space-y-1.5 font-body-md text-[#57423f]">
+                    <p><strong class="text-[#1c1c19] font-semibold">Comidas:</strong> 12:00 a 17:00</p>
+                    <p><strong class="text-[#1c1c19] font-semibold">Cenas:</strong> 19:30 a 00:00</p>
+                    <p class="text-[#8B1E1E] font-medium pt-1">Martes cerrado por descanso</p>
+                  </div>
+                </div>
+              </div>
+
+              <!-- Col 4: Servicios & Pedidos -->
+              <div class="space-y-3">
+                <span class="font-kicker-eyebrow text-[11px] text-[#8B1E1E] uppercase tracking-widest block font-bold">Servicios & Pedidos</span>
+                <p class="font-body-md text-[#57423f] leading-relaxed">
+                  Disfrute de nuestros asados al momento en sala o solicite recogida en local a través de nuestro servicio take away sin intermediarios ni comisiones.
+                </p>
+                <div class="pt-2">
+                  <a href="#reservas-direct" class="inline-flex items-center gap-2 font-label-action text-[13px] text-[#1c1c19] hover:text-[#8B1E1E] transition-colors font-semibold">
+                    <span class="material-symbols-outlined text-[18px]">shopping_bag</span>
+                    <span>Reservar Mesa / Take Away →</span>
+                  </a>
+                </div>
+              </div>
+
             </div>
-            <div>
-              <span class="font-sans font-bold text-[#8B1E1E] uppercase tracking-widest text-[11px] block mb-2">Horario & Ubicación</span>
-              <p class="text-stone-600">${preset.serviceHours}</p>
-              <p class="mt-1 text-stone-600">${preset.address}</p>
-              <p class="mt-1 font-bold text-stone-800">Reservas y Pedidos: <a href="tel:${preset.phone.replace(/\s+/g, '')}" class="text-[#8B1E1E] hover:underline">${preset.phone}</a></p>
+
+            <!-- Barra Inferior Legal -->
+            <div class="pt-8 mt-8 flex flex-col sm:flex-row items-center justify-between gap-4 text-[#786b5f] text-xs bg-[#e9e1d5]/60 px-6 py-4 rounded-xl border border-[#ded5c8]">
+              <p>© 2024 Vukata Asador · GastroSuite by <a href="https://devcorpsolutions.com" target="_blank" class="underline font-semibold hover:text-[#1c1c19]">DevCorp Solutions</a>. Todos los derechos reservados.</p>
+              <div class="flex items-center gap-6 font-medium">
+                <a class="hover:text-[#1c1c19] transition-colors" href="#">Aviso Legal</a>
+                <a class="hover:text-[#1c1c19] transition-colors" href="#">Privacidad</a>
+                <a class="hover:text-[#1c1c19] transition-colors" href="https://devcorpsolutions.com" target="_blank">devcorpsolutions.com</a>
+              </div>
             </div>
-            <div>
-              <span class="font-sans font-bold text-[#8B1E1E] uppercase tracking-widest text-[11px] block mb-2">Desarrollado por DevCorp</span>
-              <p class="leading-relaxed text-stone-600">Solución web integral a medida para restaurantes y asadores sin comisiones ni intermediarios.</p>
-              <a href="https://devcorpsolutions.com" target="_blank" class="text-[#8B1E1E] font-bold hover:underline mt-2 inline-block font-sans">devcorpsolutions.com →</a>
-            </div>
+
           </div>
         </footer>
       `;
