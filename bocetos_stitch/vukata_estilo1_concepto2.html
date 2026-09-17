@@ -1,0 +1,1011 @@
+<!DOCTYPE html>
+<html lang="es" class="scroll-smooth">
+<head>
+  <meta charset="utf-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>VUKATA · Crónica de la Brasa & Fuego Vivo | Madrid 1996</title>
+  
+  <!-- Tipografías de alta gama: Syne (Titulares vanguardistas brut), Plus Jakarta Sans (Cuerpo legible) y JetBrains Mono (Precios/Comanda) -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;600;700;800&family=Plus+Jakarta+Sans:wght@300;400;500;600;700&family=Syne:wght@700;800;900&family=Oswald:wght@500;600;700&display=swap" rel="stylesheet">
+  
+  <!-- Iconos vectoriales limpios -->
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" />
+
+  <!-- Tailwind CSS -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      darkMode: 'class',
+      theme: {
+        extend: {
+          colors: {
+            vukata: {
+              crimson: '#8B1E1E',
+              flame: '#E52D27',
+              ember: '#D97706',
+              charcoal: '#141210',
+              pitch: '#0C0A09',
+              ash: '#282522',
+              stone: '#F7F6F3',
+              paper: '#EFECE6',
+              border: '#E2DCD4'
+            }
+          },
+          fontFamily: {
+            title: ['Syne', 'sans-serif'],
+            condensed: ['Oswald', 'sans-serif'],
+            sans: ['Plus Jakarta Sans', 'sans-serif'],
+            mono: ['JetBrains Mono', 'monospace']
+          }
+        }
+      }
+    }
+  </script>
+
+  <style>
+    /* Efectos de scroll interactivo y animaciones fluidas */
+    .reveal-on-scroll {
+      opacity: 0;
+      transform: translateY(32px);
+      transition: opacity 0.8s cubic-bezier(0.16, 1, 0.3, 1), transform 0.8s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+    .reveal-on-scroll.is-revealed {
+      opacity: 1;
+      transform: translateY(0);
+    }
+    
+    /* Pulso suave de brasa en vivo */
+    @keyframes ember-glow {
+      0%, 100% { box-shadow: 0 0 15px rgba(229, 45, 39, 0.4); }
+      50% { box-shadow: 0 0 30px rgba(217, 119, 6, 0.7); }
+    }
+    .glow-ember {
+      animation: ember-glow 3s infinite ease-in-out;
+    }
+
+    /* Scrollbar estilizada */
+    ::-webkit-scrollbar {
+      width: 6px;
+      height: 6px;
+    }
+    ::-webkit-scrollbar-track {
+      background: #F7F6F3;
+    }
+    ::-webkit-scrollbar-thumb {
+      background: #D4C9BC;
+      border-radius: 9999px;
+    }
+    ::-webkit-scrollbar-thumb:hover {
+      background: #8B1E1E;
+    }
+
+    /* Barra de progreso de lectura */
+    #reading-progress {
+      position: fixed;
+      top: 0;
+      left: 0;
+      height: 3px;
+      background: linear-gradient(90deg, #8B1E1E, #E52D27, #D97706);
+      z-index: 9999;
+      width: 0%;
+      transition: width 0.1s ease-out;
+    }
+  </style>
+</head>
+
+<body class="bg-vukata-stone text-vukata-charcoal font-sans antialiased selection:bg-vukata-crimson selection:text-white min-h-screen">
+
+  <!-- Barra de progreso de scroll -->
+  <div id="reading-progress"></div>
+
+  <div class="flex flex-col lg:flex-row min-h-screen">
+
+    <!-- ========================================================================= -->
+    <!-- COLUMNA LATERAL FIJA (DESKTOP): IDENTIDAD, CONTROL DE BRASA Y COMANDA     -->
+    <!-- ========================================================================= -->
+    <aside class="w-full lg:w-80 xl:w-96 lg:h-screen lg:sticky lg:top-0 bg-vukata-pitch text-white flex flex-col justify-between p-6 sm:p-8 z-40 border-r border-vukata-ash shadow-2xl flex-shrink-0">
+      
+      <!-- Top Branding -->
+      <div>
+        <div class="flex items-center justify-between pb-6 border-b border-vukata-ash/80">
+          <a href="#hero" class="group block">
+            <span class="font-title text-3xl tracking-tighter uppercase leading-none block font-black">
+              VU<span class="text-vukata-flame">KA</span>TA
+            </span>
+            <span class="font-condensed text-[10px] tracking-[0.25em] uppercase text-stone-400 block mt-1">
+              Restaurante · Parrilla al Carbón
+            </span>
+          </a>
+          
+          <span class="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full text-[10px] font-mono font-bold bg-stone-900 border border-vukata-crimson/50 text-vukata-flame">
+            <span class="w-2 h-2 rounded-full bg-vukata-flame animate-ping"></span>
+            1996 · ALUCHE
+          </span>
+        </div>
+
+        <!-- Cockpit de la Brasa en Tiempo Real -->
+        <div class="mt-6 p-4 rounded-xl bg-vukata-ash/50 border border-stone-800 text-xs space-y-3">
+          <div class="flex items-center justify-between">
+            <span class="text-[11px] font-condensed uppercase tracking-wider text-stone-400">Estado del Fuego:</span>
+            <span class="text-emerald-400 font-mono font-bold flex items-center gap-1">
+              <span class="material-symbols-outlined text-xs">local_fire_department</span>
+              410ºC · Encina Pura
+            </span>
+          </div>
+          <div class="flex items-center justify-between pt-2 border-t border-stone-800/80">
+            <span class="text-[11px] font-condensed uppercase tracking-wider text-stone-400">Parrilla Activa:</span>
+            <span class="text-stone-200 font-mono">Turno Abierto</span>
+          </div>
+          <div class="flex items-center justify-between pt-2 border-t border-stone-800/80">
+            <span class="text-[11px] font-condensed uppercase tracking-wider text-stone-400">Dry-Aged Disponibles:</span>
+            <span class="text-amber-400 font-mono font-bold" id="cuts-inventory">4 Chuletones 45D</span>
+          </div>
+        </div>
+
+        <!-- Navegación Cronológica por Capítulos -->
+        <nav class="mt-8 space-y-2 text-xs font-condensed uppercase tracking-wider">
+          <a href="#capitulo-origen" class="flex items-center justify-between p-2 rounded-lg text-stone-400 hover:text-white hover:bg-stone-900 transition-colors">
+            <span>01. Origen & Madera de Encina</span>
+            <span class="text-stone-600 font-mono">↓</span>
+          </a>
+          <a href="#capitulo-maestros" class="flex items-center justify-between p-2 rounded-lg text-stone-400 hover:text-white hover:bg-stone-900 transition-colors">
+            <span>02. Pases Nobles del Parrillero</span>
+            <span class="text-stone-600 font-mono">↓</span>
+          </a>
+          <a href="#capitulo-radar" class="flex items-center justify-between p-2 rounded-lg text-stone-400 hover:text-white hover:bg-stone-900 transition-colors">
+            <span>03. Radar de Alérgenos UE</span>
+            <span class="text-stone-600 font-mono">↓</span>
+          </a>
+          <a href="#capitulo-carta" class="flex items-center justify-between p-2 rounded-lg text-stone-400 hover:text-white hover:bg-stone-900 transition-colors">
+            <span>04. Dossier de Sala & Comandero</span>
+            <span class="text-stone-600 font-mono">↓</span>
+          </a>
+          <a href="#capitulo-takeaway" class="flex items-center justify-between p-2 rounded-lg text-stone-400 hover:text-white hover:bg-stone-900 transition-colors">
+            <span>05. Take Away sin Comisiones</span>
+            <span class="text-stone-600 font-mono">↓</span>
+          </a>
+          <a href="#capitulo-opiniones" class="flex items-center justify-between p-2 rounded-lg text-stone-400 hover:text-white hover:bg-stone-900 transition-colors">
+            <span>06. 2.400+ Reseñas de Aluche</span>
+            <span class="text-stone-600 font-mono">↓</span>
+          </a>
+        </nav>
+      </div>
+
+      <!-- Bottom Actions & Live Ticket Summary -->
+      <div class="pt-6 border-t border-vukata-ash/80 space-y-3">
+        <!-- Live Ticket Summary -->
+        <button onclick="toggleComandaModal()" class="w-full p-3.5 bg-gradient-to-r from-vukata-crimson to-red-700 hover:from-red-700 hover:to-vukata-crimson text-white rounded-xl shadow-lg flex items-center justify-between text-xs font-bold transition-transform active:scale-95 cursor-pointer">
+          <div class="flex items-center gap-2">
+            <span class="material-symbols-outlined text-sm">receipt_long</span>
+            <span class="font-condensed uppercase tracking-wider">Tu Comanda en Sala</span>
+          </div>
+          <span class="font-mono bg-black/40 px-2 py-0.5 rounded text-amber-300" id="aside-cart-total">3 Platos · 65,30 €</span>
+        </button>
+
+        <div class="grid grid-cols-2 gap-2 text-[11px] font-condensed uppercase tracking-wider">
+          <a href="tel:917198244" class="p-2.5 rounded-lg bg-stone-900 hover:bg-stone-800 text-stone-200 text-center flex items-center justify-center gap-1">
+            <span class="material-symbols-outlined text-xs text-amber-400">call</span>
+            Llamar
+          </a>
+          <button onclick="document.getElementById('modal-reserva').classList.remove('hidden')" class="p-2.5 rounded-lg bg-stone-900 hover:bg-stone-800 text-stone-200 text-center flex items-center justify-center gap-1 cursor-pointer">
+            <span class="material-symbols-outlined text-xs text-emerald-400">event</span>
+            Mesa VIP
+          </button>
+        </div>
+
+        <p class="text-[10px] text-stone-500 text-center font-mono">
+          Calle Maqueda 138 · Metro Aluche (L5)
+        </p>
+      </div>
+    </aside>
+
+
+    <!-- ========================================================================= -->
+    <!-- CONTENIDO PRINCIPAL: NARRATIVA EDITORIAL & EXPERIENCIA GASTRONÓMICA       -->
+    <!-- ========================================================================= -->
+    <main class="flex-1 max-w-6xl mx-auto p-4 sm:p-8 lg:p-12 space-y-24 overflow-hidden">
+
+      <!-- CHAPTER 01: EL ORIGEN DEL FUEGO & ATMÓSFERA -->
+      <section id="capitulo-origen" class="reveal-on-scroll pt-4">
+        
+        <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-vukata-crimson/10 border border-vukata-crimson/30 text-vukata-crimson text-xs font-mono font-bold mb-4">
+          <span>CAPÍTULO 01</span>
+          <span>·</span>
+          <span>AUTENTICIDAD CULINARIA SIN PLANTILLAS</span>
+        </div>
+
+        <h1 class="font-title text-4xl sm:text-6xl lg:text-7xl font-black uppercase text-vukata-charcoal tracking-tight leading-[0.95]">
+          Fuego Puro de Encina.<br/>
+          <span class="text-vukata-crimson">Cero Trucos.</span> Desde 1996.
+        </h1>
+
+        <p class="mt-6 text-stone-700 text-base sm:text-xl font-sans max-w-3xl leading-relaxed">
+          En Vukata no hay quemadores de gas simulados, piedras volcánicas ni marinados químicos. 
+          Aquí el único aderezo es la <strong>leña de encina seleccionada</strong>, el calor vivo a más de 400 grados y piezas de vacuno afinadas en cámara seca entre 30 y 45 días.
+        </p>
+
+        <!-- Feature Grid de Compromisos -->
+        <div class="grid grid-cols-1 sm:grid-cols-3 gap-4 mt-10">
+          <div class="p-5 rounded-2xl bg-white border border-vukata-border shadow-sm">
+            <span class="text-2xl font-black font-mono text-vukata-crimson block mb-1">01</span>
+            <h3 class="font-title text-base uppercase text-vukata-charcoal">Corte en Directo</h3>
+            <p class="text-xs text-stone-600 mt-1 leading-relaxed">Cada corte se secciona a cuchillo en el momento de entrar la comanda en sala.</p>
+          </div>
+          <div class="p-5 rounded-2xl bg-white border border-vukata-border shadow-sm">
+            <span class="text-2xl font-black font-mono text-vukata-crimson block mb-1">02</span>
+            <h3 class="font-title text-base uppercase text-vukata-charcoal">Sin Humo Sintético</h3>
+            <p class="text-xs text-stone-600 mt-1 leading-relaxed">Sabor 100% natural adquirido por el goteo de grasa sobre el carbón vegetal caliente.</p>
+          </div>
+          <div class="p-5 rounded-2xl bg-white border border-vukata-border shadow-sm">
+            <span class="text-2xl font-black font-mono text-vukata-crimson block mb-1">03</span>
+            <h3 class="font-title text-base uppercase text-vukata-charcoal">Trazabilidad Alérgenos</h3>
+            <p class="text-xs text-stone-600 mt-1 leading-relaxed">Parrillas dedicadas y protocolo estricto para comensales celíacos o intolerantes.</p>
+          </div>
+        </div>
+      </section>
+
+
+      <!-- CHAPTER 02: PASES NOBLES DEL MAESTRO PARRILLERO (FOTOGRAFÍAS REALES EN ALTA RESOLUCIÓN) -->
+      <section id="capitulo-maestros" class="reveal-on-scroll space-y-12">
+        
+        <div class="flex flex-col sm:flex-row sm:items-end justify-between gap-4 pb-4 border-b-2 border-vukata-charcoal">
+          <div>
+            <div class="text-xs font-mono font-bold text-vukata-crimson uppercase tracking-widest">CAPÍTULO 02</div>
+            <h2 class="font-title text-3xl sm:text-4xl font-black uppercase text-vukata-charcoal mt-1">
+              Los Pases de la Parrilla
+            </h2>
+          </div>
+          <span class="text-xs font-mono text-stone-500">Fotografías reales sin filtros generativos de IA</span>
+        </div>
+
+        <!-- Tarjeta 1: Asado de Tira con Imagen Real Generada -->
+        <div class="rounded-3xl bg-white border border-vukata-border overflow-hidden shadow-xl grid grid-cols-1 lg:grid-cols-12 gap-0 group">
+          <div class="lg:col-span-7 relative h-72 sm:h-96 lg:h-auto overflow-hidden bg-stone-900">
+            <img src="images/asado_tira.jpg" alt="Asado de Tira a la Parrilla Vukata" class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105" />
+            <div class="absolute top-4 left-4 bg-vukata-pitch/90 backdrop-blur-md text-white px-3 py-1.5 rounded-lg text-xs font-mono font-bold flex items-center gap-1.5 border border-white/20">
+              <span class="w-2 h-2 rounded-full bg-vukata-flame animate-pulse"></span>
+              Corte Estrella · 400g
+            </div>
+            <div class="absolute bottom-4 left-4 bg-white/90 backdrop-blur-md text-vukata-charcoal px-3 py-1 rounded text-[11px] font-mono font-bold">
+              🔥 Sellado a Fuego Vivo de Encina
+            </div>
+          </div>
+          
+          <div class="lg:col-span-5 p-6 sm:p-8 flex flex-col justify-between space-y-6">
+            <div>
+              <div class="flex items-center justify-between text-xs font-mono text-stone-500 mb-2">
+                <span>CORTE ARGENTINO CON HUESO</span>
+                <span class="text-emerald-700 font-bold bg-emerald-50 px-2 py-0.5 rounded">Apto Celíacos</span>
+              </div>
+              <h3 class="font-title text-2xl sm:text-3xl font-bold uppercase text-vukata-charcoal leading-tight">
+                Asado de Tira Especial
+              </h3>
+              <p class="text-xs sm:text-sm text-stone-600 mt-3 leading-relaxed font-sans">
+                Pieza seleccionada de 400g con infiltración uniforme. Sellada a fuego violento para caramelizar el exterior y mantener el jugo interior en el hueso. Acompañado de chimichurri de la casa reposado 72h.
+              </p>
+
+              <!-- Selector de Punto de la Carne -->
+              <div class="mt-6">
+                <span class="text-xs font-condensed uppercase tracking-wider text-stone-500 block mb-2 font-bold">Punto Solicitado:</span>
+                <div class="grid grid-cols-3 gap-2 text-xs font-condensed">
+                  <button class="py-1.5 border border-stone-300 rounded hover:border-vukata-crimson text-stone-700 text-center font-bold">Poco Hecho</button>
+                  <button class="py-1.5 border-2 border-vukata-crimson bg-vukata-crimson text-white rounded text-center font-bold">Al Punto</button>
+                  <button class="py-1.5 border border-stone-300 rounded hover:border-vukata-crimson text-stone-700 text-center font-bold">Muy Hecho</button>
+                </div>
+              </div>
+            </div>
+
+            <div class="pt-4 border-t border-stone-200 flex items-center justify-between">
+              <div>
+                <span class="text-xs text-stone-400 font-mono block">PVP RACIÓN</span>
+                <span class="font-mono text-2xl sm:text-3xl font-black text-vukata-crimson">17,50 €</span>
+              </div>
+              <button onclick="agregarPlato('Asado de Tira Especial', 17.50)" class="px-5 py-3 bg-vukata-pitch hover:bg-vukata-crimson text-white rounded-xl font-condensed uppercase font-bold text-xs tracking-wider transition-all shadow-md flex items-center gap-2 cursor-pointer">
+                <span>Pedir a Comanda</span>
+                <span class="material-symbols-outlined text-sm">arrow_forward</span>
+              </button>
+            </div>
+          </div>
+        </div>
+
+        <!-- Tarjeta 2: Chuletón de Vaca Madurada 45 Días -->
+        <div class="rounded-3xl bg-white border border-vukata-border overflow-hidden shadow-xl grid grid-cols-1 lg:grid-cols-12 gap-0 group">
+          <div class="lg:col-span-7 relative h-72 sm:h-96 lg:h-auto overflow-hidden bg-stone-900 lg:order-2">
+            <img src="images/chuleton.jpg" alt="Chuletón Madurado 45 Días Vukata" class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105" />
+            <div class="absolute top-4 right-4 bg-vukata-pitch/90 backdrop-blur-md text-amber-300 px-3 py-1.5 rounded-lg text-xs font-mono font-bold flex items-center gap-1.5 border border-amber-500/30">
+              Dry-Aged 45 Días
+            </div>
+            <div class="absolute bottom-4 right-4 bg-white/90 backdrop-blur-md text-vukata-charcoal px-3 py-1 rounded text-[11px] font-mono font-bold">
+              Sal en Escamas & Pimientos Asados
+            </div>
+          </div>
+          
+          <div class="lg:col-span-5 p-6 sm:p-8 flex flex-col justify-between space-y-6 lg:order-1">
+            <div>
+              <div class="flex items-center justify-between text-xs font-mono text-stone-500 mb-2">
+                <span>LOMO ALTO DE VACA SELECCIONADA</span>
+                <span class="text-emerald-700 font-bold bg-emerald-50 px-2 py-0.5 rounded">100% Sin Alérgenos</span>
+              </div>
+              <h3 class="font-title text-2xl sm:text-3xl font-bold uppercase text-vukata-charcoal leading-tight">
+                Chuletón Madurado 45 Días al Peso
+              </h3>
+              <p class="text-xs sm:text-sm text-stone-600 mt-3 leading-relaxed font-sans">
+                Pieza madurada en cámara de control higrométrico. Grasa amarilla infiltrada con notas de avellana y mantequilla tostada. Cortado al grosor de 4 dedos para compartir.
+              </p>
+
+              <!-- Gramaje aproximado -->
+              <div class="mt-6 p-3 rounded-xl bg-vukata-stone border border-stone-200 text-xs flex items-center justify-between font-mono">
+                <span class="text-stone-600">Gramaje habitual:</span>
+                <span class="font-bold text-stone-900">1.000g – 1.200g</span>
+              </div>
+            </div>
+
+            <div class="pt-4 border-t border-stone-200 flex items-center justify-between">
+              <div>
+                <span class="text-xs text-stone-400 font-mono block">PRECIO AL CORTE</span>
+                <span class="font-mono text-2xl sm:text-3xl font-black text-vukata-crimson">62,00 € <span class="text-xs font-normal text-stone-500">/ kg</span></span>
+              </div>
+              <button onclick="agregarPlato('Chuletón Madurado 45D (1kg)', 62.00)" class="px-5 py-3 bg-vukata-pitch hover:bg-vukata-crimson text-white rounded-xl font-condensed uppercase font-bold text-xs tracking-wider transition-all shadow-md flex items-center gap-2 cursor-pointer">
+                <span>Reservar Pieza</span>
+                <span class="material-symbols-outlined text-sm">arrow_forward</span>
+              </button>
+            </div>
+          </div>
+        </div>
+
+        <!-- Tarjeta 3: Provoleta Rellena en Cazuela de Hierro -->
+        <div class="rounded-3xl bg-white border border-vukata-border overflow-hidden shadow-xl grid grid-cols-1 lg:grid-cols-12 gap-0 group">
+          <div class="lg:col-span-7 relative h-72 sm:h-96 lg:h-auto overflow-hidden bg-stone-900">
+            <img src="images/provoleta.jpg" alt="Provoleta a la Brasa en Cazuela de Hierro" class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105" />
+            <div class="absolute top-4 left-4 bg-vukata-pitch/90 backdrop-blur-md text-white px-3 py-1.5 rounded-lg text-xs font-mono font-bold flex items-center gap-1.5 border border-white/20">
+              Hierro Fundido a la Brasa
+            </div>
+          </div>
+          
+          <div class="lg:col-span-5 p-6 sm:p-8 flex flex-col justify-between space-y-6">
+            <div>
+              <div class="flex items-center justify-between text-xs font-mono text-stone-500 mb-2">
+                <span>ENTRANTE TRADICIONAL</span>
+                <span class="text-amber-800 font-bold bg-amber-50 px-2 py-0.5 rounded">Contiene Lácteos</span>
+              </div>
+              <h3 class="font-title text-2xl sm:text-3xl font-bold uppercase text-vukata-charcoal leading-tight">
+                Provoleta Rellena con Jamón Ibérico
+              </h3>
+              <p class="text-xs sm:text-sm text-stone-600 mt-3 leading-relaxed font-sans">
+                Fundida directamente en brasas dentro de cazuela de hierro forjado. Corteza crujiente tostada, orégano de monte silvestre, tiras de pimiento morrón asado y jamón ibérico de bellota.
+              </p>
+            </div>
+
+            <div class="pt-4 border-t border-stone-200 flex items-center justify-between">
+              <div>
+                <span class="text-xs text-stone-400 font-mono block">PVP CAZUELA</span>
+                <span class="font-mono text-2xl sm:text-3xl font-black text-vukata-crimson">13,00 €</span>
+              </div>
+              <button onclick="agregarPlato('Provoleta en Cazuela de Hierro', 13.00)" class="px-5 py-3 bg-vukata-pitch hover:bg-vukata-crimson text-white rounded-xl font-condensed uppercase font-bold text-xs tracking-wider transition-all shadow-md flex items-center gap-2 cursor-pointer">
+                <span>Añadir al Pase</span>
+                <span class="material-symbols-outlined text-sm">arrow_forward</span>
+              </button>
+            </div>
+          </div>
+        </div>
+
+      </section>
+
+
+      <!-- CHAPTER 03: RADAR DE ALÉRGENOS INTERACTIVO (14 ALÉRGENOS DE LA UE) -->
+      <section id="capitulo-radar" class="reveal-on-scroll p-6 sm:p-10 rounded-3xl bg-white border border-vukata-border shadow-sm">
+        
+        <div class="flex flex-col md:flex-row md:items-center justify-between gap-4 pb-6 border-b border-stone-200">
+          <div>
+            <div class="inline-flex items-center gap-2 text-xs font-mono font-bold text-vukata-crimson uppercase">
+              <span class="material-symbols-outlined text-base">verified_user</span>
+              <span>CAPÍTULO 03 · DIRECTIVA EUROPEA 1169/2011</span>
+            </div>
+            <h2 class="font-title text-2xl sm:text-3xl font-bold uppercase text-vukata-charcoal mt-1">
+              Radar de Seguridad de Alérgenos
+            </h2>
+            <p class="text-xs text-stone-500 mt-1 font-sans">
+              Pulsa sobre los alérgenos que necesitas <strong>excluir</strong>. La carta atenuará en tiempo real cualquier plato no compatible.
+            </p>
+          </div>
+
+          <div class="flex items-center gap-3">
+            <span id="radar-status-badge" class="px-3 py-1.5 rounded-lg bg-emerald-50 border border-emerald-300 text-emerald-800 text-xs font-mono font-bold">
+              Todos los platos aptos
+            </span>
+            <button onclick="limpiarRadarAlergenos()" class="text-xs font-mono font-bold text-vukata-crimson underline cursor-pointer hover:text-red-900">
+              Restablecer
+            </button>
+          </div>
+        </div>
+
+        <!-- Matriz de los 14 Alérgenos en Grid Ergonómico -->
+        <div class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-7 gap-2.5 mt-6" id="radar-grid">
+          <!-- Botones inyectados dinámicamente -->
+        </div>
+
+        <div class="mt-6 p-3 rounded-xl bg-vukata-stone border border-stone-200 flex items-center justify-between text-xs font-mono">
+          <span class="text-stone-600">Protocolo de Cocina Vukata:</span>
+          <span class="font-bold text-stone-900">Parrilla independiente de carne limpia sin harinas ni trazas</span>
+        </div>
+      </section>
+
+
+      <!-- CHAPTER 04: DOSSIER DE LA CARTA & COMANDERO RÁPIDO DE SALA -->
+      <section id="capitulo-carta" class="reveal-on-scroll space-y-6">
+        
+        <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4 pb-4 border-b-2 border-vukata-charcoal">
+          <div>
+            <div class="text-xs font-mono font-bold text-vukata-crimson uppercase">CAPÍTULO 04</div>
+            <h2 class="font-title text-3xl font-black uppercase text-vukata-charcoal">
+              La Carta al Carbón Vukata
+            </h2>
+          </div>
+
+          <!-- Selector de Modo de Comandero -->
+          <div class="inline-flex rounded-xl bg-stone-200 p-1 text-xs font-condensed font-bold uppercase">
+            <button id="tab-mode-cards" onclick="setMenuDisplayMode('cards')" class="px-3 py-1.5 rounded-lg bg-white shadow text-vukata-charcoal">
+              🖼️ Vista Fichas
+            </button>
+            <button id="tab-mode-table" onclick="setMenuDisplayMode('table')" class="px-3 py-1.5 rounded-lg text-stone-600 hover:text-stone-900">
+              📋 Lista Comandero
+            </button>
+          </div>
+        </div>
+
+        <!-- Categorías Pills -->
+        <div class="flex items-center gap-2 overflow-x-auto pb-2 text-xs font-condensed uppercase tracking-wider font-bold">
+          <button onclick="filtrarCategoria('all')" class="cat-pill active px-4 py-2 rounded-xl bg-vukata-pitch text-white whitespace-nowrap">
+            Toda la Carta (41)
+          </button>
+          <button onclick="filtrarCategoria('entrantes')" class="cat-pill px-4 py-2 rounded-xl bg-white border border-stone-300 text-stone-700 hover:border-vukata-crimson whitespace-nowrap">
+            Entrantes Criollos
+          </button>
+          <button onclick="filtrarCategoria('cortes')" class="cat-pill px-4 py-2 rounded-xl bg-white border border-stone-300 text-stone-700 hover:border-vukata-crimson whitespace-nowrap">
+            Cortes a la Brasa
+          </button>
+          <button onclick="filtrarCategoria('parrilladas')" class="cat-pill px-4 py-2 rounded-xl bg-white border border-stone-300 text-stone-700 hover:border-vukata-crimson whitespace-nowrap">
+            Parrilladas Compartir
+          </button>
+          <button onclick="filtrarCategoria('postres')" class="cat-pill px-4 py-2 rounded-xl bg-white border border-stone-300 text-stone-700 hover:border-vukata-crimson whitespace-nowrap">
+            Postres Caseros
+          </button>
+        </div>
+
+        <!-- Contenedor Fichas Cards -->
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6" id="menu-cards-container">
+          <!-- Platos renderizados por JS -->
+        </div>
+
+        <!-- Contenedor Tabla de Sala (Oculto por defecto) -->
+        <div class="hidden bg-white border border-vukata-border rounded-2xl overflow-hidden shadow-sm" id="menu-table-container">
+          <table class="w-full text-left border-collapse text-xs">
+            <thead>
+              <tr class="border-b border-stone-300 font-condensed uppercase tracking-wider text-stone-600 bg-stone-100">
+                <th class="p-3.5">Plato</th>
+                <th class="p-3.5">Gramaje</th>
+                <th class="p-3.5">Alérgenos</th>
+                <th class="p-3.5">PVP</th>
+                <th class="p-3.5 text-right">Comanda</th>
+              </tr>
+            </thead>
+            <tbody class="divide-y divide-stone-200" id="menu-table-body">
+              <!-- Filas renderizadas por JS -->
+            </tbody>
+          </table>
+        </div>
+
+      </section>
+
+
+      <!-- CHAPTER 05: TAKE AWAY & BRASA EN CASA (SIN PLATAFORMAS NI INTERMEDIARIOS) -->
+      <section id="capitulo-takeaway" class="reveal-on-scroll p-6 sm:p-10 rounded-3xl bg-vukata-pitch text-white relative overflow-hidden shadow-2xl">
+        <div class="absolute -right-16 -bottom-16 w-80 h-80 rounded-full bg-vukata-flame/10 blur-3xl pointer-events-none"></div>
+
+        <div class="grid grid-cols-1 lg:grid-cols-12 gap-8 items-center relative z-10">
+          <div class="lg:col-span-8 space-y-4">
+            <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-vukata-crimson/30 border border-vukata-crimson/50 text-vukata-flame text-xs font-mono font-bold">
+              <span>CAPÍTULO 05 · RECOGIDA EN LOCAL</span>
+            </div>
+            <h2 class="font-title text-3xl sm:text-4xl font-black uppercase tracking-tight">
+              Toda la Carta Lista para Llevar Caliente a Casa
+            </h2>
+            <p class="text-sm text-stone-300 leading-relaxed max-w-2xl font-sans">
+              La carne se saca de la brasa en el minuto exacto de tu llegada y se empaca en cajas microcanal transpirables para que la corteza no se reblandezca con el vapor. <strong>Un 15% más económico que pedir por apps externas.</strong>
+            </p>
+
+            <div class="grid grid-cols-1 sm:grid-cols-3 gap-3 pt-2 text-xs font-mono">
+              <div class="bg-stone-900 p-3 rounded-xl border border-stone-800">
+                <span class="text-amber-400 block font-bold">⏱️ 15-20 MIN</span>
+                <span class="text-stone-400 text-[11px]">Tiempo medio de preparación</span>
+              </div>
+              <div class="bg-stone-900 p-3 rounded-xl border border-stone-800">
+                <span class="text-emerald-400 block font-bold">📦 PACK TÉRMICO</span>
+                <span class="text-stone-400 text-[11px]">Conserva temperatura 35 min</span>
+              </div>
+              <div class="bg-stone-900 p-3 rounded-xl border border-stone-800">
+                <span class="text-vukata-flame block font-bold">0% COMISIONES</span>
+                <span class="text-stone-400 text-[11px]">Trato directo restaurante</span>
+              </div>
+            </div>
+          </div>
+
+          <div class="lg:col-span-4 bg-stone-900/90 border border-stone-800 p-6 rounded-2xl space-y-3 text-center">
+            <span class="text-xs font-condensed uppercase tracking-wider text-stone-400 block">Encargos Inmediatos</span>
+            <a href="tel:917198244" class="w-full py-3 bg-vukata-flame hover:bg-red-700 text-white rounded-xl font-condensed uppercase font-bold text-xs tracking-wider block transition-colors">
+              📞 Llamar: 91 719 82 44
+            </a>
+            <a href="https://wa.me/34917198244" target="_blank" class="w-full py-3 bg-emerald-700 hover:bg-emerald-800 text-white rounded-xl font-condensed uppercase font-bold text-xs tracking-wider block transition-colors">
+              💬 Enviar Comanda por WhatsApp
+            </a>
+            <span class="text-[10px] text-stone-500 block font-mono">Calle Maqueda 138 · Aluche</span>
+          </div>
+        </div>
+      </section>
+
+
+      <!-- CHAPTER 06: TESTIMONIOS VERIFICADOS DE GOOGLE MAPS (4.4★) -->
+      <section id="capitulo-opiniones" class="reveal-on-scroll space-y-8">
+        
+        <div class="flex flex-col sm:flex-row sm:items-end justify-between gap-4 pb-4 border-b-2 border-vukata-charcoal">
+          <div>
+            <div class="text-xs font-mono font-bold text-vukata-crimson uppercase">CAPÍTULO 06</div>
+            <h2 class="font-title text-3xl font-black uppercase text-vukata-charcoal">
+              La Voz del Barrio de Aluche
+            </h2>
+          </div>
+          <div class="flex items-center gap-2 font-mono text-xs">
+            <span class="text-amber-500 text-lg">★★★★★</span>
+            <span class="font-bold text-stone-900">4.4 / 5.0</span>
+            <span class="text-stone-500">(2.410+ opiniones en Google Maps)</span>
+          </div>
+        </div>
+
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+          <div class="p-6 rounded-2xl bg-white border border-vukata-border shadow-sm flex flex-col justify-between">
+            <p class="text-xs sm:text-sm text-stone-700 italic leading-relaxed">
+              "El Asado de Tira es obligatorio pedirlo. La carne tiernísima, se deshace sola y el sabor ahumado a madera de encina de verdad marca la diferencia frente a cualquier cadena de centro comercial."
+            </p>
+            <div class="mt-4 pt-3 border-t border-stone-100 flex items-center justify-between text-xs">
+              <span class="font-bold text-stone-900">Roberto M.</span>
+              <span class="text-stone-400 font-mono text-[10px]">Guía Local · Nivel 7</span>
+            </div>
+          </div>
+
+          <div class="p-6 rounded-2xl bg-white border border-vukata-border shadow-sm flex flex-col justify-between">
+            <p class="text-xs sm:text-sm text-stone-700 italic leading-relaxed">
+              "Mi pareja es celíaca y es de los pocos sitios donde comemos con absoluta tranquilidad. Nos explicaron la carta con detalle y tienen protocolo limpio de parrilla. La provoleta y el chuletón de 10."
+            </p>
+            <div class="mt-4 pt-3 border-t border-stone-100 flex items-center justify-between text-xs">
+              <span class="font-bold text-stone-900">Beatriz G.</span>
+              <span class="text-stone-400 font-mono text-[10px]">Cliente Verificada</span>
+            </div>
+          </div>
+
+          <div class="p-6 rounded-2xl bg-white border border-vukata-border shadow-sm flex flex-col justify-between">
+            <p class="text-xs sm:text-sm text-stone-700 italic leading-relaxed">
+              "Llevo viniendo con la familia desde finales de los 90. Raciones abundantes, precios honrados y el servicio de los camareros es impecable. Para mí el mejor asador de todo el sur de Madrid."
+            </p>
+            <div class="mt-4 pt-3 border-t border-stone-100 flex items-center justify-between text-xs">
+              <span class="font-bold text-stone-900">Javier S.</span>
+              <span class="text-stone-400 font-mono text-[10px]">Vecino de Aluche</span>
+            </div>
+          </div>
+        </div>
+
+      </section>
+
+
+      <!-- FOOTER COMPLETO INSTITUCIONAL -->
+      <footer class="reveal-on-scroll pt-12 border-t-2 border-stone-300 text-xs space-y-8 font-sans">
+        <div class="grid grid-cols-1 md:grid-cols-4 gap-8">
+          <div>
+            <h4 class="font-title text-xl uppercase font-black text-vukata-charcoal">VU<span class="text-vukata-flame">KA</span>TA</h4>
+            <p class="text-stone-600 mt-2 leading-relaxed">
+              Artesanía de brasas al carbón desde 1996 en Aluche, Madrid. Respeto absoluto por el producto y el comensal.
+            </p>
+          </div>
+
+          <div>
+            <h5 class="font-condensed font-bold uppercase tracking-wider text-stone-900 mb-2">Horarios de Cocina</h5>
+            <p class="text-stone-600">Mediodía: 13:00 a 16:30</p>
+            <p class="text-stone-600 mt-1">Noche: 20:00 a 23:45</p>
+            <p class="text-vukata-crimson font-bold mt-2">Lunes descanso del personal</p>
+          </div>
+
+          <div>
+            <h5 class="font-condensed font-bold uppercase tracking-wider text-stone-900 mb-2">Ubicación & Metro</h5>
+            <p class="text-stone-600">Calle Maqueda 138, 28024 Madrid</p>
+            <p class="text-stone-600 mt-1">Metro Aluche (L5) & Cercanías C-5</p>
+            <p class="text-stone-600 mt-1">Autobuses EMT 17, 31, 138</p>
+          </div>
+
+          <div>
+            <h5 class="font-condensed font-bold uppercase tracking-wider text-stone-900 mb-2">Contacto</h5>
+            <p class="font-mono font-bold text-vukata-crimson text-sm">91 719 82 44</p>
+            <p class="text-stone-500 mt-1">Directiva Europea Alérgenos 1169/2011</p>
+          </div>
+        </div>
+
+        <div class="pt-6 border-t border-stone-200 text-stone-500 text-[11px] flex flex-col sm:flex-row justify-between items-center gap-2">
+          <span>© 1996–2026 Restaurante Parrilla Vukata · Concepto 2 Editorial</span>
+          <span>Boceto de Vanguardia Independiente</span>
+        </div>
+      </footer>
+
+    </main>
+  </div>
+
+
+  <!-- ========================================================================= -->
+  <!-- MODAL DE RESERVA DE MESA VIP                                              -->
+  <!-- ========================================================================= -->
+  <div id="modal-reserva" class="fixed inset-0 bg-black/70 backdrop-blur-sm z-50 flex items-center justify-center p-4 hidden">
+    <div class="bg-white rounded-3xl max-w-md w-full p-6 sm:p-8 shadow-2xl border border-stone-300 relative">
+      <button onclick="document.getElementById('modal-reserva').classList.add('hidden')" class="absolute top-5 right-5 w-8 h-8 rounded-full bg-stone-100 hover:bg-stone-200 flex items-center justify-center font-bold text-stone-700 cursor-pointer">
+        ✕
+      </button>
+      <span class="text-xs font-mono font-bold text-vukata-crimson uppercase">Reserva Inmediata</span>
+      <h3 class="font-title text-2xl font-bold uppercase text-vukata-charcoal mt-1">Mesa en Parrilla Vukata</h3>
+      <p class="text-xs text-stone-600 mt-1 mb-6">Confirma tu asistencia directamente en nuestro libro de sala.</p>
+
+      <form onsubmit="event.preventDefault(); alert('Reserva registrada con éxito. Te esperamos en Calle Maqueda 138.'); document.getElementById('modal-reserva').classList.add('hidden');" class="space-y-4 text-xs font-sans">
+        <div>
+          <label class="block font-bold text-stone-700 mb-1">Nombre y Apellidos</label>
+          <input type="text" required placeholder="Ej: Marcos García" class="w-full border border-stone-300 rounded-xl p-3 focus:outline-none focus:border-vukata-crimson" />
+        </div>
+        <div class="grid grid-cols-2 gap-3">
+          <div>
+            <label class="block font-bold text-stone-700 mb-1">Teléfono</label>
+            <input type="tel" required placeholder="600 000 000" class="w-full border border-stone-300 rounded-xl p-3 focus:outline-none focus:border-vukata-crimson" />
+          </div>
+          <div>
+            <label class="block font-bold text-stone-700 mb-1">Comensales</label>
+            <select class="w-full border border-stone-300 rounded-xl p-3 focus:outline-none focus:border-vukata-crimson">
+              <option>2 Personas</option>
+              <option>3 Personas</option>
+              <option>4 Personas</option>
+              <option>5-6 Personas</option>
+              <option>Grupo (+6)</option>
+            </select>
+          </div>
+        </div>
+        <div>
+          <label class="block font-bold text-stone-700 mb-1">Turno</label>
+          <select class="w-full border border-stone-300 rounded-xl p-3 focus:outline-none focus:border-vukata-crimson">
+            <option>Almuerzo: 13:30 h</option>
+            <option>Almuerzo: 14:45 h</option>
+            <option>Almuerzo: 15:30 h</option>
+            <option>Cena: 20:30 h</option>
+            <option>Cena: 21:45 h</option>
+            <option>Cena: 22:30 h</option>
+          </select>
+        </div>
+        <button type="submit" class="w-full py-3.5 bg-vukata-crimson hover:bg-red-800 text-white rounded-xl font-condensed uppercase font-bold tracking-wider text-xs transition-colors shadow cursor-pointer">
+          Confirmar Reserva
+        </button>
+      </form>
+    </div>
+  </div>
+
+
+  <!-- ========================================================================= -->
+  <!-- MODAL DE LA COMANDA EN SALA                                               -->
+  <!-- ========================================================================= -->
+  <div id="modal-comanda" class="fixed inset-0 bg-black/70 backdrop-blur-sm z-50 flex items-center justify-center p-4 hidden">
+    <div class="bg-white rounded-3xl max-w-lg w-full p-6 sm:p-8 shadow-2xl border border-stone-300 relative">
+      <button onclick="toggleComandaModal()" class="absolute top-5 right-5 w-8 h-8 rounded-full bg-stone-100 hover:bg-stone-200 flex items-center justify-center font-bold text-stone-700 cursor-pointer">
+        ✕
+      </button>
+      
+      <div class="flex items-center gap-2 pb-4 border-b border-stone-200">
+        <span class="material-symbols-outlined text-vukata-crimson text-2xl">receipt_long</span>
+        <div>
+          <h3 class="font-title text-xl font-bold uppercase text-vukata-charcoal leading-none">Comanda Vukata</h3>
+          <span class="text-xs text-stone-500 font-mono">Restaurante Parrilla al Carbón</span>
+        </div>
+      </div>
+
+      <div class="my-6 space-y-3 text-xs" id="comanda-items-list">
+        <!-- Rellenado por JS -->
+      </div>
+
+      <div class="pt-4 border-t-2 border-stone-300 flex items-center justify-between font-mono text-base">
+        <span class="font-bold text-stone-800">TOTAL COMANDA:</span>
+        <span class="font-black text-vukata-crimson text-2xl" id="comanda-total-price">0,00 €</span>
+      </div>
+
+      <div class="grid grid-cols-2 gap-3 mt-6">
+        <button onclick="enviarWhatsAppComanda()" class="py-3 bg-emerald-700 hover:bg-emerald-800 text-white rounded-xl font-condensed uppercase font-bold text-xs tracking-wider flex items-center justify-center gap-1 cursor-pointer">
+          <span>Enviar por WhatsApp</span>
+        </button>
+        <button onclick="alert('Comanda enviada a cocina.'); toggleComandaModal();" class="py-3 bg-vukata-pitch hover:bg-vukata-crimson text-white rounded-xl font-condensed uppercase font-bold text-xs tracking-wider flex items-center justify-center gap-1 cursor-pointer">
+          <span>Tramitar en Sala</span>
+        </button>
+      </div>
+    </div>
+  </div>
+
+
+  <!-- TOAST DE CONFIRMACIÓN -->
+  <div id="vukata-toast" class="fixed bottom-6 right-6 bg-vukata-pitch text-white px-4 py-3 rounded-2xl shadow-2xl border border-stone-700 flex items-center gap-3 text-xs font-mono opacity-0 pointer-events-none transition-opacity duration-300 z-50">
+    <span class="w-2.5 h-2.5 rounded-full bg-emerald-400"></span>
+    <span id="toast-text">Plato añadido a la comanda</span>
+  </div>
+
+
+  <!-- ========================================================================= -->
+  <!-- JAVASCRIPT DE CONTROL INTERACTIVO Y ANIMACIONES DE SCROLL                 -->
+  <!-- ========================================================================= -->
+  <script>
+    // 1. DATA DE LOS 14 ALÉRGENOS OFICIALES DE LA DIRECTIVA UE
+    const ALLERGENS_EU = [
+      { id: "gluten", name: "Gluten", icon: "🌾", color: "#d97746" },
+      { id: "crustaceos", name: "Crustáceos", icon: "🦐", color: "#29b6f6" },
+      { id: "huevos", name: "Huevos", icon: "🥚", color: "#fb8c00" },
+      { id: "pescado", name: "Pescado", icon: "🐟", color: "#283593" },
+      { id: "cacahuetes", name: "Cacahuetes", icon: "🥜", color: "#c69255" },
+      { id: "soja", name: "Soja", icon: "🌱", color: "#00a651" },
+      { id: "lacteos", name: "Lácteos", icon: "🧀", color: "#4e342e" },
+      { id: "frutos_cascara", name: "F. Cáscara", icon: "🌰", color: "#b71c1c" },
+      { id: "apio", name: "Apio", icon: "🥬", color: "#68b828" },
+      { id: "mostaza", name: "Mostaza", icon: "🟡", color: "#cca038" },
+      { id: "sesamo", name: "Sésamo", icon: "⚪", color: "#9e9e9e" },
+      { id: "sulfitos", name: "Sulfitos", icon: "🍷", color: "#7b1fa2" },
+      { id: "altramuces", name: "Altramuces", icon: "🌻", color: "#ffca28" },
+      { id: "moluscos", name: "Moluscos", icon: "🦪", color: "#4fc3f7" }
+    ];
+
+    // 2. DATA COMPLETA DE PLATOS DE VUKATA
+    const PLATOS_VUKATA = [
+      { id: "p1", name: "Asado de Tira a la Brasa", cat: "cortes", price: 17.50, weight: "400g", prep: "18 min", allergens: [], desc: "Corte transversal con hueso, sellado en carbón de encina y sazonado con sal en escamas." },
+      { id: "p2", name: "Chuletón Vaca Madurada 45D", cat: "cortes", price: 62.00, weight: "1 kg", prep: "22 min", allergens: [], desc: "Lomo alto afinado en cámara seca, corteza crujiente y corazón jugoso." },
+      { id: "p3", name: "Provoleta en Cazuela de Hierro", cat: "entrantes", price: 13.00, weight: "280g", prep: "12 min", allergens: ["lacteos"], desc: "Queso provolone fundido con pimiento asado y lascas de jamón ibérico." },
+      { id: "p4", name: "Empanada Criolla a Cuchillo", cat: "entrantes", price: 4.80, weight: "150g", prep: "6 min", allergens: ["gluten", "huevos"], desc: "Relleno tradicional de carne picada a mano con comino dulce." },
+      { id: "p5", name: "Parrillada Vukata Especial 2 PAX", cat: "parrilladas", price: 43.00, weight: "1.100g", prep: "25 min", allergens: ["sulfitos"], desc: "Asado, entraña, chorizo criollo, morcilla de Burgos y patatas panaderas." },
+      { id: "p6", name: "Entraña de Novillo al Carbón", cat: "cortes", price: 18.90, weight: "350g", prep: "15 min", allergens: [], desc: "Membrana crujiente exterior y centro jugoso con chimichurri." },
+      { id: "p7", name: "Chorizo Criollo Artesanal", cat: "entrantes", price: 4.50, weight: "160g", prep: "10 min", allergens: ["sulfitos"], desc: "Elaborado con especias naturales a la parrilla sobre pan tostado." },
+      { id: "p8", name: "Tarta de Queso Fluida al Horno", cat: "postres", price: 6.50, weight: "Ración", prep: "Directo", allergens: ["lacteos", "huevos", "gluten"], desc: "Corazón cremoso fluido horneado a 240 grados." }
+    ];
+
+    // Carrito de comanda en memoria
+    let comandaItems = [
+      { id: "p1", name: "Asado de Tira a la Brasa", price: 17.50, qty: 1 },
+      { id: "p5", name: "Parrillada Vukata Especial 2 PAX", price: 43.00, qty: 1 },
+      { id: "p4", name: "Empanada Criolla a Cuchillo", price: 4.80, qty: 1 }
+    ];
+
+    // Alérgenos excluidos en el radar
+    const alergenosExcluidos = new Set();
+    let categoriaActiva = 'all';
+    let menuDisplayMode = 'cards';
+
+    // Inicialización
+    document.addEventListener('DOMContentLoaded', () => {
+      renderRadarAlergenos();
+      renderMenu();
+      actualizarComandaUI();
+      initScrollAnimations();
+    });
+
+    // Renderizar Radar de Alérgenos
+    function renderRadarAlergenos() {
+      const grid = document.getElementById('radar-grid');
+      grid.innerHTML = ALLERGENS_EU.map(a => {
+        const isExcluded = alergenosExcluidos.has(a.id);
+        return `
+          <button onclick="toggleAllergenRadar('${a.id}')" class="p-2.5 rounded-xl border text-xs font-mono text-left transition-all flex items-center justify-between cursor-pointer ${
+            isExcluded 
+              ? 'bg-vukata-crimson text-white border-vukata-crimson font-bold shadow' 
+              : 'bg-stone-50 hover:bg-stone-100 text-stone-700 border-stone-200'
+          }">
+            <span class="flex items-center gap-1 truncate">
+              <span>${a.icon}</span>
+              <span class="truncate">${a.name}</span>
+            </span>
+            <span class="text-[10px] font-bold ${isExcluded ? 'text-white' : 'text-stone-400'}">${isExcluded ? '✕' : '✓'}</span>
+          </button>
+        `;
+      }).join('');
+    }
+
+    function toggleAllergenRadar(allergenId) {
+      if (alergenosExcluidos.has(allergenId)) {
+        alergenosExcluidos.delete(allergenId);
+      } else {
+        alergenosExcluidos.add(allergenId);
+      }
+      renderRadarAlergenos();
+      renderMenu();
+
+      const badge = document.getElementById('radar-status-badge');
+      if (alergenosExcluidos.size > 0) {
+        badge.innerText = `${alergenosExcluidos.size} alérgenos excluidos`;
+        badge.className = 'px-3 py-1.5 rounded-lg bg-red-50 border border-red-300 text-vukata-crimson text-xs font-mono font-bold';
+      } else {
+        badge.innerText = 'Todos los platos aptos';
+        badge.className = 'px-3 py-1.5 rounded-lg bg-emerald-50 border border-emerald-300 text-emerald-800 text-xs font-mono font-bold';
+      }
+    }
+
+    function limpiarRadarAlergenos() {
+      alergenosExcluidos.clear();
+      renderRadarAlergenos();
+      renderMenu();
+      const badge = document.getElementById('radar-status-badge');
+      badge.innerText = 'Todos los platos aptos';
+      badge.className = 'px-3 py-1.5 rounded-lg bg-emerald-50 border border-emerald-300 text-emerald-800 text-xs font-mono font-bold';
+    }
+
+    // Filtrado de Categorías
+    function filtrarCategoria(cat) {
+      categoriaActiva = cat;
+      document.querySelectorAll('.cat-pill').forEach(btn => {
+        btn.classList.remove('bg-vukata-pitch', 'text-white');
+        btn.classList.add('bg-white', 'text-stone-700', 'border', 'border-stone-300');
+      });
+      event.target.classList.remove('bg-white', 'text-stone-700', 'border', 'border-stone-300');
+      event.target.classList.add('bg-vukata-pitch', 'text-white');
+      renderMenu();
+    }
+
+    // Cambiar entre Fichas y Tabla
+    function setMenuDisplayMode(mode) {
+      menuDisplayMode = mode;
+      const cardsContainer = document.getElementById('menu-cards-container');
+      const tableContainer = document.getElementById('menu-table-container');
+      const btnCards = document.getElementById('tab-mode-cards');
+      const btnTable = document.getElementById('tab-mode-table');
+
+      if (mode === 'cards') {
+        cardsContainer.classList.remove('hidden');
+        tableContainer.classList.add('hidden');
+        btnCards.className = 'px-3 py-1.5 rounded-lg bg-white shadow text-vukata-charcoal';
+        btnTable.className = 'px-3 py-1.5 rounded-lg text-stone-600 hover:text-stone-900';
+      } else {
+        cardsContainer.classList.add('hidden');
+        tableContainer.classList.remove('hidden');
+        btnTable.className = 'px-3 py-1.5 rounded-lg bg-white shadow text-vukata-charcoal';
+        btnCards.className = 'px-3 py-1.5 rounded-lg text-stone-600 hover:text-stone-900';
+      }
+    }
+
+    // Renderizar Platos
+    function renderMenu() {
+      let filtered = PLATOS_VUKATA;
+      if (categoriaActiva !== 'all') {
+        filtered = filtered.filter(p => p.cat === categoriaActiva);
+      }
+
+      // Render Cards
+      const cardsContainer = document.getElementById('menu-cards-container');
+      cardsContainer.innerHTML = filtered.map(p => {
+        const hasExcludedAllergen = p.allergens.some(a => alergenosExcluidos.has(a));
+        const allergenBadges = p.allergens.map(a => `<span class="px-2 py-0.5 rounded bg-stone-100 text-stone-700 font-mono text-[10px]">${a}</span>`).join(' ');
+
+        return `
+          <div class="p-6 rounded-3xl bg-white border border-vukata-border shadow-sm flex flex-col justify-between transition-all duration-300 ${
+            hasExcludedAllergen ? 'opacity-25 filter grayscale pointer-events-none' : 'hover:border-vukata-crimson hover:shadow-lg'
+          }">
+            <div>
+              <div class="flex items-center justify-between text-xs font-mono text-stone-500 mb-2">
+                <span>${p.weight}</span>
+                <span>⏱️ ${p.prep}</span>
+              </div>
+              <h4 class="font-title text-xl font-bold uppercase text-vukata-charcoal">${p.name}</h4>
+              <p class="text-xs text-stone-600 mt-2 font-sans leading-relaxed">${p.desc}</p>
+              
+              <div class="mt-4 pt-3 border-t border-stone-100 flex flex-wrap gap-1">
+                ${p.allergens.length > 0 ? allergenBadges : '<span class="text-emerald-700 text-[10px] font-mono font-bold">100% Libre de Alérgenos</span>'}
+              </div>
+            </div>
+
+            <div class="pt-6 border-t border-stone-200 mt-6 flex items-center justify-between">
+              <span class="font-mono text-2xl font-black text-vukata-crimson">${p.price.toFixed(2)} €</span>
+              <button onclick="agregarPlato('${p.name}', ${p.price})" class="px-4 py-2 rounded-xl bg-vukata-pitch hover:bg-vukata-crimson text-white text-xs font-condensed uppercase font-bold tracking-wider transition-colors cursor-pointer">
+                + Añadir
+              </button>
+            </div>
+          </div>
+        `;
+      }).join('');
+
+      // Render Table
+      const tableBody = document.getElementById('menu-table-body');
+      tableBody.innerHTML = filtered.map(p => {
+        const hasExcludedAllergen = p.allergens.some(a => alergenosExcluidos.has(a));
+        return `
+          <tr class="${hasExcludedAllergen ? 'opacity-25 bg-stone-50' : 'hover:bg-stone-50'}">
+            <td class="p-3.5 font-bold text-stone-900">${p.name}</td>
+            <td class="p-3.5 text-stone-600 font-mono">${p.weight}</td>
+            <td class="p-3.5 text-stone-500 font-mono">${p.allergens.join(', ') || 'Sin alérgenos'}</td>
+            <td class="p-3.5 font-mono font-bold text-vukata-crimson">${p.price.toFixed(2)} €</td>
+            <td class="p-3.5 text-right">
+              <button onclick="agregarPlato('${p.name}', ${p.price})" class="px-3 py-1 bg-stone-900 hover:bg-vukata-crimson text-white rounded text-[11px] font-condensed uppercase font-bold cursor-pointer">
+                +1
+              </button>
+            </td>
+          </tr>
+        `;
+      }).join('');
+    }
+
+    // Carrito y Comanda
+    function agregarPlato(nombre, precio) {
+      const existing = comandaItems.find(i => i.name === nombre);
+      if (existing) {
+        existing.qty += 1;
+      } else {
+        comandaItems.push({ id: Date.now().toString(), name: nombre, price: precio, qty: 1 });
+      }
+      actualizarComandaUI();
+      mostrarToast(`✓ ${nombre} añadido a la comanda`);
+    }
+
+    function actualizarComandaUI() {
+      const totalCount = comandaItems.reduce((acc, i) => acc + i.qty, 0);
+      const totalPrice = comandaItems.reduce((acc, i) => acc + (i.price * i.qty), 0);
+
+      document.getElementById('aside-cart-total').innerText = `${totalCount} Platos · ${totalPrice.toFixed(2)} €`;
+      document.getElementById('comanda-total-price').innerText = `${totalPrice.toFixed(2)} €`;
+
+      const listContainer = document.getElementById('comanda-items-list');
+      listContainer.innerHTML = comandaItems.map(item => `
+        <div class="flex items-center justify-between p-2.5 rounded-xl bg-stone-50 border border-stone-200">
+          <div>
+            <span class="font-bold text-stone-900 block">${item.name}</span>
+            <span class="text-stone-500 font-mono text-[11px]">${item.price.toFixed(2)} € / ud</span>
+          </div>
+          <div class="flex items-center gap-3">
+            <span class="font-mono font-bold bg-white px-2 py-0.5 border rounded">x${item.qty}</span>
+            <span class="font-mono font-bold text-vukata-crimson">${(item.price * item.qty).toFixed(2)} €</span>
+          </div>
+        </div>
+      `).join('');
+    }
+
+    function toggleComandaModal() {
+      const modal = document.getElementById('modal-comanda');
+      modal.classList.toggle('hidden');
+    }
+
+    function enviarWhatsAppComanda() {
+      const texto = encodeURIComponent(`Hola Vukata, quiero tramitar esta comanda:\n` + comandaItems.map(i => `• ${i.name} (x${i.qty}) - ${(i.price * i.qty).toFixed(2)} €`).join('\n') + `\n\nTotal: ${document.getElementById('comanda-total-price').innerText}`);
+      window.open(`https://wa.me/34917198244?text=${texto}`, '_blank');
+    }
+
+    function mostrarToast(msg) {
+      const toast = document.getElementById('vukata-toast');
+      document.getElementById('toast-text').innerText = msg;
+      toast.classList.remove('opacity-0', 'pointer-events-none');
+      setTimeout(() => {
+        toast.classList.add('opacity-0', 'pointer-events-none');
+      }, 2500);
+    }
+
+    // Scroll Animations (IntersectionObserver & Progress Bar)
+    function initScrollAnimations() {
+      const reveals = document.querySelectorAll('.reveal-on-scroll');
+      const observer = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+          if (entry.isIntersecting) {
+            entry.target.classList.add('is-revealed');
+          }
+        });
+      }, { threshold: 0.1 });
+
+      reveals.forEach(el => observer.observe(el));
+
+      // Barra de lectura superior
+      window.addEventListener('scroll', () => {
+        const winScroll = document.body.scrollTop || document.documentElement.scrollTop;
+        const height = document.documentElement.scrollHeight - document.documentElement.clientHeight;
+        const scrolled = (winScroll / height) * 100;
+        document.getElementById('reading-progress').style.width = scrolled + '%';
+      });
+    }
+  </script>
+</body>
+</html>
