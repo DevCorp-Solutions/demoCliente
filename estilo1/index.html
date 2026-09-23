@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html lang="es" class="min-h-screen">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover" />
+  <title>Restaurante Parrilla Vukata | Asador de Brasas en Aluche (Estilo 1)</title>
+  
+  <meta name="description" content="Demostración interactiva de software a medida para hostelería por DevCorp Solutions. Carta digital, comandero KDS y reservas directas." />
+  <meta name="author" content="DevCorp Solutions" />
+  <meta name="theme-color" content="#0e1b33" />
+  
+  <!-- Favicon -->
+  <link rel="icon" type="image/png" href="../assets/images/logo.png" />
+  <link rel="apple-touch-icon" href="../assets/images/logo.png" />
+
+  <!-- Google Fonts & Material Symbols -->
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:ital,wght@0,600;0,700;0,800;1,600;1,700&family=Barlow:ital,wght@0,400;0,500;0,600;1,400;1,500&family=Inter:wght@300;400;500;600;700;800;900&family=JetBrains+Mono:wght@400;600;700&family=Montserrat:wght@500;600;700;800;900&family=Playfair+Display:ital,wght@0,400;0,500;0,600;0,700;1,400&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
+  <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet"/>
+
+  <!-- Tailwind CSS CDN -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      darkMode: "class",
+      theme: {
+        extend: {
+          colors: {
+      "outline-variant": "#ddc0bb",
+      "on-secondary-fixed": "#1f1b18",
+      "inverse-on-surface": "#f4f0eb",
+      "secondary-fixed": "#eae0dd",
+      "primary": "#7c2118",
+      "inverse-surface": "#31302d",
+      "primary-fixed-dim": "#ffb4a9",
+      "surface-container-high": "#ebe8e3",
+      "primary-fixed": "#ffdad5",
+      "surface-bright": "#fdf9f4",
+      "on-tertiary-fixed": "#2a1700",
+      "secondary": "#645d5a",
+      "primary-container": "#9c382c",
+      "surface-dim": "#ddd9d5",
+      "tertiary-fixed-dim": "#f8bb70",
+      "on-primary-fixed-variant": "#83261c",
+      "on-tertiary": "#ffffff",
+      "error": "#ba1a1a",
+      "tertiary-container": "#7d500c",
+      "on-error-container": "#93000a",
+      "on-surface-variant": "#57423f",
+      "on-error": "#ffffff",
+      "on-primary-fixed": "#410000",
+      "on-secondary-fixed-variant": "#4b4643",
+      "surface-tint": "#a23d30",
+      "inverse-primary": "#ffb4a9",
+      "on-secondary-container": "#68615e",
+      "tertiary-fixed": "#ffddb8",
+      "on-primary": "#ffffff",
+      "outline": "#8a716e",
+      "error-container": "#ffdad6",
+      "on-tertiary-container": "#ffc784",
+      "on-primary-container": "#ffc3b9",
+      "secondary-container": "#e8deda",
+      "on-background": "#1c1c19",
+      "surface-container-highest": "#e6e2dd",
+      "on-tertiary-fixed-variant": "#653e00",
+      "secondary-fixed-dim": "#cec5c1",
+      "on-surface": "#1c1c19",
+      "surface-container-lowest": "#ffffff",
+      "surface-container": "#f1ede8",
+      "surface": "#fdf9f4",
+      "background": "#fdf9f4",
+      "tertiary": "#5f3a00",
+      "surface-container-low": "#f7f3ee",
+      "surface-variant": "#e6e2dd",
+      "on-secondary": "#ffffff",
+      vukata: {
+        crimson: '#8B1E1E',
+        fire: '#E52D27',
+        charcoal: '#14100E',
+        steel: '#fdf9f4',
+        gold: '#D49B53'
+      }
+    },
+          fontFamily: {
+      sans: ['Inter', 'sans-serif'],
+      mono: ['JetBrains Mono', 'monospace'],
+      condensed: ['"Barlow Condensed"', 'sans-serif'],
+      montserrat: ['Montserrat', 'sans-serif'],
+      serif: ['"Playfair Display"', 'Georgia', 'serif'],
+      "display-hero": [ "Playfair Display" ],
+      "body-lg": [ "Plus Jakarta Sans" ],
+      "label-action": [ "Plus Jakarta Sans" ],
+      "headline-lg-mobile": [ "Playfair Display" ],
+      "body-md": [ "Plus Jakarta Sans" ],
+      "label-price": [ "Playfair Display" ],
+      "headline-sm": [ "Playfair Display" ],
+      "title-italic": [ "Playfair Display" ],
+      "display-hero-mobile": [ "Playfair Display" ],
+      "kicker-eyebrow": [ "Plus Jakarta Sans" ],
+      "headline-md": [ "Playfair Display" ],
+      "stat-number": [ "Playfair Display" ],
+      "headline-lg": [ "Playfair Display" ],
+      "body-sm": [ "Plus Jakarta Sans" ]
+    }
+        }
+      }
+    };
+  </script>
+
+  <!-- Estilos Específicos de ESTILO1 -->
+  <link rel="stylesheet" href="./style.css" />
+</head>
+<body class="min-h-screen flex flex-col font-sans text-slate-900 antialiased">
+  
+  <!-- Contenedor Principal de la SPA -->
+  <div id="app" class="flex-1 flex flex-col min-h-screen">
+    <div class="flex-1 flex flex-col items-center justify-center min-h-[60vh] p-6 text-center">
+      <div class="relative flex items-center justify-center mb-6">
+        <div class="w-16 h-16 border-4 border-red-200 border-t-red-600 rounded-full animate-spin"></div>
+        <img src="../assets/images/logo.png" alt="DevCorp Logo" class="absolute w-10 h-10 object-contain" onerror="this.style.display='none'"/>
+      </div>
+      <h2 class="text-lg font-bold text-slate-900">DevCorp GastroSuite</h2>
+      <p class="text-xs text-slate-500 mt-1">Cargando ESTILO1...</p>
+    </div>
+  </div>
+
+  <!-- Scripts Específicos e Independientes del Estilo -->
+  <script src="./data.js"></script>
+  <script src="./app.js"></script>
+</body>
+</html>

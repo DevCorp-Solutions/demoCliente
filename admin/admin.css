@@ -1,0 +1,7 @@
+/* Estilos para el panel privado de administración DevCorp */
+.admin-tab.active {
+  background-color: #2563eb !important;
+  color: #ffffff !important;
+  font-weight: 700 !important;
+  box-shadow: 0 4px 12px rgba(37, 99, 235, 0.35);
+}
