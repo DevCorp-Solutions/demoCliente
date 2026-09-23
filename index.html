@@ -1,174 +1,22 @@
 <!DOCTYPE html>
-<html lang="es" class="min-h-screen">
+<html lang="es">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover" />
-  <title>DevCorp GastroSuite | Demo Software Hostelería (Aluche, Lucero y Carabanchel)</title>
-  
-  <!-- Metadatos de Negocio y SEO -->
-  <meta name="description" content="Demostración interactiva de software a medida para restaurantes y hostelería por DevCorp Solutions. Carta digital interactiva, motor de reservas, comandero de cocina KDS y 0% comisiones frente a Glovo y UberEats." />
-  <meta name="author" content="DevCorp Solutions" />
-  <meta name="theme-color" content="#0e1b33" />
-  
-  <!-- Open Graph -->
-  <meta property="og:title" content="DevCorp GastroSuite — Demo Hostelería y Restauración" />
-  <meta property="og:description" content="Software a medida para hostelería sin comisiones por pedido. Carta QR de alta velocidad, comandero en vivo y reservas directas." />
-  <meta property="og:image" content="./assets/images/logo.png" />
-  <meta property="og:type" content="website" />
-
-  <!-- Favicon -->
+  <meta http-equiv="refresh" content="0; url=./estilo1/index.html" />
+  <title>DevCorp GastroSuite | Ecosistema de Hostelería</title>
   <link rel="icon" type="image/png" href="./assets/images/logo.png" />
-  <link rel="apple-touch-icon" href="./assets/images/logo.png" />
-
-  <!-- Google Fonts: Inter, Playfair Display, Plus Jakarta Sans, Barlow Condensed, Barlow, Montserrat -->
-  <link rel="preconnect" href="https://fonts.googleapis.com" />
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:ital,wght@0,600;0,700;0,800;1,600;1,700&family=Barlow:ital,wght@0,400;0,500;0,600;1,400;1,500&family=Inter:wght@300;400;500;600;700;800;900&family=JetBrains+Mono:wght@400;600;700&family=Montserrat:wght@500;600;700;800;900&family=Playfair+Display:ital,wght@0,400;0,500;0,600;0,700;1,400&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
-  <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet"/>
-
-  <!-- Tailwind CSS CDN -->
-  <script src="https://cdn.tailwindcss.com"></script>
-  <script id="tailwind-config">
-    tailwind.config = {
-      darkMode: "class",
-      theme: {
-        extend: {
-          colors: {
-            "outline-variant": "#ddc0bb",
-            "on-secondary-fixed": "#1f1b18",
-            "inverse-on-surface": "#f4f0eb",
-            "secondary-fixed": "#eae0dd",
-            "primary": "#7c2118",
-            "inverse-surface": "#31302d",
-            "primary-fixed-dim": "#ffb4a9",
-            "surface-container-high": "#ebe8e3",
-            "primary-fixed": "#ffdad5",
-            "surface-bright": "#fdf9f4",
-            "on-tertiary-fixed": "#2a1700",
-            "secondary": "#645d5a",
-            "primary-container": "#9c382c",
-            "surface-dim": "#ddd9d5",
-            "tertiary-fixed-dim": "#f8bb70",
-            "on-primary-fixed-variant": "#83261c",
-            "on-tertiary": "#ffffff",
-            "error": "#ba1a1a",
-            "tertiary-container": "#7d500c",
-            "on-error-container": "#93000a",
-            "on-surface-variant": "#57423f",
-            "on-error": "#ffffff",
-            "on-primary-fixed": "#410000",
-            "on-secondary-fixed-variant": "#4b4643",
-            "surface-tint": "#a23d30",
-            "inverse-primary": "#ffb4a9",
-            "on-secondary-container": "#68615e",
-            "tertiary-fixed": "#ffddb8",
-            "on-primary": "#ffffff",
-            "outline": "#8a716e",
-            "error-container": "#ffdad6",
-            "on-tertiary-container": "#ffc784",
-            "on-primary-container": "#ffc3b9",
-            "secondary-container": "#e8deda",
-            "on-background": "#1c1c19",
-            "surface-container-highest": "#e6e2dd",
-            "on-tertiary-fixed-variant": "#653e00",
-            "secondary-fixed-dim": "#cec5c1",
-            "on-surface": "#1c1c19",
-            "surface-container-lowest": "#ffffff",
-            "surface-container": "#f1ede8",
-            "surface": "#fdf9f4",
-            "background": "#fdf9f4",
-            "tertiary": "#5f3a00",
-            "surface-container-low": "#f7f3ee",
-            "surface-variant": "#e6e2dd",
-            "on-secondary": "#ffffff",
-            devcorp: {
-              navy: '#0e1b33',
-              blue: '#2563eb',
-              cyan: '#0891b2',
-              surface: '#f8fafc'
-            },
-            vukata: {
-              crimson: '#8B1E1E',
-              fire: '#E52D27',
-              charcoal: '#14100E',
-              steel: '#fdf9f4',
-              gold: '#D49B53'
-            }
-          },
-          borderRadius: {
-            "DEFAULT": "1rem",
-            "lg": "2rem",
-            "xl": "3rem",
-            "full": "9999px"
-          },
-          fontFamily: {
-            sans: ['Inter', 'sans-serif'],
-            mono: ['JetBrains Mono', 'monospace'],
-            condensed: ['"Barlow Condensed"', 'sans-serif'],
-            montserrat: ['Montserrat', 'sans-serif'],
-            serif: ['"Playfair Display"', 'Georgia', 'serif'],
-            "display-hero": [ "Playfair Display" ],
-            "body-lg": [ "Plus Jakarta Sans" ],
-            "label-action": [ "Plus Jakarta Sans" ],
-            "headline-lg-mobile": [ "Playfair Display" ],
-            "body-md": [ "Plus Jakarta Sans" ],
-            "label-price": [ "Playfair Display" ],
-            "headline-sm": [ "Playfair Display" ],
-            "title-italic": [ "Playfair Display" ],
-            "display-hero-mobile": [ "Playfair Display" ],
-            "kicker-eyebrow": [ "Plus Jakarta Sans" ],
-            "headline-md": [ "Playfair Display" ],
-            "stat-number": [ "Playfair Display" ],
-            "headline-lg": [ "Playfair Display" ],
-            "body-sm": [ "Plus Jakarta Sans" ]
-          },
-          fontSize: {
-            "display-hero": [ "56px", { "lineHeight": "64px", "letterSpacing": "-0.02em", "fontWeight": "400" } ],
-            "body-lg": [ "18px", { "lineHeight": "28px", "fontWeight": "400" } ],
-            "label-action": [ "13px", { "lineHeight": "16px", "letterSpacing": "0.02em", "fontWeight": "600" } ],
-            "headline-lg-mobile": [ "28px", { "lineHeight": "36px", "letterSpacing": "0em", "fontWeight": "400" } ],
-            "body-md": [ "15px", { "lineHeight": "24px", "fontWeight": "400" } ],
-            "label-price": [ "24px", { "lineHeight": "30px", "fontWeight": "600" } ],
-            "headline-sm": [ "22px", { "lineHeight": "30px", "fontWeight": "600" } ],
-            "title-italic": [ "36px", { "lineHeight": "44px", "fontWeight": "400" } ],
-            "display-hero-mobile": [ "36px", { "lineHeight": "44px", "letterSpacing": "-0.01em", "fontWeight": "400" } ],
-            "kicker-eyebrow": [ "11px", { "lineHeight": "16px", "letterSpacing": "0.18em", "fontWeight": "700" } ],
-            "headline-md": [ "28px", { "lineHeight": "36px", "fontWeight": "500" } ],
-            "stat-number": [ "38px", { "lineHeight": "44px", "fontWeight": "600" } ],
-            "headline-lg": [ "40px", { "lineHeight": "48px", "letterSpacing": "-0.015em", "fontWeight": "400" } ],
-            "body-sm": [ "13px", { "lineHeight": "20px", "fontWeight": "400" } ]
-          }
-        }
-      }
-    };
+  <script>
+    window.location.replace("./estilo1/index.html");
   </script>
-
-  <!-- Estilos Corporativos Personalizados -->
-  <link rel="stylesheet" href="./assets/css/style.css" />
 </head>
-<body class="min-h-screen flex flex-col font-sans text-slate-900 antialiased selection:bg-blue-600 selection:text-white">
-  
-  <!-- Contenedor Principal de la Aplicación SPA -->
-  <div id="app" class="flex-1 flex flex-col min-h-screen">
-    <!-- Pantalla de carga mientras se monta el script de módulos -->
-    <div class="flex-1 flex flex-col items-center justify-center min-h-[60vh] p-6 text-center">
-      <div class="relative flex items-center justify-center mb-6">
-        <div class="w-16 h-16 border-4 border-blue-200 border-t-blue-600 rounded-full animate-spin"></div>
-        <img src="./assets/images/logo.png" alt="DevCorp Logo" class="absolute w-10 h-10 object-contain" onerror="this.style.display='none'"/>
-      </div>
-      <h2 class="text-lg font-bold text-slate-900">DevCorp GastroSuite</h2>
-      <p class="text-xs text-slate-500 mt-1">Cargando ecosistema de hostelería...</p>
-    </div>
+<body style="background:#0e1b33; color:#ffffff; font-family:sans-serif; display:flex; align-items:center; justify-content:center; height:100vh; margin:0;">
+  <div style="text-align:center;">
+    <img src="./assets/images/logo.png" alt="DevCorp Solutions" style="height:60px; margin-bottom:20px;" />
+    <h2>Cargando DevCorp GastroSuite...</h2>
+    <p style="font-size:12px; color:#94a3b8;">Redirigiendo a Estilo 1...</p>
+    <p style="font-size:12px; margin-top:20px;">
+      <a href="./estilo1/index.html" style="color:#38bdf8;">Haz clic aquí si no redirige automáticamente</a>
+    </p>
   </div>
-
-  <!-- Script Principal de la SPA (Carga universal tanto en file:/// como en servidor web) -->
-  <script src="./assets/js/app.js"></script>
-
-  <!-- Fallback sin JavaScript -->
-  <noscript>
-    <div class="p-8 text-center text-red-600">
-      <p class="font-bold">Se requiere JavaScript habilitado para interactuar con la demo de DevCorp GastroSuite.</p>
-    </div>
-  </noscript>
 </body>
 </html>

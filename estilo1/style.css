@@ -1,0 +1,474 @@
+/* ==========================================================================
+   DevCorp GastroSuite - Ecosistema de 4 Estilos y Arquitecturas Web
+   Desarrollado para DevCorp Solutions | devcorpsolutions.com
+   ========================================================================== */
+
+:root {
+  --devcorp-navy: #0e1b33;
+  --devcorp-blue: #2563eb;
+  --devcorp-cyan: #0891b2;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+html, body {
+  min-height: 100%;
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  font-family: 'Inter', system-ui, -apple-system, sans-serif;
+  -webkit-font-smoothing: antialiased;
+}
+
+/* ==========================================================================
+   1. FONDOS GLOBALES Y TEMAS DE CADA ESTILO (CERO FONDO BLANCO AL HACER SCROLL)
+   ========================================================================== */
+
+
+/* --- ESTILO 1: VUKATA RESTAURANTE PARRILLA (EMBER & ASH EDITORIAL - GOOGLE STITCH) --- */
+html.theme-estilo-1, 
+body.theme-estilo-1, 
+.theme-estilo-1,
+.theme-estilo-1 #app {
+  background-color: #fdf9f4 !important;
+  color: #1c1c19;
+}
+
+.theme-estilo-1 main {
+  background: #fdf9f4;
+}
+
+/* Tipografías oficiales de Vukata & Stitch Ember & Ash Editorial */
+.theme-estilo-1 .font-display-hero {
+  font-family: 'Playfair Display', Georgia, serif;
+  font-size: 56px;
+  line-height: 64px;
+  letter-spacing: -0.02em;
+  font-weight: 400;
+}
+@media (max-width: 768px) {
+  .theme-estilo-1 .font-display-hero {
+    font-size: 34px;
+    line-height: 42px;
+    letter-spacing: -0.01em;
+  }
+}
+
+.theme-estilo-1 .font-headline-lg {
+  font-family: 'Playfair Display', Georgia, serif;
+  font-size: 40px;
+  line-height: 48px;
+  letter-spacing: -0.015em;
+  font-weight: 400;
+}
+@media (max-width: 768px) {
+  .theme-estilo-1 .font-headline-lg {
+    font-size: 26px;
+    line-height: 34px;
+    letter-spacing: 0em;
+  }
+}
+
+.theme-estilo-1 .font-headline-md {
+  font-family: 'Playfair Display', Georgia, serif;
+  font-size: 28px;
+  line-height: 36px;
+  font-weight: 600;
+}
+
+.theme-estilo-1 .font-headline-sm {
+  font-family: 'Playfair Display', Georgia, serif;
+  font-size: 22px;
+  line-height: 30px;
+  font-weight: 600;
+}
+
+.theme-estilo-1 .font-title-italic {
+  font-family: 'Playfair Display', Georgia, serif;
+  font-size: 36px;
+  line-height: 44px;
+  font-weight: 400;
+  font-style: italic;
+}
+
+.theme-estilo-1 .font-kicker-eyebrow {
+  font-family: 'Plus Jakarta Sans', sans-serif;
+  font-size: 11px;
+  line-height: 16px;
+  letter-spacing: 0.18em;
+  font-weight: 700;
+  text-transform: uppercase;
+}
+
+.theme-estilo-1 .font-body-lg {
+  font-family: 'Plus Jakarta Sans', sans-serif;
+  font-size: 18px;
+  line-height: 28px;
+  font-weight: 400;
+}
+
+.theme-estilo-1 .font-body-md {
+  font-family: 'Plus Jakarta Sans', sans-serif;
+  font-size: 15px;
+  line-height: 24px;
+  font-weight: 400;
+}
+
+.theme-estilo-1 .font-body-sm {
+  font-family: 'Plus Jakarta Sans', sans-serif;
+  font-size: 13px;
+  line-height: 20px;
+  font-weight: 400;
+}
+
+.theme-estilo-1 .font-label-price {
+  font-family: 'Playfair Display', Georgia, serif;
+  font-size: 24px;
+  line-height: 30px;
+  font-weight: 600;
+}
+
+.theme-estilo-1 .font-label-action {
+  font-family: 'Plus Jakarta Sans', sans-serif;
+  font-size: 13px;
+  line-height: 16px;
+  letter-spacing: 0.02em;
+  font-weight: 600;
+}
+
+.theme-estilo-1 .font-stat-number {
+  font-family: 'Playfair Display', Georgia, serif;
+  font-size: 38px;
+  line-height: 44px;
+  font-weight: 600;
+}
+
+/* Animación de marquesina continua */
+@keyframes marqueeScroll {
+  0% { transform: translateX(0%); }
+  100% { transform: translateX(-50%); }
+}
+
+.animate-marquee {
+  display: inline-flex;
+  animation: marqueeScroll 28s linear infinite;
+}
+
+.animate-marquee:hover {
+  animation-play-state: paused;
+}
+
+/* Compatibilidad con clases previas de Vukata */
+.vukata-font-title {
+  font-family: 'Playfair Display', 'Montserrat', serif;
+  font-weight: 700;
+  letter-spacing: 0.02em;
+  color: #8B1E1E;
+}
+
+.vukata-font-dish {
+  font-family: 'Playfair Display', 'Barlow Condensed', serif;
+  font-weight: 600;
+  letter-spacing: -0.01em;
+  color: #1c1c19;
+}
+
+.vukata-font-desc {
+  font-family: 'Plus Jakarta Sans', sans-serif;
+  color: #57423f;
+}
+
+.vukata-font-price {
+  font-family: 'Playfair Display', serif;
+  font-weight: 700;
+  color: #8B1E1E;
+}
+
+/* Barra divisoria carmesí idéntica a la carta física de Vukata */
+.vukata-section-bar {
+  display: flex;
+  align-items: center;
+  width: 100%;
+  gap: 1rem;
+}
+
+.vukata-section-line {
+  flex: 1;
+  height: 2px;
+  background: linear-gradient(90deg, #8B1E1E 0%, rgba(139, 30, 30, 0.2) 100%);
+  border-radius: 2px;
+}
+
+/* Tarjetas y Contenedores de Vukata con acabado editorial Stitch */
+.vukata-card {
+  background: #ffffff;
+  border: 1px solid #e6dfd5;
+  border-radius: 1rem;
+  box-shadow: 0 1px 4px rgba(0, 0, 0, 0.03);
+  transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.vukata-card:hover {
+  border-color: #8B1E1E;
+  box-shadow: 0 12px 28px -6px rgba(20, 16, 14, 0.08);
+  transform: translateY(-2px);
+}
+
+/* Botón de Pedido Vukata a las Brasas */
+.btn-vukata-primary {
+  background: linear-gradient(135deg, #9C382C 0%, #8B1E1E 100%);
+  color: #ffffff;
+  font-family: 'Plus Jakarta Sans', sans-serif;
+  font-weight: 600;
+  letter-spacing: 0.02em;
+  border-radius: 9999px;
+  transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+  box-shadow: 0 4px 14px rgba(156, 56, 44, 0.22);
+}
+
+.btn-vukata-primary:hover {
+  background: linear-gradient(135deg, #B83E2D 0%, #721414 100%);
+  box-shadow: 0 6px 18px rgba(156, 56, 44, 0.32);
+  transform: translateY(-1px);
+}
+
+/* Insignias de Alérgenos Circulares de Vukata */
+.vukata-allergen-pill {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 9999px;
+  color: #ffffff;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.15);
+  transition: transform 0.15s ease;
+  flex-shrink: 0;
+}
+.vukata-allergen-pill:hover {
+  transform: scale(1.18);
+  z-index: 10;
+}
+
+/* Compatibilidad retroactiva */
+.editorial-serif {
+  font-family: 'Playfair Display', Georgia, serif;
+}
+.editorial-card {
+  background: #ffffff;
+  border: 1px solid #e6dfd5;
+  border-radius: 1rem;
+  transition: all 0.25s ease;
+}
+
+
+
+/* ==========================================================================
+   2. BOTONES Y COMPONENTES GLOBALES
+   ========================================================================== */
+.btn-devcorp-primary {
+  background: linear-gradient(135deg, #2563eb 0%, #1d4ed8 100%);
+  color: #ffffff;
+  font-weight: 600;
+  transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+  box-shadow: 0 4px 14px 0 rgba(37, 99, 235, 0.25);
+}
+
+.btn-devcorp-primary:hover {
+  transform: translateY(-1px);
+  box-shadow: 0 6px 20px 0 rgba(37, 99, 235, 0.35);
+  background: linear-gradient(135deg, #1e40af 0%, #1d4ed8 100%);
+}
+
+/* Animaciones suaves para drawer y modales */
+@keyframes drawerSlideIn {
+  from { transform: translateX(100%); }
+  to { transform: translateX(0); }
+}
+
+.drawer-animate {
+  animation: drawerSlideIn 0.25s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+
+@keyframes modalFadeIn {
+  from { opacity: 0; transform: scale(0.96) translateY(8px); }
+  to { opacity: 1; transform: scale(1) translateY(0); }
+}
+
+.modal-animate {
+  animation: modalFadeIn 0.2s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+
+/* Badges de alérgenos adaptados a cada estilo */
+.badge-allergen-estilo1 {
+  background: #fef2f2;
+  border: 1px solid #fecaca;
+  color: #8B1E1E;
+}
+
+.badge-allergen-estilo2 {
+  background: rgba(56, 189, 248, 0.15);
+  border: 1px solid rgba(56, 189, 248, 0.35);
+  color: #38bdf8;
+}
+
+.badge-allergen-estilo3 {
+  background: #ede6da;
+  border: 1px solid #8c7b6c;
+  color: #3d3228;
+}
+
+.badge-allergen-estilo4 {
+  background: #f4f4f5;
+  border: 1px solid #e4e4e7;
+  color: #27272a;
+}
+
+/* Scrollbars sutiles */
+::-webkit-scrollbar {
+  width: 6px;
+  height: 6px;
+}
+
+::-webkit-scrollbar-track {
+  background: rgba(0, 0, 0, 0.05);
+}
+
+::-webkit-scrollbar-thumb {
+  background: rgba(148, 163, 184, 0.5);
+  border-radius: 4px;
+}
+
+/* Ocultar barra de scroll para navegación táctil móvil */
+.no-scrollbar::-webkit-scrollbar {
+  display: none;
+}
+.no-scrollbar {
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+}
+
+
+/* =========================================================================
+   CABECERA DINÁMICA ESTILO 1 (OSCURO EN TOP HERO, CLARO EN SCROLL)
+   ========================================================================= */
+#main-header {
+  transition: background-color 0.35s cubic-bezier(0.16, 1, 0.3, 1),
+              border-color 0.35s cubic-bezier(0.16, 1, 0.3, 1),
+              box-shadow 0.35s cubic-bezier(0.16, 1, 0.3, 1),
+              color 0.35s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+/* Modo Claro (Cuando se hace scroll o en vistas de gestión) */
+#main-header.is-light-scrolled {
+  background-color: rgba(252, 251, 248, 0.94) !important;
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  border-bottom: 1px solid rgba(196, 196, 185, 0.35) !important;
+  box-shadow: 0 1px 8px rgba(0, 0, 0, 0.04) !important;
+}
+#main-header.is-light-scrolled .header-brand-title {
+  color: #1b1c1b !important;
+}
+#main-header.is-light-scrolled .header-brand-sub {
+  color: #9c382c !important;
+}
+#main-header.is-light-scrolled .header-divider {
+  background-color: rgba(196, 196, 185, 0.5) !important;
+}
+#main-header.is-light-scrolled .header-nav-capsule {
+  background-color: #f1efea !important;
+  border-color: rgba(196, 196, 185, 0.4) !important;
+}
+#main-header.is-light-scrolled .header-nav-btn {
+  color: #444846 !important;
+}
+#main-header.is-light-scrolled .header-nav-btn:hover {
+  color: #1b1c1b !important;
+}
+#main-header.is-light-scrolled .header-nav-btn.active-view {
+  background-color: #e5e2dc !important;
+  color: #1b1c1b !important;
+}
+#main-header.is-light-scrolled #style-select {
+  background-color: #ffffff !important;
+  color: #1c1917 !important;
+  border-color: rgba(139, 30, 30, 0.4) !important;
+}
+#main-header.is-light-scrolled #open-cart-btn {
+  background-color: #ffffff !important;
+  color: #9c382c !important;
+  border-color: rgba(196, 196, 185, 0.5) !important;
+}
+#main-header.is-light-scrolled #mobile-nav-bar {
+  background-color: #f1efea !important;
+  border-top-color: rgba(196, 196, 185, 0.4) !important;
+}
+#main-header.is-light-scrolled #mobile-nav-bar button {
+  color: #444846 !important;
+}
+#main-header.is-light-scrolled #mobile-nav-bar button.active-view {
+  background-color: #e5e2dc !important;
+  color: #1b1c1b !important;
+}
+
+/* Modo Oscuro (Cuando está arriba del todo frente a las brasas) */
+#main-header.is-transparent-dark {
+  background-color: #14100E !important;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.1) !important;
+  box-shadow: none !important;
+}
+#main-header.is-transparent-dark .header-brand-title {
+  color: #ffffff !important;
+}
+#main-header.is-transparent-dark .header-brand-sub {
+  color: #e52d27 !important;
+}
+#main-header.is-transparent-dark .header-divider {
+  background-color: rgba(255, 255, 255, 0.18) !important;
+}
+#main-header.is-transparent-dark .header-nav-capsule {
+  background-color: rgba(255, 255, 255, 0.08) !important;
+  border-color: rgba(255, 255, 255, 0.15) !important;
+}
+#main-header.is-transparent-dark .header-nav-btn {
+  color: rgba(255, 255, 255, 0.72) !important;
+}
+#main-header.is-transparent-dark .header-nav-btn:hover {
+  color: #ffffff !important;
+}
+#main-header.is-transparent-dark .header-nav-btn.active-view {
+  background-color: rgba(255, 255, 255, 0.2) !important;
+  color: #ffffff !important;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.3) !important;
+}
+#main-header.is-transparent-dark #style-select {
+  background-color: #1f1916 !important;
+  color: #ffffff !important;
+  border-color: rgba(255, 255, 255, 0.22) !important;
+}
+#main-header.is-transparent-dark #style-select option {
+  background-color: #14100E !important;
+  color: #ffffff !important;
+}
+#main-header.is-transparent-dark #open-cart-btn {
+  background-color: rgba(255, 255, 255, 0.09) !important;
+  color: #ffffff !important;
+  border-color: rgba(255, 255, 255, 0.2) !important;
+}
+#main-header.is-transparent-dark #open-cart-btn:hover {
+  background-color: rgba(255, 255, 255, 0.16) !important;
+}
+#main-header.is-transparent-dark #mobile-nav-bar {
+  background-color: #14100E !important;
+  border-top-color: rgba(255, 255, 255, 0.1) !important;
+}
+#main-header.is-transparent-dark #mobile-nav-bar button {
+  color: rgba(255, 255, 255, 0.72) !important;
+}
+#main-header.is-transparent-dark #mobile-nav-bar button.active-view {
+  background-color: rgba(255, 255, 255, 0.2) !important;
+  color: #ffffff !important;
+}

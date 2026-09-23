@@ -1,0 +1,162 @@
+/* ==========================================================================
+   DevCorp GastroSuite - Ecosistema de 4 Estilos y Arquitecturas Web
+   Desarrollado para DevCorp Solutions | devcorpsolutions.com
+   ========================================================================== */
+
+:root {
+  --devcorp-navy: #0e1b33;
+  --devcorp-blue: #2563eb;
+  --devcorp-cyan: #0891b2;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+html, body {
+  min-height: 100%;
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  font-family: 'Inter', system-ui, -apple-system, sans-serif;
+  -webkit-font-smoothing: antialiased;
+}
+
+/* ==========================================================================
+   1. FONDOS GLOBALES Y TEMAS DE CADA ESTILO (CERO FONDO BLANCO AL HACER SCROLL)
+   ========================================================================== */
+
+
+/* --- ESTILO 3: BISTRÓ TRADICIONAL & CARTA CLÁSICA (WARM PARCHMENT) --- */
+html.theme-estilo-3, 
+body.theme-estilo-3, 
+.theme-estilo-3,
+.theme-estilo-3 #app {
+  background-color: #f6f3eb !important;
+  color: #2b2520;
+}
+
+.theme-estilo-3 main {
+  background: #f6f3eb;
+}
+
+.theme-estilo-3 .bistro-serif {
+  font-family: 'Playfair Display', Georgia, serif;
+}
+
+.bistro-frame {
+  border: 2px solid #8c7b6c;
+  outline: 1px solid #8c7b6c;
+  outline-offset: 4px;
+}
+
+.dotted-leader-row {
+  display: flex;
+  align-items: baseline;
+  width: 100%;
+}
+
+.dotted-leader-line {
+  flex: 1;
+  border-bottom: 2px dotted #9e8d7d;
+  margin: 0 0.5rem;
+  position: relative;
+  bottom: 0.2rem;
+}
+
+.bistro-card {
+  background: #ffffff;
+  border: 1px solid #dfd7cc;
+  border-radius: 0.75rem;
+  box-shadow: 0 2px 8px rgba(43, 37, 32, 0.05);
+}
+
+
+
+/* ==========================================================================
+   2. BOTONES Y COMPONENTES GLOBALES
+   ========================================================================== */
+.btn-devcorp-primary {
+  background: linear-gradient(135deg, #2563eb 0%, #1d4ed8 100%);
+  color: #ffffff;
+  font-weight: 600;
+  transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+  box-shadow: 0 4px 14px 0 rgba(37, 99, 235, 0.25);
+}
+
+.btn-devcorp-primary:hover {
+  transform: translateY(-1px);
+  box-shadow: 0 6px 20px 0 rgba(37, 99, 235, 0.35);
+  background: linear-gradient(135deg, #1e40af 0%, #1d4ed8 100%);
+}
+
+/* Animaciones suaves para drawer y modales */
+@keyframes drawerSlideIn {
+  from { transform: translateX(100%); }
+  to { transform: translateX(0); }
+}
+
+.drawer-animate {
+  animation: drawerSlideIn 0.25s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+
+@keyframes modalFadeIn {
+  from { opacity: 0; transform: scale(0.96) translateY(8px); }
+  to { opacity: 1; transform: scale(1) translateY(0); }
+}
+
+.modal-animate {
+  animation: modalFadeIn 0.2s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+
+/* Badges de alérgenos adaptados a cada estilo */
+.badge-allergen-estilo1 {
+  background: #fef2f2;
+  border: 1px solid #fecaca;
+  color: #8B1E1E;
+}
+
+.badge-allergen-estilo2 {
+  background: rgba(56, 189, 248, 0.15);
+  border: 1px solid rgba(56, 189, 248, 0.35);
+  color: #38bdf8;
+}
+
+.badge-allergen-estilo3 {
+  background: #ede6da;
+  border: 1px solid #8c7b6c;
+  color: #3d3228;
+}
+
+.badge-allergen-estilo4 {
+  background: #f4f4f5;
+  border: 1px solid #e4e4e7;
+  color: #27272a;
+}
+
+/* Scrollbars sutiles */
+::-webkit-scrollbar {
+  width: 6px;
+  height: 6px;
+}
+
+::-webkit-scrollbar-track {
+  background: rgba(0, 0, 0, 0.05);
+}
+
+::-webkit-scrollbar-thumb {
+  background: rgba(148, 163, 184, 0.5);
+  border-radius: 4px;
+}
+
+/* Ocultar barra de scroll para navegación táctil móvil */
+.no-scrollbar::-webkit-scrollbar {
+  display: none;
+}
+.no-scrollbar {
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+}
+
