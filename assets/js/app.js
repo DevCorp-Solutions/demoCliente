@@ -1588,6 +1588,34 @@ class AppStore {
     this.save();
   }
 
+  addToCartSilent(item, notes = "", qty = 1) {
+    const existing = this.state.cart.find(c => c.id === item.id && c.notes === notes);
+    if (existing) {
+      existing.qty += qty;
+    } else {
+      this.state.cart.push({
+        id: item.id,
+        name: item.name,
+        price: item.price,
+        image: item.image,
+        notes: notes,
+        qty: qty
+      });
+    }
+    try {
+      localStorage.setItem(STORAGE_KEY, JSON.stringify({
+        presetId: this.state.presetId,
+        currentView: this.state.currentView,
+        cart: this.state.cart,
+        orders: this.state.orders,
+        reservations: this.state.reservations,
+        dishSales: this.state.dishSales
+      }));
+    } catch (e) {
+      console.warn("Could not save state silently", e);
+    }
+  }
+
   removeFromCart(index) {
     if (this.state.cart[index]) {
       this.state.cart.splice(index, 1);
@@ -1904,6 +1932,7 @@ class GastroApp {
     this.modalQty = 1;
     this.currentModalDish = null;
     this.menuMode = 'cards';
+    this.isAllergenBoxOpen = false;
     this.init();
   }
 
@@ -1996,7 +2025,8 @@ class GastroApp {
         e.preventDefault();
         e.stopPropagation();
         const dish = this.currentModalDish;
-        store.addToCart(dish, "", this.modalQty);
+        store.addToCartSilent(dish, "", this.modalQty);
+        this.updateCartBadge();
         this.showToast(`✓ ${dish.name} (x${this.modalQty}) añadido a la comanda`);
         const modalContainer = document.getElementById('dish-modal-container');
         if (modalContainer) modalContainer.innerHTML = '';
@@ -2009,8 +2039,27 @@ class GastroApp {
       const modeBtn = e.target.closest('[data-menu-mode]');
       if (modeBtn) {
         e.preventDefault();
-        this.menuMode = modeBtn.getAttribute('data-menu-mode');
-        this.render();
+        e.stopPropagation();
+        const newMode = modeBtn.getAttribute('data-menu-mode');
+        if (this.menuMode !== newMode) {
+          this.menuMode = newMode;
+          const savedScrollY = (typeof window !== 'undefined') ? (window.scrollY || document.documentElement.scrollTop || 0) : 0;
+          const content = document.getElementById('view-content');
+          if (content) {
+            const prevH = content.offsetHeight;
+            if (prevH > 0) content.style.minHeight = `${prevH}px`;
+            this.renderMenuView(content, store.getPreset());
+            if (savedScrollY > 0 && typeof window !== 'undefined') {
+              window.scrollTo({ top: savedScrollY, behavior: 'instant' });
+              requestAnimationFrame(() => {
+                window.scrollTo({ top: savedScrollY, behavior: 'instant' });
+                setTimeout(() => { if (content) content.style.minHeight = ''; }, 50);
+              });
+            } else {
+              content.style.minHeight = '';
+            }
+          }
+        }
         return;
       }
 
@@ -2131,15 +2180,17 @@ class GastroApp {
         return;
       }
 
-      // 5. Añadir plato al carrito directamente desde la tarjeta
+      // 5. Añadir plato al carrito directamente desde la tarjeta (Sin salto de página ni re-render total)
       const addCartBtn = e.target.closest('[data-add-cart]');
       if (addCartBtn) {
         e.preventDefault();
+        e.stopPropagation();
         const dishId = addCartBtn.getAttribute('data-add-cart');
         const preset = store.getPreset();
         const dish = preset.menu.find(d => d.id === dishId);
         if (dish) {
-          store.addToCart(dish);
+          store.addToCartSilent(dish);
+          this.updateCartBadge();
           this.showToast(`✓ ${dish.name} añadido a la comanda`);
         }
         return;
@@ -2212,8 +2263,12 @@ class GastroApp {
       // 11. Toggle de panel de alérgenos
       if (e.target.closest('#toggle-allergens')) {
         e.preventDefault();
+        e.stopPropagation();
         const box = document.getElementById('allergen-box');
-        if (box) box.classList.toggle('hidden');
+        if (box) {
+          box.classList.toggle('hidden');
+          this.isAllergenBoxOpen = !box.classList.contains('hidden');
+        }
         return;
       }
     });
@@ -2264,6 +2319,36 @@ class GastroApp {
     }, 2400);
   }
 
+  updateCartBadge() {
+    const total = store.getCartTotal();
+    const count = store.getCartItemCount();
+    const totalFormatted = formatCurrency(total);
+
+    const cartBtns = document.querySelectorAll('#open-cart-btn, #mobile-cart-btn');
+    cartBtns.forEach(btn => {
+      const monoSpan = btn.querySelector('.font-mono');
+      if (monoSpan) {
+        monoSpan.textContent = totalFormatted;
+      }
+      let badge = btn.querySelector('.cart-count-badge');
+      if (count > 0) {
+        if (!badge) {
+          badge = document.createElement('span');
+          badge.className = 'cart-count-badge bg-primary text-on-primary text-[10px] font-black px-1.5 py-0.5 rounded-full';
+          btn.appendChild(badge);
+        }
+        badge.textContent = count;
+      } else if (badge) {
+        badge.remove();
+      }
+    });
+
+    const cartContainer = document.getElementById('cart-drawer-container');
+    if (cartContainer && cartContainer.innerHTML.trim() !== '') {
+      this.renderCartDrawer(true);
+    }
+  }
+
   updateHeaderScroll() {
     const header = document.getElementById('main-header');
     if (!header) return;
@@ -2283,10 +2368,15 @@ class GastroApp {
     }
   }
 
-  render() {
+  render(preserveScroll = true) {
     const preset = store.getPreset();
     const currentView = store.state.currentView;
     const cartCount = store.getCartItemCount();
+
+    // Guardar posición de scroll actual para evitar saltos indeseados
+    const savedScrollY = (preserveScroll && typeof window !== 'undefined')
+      ? (window.scrollY || (document.documentElement && document.documentElement.scrollTop) || 0)
+      : 0;
 
     // Actualizar clases base para evitar cualquier destello blanco en scroll
     document.documentElement.className = `min-h-screen ${preset.themeClass}`;
@@ -2303,6 +2393,49 @@ class GastroApp {
       };
       metaTheme.setAttribute('content', bgMap[preset.id] || '#0e1b33');
     }
+
+    const isShellMounted = (
+      this.currentPresetId === preset.id &&
+      this.currentRenderedView === currentView &&
+      document.getElementById('view-content')
+    );
+
+    if (isShellMounted) {
+      // Re-renderizamos únicamente el contenido dinámico de la vista sin destruir la estructura global ni la posición de scroll
+      const content = document.getElementById('view-content');
+      const prevHeight = content ? content.offsetHeight : 0;
+      if (content && prevHeight > 0) {
+        content.style.minHeight = `${prevHeight}px`;
+      }
+      if (currentView === 'menu') {
+        this.renderMenuView(content, preset);
+      } else if (currentView === 'reservations') {
+        this.renderReservationsView(content, preset);
+      } else if (currentView === 'kds') {
+        this.renderKdsView(content, preset);
+      } else if (currentView === 'metrics') {
+        this.renderMetricsView(content, preset);
+      } else if (currentView === 'roi') {
+        this.renderRoiView(content, preset);
+      }
+      this.updateCartBadge();
+      this.updateHeaderScroll();
+
+      if (savedScrollY > 0 && typeof window !== 'undefined') {
+        window.scrollTo({ top: savedScrollY, behavior: 'instant' });
+        requestAnimationFrame(() => {
+          window.scrollTo({ top: savedScrollY, behavior: 'instant' });
+          if (content) content.style.minHeight = '';
+        });
+      } else if (content) {
+        content.style.minHeight = '';
+      }
+      return;
+    }
+
+    // Si cambió de estilo o de vista, montamos la estructura completa
+    this.currentPresetId = preset.id;
+    this.currentRenderedView = currentView;
 
     // Renderizar la cabecera correspondiente al estilo activo
     const headerHtml = this.renderHeaderForStyle(preset, currentView, cartCount);
@@ -2360,11 +2493,11 @@ class GastroApp {
     } else if (currentView === 'roi') {
       this.renderRoiView(content, preset);
     }
-  }
 
-  // =========================================================================
-  // LIGHTBOX INTERACTIVO A PANTALLA COMPLETA
-  // =========================================================================
+    if (savedScrollY > 0 && typeof window !== 'undefined') {
+      window.scrollTo({ top: savedScrollY, behavior: 'instant' });
+    }
+  }
   renderLightbox(imageUrl, title) {
     const container = document.getElementById('lightbox-container');
     if (!container) return;
@@ -2975,15 +3108,15 @@ class GastroApp {
 
           <!-- Quick Allergen & View Controls -->
           <div class="flex items-center gap-3 w-full md:w-auto justify-end flex-shrink-0">
-            <button class="inline-flex items-center gap-1.5 bg-surface-container-low hover:bg-surface-container text-on-surface-variant px-3.5 py-2 rounded-full font-label-action text-[12px] transition-colors cursor-pointer border border-outline-variant/30" id="toggle-allergens">
+            <button type="button" class="inline-flex items-center gap-1.5 bg-surface-container-low hover:bg-surface-container text-on-surface-variant px-3.5 py-2 rounded-full font-label-action text-[12px] transition-colors cursor-pointer border border-outline-variant/30" id="toggle-allergens">
               <span class="material-symbols-outlined text-[16px] text-tertiary">info</span>
               <span>Info Alérgenos</span>
               ${activeAllergens.length > 0 ? `<span class="bg-primary text-on-primary text-[10px] px-1.5 py-0.2 rounded-full font-bold">${activeAllergens.length}</span>` : ''}
             </button>
             
             <div class="hidden sm:flex items-center bg-surface-container p-1 rounded-full text-secondary">
-              <button id="view-cards" data-menu-mode="cards" class="px-3 py-1 rounded-full ${this.menuMode !== 'compact' ? 'bg-surface-container-lowest text-on-surface shadow-xs font-bold' : 'text-secondary hover:text-on-surface'} text-xs font-medium cursor-pointer">Tarjetas</button>
-              <button id="view-list" data-menu-mode="compact" class="px-3 py-1 rounded-full ${this.menuMode === 'compact' ? 'bg-surface-container-lowest text-on-surface shadow-xs font-bold' : 'text-secondary hover:text-on-surface'} text-xs font-medium cursor-pointer">Lista rápida</button>
+              <button type="button" id="view-cards" data-menu-mode="cards" class="px-3 py-1 rounded-full ${this.menuMode !== 'compact' ? 'bg-surface-container-lowest text-on-surface shadow-xs font-bold' : 'text-secondary hover:text-on-surface'} text-xs font-medium cursor-pointer">Tarjetas</button>
+              <button type="button" id="view-list" data-menu-mode="compact" class="px-3 py-1 rounded-full ${this.menuMode === 'compact' ? 'bg-surface-container-lowest text-on-surface shadow-xs font-bold' : 'text-secondary hover:text-on-surface'} text-xs font-medium cursor-pointer">Lista rápida</button>
             </div>
           </div>
 
@@ -2991,7 +3124,7 @@ class GastroApp {
       </section>
 
       <!-- ALLERGENS INFO BANNER (Collapsible via JS) -->
-      <div class="${activeAllergens.length > 0 ? '' : 'hidden'} max-w-[1360px] mx-auto px-6 lg:px-10 mt-4 w-full" id="allergen-box">
+      <div class="${(this.isAllergenBoxOpen || activeAllergens.length > 0) ? '' : 'hidden'} max-w-[1360px] mx-auto px-6 lg:px-10 mt-4 w-full" id="allergen-box">
         <div class="bg-tertiary-fixed/30 p-5 rounded-2xl flex flex-col sm:flex-row items-start gap-3 text-on-tertiary-fixed border border-outline-variant/30 shadow-sm">
           <span class="material-symbols-outlined text-tertiary mt-0.5 text-[24px]">verified_user</span>
           <div class="text-body-sm flex-1">
@@ -3038,7 +3171,8 @@ class GastroApp {
           <div class="space-y-12">
             ${CATEGORY_ORDER.map(catName => {
               const meta = CATEGORY_META[catName] || { id: catName, title: catName, subtitle: '', icon: 'restaurant_menu', iconBg: 'bg-primary-container text-on-primary', badgeSuffix: 'Opciones' };
-              const categoryDishes = preset.menu.filter(d => d.category === catName);
+              // Filtrar platos que no contengan los alérgenos seleccionados (ocultar en vez de aplicar opacidad)
+              const categoryDishes = preset.menu.filter(d => d.category === catName && !isDishExcluded(d.allergens));
               if (categoryDishes.length === 0) return '';
               const isGroupVisible = activeCategory === 'all' || activeCategory === meta.id || activeCategory === catName;
 
@@ -3055,9 +3189,8 @@ class GastroApp {
                   </div>
                   <div class="divide-y divide-surface-container">
                     ${categoryDishes.map(d => {
-                      const excluded = isDishExcluded(d.allergens);
                       return `
-                        <div class="py-3 flex items-center justify-between gap-4 group ${excluded ? 'opacity-40 grayscale' : ''}">
+                        <div class="py-3 flex items-center justify-between gap-4 group">
                           <div class="flex items-center gap-3.5 min-w-0 flex-1">
                             <img src="${d.image}" alt="${d.name}" class="w-14 h-14 rounded-xl object-cover flex-shrink-0 cursor-pointer" data-open-dish-modal="${d.id}"/>
                             <div class="min-w-0">
@@ -3086,7 +3219,8 @@ class GastroApp {
           <!-- VISTA TARJETAS SHOWCASE IDÉNTICA AL BOCETO STITCH PARA CADA CATEGORÍA -->
           ${CATEGORY_ORDER.map(catName => {
             const meta = CATEGORY_META[catName] || { id: catName, title: catName, subtitle: '', icon: 'restaurant_menu', iconBg: 'bg-primary-container text-on-primary', badgeSuffix: 'Opciones' };
-            const categoryDishes = preset.menu.filter(d => d.category === catName);
+            // Filtrar platos que no contengan los alérgenos seleccionados (ocultar en vez de aplicar opacidad)
+            const categoryDishes = preset.menu.filter(d => d.category === catName && !isDishExcluded(d.allergens));
             if (categoryDishes.length === 0) return '';
             const isGroupVisible = activeCategory === 'all' || activeCategory === meta.id || activeCategory === catName;
 
@@ -3117,7 +3251,7 @@ class GastroApp {
                     // Si es el Chuletón Selección, aplicamos la tarjeta destacada de doble columna de Stitch
                     if (dish.id === 'e1_finlandes') {
                       return `
-                        <div class="dish-card md:col-span-2 bg-gradient-to-br from-surface-container-low via-surface-container-lowest to-surface-container-low rounded-2xl overflow-hidden shadow-sm hover:shadow-md transition-all duration-300 grid grid-cols-1 md:grid-cols-12 group border border-outline-variant/30 ${excluded ? 'opacity-40 grayscale' : ''}">
+                        <div class="dish-card md:col-span-2 bg-gradient-to-br from-surface-container-low via-surface-container-lowest to-surface-container-low rounded-2xl overflow-hidden shadow-sm hover:shadow-md transition-all duration-300 grid grid-cols-1 md:grid-cols-12 group border border-outline-variant/30">
                           <div class="relative md:col-span-6 h-64 md:h-auto overflow-hidden">
                             <img alt="${dish.name}" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500 cursor-pointer" data-open-dish-modal="${dish.id}" src="${dish.image}"/>
                             <div class="absolute top-4 left-4 bg-primary text-on-primary px-3 py-1 rounded-full font-kicker-eyebrow text-[10px] tracking-widest uppercase shadow">
@@ -3160,7 +3294,7 @@ class GastroApp {
 
                     // Tarjeta estándar de 3 columnas de Stitch
                     return `
-                      <div class="dish-card bg-surface-container-lowest rounded-2xl overflow-hidden shadow-sm hover:shadow-md transition-all duration-300 flex flex-col justify-between group border border-outline-variant/20 ${excluded ? 'opacity-40 grayscale' : ''}">
+                      <div class="dish-card bg-surface-container-lowest rounded-2xl overflow-hidden shadow-sm hover:shadow-md transition-all duration-300 flex flex-col justify-between group border border-outline-variant/20">
                         <div class="relative overflow-hidden h-56 bg-surface-container">
                           <img alt="${dish.name}" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500 cursor-pointer" data-open-dish-modal="${dish.id}" src="${dish.image}" loading="lazy"/>
                           ${dish.badge ? `
@@ -4037,7 +4171,8 @@ class GastroApp {
       addCartBtn.addEventListener('click', (e) => {
         e.preventDefault();
         e.stopPropagation();
-        store.addToCart(dish, "", this.modalQty);
+        store.addToCartSilent(dish, "", this.modalQty);
+        this.updateCartBadge();
         this.showToast(`✓ ${dish.name} (x${this.modalQty}) añadido a la comanda`);
         closeDishModal();
       });
