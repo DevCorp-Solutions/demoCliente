@@ -5,7 +5,7 @@
  * Estilo 1: Restaurante Parrilla Vukata (Aluche) -> Editorial & Alta Cocina / Asador de Brasas
  * Estilo 2: Cervecería 27 & Bar Mala Pata (Lucero / Aluche) -> App Interactiva & Bento Grid
  * Estilo 3: Pizzería Carlos Carabanchel (Carabanchel) -> Carta Clásica Bistró & Horno de Leña
- * Estilo 4: Cafetería Campamento & Desayunos Yebes (Campamento) -> Showcase Visual & Minimalismo Nórdico
+ * Estilo 4: Lienzo en blanco (nuevo diseño en construcción)
  */
 
 const RESTAURANT_PRESETS = {
@@ -1145,193 +1145,16 @@ const RESTAURANT_PRESETS = {
   },
 
   // =========================================================================
-  // ESTILO 4: CAFETERÍA CAMPAMENTO & DESAYUNOS YEBES - SHOWCASE NÓRDICO
+  // ESTILO 4: LIENZO EN BLANCO (NUEVO DISEÑO EN CONSTRUCCIÓN)
   // =========================================================================
   estilo4: {
     id: "estilo4",
     styleName: "Estilo 4",
-    styleSubtitle: "Showcase Visual & Specialty Coffee",
-    layoutType: "minimal",
     themeClass: "theme-estilo-4",
-    name: "Cafetería Campamento & Desayunos Yebes",
-    chefName: "Clara Yebes",
-    chefTitle: "Head Barista & Obrador",
-    tagline: "Specialty Coffee Roasters, Organic Brunch & Obrador Artesano",
-    neighborhood: "Campamento / Aluche (Madrid)",
-    address: "Avenida del Padre Piquer, 1 · Campamento, 28024 Madrid",
-    phone: "+34 646 62 17 93",
-    whatsapp: "34695590754",
-    email: "hola@cafeteriacampamento.es",
-    managerName: "Clara Yebes (Coordinación de Obrador)",
-    googleMapsUrl: "https://www.google.com/maps/search/?api=1&query=Cafeteria+Campamento,+Avenida+del+Padre+Piquer,+1,+28024+Madrid",
-    type: "Café de Especialidad & Obrador Brunch",
-    rating: 4.8,
-    totalReviews: 395,
-    openingHours: "Lunes a Domingo: 07:30 a 19:30 (Desayunos y brunch ininterrumpidos)",
-    bannerImg: "https://images.unsplash.com/photo-1501339847302-ac426a4a7cbb?auto=format&fit=crop&w=1600&q=80",
-    
-    aboutUs: {
-      headline: "Café de Especialidad con Alma, Masas Madres Vivas y Desayunos Conscientes en Campamento",
-      story: "Cafetería Campamento nació con el propósito de acercar la cultura del café de especialidad y la comida saludable de obrador al corazón de Campamento y Aluche. Desterramos el torrefacto comercial y nos asociamos con micro-tostadores locales que compran directamente a pequeños productores de Colombia, Etiopía y Guatemala a precios justos. En nuestro obrador horneamos bollería con mantequilla pura francesa y preparamos tostas con hogazas de masa madre fermentadas durante 24 horas.",
-      pillars: [
-        {
-          icon: "☕",
-          title: "Puntuación SCA >86 Puntos",
-          desc: "100% café de especialidad arábica trazable por finca, proceso de lavado y fecha semanal de tueste local."
-        },
-        {
-          icon: "🥖",
-          title: "Masa Madre Viva 24 Horas",
-          desc: "Hogazas fermentadas en frío durante 24 horas con harinas ecológicas sin aditivos ni mejorantes químicos."
-        },
-        {
-          icon: "🥑",
-          title: "Cocina Consciente & Fresca",
-          desc: "Aguacates Hass en su punto óptimo, salmón ahumado salvaje y fruta fresca de temporada cortada al momento."
-        }
-      ],
-      specialtyHighlight: {
-        title: "Flat White Doble con Leche de Avena Barista",
-        badge: "Barista Signature",
-        roastType: "Tueste Medio · Origen Colombia Huila SCA 87.5",
-        dietInfo: "Sin Azúcares Añadidos",
-        text: "Extraemos nuestro espresso a 93ºC exactos con doble cestillo de 18 gramos durante 27 segundos. La leche de avena barista se microemulsiona a 62ºC para crear una textura de terciopelo que resalta la dulzura natural del grano."
-      }
-    },
-
-    categories: ["Tostas Artesanas", "Cafés & Especialidad", "Bowls & Saludable", "Bollería de Obrador", "Zumos Naturales"],
-
-    menu: [
-      {
-        id: "e4_1",
-        name: "Tosta de Aguacate Hass, Salmón Ahumado y Semillas",
-        category: "Tostas Artesanas",
-        price: 7.20,
-        badge: "Favorito Brunch",
-        description: "Hogaza crujiente de masa madre viva, aguacate Hass laminado con limón, salmón ahumado salvaje, gomasio y brotes frescos.",
-        details: "Pan de masa madre 24h · Aguacate fresco",
-        ingredients: "Hogaza de trigo ecológico de masa madre, aguacate Hass, salmón noruego salvaje, gomasio de sésamo tostado y brotes verdes.",
-        pairing: "Cold Brew o Zumo de naranja recién exprimido",
-        prepTime: "5 min",
-        dietary: "Rico en Omega-3 · Alto en Proteína",
-        popular: true,
-        image: "https://images.unsplash.com/photo-1525351484163-7529414344d8?auto=format&fit=crop&w=800&q=80",
-        allergens: ["gluten", "pescado", "sesamo"]
-      },
-      {
-        id: "e4_2",
-        name: "Flat White Doble con Leche de Avena Barista",
-        category: "Cafés & Especialidad",
-        price: 2.60,
-        badge: "Grano Selección",
-        description: "Doble espresso de origen Colombia Huila con microespuma sedosa de avena barista y diseño de latte art en taza cerámica artesanal.",
-        details: "Puntuación SCA 87.5 · Tueste fresco",
-        ingredients: "Café de especialidad 100% arábica Colombia Huila, agua filtrada y leche de avena barista ecológica sin azúcares.",
-        pairing: "Croissant de mantequilla francesa recién horneado",
-        prepTime: "3 min",
-        dietary: "Sin Gluten · Vegano · Café de Especialidad",
-        popular: true,
-        image: "https://images.unsplash.com/photo-1534778101976-62847782c213?auto=format&fit=crop&w=800&q=80",
-        allergens: []
-      },
-      {
-        id: "e4_3",
-        name: "Açaí Bowl Orgánico con Granola Casera y Fruta Fresca",
-        category: "Bowls & Saludable",
-        price: 7.90,
-        badge: "Energía 100% Vital",
-        description: "Açaí puro del Amazonas batido espeso con plátano de Canarias, fresas frescas de temporada, granola casera horneada y coco tostado.",
-        details: "Açaí silvestre orgánico · Granola casera",
-        ingredients: "Pulpa pura de açaí orgánico, plátano de Canarias, fresas de temporada, arándanos silvestres, granola de avena con miel y semillas de cáñamo.",
-        pairing: "Té Matcha Ceremonial o Kombucha de jengibre",
-        prepTime: "6 min",
-        dietary: "Sin Azúcar Añadido · Alto en Antioxidantes",
-        popular: true,
-        image: "https://images.unsplash.com/photo-1590080875515-8a3a8dc5735e?auto=format&fit=crop&w=800&q=80",
-        allergens: ["frutos_secos"]
-      },
-      {
-        id: "e4_4",
-        name: "Croissant Francés de Mantequilla de Normandía",
-        category: "Bollería de Obrador",
-        price: 2.20,
-        badge: "Hojaldre Perfecto",
-        description: "Hojaldrado a mano con 27 capas crujientes y aroma intenso a mantequilla fresca de Normandía. Horneado cada 2 horas en nuestro obrador.",
-        details: "Mantequilla AOC Normandía · Horneado diario",
-        ingredients: "Harina de trigo de fuerza, mantequilla pura de Normandía 84% M.G., masa madre viva, leche entera, sal marina y huevo para dorar.",
-        pairing: "Cappuccino o Café Filtrado V60",
-        prepTime: "2 min",
-        dietary: "Horneado Cada 2 Horas",
-        popular: true,
-        image: "https://images.unsplash.com/photo-1555507036-ab1f4038808a?auto=format&fit=crop&w=800&q=80",
-        allergens: ["gluten", "lactosa", "huevo"]
-      },
-      {
-        id: "e4_5",
-        name: "Tosta Ibérica con Tomate Rallado y Aceite Picual",
-        category: "Tostas Artesanas",
-        price: 4.80,
-        badge: "Desayuno Estrella",
-        description: "Hogaza tostada crujiente, tomate de rama recién rallado a mano con AOVE picual de Jaén y virutas de jamón de bodega.",
-        details: "Pan de pueblo tostado al momento",
-        ingredients: "Pan de pueblo de masa madre, tomate pera maduro rallado, aceite de oliva virgen extra de cosecha temprana y jamón curado de bodega.",
-        pairing: "Café con leche o Zumo de naranja natural",
-        prepTime: "4 min",
-        dietary: "100% Ingredientes Naturales",
-        popular: true,
-        image: "https://images.unsplash.com/photo-1509722747041-616f39b57569?auto=format&fit=crop&w=800&q=80",
-        allergens: ["gluten"]
-      },
-      {
-        id: "e4_6",
-        name: "Matcha Latte Ceremonial con Leche de Almendras",
-        category: "Cafés & Especialidad",
-        price: 3.40,
-        badge: "Grado Ceremonial Uji",
-        description: "Té verde matcha japonés de grado ceremonial de Uji (Kioto), batido con chasen de bambú y combinado con leche de almendras emulsionada.",
-        details: "Matcha 100% puro de Kioto · Sin aditivos",
-        ingredients: "Polvo de té verde matcha ceremonial de Uji, agua a 80ºC y bebida de almendras tostadas sin azúcar.",
-        pairing: "Cookie artesana de chocolate negro o Croissant",
-        prepTime: "4 min",
-        dietary: "Sin Lactosa · Vegano · Calma y Enfoque",
-        popular: true,
-        image: "https://images.unsplash.com/photo-1536256263959-770b48d82b0a?auto=format&fit=crop&w=800&q=80",
-        allergens: ["frutos_secos"]
-      }
-    ],
-
-    googleReviews: [
-      {
-        id: "rev-cf1",
-        author: "Lucía Fernández",
-        avatar: "https://images.unsplash.com/photo-1524504388940-b1c1722653e1?auto=format&fit=crop&w=120&q=80",
-        badge: "Local Guide · 52 reseñas",
-        rating: 5,
-        timeAgo: "Hace 3 días",
-        comment: "Hacía falta una cafetería con este nivel en Campamento. El Flat White con leche de avena es pura seda y la tosta de salmón y aguacate en Padre Piquer está riquísima. Sitio precioso con wifi rápido.",
-        ownerResponse: "¡Gracias Lucía! Tostamos el café semanalmente con tostadores de Madrid. ¡Un placer tenerte en Campamento!"
-      },
-      {
-        id: "rev-cf2",
-        author: "Pablo Ortega",
-        avatar: "https://images.unsplash.com/photo-1522075469751-3a6694fb2f61?auto=format&fit=crop&w=120&q=80",
-        badge: "Cliente habitual",
-        rating: 5,
-        timeAgo: "Hace 1 semana",
-        comment: "Pido el desayuno para llevar casi todas las mañanas antes de coger el metro en Campamento. Con la carta web lo pido desde casa y cuando llego ya está en la barra listo. Impecable.",
-        ownerResponse: null
-      },
-      {
-        id: "rev-cf3",
-        author: "Marta Carrasco",
-        avatar: "https://images.unsplash.com/photo-1517841905240-472988babdf9?auto=format&fit=crop&w=120&q=80",
-        badge: "Local Guide · 19 reseñas",
-        rating: 5,
-        timeAgo: "Hace 2 semanas",
-        comment: "El açaí bowl y los croissants recién horneados son adictivos. Buen ambiente, música tranquila y trato súper cercano.",
-        ownerResponse: null
-      }
-    ]
+    name: "Estilo 4",
+    categories: [],
+    menu: [],
+    googleReviews: []
   }
 };
 
@@ -1367,14 +1190,7 @@ const INITIAL_DISH_SALES = {
   "e3_3": 58, // Huevos rotos
   "e3_4": 49, // Callos
   "e3_5": 32, // Entrecot
-  "e3_6": 41, // Arroz con leche
-  // Estilo 4: Showcase Visual & Minimalismo
-  "e4_1": 82, // Tosta salmón
-  "e4_2": 114, // Flat White
-  "e4_3": 56, // Açaí bowl
-  "e4_4": 69, // Croissant
-  "e4_5": 48, // Tosta jamón
-  "e4_6": 39  // Matcha Latte
+  "e3_6": 41  // Arroz con leche
 };
 
 const INITIAL_DEMO_ORDERS = [
@@ -2389,7 +2205,7 @@ class GastroApp {
         estilo1: '#f3f4f6',
         estilo2: '#070a13',
         estilo3: '#f6f3eb',
-        estilo4: '#fafafa'
+        estilo4: '#ffffff'
       };
       metaTheme.setAttribute('content', bgMap[preset.id] || '#0e1b33');
     }
@@ -2479,6 +2295,9 @@ class GastroApp {
 
     // Actualizar cabecera con el estado de scroll actual
     this.updateHeaderScroll();
+
+    // Estilo 4: lienzo en blanco, no se renderiza ninguna vista todavía
+    if (preset.id === 'estilo4') return;
 
     // Renderizar la vista activa
     const content = document.getElementById('view-content');
@@ -2794,8 +2613,6 @@ class GastroApp {
       layoutHtml = this.renderEstilo2Layout(preset, filteredMenu, activeCategory, activeAllergens, topData);
     } else if (preset.id === 'estilo3') {
       layoutHtml = this.renderEstilo3Layout(preset, filteredMenu, activeCategory, activeAllergens, topData);
-    } else {
-      layoutHtml = this.renderEstilo4Layout(preset, filteredMenu, activeCategory, activeAllergens, topData);
     }
 
     const reviewsHtml = preset.id === 'estilo1' ? '' : this.renderGoogleReviewsSection(preset);
@@ -3838,139 +3655,6 @@ class GastroApp {
     `;
   }
 
-  // -------------------------------------------------------------------------
-  // DISEÑO 4: SHOWCASE VISUAL & MINIMALISMO NÓRDICO (CON FILTROS Y FOTOS)
-  // -------------------------------------------------------------------------
-  renderEstilo4Layout(preset, filteredMenu, activeCategory, activeAllergens, topData) {
-    return `
-      <!-- BANNER MINIMALISTA NÓRDICO -->
-      <div class="mb-8 p-4 bg-zinc-100 border border-zinc-200 rounded-xl flex flex-col sm:flex-row sm:items-center justify-between gap-3 text-zinc-800">
-        <div>
-          <span class="text-[10px] font-mono uppercase tracking-widest text-zinc-500">Selección Especial</span>
-          <h3 class="text-sm font-semibold text-zinc-900 mt-0.5">${topData.dish.name} · ${formatCurrency(topData.dish.price)}</h3>
-          <p class="text-xs text-zinc-500">${topData.count} pedidos hoy</p>
-        </div>
-        <div class="flex items-center space-x-2">
-          <button data-open-dish-modal="${topData.dish.id}" class="bg-white hover:bg-zinc-200 text-zinc-800 text-xs px-3 py-1.5 rounded-lg border border-zinc-300">
-            Detalle
-          </button>
-          <button data-add-cart="${topData.dish.id}" class="bg-zinc-900 hover:bg-zinc-800 text-white text-xs font-medium px-3.5 py-1.5 rounded-lg">
-            Añadir
-          </button>
-        </div>
-      </div>
-
-      <!-- HERO MINIMALISTA Y DIÁFANO -->
-      <div class="max-w-3xl mb-14">
-        <span class="text-xs font-mono uppercase tracking-widest text-zinc-400">${preset.type}</span>
-        <h1 class="text-3xl sm:text-5xl font-light tracking-tight text-zinc-900 mt-2">${preset.name}</h1>
-        <p class="text-sm sm:text-base text-zinc-600 mt-3 leading-relaxed font-light">${preset.tagline}</p>
-        <div class="mt-4 flex flex-wrap gap-4 text-xs font-mono text-zinc-400">
-          <span>${preset.address}</span>
-          <span>·</span>
-          <span>${preset.openingHours}</span>
-          <span>·</span>
-          <span>Google: ${preset.rating} ★ (${preset.totalReviews})</span>
-        </div>
-      </div>
-
-      <!-- SECCIÓN PRINCIPIOS Y FILOSOFÍA -->
-      <section class="mb-14 py-8 border-t border-b border-zinc-200">
-        <div class="max-w-2xl mb-8">
-          <h2 class="text-xl font-medium text-zinc-900">${preset.aboutUs.headline}</h2>
-          <p class="text-xs sm:text-sm text-zinc-500 mt-2 leading-relaxed">${preset.aboutUs.story}</p>
-        </div>
-
-        <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
-          ${(preset.aboutUs.principles || preset.aboutUs.pillars || []).map(p => `
-            <div>
-              <span class="text-xs font-mono text-zinc-400 font-semibold">${p.code}</span>
-              <h4 class="text-sm font-medium text-zinc-900 mt-1">${p.title}</h4>
-              <p class="text-xs text-zinc-500 mt-1 leading-relaxed">${p.desc}</p>
-            </div>
-          `).join('')}
-        </div>
-      </section>
-
-      <!-- BARRA DE CATEGORÍAS Y FILTROS DE ALÉRGENOS (ESTILO 4) -->
-      <div class="flex flex-wrap items-center justify-between gap-4 pb-3 mb-8 text-xs border-b border-zinc-200">
-        <div class="flex items-center space-x-6 overflow-x-auto no-scrollbar tracking-widest uppercase font-light">
-          <button data-category="all" class="pb-1 transition-colors ${activeCategory === 'all' ? 'text-zinc-900 font-semibold border-b border-zinc-900' : 'text-zinc-400 hover:text-zinc-900'}">
-            Todo (${preset.menu.length})
-          </button>
-          ${preset.categories.map(cat => `
-            <button data-category="${cat}" class="pb-1 whitespace-nowrap transition-colors ${activeCategory === cat ? 'text-zinc-900 font-semibold border-b border-zinc-900' : 'text-zinc-400 hover:text-zinc-900'}">
-              ${cat}
-            </button>
-          `).join('')}
-        </div>
-
-        <!-- Filtro de alérgenos minimalista -->
-        <div class="flex items-center space-x-2 font-mono uppercase tracking-wider text-[11px]">
-          <span class="text-zinc-400">Alérgenos:</span>
-          <button data-allergen="gluten" class="px-2.5 py-1 border transition-all ${activeAllergens && activeAllergens.includes('gluten') ? 'bg-zinc-900 text-white border-zinc-900 font-bold' : 'border-zinc-300 text-zinc-600 hover:text-zinc-900'}">
-            🌾 Sin Gluten
-          </button>
-          <button data-allergen="lactosa" class="px-2.5 py-1 border transition-all ${(activeAllergens && (activeAllergens.includes('lactosa') || activeAllergens.includes('lacteos'))) ? 'bg-zinc-900 text-white border-zinc-900 font-bold' : 'border-zinc-300 text-zinc-600 hover:text-zinc-900'}">
-            🥛 Sin Lactosa
-          </button>
-          ${activeAllergens && activeAllergens.length > 0 ? `
-            <button data-clear-allergens class="text-xs text-zinc-500 hover:text-zinc-900 underline px-1">✕ Limpiar</button>
-          ` : ''}
-        </div>
-      </div>
-
-      <!-- GALERÍA DE PLATOS FOTOGRÁFICA (SHOWCASE 3 COLS) -->
-      <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 mb-16">
-        ${filteredMenu.map(dish => {
-          const sales = store.getDishSalesCount(dish.id);
-          return `
-            <div class="minimal-card p-4 flex flex-col justify-between group">
-              <div>
-                <div class="relative h-52 rounded-xl overflow-hidden bg-zinc-100 mb-4 cursor-pointer" data-open-dish-modal="${dish.id}">
-                  <img src="${dish.image}" alt="${dish.name}" class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"/>
-                  ${dish.badge ? `<span class="absolute top-2 left-2 bg-white/95 text-zinc-900 text-[10px] font-mono px-2 py-0.5 rounded shadow-sm">${dish.badge}</span>` : ''}
-                  <button data-open-lightbox="${dish.image}" data-lightbox-title="${dish.name}" class="absolute top-2 right-2 bg-black/70 hover:bg-black text-white p-1.5 rounded-lg text-xs backdrop-blur-sm transition-opacity" title="Ampliar imagen completa">
-                    ${ICONS.zoom}
-                  </button>
-                  <div class="absolute bottom-2 right-2 bg-white/95 text-zinc-800 text-[10px] px-2.5 py-0.5 rounded shadow flex items-center space-x-1">
-                    ${ICONS.eye}
-                    <span>Info</span>
-                  </div>
-                </div>
-                <div class="flex items-center justify-between text-[11px] font-mono text-zinc-400 mb-1">
-                  <span>${dish.category}</span>
-                  <span>${dish.dietary || ''}</span>
-                </div>
-                <h3 class="text-base font-medium text-zinc-900 cursor-pointer hover:text-zinc-600 transition-colors" data-open-dish-modal="${dish.id}">${dish.name}</h3>
-                <p class="text-xs text-zinc-500 mt-1 leading-relaxed line-clamp-2">${dish.description}</p>
-                ${dish.nutrition ? `<p class="text-[10px] text-zinc-400 font-mono mt-2">${dish.nutrition}</p>` : ''}
-              </div>
-
-              <div class="mt-4 pt-3 border-t border-zinc-100 flex items-center justify-between">
-                <div>
-                  <span class="font-mono text-base font-semibold text-zinc-900">${formatCurrency(dish.price)}</span>
-                  <span class="block text-[10px] text-zinc-400 font-mono">${sales} pedidos</span>
-                </div>
-                <div class="flex items-center space-x-1.5">
-                  <button data-open-dish-modal="${dish.id}" class="text-[11px] font-mono text-zinc-600 hover:text-zinc-900 px-2 py-1 border border-zinc-200 rounded">
-                    Info
-                  </button>
-                  <button data-quick-simulate-dish="${dish.id}" class="text-[11px] font-mono text-zinc-400 hover:text-zinc-900 px-1 py-1">
-                    +1
-                  </button>
-                  <button data-add-cart="${dish.id}" class="bg-zinc-900 hover:bg-black text-white text-xs font-medium px-3.5 py-1.5 rounded-lg">
-                    Añadir
-                  </button>
-                </div>
-              </div>
-            </div>
-          `;
-        }).join('')}
-      </div>
-    `;
-  }
-
   // =========================================================================
   // MODAL DE DETALLE DEL PLATO (FOTO NÍTIDA, BOTÓN DE ZOOM Y DETALLES)
   // =========================================================================
@@ -3986,7 +3670,7 @@ class GastroApp {
           : dish.allergens.map(a => `<span class="allergen-chip ${
               preset.id === 'estilo2' ? 'badge-allergen-estilo2' :
               preset.id === 'estilo3' ? 'badge-allergen-estilo3' :
-              'badge-allergen-estilo4'
+              ''
             }">${getAllergenLabel(a)}</span>`).join(''))
       : `<span class="text-xs ${preset.id === 'estilo1' ? 'text-on-surface-variant font-medium' : preset.id === 'estilo2' ? 'text-slate-400' : 'text-zinc-500'}">✓ No contiene alérgenos comunes declarados</span>`;
 
@@ -5354,50 +5038,7 @@ class GastroApp {
       `;
     }
 
-    // --- ESTILO 4: MINIMALISMO NÓRDICO ---
-    return `
-      <section class="mt-16 pt-12 border-t border-zinc-200 text-zinc-900">
-        <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4 mb-8">
-          <div>
-            <div class="flex items-center space-x-2 mb-1">
-              ${ICONS.google}
-              <span class="text-xs font-mono uppercase tracking-widest text-zinc-400">Google Business Verified</span>
-            </div>
-            <h3 class="text-2xl font-light text-zinc-900 tracking-tight">${preset.rating} ★★★★★ · Experiencias en ${preset.name}</h3>
-            <p class="text-xs text-zinc-500 mt-0.5">${preset.totalReviews} clientes han valorado nuestro café y obrador</p>
-          </div>
-
-          <div class="flex items-center gap-3 flex-shrink-0">
-            <button id="open-smart-review-btn" class="bg-zinc-900 hover:bg-black text-white font-medium uppercase tracking-widest text-xs px-6 py-3 rounded-none shadow inline-flex items-center space-x-2 transition-transform hover:scale-105 cursor-pointer">
-              ${ICONS.google}
-              <span>★ Valorar en Google Maps</span>
-            </button>
-            <a href="${preset.googleMapsUrl}" target="_blank" class="text-xs font-mono uppercase tracking-wider text-zinc-500 hover:text-zinc-900 underline flex items-center space-x-1">
-              <span>Google Maps</span>
-              ${ICONS.external}
-            </a>
-          </div>
-        </div>
-
-        <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
-          ${preset.googleReviews.map(r => `
-            <div class="minimal-card p-5 flex flex-col justify-between">
-              <div>
-                <div class="flex items-center justify-between mb-2">
-                  <div class="flex space-x-0.5">${starRow}</div>
-                  <span class="text-[10px] font-mono text-zinc-400">Google Review</span>
-                </div>
-                <p class="text-xs text-zinc-600 font-light leading-relaxed">"${r.comment}"</p>
-              </div>
-              <div class="mt-4 pt-3 border-t border-zinc-100 flex justify-between items-center text-[10px] font-mono text-zinc-400">
-                <span class="font-medium text-zinc-800">${r.author}</span>
-                <span>${r.timeAgo}</span>
-              </div>
-            </div>
-          `).join('')}
-        </div>
-      </section>
-    `;
+    return '';
   }
 
   // =========================================================================
@@ -5818,21 +5459,7 @@ class GastroApp {
       `;
     }
 
-    return `
-      <footer class="bg-white border-t border-zinc-200 text-zinc-500 text-xs py-12 font-light">
-        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex flex-col md:flex-row items-start md:items-center justify-between gap-6">
-          <div>
-            <span class="text-zinc-900 uppercase tracking-widest text-xs font-medium">${preset.name}</span>
-            <p class="mt-1 text-zinc-400">${preset.address} · ${preset.openingHours}</p>
-          </div>
-          <div class="flex items-center space-x-6 text-xs font-mono text-zinc-400">
-            <a href="https://devcorpsolutions.com" target="_blank" class="hover:text-zinc-900 transition-colors">DevCorp Solutions</a>
-            <span>·</span>
-            <span>${preset.name}</span>
-          </div>
-        </div>
-      </footer>
-    `;
+    return '';
   }
 }
 

@@ -344,32 +344,6 @@ body.theme-estilo-3,
 }
 
 
-/* --- ESTILO 4: SHOWCASE VISUAL & MINIMALISMO NÓRDICO (PURE SCANDI) --- */
-html.theme-estilo-4, 
-body.theme-estilo-4, 
-.theme-estilo-4,
-.theme-estilo-4 #app {
-  background-color: #fafafa !important;
-  color: #18181b;
-}
-
-.theme-estilo-4 main {
-  background: #fafafa;
-}
-
-.minimal-card {
-  background: #ffffff;
-  border: 1px solid #e4e4e7;
-  border-radius: 1rem;
-  transition: all 0.25s ease;
-}
-
-.minimal-card:hover {
-  border-color: #a1a1aa;
-  box-shadow: 0 8px 24px -6px rgba(0, 0, 0, 0.08);
-}
-
-
 /* ==========================================================================
    2. BOTONES Y COMPONENTES GLOBALES
    ========================================================================== */
@@ -423,12 +397,6 @@ body.theme-estilo-4,
   background: #ede6da;
   border: 1px solid #8c7b6c;
   color: #3d3228;
-}
-
-.badge-allergen-estilo4 {
-  background: #f4f4f5;
-  border: 1px solid #e4e4e7;
-  color: #27272a;
 }
 
 /* Scrollbars sutiles */
