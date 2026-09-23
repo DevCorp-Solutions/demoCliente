@@ -161,58 +161,6 @@ body.theme-estilo-1,
   animation-play-state: paused;
 }
 
-/* Cabecera Vukata: transparente sobre el héroe de brasas y sólida al bajar */
-.vukata-header {
-  background-color: transparent;
-  box-shadow: none;
-}
-
-.vukata-header.is-solid {
-  background-color: rgba(253, 249, 244, 0.92);
-  box-shadow: 0 1px 8px rgba(0, 0, 0, 0.04);
-}
-
-.vukata-header:not(.is-solid) .vukata-header-name,
-.vukata-header:not(.is-solid) .vukata-header-cart {
-  color: #fdf9f4;
-}
-
-.vukata-header:not(.is-solid) .vukata-header-tagline {
-  color: #f8bb70;
-}
-
-.vukata-header:not(.is-solid) .vukata-header-brand {
-  border-color: rgba(253, 249, 244, 0.25);
-}
-
-.vukata-header:not(.is-solid) .vukata-header-nav,
-.vukata-header:not(.is-solid) .vukata-header-bar {
-  background-color: rgba(255, 255, 255, 0.08);
-  border-color: rgba(253, 249, 244, 0.18);
-}
-
-.vukata-header:not(.is-solid) .vukata-nav-link {
-  color: #ddd9d5;
-}
-
-.vukata-header:not(.is-solid) .vukata-nav-link:hover {
-  color: #ffffff;
-}
-
-.vukata-header:not(.is-solid) .vukata-nav-link.is-active {
-  background-color: rgba(253, 249, 244, 0.16);
-  color: #ffffff;
-}
-
-.vukata-header:not(.is-solid) .vukata-header-cart {
-  background-color: rgba(255, 255, 255, 0.1);
-  border-color: rgba(253, 249, 244, 0.25);
-}
-
-.vukata-header:not(.is-solid) .vukata-header-cart:hover {
-  background-color: rgba(255, 255, 255, 0.2);
-}
-
 /* Compatibilidad con clases previas de Vukata */
 .vukata-font-title {
   font-family: 'Playfair Display', 'Montserrat', serif;
@@ -505,4 +453,126 @@ body.theme-estilo-4,
 .no-scrollbar {
   -ms-overflow-style: none;
   scrollbar-width: none;
+}
+
+/* =========================================================================
+   CABECERA DINÁMICA ESTILO 1 (OSCURO EN TOP HERO, CLARO EN SCROLL)
+   ========================================================================= */
+#main-header {
+  transition: background-color 0.35s cubic-bezier(0.16, 1, 0.3, 1),
+              border-color 0.35s cubic-bezier(0.16, 1, 0.3, 1),
+              box-shadow 0.35s cubic-bezier(0.16, 1, 0.3, 1),
+              color 0.35s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+/* Modo Claro (Cuando se hace scroll o en vistas de gestión) */
+#main-header.is-light-scrolled {
+  background-color: rgba(252, 251, 248, 0.94) !important;
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  border-bottom: 1px solid rgba(196, 196, 185, 0.35) !important;
+  box-shadow: 0 1px 8px rgba(0, 0, 0, 0.04) !important;
+}
+#main-header.is-light-scrolled .header-brand-title {
+  color: #1b1c1b !important;
+}
+#main-header.is-light-scrolled .header-brand-sub {
+  color: #9c382c !important;
+}
+#main-header.is-light-scrolled .header-divider {
+  background-color: rgba(196, 196, 185, 0.5) !important;
+}
+#main-header.is-light-scrolled .header-nav-capsule {
+  background-color: #f1efea !important;
+  border-color: rgba(196, 196, 185, 0.4) !important;
+}
+#main-header.is-light-scrolled .header-nav-btn {
+  color: #444846 !important;
+}
+#main-header.is-light-scrolled .header-nav-btn:hover {
+  color: #1b1c1b !important;
+}
+#main-header.is-light-scrolled .header-nav-btn.active-view {
+  background-color: #e5e2dc !important;
+  color: #1b1c1b !important;
+}
+#main-header.is-light-scrolled #style-select {
+  background-color: #ffffff !important;
+  color: #1c1917 !important;
+  border-color: rgba(139, 30, 30, 0.4) !important;
+}
+#main-header.is-light-scrolled #open-cart-btn {
+  background-color: #ffffff !important;
+  color: #9c382c !important;
+  border-color: rgba(196, 196, 185, 0.5) !important;
+}
+#main-header.is-light-scrolled #mobile-nav-bar {
+  background-color: #f1efea !important;
+  border-top-color: rgba(196, 196, 185, 0.4) !important;
+}
+#main-header.is-light-scrolled #mobile-nav-bar button {
+  color: #444846 !important;
+}
+#main-header.is-light-scrolled #mobile-nav-bar button.active-view {
+  background-color: #e5e2dc !important;
+  color: #1b1c1b !important;
+}
+
+/* Modo Oscuro (Cuando está arriba del todo frente a las brasas) */
+#main-header.is-transparent-dark {
+  background-color: #14100E !important;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.1) !important;
+  box-shadow: none !important;
+}
+#main-header.is-transparent-dark .header-brand-title {
+  color: #ffffff !important;
+}
+#main-header.is-transparent-dark .header-brand-sub {
+  color: #e52d27 !important;
+}
+#main-header.is-transparent-dark .header-divider {
+  background-color: rgba(255, 255, 255, 0.18) !important;
+}
+#main-header.is-transparent-dark .header-nav-capsule {
+  background-color: rgba(255, 255, 255, 0.08) !important;
+  border-color: rgba(255, 255, 255, 0.15) !important;
+}
+#main-header.is-transparent-dark .header-nav-btn {
+  color: rgba(255, 255, 255, 0.72) !important;
+}
+#main-header.is-transparent-dark .header-nav-btn:hover {
+  color: #ffffff !important;
+}
+#main-header.is-transparent-dark .header-nav-btn.active-view {
+  background-color: rgba(255, 255, 255, 0.2) !important;
+  color: #ffffff !important;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.3) !important;
+}
+#main-header.is-transparent-dark #style-select {
+  background-color: #1f1916 !important;
+  color: #ffffff !important;
+  border-color: rgba(255, 255, 255, 0.22) !important;
+}
+#main-header.is-transparent-dark #style-select option {
+  background-color: #14100E !important;
+  color: #ffffff !important;
+}
+#main-header.is-transparent-dark #open-cart-btn {
+  background-color: rgba(255, 255, 255, 0.09) !important;
+  color: #ffffff !important;
+  border-color: rgba(255, 255, 255, 0.2) !important;
+}
+#main-header.is-transparent-dark #open-cart-btn:hover {
+  background-color: rgba(255, 255, 255, 0.16) !important;
+}
+#main-header.is-transparent-dark #mobile-nav-bar {
+  background-color: #14100E !important;
+  border-top-color: rgba(255, 255, 255, 0.1) !important;
+}
+#main-header.is-transparent-dark #mobile-nav-bar button {
+  color: rgba(255, 255, 255, 0.72) !important;
+}
+#main-header.is-transparent-dark #mobile-nav-bar button.active-view {
+  background-color: rgba(255, 255, 255, 0.2) !important;
+  color: #ffffff !important;
 }
