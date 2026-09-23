@@ -134,30 +134,35 @@ function getAllergenLabel(code) {
 ['estilo1', 'estilo2', 'estilo3', 'estilo4'].forEach(id => {
   const fixedData = fixRelativePaths(global.RESTAURANT_PRESETS[id]);
   const dataJsContent = `// ${id}/data.js - Datos oficiales y configurables para ${fixedData.name}
-const DEFAULT_DATA = ${JSON.stringify(fixedData, null, 2)};
+(function() {
+  const DEFAULT_DATA = ${JSON.stringify(fixedData, null, 2)};
 
-function loadData() {
-  let data = JSON.parse(JSON.stringify(DEFAULT_DATA));
-  if (typeof localStorage !== 'undefined') {
-    try {
-      const custom = localStorage.getItem('devcorp_data_${id}');
-      if (custom) {
-        const parsed = JSON.parse(custom);
-        data = { ...data, ...parsed };
+  function loadData() {
+    let data = JSON.parse(JSON.stringify(DEFAULT_DATA));
+    if (typeof localStorage !== 'undefined') {
+      try {
+        const custom = localStorage.getItem('devcorp_data_${id}');
+        if (custom) {
+          const parsed = JSON.parse(custom);
+          data = { ...data, ...parsed };
+        }
+        const unifiedName = localStorage.getItem('devcorp_unified_name');
+        if (unifiedName && unifiedName.trim() !== '') {
+          data.name = unifiedName.trim();
+        }
+      } catch (e) {
+        console.warn("Error cargando datos personalizados de ${id}:", e);
       }
-      const unifiedName = localStorage.getItem('devcorp_unified_name');
-      if (unifiedName && unifiedName.trim() !== '') {
-        data.name = unifiedName.trim();
-      }
-    } catch (e) {
-      console.warn("Error cargando datos personalizados de ${id}:", e);
     }
+    return data;
   }
-  return data;
-}
 
-window.CURRENT_PRESET = loadData();
-window.${id.toUpperCase()}_DATA = window.CURRENT_PRESET;
+  const loaded = loadData();
+  window.CURRENT_PRESET = loaded;
+  window.${id.toUpperCase()}_DATA = loaded;
+  window.DEV_CORP_STYLES = window.DEV_CORP_STYLES || {};
+  window.DEV_CORP_STYLES['${id}'] = loaded;
+})();
 `;
 
   fs.writeFileSync(`${id}/data.js`, dataJsContent, 'utf8');
@@ -1338,19 +1343,19 @@ const adminHtmlContent = `<!DOCTYPE html>
   <!-- Pestañas de Selección de Estilo en el Admin -->
   <div class="bg-slate-900 border-b border-slate-800">
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex items-center gap-2 overflow-x-auto py-3" id="admin-tabs">
-      <button data-tab="estilo1" class="admin-tab active px-4 py-2 rounded-xl text-xs font-bold transition-all flex items-center gap-2 bg-blue-600 text-white shadow-sm">
+      <button data-tab="estilo1" class="admin-tab px-4 py-2 rounded-xl text-xs font-semibold transition-all flex items-center gap-2 cursor-pointer">
         <span class="material-symbols-outlined text-[16px]">local_fire_department</span> Estilo 1: Parrilla Vukata
       </button>
-      <button data-tab="estilo2" class="admin-tab px-4 py-2 rounded-xl text-xs font-semibold transition-all flex items-center gap-2 bg-slate-800 hover:bg-slate-700 text-slate-300">
+      <button data-tab="estilo2" class="admin-tab px-4 py-2 rounded-xl text-xs font-semibold transition-all flex items-center gap-2 cursor-pointer">
         <span class="material-symbols-outlined text-[16px]">grid_view</span> Estilo 2: Cervecería 27
       </button>
-      <button data-tab="estilo3" class="admin-tab px-4 py-2 rounded-xl text-xs font-semibold transition-all flex items-center gap-2 bg-slate-800 hover:bg-slate-700 text-slate-300">
+      <button data-tab="estilo3" class="admin-tab px-4 py-2 rounded-xl text-xs font-semibold transition-all flex items-center gap-2 cursor-pointer">
         <span class="material-symbols-outlined text-[16px]">restaurant</span> Estilo 3: Pizzería Carlos
       </button>
-      <button data-tab="estilo4" class="admin-tab px-4 py-2 rounded-xl text-xs font-semibold transition-all flex items-center gap-2 bg-slate-800 hover:bg-slate-700 text-slate-300">
+      <button data-tab="estilo4" class="admin-tab px-4 py-2 rounded-xl text-xs font-semibold transition-all flex items-center gap-2 cursor-pointer">
         <span class="material-symbols-outlined text-[16px]">coffee</span> Estilo 4: Cafetería Campamento
       </button>
-      <button data-tab="unified" class="admin-tab px-4 py-2 rounded-xl text-xs font-semibold transition-all flex items-center gap-2 bg-purple-900/40 hover:bg-purple-900/60 text-purple-300 border border-purple-500/30">
+      <button data-tab="unified" class="admin-tab px-4 py-2 rounded-xl text-xs font-semibold transition-all flex items-center gap-2 cursor-pointer">
         <span class="material-symbols-outlined text-[16px]">store</span> Ajustes Globales (Marca Unificada)
       </button>
     </div>
@@ -1456,19 +1461,42 @@ const adminJsContent = `// admin/admin.js - Controlador del Backoffice de DevCor
   };
 
   function loadAllStyles() {
-    stylesData.estilo1 = (typeof window.ESTILO1_DATA !== 'undefined') ? JSON.parse(JSON.stringify(window.ESTILO1_DATA)) : null;
-    stylesData.estilo2 = (typeof window.ESTILO2_DATA !== 'undefined') ? JSON.parse(JSON.stringify(window.ESTILO2_DATA)) : null;
-    stylesData.estilo3 = (typeof window.ESTILO3_DATA !== 'undefined') ? JSON.parse(JSON.stringify(window.ESTILO3_DATA)) : null;
-    stylesData.estilo4 = (typeof window.ESTILO4_DATA !== 'undefined') ? JSON.parse(JSON.stringify(window.ESTILO4_DATA)) : null;
-
     ['estilo1', 'estilo2', 'estilo3', 'estilo4'].forEach(id => {
-      try {
-        const custom = localStorage.getItem('devcorp_data_' + id);
-        if (custom) {
-          stylesData[id] = { ...stylesData[id], ...JSON.parse(custom) };
+      const windowKey = id.toUpperCase() + '_DATA';
+      let data = (typeof window[windowKey] !== 'undefined') ? JSON.parse(JSON.stringify(window[windowKey])) : null;
+      if (!data && window.DEV_CORP_STYLES && window.DEV_CORP_STYLES[id]) {
+        data = JSON.parse(JSON.stringify(window.DEV_CORP_STYLES[id]));
+      }
+      if (typeof localStorage !== 'undefined') {
+        try {
+          const custom = localStorage.getItem('devcorp_data_' + id);
+          if (custom) {
+            data = { ...(data || {}), ...JSON.parse(custom) };
+          }
+        } catch (e) {
+          console.warn('Error cargando storage de ' + id, e);
         }
-      } catch (e) {
-        console.warn('Error cargando storage de ' + id, e);
+      }
+      stylesData[id] = data;
+    });
+  }
+
+  function updateTabButtonsUI() {
+    const tabButtons = document.querySelectorAll('.admin-tab');
+    tabButtons.forEach(btn => {
+      const tab = btn.getAttribute('data-tab');
+      if (tab === activeTab) {
+        if (tab === 'unified') {
+          btn.className = 'admin-tab px-4 py-2 rounded-xl text-xs font-bold transition-all flex items-center gap-2 cursor-pointer bg-purple-600 text-white shadow-lg shadow-purple-600/30';
+        } else {
+          btn.className = 'admin-tab px-4 py-2 rounded-xl text-xs font-bold transition-all flex items-center gap-2 cursor-pointer bg-blue-600 text-white shadow-lg shadow-blue-600/30';
+        }
+      } else {
+        if (tab === 'unified') {
+          btn.className = 'admin-tab px-4 py-2 rounded-xl text-xs font-semibold transition-all flex items-center gap-2 cursor-pointer bg-purple-950/60 hover:bg-purple-900/60 text-purple-300 border border-purple-500/30';
+        } else {
+          btn.className = 'admin-tab px-4 py-2 rounded-xl text-xs font-semibold transition-all flex items-center gap-2 cursor-pointer bg-slate-800 hover:bg-slate-700 text-slate-300 border border-slate-700/60';
+        }
       }
     });
   }
@@ -1811,21 +1839,27 @@ const adminJsContent = `// admin/admin.js - Controlador del Backoffice de DevCor
     };
   }
 
-  document.addEventListener('DOMContentLoaded', () => {
+  function initAdmin() {
     loadAllStyles();
 
     const tabButtons = document.querySelectorAll('.admin-tab');
     tabButtons.forEach(btn => {
       btn.addEventListener('click', () => {
-        tabButtons.forEach(b => b.classList.remove('active'));
-        btn.classList.add('active');
         activeTab = btn.getAttribute('data-tab');
+        updateTabButtonsUI();
         renderAdminMain();
       });
     });
 
+    updateTabButtonsUI();
     renderAdminMain();
-  });
+  }
+
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', initAdmin);
+  } else {
+    initAdmin();
+  }
 })();
 `;
 

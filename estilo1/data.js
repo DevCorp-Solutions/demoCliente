@@ -1,5 +1,6 @@
 // estilo1/data.js - Datos oficiales y configurables para Restaurante Parrilla Vukata
-const DEFAULT_DATA = {
+(function() {
+  const DEFAULT_DATA = {
   "id": "estilo1",
   "styleName": "Estilo 1",
   "styleSubtitle": "Editorial & Brasas Nobles",
@@ -847,25 +848,29 @@ const DEFAULT_DATA = {
   ]
 };
 
-function loadData() {
-  let data = JSON.parse(JSON.stringify(DEFAULT_DATA));
-  if (typeof localStorage !== 'undefined') {
-    try {
-      const custom = localStorage.getItem('devcorp_data_estilo1');
-      if (custom) {
-        const parsed = JSON.parse(custom);
-        data = { ...data, ...parsed };
+  function loadData() {
+    let data = JSON.parse(JSON.stringify(DEFAULT_DATA));
+    if (typeof localStorage !== 'undefined') {
+      try {
+        const custom = localStorage.getItem('devcorp_data_estilo1');
+        if (custom) {
+          const parsed = JSON.parse(custom);
+          data = { ...data, ...parsed };
+        }
+        const unifiedName = localStorage.getItem('devcorp_unified_name');
+        if (unifiedName && unifiedName.trim() !== '') {
+          data.name = unifiedName.trim();
+        }
+      } catch (e) {
+        console.warn("Error cargando datos personalizados de estilo1:", e);
       }
-      const unifiedName = localStorage.getItem('devcorp_unified_name');
-      if (unifiedName && unifiedName.trim() !== '') {
-        data.name = unifiedName.trim();
-      }
-    } catch (e) {
-      console.warn("Error cargando datos personalizados de estilo1:", e);
     }
+    return data;
   }
-  return data;
-}
 
-window.CURRENT_PRESET = loadData();
-window.ESTILO1_DATA = window.CURRENT_PRESET;
+  const loaded = loadData();
+  window.CURRENT_PRESET = loaded;
+  window.ESTILO1_DATA = loaded;
+  window.DEV_CORP_STYLES = window.DEV_CORP_STYLES || {};
+  window.DEV_CORP_STYLES['estilo1'] = loaded;
+})();

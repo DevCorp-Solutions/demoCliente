@@ -9,19 +9,42 @@
   };
 
   function loadAllStyles() {
-    stylesData.estilo1 = (typeof window.ESTILO1_DATA !== 'undefined') ? JSON.parse(JSON.stringify(window.ESTILO1_DATA)) : null;
-    stylesData.estilo2 = (typeof window.ESTILO2_DATA !== 'undefined') ? JSON.parse(JSON.stringify(window.ESTILO2_DATA)) : null;
-    stylesData.estilo3 = (typeof window.ESTILO3_DATA !== 'undefined') ? JSON.parse(JSON.stringify(window.ESTILO3_DATA)) : null;
-    stylesData.estilo4 = (typeof window.ESTILO4_DATA !== 'undefined') ? JSON.parse(JSON.stringify(window.ESTILO4_DATA)) : null;
-
     ['estilo1', 'estilo2', 'estilo3', 'estilo4'].forEach(id => {
-      try {
-        const custom = localStorage.getItem('devcorp_data_' + id);
-        if (custom) {
-          stylesData[id] = { ...stylesData[id], ...JSON.parse(custom) };
+      const windowKey = id.toUpperCase() + '_DATA';
+      let data = (typeof window[windowKey] !== 'undefined') ? JSON.parse(JSON.stringify(window[windowKey])) : null;
+      if (!data && window.DEV_CORP_STYLES && window.DEV_CORP_STYLES[id]) {
+        data = JSON.parse(JSON.stringify(window.DEV_CORP_STYLES[id]));
+      }
+      if (typeof localStorage !== 'undefined') {
+        try {
+          const custom = localStorage.getItem('devcorp_data_' + id);
+          if (custom) {
+            data = { ...(data || {}), ...JSON.parse(custom) };
+          }
+        } catch (e) {
+          console.warn('Error cargando storage de ' + id, e);
         }
-      } catch (e) {
-        console.warn('Error cargando storage de ' + id, e);
+      }
+      stylesData[id] = data;
+    });
+  }
+
+  function updateTabButtonsUI() {
+    const tabButtons = document.querySelectorAll('.admin-tab');
+    tabButtons.forEach(btn => {
+      const tab = btn.getAttribute('data-tab');
+      if (tab === activeTab) {
+        if (tab === 'unified') {
+          btn.className = 'admin-tab px-4 py-2 rounded-xl text-xs font-bold transition-all flex items-center gap-2 cursor-pointer bg-purple-600 text-white shadow-lg shadow-purple-600/30';
+        } else {
+          btn.className = 'admin-tab px-4 py-2 rounded-xl text-xs font-bold transition-all flex items-center gap-2 cursor-pointer bg-blue-600 text-white shadow-lg shadow-blue-600/30';
+        }
+      } else {
+        if (tab === 'unified') {
+          btn.className = 'admin-tab px-4 py-2 rounded-xl text-xs font-semibold transition-all flex items-center gap-2 cursor-pointer bg-purple-950/60 hover:bg-purple-900/60 text-purple-300 border border-purple-500/30';
+        } else {
+          btn.className = 'admin-tab px-4 py-2 rounded-xl text-xs font-semibold transition-all flex items-center gap-2 cursor-pointer bg-slate-800 hover:bg-slate-700 text-slate-300 border border-slate-700/60';
+        }
       }
     });
   }
@@ -364,19 +387,25 @@
     };
   }
 
-  document.addEventListener('DOMContentLoaded', () => {
+  function initAdmin() {
     loadAllStyles();
 
     const tabButtons = document.querySelectorAll('.admin-tab');
     tabButtons.forEach(btn => {
       btn.addEventListener('click', () => {
-        tabButtons.forEach(b => b.classList.remove('active'));
-        btn.classList.add('active');
         activeTab = btn.getAttribute('data-tab');
+        updateTabButtonsUI();
         renderAdminMain();
       });
     });
 
+    updateTabButtonsUI();
     renderAdminMain();
-  });
+  }
+
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', initAdmin);
+  } else {
+    initAdmin();
+  }
 })();
