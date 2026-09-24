@@ -5,7 +5,7 @@
 (function() {
   const DEFAULT_DATA = {
   "id": "estilo4",
-  "dataVersion": 3,
+  "dataVersion": 4,
   "styleName": "Estilo 4",
   "styleSubtitle": "Showcase Visual · Cervecería de barrio",
   "layoutType": "showcase",
@@ -34,12 +34,13 @@
   "googleDirectionsUrl": "https://www.google.com/maps/dir//Cervecer%C3%ADa+27+Bar+de+Tapas,+C.+de+Quero,+27,+Latina,+28024+Madrid,+Espa%C3%B1a/@40.3920107,-3.7602713,2875m/data=!3m1!1e3!4m8!4m7!1m0!1m5!1m1!1s0xd418815be4e76c1:0xe14a05a94df350f0!2m2!1d-3.7602713!2d40.3920107!5m1!1e2",
   "googleMapsEmbed": "https://maps.google.com/maps?q=Cervecer%C3%ADa%2027%20Bar%20de%20Tapas%2C%20C.%20de%20Quero%2C%2027%2C%2028024%20Madrid&z=16&output=embed",
   "geo": { "lat": 40.3920107, "lng": -3.7602713 },
-  // Horario tal y como aparece en la web oficial.
-  "serviceHours": "Lunes a viernes: 6:00h - 12:30 · Sábado: 13:00h - 1:00h · Domingo: 13:00h - 12:00h",
+  // Horario oficial (ficha de Google del local).
+  "serviceHours": "Lunes a jueves: 18:00 - 0:30 · Viernes: 18:00 - 1:00 · Sábado: 13:00 - 1:00 · Domingo: 13:00 - 24:00",
   "hours": [
-    { "days": "Lunes a viernes", "time": "6:00h – 12:30" },
-    { "days": "Sábado", "time": "13:00h – 1:00h" },
-    { "days": "Domingo", "time": "13:00h – 12:00h" }
+    { "days": "Lunes a jueves", "time": "18:00 – 0:30" },
+    { "days": "Viernes", "time": "18:00 – 1:00" },
+    { "days": "Sábado", "time": "13:00 – 1:00" },
+    { "days": "Domingo", "time": "13:00 – 24:00" }
   ],
   "legal": {
     "avisoLegal": "https://www.cerveceria27aluche.com/aviso-legal/",

@@ -231,6 +231,7 @@
         p.classList.remove('is-entering');
         if (j === i) { void p.offsetWidth; p.classList.add('is-entering'); }
       });
+      updateDock();
       // Si el usuario estaba abajo en la lista, vuelve al inicio de la carta
       const app = $('#menu-app');
       const top = app.getBoundingClientRect().top;
@@ -316,7 +317,7 @@
   //     La marca se muestra como emblema tipográfico. Si un producto tiene
   //     "logo" en data.js (ruta a la imagen oficial), se usa esa imagen.
   // =========================================================================
-  const pourState = { id: null, timer: null };
+  const pourState = { id: null, inCarta: false, dismissed: false };
 
   const brandOf = (b) => b.brand || (b.category === 'Importaciones' ? b.name : b.category);
   function beerColor(b) {
@@ -412,7 +413,7 @@
     panel.dataset.state = 'poured';
     panel.classList.remove('is-pouring');
     void panel.offsetWidth; // reinicia la animación en cada clic
-    panel.classList.add('is-pouring', 'is-open');
+    panel.classList.add('is-pouring');
 
     $$('[data-pour]').forEach(btn => {
       const on = btn.dataset.pour === beer.id;
@@ -420,11 +421,20 @@
       btn.closest('.beer').classList.toggle('is-poured', on);
     });
 
-    // En móvil la jarra aparece como tarjeta flotante que se cierra sola
-    clearTimeout(pourState.timer);
-    if (window.matchMedia('(max-width: 767px)').matches) {
-      pourState.timer = setTimeout(() => panel.classList.remove('is-open'), 6000);
-    }
+    // En móvil la jarra queda acoplada a la barra inferior mientras se está en la carta
+    pourState.dismissed = false;
+    updateDock();
+  }
+
+  // Móvil: tarjeta de la jarra fijada sobre la barra de acciones, solo dentro de #carta
+  const mqMobile = window.matchMedia('(max-width: 767px)');
+  function updateDock() {
+    const panel = $('.pour');
+    if (!panel) return;
+    const tabVisible = !panel.closest('.menu-panel').hidden;
+    const on = !!(mqMobile.matches && pourState.inCarta && pourState.id && tabVisible && !pourState.dismissed);
+    panel.classList.toggle('is-open', on);
+    document.body.classList.toggle('pour-docked', on);
   }
 
   // =========================================================================
@@ -488,12 +498,20 @@
       if (dishBtn) showDish(P.menu.find(m => m.id === dishBtn.dataset.dish));
       const btn = e.target.closest('[data-pour]');
       if (btn) pour(P.menu.find(m => m.id === btn.dataset.pour));
-      if (e.target.closest('.pour__close')) { clearTimeout(pourState.timer); $('.pour').classList.remove('is-open'); }
+      if (e.target.closest('.pour__close')) { pourState.dismissed = true; updateDock(); }
     });
     document.addEventListener('keydown', (e) => {
-      const panel = $('.pour.is-open');
-      if (e.key === 'Escape' && panel) panel.classList.remove('is-open');
+      if (e.key === 'Escape' && $('.pour.is-open')) { pourState.dismissed = true; updateDock(); }
     });
+
+    const carta = $('#carta');
+    if (carta && 'IntersectionObserver' in window) {
+      new IntersectionObserver(([entry]) => {
+        pourState.inCarta = entry.isIntersecting;
+        updateDock();
+      }, { rootMargin: '-30% 0px -30% 0px' }).observe(carta);
+    }
+    mqMobile.addEventListener('change', updateDock);
   }
 
   // =========================================================================

@@ -711,10 +711,8 @@ body.menu-open .site-header .icon-btn, body.menu-open .site-header .menu-toggle 
 .legal-links a { display: inline-block; padding: .35rem 0; text-decoration: none; }
 .legal-links a:hover { color: #fff; text-decoration: underline; }
 .copyright { margin: 0; }
-.kit-digital { background: #fff; border-radius: var(--r-sm); padding: .8rem 1.2rem; width: 100%; max-width: 760px; justify-self: center; margin-inline: auto; }
-.kit-digital img { width: 100%; height: auto; }
 .demo-bar { background: #050505; border-top: 1px solid rgba(255, 255, 255, .06); padding-bottom: env(safe-area-inset-bottom); }
-.demo-bar__inner { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: .6rem 1rem; padding-block: .7rem; font-size: .8rem; }
+.demo-bar__inner { display: flex; flex-wrap: wrap; align-items: center; justify-content: center; gap: .6rem 1rem; padding-block: .7rem; font-size: .8rem; }
 .demo-bar__credit { display: inline-flex; align-items: center; gap: .5rem; text-decoration: none; color: var(--on-dark-muted); }
 .demo-bar__credit:hover { color: #fff; }
 .demo-bar__credit img { width: 28px; height: 28px; object-fit: contain; background: #fff; border-radius: 6px; padding: 2px; }
@@ -753,12 +751,17 @@ body.menu-open .action-bar { transform: translateY(140%); }
   .scroll-cue { display: none; }
   .brand { width: 140px; height: 38px; }
   .pour {
-    position: fixed; left: 12px; right: 12px; bottom: calc(84px + env(safe-area-inset-bottom)); z-index: 85;
+    /* Acoplada encima de la barra de acciones (66px de alto) */
+    position: fixed; left: 10px; right: 10px; bottom: calc(10px + 65px + env(safe-area-inset-bottom)); z-index: 79;
     grid-template-columns: 96px 1fr; justify-items: start; text-align: left; align-items: center;
-    padding: .8rem 2.8rem .8rem .8rem; box-shadow: 0 24px 50px -16px rgba(0, 0, 0, .7);
-    transform: translateY(160%); transition: transform .5s var(--ease), background .6s var(--ease);
+    padding: .8rem 2.8rem .8rem .8rem; border-radius: 22px 22px 0 0; border-bottom: 0;
+    box-shadow: 0 -18px 40px -18px rgba(0, 0, 0, .6);
+    transform: translateY(calc(100% + 80px)); visibility: hidden;
+    transition: transform .5s var(--ease), background .6s var(--ease), visibility 0s linear .5s;
   }
-  .pour.is-open { transform: none; }
+  .pour.is-open { transform: none; visibility: visible; transition: transform .5s var(--ease), background .6s var(--ease), visibility 0s; }
+  body.menu-open .pour { transform: translateY(calc(100% + 80px)); }
+  body.pour-docked .action-bar { border-top-left-radius: 0; border-top-right-radius: 0; border-top-color: transparent; }
   .pour__stage { width: 96px; }
   .pour__info { justify-items: start; }
   .pour__name { font-size: 1rem; }
@@ -806,7 +809,6 @@ body.menu-open .action-bar { transform: translateY(140%); }
   .booking-grid { grid-template-columns: 1.05fr 1fr; gap: 4rem; }
   .footer-grid { grid-template-columns: 1.4fr 1fr 1.2fr 1.2fr; }
   .footer-bottom { grid-template-columns: 1fr auto; align-items: center; }
-  .kit-digital { grid-column: 1 / -1; }
   .menu-panel { grid-template-columns: 300px 1fr; align-items: center; }
   .dish-grid { grid-template-columns: 1fr; }
   .dish { padding: 1.3rem 1.4rem; }

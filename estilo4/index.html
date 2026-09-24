@@ -55,7 +55,13 @@
     "geo": { "@type": "GeoCoordinates", "latitude": 40.3920107, "longitude": -3.7602713 },
     "hasMap": "https://www.google.com/maps/place/Cervecer%C3%ADa+27+Bar+de+Tapas/@40.3920107,-3.7602713,15z/data=!4m2!3m1!1s0x0:0xe14a05a94df350f0",
     "hasMenu": "https://www.cerveceria27aluche.com/menu/",
-    "acceptsReservations": "https://www.cerveceria27aluche.com/contacto/"
+    "acceptsReservations": "https://www.cerveceria27aluche.com/contacto/",
+    "openingHoursSpecification": [
+      { "@type": "OpeningHoursSpecification", "dayOfWeek": ["Monday", "Tuesday", "Wednesday", "Thursday"], "opens": "18:00", "closes": "00:30" },
+      { "@type": "OpeningHoursSpecification", "dayOfWeek": "Friday", "opens": "18:00", "closes": "01:00" },
+      { "@type": "OpeningHoursSpecification", "dayOfWeek": "Saturday", "opens": "13:00", "closes": "01:00" },
+      { "@type": "OpeningHoursSpecification", "dayOfWeek": "Sunday", "opens": "13:00", "closes": "23:59" }
+    ]
   }
   </script>
 </head>
@@ -513,9 +519,6 @@
         <li><a href="https://www.cerveceria27aluche.com/politica-de-cookies-ue/" data-bind-href="legal.cookies" target="_blank" rel="noopener">Política de cookies (UE)</a></li>
       </ul>
       <p class="copyright">© <span data-year></span> <span data-bind="name">Cafetería Veinti7 Cervecería</span></p>
-      <div class="kit-digital">
-        <img src="img/kit-digital.webp" width="900" height="97" loading="lazy" decoding="async" alt="Financiado por la Unión Europea – NextGenerationEU. Plan de Recuperación, Transformación y Resiliencia. Kit Digital" />
-      </div>
     </div>
 
     <!-- Barra de demo DevCorp (selector de estilos del ecosistema GastroSuite) -->
@@ -523,7 +526,7 @@
       <div class="container demo-bar__inner">
         <a href="https://devcorpsolutions.com" target="_blank" rel="noopener" class="demo-bar__credit">
           <img src="../assets/images/logo.png" alt="" width="28" height="28" loading="lazy" />
-          <span>Demo DevCorp GastroSuite</span>
+          <span>Demo DevCorp Solutions</span>
         </a>
       </div>
     </div>
