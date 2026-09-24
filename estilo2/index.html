@@ -22,6 +22,7 @@ a:focus-visible,button:focus-visible{outline:3px solid #E3A33B;outline-offset:3p
 button{font:inherit;cursor:pointer}
 @media (prefers-reduced-motion: reduce){*{transition:none !important;animation:none !important;scroll-behavior:auto !important}}
 html{scroll-behavior:smooth}
+@keyframes beerBubbles{0%{background-position:0 0}100%{background-position:0 -36px}}
 </style>
 </helmet>
 <div style="font-family:'Alegreya Sans',sans-serif;color:#213A3C;background:#EBF4F3;overflow-x:hidden;font-size:18px;line-height:1.4">
@@ -60,6 +61,7 @@ html{scroll-behavior:smooth}
       <a href="#desayunos" style="text-decoration:none;padding:6px 0;color:#213A3C">06:00 Desayunos</a>
       <a href="#comer" style="text-decoration:none;padding:6px 0;color:#213A3C">13:00 A comer</a>
       <a href="#minis" style="text-decoration:none;padding:6px 0;color:#213A3C">18:00 Minis</a>
+      <a href="#cervezas" style="text-decoration:none;padding:6px 0;color:#213A3C">Cervezas</a>
       <a href="#finde" style="text-decoration:none;padding:6px 0;color:#213A3C">23:00 Finde</a>
       <a href="carta.html" style="text-decoration:none;padding:6px 0;color:#3F6E72;font-weight:900;border-bottom:2px solid #3F6E72">La carta</a>
       <a href="#llegar" style="text-decoration:none;padding:6px 0;color:#213A3C">Cómo llegar</a>
@@ -385,27 +387,132 @@ html{scroll-behavior:smooth}
     </div>
   </div>
 
-  <div style="margin-top:clamp(60px,8vw,120px);border-top:2px solid #3F6E72;padding-top:34px">
-    <div style="display:flex;flex-wrap:wrap;align-items:baseline;gap:10px 30px;margin-bottom:34px">
-      <h3 style="margin:0;font-family:'Grandstander',sans-serif;font-weight:800;font-size:32px">Cervezas</h3>
-      <span style="font-size:22px">Caña o botellín <span style="font-family:'Grandstander',sans-serif;font-weight:900;font-size:40px;color:#E3A33B">1,90 €</span></span>
-      <span style="font-size:18px;color:#CADDDB">En terraza, +0,10 €</span>
+  <div id="cervezas" style="margin-top:clamp(60px,8vw,120px);border-top:2px solid #3F6E72;padding-top:34px;scroll-margin-top:80px">
+    
+    <!-- Encabezado de Cervezas -->
+    <div style="display:flex;flex-wrap:wrap;align-items:baseline;justify-content:space-between;gap:12px 28px;margin-bottom:28px">
+      <div>
+        <div style="font-family:'Alegreya Sans SC',sans-serif;font-weight:800;letter-spacing:.16em;font-size:14px;color:#9FD3C7;margin-bottom:4px">Cervecería de Barrio · Grifo y Botellín</div>
+        <h3 style="margin:0;font-family:'Grandstander',sans-serif;font-weight:900;font-size:clamp(32px,4vw,48px);line-height:1">Cervezateca de Aluche</h3>
+      </div>
+      <div style="display:flex;align-items:baseline;gap:10px">
+        <span style="font-size:22px">Caña o botellín <span style="font-family:'Grandstander',sans-serif;font-weight:900;font-size:40px;color:#E3A33B">1,90 €</span></span>
+        <span style="font-size:16px;color:#CADDDB">En terraza, +0,10 €</span>
+      </div>
     </div>
-    <div style="display:flex;align-items:flex-end;gap:clamp(14px,2.4vw,36px);overflow-x:auto;padding-bottom:10px">
-      <sc-for list="{{ botellas }}" as="b" hint-placeholder-count="7">
-        <div style="flex:none;display:flex;flex-direction:column;align-items:center;width:clamp(78px,8vw,110px)">
-          <span style="display:block;width:16px;height:12px;background:#9FD3C7;border-radius:2px"></span>
-          <span style="display:block;width:22px;height:44px;border:3px solid #9FD3C7;border-bottom:none;border-radius:4px 4px 0 0"></span>
-          <span style="display:flex;justify-content:center;align-items:center;width:60px;height:170px;border:3px solid #9FD3C7;border-radius:24px 24px 6px 6px;position:relative;background:{{ b.fill }}">
-            <span style="position:absolute;left:-3px;right:-3px;top:48px;bottom:40px;background:{{ b.label }};border-top:3px solid #9FD3C7;border-bottom:3px solid #9FD3C7;display:flex;align-items:center;justify-content:center">
-              <span style="writing-mode:vertical-rl;transform:rotate(180deg);font-family:'Alegreya Sans SC',sans-serif;font-weight:800;font-size:13px;letter-spacing:.1em;color:{{ b.ink }};white-space:nowrap">{{ b.short }}</span>
+
+    <!-- Formatos de Grifo Interactivos -->
+    <div style="background:rgba(235,244,243,0.04);border:2px solid #3F6E72;padding:clamp(16px,2.5vw,26px);border-radius:4px;margin-bottom:34px">
+      <div style="display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;gap:12px;margin-bottom:16px">
+        <span style="font-family:'Alegreya Sans SC',sans-serif;font-weight:800;letter-spacing:.14em;font-size:13px;color:#9FD3C7">Tirador de Barril · Elige tu formato:</span>
+        <span style="font-size:14px;color:#CADDDB;font-style:italic">Cerveza de grifo recién tirada con dos dedos de crema</span>
+      </div>
+      <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:12px">
+        <sc-for list="{{ formatList }}" as="f" hint-placeholder-count="4">
+          <button onClick="{{ f.onClick }}" style="display:flex;flex-direction:column;align-items:flex-start;text-align:left;padding:14px 16px;border:2px solid {{ f.bd }};background:{{ f.bg }};color:{{ f.fg }};border-radius:4px;cursor:pointer;transition:all .2s ease">
+            <div style="display:flex;justify-content:space-between;align-items:baseline;width:100%;margin-bottom:4px">
+              <span style="font-weight:800;font-size:18px">{{ f.n }}</span>
+              <span style="font-family:'Grandstander',sans-serif;font-weight:900;font-size:20px;color:{{ f.isSel ? '#183234' : '#E3A33B' }}">{{ f.p }}</span>
+            </div>
+            <div style="font-family:'Alegreya Sans SC',sans-serif;font-weight:800;font-size:12px;letter-spacing:.1em;opacity:.8;margin-bottom:6px">{{ f.vol }}</div>
+            <div style="font-size:13px;line-height:1.25;opacity:.9">{{ f.desc }}</div>
+          </button>
+        </sc-for>
+      </div>
+    </div>
+
+    <!-- Filtros de Variedades de Botella -->
+    <div style="display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;gap:12px;margin-bottom:20px">
+      <div style="font-family:'Alegreya Sans SC',sans-serif;font-weight:800;letter-spacing:.14em;font-size:13px;color:#9FD3C7">Nuestras 16 Variedades de Botella (Toca para catar):</div>
+      <div style="display:flex;flex-wrap:wrap;gap:8px">
+        <sc-for list="{{ beerCats }}" as="c" hint-placeholder-count="5">
+          <button onClick="{{ c.onClick }}" aria-pressed="{{ c.pressed }}" style="min-height:36px;padding:0 12px;border:2px solid {{ c.bd }};background:{{ c.bg }};color:{{ c.fg }};border-radius:3px;font-weight:800;font-size:13px;letter-spacing:.04em;cursor:pointer;transition:all .15s ease">{{ c.n }}</button>
+        </sc-for>
+      </div>
+    </div>
+
+    <!-- Carrusel de Botellas Seleccionables -->
+    <div style="display:flex;align-items:flex-end;gap:clamp(12px,1.8vw,24px);overflow-x:auto;padding:16px 8px 18px;margin:0 -8px;scrollbar-width:thin">
+      <sc-for list="{{ botellas }}" as="b" hint-placeholder-count="16">
+        <button onClick="{{ b.onClick }}" style="flex:none;display:flex;flex-direction:column;align-items:center;width:clamp(82px,8vw,104px);background:none;border:none;padding:0;cursor:pointer;transform:{{ b.lift }};box-shadow:{{ b.glow }};border-radius:8px;transition:transform .25s cubic-bezier(.2,1.2,.4,1)">
+          <!-- Chapa de la botella -->
+          <span style="display:block;width:18px;height:10px;background:{{ b.cap }};border-radius:3px 3px 0 0;box-shadow:0 1px 0 rgba(0,0,0,0.4)"></span>
+          <!-- Cuello de la botella -->
+          <span style="display:block;width:24px;height:42px;border:3px solid {{ b.bd }};border-bottom:none;border-radius:6px 6px 0 0;background:{{ b.fill }}"></span>
+          <!-- Cuerpo de la botella -->
+          <span style="display:flex;justify-content:center;align-items:center;width:64px;height:165px;border:3px solid {{ b.bd }};border-radius:20px 20px 6px 6px;position:relative;background:{{ b.fill }};overflow:hidden">
+            <!-- Etiqueta personalizada con tipografía oficial -->
+            <span style="position:absolute;left:-3px;right:-3px;top:42px;bottom:36px;background:{{ b.label }};border-top:3px solid {{ b.bd }};border-bottom:3px solid {{ b.bd }};display:flex;flex-direction:column;align-items:center;justify-content:center;padding:2px">
+              <span style="writing-mode:vertical-rl;transform:rotate(180deg);font-family:'Alegreya Sans SC',sans-serif;font-weight:900;font-size:12px;letter-spacing:.12em;color:{{ b.ink }};white-space:nowrap">{{ b.short }}</span>
             </span>
+            <!-- Indicador activo de selección -->
+            <sc-if value="{{ b.isSel }}" hint-placeholder-val="{{ false }}">
+              <span style="position:absolute;top:6px;width:10px;height:10px;border-radius:50%;background:#E3A33B;box-shadow:0 0 8px #E3A33B"></span>
+            </sc-if>
           </span>
-          <span style="margin-top:12px;font-size:15px;font-weight:700;text-align:center;line-height:1.15;min-height:2.4em">{{ b.n }}</span>
-        </div>
+          <!-- Nombre y Precio -->
+          <span style="margin-top:10px;font-size:14px;font-weight:800;text-align:center;line-height:1.2;min-height:2.4em;color:{{ b.isSel ? '#E3A33B' : '#EBF4F3' }}">{{ b.n }}</span>
+          <span style="margin-top:4px;font-family:'Grandstander',sans-serif;font-weight:900;font-size:16px;background:{{ b.tagBg }};color:{{ b.tagFg }};padding:2px 8px;border-radius:3px">{{ b.price }}</span>
+        </button>
       </sc-for>
     </div>
-    <div style="display:flex;align-items:center;gap:14px;margin-top:10px"><span style="flex:1;height:0;border-top:2px dotted #9FD3C7"></span><span style="font-family:'Grandstander',sans-serif;font-weight:900;font-size:40px;color:#9FD3C7">3,20 € cada una</span></div>
+
+    <!-- FICHA INTERACTIVA DE CATA DE BARRA (Pizarra Cervecera) -->
+    <div style="margin-top:28px;background:#213A3C;border:3px solid #9FD3C7;padding:clamp(20px,3.5vw,36px);border-radius:6px;display:flex;flex-wrap:wrap;gap:clamp(20px,3.5vw,40px);align-items:center;position:relative;box-shadow:0 12px 30px -10px rgba(0,0,0,.5)">
+      
+      <!-- Lado Izquierdo: Copa/Vaso animado con llenado del color de la cerveza -->
+      <div style="flex:0 0 auto;display:flex;flex-direction:column;align-items:center;gap:12px">
+        <div style="position:relative;width:96px;height:170px;border:4px solid #9FD3C7;border-top-width:2px;border-radius:6px 6px 20px 20px;overflow:hidden;background:rgba(24,50,52,0.4)">
+          <!-- Líquido animado -->
+          <div style="position:absolute;left:0;right:0;bottom:0;height:{{ pouringBeer ? '20%' : '82%' }};background:{{ activeBeerColor }};transition:all .5s cubic-bezier(.2,1.2,.4,1)">
+            <!-- Burbujitas de efervescencia animadas -->
+            <div style="position:absolute;inset:0;background-image:radial-gradient(circle,rgba(255,255,255,0.4) 1.5px,transparent 1.5px);background-size:14px 18px;animation:beerBubbles 2s linear infinite;opacity:.65"></div>
+          </div>
+          <!-- Corona de espuma cremosa -->
+          <div style="position:absolute;left:0;right:0;bottom:{{ pouringBeer ? '20%' : '82%' }};height:{{ pouringBeer ? '5%' : '16%' }};background:#FFFBEB;border-bottom:2px solid rgba(227,163,59,0.3);transition:all .5s cubic-bezier(.2,1.2,.4,1)"></div>
+          <!-- Reflejo del cristal -->
+          <div style="position:absolute;left:15%;top:8%;bottom:8%;width:6px;background:rgba(255,255,255,0.22);border-radius:3px"></div>
+          <div style="position:absolute;left:30%;top:12%;bottom:12%;width:3px;background:rgba(255,255,255,0.12);border-radius:2px"></div>
+        </div>
+        <div style="font-family:'Alegreya Sans SC',sans-serif;font-weight:900;font-size:11px;letter-spacing:.12em;color:#9FD3C7;background:rgba(159,211,199,0.12);padding:3px 8px;border-radius:3px">Copa de cata</div>
+      </div>
+
+      <!-- Centro / Derecha: Datos oficiales, notas de cata y maridaje -->
+      <div style="flex:1 1 360px;min-width:0">
+        <!-- Badges técnicas -->
+        <div style="display:flex;flex-wrap:wrap;align-items:center;gap:6px 12px;margin-bottom:10px">
+          <span style="background:#E3A33B;color:#183234;font-family:'Alegreya Sans SC',sans-serif;font-weight:900;font-size:12px;letter-spacing:.12em;padding:3px 8px;border-radius:2px">{{ activeBeerType }}</span>
+          <span style="border:1px solid #9FD3C7;color:#9FD3C7;font-family:'Alegreya Sans SC',sans-serif;font-weight:800;font-size:12px;letter-spacing:.1em;padding:2px 8px;border-radius:2px">{{ activeBeerVol }}</span>
+          <span style="border:1px solid #3F6E72;color:#CADDDB;font-family:'Alegreya Sans SC',sans-serif;font-weight:800;font-size:12px;letter-spacing:.1em;padding:2px 8px;border-radius:2px">🌡️ {{ activeBeerTemp }}</span>
+          <span style="color:#CADDDB;font-family:'Alegreya Sans SC',sans-serif;font-weight:800;font-size:12px;letter-spacing:.1em">📍 {{ activeBeerOrigin }}</span>
+        </div>
+
+        <!-- Nombre de la cerveza y Precio -->
+        <div style="display:flex;flex-wrap:wrap;align-items:baseline;justify-content:space-between;gap:8px;margin-bottom:10px">
+          <h4 style="margin:0;font-family:'Grandstander',sans-serif;font-weight:900;font-size:clamp(26px,3vw,38px);line-height:1;color:#FFFFFF">{{ activeBeerName }}</h4>
+          <span style="font-family:'Grandstander',sans-serif;font-weight:900;font-size:clamp(28px,3.2vw,40px);color:#E3A33B">{{ activeBeerPrice }}</span>
+        </div>
+
+        <!-- Descripción oficial de su carta física -->
+        <p style="margin:0 0 14px;font-size:18px;line-height:1.35;color:#EBF4F3">{{ activeBeerDesc }}</p>
+
+        <!-- Maridaje Recomendado de la Casa -->
+        <div style="background:rgba(24,50,52,0.5);border-left:3px solid #E3A33B;padding:10px 14px;margin-bottom:18px;font-size:16px;color:#CADDDB">
+          <strong style="color:#E3A33B">🍻 Marídala con:</strong> {{ activeBeerPairing }}
+        </div>
+
+        <!-- CTA a la carta -->
+        <div style="display:flex;flex-wrap:wrap;align-items:center;gap:12px">
+          <a href="carta.html#cervezas" style="display:inline-flex;align-items:center;gap:8px;background:#9FD3C7;color:#183234;font-family:'Grandstander',sans-serif;font-weight:900;font-size:16px;padding:10px 20px;border-radius:4px;text-decoration:none;box-shadow:0 4px 12px rgba(159,211,199,0.25);transition:transform .15s ease">
+            <span>Ver toda la carta de cervezas y raciones</span>
+            <span>→</span>
+          </a>
+          <span style="font-size:14px;color:#CADDDB;font-style:italic">Servicio rápido en barra y terraza</span>
+        </div>
+      </div>
+
+    </div>
+
   </div>
 </section>
 
@@ -493,9 +600,13 @@ html{scroll-behavior:smooth}
 </x-dc>
 <script type="text/x-dc" data-dc-script data-props="{&quot;simular&quot;:{&quot;editor&quot;:&quot;enum&quot;,&quot;default&quot;:&quot;Hora real&quot;,&quot;options&quot;:[&quot;Hora real&quot;,&quot;Lunes 09:40&quot;,&quot;Lunes 12:45&quot;,&quot;Miércoles 14:10&quot;,&quot;Jueves 19:30&quot;,&quot;Viernes 23:40&quot;,&quot;Sábado 01:15&quot;,&quot;Domingo 08:30&quot;,&quot;Martes 10:00&quot;,&quot;Domingo 03:00&quot;],&quot;tsType&quot;:&quot;string&quot;,&quot;section&quot;:&quot;Estado&quot;},&quot;frase&quot;:{&quot;editor&quot;:&quot;enum&quot;,&quot;default&quot;:&quot;Desde las 6 de la mañana, el punto de Aluche.&quot;,&quot;options&quot;:[&quot;Desde las 6 de la mañana, el punto de Aluche.&quot;,&quot;Si quedas en Aluche, quedas aquí.&quot;,&quot;Del café de las 6 a la jarra de las 2.&quot;,&quot;El sitio donde queda todo el barrio.&quot;],&quot;tsType&quot;:&quot;string&quot;,&quot;section&quot;:&quot;Portada&quot;}}">
 class Component extends DCLogic {
-  state = { now: null, narrow: false, pos: 0, sec: -1, slots: ['cer', 'cal', 'tin'], racion: 'ape', stamp: false, logoFail: false };
+  state = {
+    now: null, narrow: false, pos: 0, sec: -1, slots: ['cer', 'cal', 'tin'], racion: 'ape', stamp: false, logoFail: false,
+    selectedBeer: 'aguila-sin-filtrar', beerFilter: 'todas', selectedFormat: 'cana', pouringBeer: false
+  };
   r0 = React.createRef(); r1 = React.createRef(); r2 = React.createRef(); r3 = React.createRef();
   ptr = 0;
+  beerTimer = null;
   DAYS = ['Domingo', 'Lunes', 'Martes', 'Miércoles', 'Jueves', 'Viernes', 'Sábado'];
   H = { 0: [7, 24], 1: [6, 24], 2: null, 3: [6, 24], 4: [6, 24], 5: [7, 26], 6: [7, 26] };
   DR = {
@@ -515,7 +626,10 @@ class Component extends DCLogic {
     this.onS = () => this.scroll(); window.addEventListener('scroll', this.onS, { passive: true });
     setTimeout(this.onS, 300);
   }
-  componentWillUnmount() { clearInterval(this.iv); window.removeEventListener('resize', this.onR); window.removeEventListener('scroll', this.onS); clearTimeout(this.st); }
+  componentWillUnmount() {
+    clearInterval(this.iv); window.removeEventListener('resize', this.onR); window.removeEventListener('scroll', this.onS);
+    clearTimeout(this.st); clearTimeout(this.beerTimer);
+  }
   tick() {
     const p = new Intl.DateTimeFormat('en-GB', { timeZone: 'Europe/Madrid', weekday: 'short', hour: '2-digit', minute: '2-digit', hourCycle: 'h23' }).formatToParts(new Date());
     const g = t => (p.find(x => x.type === t) || {}).value;
@@ -577,6 +691,18 @@ class Component extends DCLogic {
     if (i < 0) { i = this.ptr % 3; this.ptr++; }
     s[i] = id; this.setState({ slots: s }); this.stampNow();
   }
+  setBeer(id) {
+    if (this.state.selectedBeer === id) return;
+    this.setState({ selectedBeer: id, pouringBeer: true });
+    clearTimeout(this.beerTimer);
+    this.beerTimer = setTimeout(() => this.setState({ pouringBeer: false }), 350);
+  }
+  setBeerFilter(f) {
+    this.setState({ beerFilter: f });
+  }
+  setFormat(f) {
+    this.setState({ selectedFormat: f });
+  }
 
   renderVals() {
     const now = this.sim(); const narrow = this.state.narrow;
@@ -617,6 +743,174 @@ class Component extends DCLogic {
       return { d: n, h: h ? h[0] + ':00 – ' + this.hs(h[1]) : 'Cerrado', deco: h ? 'none' : 'line-through', bg: t ? '#213A3C' : 'transparent', fg: t ? '#9FD3C7' : '#213A3C', tag: t ? (st.open ? 'Hoy · abierto' : 'Hoy') : (h ? '' : 'Descanso') };
     });
 
+    // LISTADO COMPLETO Y OFICIAL DE LAS 16 CERVEZAS DE BAR PUNTO DE ENCUENTRO
+    const BEERS = [
+      {
+        id: 'aguila-especial', name: 'El Águila Especial', short: 'Águila', category: 'rubias', price: '3,20 €',
+        vol: 'Vol. 5.5% alc.', temp: '3º – 5º C', origin: 'Madrid · 1900', type: 'Lager Especial',
+        color: '#E0A33A', fill: '#183234', label: '#3F6E72', ink: '#FFFFFF', cap: '#3F6E72',
+        desc: 'Inspirada en el sueño de su creador desde 1900. Intensidad de maltas caramelizadas junto con la frescura de su mezcla de lúpulos Perle y Lemondrop.',
+        maridaje: 'Croquetas de jamón y patatas bravas.'
+      },
+      {
+        id: 'aguila-sin-filtrar', name: 'El Águila Sin Filtrar', short: 'Sin Filtrar', category: 'tostadas', price: '3,20 €',
+        vol: 'Vol. 5.5% alc.', temp: '4º – 6º C', origin: 'Madrid · 1900', type: 'Lager Turbia Natural',
+        color: '#D49B28', fill: '#183234', label: '#EBF4F3', ink: '#183234', cap: '#E3A33B',
+        desc: 'Elaborada con maltas caramelizadas y lúpulos Perle y Lemondrop. Naturalmente turbia por la presencia de levaduras en suspensión que le otorgan gran cuerpo. ¡Gira la botella antes de servir!',
+        maridaje: 'Torreznos crujientes y oreja a la plancha de la casa.'
+      },
+      {
+        id: 'amstel-radler', name: 'Amstel Radler', short: 'Radler', category: 'sin-alcohol', price: '3,20 €',
+        vol: 'Vol. 2.0% alc.', temp: '2º – 4º C', origin: 'Múnich · 1922', type: 'Cerveza con Limón Natural',
+        color: '#ECC94B', fill: '#183234', label: '#E3A33B', ink: '#183234', cap: '#E3A33B',
+        desc: 'En 1922 miles de ciclistas bajaron a un Pub de Múnich y su dueño mezcló la cerveza con zumo de limón natural, naciendo una nueva categoría refrescante elaborada con 100% malta.',
+        maridaje: 'Alitas de pollo y calamares a la romana.'
+      },
+      {
+        id: 'amstel-oro', name: 'Amstel Oro', short: 'Oro', category: 'tostadas', price: '3,20 €',
+        vol: 'Vol. 6.2% alc.', temp: '4º – 6º C', origin: '100% Malta Tostada', type: 'Lager Tostada',
+        color: '#B45309', fill: '#183234', label: '#9FD3C7', ink: '#183234', cap: '#9FD3C7',
+        desc: 'Combinación única de maltas tostadas en tres tiempos: secado, tostación y golpe de fuego. Aroma intenso y ligeramente caramelizado que inunda el paladar.',
+        maridaje: 'Sartén campera y hamburguesa completa.'
+      },
+      {
+        id: 'amstel-oro-00', name: 'Amstel Oro 0,0', short: 'Oro 0,0', category: 'sin-alcohol', price: '3,20 €',
+        vol: 'Vol. 0.0% alc.', temp: '2º – 4º C', origin: '0,0% Alcohol', type: 'Tostada 0,0%',
+        color: '#C05621', fill: '#213A3C', label: 'transparent', ink: '#9FD3C7', cap: '#3F6E72',
+        desc: 'Maltas tostadas en tres tiempos que aportan el perfecto equilibrio de matices tostados para conseguir todo el sabor e intensidad con cero alcohol.',
+        maridaje: 'Montado de lomo y pincho de tortilla española.'
+      },
+      {
+        id: 'victoria', name: 'Victoria Málaga', short: 'Victoria', category: 'rubias', price: '3,20 €',
+        vol: 'Vol. 4.8% alc.', temp: '3º – 5º C', origin: 'Málaga · 1928', type: 'Pilsen Tradicional',
+        color: '#F6E05E', fill: '#183234', label: '#EBF4F3', ink: '#183234', cap: '#EBF4F3',
+        desc: '«Malagueña y exquisita». Elaborada mediante el procedimiento tradicional de maduración lenta en bodegas, ligera, dorada y con una espuma densa y brillante.',
+        maridaje: 'Boquerones fritos y gambones a la plancha.'
+      },
+      {
+        id: 'mahou', name: 'Mahou Cinco Estrellas', short: 'Mahou', category: 'rubias', price: '3,20 €',
+        vol: 'Vol. 5.5% alc.', temp: '3º – 5º C', origin: 'Madrid · 1890', type: 'Especial Madrileña',
+        color: '#D97706', fill: '#183234', label: '#9FD3C7', ink: '#183234', cap: '#B32025',
+        desc: 'El gran clásico de las barras madrileñas. Color dorado brillante, aroma inconfundible a cereal y lúpulo, con un amargor característico y cuerpo equilibrado.',
+        maridaje: 'Oreja a la plancha y patatas bravas.'
+      },
+      {
+        id: 'heineken', name: 'Heineken Original', short: 'Heineken', category: 'rubias', price: '3,20 €',
+        vol: 'Vol. 5.0% alc.', temp: '3º – 5º C', origin: 'Ámsterdam · 1873', type: 'Premium Pilsen',
+        color: '#FACC15', fill: '#14532D', label: '#22C55E', ink: '#FFFFFF', cap: '#22C55E',
+        desc: 'La cerveza Pilsen más distribuida en el mundo. Elaborada exclusivamente con ingredientes naturales y levadura tipo A, ligera, suave y fácil de beber.',
+        maridaje: 'Sandwich club y tequeños de queso.'
+      },
+      {
+        id: 'heineken-00', name: 'Heineken 0,0', short: '0,0 Pilsen', category: 'sin-alcohol', price: '3,20 €',
+        vol: 'Vol. 0.0% alc.', temp: '2º – 4º C', origin: '0,0% Alcohol', type: 'Lager 0,0%',
+        color: '#FDE047', fill: '#1E3A5F', label: '#3B82F6', ink: '#FFFFFF', cap: '#3B82F6',
+        desc: 'Cerveza lager 0,0% alcohol elaborada con ingredientes naturales, con refrescantes notas afrutadas y suave malta perfectamente equilibrada.',
+        maridaje: 'Ensalada César y tosta de solomillo con brie.'
+      },
+      {
+        id: 'hop-house-13', name: 'Hop House 13', short: 'Hop House', category: 'tostadas', price: '3,75 €',
+        vol: 'Vol. 5.5% alc.', temp: '4º – 6º C', origin: 'Dublín · St. James’s Gate', type: 'Lager Doble Lupulada',
+        color: '#C2410C', fill: '#78350F', label: '#DC2626', ink: '#FFFFFF', cap: '#DC2626',
+        desc: 'Cerveza tipo lager muy lupulada producida en la fábrica de Guinness con levadura original y adición de 3 tipos de lúpulos para un aroma floral cítrico.',
+        maridaje: 'Costilla a la barbacoa y smash burger doble.'
+      },
+      {
+        id: 'paulaner', name: 'Paulaner Hefe-Weißbier 1/2L', short: 'Paulaner 0,5L', category: 'trigo', price: '5,00 €',
+        vol: 'Vol. 5.3% alc.', temp: '6º – 8º C', origin: 'Múnich · s. XII', type: 'Trigo Alemán (500ml)',
+        color: '#F59E0B', fill: '#92400E', label: '#FDE047', ink: '#1E3A8A', cap: '#FDE047',
+        desc: 'Originaria de Múnich, donde en el s. XII se establecieron los monjes de St. Paulis. Elaborada con malta de trigo, naturalmente turbia por la levadura, afrutada y natural.',
+        maridaje: 'Sartén de embutidos o parrillada para dos.'
+      },
+      {
+        id: 'guinness', name: 'Guinness Original', short: 'Guinness', category: 'tostadas', price: '3,80 €',
+        vol: 'Vol. 5.0% alc.', temp: '6º – 8º C', origin: 'Dublín · 1759', type: 'Irish Stout / Ale',
+        color: '#1C1917', fill: '#0C0A09', label: '#D97706', ink: '#FFFFFF', cap: '#D97706',
+        desc: 'Cerveza irlandesa de tipo Ale nacida en 1759 en St. James’s Gate (Dublín). Sabor tostado con recuerdos a café y cacao, perfecta directamente de la botella.',
+        maridaje: 'Hamburguesa de buey con queso de cabra.'
+      },
+      {
+        id: 'desperados', name: 'Desperados Tequila', short: 'Desperados', category: 'trigo', price: '3,85 €',
+        vol: 'Vol. 5.9% alc.', temp: '3º – 5º C', origin: 'Cerveza + Tequila', type: 'Aromatizada con Tequila',
+        color: '#EAB308', fill: '#854D0E', label: '#EA580C', ink: '#FFFFFF', cap: '#EA580C',
+        desc: 'Cerveza Premium aromatizada con tequila, de sabor suave y llena de contrastes. Rebelde y con carácter, con un vibrante toque cítrico.',
+        maridaje: 'Nachos con pulled pork y jalapeños.'
+      },
+      {
+        id: 'alcazar', name: 'El Alcázar 1928', short: 'El Alcázar', category: 'tostadas', price: '3,60 €',
+        vol: 'Vol. 6.0% alc.', temp: '4º – 6º C', origin: 'Jaén · 1928', type: 'Especial Reserva',
+        color: '#D97706', fill: '#14532D', label: '#15803D', ink: '#FFFFFF', cap: '#15803D',
+        desc: 'Inspirada en la receta original de Jaén de 1928. Con malta especial y lúpulo aromático en flor que le aportan cuerpo equilibrado y amargor noble.',
+        maridaje: 'Parrillada de carne y oreja a la plancha.'
+      },
+      {
+        id: '1870', name: '18/70 La Rubia', short: '18/70', category: 'rubias', price: '3,60 €',
+        vol: 'Vol. 6.2% alc.', temp: '4º – 6º C', origin: 'País Vasco', type: 'Lager con Carácter',
+        color: '#CA8A04', fill: '#78350F', label: '#EA580C', ink: '#FFFFFF', cap: '#EA580C',
+        desc: 'Cerveza rubia con más cuerpo y más lúpulo. Nacida en los bares del norte, para quienes buscan un sabor intenso, amargo y con personalidad.',
+        maridaje: 'Costilla a la barbacoa y supercombo.'
+      },
+      {
+        id: 'cruzcampo-sg', name: 'Cruzcampo Sin Gluten', short: 'Sin Gluten', category: 'sin-alcohol', price: '3,30 €',
+        vol: 'Vol. 4.8% alc.', temp: '2º – 4º C', origin: 'Certificada FACE', type: 'Sin Gluten',
+        color: '#EAB308', fill: '#991B1B', label: '#DC2626', ink: '#FFFFFF', cap: '#DC2626',
+        desc: 'Todo el sabor y frescura de Cruzcampo, eliminando el gluten durante la fermentación. Certificada apta para celíacos por la FACE.',
+        maridaje: 'Sepia a la plancha y gambones.'
+      }
+    ];
+
+    const beerCategories = [
+      { id: 'todas', n: 'Todas (16)' },
+      { id: 'rubias', n: 'Rubias & Castizas' },
+      { id: 'tostadas', n: 'Tostadas & Especiales' },
+      { id: 'trigo', n: 'Trigo & Importación' },
+      { id: 'sin-alcohol', n: '0,0 & Sin Gluten' }
+    ];
+    const bFilter = this.state.beerFilter || 'todas';
+    const beerCats = beerCategories.map(c => ({
+      id: c.id, n: c.n, pressed: bFilter === c.id ? 'true' : 'false',
+      bg: bFilter === c.id ? '#9FD3C7' : 'transparent',
+      fg: bFilter === c.id ? '#183234' : '#EBF4F3',
+      bd: bFilter === c.id ? '#9FD3C7' : '#3F6E72',
+      onClick: () => this.setBeerFilter(c.id)
+    }));
+
+    const filteredBeers = bFilter === 'todas' ? BEERS : BEERS.filter(b => b.category === bFilter);
+    const selBeerId = this.state.selectedBeer || 'aguila-sin-filtrar';
+    const botellas = filteredBeers.map(b => {
+      const isSel = b.id === selBeerId;
+      return {
+        id: b.id, n: b.name, short: b.short, price: b.price, vol: b.vol,
+        fill: b.fill, label: b.label, ink: b.ink, cap: b.cap, isSel,
+        bd: isSel ? '#E3A33B' : '#9FD3C7',
+        lift: isSel ? 'translateY(-12px)' : 'translateY(0)',
+        glow: isSel ? '0 10px 24px rgba(227,163,59,0.45)' : 'none',
+        tagBg: isSel ? '#E3A33B' : 'rgba(235,244,243,0.1)',
+        tagFg: isSel ? '#183234' : '#CADDDB',
+        onClick: () => this.setBeer(b.id)
+      };
+    });
+
+    const activeB = BEERS.find(b => b.id === selBeerId) || BEERS[1];
+
+    const draftFormats = [
+      { id: 'cana', n: 'Caña de grifo', vol: '200 ml', p: '1,90 €', desc: 'Tirada al momento con dos dedos de crema espesa y fresca.' },
+      { id: 'doble', n: 'Doble de barril', vol: '330 ml', p: '2,80 €', desc: 'La clásica copa madrileña para acompañar un buen aperitivo.' },
+      { id: 'jarra', n: 'Jarra helada', vol: '500 ml', p: '3,50 €', desc: 'Medio litro servido en jarra gruesa bien congelada.' },
+      { id: 'mini', n: 'Mini de Litro', vol: '1.000 ml', p: '7,50 €', desc: 'Un litro entero. El icono para compartir en Punto de Encuentro.' }
+    ];
+    const selFmt = this.state.selectedFormat || 'cana';
+    const formatList = draftFormats.map(f => {
+      const isSel = f.id === selFmt;
+      return {
+        id: f.id, n: f.n, vol: f.vol, p: f.p, desc: f.desc, isSel,
+        bg: isSel ? '#9FD3C7' : 'rgba(235,244,243,0.06)',
+        fg: isSel ? '#183234' : '#EBF4F3',
+        bd: isSel ? '#9FD3C7' : '#3F6E72',
+        onClick: () => this.setFormat(f.id)
+      };
+    });
+
     return {
       r0: this.r0, r1: this.r1, r2: this.r2, r3: this.r3, narrow, showRail: !narrow,
       logoOk: !this.state.logoFail, logoFail: this.state.logoFail, onLogoError: () => this.setState({ logoFail: true }),
@@ -629,8 +923,8 @@ class Component extends DCLogic {
       desayunoOpts: ['Churros', 'Porras', 'Croissant', 'Napolitana', 'Bizcocho casero', 'Tostada', 'Tortitas', 'Barrita con tomate y aceite', 'Barrita con mermelada'],
       extras: [{ n: 'Barrita tomate y jamón', p: '+1,30' }, { n: 'Pincho de tortilla', p: '+0,80' }, { n: 'Sándwich mixto', p: '+1,30' }, { n: 'Croissant jamón y queso', p: '+1,30' }, { n: 'Colacao o infusión', p: '+0,30' }],
       menus: [{ n: 'Sándwich mixto', p: '6,00' }, { n: 'Panini', p: '7,00' }, { n: 'Sándwich cubano', p: '7,00' }, { n: 'Hamburguesa completa', p: '7,50' }, { n: '2 pizzas a elegir', p: '13,50' }],
-      combinados: [['Bacon con huevos y patatas', '8,50'], ['Lomo con huevos y patatas', '9,00'], ['Bistec de ternera', '11,00'], ['Filete de pollo', '9,50'], ['Merluza a la romana con tortilla', '11,50'], ['Entrecot con patatas y pimientos', '16,50'], ['Emperador', '13,50']].map((c, i) => ({ n: i + 1, name: c[0], p: c[1] })),
-      burgers: [{ n: 'Sencilla', p: '5,00' }, { n: 'Smash en pan brioche', p: '8,00' }, { n: 'Smash doble', p: '11,00' }, { n: 'Buey con queso de cabra y cebolla caramelizada', p: '13,00' }],
+      combinados: [['Bacon con huevos y patatas', '8,50'], ['Lomo con huevos y patatas', '9,50'], ['Bistec de ternera con ensalada', '12,00'], ['Filete de pollo', '9,50'], ['Merluza a la romana con tortilla', '10,50'], ['Entrecot con patatas y pimientos', '16,50'], ['Emperador con ensalada', '14,50']].map((c, i) => ({ n: i + 1, name: c[0], p: c[1] })),
+      burgers: [{ n: 'Sencilla', p: '5,00' }, { n: 'Smash en pan brioche', p: '8,00' }, { n: 'Smash doble con bacon', p: '11,00' }, { n: 'Buey con queso de cabra y cebolla caramelizada', p: '13,00' }],
       drinkBtns: Object.keys(this.DR).map(k => ({ n: this.DR[k].n, c: this.DR[k].c, onClick: () => this.addDrink(k) })),
       racionBtns: this.RA.map(([k, n]) => ({ n, pressed: this.state.racion === k ? 'true' : 'false', bg: this.state.racion === k ? '#9FD3C7' : 'transparent', fg: this.state.racion === k ? '#183234' : '#EBF4F3', onClick: () => { this.setState({ racion: k }); this.stampNow(); } })),
       jarras, vaciar: () => { this.ptr = 0; this.setState({ slots: [null, null, null] }); this.stampNow(); },
@@ -638,10 +932,20 @@ class Component extends DCLogic {
       offerInk: o.ok ? '#E3A33B' : '#9FD3C7',
       stampT: stamp ? 'scale(1.5) rotate(-14deg)' : 'scale(1) rotate(-5deg)', stampO: stamp ? 0 : 1, stampTr: stamp ? 'none' : 'transform .38s cubic-bezier(.2,1.6,.4,1), opacity .15s',
       promos: [{ n: '3 minis + aperitivo', d: 'Combínalos como quieras, menos 3 de cerveza', p: '13,50 €' }, { n: '3 minis de cerveza + bravas o alioli', d: 'La clásica de los viernes', p: '19,00 €' }, { n: 'Mini cerveza + mini calimocho', d: 'Con bravas, oreja o alitas', p: '15,50 €' }, { n: '3 minis de calimocho + pizza', d: 'Para compartir, o no', p: '15,50 €' }],
-      sartenes: [{ n: 'Sartén campera', p: '9,50 €' }, { n: 'Sartén de embutidos', p: '9,50 €' }, { n: 'Supercombo', p: '20,00 €' }, { n: 'Tequeños · costilla a la barbacoa', p: 'en carta' }],
+      sartenes: [{ n: 'Sartén campera', p: '9,50 €' }, { n: 'Sartén de embutidos', p: '9,50 €' }, { n: 'Supercombo', p: '20,00 €' }, { n: 'Tequeños de queso · Costilla asada', p: 'en carta' }],
       especiales: esp.map((n, i) => ({ n, s: sz[i % 3], w: i % 3 === 0 ? 900 : 700, c: i % 3 === 1 ? '#3F6E72' : '#213A3C' })),
       parrilla: ['Pechuga', 'Filete de ternera', 'Chuleta de cerdo', 'Costilla', 'Longaniza', 'Morcilla'],
-      botellas: [['El Águila Especial', 'Águila', '#183234', '#9FD3C7', '#9FD3C7'], ['El Águila sin filtrar', 'Sin filtrar', '#183234', '#EBF4F3', '#183234'], ['Amstel Radler', 'Radler', '#183234', '#E3A33B', '#183234'], ['Amstel Oro', 'Oro', '#183234', '#9FD3C7', '#183234'], ['Amstel Oro 0,0', '0,0', '#213A3C', 'transparent', '#9FD3C7'], ['Victoria', 'Victoria', '#183234', '#EBF4F3', '#183234'], ['Mahou', 'Mahou', '#183234', '#9FD3C7', '#183234']].map(b => ({ n: b[0], short: b[1], fill: b[2], label: b[3], ink: b[4] })).map(b => b.short === 'Águila' ? Object.assign(b, { label: '#3F6E72', ink: '#FFFFFF' }) : b),
+      formatList, beerCats, botellas,
+      pouringBeer: this.state.pouringBeer,
+      activeBeerName: activeB.name,
+      activeBeerPrice: activeB.price,
+      activeBeerVol: activeB.vol,
+      activeBeerTemp: activeB.temp,
+      activeBeerType: activeB.type,
+      activeBeerOrigin: activeB.origin,
+      activeBeerDesc: activeB.desc,
+      activeBeerPairing: activeB.maridaje,
+      activeBeerColor: activeB.color,
       notas: [{ t: 'Raciones de las de antes. Salimos rodando y pagamos poco.', r: 'rotate(-3deg)', m: '0' }, { t: 'El café de las 6 y media que me salva la semana.', r: 'rotate(2deg)', m: '40px 0 0' }, { t: 'La jarra es de litro de verdad. Siempre lleno, por algo será.', r: 'rotate(-1deg)', m: '10px 0 0' }],
       hours: hoursList, footPad: narrow ? '100px' : '40px'
     };
