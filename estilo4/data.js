@@ -1,204 +1,123 @@
-// estilo4/data.js - Datos oficiales y configurables para Cafetería Campamento & Desayunos Yebes
+// estilo4/data.js - Datos reales de Cafetería Veinti7 Cervecería (Cervecería 27 Aluche)
+// Fuente: https://www.cerveceria27aluche.com/ (Inicio, Menú, Sobre nosotros, Contacto).
+// REGLA: no añadir productos, precios, horarios ni opiniones que no existan en la web oficial.
+// Los campos vacíos se muestran en la web como "Consultar en barra" o se ocultan.
 (function() {
   const DEFAULT_DATA = {
   "id": "estilo4",
+  "dataVersion": 2,
   "styleName": "Estilo 4",
-  "styleSubtitle": "Showcase Visual & Specialty Coffee",
-  "layoutType": "minimal",
+  "styleSubtitle": "Showcase Visual · Cervecería de barrio",
+  "layoutType": "showcase",
   "themeClass": "theme-estilo-4",
-  "name": "Cafetería Campamento & Desayunos Yebes",
-  "chefName": "Clara Yebes",
-  "chefTitle": "Head Barista & Obrador",
-  "tagline": "Specialty Coffee Roasters, Organic Brunch & Obrador Artesano",
-  "neighborhood": "Campamento / Aluche (Madrid)",
-  "address": "Avenida del Padre Piquer, 1 · Campamento, 28024 Madrid",
-  "phone": "+34 646 62 17 93",
-  "whatsapp": "34695590754",
-  "email": "hola@cafeteriacampamento.es",
-  "managerName": "Clara Yebes (Coordinación de Obrador)",
-  "googleMapsUrl": "https://www.google.com/maps/search/?api=1&query=Cafeteria+Campamento,+Avenida+del+Padre+Piquer,+1,+28024+Madrid",
-  "type": "Café de Especialidad & Obrador Brunch",
-  "rating": 4.8,
-  "totalReviews": 395,
-  "openingHours": "Lunes a Domingo: 07:30 a 19:30 (Desayunos y brunch ininterrumpidos)",
-  "bannerImg": "https://images.unsplash.com/photo-1501339847302-ac426a4a7cbb?auto=format&fit=crop&w=1600&q=80",
-  "aboutUs": {
-    "headline": "Café de Especialidad con Alma, Masas Madres Vivas y Desayunos Conscientes en Campamento",
-    "story": "Cafetería Campamento nació con el propósito de acercar la cultura del café de especialidad y la comida saludable de obrador al corazón de Campamento y Aluche. Desterramos el torrefacto comercial y nos asociamos con micro-tostadores locales que compran directamente a pequeños productores de Colombia, Etiopía y Guatemala a precios justos. En nuestro obrador horneamos bollería con mantequilla pura francesa y preparamos tostas con hogazas de masa madre fermentadas durante 24 horas.",
-    "pillars": [
-      {
-        "icon": "☕",
-        "title": "Puntuación SCA >86 Puntos",
-        "desc": "100% café de especialidad arábica trazable por finca, proceso de lavado y fecha semanal de tueste local."
-      },
-      {
-        "icon": "🥖",
-        "title": "Masa Madre Viva 24 Horas",
-        "desc": "Hogazas fermentadas en frío durante 24 horas con harinas ecológicas sin aditivos ni mejorantes químicos."
-      },
-      {
-        "icon": "🥑",
-        "title": "Cocina Consciente & Fresca",
-        "desc": "Aguacates Hass en su punto óptimo, salmón ahumado salvaje y fruta fresca de temporada cortada al momento."
-      }
-    ],
-    "specialtyHighlight": {
-      "title": "Flat White Doble con Leche de Avena Barista",
-      "badge": "Barista Signature",
-      "roastType": "Tueste Medio · Origen Colombia Huila SCA 87.5",
-      "dietInfo": "Sin Azúcares Añadidos",
-      "text": "Extraemos nuestro espresso a 93ºC exactos con doble cestillo de 18 gramos durante 27 segundos. La leche de avena barista se microemulsiona a 62ºC para crear una textura de terciopelo que resalta la dulzura natural del grano."
-    }
+  "name": "Cafetería Veinti7 Cervecería",
+  "shortName": "Veinti7",
+  "tagline": "Cervecería artesanal, raciones y un buen ambiente.",
+  "heroTitle": "Un bar donde todos disfrutamos",
+  "neighborhood": "Aluche · Latina (Madrid)",
+  "address": "C. de Quero, 27, Latina, 28024 Madrid, España",
+  "addressShort": "C. de Quero, 27 · Aluche",
+  "phone": "638 057 327",
+  "phoneIntl": "+34638057327",
+  // Número configurado en el botón de WhatsApp (plugin Click to Chat) de la web oficial.
+  "whatsapp": "34638057328",
+  "email": "diyanayz@gmail.com",
+  "officialUrl": "https://www.cerveceria27aluche.com/",
+  // Sistema de reservas actual: JetAppointments Booking (WordPress) en /contacto/.
+  "bookingUrl": "https://www.cerveceria27aluche.com/contacto/",
+  "bookingSteps": [
+    { "title": "Elige «Reserva mesa»", "desc": "Selecciona el servicio en el desplegable «Seleccionar reserva»." },
+    { "title": "Escoge día y hora", "desc": "El calendario te muestra los huecos disponibles." },
+    { "title": "Completa tus datos", "desc": "Nombre, apellido, correo electrónico y número de personas. Pulsa «Reservar»." }
+  ],
+  "googleMapsUrl": "https://www.google.com/maps/place/Cervecer%C3%ADa+27+Bar+de+Tapas/@40.3920107,-3.7602713,15z/data=!4m2!3m1!1s0x0:0xe14a05a94df350f0",
+  "googleDirectionsUrl": "https://www.google.com/maps/dir//Cervecer%C3%ADa+27+Bar+de+Tapas,+C.+de+Quero,+27,+Latina,+28024+Madrid,+Espa%C3%B1a/@40.3920107,-3.7602713,2875m/data=!3m1!1e3!4m8!4m7!1m0!1m5!1m1!1s0xd418815be4e76c1:0xe14a05a94df350f0!2m2!1d-3.7602713!2d40.3920107!5m1!1e2",
+  "googleMapsEmbed": "https://maps.google.com/maps?q=Cervecer%C3%ADa%2027%20Bar%20de%20Tapas%2C%20C.%20de%20Quero%2C%2027%2C%2028024%20Madrid&z=16&output=embed",
+  "geo": { "lat": 40.3920107, "lng": -3.7602713 },
+  // Horario tal y como aparece en la web oficial.
+  "serviceHours": "Lunes a viernes: 6:00h - 12:30 · Sábado: 13:00h - 1:00h · Domingo: 13:00h - 12:00h",
+  "hours": [
+    { "days": "Lunes a viernes", "time": "6:00h – 12:30" },
+    { "days": "Sábado", "time": "13:00h – 1:00h" },
+    { "days": "Domingo", "time": "13:00h – 12:00h" }
+  ],
+  "legal": {
+    "avisoLegal": "https://www.cerveceria27aluche.com/aviso-legal/",
+    "privacidad": "https://www.cerveceria27aluche.com/politica-de-privacidad/",
+    "accesibilidad": "https://www.cerveceria27aluche.com/accesibilidad/",
+    "cookies": "https://www.cerveceria27aluche.com/politica-de-cookies-ue/"
   },
-  "categories": [
-    "Tostas Artesanas",
-    "Cafés & Especialidad",
-    "Bowls & Saludable",
-    "Bollería de Obrador",
-    "Zumos Naturales"
-  ],
-  "menu": [
+  "aboutUs": {
+    "headline": "Nuestro bar",
+    "story": "En Cafetería Veinti7 Cervecería te ofrecemos cerveza artesanal fría, raciones ideales para compartir y un ambiente adecuado para que disfrutes en familia o con tus amigos.",
+    "storyExtra": "Descubre nuestra pasión por la cerveza artesanal y brindemos por los buenos momentos.",
+    "who": "En Cafetería Veinti7 Cervecería representamos la combinación de tradición y compromiso con la calidad. Nuestro equipo está preparado para darte un servicio profesional y productos que marcan la diferencia.",
+    "pillars": [
+      { "icon": "beer", "title": "Cerveza artesanal y helada", "desc": "Nuestra cerveza artesanal siempre está servida en su punto gracias a nuestras potentes neveras." },
+      { "icon": "people", "title": "Sitio acogedor", "desc": "Perfecto para familias, amigos y para disfrutar de partidos en buena compañía." },
+      { "icon": "pin", "title": "Ubicación ideal", "desc": "A un paso cerca del parque de Aluche, nuestro bar se encuentra con fácil acceso y buen ambiente." }
+    ],
+    "values": [
+      { "title": "Integridad", "desc": "Nos guiamos por altos principios éticos que respaldan cada decisión y acción que llevamos a cabo." },
+      { "title": "Pasión", "desc": "En cada detalle de nuestro trabajo se refleja un compromiso genuino con la calidad y el servicio." },
+      { "title": "Diversidad", "desc": "Valoramos la diversidad y promovemos un entorno inclusivo que enriquece a nuestros clientes y equipo." }
+    ]
+  },
+  // Agrupación visual de la carta. "group" = pestaña principal, "category" = filtro secundario.
+  "menuGroups": [
     {
-      "id": "e4_1",
-      "name": "Tosta de Aguacate Hass, Salmón Ahumado y Semillas",
-      "category": "Tostas Artesanas",
-      "price": 7.2,
-      "badge": "Favorito Brunch",
-      "description": "Hogaza crujiente de masa madre viva, aguacate Hass laminado con limón, salmón ahumado salvaje, gomasio y brotes frescos.",
-      "details": "Pan de masa madre 24h · Aguacate fresco",
-      "ingredients": "Hogaza de trigo ecológico de masa madre, aguacate Hass, salmón noruego salvaje, gomasio de sésamo tostado y brotes verdes.",
-      "pairing": "Cold Brew o Zumo de naranja recién exprimido",
-      "prepTime": "5 min",
-      "dietary": "Rico en Omega-3 · Alto en Proteína",
-      "popular": true,
-      "image": "https://images.unsplash.com/photo-1525351484163-7529414344d8?auto=format&fit=crop&w=800&q=80",
-      "allergens": [
-        "gluten",
-        "pescado",
-        "sesamo"
-      ]
+      "id": "cervezas",
+      "label": "Cervezas",
+      "title": "Cervezas artesanales",
+      "image": "img/grifo-dorado.webp",
+      "categories": ["Mahou", "Alhambra", "Importaciones"]
     },
     {
-      "id": "e4_2",
-      "name": "Flat White Doble con Leche de Avena Barista",
-      "category": "Cafés & Especialidad",
-      "price": 2.6,
-      "badge": "Grano Selección",
-      "description": "Doble espresso de origen Colombia Huila con microespuma sedosa de avena barista y diseño de latte art en taza cerámica artesanal.",
-      "details": "Puntuación SCA 87.5 · Tueste fresco",
-      "ingredients": "Café de especialidad 100% arábica Colombia Huila, agua filtrada y leche de avena barista ecológica sin azúcares.",
-      "pairing": "Croissant de mantequilla francesa recién horneado",
-      "prepTime": "3 min",
-      "dietary": "Sin Gluten · Vegano · Café de Especialidad",
-      "popular": true,
-      "image": "https://images.unsplash.com/photo-1534778101976-62847782c213?auto=format&fit=crop&w=800&q=80",
-      "allergens": []
-    },
-    {
-      "id": "e4_3",
-      "name": "Açaí Bowl Orgánico con Granola Casera y Fruta Fresca",
-      "category": "Bowls & Saludable",
-      "price": 7.9,
-      "badge": "Energía 100% Vital",
-      "description": "Açaí puro del Amazonas batido espeso con plátano de Canarias, fresas frescas de temporada, granola casera horneada y coco tostado.",
-      "details": "Açaí silvestre orgánico · Granola casera",
-      "ingredients": "Pulpa pura de açaí orgánico, plátano de Canarias, fresas de temporada, arándanos silvestres, granola de avena con miel y semillas de cáñamo.",
-      "pairing": "Té Matcha Ceremonial o Kombucha de jengibre",
-      "prepTime": "6 min",
-      "dietary": "Sin Azúcar Añadido · Alto en Antioxidantes",
-      "popular": true,
-      "image": "https://images.unsplash.com/photo-1590080875515-8a3a8dc5735e?auto=format&fit=crop&w=800&q=80",
-      "allergens": [
-        "frutos_secos"
-      ]
-    },
-    {
-      "id": "e4_4",
-      "name": "Croissant Francés de Mantequilla de Normandía",
-      "category": "Bollería de Obrador",
-      "price": 2.2,
-      "badge": "Hojaldre Perfecto",
-      "description": "Hojaldrado a mano con 27 capas crujientes y aroma intenso a mantequilla fresca de Normandía. Horneado cada 2 horas en nuestro obrador.",
-      "details": "Mantequilla AOC Normandía · Horneado diario",
-      "ingredients": "Harina de trigo de fuerza, mantequilla pura de Normandía 84% M.G., masa madre viva, leche entera, sal marina y huevo para dorar.",
-      "pairing": "Cappuccino o Café Filtrado V60",
-      "prepTime": "2 min",
-      "dietary": "Horneado Cada 2 Horas",
-      "popular": true,
-      "image": "https://images.unsplash.com/photo-1555507036-ab1f4038808a?auto=format&fit=crop&w=800&q=80",
-      "allergens": [
-        "gluten",
-        "lactosa",
-        "huevo"
-      ]
-    },
-    {
-      "id": "e4_5",
-      "name": "Tosta Ibérica con Tomate Rallado y Aceite Picual",
-      "category": "Tostas Artesanas",
-      "price": 4.8,
-      "badge": "Desayuno Estrella",
-      "description": "Hogaza tostada crujiente, tomate de rama recién rallado a mano con AOVE picual de Jaén y virutas de jamón de bodega.",
-      "details": "Pan de pueblo tostado al momento",
-      "ingredients": "Pan de pueblo de masa madre, tomate pera maduro rallado, aceite de oliva virgen extra de cosecha temprana y jamón curado de bodega.",
-      "pairing": "Café con leche o Zumo de naranja natural",
-      "prepTime": "4 min",
-      "dietary": "100% Ingredientes Naturales",
-      "popular": true,
-      "image": "https://images.unsplash.com/photo-1509722747041-616f39b57569?auto=format&fit=crop&w=800&q=80",
-      "allergens": [
-        "gluten"
-      ]
-    },
-    {
-      "id": "e4_6",
-      "name": "Matcha Latte Ceremonial con Leche de Almendras",
-      "category": "Cafés & Especialidad",
-      "price": 3.4,
-      "badge": "Grado Ceremonial Uji",
-      "description": "Té verde matcha japonés de grado ceremonial de Uji (Kioto), batido con chasen de bambú y combinado con leche de almendras emulsionada.",
-      "details": "Matcha 100% puro de Kioto · Sin aditivos",
-      "ingredients": "Polvo de té verde matcha ceremonial de Uji, agua a 80ºC y bebida de almendras tostadas sin azúcar.",
-      "pairing": "Cookie artesana de chocolate negro o Croissant",
-      "prepTime": "4 min",
-      "dietary": "Sin Lactosa · Vegano · Calma y Enfoque",
-      "popular": true,
-      "image": "https://images.unsplash.com/photo-1536256263959-770b48d82b0a?auto=format&fit=crop&w=800&q=80",
-      "allergens": [
-        "frutos_secos"
-      ]
+      "id": "raciones",
+      "label": "Raciones",
+      "title": "Raciones para compartir",
+      "image": "img/raciones.webp",
+      "categories": ["Raciones"]
     }
   ],
+  "categories": ["Mahou", "Alhambra", "Importaciones", "Raciones"],
+  // price = precio mínimo, priceMax = precio máximo (la web oficial indica rangos "3,50 € - 4 €").
+  // price 0 = la web oficial no publica precio -> se muestra "Consultar en barra".
+  "menu": [
+    { "id": "m1", "group": "cervezas", "category": "Mahou", "name": "Mahou clásica de barril", "description": "Mahou 5 Estrellas", "abv": null, "price": 0, "priceMax": null, "tags": [], "image": "", "allergens": [] },
+    { "id": "m2", "group": "cervezas", "category": "Mahou", "name": "Maestra doble lúpulo", "description": "", "abv": 7.5, "price": 3.5, "priceMax": 4, "badge": "", "tags": [], "image": "", "allergens": [] },
+    { "id": "m3", "group": "cervezas", "category": "Mahou", "name": "Maestra dunkel", "description": "", "abv": 6.1, "price": 3.5, "priceMax": 4, "badge": "", "tags": [], "image": "", "allergens": [] },
+    { "id": "m4", "group": "cervezas", "category": "Mahou", "name": "Barrica", "description": "", "abv": 6.1, "price": 4, "priceMax": 4.5, "badge": "", "tags": [], "image": "", "allergens": [] },
+    { "id": "m5", "group": "cervezas", "category": "Mahou", "name": "Mahou sin gluten", "description": "", "abv": 5.5, "price": 3, "priceMax": 3.5, "badge": "", "tags": ["Sin gluten"], "image": "", "allergens": [] },
+    { "id": "m6", "group": "cervezas", "category": "Mahou", "name": "Mahou IPA session", "description": "", "abv": 4.5, "price": 3.5, "priceMax": 4, "badge": "", "tags": [], "image": "", "allergens": [] },
+    { "id": "m7", "group": "cervezas", "category": "Mahou", "name": "Mahou sin alcohol", "description": "0,0 Tostada", "abv": 0, "price": 2.5, "priceMax": 3, "badge": "", "tags": ["0,0"], "image": "", "allergens": [] },
+    { "id": "a1", "group": "cervezas", "category": "Alhambra", "name": "Alhambra especial", "description": "", "abv": 5.4, "price": 3, "priceMax": 3.5, "badge": "", "tags": [], "image": "", "allergens": [] },
+    { "id": "a2", "group": "cervezas", "category": "Alhambra", "name": "1925 verde", "description": "", "abv": 6.4, "price": 4, "priceMax": 4.5, "badge": "", "tags": [], "image": "", "allergens": [] },
+    { "id": "a3", "group": "cervezas", "category": "Alhambra", "name": "1925 roja", "description": "", "abv": 7.2, "price": 4.5, "priceMax": 5, "badge": "", "tags": [], "image": "", "allergens": [] },
+    { "id": "i1", "group": "cervezas", "category": "Importaciones", "name": "Grimbergen", "description": "", "abv": 6.5, "price": 4.5, "priceMax": 5, "badge": "", "tags": [], "image": "", "allergens": [] },
+    { "id": "i2", "group": "cervezas", "category": "Importaciones", "name": "König Ludwig Weissbier", "description": "", "abv": 5.5, "price": 4, "priceMax": 4.5, "badge": "", "tags": [], "image": "", "allergens": [] },
+    { "id": "i3", "group": "cervezas", "category": "Importaciones", "name": "Coronita", "description": "", "abv": 4.5, "price": 3.5, "priceMax": 4, "badge": "", "tags": [], "image": "", "allergens": [] },
+    { "id": "r1", "group": "raciones", "category": "Raciones", "name": "Pulpo a la gallega con patatas", "description": "", "abv": null, "price": 15, "priceMax": null, "badge": "", "tags": [], "image": "", "allergens": [] },
+    { "id": "r2", "group": "raciones", "category": "Raciones", "name": "Calamares fritos o puntillas", "description": "", "abv": null, "price": 10, "priceMax": null, "badge": "", "tags": [], "image": "", "allergens": [] },
+    { "id": "r3", "group": "raciones", "category": "Raciones", "name": "Patatas bravas", "description": "", "abv": null, "price": 7, "priceMax": null, "badge": "", "tags": [], "image": "", "allergens": [] },
+    { "id": "r4", "group": "raciones", "category": "Raciones", "name": "Huevos rotos con jamón o bacon", "description": "", "abv": null, "price": 11, "priceMax": null, "badge": "", "tags": [], "image": "", "allergens": [] },
+    { "id": "r5", "group": "raciones", "category": "Raciones", "name": "Chorizo criollo con patatas fritas", "description": "", "abv": null, "price": 9.5, "priceMax": null, "badge": "", "tags": [], "image": "", "allergens": [] }
+  ],
+  // Reseñas de Google mostradas en la web oficial (widget Trustindex). Texto literal.
   "googleReviews": [
     {
-      "id": "rev-cf1",
-      "author": "Lucía Fernández",
-      "avatar": "https://images.unsplash.com/photo-1524504388940-b1c1722653e1?auto=format&fit=crop&w=120&q=80",
-      "badge": "Local Guide · 52 reseñas",
+      "id": "g1",
+      "author": "Diyana Yordanova Zhekova",
       "rating": 5,
-      "timeAgo": "Hace 3 días",
-      "comment": "Hacía falta una cafetería con este nivel en Campamento. El Flat White con leche de avena es pura seda y la tosta de salmón y aguacate en Padre Piquer está riquísima. Sitio precioso con wifi rápido.",
-      "ownerResponse": "¡Gracias Lucía! Tostamos el café semanalmente con tostadores de Madrid. ¡Un placer tenerte en Campamento!"
+      "date": "2024-11-07",
+      "comment": "El mejor café, la mejor cerveza, los mejores platos, el mejor trato...¿Qué más se puede pedir?"
     },
     {
-      "id": "rev-cf2",
-      "author": "Pablo Ortega",
-      "avatar": "https://images.unsplash.com/photo-1522075469751-3a6694fb2f61?auto=format&fit=crop&w=120&q=80",
-      "badge": "Cliente habitual",
+      "id": "g2",
+      "author": "Daniel Jimenez",
       "rating": 5,
-      "timeAgo": "Hace 1 semana",
-      "comment": "Pido el desayuno para llevar casi todas las mañanas antes de coger el metro en Campamento. Con la carta web lo pido desde casa y cuando llego ya está en la barra listo. Impecable.",
-      "ownerResponse": null
-    },
-    {
-      "id": "rev-cf3",
-      "author": "Marta Carrasco",
-      "avatar": "https://images.unsplash.com/photo-1517841905240-472988babdf9?auto=format&fit=crop&w=120&q=80",
-      "badge": "Local Guide · 19 reseñas",
-      "rating": 5,
-      "timeAgo": "Hace 2 semanas",
-      "comment": "El açaí bowl y los croissants recién horneados son adictivos. Buen ambiente, música tranquila y trato súper cercano.",
-      "ownerResponse": null
+      "date": "2024-09-27",
+      "comment": "Diana la dueña y Zhivko son supermajetes y los camareros también, la comida calidad precio estupenda, acaban de cambiar la carta y han dado un salto más de calidad, un gran sitio para pasar un buen rato con los amigos y ser asiduo todas las semana"
     }
   ]
 };
@@ -210,7 +129,10 @@
         const custom = localStorage.getItem('devcorp_data_estilo4');
         if (custom) {
           const parsed = JSON.parse(custom);
-          data = { ...data, ...parsed };
+          // Ignora personalizaciones guardadas del antiguo Estilo 4 (Cafetería Campamento).
+          if (parsed.dataVersion === DEFAULT_DATA.dataVersion) {
+            data = { ...data, ...parsed };
+          }
         }
         const unifiedName = localStorage.getItem('devcorp_unified_name');
         if (unifiedName && unifiedName.trim() !== '') {

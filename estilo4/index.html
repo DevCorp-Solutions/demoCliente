@@ -1,63 +1,548 @@
 <!DOCTYPE html>
-<html lang="es" class="min-h-screen">
+<html lang="es">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover" />
-  <title>Cafetería Campamento & Desayunos Yebes | Showcase Visual Nórdico (Estilo 4)</title>
-  
-  <meta name="description" content="Demostración interactiva de software a medida para hostelería por DevCorp Solutions. Carta digital, comandero KDS y reservas directas." />
-  <meta name="author" content="DevCorp Solutions" />
-  <meta name="theme-color" content="#0e1b33" />
-  
-  <!-- Favicon -->
-  <link rel="icon" type="image/png" href="../assets/images/logo.png" />
-  <link rel="apple-touch-icon" href="../assets/images/logo.png" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+  <title>Cafetería Veinti7 Cervecería | Cerveza artesanal y raciones en Aluche (Madrid)</title>
+  <meta name="description" content="Cervecería en Aluche (C. de Quero, 27): cerveza artesanal fría, raciones para compartir y buen ambiente para familias, amigos y partidos. Consulta la carta y reserva tu mesa." />
+  <link rel="canonical" href="https://www.cerveceria27aluche.com/" />
+  <meta name="theme-color" content="#0b0b0c" />
+  <meta name="author" content="Cafetería Veinti7 Cervecería" />
 
-  <!-- Google Fonts & Material Symbols -->
+  <!-- Open Graph / redes -->
+  <meta property="og:type" content="website" />
+  <meta property="og:locale" content="es_ES" />
+  <meta property="og:site_name" content="Cafetería Veinti7 Cervecería" />
+  <meta property="og:title" content="Cafetería Veinti7 Cervecería · Un bar donde todos disfrutamos" />
+  <meta property="og:description" content="Cervecería artesanal, raciones y un buen ambiente en Aluche, Madrid. Consulta la carta y reserva tu mesa." />
+  <meta property="og:url" content="https://www.cerveceria27aluche.com/" />
+  <meta property="og:image" content="https://www.cerveceria27aluche.com/wp-content/uploads/2024/12/Imagen-6.png" />
+  <meta property="og:image:width" content="1280" />
+  <meta property="og:image:height" content="600" />
+  <meta name="twitter:card" content="summary_large_image" />
+
+  <link rel="icon" type="image/png" href="img/icon-180.png" />
+  <link rel="apple-touch-icon" href="img/icon-180.png" />
+
+  <!-- Rendimiento: imagen LCP y fuentes -->
+  <link rel="preload" as="image" href="img/hero-amigos-1280.webp" media="(min-width: 769px)" fetchpriority="high" />
+  <link rel="preload" as="image" href="img/hero-amigos-768.webp" media="(max-width: 768px)" fetchpriority="high" />
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap" rel="stylesheet" />
-  <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet"/>
+  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@600;700;800;900&family=Plus+Jakarta+Sans:wght@400;500;600;700&family=Instrument+Serif:ital@1&display=swap" rel="stylesheet" />
 
-  <!-- Tailwind CSS CDN -->
-  <script src="https://cdn.tailwindcss.com"></script>
-  <script>
-    tailwind.config = {
-      darkMode: "class",
-      theme: {
-        extend: {
-          colors: {
-      primary: '#18181b',
-      secondary: '#71717a'
-    },
-          fontFamily: {
-      sans: ['Inter', 'sans-serif'],
-      nordic: ['"Plus Jakarta Sans"', 'sans-serif']
-    }
-        }
-      }
-    };
-  </script>
-
-  <!-- Estilos Específicos de ESTILO4 -->
   <link rel="stylesheet" href="./style.css" />
+  <script>document.documentElement.classList.add('js');</script>
+
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "BarOrPub",
+    "name": "Cafetería Veinti7 Cervecería",
+    "alternateName": "Cervecería 27 Aluche",
+    "url": "https://www.cerveceria27aluche.com/",
+    "image": "https://www.cerveceria27aluche.com/wp-content/uploads/2024/12/Imagen-6.png",
+    "telephone": "+34 638 057 327",
+    "email": "diyanayz@gmail.com",
+    "address": {
+      "@type": "PostalAddress",
+      "streetAddress": "C. de Quero, 27",
+      "addressLocality": "Madrid",
+      "addressRegion": "Madrid",
+      "postalCode": "28024",
+      "addressCountry": "ES"
+    },
+    "geo": { "@type": "GeoCoordinates", "latitude": 40.3920107, "longitude": -3.7602713 },
+    "hasMap": "https://www.google.com/maps/place/Cervecer%C3%ADa+27+Bar+de+Tapas/@40.3920107,-3.7602713,15z/data=!4m2!3m1!1s0x0:0xe14a05a94df350f0",
+    "hasMenu": "https://www.cerveceria27aluche.com/menu/",
+    "acceptsReservations": "https://www.cerveceria27aluche.com/contacto/"
+  }
+  </script>
 </head>
-<body class="min-h-screen flex flex-col font-sans text-slate-900 antialiased">
-  
-  <!-- Contenedor Principal de la SPA -->
-  <div id="app" class="flex-1 flex flex-col min-h-screen">
-    <div class="flex-1 flex flex-col items-center justify-center min-h-[60vh] p-6 text-center">
-      <div class="relative flex items-center justify-center mb-6">
-        <div class="w-16 h-16 border-4 border-red-200 border-t-red-600 rounded-full animate-spin"></div>
-        <img src="../assets/images/logo.png" alt="DevCorp Logo" class="absolute w-10 h-10 object-contain" onerror="this.style.display='none'"/>
+<body class="theme-estilo-4">
+
+  <!-- Sprite de iconos (SVG inline, sin dependencias externas) -->
+  <svg width="0" height="0" style="position:absolute" aria-hidden="true" focusable="false">
+    <symbol id="i-beer" viewBox="0 0 24 24"><path fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" d="M5 8h10v11a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V8Zm10 2h2a2 2 0 0 1 2 2v3a2 2 0 0 1-2 2h-2M5 8a3 3 0 0 1 2.6-4.5A3.5 3.5 0 0 1 13.4 4 2.5 2.5 0 0 1 15 8M8.5 12v5M11.5 12v5"/></symbol>
+    <symbol id="i-plate" viewBox="0 0 24 24"><path fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" d="M4 3v7a2 2 0 0 0 2 2h0a2 2 0 0 0 2-2V3M6 12v9M17 21V3c-2.2 1.4-3.5 3.8-3.5 7v3H17"/></symbol>
+    <symbol id="i-people" viewBox="0 0 24 24"><path fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" d="M16 20v-1.5a3.5 3.5 0 0 0-3.5-3.5h-5A3.5 3.5 0 0 0 4 18.5V20M10 11a3.5 3.5 0 1 0 0-7 3.5 3.5 0 0 0 0 7Zm10 9v-1.5a3.5 3.5 0 0 0-2.5-3.35M15.5 4.15a3.5 3.5 0 0 1 0 6.7"/></symbol>
+    <symbol id="i-pin" viewBox="0 0 24 24"><path fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" d="M12 21s-7-6.1-7-11.5A7 7 0 0 1 19 9.5C19 14.9 12 21 12 21Z"/><circle cx="12" cy="9.5" r="2.5" fill="none" stroke="currentColor" stroke-width="1.8"/></symbol>
+    <symbol id="i-phone" viewBox="0 0 24 24"><path fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" d="M5 4h3l2 5-2.5 1.5a11 11 0 0 0 6 6L15 14l5 2v3a2 2 0 0 1-2 2A16 16 0 0 1 3 6a2 2 0 0 1 2-2Z"/></symbol>
+    <symbol id="i-whatsapp" viewBox="0 0 24 24"><path fill="currentColor" d="M.057 24l1.687-6.163a11.867 11.867 0 0 1-1.587-5.946C.16 5.335 5.495 0 12.05 0a11.817 11.817 0 0 1 8.413 3.488 11.824 11.824 0 0 1 3.48 8.414c-.003 6.557-5.338 11.892-11.893 11.892a11.9 11.9 0 0 1-5.688-1.448L.057 24Zm6.597-3.807c1.676.995 3.276 1.591 5.392 1.592 5.448 0 9.886-4.434 9.889-9.885.002-5.462-4.415-9.89-9.881-9.892-5.452 0-9.887 4.434-9.889 9.884-.001 2.225.651 3.891 1.746 5.634l-.999 3.648 3.742-.981Zm11.387-5.464c-.074-.124-.272-.198-.57-.347-.297-.149-1.758-.868-2.031-.967-.272-.099-.47-.149-.669.149-.198.297-.768.967-.941 1.165-.173.198-.347.223-.644.074-.297-.149-1.255-.462-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.297-.347.446-.521.151-.172.2-.296.3-.495.099-.198.05-.372-.025-.521-.075-.148-.669-1.611-.916-2.206-.242-.579-.487-.501-.669-.51l-.57-.01c-.198 0-.52.074-.792.372s-1.04 1.016-1.04 2.479 1.065 2.876 1.213 3.074c.149.198 2.095 3.2 5.076 4.487.709.306 1.263.489 1.694.626.712.226 1.36.194 1.872.118.571-.085 1.758-.719 2.006-1.413.248-.695.248-1.29.173-1.414Z"/></symbol>
+    <symbol id="i-mail" viewBox="0 0 24 24"><path fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" d="M4 6h16v12H4zM4 7l8 6 8-6"/></symbol>
+    <symbol id="i-clock" viewBox="0 0 24 24"><circle cx="12" cy="12" r="8.5" fill="none" stroke="currentColor" stroke-width="1.8"/><path fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" d="M12 7.5V12l3 2"/></symbol>
+    <symbol id="i-arrow" viewBox="0 0 24 24"><path fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" d="M5 12h14m-6-6 6 6-6 6"/></symbol>
+    <symbol id="i-external" viewBox="0 0 24 24"><path fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" d="M7 17 17 7M9 7h8v8"/></symbol>
+    <symbol id="i-star" viewBox="0 0 24 24"><path fill="currentColor" d="m12 2.8 2.8 5.9 6.4.8-4.7 4.5 1.2 6.4L12 17.3l-5.7 3.1 1.2-6.4-4.7-4.5 6.4-.8L12 2.8Z"/></symbol>
+    <symbol id="i-calendar" viewBox="0 0 24 24"><path fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" d="M4 6.5h16V20H4zM4 10.5h16M8.5 3.5v4M15.5 3.5v4"/></symbol>
+    <symbol id="i-check" viewBox="0 0 24 24"><path fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" d="m5 12.5 4.5 4.5L19 7.5"/></symbol>
+    <symbol id="i-route" viewBox="0 0 24 24"><path fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" d="m3 11 18-8-8 18-2-8-8-2Z"/></symbol>
+    <symbol id="i-menu" viewBox="0 0 24 24"><path fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" d="M4 7h16M4 12h16M4 17h10"/></symbol>
+    <symbol id="i-google" viewBox="0 0 24 24"><path fill="#4285F4" d="M23.745 12.27c0-.7-.06-1.4-.19-2.07H12v4.51h6.6c-.29 1.52-1.14 2.82-2.4 3.68v3.05h3.88c2.27-2.09 3.665-5.17 3.665-9.17Z"/><path fill="#34A853" d="M12 24c3.24 0 5.95-1.08 7.93-2.91l-3.88-3.05c-1.08.72-2.45 1.16-4.05 1.16-3.12 0-5.77-2.1-6.72-4.93H1.25v3.15C3.26 21.36 7.33 24 12 24Z"/><path fill="#FBBC05" d="M5.28 14.27c-.25-.72-.38-1.49-.38-2.27s.13-1.55.38-2.27V6.58H1.25C.45 8.18 0 9.99 0 12s.45 3.82 1.25 5.42l4.03-3.15Z"/><path fill="#EA4335" d="M12 4.75c1.77 0 3.35.61 4.6 1.8l3.42-3.42C17.95 1.19 15.24 0 12 0 7.33 0 3.26 2.64 1.25 6.58l4.03 3.15c.95-2.83 3.6-4.98 6.72-4.98Z"/></symbol>
+  </svg>
+
+  <a class="skip-link" href="#main">Saltar al contenido</a>
+
+  <!-- ================= HEADER (patrón del Estilo 1 adaptado a Estilo 4) ================= -->
+  <header id="site-header" class="site-header is-top">
+    <div class="container header-inner">
+      <a class="brand" href="#inicio" aria-label="Cafetería Veinti7 Cervecería, ir al inicio">
+        <img class="brand-logo brand-logo--light" src="img/logo-veinti7-light.png" width="229" height="60" alt="" />
+        <img class="brand-logo brand-logo--dark" src="img/logo-veinti7.png" width="229" height="60" alt="" />
+      </a>
+
+      <nav class="main-nav" aria-label="Navegación principal">
+        <ul class="nav-capsule" id="nav-capsule">
+          <li><a class="nav-link" href="#nosotros" data-spy="nosotros">El bar</a></li>
+          <li><a class="nav-link" href="#carta" data-spy="carta">Carta</a></li>
+          <li><a class="nav-link" href="#experiencia" data-spy="experiencia">Ambiente</a></li>
+          <li><a class="nav-link" href="#opiniones" data-spy="opiniones">Opiniones</a></li>
+          <li><a class="nav-link" href="#contacto" data-spy="contacto">Dónde estamos</a></li>
+        </ul>
+        <span class="nav-indicator" aria-hidden="true"></span>
+      </nav>
+
+      <div class="header-actions">
+        <!-- Selector de estilos del ecosistema GastroSuite (demo DevCorp) -->
+        <label class="style-switch header-style">
+          <span class="sr-only">Cambiar de estilo</span>
+          <select class="style-select" data-style-select>
+            <option value="estilo1">Estilo 1: Parrilla Vukata</option>
+            <option value="estilo2">Estilo 2: Cervecería 27</option>
+            <option value="estilo3">Estilo 3: Pizzería Carlos</option>
+            <option value="estilo4" selected>Estilo 4: Cervecería Veinti7</option>
+          </select>
+        </label>
+        <a class="icon-btn header-phone" href="tel:+34638057327" data-bind-href="tel" aria-label="Llamar al 638 057 327">
+          <svg class="icon" aria-hidden="true"><use href="#i-phone"/></svg>
+        </a>
+        <a class="btn btn-primary btn-sm header-cta" href="#reservar">
+          <svg class="icon" aria-hidden="true"><use href="#i-calendar"/></svg>
+          <span class="cta-long">Reservar mesa</span><span class="cta-short">Reservar</span>
+        </a>
+        <button class="menu-toggle" type="button" aria-expanded="false" aria-controls="mobile-menu" aria-label="Abrir menú">
+          <span class="burger" aria-hidden="true"><span></span><span></span><span></span></span>
+        </button>
       </div>
-      <h2 class="text-lg font-bold text-slate-900">DevCorp GastroSuite</h2>
-      <p class="text-xs text-slate-500 mt-1">Cargando ESTILO4...</p>
+    </div>
+  </header>
+
+  <!-- Menú móvil a pantalla completa -->
+  <div id="mobile-menu" class="mobile-menu" role="dialog" aria-modal="true" aria-label="Menú" hidden>
+    <div class="mobile-menu__inner">
+      <nav aria-label="Navegación móvil">
+        <ol class="mobile-links">
+          <li style="--i:0"><a href="#inicio"><span class="num">01</span>Inicio</a></li>
+          <li style="--i:1"><a href="#nosotros"><span class="num">02</span>El bar</a></li>
+          <li style="--i:2"><a href="#carta"><span class="num">03</span>Carta</a></li>
+          <li style="--i:3"><a href="#experiencia"><span class="num">04</span>Ambiente</a></li>
+          <li style="--i:4"><a href="#opiniones"><span class="num">05</span>Opiniones</a></li>
+          <li style="--i:5"><a href="#contacto"><span class="num">06</span>Dónde estamos</a></li>
+        </ol>
+      </nav>
+      <div class="mobile-menu__actions" style="--i:6">
+        <a class="btn btn-primary btn-block" href="#reservar"><svg class="icon" aria-hidden="true"><use href="#i-calendar"/></svg>Reservar mesa</a>
+        <a class="btn btn-ghost btn-block" href="tel:+34638057327" data-bind-href="tel"><svg class="icon" aria-hidden="true"><use href="#i-phone"/></svg><span data-bind="phone">638 057 327</span></a>
+      </div>
+      <div class="mobile-menu__meta" style="--i:7">
+        <p><svg class="icon" aria-hidden="true"><use href="#i-pin"/></svg><span data-bind="address">C. de Quero, 27, Latina, 28024 Madrid, España</span></p>
+        <ul class="hours-mini" data-render="hours-mini"></ul>
+        <label class="style-switch mobile-style">
+          <span class="sr-only">Cambiar de estilo</span>
+          <select class="style-select" data-style-select>
+            <option value="estilo1">Estilo 1: Parrilla Vukata</option>
+            <option value="estilo2">Estilo 2: Cervecería 27</option>
+            <option value="estilo3">Estilo 3: Pizzería Carlos</option>
+            <option value="estilo4" selected>Estilo 4: Cervecería Veinti7</option>
+          </select>
+        </label>
+      </div>
     </div>
   </div>
 
-  <!-- Scripts Específicos e Independientes del Estilo -->
-  <script src="./data.js"></script>
-  <script src="./app.js"></script>
+  <main id="main">
+
+    <!-- ================= HERO ================= -->
+    <section id="inicio" class="hero" aria-labelledby="hero-title">
+      <div class="hero-media" data-parallax="0.18">
+        <picture>
+          <source media="(max-width: 768px)" srcset="img/hero-amigos-768.webp" />
+          <img src="img/hero-amigos-1280.webp" width="1280" height="600" alt="Tres amigos riendo y tomando cerveza en la barra" fetchpriority="high" decoding="async" />
+        </picture>
+      </div>
+      <div class="hero-shade" aria-hidden="true"></div>
+
+      <div class="container hero-grid">
+        <div class="hero-content">
+          <p class="eyebrow eyebrow--light hero-anim" style="--d:0"><span class="eyebrow-dot" aria-hidden="true"></span>Cafetería · Cervecería en Aluche</p>
+          <h1 id="hero-title" class="hero-title hero-anim" style="--d:1">Un bar donde <em>todos</em> disfrutamos</h1>
+          <p class="hero-lead hero-anim" style="--d:2" data-bind="tagline">Cervecería artesanal, raciones y un buen ambiente.</p>
+          <div class="hero-ctas hero-anim" style="--d:3">
+            <a class="btn btn-primary btn-lg" href="#reservar">
+              <svg class="icon" aria-hidden="true"><use href="#i-calendar"/></svg>Reservar mesa
+            </a>
+            <a class="btn btn-glass btn-lg" href="#carta">
+              Ver carta<svg class="icon icon-move" aria-hidden="true"><use href="#i-arrow"/></svg>
+            </a>
+          </div>
+          <ul class="hero-chips hero-anim" style="--d:4">
+            <li><svg class="icon" aria-hidden="true"><use href="#i-pin"/></svg><span data-bind="addressShort">C. de Quero, 27 · Aluche</span></li>
+            <li><svg class="icon" aria-hidden="true"><use href="#i-people"/></svg>Familias, amigos y partidos</li>
+          </ul>
+        </div>
+
+        <!-- Cards flotantes (solo desktop) con datos reales de carta y reseñas -->
+        <div class="hero-floating" aria-hidden="true">
+          <div class="float-card float-card--menu" data-render="hero-dish"></div>
+          <div class="float-card float-card--review" data-render="hero-review"></div>
+        </div>
+      </div>
+
+      <a class="scroll-cue" href="#nosotros" aria-label="Bajar al contenido">
+        <span class="scroll-cue__line" aria-hidden="true"></span>
+      </a>
+    </section>
+
+    <!-- Cinta de marcas (carta real) -->
+    <div class="ticker" aria-hidden="true">
+      <div class="ticker__track" data-render="ticker"></div>
+    </div>
+
+    <!-- ================= NUESTRO BAR ================= -->
+    <section id="nosotros" class="section section--about" aria-labelledby="about-title">
+      <div class="container about-grid">
+        <div class="about-media reveal">
+          <figure class="about-img about-img--main">
+            <img src="img/barra-maestro.webp" width="540" height="377" loading="lazy" decoding="async" alt="Camarero en la barra junto a botellas de cerveza artesanal" data-parallax="-0.06" />
+          </figure>
+          <figure class="about-img about-img--small">
+            <img src="img/degustacion.webp" width="540" height="377" loading="lazy" decoding="async" alt="Tres vasos de cerveza servidos sobre una tabla de madera" />
+          </figure>
+          <div class="seal" aria-hidden="true">
+            <svg viewBox="0 0 120 120" class="seal__text">
+              <defs><path id="seal-circle" d="M60,60 m-46,0 a46,46 0 1,1 92,0 a46,46 0 1,1 -92,0"/></defs>
+              <text><textPath href="#seal-circle" textLength="284" lengthAdjust="spacingAndGlyphs">VEINTI7 · CERVECERÍA · ALUCHE · MADRID ·</textPath></text>
+            </svg>
+            <img src="img/logo-mark.png" width="128" height="60" alt="" class="seal__mark" />
+          </div>
+        </div>
+
+        <div class="about-copy">
+          <p class="eyebrow reveal">Nuestro bar</p>
+          <h2 id="about-title" class="h2 reveal">Cerveza fría, raciones para compartir y <em>buenos momentos</em></h2>
+          <p class="lead reveal" data-bind="aboutUs.story">En Cafetería Veinti7 Cervecería te ofrecemos cerveza artesanal fría, raciones ideales para compartir y un ambiente adecuado para que disfrutes en familia o con tus amigos.</p>
+          <p class="reveal" data-bind="aboutUs.storyExtra">Descubre nuestra pasión por la cerveza artesanal y brindemos por los buenos momentos.</p>
+
+          <div class="who reveal">
+            <h3 class="who__title">¿Quiénes somos?</h3>
+            <p data-bind="aboutUs.who">En Cafetería Veinti7 Cervecería representamos la combinación de tradición y compromiso con la calidad. Nuestro equipo está preparado para darte un servicio profesional y productos que marcan la diferencia.</p>
+          </div>
+
+          <ul class="values reveal" data-render="values" aria-label="Nuestros valores"></ul>
+
+          <div class="about-ctas reveal">
+            <a class="btn btn-dark" href="#carta">Ver la carta<svg class="icon icon-move" aria-hidden="true"><use href="#i-arrow"/></svg></a>
+            <a class="link-arrow" href="#reservar">Reservar mesa<svg class="icon" aria-hidden="true"><use href="#i-arrow"/></svg></a>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ================= CARTA ================= -->
+    <section id="carta" class="section section--menu" aria-labelledby="menu-title">
+      <div class="container">
+        <header class="section-head section-head--center">
+          <p class="eyebrow reveal">La carta</p>
+          <h2 id="menu-title" class="h2 reveal">Un menú pensado para <em>compartir</em></h2>
+          <p class="lead reveal">Descubre nuestra selección de cervezas artesanales de calidad, acompañadas de raciones pensadas para complementar cada momento.</p>
+        </header>
+
+        <div class="menu-app reveal" id="menu-app">
+          <div class="menu-tabs-wrap">
+            <div class="menu-tabs" role="tablist" aria-label="Secciones de la carta" id="menu-tabs">
+              <!-- Renderizado por app.js desde data.js -->
+            </div>
+          </div>
+          <div class="menu-panels" id="menu-panels">
+            <noscript>
+              <div class="menu-noscript">
+                <h3>Cervezas artesanales</h3>
+                <p>Mahou: Mahou clásica de barril (Mahou 5 Estrellas) · Maestra doble lúpulo 7.5% 3,50 € - 4 € · Maestra dunkel 6.1% 3,50 € - 4 € · Barrica 6.1% 4 € - 4,50 € · Mahou sin gluten 5.5% 3 € - 3,50 € · Mahou IPA session 4.5% 3,50 € - 4 € · Mahou sin alcohol (0,0 Tostada) 2,50 € - 3 €.</p>
+                <p>Alhambra: Alhambra especial 5.4% 3 € - 3,50 € · 1925 verde 6.4% 4 € - 4,50 € · 1925 roja 7.2% 4,50 € - 5 €.</p>
+                <p>Importaciones: Grimbergen 6.5% 4,50 € - 5 € · König Ludwig Weissbier 5.5% 4 € - 4,50 € · Coronita 4.5% 3,50 € - 4 €.</p>
+                <h3>Raciones</h3>
+                <p>Pulpo a la gallega con patatas 15 € · Calamares fritos o puntillas 10 € · Patatas bravas 7 € · Huevos rotos con jamón o bacon 11 € · Chorizo criollo con patatas fritas 9,50 €.</p>
+              </div>
+            </noscript>
+          </div>
+        </div>
+
+        <div class="menu-cta reveal">
+          <p><strong>¿Se te ha abierto el apetito?</strong> Guarda tu mesa y te esperamos con la cerveza bien fría.</p>
+          <a class="btn btn-primary" href="#reservar"><svg class="icon" aria-hidden="true"><use href="#i-calendar"/></svg>Reservar mesa</a>
+        </div>
+      </div>
+    </section>
+
+    <!-- ================= EXPERIENCIA / AMBIENTE ================= -->
+    <section id="experiencia" class="section section--dark" aria-labelledby="exp-title">
+      <div class="container">
+        <header class="section-head section-head--split">
+          <div>
+            <p class="eyebrow eyebrow--light reveal">El ambiente</p>
+            <h2 id="exp-title" class="h2 reveal">Nuestra diferencia está en los <em>detalles</em></h2>
+          </div>
+          <p class="lead reveal">En Cervecería Veinti7 cada detalle importa. Desde la selección de cervezas hasta el diseño de nuestro menú, pensamos en ofrecer calidad.</p>
+        </header>
+
+        <div class="bento" data-render="bento">
+          <article class="tile tile--xl reveal">
+            <img src="img/ambiente-mesa-1280.webp" srcset="img/ambiente-mesa-768.webp 768w, img/ambiente-mesa-1280.webp 1280w" sizes="(max-width: 900px) 85vw, 50vw" width="1280" height="600" loading="lazy" decoding="async" alt="Vasos de cerveza sobre la mesa de madera del bar" />
+            <div class="tile__body">
+              <span class="tile__icon"><svg class="icon" aria-hidden="true"><use href="#i-people"/></svg></span>
+              <h3>Sitio acogedor</h3>
+              <p>Perfecto para familias, amigos y para disfrutar de partidos en buena compañía.</p>
+            </div>
+          </article>
+          <article class="tile reveal">
+            <img src="img/grifo-tirando.webp" width="640" height="550" loading="lazy" decoding="async" alt="Cerveza tirándose del grifo con espuma" />
+            <div class="tile__body">
+              <span class="tile__icon"><svg class="icon" aria-hidden="true"><use href="#i-beer"/></svg></span>
+              <h3>Cerveza artesanal y helada</h3>
+              <p>Nuestra cerveza artesanal siempre está servida en su punto gracias a nuestras potentes neveras.</p>
+            </div>
+          </article>
+          <article class="tile reveal">
+            <img src="img/raciones.webp" width="540" height="348" loading="lazy" decoding="async" alt="Plato de patatas para compartir" />
+            <div class="tile__body">
+              <span class="tile__icon"><svg class="icon" aria-hidden="true"><use href="#i-plate"/></svg></span>
+              <h3>Raciones para compartir</h3>
+              <p>Ideales para acompañar con cada una de nuestras cervezas.</p>
+            </div>
+          </article>
+          <article class="tile tile--wide reveal">
+            <img src="img/barra-botellas-1280.webp" srcset="img/barra-botellas-768.webp 768w, img/barra-botellas-1280.webp 1280w" sizes="(max-width: 900px) 85vw, 50vw" width="1280" height="600" loading="lazy" decoding="async" alt="Barra con botellas de cerveza artesanal" />
+            <div class="tile__body">
+              <span class="tile__icon"><svg class="icon" aria-hidden="true"><use href="#i-pin"/></svg></span>
+              <h3>Ubicación ideal</h3>
+              <p>A un paso cerca del parque de Aluche, nuestro bar se encuentra con fácil acceso y buen ambiente.</p>
+            </div>
+          </article>
+        </div>
+        <p class="bento-hint" aria-hidden="true">Desliza para ver más <svg class="icon" aria-hidden="true"><use href="#i-arrow"/></svg></p>
+      </div>
+    </section>
+
+    <!-- ================= OPINIONES + VALORA TU EXPERIENCIA ================= -->
+    <section id="opiniones" class="section section--reviews" aria-labelledby="reviews-title">
+      <div class="container reviews-grid">
+        <div class="reviews-col">
+          <header class="section-head">
+            <p class="eyebrow reveal">Clientes satisfechos</p>
+            <h2 id="reviews-title" class="h2 reveal">Lo que se dice <em>en la barra</em></h2>
+            <p class="google-chip reveal">
+              <svg class="icon" aria-hidden="true"><use href="#i-google"/></svg>
+              Reseñas reales publicadas en Google
+            </p>
+          </header>
+          <div class="reviews-list" data-render="reviews"></div>
+          <a class="link-arrow reveal" href="#" data-bind-href="googleMapsUrl" target="_blank" rel="noopener">Ver todas las reseñas en Google Maps<svg class="icon" aria-hidden="true"><use href="#i-external"/></svg></a>
+        </div>
+
+        <aside class="rate-card reveal" id="valorar" aria-labelledby="rate-title">
+          <p class="eyebrow">Valora tu experiencia</p>
+          <h3 id="rate-title" class="h3">¿Qué tal por el <em>27</em>?</h3>
+          <p class="rate-intro">Tu opinión nos ayuda a mejorar y a que más vecinos de Aluche nos conozcan.</p>
+
+          <div class="rate-step" data-step="stars">
+            <fieldset class="stars" id="rate-stars">
+              <legend class="sr-only">Puntuación de 1 a 5 estrellas</legend>
+              <!-- Renderizado por app.js -->
+            </fieldset>
+            <p class="stars-label" id="stars-label" aria-live="polite">Toca las estrellas para valorar</p>
+          </div>
+
+          <div class="rate-step" data-step="positive" hidden>
+            <p class="rate-badge rate-badge--pos"><svg class="icon" aria-hidden="true"><use href="#i-check"/></svg><span data-rate-summary></span></p>
+            <p>¡Gracias! Si nos dedicas 15 segundos, compartir tu opinión en Google ayuda muchísimo a un bar de barrio como el nuestro.</p>
+            <a class="btn btn-dark btn-block" href="#" data-bind-href="googleMapsUrl" target="_blank" rel="noopener">
+              <svg class="icon" aria-hidden="true"><use href="#i-google"/></svg>Publicar mi reseña en Google
+            </a>
+            <button type="button" class="link-btn" data-rate-back>Cambiar puntuación</button>
+          </div>
+
+          <div class="rate-step" data-step="negative" hidden>
+            <p class="rate-badge rate-badge--neg"><span data-rate-summary></span></p>
+            <p>Sentimos que no haya sido perfecto. Cuéntanos qué podemos mejorar: lo leerá directamente el equipo del bar.</p>
+            <label class="field">
+              <span class="field__label">¿Qué podemos mejorar?</span>
+              <textarea id="feedback-msg" rows="3" placeholder="Escribe aquí tu comentario (opcional)"></textarea>
+            </label>
+            <div class="btn-row">
+              <a class="btn btn-whatsapp" href="#" id="feedback-wa" target="_blank" rel="noopener"><svg class="icon" aria-hidden="true"><use href="#i-whatsapp"/></svg>WhatsApp</a>
+              <a class="btn btn-outline" href="#" id="feedback-mail"><svg class="icon" aria-hidden="true"><use href="#i-mail"/></svg>Email</a>
+            </div>
+            <button type="button" class="link-btn" data-rate-back>Cambiar puntuación</button>
+          </div>
+        </aside>
+      </div>
+    </section>
+
+    <!-- ================= RESERVAS ================= -->
+    <section id="reservar" class="section section--booking" aria-labelledby="booking-title">
+      <div class="booking-glow" aria-hidden="true"></div>
+      <div class="container booking-grid">
+        <div class="booking-copy">
+          <p class="eyebrow eyebrow--light reveal">Reservas</p>
+          <h2 id="booking-title" class="h2 reveal">Asegura tu <em>lugar</em></h2>
+          <p class="lead reveal">No dejes tu visita al azar. Reserva tu mesa y ven a disfrutar de un momento único con tus amigos y familia.</p>
+          <ol class="steps" data-render="booking-steps" aria-label="Cómo reservar"></ol>
+        </div>
+
+        <div class="booking-card reveal">
+          <div class="booking-card__head">
+            <span class="booking-card__icon"><svg class="icon" aria-hidden="true"><use href="#i-calendar"/></svg></span>
+            <div>
+              <h3 class="h3">Reserva tu mesa</h3>
+              <p>Elige día y hora en nuestro calendario de reservas.</p>
+            </div>
+          </div>
+          <a class="btn btn-primary btn-lg btn-block btn-shine" href="https://www.cerveceria27aluche.com/contacto/" data-bind-href="bookingUrl" target="_blank" rel="noopener">
+            Reservar mesa online<svg class="icon icon-move" aria-hidden="true"><use href="#i-external"/></svg>
+          </a>
+          <p class="booking-card__note">Se abre nuestro sistema de reservas en una pestaña nueva.</p>
+
+          <div class="divider"><span>¿Prefieres hablar con nosotros?</span></div>
+
+          <div class="btn-row">
+            <a class="btn btn-outline" href="tel:+34638057327" data-bind-href="tel"><svg class="icon" aria-hidden="true"><use href="#i-phone"/></svg><span data-bind="phone">638 057 327</span></a>
+            <a class="btn btn-whatsapp" href="#" data-bind-href="whatsapp" target="_blank" rel="noopener"><svg class="icon" aria-hidden="true"><use href="#i-whatsapp"/></svg>WhatsApp</a>
+          </div>
+
+          <div class="booking-hours">
+            <p class="booking-hours__title"><svg class="icon" aria-hidden="true"><use href="#i-clock"/></svg>Horarios</p>
+            <dl class="hours-table" data-render="hours"></dl>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ================= UBICACIÓN / CONTACTO ================= -->
+    <section id="contacto" class="section section--contact" aria-labelledby="contact-title">
+      <div class="container">
+        <header class="section-head section-head--split">
+          <div>
+            <p class="eyebrow reveal">Dónde estamos</p>
+            <h2 id="contact-title" class="h2 reveal">Te esperamos <em>muy pronto</em></h2>
+          </div>
+          <p class="lead reveal">Escríbenos o visítanos si quieres saber más acerca de nuestro bar. En Cafetería Veinti7 Cervecería, estamos listos para darte la mejor atención para ti y tus acompañantes.</p>
+        </header>
+
+        <div class="contact-grid">
+          <div class="contact-card reveal">
+            <ul class="contact-list">
+              <li>
+                <span class="contact-list__icon"><svg class="icon" aria-hidden="true"><use href="#i-pin"/></svg></span>
+                <div><span class="contact-list__label">Dirección</span><span data-bind="address">C. de Quero, 27, Latina, 28024 Madrid, España</span></div>
+              </li>
+              <li>
+                <span class="contact-list__icon"><svg class="icon" aria-hidden="true"><use href="#i-phone"/></svg></span>
+                <div><span class="contact-list__label">Teléfono</span><a href="tel:+34638057327" data-bind-href="tel" data-bind="phone">638 057 327</a></div>
+              </li>
+              <li>
+                <span class="contact-list__icon"><svg class="icon" aria-hidden="true"><use href="#i-mail"/></svg></span>
+                <div><span class="contact-list__label">Correo electrónico</span><a href="mailto:diyanayz@gmail.com" data-bind-href="mailto" data-bind="email">diyanayz@gmail.com</a></div>
+              </li>
+              <li>
+                <span class="contact-list__icon"><svg class="icon" aria-hidden="true"><use href="#i-clock"/></svg></span>
+                <div><span class="contact-list__label">Horarios</span><dl class="hours-table hours-table--light" data-render="hours"></dl></div>
+              </li>
+            </ul>
+            <div class="btn-row">
+              <a class="btn btn-dark" href="#" data-bind-href="googleDirectionsUrl" target="_blank" rel="noopener"><svg class="icon" aria-hidden="true"><use href="#i-route"/></svg>Cómo llegar</a>
+              <a class="btn btn-outline" href="tel:+34638057327" data-bind-href="tel"><svg class="icon" aria-hidden="true"><use href="#i-phone"/></svg>Llamar</a>
+            </div>
+          </div>
+
+          <div class="map-wrap reveal">
+            <iframe title="Mapa: Cafetería Veinti7 Cervecería, C. de Quero 27, Madrid" data-bind-src="googleMapsEmbed" src="about:blank" loading="lazy" referrerpolicy="no-referrer-when-downgrade" allowfullscreen></iframe>
+          </div>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <!-- ================= FOOTER ================= -->
+  <footer class="site-footer">
+    <div class="container footer-grid">
+      <div class="footer-brand">
+        <img src="img/logo-veinti7-light.png" width="229" height="60" alt="Cafetería Veinti7 Cervecería" loading="lazy" />
+        <p>Somos el bar donde la cerveza artesanal y los buenos momentos van de la mano. Acompáñanos a disfrutar de un buen partido con tu familia y amigos.</p>
+        <a class="btn btn-primary btn-sm" href="#reservar">Reservar mesa</a>
+      </div>
+      <nav class="footer-col" aria-label="Navegación del pie">
+        <h2 class="footer-title">Menú</h2>
+        <ul>
+          <li><a href="#inicio">Inicio</a></li>
+          <li><a href="#nosotros">Sobre nosotros</a></li>
+          <li><a href="#carta">Carta</a></li>
+          <li><a href="#opiniones">Opiniones</a></li>
+          <li><a href="#contacto">Contacto</a></li>
+        </ul>
+      </nav>
+      <div class="footer-col">
+        <h2 class="footer-title">Información de contacto</h2>
+        <ul>
+          <li data-bind="address">C. de Quero, 27, Latina, 28024 Madrid, España</li>
+          <li><a href="tel:+34638057327" data-bind-href="tel" data-bind="phone">638 057 327</a></li>
+          <li><a href="mailto:diyanayz@gmail.com" data-bind-href="mailto" data-bind="email">diyanayz@gmail.com</a></li>
+          <li><a href="#" data-bind-href="googleDirectionsUrl" target="_blank" rel="noopener">Cómo llegar</a></li>
+        </ul>
+      </div>
+      <div class="footer-col">
+        <h2 class="footer-title">Horarios</h2>
+        <dl class="hours-table hours-table--footer" data-render="hours"></dl>
+      </div>
+    </div>
+
+    <div class="container footer-bottom">
+      <ul class="legal-links">
+        <li><a href="https://www.cerveceria27aluche.com/aviso-legal/" data-bind-href="legal.avisoLegal" target="_blank" rel="noopener">Aviso legal</a></li>
+        <li><a href="https://www.cerveceria27aluche.com/politica-de-privacidad/" data-bind-href="legal.privacidad" target="_blank" rel="noopener">Política de privacidad</a></li>
+        <li><a href="https://www.cerveceria27aluche.com/accesibilidad/" data-bind-href="legal.accesibilidad" target="_blank" rel="noopener">Accesibilidad</a></li>
+        <li><a href="https://www.cerveceria27aluche.com/politica-de-cookies-ue/" data-bind-href="legal.cookies" target="_blank" rel="noopener">Política de cookies (UE)</a></li>
+      </ul>
+      <p class="copyright">© <span data-year></span> <span data-bind="name">Cafetería Veinti7 Cervecería</span></p>
+      <div class="kit-digital">
+        <img src="img/kit-digital.webp" width="900" height="97" loading="lazy" decoding="async" alt="Financiado por la Unión Europea – NextGenerationEU. Plan de Recuperación, Transformación y Resiliencia. Kit Digital" />
+      </div>
+    </div>
+
+    <!-- Barra de demo DevCorp (selector de estilos del ecosistema GastroSuite) -->
+    <div class="demo-bar">
+      <div class="container demo-bar__inner">
+        <a href="https://devcorpsolutions.com" target="_blank" rel="noopener" class="demo-bar__credit">
+          <img src="../assets/images/logo.png" alt="" width="28" height="28" loading="lazy" />
+          <span>Demo DevCorp GastroSuite</span>
+        </a>
+      </div>
+    </div>
+  </footer>
+
+  <!-- Barra de acciones fija en móvil: carta, llamar, WhatsApp y reservar -->
+  <nav class="action-bar" id="action-bar" aria-label="Acciones rápidas">
+    <a href="#carta" class="action-bar__item"><svg class="icon" aria-hidden="true"><use href="#i-beer"/></svg><span>Carta</span></a>
+    <a href="tel:+34638057327" data-bind-href="tel" class="action-bar__item"><svg class="icon" aria-hidden="true"><use href="#i-phone"/></svg><span>Llamar</span></a>
+    <a href="#" data-bind-href="whatsapp" target="_blank" rel="noopener" class="action-bar__item"><svg class="icon" aria-hidden="true"><use href="#i-whatsapp"/></svg><span>WhatsApp</span></a>
+    <a href="#reservar" class="action-bar__item action-bar__item--primary"><svg class="icon" aria-hidden="true"><use href="#i-calendar"/></svg><span>Reservar</span></a>
+  </nav>
+
+  <!-- WhatsApp flotante (desktop), como en la web oficial -->
+  <a class="wa-float" href="#" data-bind-href="whatsapp" target="_blank" rel="noopener" aria-label="Escríbenos por WhatsApp">
+    <svg class="icon" aria-hidden="true"><use href="#i-whatsapp"/></svg>
+  </a>
+
+  <script src="./data.js" defer></script>
+  <script src="./app.js" defer></script>
 </body>
 </html>
