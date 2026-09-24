@@ -43,7 +43,7 @@
       let href;
       if (key === 'tel') href = `tel:${P.phoneIntl || ('+34' + String(P.phone || '').replace(/\s/g, ''))}`;
       else if (key === 'mailto') href = `mailto:${P.email}`;
-      else if (key === 'whatsapp') href = whatsappUrl(`Hola, os escribo desde la web de ${P.name}.`);
+      else if (key === 'whatsapp') href = whatsappUrl(i18n.lang === 'en' ? `Hi, I'm writing from the ${P.name} website.` : `Hola, os escribo desde la web de ${P.name}.`);
       else href = get(P, key);
       if (href) el.setAttribute('href', href);
     });
@@ -686,10 +686,15 @@
 
     const updatePrivateLinks = () => {
       const extra = msg && msg.value.trim() ? `\n\n${msg.value.trim()}` : '';
-      const text = `Hola, estuve en ${P.name} y quería comentaros mi experiencia (valoración ${selected}/5).${extra}`;
+      const en = i18n.lang === 'en';
+      const text = en
+        ? `Hi, I visited ${P.name} and wanted to share my experience (rating ${selected}/5).${extra}`
+        : `Hola, estuve en ${P.name} y quería comentaros mi experiencia (valoración ${selected}/5).${extra}`;
+      const subject = en ? `My experience at ${P.name} (${selected}/5)` : `Mi experiencia en ${P.name} (${selected}/5)`;
       wa.href = whatsappUrl(text);
-      mail.href = `mailto:${P.email}?subject=${encodeURIComponent(`Mi experiencia en ${P.name} (${selected}/5)`)}&body=${encodeURIComponent(text)}`;
+      mail.href = `mailto:${P.email}?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(text)}`;
     };
+    document.addEventListener('langchange', () => { if (selected) updatePrivateLinks(); });
 
     fs.addEventListener('change', (e) => {
       selected = +e.target.value;
@@ -724,6 +729,117 @@
     if (target) { history.replaceState(null, '', target); const el = $(target); if (el) el.scrollIntoView(); }
   }
 
+  // =========================================================================
+  // 9. IDIOMA ES / EN
+  //    El HTML y data.js están en español. En inglés se traducen los textos y
+  //    atributos visibles con el diccionario de i18n.js; un MutationObserver
+  //    traduce también lo que el JavaScript pinta después (carta, jarra, etc.).
+  //    Al volver a español se restauran los textos originales.
+  // =========================================================================
+  const i18n = { lang: 'es', texts: new Map(), attrs: new Map() };
+  const I18N_ATTRS = ['aria-label', 'placeholder', 'alt', 'title'];
+  const EN = (window.VEINTI7_I18N && window.VEINTI7_I18N.en) || { dict: {}, patterns: [] };
+  const ES_META = { title: document.title, description: ($('meta[name="description"]') || {}).content };
+
+  function trEn(s) {
+    if (Object.prototype.hasOwnProperty.call(EN.dict, s)) return EN.dict[s];
+    for (const [re, fn] of EN.patterns) {
+      const m = s.match(re);
+      if (m) { const out = fn(m, x => trEn(x) || x); if (out) return out; }
+    }
+    if (s.includes(' · ')) {
+      const parts = s.split(' · ');
+      const out = parts.map(p => trEn(p) || p);
+      if (out.some((p, i) => p !== parts[i])) return out.join(' · ');
+    }
+    return null;
+  }
+
+  const skipNode = (el) => !el || el.closest('script, style, noscript, .review__text');
+  function translateTextNode(node) {
+    if (skipNode(node.parentElement)) return;
+    const raw = node.nodeValue;
+    const rec = i18n.texts.get(node);
+    if (rec && raw === rec.en) return;
+    const m = raw.match(/^(\s*)([\s\S]*?)(\s*)$/);
+    const out = m[2] && trEn(m[2]);
+    if (!out || out === m[2]) return;
+    const en = m[1] + out + m[3];
+    i18n.texts.set(node, { es: raw, en });
+    node.nodeValue = en;
+  }
+  function translateAttrs(el) {
+    if (skipNode(el)) return;
+    I18N_ATTRS.forEach(a => {
+      const v = el.getAttribute(a);
+      if (!v) return;
+      const rec = i18n.attrs.get(el) || {};
+      if (rec[a] && rec[a].en === v) return;
+      const out = trEn(v.trim());
+      if (!out || out === v) return;
+      rec[a] = { es: v, en: out };
+      i18n.attrs.set(el, rec);
+      el.setAttribute(a, out);
+    });
+  }
+  function translateTree(root) {
+    if (root.nodeType === 3) { translateTextNode(root); return; }
+    if (root.nodeType !== 1) return;
+    const walker = document.createTreeWalker(root, NodeFilter.SHOW_TEXT);
+    let n;
+    while ((n = walker.nextNode())) translateTextNode(n);
+    translateAttrs(root);
+    root.querySelectorAll(I18N_ATTRS.map(a => `[${a}]`).join(',')).forEach(translateAttrs);
+  }
+  function restoreSpanish() {
+    i18n.texts.forEach((rec, node) => { if (node.nodeValue === rec.en) node.nodeValue = rec.es; });
+    i18n.attrs.forEach((rec, el) => Object.keys(rec).forEach(a => { if (el.getAttribute(a) === rec[a].en) el.setAttribute(a, rec[a].es); }));
+    i18n.texts.clear();
+    i18n.attrs.clear();
+  }
+
+  function setLang(lang, { save = true } = {}) {
+    i18n.lang = lang === 'en' ? 'en' : 'es';
+    const en = i18n.lang === 'en';
+    document.documentElement.lang = i18n.lang;
+    if (en) translateTree(document.body); else restoreSpanish();
+    document.title = en ? EN.meta.title : ES_META.title;
+    const desc = $('meta[name="description"]');
+    if (desc) desc.content = en ? EN.meta.description : ES_META.description;
+    $$('[data-lang-toggle]').forEach(btn => {
+      btn.classList.toggle('is-en', en);
+      btn.setAttribute('aria-label', en ? 'Ver la web en español' : 'View this website in English');
+      btn.title = en ? 'Ver en español' : 'View in English';
+      const code = $('[data-lang-code]', btn);
+      if (code) code.textContent = en ? 'EN' : 'ES';
+    });
+    bindData();
+    if (save) { try { localStorage.setItem('veinti7_lang', i18n.lang); } catch (e) { /* sin almacenamiento */ } }
+    document.dispatchEvent(new CustomEvent('langchange', { detail: i18n.lang }));
+  }
+
+  function initI18n() {
+    new MutationObserver((muts) => {
+      if (i18n.lang !== 'en') return;
+      muts.forEach(m => {
+        if (m.type === 'childList') m.addedNodes.forEach(translateTree);
+        else if (m.type === 'characterData') translateTextNode(m.target);
+        else if (m.type === 'attributes') translateAttrs(m.target);
+      });
+    }).observe(document.body, { subtree: true, childList: true, characterData: true, attributes: true, attributeFilter: I18N_ATTRS });
+
+    $$('[data-lang-toggle]').forEach(btn => btn.addEventListener('click', () => {
+      btn.classList.remove('is-flipping');
+      void btn.offsetWidth;
+      btn.classList.add('is-flipping');
+      setLang(i18n.lang === 'en' ? 'es' : 'en');
+    }));
+
+    let initial = new URLSearchParams(location.search).get('lang');
+    if (!initial) { try { initial = localStorage.getItem('veinti7_lang'); } catch (e) { /* sin almacenamiento */ } }
+    if (initial === 'en') setLang('en', { save: false });
+  }
+
   function init() {
     bindData();
     renderStatic();
@@ -735,6 +851,7 @@
     initRating();
     lazyMap();
     initMisc();
+    initI18n();
   }
 
   if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', init);

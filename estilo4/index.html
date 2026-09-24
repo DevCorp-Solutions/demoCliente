@@ -126,6 +126,14 @@
           <svg class="icon" aria-hidden="true"><use href="#i-calendar"/></svg>
           <span class="cta-long">Reservar mesa</span><span class="cta-short">Reservar</span>
         </a>
+        <!-- Cambio de idioma: muestra la bandera del idioma actual -->
+        <button class="lang-toggle" type="button" data-lang-toggle aria-label="View this website in English" title="View in English">
+          <span class="lang-toggle__flag" aria-hidden="true">
+            <svg class="flag flag--en" viewBox="0 0 60 30" preserveAspectRatio="xMidYMid slice"><clipPath id="uk-s"><path d="M0,0v30h60V0z"/></clipPath><clipPath id="uk-t"><path d="M30,15h30v15zv15H0zH0V0zV0h30z"/></clipPath><g clip-path="url(#uk-s)"><path d="M0,0v30h60V0z" fill="#012169"/><path d="M0,0 60,30M60,0 0,30" stroke="#fff" stroke-width="6"/><path d="M0,0 60,30M60,0 0,30" clip-path="url(#uk-t)" stroke="#C8102E" stroke-width="4"/><path d="M30,0v30M0,15h60" stroke="#fff" stroke-width="10"/><path d="M30,0v30M0,15h60" stroke="#C8102E" stroke-width="6"/></g></svg>
+            <svg class="flag flag--es" viewBox="0 0 30 20" preserveAspectRatio="xMidYMid slice"><rect width="30" height="20" fill="#AA151B"/><rect y="5" width="30" height="10" fill="#F1BF00"/></svg>
+          </span>
+          <span class="lang-toggle__code" data-lang-code>ES</span>
+        </button>
         <button class="menu-toggle" type="button" aria-expanded="false" aria-controls="mobile-menu" aria-label="Abrir menú">
           <span class="burger" aria-hidden="true"><span></span><span></span><span></span></span>
         </button>
@@ -546,6 +554,7 @@
   </a>
 
   <script src="./data.js" defer></script>
+  <script src="./i18n.js" defer></script>
   <script src="./app.js" defer></script>
 </body>
 </html>
