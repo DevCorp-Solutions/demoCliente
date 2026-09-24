@@ -3,8 +3,6 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<script src="../assets/vendor/react.production.min.js"></script>
-<script src="../assets/vendor/react-dom.production.min.js"></script>
 <script src="./support.js"></script>
 </head>
 <body>
@@ -41,46 +39,16 @@ html{scroll-behavior:smooth}
 
 <!-- ======== PORTADA ======== -->
 <header data-screen-label="Portada" style="position:relative;background-color:#EBF4F3;background-image:url('data:image/svg+xml,%3Csvg xmlns=%27http://www.w3.org/2000/svg%27 width=%27220%27 height=%27220%27%3E%3Cfilter id=%27n%27%3E%3CfeTurbulence type=%27fractalNoise%27 baseFrequency=%27.85%27 numOctaves=%273%27/%3E%3CfeColorMatrix values=%270 0 0 0 0.13 0 0 0 0 0.23 0 0 0 0 0.24 0 0 0 0.10 0%27/%3E%3C/filter%3E%3Crect width=%27100%25%27 height=%27100%25%27 filter=%27url(%23n)%27/%3E%3C/svg%3E'),url('data:image/svg+xml,%3Csvg xmlns=%27http://www.w3.org/2000/svg%27 width=%27900%27 height=%27900%27%3E%3Cfilter id=%27s%27%3E%3CfeTurbulence type=%27fractalNoise%27 baseFrequency=%27.006%27 numOctaves=%274%27 seed=%277%27/%3E%3CfeColorMatrix values=%270 0 0 0 0.25 0 0 0 0 0.43 0 0 0 0 0.45 0 0 0 0.16 0%27/%3E%3C/filter%3E%3Crect width=%27100%25%27 height=%27100%25%27 filter=%27url(%23s)%27/%3E%3C/svg%3E');overflow:hidden">
-  
-  <!-- CABECERA DEVCORP ADAPTADA AL ESTILO DEL LOCAL -->
-  <div style="display:flex;flex-wrap:wrap;justify-content:space-between;align-items:center;gap:12px 24px;padding:14px clamp(18px,4vw,56px);border-bottom:2px solid #213A3C;background:#EBF4F3;font-family:'Alegreya Sans SC',sans-serif;font-weight:800;font-size:14px;letter-spacing:.12em">
-    
-    <!-- Lado Izquierdo: Logo DevCorp + Separador + Marca del Local -->
-    <div style="display:flex;align-items:center;gap:14px">
-      <a href="https://devcorpsolutions.com" target="_blank" title="DevCorp Solutions" style="display:inline-flex;align-items:center;text-decoration:none">
-        <img src="../assets/images/logo.png" alt="DevCorp Solutions" style="height:36px;width:auto;object-fit:contain" />
-      </a>
-      <div style="height:26px;width:1px;background:#213A3C;opacity:0.35"></div>
-      <div style="display:flex;flex-direction:column;line-height:1.15">
-        <span style="font-family:'Grandstander',sans-serif;font-weight:900;font-size:17px;color:#213A3C;letter-spacing:-0.01em">Punto de Encuentro</span>
-        <span style="font-family:'Alegreya Sans SC',sans-serif;font-weight:800;font-size:11px;letter-spacing:0.12em;color:#3F6E72">Bar Cafetería · Aluche · Madrid</span>
-      </div>
+  <div style="display:flex;flex-wrap:wrap;justify-content:space-between;align-items:center;gap:12px 28px;padding:18px clamp(18px,4vw,56px);border-bottom:2px solid #213A3C;font-family:'Alegreya Sans SC',sans-serif;font-weight:800;font-size:14px;letter-spacing:.16em">
+    <span>Bar cafetería · Aluche · Madrid</span>
+    <div style="display:flex;flex-wrap:wrap;gap:4px 22px">
+      <a href="#desayunos" style="text-decoration:none;padding:8px 0">06:00 Desayunos</a>
+      <a href="#comer" style="text-decoration:none;padding:8px 0">13:00 A comer</a>
+      <a href="#minis" style="text-decoration:none;padding:8px 0">18:00 Minis</a>
+      <a href="#finde" style="text-decoration:none;padding:8px 0">23:00 Finde</a>
+      <a href="Carta.dc.html" style="text-decoration:none;padding:8px 0">La carta</a>
+      <a href="#llegar" style="text-decoration:none;padding:8px 0">Cómo llegar</a>
     </div>
-
-    <!-- Centro: Enlaces de Navegación del Local (Sin Reservas ni Cocina/KDS) -->
-    <nav aria-label="Navegación principal" style="display:flex;flex-wrap:wrap;gap:4px 18px;align-items:center">
-      <a href="#desayunos" style="text-decoration:none;padding:6px 0;color:#213A3C">06:00 Desayunos</a>
-      <a href="#comer" style="text-decoration:none;padding:6px 0;color:#213A3C">13:00 A comer</a>
-      <a href="#minis" style="text-decoration:none;padding:6px 0;color:#213A3C">18:00 Minis</a>
-      <a href="#finde" style="text-decoration:none;padding:6px 0;color:#213A3C">23:00 Finde</a>
-      <a href="carta.html" style="text-decoration:none;padding:6px 0;color:#3F6E72;font-weight:900;border-bottom:2px solid #3F6E72">La carta</a>
-      <a href="#llegar" style="text-decoration:none;padding:6px 0;color:#213A3C">Cómo llegar</a>
-    </nav>
-
-    <!-- Lado Derecho: Llamar + Selector de Estilos DevCorp -->
-    <div style="display:flex;align-items:center;gap:12px">
-      <a href="tel:+34912948407" style="display:inline-flex;align-items:center;gap:6px;background:#213A3C;color:#EBF4F3;padding:7px 14px;border-radius:4px;text-decoration:none;font-weight:800;font-size:13px;letter-spacing:.06em">
-        <span>📞 912 94 84 07</span>
-      </a>
-      <select id="style-select" aria-label="Seleccionar Estilo DevCorp" style="background:#213A3C;color:#9FD3C7;border:2px solid #213A3C;border-radius:4px;padding:7px 12px;font-family:'Alegreya Sans SC',sans-serif;font-weight:800;font-size:13px;letter-spacing:.06em;cursor:pointer;outline:none">
-        <option value="estilo1" style="background:#fff;color:#1c1c19">Estilo 1: Parrilla Vukata</option>
-        <option value="estilo2" selected style="background:#fff;color:#1c1c19">Estilo 2: Punto de Encuentro</option>
-        <option value="estilo3" style="background:#fff;color:#1c1c19">Estilo 3: Pizzería Carlos</option>
-        <option value="estilo4" style="background:#fff;color:#1c1c19">Estilo 4: Cafetería Campamento</option>
-      </select>
-    </div>
-
-  </div>
   </div>
 
   <div style="display:flex;flex-wrap:wrap;align-items:stretch">
@@ -340,7 +308,7 @@ html{scroll-behavior:smooth}
           <span style="font-weight:800;font-variant-numeric:tabular-nums;white-space:nowrap">{{ s.p }}</span>
         </div>
       </sc-for>
-      <a href="carta.html#raciones" style="display:inline-flex;align-items:center;min-height:44px;margin-top:10px;font-weight:800">Todas las raciones en la carta →</a>
+      <a href="Carta.dc.html#raciones" style="display:inline-flex;align-items:center;min-height:44px;margin-top:10px;font-weight:800">Todas las raciones en la carta →</a>
     </div>
   </div>
 
@@ -479,7 +447,7 @@ html{scroll-behavior:smooth}
   </div>
   <div style="display:flex;flex-wrap:wrap;gap:6px 26px;font-size:17px">
     <a href="https://www.instagram.com/barpuntodeencuentro" style="color:#9FD3C7;padding:10px 0">@barpuntodeencuentro</a>
-    <a href="carta.html" style="color:#9FD3C7;padding:10px 0">Carta completa</a>
+    <a href="Carta.dc.html" style="color:#9FD3C7;padding:10px 0">Carta completa</a>
     <a href="Sistema de Diseño.dc.html" style="color:#9FD3C7;padding:10px 0">Sistema de diseño</a>
   </div>
 </footer>
@@ -488,7 +456,7 @@ html{scroll-behavior:smooth}
   <nav aria-label="Acciones rápidas" style="position:fixed;left:0;right:0;bottom:0;z-index:50;display:grid;grid-template-columns:1fr 1fr 1fr;background:#213A3C;border-top:3px solid #9FD3C7">
     <a href="tel:+34912948407" style="min-height:62px;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:2px;color:#EBF4F3;text-decoration:none;font-weight:800;font-size:16px;border-right:1px solid #3F6E72"><span style="width:8px;height:8px;border-radius:50%;background:{{ statusColor }}"></span>Llamar</a>
     <a href="#llegar" style="min-height:62px;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:2px;color:#EBF4F3;text-decoration:none;font-weight:800;font-size:16px;border-right:1px solid #3F6E72"><svg viewBox="0 0 24 32" width="10" height="13" style="transform:rotate(-16deg)"><path d="M12 1C6 1 1.5 5.6 1.5 11.3 1.5 19 12 31 12 31s10.5-12 10.5-19.7C22.5 5.6 18 1 12 1z" fill="#9FD3C7"></path></svg>Cómo llegar</a>
-    <a href="carta.html" style="min-height:62px;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:2px;color:#213A3C;background:#9FD3C7;text-decoration:none;font-weight:800;font-size:16px"><span style="width:14px;height:2px;background:#213A3C;box-shadow:0 -4px 0 #213A3C,0 4px 0 #213A3C;margin:4px 0"></span>Carta</a>
+    <a href="Carta.dc.html" style="min-height:62px;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:2px;color:#213A3C;background:#9FD3C7;text-decoration:none;font-weight:800;font-size:16px"><span style="width:14px;height:2px;background:#213A3C;box-shadow:0 -4px 0 #213A3C,0 4px 0 #213A3C;margin:4px 0"></span>Carta</a>
   </nav>
 </sc-if>
 </div>
@@ -649,17 +617,6 @@ class Component extends DCLogic {
     };
   }
 }
-</script>
-
-<script>
-document.addEventListener('change', function(e) {
-  if (e.target && e.target.id === 'style-select') {
-    var target = e.target.value;
-    if (target && target !== 'estilo2') {
-      window.location.href = '../' + target + '/index.html';
-    }
-  }
-});
 </script>
 </body>
 </html>

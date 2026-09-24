@@ -1,0 +1,249 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Alegreya+Sans:ital,wght@0,400;0,500;0,700;0,800;1,400;1,500&family=Alegreya+Sans+SC:wght@500;700;800&family=Grandstander:wght@700;800;900&display=swap">
+<style>
+html,body{margin:0;padding:0;background:#EBF4F3;color:#213A3C}
+*{box-sizing:border-box}
+a{color:#213A3C;text-underline-offset:3px}
+a:hover{color:#3F6E72}
+a:focus-visible,button:focus-visible{outline:3px solid #E3A33B;outline-offset:2px}
+button{font:inherit;cursor:pointer}
+@media (prefers-reduced-motion: reduce){*{transition:none !important}}
+</style>
+</helmet>
+<div style="font-family:'Alegreya Sans',sans-serif;color:#213A3C;min-height:100vh;background-color:#EBF4F3;background-image:url('data:image/svg+xml,%3Csvg xmlns=%27http://www.w3.org/2000/svg%27 width=%27220%27 height=%27220%27%3E%3Cfilter id=%27n%27%3E%3CfeTurbulence type=%27fractalNoise%27 baseFrequency=%27.85%27 numOctaves=%273%27/%3E%3CfeColorMatrix values=%270 0 0 0 0.13 0 0 0 0 0.23 0 0 0 0 0.24 0 0 0 0.10 0%27/%3E%3C/filter%3E%3Crect width=%27100%25%27 height=%27100%25%27 filter=%27url(%23n)%27/%3E%3C/svg%3E'),url('data:image/svg+xml,%3Csvg xmlns=%27http://www.w3.org/2000/svg%27 width=%27900%27 height=%27900%27%3E%3Cfilter id=%27s%27%3E%3CfeTurbulence type=%27fractalNoise%27 baseFrequency=%27.006%27 numOctaves=%274%27 seed=%277%27/%3E%3CfeColorMatrix values=%270 0 0 0 0.25 0 0 0 0 0.43 0 0 0 0 0.45 0 0 0 0.14 0%27/%3E%3C/filter%3E%3Crect width=%27100%25%27 height=%27100%25%27 filter=%27url(%23s)%27/%3E%3C/svg%3E');font-size:17px;line-height:1.35">
+
+  <header data-screen-label="Carta · cabecera" style="background:#213A3C;color:#EBF4F3;padding:18px clamp(16px,4vw,48px) 22px;display:flex;flex-wrap:wrap;align-items:flex-end;justify-content:space-between;gap:12px 24px">
+    <div>
+      <a href="Punto de Encuentro.dc.html" style="display:inline-flex;align-items:center;min-height:44px;color:#9FD3C7;text-decoration:none;font-family:'Alegreya Sans SC',sans-serif;font-weight:800;letter-spacing:.14em;font-size:13px">← Punto de Encuentro</a>
+      <h1 style="margin:0;font-family:'Grandstander',sans-serif;font-weight:900;font-size:clamp(46px,7vw,84px);line-height:.9;letter-spacing:-.02em">La carta</h1>
+      <div style="font-style:italic;color:#CADDDB;font-size:18px;margin-top:4px">The menu · C/ Maqueda 138, Aluche</div>
+    </div>
+    <div style="display:flex;align-items:center;gap:10px;font-family:'Alegreya Sans SC',sans-serif;font-weight:800;letter-spacing:.12em;font-size:14px;color:{{ stColor }}"><span style="width:10px;height:10px;border-radius:50%;background:{{ stColor }}"></span>{{ stLabel }}</div>
+  </header>
+
+  <div style="position:sticky;top:0;z-index:20;background:#EBF4F3;border-bottom:2px solid #213A3C;box-shadow:0 6px 0 -4px rgba(33,58,60,.12)">
+    <nav aria-label="Categorías" style="display:flex;gap:6px;overflow-x:auto;padding:10px clamp(16px,4vw,48px);scrollbar-width:none" ref="{{ navRef }}">
+      <sc-for list="{{ cats }}" as="c" hint-placeholder-count="9">
+        <button onClick="{{ c.go }}" data-cat="{{ c.id }}" aria-current="{{ c.cur }}" style="flex:none;min-height:44px;padding:0 14px;border:2px solid #213A3C;border-radius:3px;background:{{ c.bg }};color:{{ c.fg }};font-weight:800;font-size:16px;white-space:nowrap">{{ c.es }}</button>
+      </sc-for>
+    </nav>
+    <div style="display:flex;gap:6px;overflow-x:auto;padding:0 clamp(16px,4vw,48px) 10px;align-items:center;scrollbar-width:none">
+      <span style="flex:none;font-family:'Alegreya Sans SC',sans-serif;font-weight:800;letter-spacing:.12em;font-size:13px;margin-right:4px">Filtrar</span>
+      <sc-for list="{{ filters }}" as="f" hint-placeholder-count="6">
+        <button onClick="{{ f.toggle }}" aria-pressed="{{ f.pressed }}" style="flex:none;min-height:44px;padding:0 12px;border:2px dashed {{ f.bd }};border-radius:22px;background:{{ f.bg }};color:{{ f.fg }};font-weight:700;font-size:15px;white-space:nowrap">{{ f.n }}</button>
+      </sc-for>
+    </div>
+  </div>
+
+  <main style="max-width:1180px;margin:0 auto;padding:10px clamp(16px,4vw,48px) 40px">
+    <sc-if value="{{ hasHidden }}" hint-placeholder-val="{{ false }}">
+      <p role="status" style="margin:16px 0 0;padding:10px 14px;background:#213A3C;color:#EBF4F3;font-size:16px">{{ hiddenMsg }} <button onClick="{{ clear }}" style="background:none;border:none;color:#9FD3C7;text-decoration:underline;font-weight:700;min-height:32px;padding:0 4px">Quitar filtros</button></p>
+    </sc-if>
+    <sc-for list="{{ sections }}" as="s" hint-placeholder-count="4">
+      <section id="{{ s.id }}" data-sec="{{ s.id }}" style="margin-top:34px;scroll-margin-top:130px">
+        <div style="background:#CADDDB;padding:10px 16px 8px;display:flex;flex-wrap:wrap;align-items:baseline;gap:4px 14px;border-top:3px solid #213A3C">
+          <h2 style="margin:0;font-family:'Grandstander',sans-serif;font-weight:900;font-size:clamp(26px,3.4vw,36px);line-height:1">{{ s.es }}</h2>
+          <span style="font-style:italic;font-size:18px">{{ s.en }}</span>
+          <span style="flex:1"></span>
+          <span style="font-family:'Alegreya Sans SC',sans-serif;font-weight:800;letter-spacing:.12em;font-size:13px">{{ s.note }}</span>
+        </div>
+        <div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(min(100%,420px),1fr));column-gap:44px;padding:4px 2px 0">
+          <sc-for list="{{ s.items }}" as="it" hint-placeholder-count="4">
+            <div style="padding:12px 0 11px;border-bottom:1px solid #9DB9B6">
+              <div style="display:flex;align-items:baseline;gap:8px">
+                <span style="font-weight:800;font-size:19px;line-height:1.2">{{ it.es }}</span>
+                <span style="flex:1;min-width:16px;border-bottom:2px dotted #3F6E72;transform:translateY(-4px)"></span>
+                <span style="font-family:'Grandstander',sans-serif;font-weight:800;font-size:20px;font-variant-numeric:tabular-nums;white-space:nowrap;color:{{ it.pc }}">{{ it.p }}</span>
+              </div>
+              <div style="font-style:italic;font-size:16px;color:#3A5557;margin-top:1px">{{ it.en }}</div>
+              <sc-if value="{{ it.hasDesc }}" hint-placeholder-val="{{ false }}"><div style="font-size:15px;margin-top:3px">{{ it.desc }}</div></sc-if>
+              <div style="display:flex;flex-wrap:wrap;gap:6px;margin-top:8px">
+                <sc-for list="{{ it.al }}" as="a" hint-placeholder-count="2">
+                  <span title="{{ a.n }}" aria-label="{{ a.n }}" role="img" style="width:24px;height:24px;border-radius:50% 50% 50% 0;transform:rotate(-45deg);background:#3F6E72;display:inline-flex;align-items:center;justify-content:center;margin:2px">
+                    <span style="transform:rotate(45deg);color:#FFFFFF;font-weight:800;font-size:10px;letter-spacing:.02em;line-height:1">{{ a.c }}</span>
+                  </span>
+                </sc-for>
+              </div>
+            </div>
+          </sc-for>
+        </div>
+      </section>
+    </sc-for>
+
+    <section id="alergenos" style="margin-top:50px;border-top:3px solid #213A3C;padding-top:18px">
+      <h2 style="margin:0;font-family:'Grandstander',sans-serif;font-weight:900;font-size:30px">Alérgenos</h2>
+      <div style="font-style:italic;font-size:17px;margin-bottom:14px">Allergens · Reglamento (UE) 1169/2011</div>
+      <div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(160px,1fr));gap:12px 18px">
+        <sc-for list="{{ legend }}" as="a" hint-placeholder-count="14">
+          <div style="display:flex;align-items:center;gap:12px;min-height:44px">
+            <span style="flex:none;width:32px;height:32px;border-radius:50% 50% 50% 0;transform:rotate(-45deg);background:#3F6E72;display:inline-flex;align-items:center;justify-content:center"><span style="transform:rotate(45deg);color:#FFFFFF;font-weight:800;font-size:12px">{{ a.c }}</span></span>
+            <span style="line-height:1.15"><span style="font-weight:800;display:block">{{ a.n }}</span><span style="font-style:italic;font-size:15px">{{ a.en }}</span></span>
+          </div>
+        </sc-for>
+      </div>
+      <p style="margin:20px 0 0;font-size:15px;max-width:640px">Información orientativa: en nuestra cocina se trabaja con todos los alérgenos. Si tienes una alergia, dínoslo en barra antes de pedir. <span style="font-style:italic">Please tell us about any allergy before ordering.</span></p>
+      <p style="margin:10px 0 0;font-size:14px;color:#7A4610">Precios con * pendientes de confirmar con la carta física del local.</p>
+    </section>
+  </main>
+
+  <footer style="background:#183234;color:#EBF4F3;padding:26px clamp(16px,4vw,48px) 96px;display:flex;flex-wrap:wrap;gap:10px 30px;justify-content:space-between;font-size:16px">
+    <span>Terraza: +0,10 € en cervezas · IVA incluido</span>
+    <a href="tel:+34912948407" style="color:#9FD3C7;font-weight:800">912 94 84 07</a>
+  </footer>
+
+  <sc-if value="{{ narrow }}" hint-placeholder-val="{{ true }}">
+    <nav aria-label="Acciones rápidas" style="position:fixed;left:0;right:0;bottom:0;z-index:50;display:grid;grid-template-columns:1fr 1fr 1fr;background:#213A3C;border-top:3px solid #9FD3C7">
+      <a href="tel:+34912948407" style="min-height:62px;display:flex;align-items:center;justify-content:center;color:#EBF4F3;text-decoration:none;font-weight:800;font-size:16px;border-right:1px solid #3F6E72">Llamar</a>
+      <a href="Punto de Encuentro.dc.html#llegar" style="min-height:62px;display:flex;align-items:center;justify-content:center;color:#EBF4F3;text-decoration:none;font-weight:800;font-size:16px;border-right:1px solid #3F6E72">Cómo llegar</a>
+      <a href="#top" onClick="{{ toTop }}" style="min-height:62px;display:flex;align-items:center;justify-content:center;color:#213A3C;background:#9FD3C7;text-decoration:none;font-weight:800;font-size:16px">Carta ↑</a>
+    </nav>
+  </sc-if>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script>
+class Component extends DCLogic {
+  state = { f: [], cur: 'desayunos', narrow: true, now: null };
+  navRef = React.createRef();
+  AL = {
+    GL: ['Gluten', 'Gluten'], CR: ['Crustáceos', 'Crustaceans'], HU: ['Huevo', 'Eggs'], PE: ['Pescado', 'Fish'],
+    CA: ['Cacahuetes', 'Peanuts'], SO: ['Soja', 'Soy'], LA: ['Lácteos', 'Milk'], FC: ['Frutos de cáscara', 'Tree nuts'],
+    AP: ['Apio', 'Celery'], MO: ['Mostaza', 'Mustard'], SE: ['Sésamo', 'Sesame'], SU: ['Sulfitos', 'Sulphites'],
+    AT: ['Altramuces', 'Lupin'], ML: ['Moluscos', 'Molluscs']
+  };
+  FI = [['Sin gluten', ['GL']], ['Sin lactosa', ['LA']], ['Sin huevo', ['HU']], ['Sin marisco', ['CR', 'ML']], ['Sin pescado', ['PE']], ['Sin frutos secos', ['FC', 'CA']]];
+  C = [
+    ['desayunos', 'Desayunos', 'Breakfast', 'L–S hasta 12:30', [
+      ['Café + zumo + bollería o tostada', 'Coffee, orange juice + pastry or toast', '3,20', 'GL LA HU', 'Churros, porras, croissant, napolitana, bizcocho casero, tostada, tortitas o barrita.'],
+      ['Café + zumo + montado', 'Coffee, orange juice + mini sandwich', '4,50', 'GL HU', 'Jamón, bacon, lomo, tortilla, vegetal, atún con pimientos, panceta, pollo…'],
+      ['Barrita tomate y jamón', 'Toast with tomato and ham', '+1,30', 'GL'],
+      ['Pincho de tortilla', 'Spanish omelette slice', '+0,80', 'HU'],
+      ['Sándwich mixto', 'Ham and cheese toastie', '+1,30', 'GL LA'],
+      ['Croissant jamón y queso', 'Ham and cheese croissant', '+1,30', 'GL LA HU'],
+      ['Colacao o infusión', 'Cocoa milk or herbal tea', '+0,30', 'LA']]],
+    ['menus', 'Menús', 'Set meals', 'con patatas y bebida', [
+      ['Menú sándwich mixto', 'Ham and cheese toastie meal', '6,00', 'GL LA'],
+      ['Menú panini', 'Panini meal', '7,00', 'GL LA'],
+      ['Menú sándwich cubano', 'Cuban sandwich meal', '7,00', 'GL LA MO'],
+      ['Menú hamburguesa completa', 'Full burger meal', '7,50', 'GL LA HU SE'],
+      ['Menú 2 pizzas a elegir', 'Two pizzas of your choice', '13,50', 'GL LA']]],
+    ['combinados', 'Platos combinados', 'Combo plates', 'Nº1 – Nº7', [
+      ['Nº1 · Bacon con huevos y patatas', 'Bacon, fried eggs and chips', '8,50', 'HU'],
+      ['Nº2 · Lomo con huevos y patatas', 'Pork loin, eggs and chips', '9,00*', 'HU'],
+      ['Nº3 · Bistec de ternera', 'Beef steak with chips', '11,00*', ''],
+      ['Nº4 · Filete de pollo', 'Chicken fillet with chips', '9,50*', ''],
+      ['Nº5 · Merluza a la romana con tortilla', 'Battered hake with omelette', '11,50*', 'GL HU PE'],
+      ['Nº6 · Entrecot con patatas y pimientos', 'Entrecôte, chips and peppers', '16,50', ''],
+      ['Nº7 · Emperador', 'Swordfish steak', '13,50*', 'PE']]],
+    ['bocadillos', 'Bocadillos', 'Sandwiches', 'bocata / montado', [
+      ['Jamón serrano', 'Serrano ham', '4,50* / 2,20*', 'GL'],
+      ['Bacon', 'Bacon', '4,00* / 2,00*', 'GL'],
+      ['Lomo', 'Pork loin', '4,00* / 2,00*', 'GL'],
+      ['Tortilla española', 'Spanish omelette', '4,00* / 2,00*', 'GL HU'],
+      ['Vegetal', 'Salad sandwich', '4,50* / 2,20*', 'GL HU'],
+      ['Pepito de ternera', 'Beef steak sandwich', '5,50* / 2,80*', 'GL'],
+      ['Calamares', 'Fried squid', '5,00* / 2,50*', 'GL ML HU'],
+      ['Oreja', 'Pig ear', '5,00* / 2,50*', 'GL']]],
+    ['hamburguesas', 'Hamburguesas', 'Burgers', '', [
+      ['Sencilla', 'Plain burger', '5,00', 'GL SE'],
+      ['Smash en pan brioche', 'Smash burger, brioche bun', '8,00', 'GL LA HU SE MO'],
+      ['Smash doble', 'Double smash burger', '11,00', 'GL LA HU SE MO'],
+      ['De buey con queso de cabra y cebolla caramelizada', 'Ox burger, goat cheese, caramelised onion', '13,00', 'GL LA HU SE SU']]],
+    ['raciones', 'Raciones', 'Sharing plates', '', [
+      ['Oreja a la plancha', 'Grilled pig ear', '7,50*', ''],
+      ['Patatas bravas', 'Spicy potatoes', '5,50*', 'HU'],
+      ['Patatas alioli', 'Garlic mayo potatoes', '5,50*', 'HU'],
+      ['Croquetas de jamón', 'Ham croquettes', '8,00*', 'GL LA HU'],
+      ['Alitas de pollo', 'Chicken wings', '7,50*', ''],
+      ['Calamares a la romana', 'Battered squid', '9,50*', 'GL ML HU'],
+      ['Sepia a la plancha', 'Grilled cuttlefish', '11,00*', 'ML'],
+      ['Gambones', 'King prawns', '12,00*', 'CR'],
+      ['Nachos con pulled pork o pollo mechado', 'Nachos with pulled pork or shredded chicken', '9,50*', 'LA'],
+      ['Sartén campera', 'Country-style skillet', '9,50', 'HU'],
+      ['Sartén de embutidos', 'Cured sausage skillet', '9,50', 'HU SU'],
+      ['Supercombo', 'The big combo', '20,00', 'GL LA HU'],
+      ['Tequeños', 'Cheese sticks', '7,00*', 'GL LA'],
+      ['Costilla a la barbacoa', 'BBQ ribs', '12,00*', 'MO SU']]],
+    ['especiales', 'La carta que no esperas', 'Specials', '', [
+      ['Gyoza casera', 'Homemade gyoza', '7,50*', 'GL SO SE'],
+      ['Arroz tres delicias', 'Three-delights fried rice', '6,50*', 'HU SO'],
+      ['Tallarines o fideos tres delicias', 'Three-delights noodles', '7,00*', 'GL HU SO'],
+      ['Rollitos de primavera', 'Spring rolls', '5,50*', 'GL SO'],
+      ['Wantón frito', 'Fried wonton', '6,00*', 'GL HU SO'],
+      ['Costilla agridulce', 'Sweet and sour ribs', '9,00*', 'GL SO'],
+      ['Ternera en salsa de ostra', 'Beef in oyster sauce', '10,00*', 'GL SO ML'],
+      ['Pollo con almendras', 'Chicken with almonds', '9,00*', 'FC SO GL'],
+      ['Pollo al limón', 'Lemon chicken', '9,00*', 'GL HU'],
+      ['Pato a la naranja', 'Duck à l’orange', '12,50*', 'SU'],
+      ['Ciervo y jabalí en salsa de coñac', 'Venison and wild boar, brandy sauce', '13,00*', 'SU LA'],
+      ['Torreznos', 'Crispy pork belly', '7,00*', ''],
+      ['Costilla de ternera', 'Beef short rib', '14,00*', 'SU']]],
+    ['minis', 'Minis', 'Litre jugs', 'solo interior', [
+      ['3 minis + aperitivo', '3 jugs + snack (not 3 beers)', '13,50', 'GL SU'],
+      ['3 minis de cerveza + bravas o alioli', '3 beer jugs + potatoes', '19,00', 'GL HU'],
+      ['Mini cerveza + mini calimocho + bravas, oreja o alitas', 'Beer + calimocho jug + a plate', '15,50', 'GL SU'],
+      ['3 minis de calimocho + pizza', '3 calimocho jugs + pizza', '15,50', 'GL LA SU'],
+      ['Mini tinto de verano, cerveza o calimocho', 'Summer red, beer or calimocho jug', '7,50', 'SU GL'],
+      ['Mini sidra o sangría', 'Cider or sangria jug', '8,50', 'SU']]],
+    ['parrillada', 'Parrillada', 'Mixed grill', 'para 2', [
+      ['Parrillada de carne + 2 bebidas', 'Meat grill for two + 2 drinks', '32,00', 'SU', 'Pechuga, filete de ternera, chuleta de cerdo, costilla, longaniza y morcilla, todo ×2.']]],
+    ['bebidas', 'Cervezas', 'Beers', 'terraza +0,10 €', [
+      ['Caña o botellín', 'Draught or small bottle', '1,90', 'GL'],
+      ['El Águila Especial · El Águila sin filtrar', 'Bottled beer', '3,20', 'GL'],
+      ['Amstel Radler · Amstel Oro · Amstel Oro 0,0', 'Bottled beer', '3,20', 'GL'],
+      ['Victoria · Mahou', 'Bottled beer', '3,20', 'GL']]]
+  ];
+  componentDidMount() {
+    this.onR = () => this.setState({ narrow: window.innerWidth < 760 }); this.onR();
+    window.addEventListener('resize', this.onR);
+    this.onS = () => {
+      const els = document.querySelectorAll('[data-sec]'); let cur = this.state.cur;
+      els.forEach(e => { if (e.getBoundingClientRect().top < 170) cur = e.getAttribute('data-sec'); });
+      if (cur !== this.state.cur) {
+        this.setState({ cur });
+        const n = this.navRef.current, b = n && n.querySelector('[data-cat="' + cur + '"]');
+        if (b) n.scrollTo({ left: b.offsetLeft - 20, behavior: 'smooth' });
+      }
+    };
+    window.addEventListener('scroll', this.onS, { passive: true });
+    const p = new Intl.DateTimeFormat('en-GB', { timeZone: 'Europe/Madrid', weekday: 'short', hour: '2-digit', minute: '2-digit', hourCycle: 'h23' }).formatToParts(new Date());
+    const g = t => (p.find(x => x.type === t) || {}).value;
+    this.setState({ now: { d: ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'].indexOf(g('weekday')), m: +g('hour') * 60 + +g('minute') } });
+  }
+  componentWillUnmount() { window.removeEventListener('resize', this.onR); window.removeEventListener('scroll', this.onS); }
+  go(id) { const e = document.getElementById(id); if (e) window.scrollTo({ top: e.getBoundingClientRect().top + window.scrollY - 124, behavior: 'smooth' }); }
+  renderVals() {
+    const H = { 0: [7, 24], 1: [6, 24], 2: null, 3: [6, 24], 4: [6, 24], 5: [7, 26], 6: [7, 26] };
+    const n = this.state.now; let open = false;
+    if (n) { const t = H[n.d], y = H[(n.d + 6) % 7]; open = !!(t && n.m >= t[0] * 60 && n.m < t[1] * 60) || !!(y && y[1] > 24 && n.m < (y[1] - 24) * 60); }
+    const banned = new Set(); this.state.f.forEach(i => this.FI[i][1].forEach(c => banned.add(c)));
+    let hidden = 0;
+    const sections = this.C.map(([id, es, en, note, items]) => {
+      const list = items.map(it => ({ es: it[0], en: it[1], p: it[2] + ' €', pc: it[2].indexOf('*') >= 0 ? '#7A4610' : '#213A3C', codes: it[3] ? it[3].split(' ') : [], desc: it[4] || '', hasDesc: !!it[4] }))
+        .filter(it => { const ok = !it.codes.some(c => banned.has(c)); if (!ok) hidden++; return ok; })
+        .map(it => Object.assign(it, { al: it.codes.map(c => ({ c, n: this.AL[c][0] })) }));
+      return { id, es, en, note, items: list };
+    }).filter(s => s.items.length);
+    return {
+      navRef: this.navRef, narrow: this.state.narrow,
+      stLabel: n ? (open ? 'Abierto ahora' : 'Cerrado ahora') : '', stColor: open ? '#9FD3C7' : '#E3A33B',
+      cats: this.C.map(([id, es]) => ({ id, es, cur: this.state.cur === id ? 'true' : 'false', bg: this.state.cur === id ? '#213A3C' : '#EBF4F3', fg: this.state.cur === id ? '#EBF4F3' : '#213A3C', go: () => this.go(id) })),
+      filters: this.FI.map(([nm], i) => { const on = this.state.f.includes(i); return { n: nm, pressed: on ? 'true' : 'false', bg: on ? '#3F6E72' : 'transparent', fg: on ? '#FFFFFF' : '#213A3C', bd: on ? '#3F6E72' : '#213A3C', toggle: () => this.setState(s => ({ f: on ? s.f.filter(x => x !== i) : s.f.concat(i) })) }; }),
+      hasHidden: hidden > 0, hiddenMsg: hidden + (hidden === 1 ? ' plato oculto' : ' platos ocultos') + ' por tus filtros.', clear: () => this.setState({ f: [] }),
+      sections, legend: Object.keys(this.AL).map(c => ({ c, n: this.AL[c][0], en: this.AL[c][1] })),
+      toTop: e => { e.preventDefault(); window.scrollTo({ top: 0, behavior: 'smooth' }); }
+    };
+  }
+}
+</script>
+</body>
+</html>
