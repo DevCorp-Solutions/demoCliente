@@ -412,7 +412,7 @@ html{scroll-behavior:smooth}
           <button onClick="{{ f.onClick }}" style="display:flex;flex-direction:column;align-items:flex-start;text-align:left;padding:14px 16px;border:2px solid {{ f.bd }};background:{{ f.bg }};color:{{ f.fg }};border-radius:4px;cursor:pointer;transition:all .2s ease">
             <div style="display:flex;justify-content:space-between;align-items:baseline;width:100%;margin-bottom:4px">
               <span style="font-weight:800;font-size:18px">{{ f.n }}</span>
-              <span style="font-family:'Grandstander',sans-serif;font-weight:900;font-size:20px;color:{{ f.isSel ? '#183234' : '#E3A33B' }}">{{ f.p }}</span>
+              <span style="font-family:'Grandstander',sans-serif;font-weight:900;font-size:20px;color:{{ f.priceColor }}">{{ f.p }}</span>
             </div>
             <div style="font-family:'Alegreya Sans SC',sans-serif;font-weight:800;font-size:12px;letter-spacing:.1em;opacity:.8;margin-bottom:6px">{{ f.vol }}</div>
             <div style="font-size:13px;line-height:1.25;opacity:.9">{{ f.desc }}</div>
@@ -431,10 +431,10 @@ html{scroll-behavior:smooth}
       </div>
     </div>
 
-    <!-- Carrusel de Botellas Seleccionables -->
-    <div style="display:flex;align-items:flex-end;gap:clamp(12px,1.8vw,24px);overflow-x:auto;padding:16px 8px 18px;margin:0 -8px;scrollbar-width:thin">
+    <!-- Carrusel de Botellas Seleccionables (con espacio arriba y abajo en la selección) -->
+    <div style="display:flex;align-items:flex-end;gap:clamp(12px,1.8vw,24px);overflow-x:auto;padding:20px 8px 22px;margin:0 -8px;scrollbar-width:thin">
       <sc-for list="{{ botellas }}" as="b" hint-placeholder-count="16">
-        <button onClick="{{ b.onClick }}" style="flex:none;display:flex;flex-direction:column;align-items:center;width:clamp(82px,8vw,104px);background:none;border:none;padding:0;cursor:pointer;transform:{{ b.lift }};box-shadow:{{ b.glow }};border-radius:8px;transition:transform .25s cubic-bezier(.2,1.2,.4,1)">
+        <button onClick="{{ b.onClick }}" style="flex:none;display:flex;flex-direction:column;align-items:center;width:clamp(88px,8.5vw,112px);background:{{ b.cardBg }};border:2px solid {{ b.cardBd }};border-radius:12px;box-shadow:{{ b.glow }};padding:16px 6px 14px;box-sizing:border-box;cursor:pointer;outline:none;transform:{{ b.lift }};transition:all .25s cubic-bezier(.2,1.2,.4,1)">
           <!-- Chapa de la botella -->
           <span style="display:block;width:18px;height:10px;background:{{ b.cap }};border-radius:3px 3px 0 0;box-shadow:0 1px 0 rgba(0,0,0,0.4)"></span>
           <!-- Cuello de la botella -->
@@ -450,9 +450,10 @@ html{scroll-behavior:smooth}
               <span style="position:absolute;top:6px;width:10px;height:10px;border-radius:50%;background:#E3A33B;box-shadow:0 0 8px #E3A33B"></span>
             </sc-if>
           </span>
-          <!-- Nombre y Precio -->
-          <span style="margin-top:10px;font-size:14px;font-weight:800;text-align:center;line-height:1.2;min-height:2.4em;color:{{ b.isSel ? '#E3A33B' : '#EBF4F3' }}">{{ b.n }}</span>
-          <span style="margin-top:4px;font-family:'Grandstander',sans-serif;font-weight:900;font-size:16px;background:{{ b.tagBg }};color:{{ b.tagFg }};padding:2px 8px;border-radius:3px">{{ b.price }}</span>
+          <!-- Nombre de la botella: legible y adaptado al tema -->
+          <span style="margin-top:12px;font-size:14px;font-weight:800;text-align:center;line-height:1.2;min-height:2.4em;color:{{ b.nameColor }}">{{ b.n }}</span>
+          <!-- Precio: con holgura inferior para no tocar el borde -->
+          <span style="margin-top:6px;font-family:'Grandstander',sans-serif;font-weight:900;font-size:16px;background:{{ b.tagBg }};color:{{ b.tagFg }};padding:3px 10px;border-radius:4px">{{ b.price }}</span>
         </button>
       </sc-for>
     </div>
@@ -460,21 +461,29 @@ html{scroll-behavior:smooth}
     <!-- FICHA INTERACTIVA DE CATA DE BARRA (Pizarra Cervecera) -->
     <div style="margin-top:28px;background:#213A3C;border:3px solid #9FD3C7;padding:clamp(20px,3.5vw,36px);border-radius:6px;display:flex;flex-wrap:wrap;gap:clamp(20px,3.5vw,40px);align-items:center;position:relative;box-shadow:0 12px 30px -10px rgba(0,0,0,.5)">
       
-      <!-- Lado Izquierdo: Copa/Vaso animado con llenado del color de la cerveza -->
-      <div style="flex:0 0 auto;display:flex;flex-direction:column;align-items:center;gap:12px">
-        <div style="position:relative;width:96px;height:170px;border:4px solid #9FD3C7;border-top-width:2px;border-radius:6px 6px 20px 20px;overflow:hidden;background:rgba(24,50,52,0.4)">
-          <!-- Líquido animado -->
-          <div style="position:absolute;left:0;right:0;bottom:0;height:{{ pouringBeer ? '20%' : '82%' }};background:{{ activeBeerColor }};transition:all .5s cubic-bezier(.2,1.2,.4,1)">
-            <!-- Burbujitas de efervescencia animadas -->
-            <div style="position:absolute;inset:0;background-image:radial-gradient(circle,rgba(255,255,255,0.4) 1.5px,transparent 1.5px);background-size:14px 18px;animation:beerBubbles 2s linear infinite;opacity:.65"></div>
-          </div>
-          <!-- Corona de espuma cremosa -->
-          <div style="position:absolute;left:0;right:0;bottom:{{ pouringBeer ? '20%' : '82%' }};height:{{ pouringBeer ? '5%' : '16%' }};background:#FFFBEB;border-bottom:2px solid rgba(227,163,59,0.3);transition:all .5s cubic-bezier(.2,1.2,.4,1)"></div>
-          <!-- Reflejo del cristal -->
-          <div style="position:absolute;left:15%;top:8%;bottom:8%;width:6px;background:rgba(255,255,255,0.22);border-radius:3px"></div>
-          <div style="position:absolute;left:30%;top:12%;bottom:12%;width:3px;background:rgba(255,255,255,0.12);border-radius:2px"></div>
-        </div>
-        <div style="font-family:'Alegreya Sans SC',sans-serif;font-weight:900;font-size:11px;letter-spacing:.12em;color:#9FD3C7;background:rgba(159,211,199,0.12);padding:3px 8px;border-radius:3px">Copa de cata</div>
+      <!-- Lado Izquierdo: Jarra animada que se llena igual que en la sección de minis -->
+      <div style="flex:0 0 auto;display:flex;flex-direction:column;align-items:center;gap:10px">
+        <button onClick="{{ refillBeer }}" title="Toca para volver a tirar la jarra" aria-label="Volver a tirar la jarra" style="background:none;border:none;padding:0;cursor:pointer;outline:none;position:relative;display:flex;align-items:center">
+          
+          <!-- Asa de la Jarra de cristal (a la izquierda) -->
+          <span style="display:block;width:18px;height:72px;border:4px solid #9FD3C7;border-right:none;border-radius:12px 0 0 12px;margin-right:-4px;opacity:0.9"></span>
+          
+          <!-- Cuerpo de la Jarra idéntico a la sección de minis -->
+          <span style="position:relative;display:block;width:92px;height:152px;border:4px solid #9FD3C7;border-top-width:3px;border-radius:4px 4px 14px 14px;overflow:hidden;background:rgba(235,244,243,.06);box-shadow:inset 0 0 16px rgba(0,0,0,0.3)">
+            <!-- Líquido animado con color de la cerveza seleccionada -->
+            <span style="position:absolute;left:0;right:0;bottom:0;height:{{ beerH }};background:{{ activeBeerColor }};transition:{{ beerTr }}">
+              <!-- Burbujitas de efervescencia continuas -->
+              <span style="position:absolute;inset:0;background-image:radial-gradient(circle,rgba(255,255,255,0.45) 1.5px,transparent 1.5px);background-size:12px 16px;animation:beerBubbles 2s linear infinite;opacity:.7"></span>
+            </span>
+            <!-- Corona de espuma blanca flotante sobre el líquido -->
+            <span style="position:absolute;left:0;right:0;bottom:{{ beerH }};height:{{ beerFoam }};background:#FFFBEB;transition:{{ beerTr }};box-shadow:0 1px 3px rgba(0,0,0,0.2)"></span>
+            <!-- Reflejos verticales de cristal idénticos a los minis -->
+            <span style="position:absolute;left:18%;top:10%;bottom:10%;width:6px;border-radius:3px;background:rgba(255,255,255,.28);pointer-events:none"></span>
+            <span style="position:absolute;left:52%;top:10%;bottom:10%;width:4px;border-radius:3px;background:rgba(255,255,255,.14);pointer-events:none"></span>
+          </span>
+
+        </button>
+        <div style="font-family:'Alegreya Sans SC',sans-serif;font-weight:900;font-size:11px;letter-spacing:.12em;color:#9FD3C7;background:rgba(159,211,199,0.12);padding:3px 8px;border-radius:3px">Jarra recién tirada</div>
       </div>
 
       <!-- Centro / Derecha: Datos oficiales, notas de cata y maridaje -->
@@ -602,7 +611,7 @@ html{scroll-behavior:smooth}
 class Component extends DCLogic {
   state = {
     now: null, narrow: false, pos: 0, sec: -1, slots: ['cer', 'cal', 'tin'], racion: 'ape', stamp: false, logoFail: false,
-    selectedBeer: 'aguila-sin-filtrar', beerFilter: 'todas', selectedFormat: 'cana', pouringBeer: false
+    selectedBeer: 'aguila-sin-filtrar', beerFilter: 'todas', selectedFormat: 'cana', beerFillH: '80%', beerFoamH: '14%'
   };
   r0 = React.createRef(); r1 = React.createRef(); r2 = React.createRef(); r3 = React.createRef();
   ptr = 0;
@@ -692,10 +701,26 @@ class Component extends DCLogic {
     s[i] = id; this.setState({ slots: s }); this.stampNow();
   }
   setBeer(id) {
-    if (this.state.selectedBeer === id) return;
-    this.setState({ selectedBeer: id, pouringBeer: true });
+    if (this.state.selectedBeer === id) {
+      this.setState({ beerFillH: '0%', beerFoamH: '0%' });
+      clearTimeout(this.beerTimer);
+      this.beerTimer = setTimeout(() => {
+        this.setState({ beerFillH: '80%', beerFoamH: '14%' });
+      }, 50);
+      return;
+    }
+    this.setState({ selectedBeer: id, beerFillH: '0%', beerFoamH: '0%' });
     clearTimeout(this.beerTimer);
-    this.beerTimer = setTimeout(() => this.setState({ pouringBeer: false }), 350);
+    this.beerTimer = setTimeout(() => {
+      this.setState({ beerFillH: '80%', beerFoamH: '14%' });
+    }, 60);
+  }
+  refillBeer() {
+    this.setState({ beerFillH: '0%', beerFoamH: '0%' });
+    clearTimeout(this.beerTimer);
+    this.beerTimer = setTimeout(() => {
+      this.setState({ beerFillH: '80%', beerFoamH: '14%' });
+    }, 60);
   }
   setBeerFilter(f) {
     this.setState({ beerFilter: f });
@@ -883,9 +908,12 @@ class Component extends DCLogic {
         id: b.id, n: b.name, short: b.short, price: b.price, vol: b.vol,
         fill: b.fill, label: b.label, ink: b.ink, cap: b.cap, isSel,
         bd: isSel ? '#E3A33B' : '#9FD3C7',
-        lift: isSel ? 'translateY(-12px)' : 'translateY(0)',
-        glow: isSel ? '0 10px 24px rgba(227,163,59,0.45)' : 'none',
-        tagBg: isSel ? '#E3A33B' : 'rgba(235,244,243,0.1)',
+        cardBg: isSel ? 'rgba(235,244,243,0.06)' : 'transparent',
+        cardBd: isSel ? '#E3A33B' : 'transparent',
+        lift: isSel ? 'translateY(-10px)' : 'translateY(0)',
+        glow: isSel ? '0 8px 24px rgba(227,163,59,0.4)' : 'none',
+        nameColor: isSel ? '#E3A33B' : '#EBF4F3',
+        tagBg: isSel ? '#E3A33B' : 'rgba(235,244,243,0.12)',
         tagFg: isSel ? '#183234' : '#CADDDB',
         onClick: () => this.setBeer(b.id)
       };
@@ -907,9 +935,14 @@ class Component extends DCLogic {
         bg: isSel ? '#9FD3C7' : 'rgba(235,244,243,0.06)',
         fg: isSel ? '#183234' : '#EBF4F3',
         bd: isSel ? '#9FD3C7' : '#3F6E72',
+        priceColor: isSel ? '#183234' : '#E3A33B',
         onClick: () => this.setFormat(f.id)
       };
     });
+
+    const beerTr = this.rm ? 'none' : 'height .85s cubic-bezier(.3,.8,.3,1), bottom .85s cubic-bezier(.3,.8,.3,1), background-color .4s ease';
+    const beerH = this.state.beerFillH || '80%';
+    const beerFoam = this.state.beerFoamH || '14%';
 
     return {
       r0: this.r0, r1: this.r1, r2: this.r2, r3: this.r3, narrow, showRail: !narrow,
@@ -936,7 +969,7 @@ class Component extends DCLogic {
       especiales: esp.map((n, i) => ({ n, s: sz[i % 3], w: i % 3 === 0 ? 900 : 700, c: i % 3 === 1 ? '#3F6E72' : '#213A3C' })),
       parrilla: ['Pechuga', 'Filete de ternera', 'Chuleta de cerdo', 'Costilla', 'Longaniza', 'Morcilla'],
       formatList, beerCats, botellas,
-      pouringBeer: this.state.pouringBeer,
+      beerH, beerFoam, beerTr, refillBeer: () => this.refillBeer(),
       activeBeerName: activeB.name,
       activeBeerPrice: activeB.price,
       activeBeerVol: activeB.vol,
