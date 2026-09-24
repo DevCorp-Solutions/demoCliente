@@ -491,6 +491,87 @@ body.menu-open .site-header .icon-btn, body.menu-open .site-header .menu-toggle 
 .dish__price { font: 800 1.1rem var(--f-display); color: #fff; background: var(--ink); padding: .45rem .85rem; border-radius: var(--pill); font-variant-numeric: tabular-nums; white-space: nowrap; transition: background-color .3s; }
 .dish:hover .dish__price { background: var(--red); }
 
+/* ---------- 11b. 'TE LA SERVIMOS': jarra animada ---------- */
+.menu-aside { display: grid; gap: 1rem; align-content: start; }
+.beer { position: relative; }
+.beer__pour { position: absolute; inset: 0; z-index: 1; width: 100%; border: 0; background: none; cursor: pointer; border-radius: 10px; }
+.beer__pour:focus-visible { outline-offset: -3px; }
+.beer.is-poured { background: linear-gradient(90deg, var(--red-soft), transparent 85%); box-shadow: inset 3px 0 0 var(--red); }
+.beer.is-poured .beer__name::after { content: "Servida"; padding: .15rem .55rem; border-radius: var(--pill); background: var(--red); color: #fff; font: 700 .64rem/1.4 var(--f-display); letter-spacing: .06em; text-transform: uppercase; }
+
+.pour {
+  --beer: #f0a938; --beer-light: #ffd98a;
+  position: relative; overflow: hidden; isolation: isolate;
+  display: grid; justify-items: center; text-align: center; gap: .4rem;
+  padding: 1.2rem 1.2rem 1.4rem; border-radius: var(--r-lg);
+  background: radial-gradient(90% 70% at 50% 35%, color-mix(in srgb, var(--beer) 32%, transparent), transparent 70%), var(--ink);
+  color: #fff; border: 1px solid rgba(255, 255, 255, .06);
+  transition: background .6s var(--ease);
+}
+.pour__stage { width: 170px; }
+.pour__svg { display: block; width: 100%; height: auto; overflow: visible; }
+.pour__glass, .pour__handle { stroke: rgba(255, 255, 255, .55); }
+.pour__dimples { stroke: rgba(255, 255, 255, .12); }
+.pour__liquid { transform: translateY(170px); }
+.pour__foam { opacity: 0; transform-box: fill-box; transform-origin: 50% 100%; transform: scaleY(0); }
+.pour__emblem { opacity: 0; transform-box: fill-box; transform-origin: center; }
+.pour__stream { opacity: 0; transform-box: fill-box; transform-origin: 50% 0; }
+.pour__bubble { fill: rgba(255, 255, 255, .55); opacity: 0; }
+.pour__brand { font: 800 16px var(--f-display); fill: var(--red); letter-spacing: -.01em; }
+.pour__abv { font: 700 9px var(--f-display); fill: #4b4845; letter-spacing: .08em; }
+.pour.has-logo .pour__brand-text { display: none; }
+.pour:not(.has-logo) .pour__logo { display: none; }
+
+/* Estado vacío: jarra en espera con invitación */
+.pour[data-state="empty"] .pour__svg { opacity: .55; }
+.pour[data-state="empty"] .pour__stage { animation: mugIdle 3.2s ease-in-out infinite; }
+@keyframes mugIdle { 0%, 100% { transform: rotate(0); } 50% { transform: rotate(-3deg) translateY(-3px); } }
+
+/* Estado servido */
+.pour[data-state="poured"] .pour__liquid { transform: none; }
+.pour[data-state="poured"] .pour__foam { opacity: 1; transform: none; }
+.pour[data-state="poured"] .pour__emblem { opacity: 1; }
+.pour[data-state="poured"] .pour__bubble { animation: bubble 2.4s ease-in infinite; animation-delay: calc(var(--b) * .35s + 1.4s); }
+
+/* Secuencia de servir (se relanza en cada clic) */
+.pour.is-pouring .pour__stage { animation: mugIn .7s var(--ease) both; }
+.pour.is-pouring .pour__stream { animation: stream 1.25s var(--ease-io) both; }
+.pour.is-pouring .pour__liquid { animation: fillUp 1.3s var(--ease) .15s both; }
+.pour.is-pouring .pour__foam { animation: foamUp .7s var(--ease) 1.05s both; }
+.pour.is-pouring .pour__emblem { animation: stamp .6s var(--ease) 1.35s both; }
+.pour.is-pouring .pour__info > * { animation: infoIn .5s var(--ease) both; animation-delay: calc(var(--k, 0) * 70ms + .5s); }
+.pour__info > :nth-child(2) { --k: 1; } .pour__info > :nth-child(3) { --k: 2; } .pour__info > :nth-child(4) { --k: 3; }
+@keyframes mugIn { from { transform: translateY(24px) rotate(-6deg) scale(.92); opacity: 0; } to { transform: none; opacity: 1; } }
+@keyframes stream { 0% { opacity: 0; transform: scaleY(0); } 15% { opacity: 1; transform: scaleY(1); } 80% { opacity: 1; transform: scaleY(1) translateY(0); } 100% { opacity: 0; transform: scaleY(.2) translateY(60px); } }
+@keyframes fillUp { from { transform: translateY(170px); } to { transform: none; } }
+@keyframes foamUp { 0% { opacity: 0; transform: scaleY(0); } 70% { opacity: 1; transform: scaleY(1.15); } 100% { opacity: 1; transform: none; } }
+@keyframes stamp { 0% { opacity: 0; transform: scale(1.6) rotate(-14deg); } 70% { opacity: 1; transform: scale(.94) rotate(2deg); } 100% { opacity: 1; transform: none; } }
+@keyframes bubble { 0% { opacity: 0; transform: translateY(0); } 20% { opacity: 1; } 100% { opacity: 0; transform: translateY(-140px); } }
+@keyframes infoIn { from { opacity: 0; transform: translateY(8px); } to { opacity: 1; transform: none; } }
+
+.pour__info { display: grid; justify-items: center; gap: .15rem; }
+.pour__kicker { margin: 0; font: 700 .7rem var(--f-display); letter-spacing: .18em; text-transform: uppercase; color: var(--amber); }
+.pour__name { margin: 0; font: 800 1.15rem/1.25 var(--f-display); color: #fff; }
+.pour[data-state="empty"] .pour__name { font: 500 .92rem/1.45 var(--f-body); color: var(--on-dark-muted); max-width: 22ch; }
+.pour__meta { margin: 0; font-size: .85rem; color: var(--on-dark-muted); }
+.pour__cta { color: #fff; font-size: .88rem; }
+.pour__cta:hover { color: var(--amber); }
+.pour[data-state="empty"] .pour__cta, .pour[data-state="empty"] .pour__meta:empty { display: none; }
+.pour__close { display: none; }
+
+/* Raciones: foto del plato seleccionado en la tarjeta lateral */
+.menu-feature__img { transition: opacity .8s var(--ease), transform 1.3s var(--ease); }
+.menu-feature__img.is-entering { opacity: 0; transform: scale(1.14); }
+.menu-feature__img.is-leaving { z-index: -3; }
+.menu-feature__copy.is-swapping > * { animation: infoIn .55s var(--ease) both; }
+.menu-feature__copy.is-swapping > :nth-child(2) { animation-delay: .08s; }
+.menu-feature__copy.is-swapping > :nth-child(3) { animation-delay: .16s; }
+.dish__pick { position: absolute; inset: 0; z-index: 1; width: 100%; border: 0; background: none; cursor: pointer; border-radius: var(--r); }
+.dish__pick:focus-visible { outline-offset: -3px; }
+.dish.is-selected { border-color: var(--red); box-shadow: 0 0 0 3px var(--red-soft), var(--shadow-2); }
+.dish.is-selected .dish__price { background: var(--red); }
+.dish.is-selected .dish__num { background: var(--red); color: #fff; }
+
 .menu-note { margin: 1.4rem 0 0; font-size: .85rem; color: var(--muted); }
 .menu-cta {
   margin-top: clamp(2.5rem, 5vw, 4rem); display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 1rem 2rem;
@@ -529,7 +610,8 @@ body.menu-open .site-header .icon-btn, body.menu-open .site-header .menu-toggle 
 .section--reviews { background: var(--bg-2); }
 .reviews-grid { display: grid; gap: 2.5rem; align-items: start; }
 .google-chip { display: inline-flex; align-items: center; gap: .55rem; margin: 0; padding: .5rem .9rem; border-radius: var(--pill); background: var(--surface); border: 1px solid var(--line); font: 600 .85rem var(--f-display); color: var(--heading); }
-.reviews-list { display: grid; gap: 1rem; margin-bottom: 1.2rem; }
+.reviews-list { display: grid; gap: 1rem; }
+.reviews-col > .link-arrow { margin-top: 1.2rem; }
 .review {
   position: relative; padding: 1.6rem 1.6rem 1.4rem; background: var(--surface); border: 1px solid var(--line); border-radius: var(--r-lg);
   transition: transform .35s var(--ease), box-shadow .35s var(--ease);
@@ -629,7 +711,7 @@ body.menu-open .site-header .icon-btn, body.menu-open .site-header .menu-toggle 
 .legal-links a { display: inline-block; padding: .35rem 0; text-decoration: none; }
 .legal-links a:hover { color: #fff; text-decoration: underline; }
 .copyright { margin: 0; }
-.kit-digital { background: #fff; border-radius: var(--r-sm); padding: .6rem .9rem; max-width: 560px; }
+.kit-digital { background: #fff; border-radius: var(--r-sm); padding: .8rem 1.2rem; width: 100%; max-width: 760px; justify-self: center; margin-inline: auto; }
 .kit-digital img { width: 100%; height: auto; }
 .demo-bar { background: #050505; border-top: 1px solid rgba(255, 255, 255, .06); padding-bottom: env(safe-area-inset-bottom); }
 .demo-bar__inner { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: .6rem 1rem; padding-block: .7rem; font-size: .8rem; }
@@ -670,6 +752,19 @@ body.menu-open .action-bar { transform: translateY(140%); }
   .hero-ctas .btn { flex: 1 1 100%; }
   .scroll-cue { display: none; }
   .brand { width: 140px; height: 38px; }
+  .pour {
+    position: fixed; left: 12px; right: 12px; bottom: calc(84px + env(safe-area-inset-bottom)); z-index: 85;
+    grid-template-columns: 96px 1fr; justify-items: start; text-align: left; align-items: center;
+    padding: .8rem 2.8rem .8rem .8rem; box-shadow: 0 24px 50px -16px rgba(0, 0, 0, .7);
+    transform: translateY(160%); transition: transform .5s var(--ease), background .6s var(--ease);
+  }
+  .pour.is-open { transform: none; }
+  .pour__stage { width: 96px; }
+  .pour__info { justify-items: start; }
+  .pour__name { font-size: 1rem; }
+  .pour__close { display: grid; place-items: center; position: absolute; top: 8px; right: 8px; width: 36px; height: 36px; border: 0; border-radius: 50%; background: rgba(255, 255, 255, .1); color: #fff; font-size: 1.3rem; cursor: pointer; }
+  #panel-raciones .menu-aside { position: sticky; top: calc(var(--header-h-compact) + 78px); z-index: 5; }
+  #panel-raciones .menu-feature { min-height: 150px; box-shadow: 0 12px 24px -14px rgba(0, 0, 0, .5); }
   .menu-feature { min-height: 128px; padding: 1.1rem 1.2rem; border-radius: var(--r); }
   .menu-feature p { display: none; }
   .menu-feature h3 { font-size: 1.35rem; margin: 0; }
@@ -712,11 +807,13 @@ body.menu-open .action-bar { transform: translateY(140%); }
   .footer-grid { grid-template-columns: 1.4fr 1fr 1.2fr 1.2fr; }
   .footer-bottom { grid-template-columns: 1fr auto; align-items: center; }
   .kit-digital { grid-column: 1 / -1; }
-  .menu-panel { grid-template-columns: 300px 1fr; align-items: start; }
+  .menu-panel { grid-template-columns: 300px 1fr; align-items: center; }
   .dish-grid { grid-template-columns: 1fr; }
   .dish { padding: 1.3rem 1.4rem; }
   .dish__name { font-size: 1.15rem; }
-  .menu-feature { position: sticky; top: calc(var(--header-h-compact) + 96px); min-height: 440px; }
+  .menu-aside { position: sticky; top: calc(var(--header-h-compact) + 90px); }
+  .menu-feature { min-height: 300px; }
+  .menu-aside:only-child .menu-feature, .menu-aside > .menu-feature:only-child { min-height: 440px; }
 }
 
 @media (min-width: 1024px) {
@@ -726,8 +823,13 @@ body.menu-open .action-bar { transform: translateY(140%); }
   .menu-toggle { display: none; }
   .hero-grid { grid-template-columns: 1fr auto; }
   .hero-floating { display: grid; gap: 1rem; margin-bottom: .5rem; }
-  .reviews-grid { grid-template-columns: 1.35fr 1fr; gap: 3.5rem; }
-  .rate-card { position: sticky; top: calc(var(--header-h-compact) + 24px); }
+  .reviews-grid { grid-template-columns: 1.35fr 1fr; column-gap: 3.5rem; row-gap: 0; }
+  /* La tarjeta de valoración se centra respecto a las dos reseñas */
+  .reviews-col { display: contents; }
+  .reviews-col > .section-head { grid-column: 1; grid-row: 1; }
+  .reviews-col > .reviews-list { grid-column: 1; grid-row: 2; }
+  .reviews-col > .link-arrow { grid-column: 1; grid-row: 3; justify-self: start; }
+  .rate-card { grid-column: 2; grid-row: 2; align-self: center; }
   .bento { grid-template-columns: repeat(4, 1fr); grid-template-rows: 300px 300px; }
   .tile { min-height: 0; }
   .tile--xl { grid-column: span 2; grid-row: span 2; min-height: 0; }

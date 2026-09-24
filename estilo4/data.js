@@ -5,7 +5,7 @@
 (function() {
   const DEFAULT_DATA = {
   "id": "estilo4",
-  "dataVersion": 2,
+  "dataVersion": 3,
   "styleName": "Estilo 4",
   "styleSubtitle": "Showcase Visual · Cervecería de barrio",
   "layoutType": "showcase",
@@ -83,6 +83,12 @@
   "categories": ["Mahou", "Alhambra", "Importaciones", "Raciones"],
   // price = precio mínimo, priceMax = precio máximo (la web oficial indica rangos "3,50 € - 4 €").
   // price 0 = la web oficial no publica precio -> se muestra "Consultar en barra".
+  // Raciones: "image" = foto orientativa (Wikimedia Commons, con "imageCredit" obligatorio por licencia CC).
+  //   Sustituir por fotos reales del local cuando existan (se puede hacer desde /admin).
+  // Opcionales para la jarra animada de la carta:
+  //   "logo": "img/marcas/mahou.png"  -> logo oficial de la marca dentro de la jarra (si no, emblema con el nombre)
+  //   "brand": "Mahou"                -> texto del emblema (por defecto: la marca/categoría o el nombre en Importaciones)
+  //   "color": "#4a2311"              -> color de la cerveza (por defecto se deduce: dunkel/roja/tostada o dorada)
   "menu": [
     { "id": "m1", "group": "cervezas", "category": "Mahou", "name": "Mahou clásica de barril", "description": "Mahou 5 Estrellas", "abv": null, "price": 0, "priceMax": null, "tags": [], "image": "", "allergens": [] },
     { "id": "m2", "group": "cervezas", "category": "Mahou", "name": "Maestra doble lúpulo", "description": "", "abv": 7.5, "price": 3.5, "priceMax": 4, "badge": "", "tags": [], "image": "", "allergens": [] },
@@ -97,11 +103,11 @@
     { "id": "i1", "group": "cervezas", "category": "Importaciones", "name": "Grimbergen", "description": "", "abv": 6.5, "price": 4.5, "priceMax": 5, "badge": "", "tags": [], "image": "", "allergens": [] },
     { "id": "i2", "group": "cervezas", "category": "Importaciones", "name": "König Ludwig Weissbier", "description": "", "abv": 5.5, "price": 4, "priceMax": 4.5, "badge": "", "tags": [], "image": "", "allergens": [] },
     { "id": "i3", "group": "cervezas", "category": "Importaciones", "name": "Coronita", "description": "", "abv": 4.5, "price": 3.5, "priceMax": 4, "badge": "", "tags": [], "image": "", "allergens": [] },
-    { "id": "r1", "group": "raciones", "category": "Raciones", "name": "Pulpo a la gallega con patatas", "description": "", "abv": null, "price": 15, "priceMax": null, "badge": "", "tags": [], "image": "", "allergens": [] },
-    { "id": "r2", "group": "raciones", "category": "Raciones", "name": "Calamares fritos o puntillas", "description": "", "abv": null, "price": 10, "priceMax": null, "badge": "", "tags": [], "image": "", "allergens": [] },
-    { "id": "r3", "group": "raciones", "category": "Raciones", "name": "Patatas bravas", "description": "", "abv": null, "price": 7, "priceMax": null, "badge": "", "tags": [], "image": "", "allergens": [] },
-    { "id": "r4", "group": "raciones", "category": "Raciones", "name": "Huevos rotos con jamón o bacon", "description": "", "abv": null, "price": 11, "priceMax": null, "badge": "", "tags": [], "image": "", "allergens": [] },
-    { "id": "r5", "group": "raciones", "category": "Raciones", "name": "Chorizo criollo con patatas fritas", "description": "", "abv": null, "price": 9.5, "priceMax": null, "badge": "", "tags": [], "image": "", "allergens": [] }
+    { "id": "r1", "group": "raciones", "category": "Raciones", "name": "Pulpo a la gallega con patatas", "description": "", "abv": null, "price": 15, "priceMax": null, "badge": "", "tags": [], "image": "img/racion-pulpo.webp", "imageCredit": { "author": "Juan Emilio Prades Bel", "license": "CC BY 4.0", "url": "https://commons.wikimedia.org/wiki/File:Pulpo_a_la_gallega_con_cachelos.jpg" }, "allergens": [] },
+    { "id": "r2", "group": "raciones", "category": "Raciones", "name": "Calamares fritos o puntillas", "description": "", "abv": null, "price": 10, "priceMax": null, "badge": "", "tags": [], "image": "img/racion-calamares.webp", "imageCredit": { "author": "Tamorlan", "license": "CC BY 3.0", "url": "https://commons.wikimedia.org/wiki/File:Raci%C3%B3n_de_Calamares_(El_Brillante).jpg" }, "allergens": [] },
+    { "id": "r3", "group": "raciones", "category": "Raciones", "name": "Patatas bravas", "description": "", "abv": null, "price": 7, "priceMax": null, "badge": "", "tags": [], "image": "img/racion-bravas.webp", "imageCredit": { "author": "Kent Wang", "license": "CC BY-SA 2.0", "url": "https://commons.wikimedia.org/wiki/File:Patatas_bravas_(49415380638).jpg" }, "allergens": [] },
+    { "id": "r4", "group": "raciones", "category": "Raciones", "name": "Huevos rotos con jamón o bacon", "description": "", "abv": null, "price": 11, "priceMax": null, "badge": "", "tags": [], "image": "img/racion-huevos-rotos.webp", "imageCredit": { "author": "Tamorlan", "license": "CC BY-SA 3.0", "url": "https://commons.wikimedia.org/wiki/File:Huevos_rotos_-_Madrid.JPG" }, "allergens": [] },
+    { "id": "r5", "group": "raciones", "category": "Raciones", "name": "Chorizo criollo con patatas fritas", "description": "", "abv": null, "price": 9.5, "priceMax": null, "badge": "", "tags": [], "image": "img/racion-chorizo.webp", "imageCredit": { "author": "Juan Emilio Prades Bel", "license": "CC BY 4.0", "url": "https://commons.wikimedia.org/wiki/File:Patatas_fritas_con_chorizos,_Maestrazgo.jpg" }, "allergens": [] }
   ],
   // Reseñas de Google mostradas en la web oficial (widget Trustindex). Texto literal.
   "googleReviews": [

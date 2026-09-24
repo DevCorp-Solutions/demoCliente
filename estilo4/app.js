@@ -191,16 +191,22 @@
 
     panelsEl.innerHTML = groups.map((g, i) => `
       <div class="menu-panel" role="tabpanel" id="panel-${g.id}" aria-labelledby="tab-${g.id}" tabindex="0" ${i === 0 ? '' : 'hidden'} data-group="${g.id}">
-        <div class="menu-feature">
-          <img src="${esc(g.image)}" alt="" loading="lazy" decoding="async" width="540" height="400" />
-          <p class="menu-feature__kicker">${P.menu.filter(m => groupOf(m) === g.id).length} referencias</p>
-          <h3>${esc(g.title)}</h3>
-          <p>${g.id === 'raciones' ? 'Ideales para acompañar con cada una de nuestras cervezas.' : 'Servimos una selección especial de cervezas artesanales, siempre a la temperatura perfecta.'}</p>
+        <div class="menu-aside">
+          <div class="menu-feature" data-feature="${g.id}">
+            <img class="menu-feature__img" src="${esc(g.image)}" alt="" loading="lazy" decoding="async" width="540" height="400" />
+            <div class="menu-feature__copy" aria-live="polite">
+              <p class="menu-feature__kicker">${P.menu.filter(m => groupOf(m) === g.id).length} referencias</p>
+              <h3 class="menu-feature__title">${esc(g.title)}</h3>
+              <p class="menu-feature__text">${g.id === 'raciones' ? 'Ideales para acompañar con cada una de nuestras cervezas. Toca un plato para verlo.' : 'Servimos una selección especial de cervezas artesanales, siempre a la temperatura perfecta.'}</p>
+            </div>
+          </div>
+          ${g.id === 'raciones' ? '' : pourPanelHTML()}
         </div>
         <div class="menu-body" data-body="${g.id}"></div>
       </div>`).join('');
 
     groups.forEach(g => renderGroup(g));
+    initPour();
 
     const tabs = $$('.menu-tab', tabsEl);
     tabs.forEach((tab, i) => {
@@ -242,7 +248,8 @@
       body.innerHTML = `
         <ul class="dish-grid">
           ${items.map((d, i) => `
-            <li class="dish" style="--i:${i}">
+            <li class="dish${dishState.id === d.id ? ' is-selected' : ''}" style="--i:${i}">
+              ${d.image ? `<button type="button" class="dish__pick" data-dish="${esc(d.id)}" aria-label="Ver foto de ${esc(d.name)}" aria-pressed="${dishState.id === d.id}"></button>` : ''}
               <span class="dish__num" aria-hidden="true">${String(i + 1).padStart(2, '0')}</span>
               <div>
                 <h4 class="dish__name">${esc(d.name)}</h4>
@@ -289,7 +296,8 @@
     const hasAbv = typeof b.abv === 'number';
     const pct = hasAbv ? Math.min(100, (b.abv / 8) * 100) : 0;
     return `
-      <li class="beer" style="--i:${i}">
+      <li class="beer${pourState.id === b.id ? ' is-poured' : ''}" style="--i:${i}">
+        <button type="button" class="beer__pour" data-pour="${esc(b.id)}" aria-label="Servir ${esc(b.name)}" aria-pressed="${pourState.id === b.id}"></button>
         <div>
           <span class="beer__name">${esc(b.name)}${tags}</span>
           ${b.description ? `<span class="beer__desc">${esc(b.description)}</span>` : ''}
@@ -301,6 +309,191 @@
           </div>` : '<div class="abv" aria-hidden="true"></div>'}
         ${priceHTML(b)}
       </li>`;
+  }
+
+  // =========================================================================
+  // 3b. "TE LA SERVIMOS": jarra animada con la marca de la cerveza elegida
+  //     La marca se muestra como emblema tipográfico. Si un producto tiene
+  //     "logo" en data.js (ruta a la imagen oficial), se usa esa imagen.
+  // =========================================================================
+  const pourState = { id: null, timer: null };
+
+  const brandOf = (b) => b.brand || (b.category === 'Importaciones' ? b.name : b.category);
+  function beerColor(b) {
+    if (b.color) return b.color;
+    const txt = `${b.name} ${b.description || ''}`.toLowerCase();
+    if (/dunkel|negra|stout/.test(txt)) return '#4a2311';
+    if (/roja/.test(txt)) return '#8e3514';
+    if (/tostada/.test(txt)) return '#a24e17';
+    return '#f0a938';
+  }
+
+  function mugSVG() {
+    const foam = [52, 66, 80, 94, 108, 122, 136, 148].map((x, i) => `<circle cx="${x}" cy="${44 + (i % 2) * 6}" r="${12 + (i % 3) * 2}"/>`).join('');
+    const bubbles = [62, 78, 96, 112, 130, 142].map((x, i) => `<circle class="pour__bubble" cx="${x}" cy="220" r="${1.6 + (i % 3) * .8}" style="--b:${i}"/>`).join('');
+    return `
+      <svg viewBox="0 0 220 250" class="pour__svg" focusable="false">
+        <defs>
+          <clipPath id="pour-clip"><rect x="46" y="42" width="108" height="184" rx="11"/></clipPath>
+          <clipPath id="pour-logo-clip"><circle cx="100" cy="146" r="31"/></clipPath>
+          <linearGradient id="pour-grad" x1="0" y1="0" x2="0" y2="1">
+            <stop offset="0" style="stop-color: var(--beer-light)"/>
+            <stop offset="1" style="stop-color: var(--beer)"/>
+          </linearGradient>
+        </defs>
+        <rect class="pour__stream" x="96" y="-20" width="8" height="120" rx="4" fill="url(#pour-grad)"/>
+        <path class="pour__handle" d="M158 84h14a28 28 0 0 1 28 28v52a28 28 0 0 1-28 28h-14" fill="none" stroke-width="12" stroke-linecap="round"/>
+        <g clip-path="url(#pour-clip)">
+          <g class="pour__liquid">
+            <rect x="40" y="62" width="130" height="180" fill="url(#pour-grad)"/>
+            ${bubbles}
+          </g>
+        </g>
+        <g class="pour__foam" fill="#fffaf0">
+          <rect x="46" y="44" width="108" height="26" rx="8"/>
+          ${foam}
+        </g>
+        <rect class="pour__glass" x="40" y="36" width="120" height="196" rx="16" fill="none" stroke-width="6"/>
+        <g class="pour__dimples" stroke-width="3" stroke-linecap="round">
+          <path d="M66 86v124M134 86v124"/>
+        </g>
+        <rect x="52" y="54" width="7" height="150" rx="3.5" fill="#fff" opacity=".22"/>
+        <g class="pour__emblem">
+          <circle cx="100" cy="146" r="36" fill="#fff"/>
+          <circle cx="100" cy="146" r="36" fill="none" stroke="var(--red)" stroke-width="3"/>
+          <circle cx="100" cy="146" r="30" fill="none" stroke="var(--red)" stroke-width="1" stroke-dasharray="2 3"/>
+          <image class="pour__logo" x="69" y="115" width="62" height="62" clip-path="url(#pour-logo-clip)" preserveAspectRatio="xMidYMid meet" href=""/>
+          <g class="pour__brand-text">
+            <text class="pour__brand" x="100" y="148" text-anchor="middle"></text>
+            <text class="pour__abv" x="100" y="163" text-anchor="middle"></text>
+          </g>
+        </g>
+      </svg>`;
+  }
+
+  function pourPanelHTML() {
+    return `
+      <div class="pour" data-state="empty">
+        <button type="button" class="pour__close" aria-label="Cerrar"><span aria-hidden="true">×</span></button>
+        <div class="pour__stage" aria-hidden="true">${mugSVG()}</div>
+        <div class="pour__info" aria-live="polite">
+          <p class="pour__kicker">¿Cuál te pongo?</p>
+          <p class="pour__name">Toca una cerveza de la carta y te la servimos</p>
+          <p class="pour__meta"></p>
+          <a class="pour__cta link-arrow" href="#reservar">Reservar mesa${icon('arrow')}</a>
+        </div>
+      </div>`;
+  }
+
+  function pour(beer) {
+    const panel = $('.pour');
+    if (!panel || !beer) return;
+    pourState.id = beer.id;
+
+    const color = beerColor(beer);
+    panel.style.setProperty('--beer', color);
+    panel.style.setProperty('--beer-light', `color-mix(in srgb, ${color} 70%, #fff6d8)`);
+
+    const brand = brandOf(beer);
+    const brandEl = $('.pour__brand', panel);
+    brandEl.textContent = brand;
+    brandEl.style.fontSize = brand.length <= 6 ? '16px' : brand.length <= 9 ? '13px' : '10.5px';
+    if (brand.length > 11) brandEl.setAttribute('textLength', '58'); else brandEl.removeAttribute('textLength');
+    $('.pour__abv', panel).textContent = typeof beer.abv === 'number' ? `${beer.abv.toFixed(1).replace('.', ',')} %` : '';
+    const logo = $('.pour__logo', panel);
+    logo.setAttribute('href', beer.logo || '');
+    panel.classList.toggle('has-logo', !!beer.logo);
+
+    $('.pour__kicker', panel).textContent = `Marchando · ${beer.category}`;
+    $('.pour__name', panel).textContent = beer.name;
+    const price = !beer.price ? 'Consultar en barra' : beer.priceMax ? `${fmtNum(beer.price)} – ${fmtNum(beer.priceMax)} €` : `${fmtNum(beer.price)} €`;
+    $('.pour__meta', panel).textContent = [typeof beer.abv === 'number' ? abvText(beer.abv) : beer.description, price].filter(Boolean).join(' · ');
+
+    panel.dataset.state = 'poured';
+    panel.classList.remove('is-pouring');
+    void panel.offsetWidth; // reinicia la animación en cada clic
+    panel.classList.add('is-pouring', 'is-open');
+
+    $$('[data-pour]').forEach(btn => {
+      const on = btn.dataset.pour === beer.id;
+      btn.setAttribute('aria-pressed', String(on));
+      btn.closest('.beer').classList.toggle('is-poured', on);
+    });
+
+    // En móvil la jarra aparece como tarjeta flotante que se cierra sola
+    clearTimeout(pourState.timer);
+    if (window.matchMedia('(max-width: 767px)').matches) {
+      pourState.timer = setTimeout(() => panel.classList.remove('is-open'), 6000);
+    }
+  }
+
+  // =========================================================================
+  // 3c. RACIONES: al tocar un plato, su foto entra en la tarjeta lateral
+  //     (fundido + zoom de entrada; mismo tratamiento que el resto de imágenes)
+  // =========================================================================
+  const dishState = { id: null, token: 0 };
+
+  function showDish(dish) {
+    const card = $('[data-feature="raciones"]');
+    if (!card || !dish || !dish.image) return;
+    dishState.id = dish.id;
+    const token = ++dishState.token;
+    const idx = P.menu.filter(m => groupOf(m) === 'raciones').findIndex(m => m.id === dish.id);
+
+    $$('[data-dish]').forEach(btn => {
+      const on = btn.dataset.dish === dish.id;
+      btn.setAttribute('aria-pressed', String(on));
+      btn.closest('.dish').classList.toggle('is-selected', on);
+    });
+
+    const next = new Image();
+    next.className = 'menu-feature__img is-entering';
+    next.alt = dish.name;
+    next.decoding = 'async';
+    next.width = 720; next.height = 880;
+    next.src = dish.image;
+    const swap = () => {
+      if (token !== dishState.token) return; // otro clic más reciente manda
+      $$('.menu-feature__img', card).forEach(old => {
+        old.classList.add('is-leaving');
+        setTimeout(() => old.remove(), reducedMotion ? 0 : 700);
+      });
+      card.prepend(next);
+      void next.offsetWidth;
+      next.classList.remove('is-entering');
+
+      const copy = $('.menu-feature__copy', card);
+      copy.classList.remove('is-swapping');
+      void copy.offsetWidth;
+      copy.classList.add('is-swapping');
+      $('.menu-feature__kicker', copy).textContent = `Ración ${String(idx + 1).padStart(2, '0')}`;
+      $('.menu-feature__title', copy).textContent = dish.name;
+      $('.menu-feature__text', copy).textContent = dish.price ? `${fmtNum(dish.price)} € · Imagen orientativa` : 'Imagen orientativa';
+
+    };
+    if (next.complete) swap(); else { next.onload = swap; next.onerror = swap; }
+  }
+
+  function initPour() {
+    const panels = $('#menu-panels');
+    if (!panels) return;
+    const preloaded = new Set();
+    panels.addEventListener('pointerover', (e) => {
+      const b = e.target.closest('[data-dish]');
+      const d = b && P.menu.find(m => m.id === b.dataset.dish);
+      if (d && d.image && !preloaded.has(d.image)) { preloaded.add(d.image); new Image().src = d.image; }
+    });
+    panels.addEventListener('click', (e) => {
+      const dishBtn = e.target.closest('[data-dish]');
+      if (dishBtn) showDish(P.menu.find(m => m.id === dishBtn.dataset.dish));
+      const btn = e.target.closest('[data-pour]');
+      if (btn) pour(P.menu.find(m => m.id === btn.dataset.pour));
+      if (e.target.closest('.pour__close')) { clearTimeout(pourState.timer); $('.pour').classList.remove('is-open'); }
+    });
+    document.addEventListener('keydown', (e) => {
+      const panel = $('.pour.is-open');
+      if (e.key === 'Escape' && panel) panel.classList.remove('is-open');
+    });
   }
 
   // =========================================================================
