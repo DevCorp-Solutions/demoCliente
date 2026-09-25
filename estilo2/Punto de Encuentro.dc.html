@@ -17,7 +17,8 @@
 html,body{margin:0;padding:0;width:100%;max-width:100%;overflow-x:hidden;background:#EBF4F3;color:#213A3C;scroll-behavior:smooth}
 #dc-root,#dc-root>.sc-host{width:100%;max-width:100%;overflow-x:hidden;scroll-behavior:smooth}
 *{box-sizing:border-box}
-section[id]{scroll-margin-top:24px}
+section[id]{scroll-margin-top:90px}
+#cervezas{scroll-margin-top:90px}
 a{color:#213A3C;text-decoration-thickness:2px;text-underline-offset:3px;cursor:pointer}
 a:hover{color:#3F6E72}
 a:focus-visible,button:focus-visible{outline:3px solid #E3A33B;outline-offset:3px}
@@ -27,7 +28,7 @@ html{scroll-behavior:smooth}
 @keyframes beerBubbles{0%{background-position:0 0}100%{background-position:0 -36px}}
 </style>
 </helmet>
-<div style="font-family:'Alegreya Sans',sans-serif;color:#213A3C;background:#EBF4F3;width:100%;max-width:100%;overflow-x:hidden;font-size:18px;line-height:1.4">
+<div style="font-family:'Alegreya Sans',sans-serif;color:#213A3C;background:#EBF4F3;width:100%;max-width:100%;font-size:18px;line-height:1.4">
 
 <!-- RAIL DEL DÍA -->
 <sc-if value="{{ showRail }}" hint-placeholder-val="{{ false }}">
@@ -42,39 +43,39 @@ html{scroll-behavior:smooth}
 </nav>
 </sc-if>
 
-<!-- ======== PORTADA ======== -->
-<header data-screen-label="Portada" style="position:relative;background-color:#EBF4F3;background-image:url('data:image/svg+xml,%3Csvg xmlns=%27http://www.w3.org/2000/svg%27 width=%27220%27 height=%27220%27%3E%3Cfilter id=%27n%27%3E%3CfeTurbulence type=%27fractalNoise%27 baseFrequency=%27.85%27 numOctaves=%273%27/%3E%3CfeColorMatrix values=%270 0 0 0 0.13 0 0 0 0 0.23 0 0 0 0 0.24 0 0 0 0.10 0%27/%3E%3C/filter%3E%3Crect width=%27100%25%27 height=%27100%25%27 filter=%27url(%23n)%27/%3E%3C/svg%3E'),url('data:image/svg+xml,%3Csvg xmlns=%27http://www.w3.org/2000/svg%27 width=%27900%27 height=%27900%27%3E%3Cfilter id=%27s%27%3E%3CfeTurbulence type=%27fractalNoise%27 baseFrequency=%27.006%27 numOctaves=%274%27 seed=%277%27/%3E%3CfeColorMatrix values=%270 0 0 0 0.25 0 0 0 0 0.43 0 0 0 0 0.45 0 0 0 0.16 0%27/%3E%3C/filter%3E%3Crect width=%27100%25%27 height=%27100%25%27 filter=%27url(%23s)%27/%3E%3C/svg%3E');overflow:hidden">
-  <div style="display:flex;flex-wrap:wrap;justify-content:space-between;align-items:center;gap:12px 24px;padding:14px clamp(18px,4vw,56px);border-bottom:2px solid #213A3C;background:#EBF4F3;font-family:'Alegreya Sans SC',sans-serif;font-weight:800;font-size:14px;letter-spacing:.12em">
+<!-- ======== NAVEGACIÓN PRINCIPAL STICKY ======== -->
+<div class="sticky-nav" style="position:sticky;top:0;z-index:30;background:#EBF4F3;border-bottom:2px solid #213A3C;box-shadow:0 4px 12px -2px rgba(33,58,60,.12)">
+  <div style="display:flex;flex-wrap:wrap;justify-content:space-between;align-items:center;gap:8px 16px;padding:9px clamp(14px,2.5vw,36px);font-family:'Alegreya Sans SC',sans-serif;font-weight:800;font-size:14px;letter-spacing:.12em">
     
     <!-- Lado Izquierdo: Logo DevCorp + Separador + Marca del Local -->
-    <div style="display:flex;align-items:center;gap:14px">
+    <div style="display:flex;align-items:center;gap:12px;flex:none">
       <a href="https://devcorpsolutions.com" target="_blank" title="DevCorp Solutions" style="display:inline-flex;align-items:center;text-decoration:none">
-        <img src="../assets/images/logo.png" alt="DevCorp Solutions" style="height:36px;width:auto;object-fit:contain" />
+        <img src="../assets/images/logo.png" alt="DevCorp Solutions" style="height:32px;width:auto;object-fit:contain" />
       </a>
-      <div style="height:26px;width:1px;background:#213A3C;opacity:0.35"></div>
+      <div style="height:24px;width:1px;background:#213A3C;opacity:0.35"></div>
       <div style="display:flex;flex-direction:column;line-height:1.15">
-        <span style="font-family:'Grandstander',sans-serif;font-weight:900;font-size:17px;color:#213A3C;letter-spacing:-0.01em">Punto de Encuentro</span>
+        <span style="font-family:'Grandstander',sans-serif;font-weight:900;font-size:16px;color:#213A3C;letter-spacing:-0.01em">Punto de Encuentro</span>
         <span style="font-family:'Alegreya Sans SC',sans-serif;font-weight:800;font-size:11px;letter-spacing:0.12em;color:#3F6E72">Bar Cafetería · Aluche · Madrid</span>
       </div>
     </div>
 
-    <!-- Centro: Enlaces de Navegación del Local (Sin Reservas ni Cocina/KDS) -->
-    <nav aria-label="Navegación principal" style="display:flex;flex-wrap:wrap;gap:4px 18px;align-items:center">
-      <a href="#desayunos" style="text-decoration:none;padding:6px 0;color:#213A3C">06:00 Desayunos</a>
-      <a href="#comer" style="text-decoration:none;padding:6px 0;color:#213A3C">13:00 A comer</a>
-      <a href="#minis" style="text-decoration:none;padding:6px 0;color:#213A3C">18:00 Minis</a>
-      <a href="#cervezas" style="text-decoration:none;padding:6px 0;color:#213A3C">Cervezas</a>
-      <a href="#finde" style="text-decoration:none;padding:6px 0;color:#213A3C">23:00 Finde</a>
-      <a href="carta.html" style="text-decoration:none;padding:6px 0;color:#3F6E72;font-weight:900;border-bottom:2px solid #3F6E72">La carta</a>
-      <a href="#llegar" style="text-decoration:none;padding:6px 0;color:#213A3C">Cómo llegar</a>
+    <!-- Centro: Enlaces de Navegación del Local -->
+    <nav aria-label="Navegación principal" style="display:flex;gap:4px 16px;align-items:center;overflow-x:auto;scrollbar-width:none;white-space:nowrap;padding:2px 0;max-width:100%">
+      <a href="#desayunos" style="text-decoration:none;padding:6px 0;color:#213A3C;flex:none">06:00 Desayunos</a>
+      <a href="#comer" style="text-decoration:none;padding:6px 0;color:#213A3C;flex:none">13:00 A comer</a>
+      <a href="#minis" style="text-decoration:none;padding:6px 0;color:#213A3C;flex:none">18:00 Minis</a>
+      <a href="#cervezas" style="text-decoration:none;padding:6px 0;color:#213A3C;flex:none">Cervezas</a>
+      <a href="#finde" style="text-decoration:none;padding:6px 0;color:#213A3C;flex:none">23:00 Finde</a>
+      <a href="carta.html" style="text-decoration:none;padding:6px 0;color:#3F6E72;font-weight:900;border-bottom:2px solid #3F6E72;flex:none">La carta</a>
+      <a href="#llegar" style="text-decoration:none;padding:6px 0;color:#213A3C;flex:none">Cómo llegar</a>
     </nav>
 
     <!-- Lado Derecho: Llamar + Selector de Estilos DevCorp -->
-    <div style="display:flex;align-items:center;gap:12px">
-      <a href="tel:+34912948407" style="display:inline-flex;align-items:center;gap:6px;background:#213A3C;color:#EBF4F3;padding:7px 14px;border-radius:4px;text-decoration:none;font-weight:800;font-size:13px;letter-spacing:.06em">
+    <div style="display:flex;align-items:center;gap:10px;flex:none">
+      <a href="tel:+34912948407" style="display:inline-flex;align-items:center;gap:6px;background:#213A3C;color:#EBF4F3;padding:6px 12px;border-radius:4px;text-decoration:none;font-weight:800;font-size:13px;letter-spacing:.06em">
         <span>📞 912 94 84 07</span>
       </a>
-      <select id="style-select" aria-label="Seleccionar Estilo DevCorp" style="background:#213A3C;color:#9FD3C7;border:2px solid #213A3C;border-radius:4px;padding:7px 12px;font-family:'Alegreya Sans SC',sans-serif;font-weight:800;font-size:13px;letter-spacing:.06em;cursor:pointer;outline:none">
+      <select id="style-select" aria-label="Seleccionar Estilo DevCorp" style="background:#213A3C;color:#9FD3C7;border:2px solid #213A3C;border-radius:4px;padding:6px 10px;font-family:'Alegreya Sans SC',sans-serif;font-weight:800;font-size:13px;letter-spacing:.06em;cursor:pointer;outline:none">
         <option value="estilo1" style="background:#fff;color:#1c1c19">Estilo 1: Parrilla Vukata</option>
         <option value="estilo2" selected style="background:#fff;color:#1c1c19">Estilo 2: Punto de Encuentro</option>
         <option value="estilo3" style="background:#fff;color:#1c1c19">Estilo 3: Pizzería Carlos</option>
@@ -83,7 +84,10 @@ html{scroll-behavior:smooth}
     </div>
 
   </div>
+</div>
 
+<!-- ======== PORTADA ======== -->
+<header data-screen-label="Portada" style="position:relative;background-color:#EBF4F3;background-image:url('data:image/svg+xml,%3Csvg xmlns=%27http://www.w3.org/2000/svg%27 width=%27220%27 height=%27220%27%3E%3Cfilter id=%27n%27%3E%3CfeTurbulence type=%27fractalNoise%27 baseFrequency=%27.85%27 numOctaves=%273%27/%3E%3CfeColorMatrix values=%270 0 0 0 0.13 0 0 0 0 0.23 0 0 0 0 0.24 0 0 0 0.10 0%27/%3E%3C/filter%3E%3Crect width=%27100%25%27 height=%27100%25%27 filter=%27url(%23n)%27/%3E%3C/svg%3E'),url('data:image/svg+xml,%3Csvg xmlns=%27http://www.w3.org/2000/svg%27 width=%27900%27 height=%27900%27%3E%3Cfilter id=%27s%27%3E%3CfeTurbulence type=%27fractalNoise%27 baseFrequency=%27.006%27 numOctaves=%274%27 seed=%277%27/%3E%3CfeColorMatrix values=%270 0 0 0 0.25 0 0 0 0 0.43 0 0 0 0 0.45 0 0 0 0.16 0%27/%3E%3C/filter%3E%3Crect width=%27100%25%27 height=%27100%25%27 filter=%27url(%23s)%27/%3E%3C/svg%3E');overflow:hidden">
   <div style="display:flex;flex-wrap:wrap;align-items:stretch">
     <div style="flex:1 1 560px;min-width:0;position:relative;padding:clamp(20px,3vw,40px) 0 0;overflow:hidden">
       <sc-if value="{{ logoOk }}" hint-placeholder-val="{{ true }}">
