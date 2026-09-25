@@ -48,7 +48,7 @@ const newHeaderHtml = `<div style="display:flex;flex-wrap:wrap;justify-content:s
       <a href="tel:+34912948407" style="display:inline-flex;align-items:center;gap:6px;background:#213A3C;color:#EBF4F3;padding:7px 14px;border-radius:4px;text-decoration:none;font-weight:800;font-size:13px;letter-spacing:.06em">
         <span>📞 912 94 84 07</span>
       </a>
-      <select id="style-select" aria-label="Seleccionar Estilo DevCorp" style="background:#213A3C;color:#9FD3C7;border:2px solid #213A3C;border-radius:4px;padding:7px 12px;font-family:'Alegreya Sans SC',sans-serif;font-weight:800;font-size:13px;letter-spacing:.06em;cursor:pointer;outline:none">
+      <select id="style-select" defaultValue="estilo2" aria-label="Seleccionar Estilo DevCorp" style="background:#213A3C;color:#9FD3C7;border:2px solid #213A3C;border-radius:4px;padding:7px 12px;font-family:'Alegreya Sans SC',sans-serif;font-weight:800;font-size:13px;letter-spacing:.06em;cursor:pointer;outline:none">
         <option value="estilo1" style="background:#fff;color:#1c1c19">Estilo 1: Parrilla Vukata</option>
         <option value="estilo2" selected style="background:#fff;color:#1c1c19">Estilo 2: Punto de Encuentro</option>
         <option value="estilo3" style="background:#fff;color:#1c1c19">Estilo 3: Pizzería Carlos</option>
@@ -123,7 +123,7 @@ const newCartaHeaderHtml = `<header data-screen-label="Carta · cabecera" style=
       <a href="tel:+34912948407" style="display:inline-flex;align-items:center;gap:6px;background:#3F6E72;color:#EBF4F3;padding:7px 14px;border-radius:4px;text-decoration:none;font-weight:800;font-size:13px;letter-spacing:.06em">
         <span>📞 912 94 84 07</span>
       </a>
-      <select id="style-select" aria-label="Seleccionar Estilo DevCorp" style="background:#213A3C;color:#9FD3C7;border:2px solid #3F6E72;border-radius:4px;padding:7px 12px;font-family:'Alegreya Sans SC',sans-serif;font-weight:800;font-size:13px;letter-spacing:.06em;cursor:pointer;outline:none">
+      <select id="style-select" defaultValue="estilo2" aria-label="Seleccionar Estilo DevCorp" style="background:#213A3C;color:#9FD3C7;border:2px solid #3F6E72;border-radius:4px;padding:7px 12px;font-family:'Alegreya Sans SC',sans-serif;font-weight:800;font-size:13px;letter-spacing:.06em;cursor:pointer;outline:none">
         <option value="estilo1" style="background:#fff;color:#1c1c19">Estilo 1: Parrilla Vukata</option>
         <option value="estilo2" selected style="background:#fff;color:#1c1c19">Estilo 2: Punto de Encuentro</option>
         <option value="estilo3" style="background:#fff;color:#1c1c19">Estilo 3: Pizzería Carlos</option>

@@ -75,7 +75,7 @@ html{scroll-behavior:smooth}
       <a href="tel:+34912948407" style="display:inline-flex;align-items:center;gap:6px;background:#213A3C;color:#EBF4F3;padding:6px 12px;border-radius:4px;text-decoration:none;font-weight:800;font-size:13px;letter-spacing:.06em">
         <span>📞 912 94 84 07</span>
       </a>
-      <select id="style-select" aria-label="Seleccionar Estilo DevCorp" style="background:#213A3C;color:#9FD3C7;border:2px solid #213A3C;border-radius:4px;padding:6px 10px;font-family:'Alegreya Sans SC',sans-serif;font-weight:800;font-size:13px;letter-spacing:.06em;cursor:pointer;outline:none">
+      <select id="style-select" defaultValue="estilo2" aria-label="Seleccionar Estilo DevCorp" style="background:#213A3C;color:#9FD3C7;border:2px solid #213A3C;border-radius:4px;padding:6px 10px;font-family:'Alegreya Sans SC',sans-serif;font-weight:800;font-size:13px;letter-spacing:.06em;cursor:pointer;outline:none">
         <option value="estilo1" style="background:#fff;color:#1c1c19">Estilo 1: Parrilla Vukata</option>
         <option value="estilo2" selected style="background:#fff;color:#1c1c19">Estilo 2: Punto de Encuentro</option>
         <option value="estilo3" style="background:#fff;color:#1c1c19">Estilo 3: Pizzería Carlos</option>
@@ -749,6 +749,13 @@ class Component extends DCLogic {
     };
     setTimeout(this.checkHash, 180);
     window.addEventListener('hashchange', this.checkHash);
+
+    const syncSel = () => {
+      const sel = document.getElementById('style-select');
+      if (sel) sel.value = 'estilo2';
+    };
+    syncSel();
+    setTimeout(syncSel, 100);
   }
   componentWillUnmount() {
     clearInterval(this.iv);
@@ -1188,6 +1195,13 @@ document.addEventListener('change', function(e) {
     }
   }
 });
+function syncStyleSelect() {
+  var sel = document.getElementById('style-select');
+  if (sel) sel.value = 'estilo2';
+}
+syncStyleSelect();
+setTimeout(syncStyleSelect, 80);
+setTimeout(syncStyleSelect, 300);
 document.addEventListener('click', function(e) {
   if (e.defaultPrevented) return;
   var link = e.target && e.target.closest ? e.target.closest('a[href^="#"]') : null;
