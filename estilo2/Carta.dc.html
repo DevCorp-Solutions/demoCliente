@@ -20,6 +20,8 @@ a{color:#213A3C;text-underline-offset:3px}
 a:hover{color:#3F6E72}
 a:focus-visible,button:focus-visible{outline:3px solid #E3A33B;outline-offset:2px}
 button{font:inherit;cursor:pointer}
+.btn-volver:hover{background:#3F6E72 !important;border-color:#3F6E72 !important;color:#FFFFFF !important;transform:translateY(-1px)}
+.btn-volver:active{transform:translateY(0);box-shadow:none !important}
 @media (prefers-reduced-motion: reduce){*{transition:none !important}}
 </style>
 </helmet>
@@ -81,11 +83,18 @@ button{font:inherit;cursor:pointer}
 </header>
 
   <div style="position:sticky;top:0;z-index:20;background:#EBF4F3;border-bottom:2px solid #213A3C;box-shadow:0 6px 0 -4px rgba(33,58,60,.12)">
-    <nav aria-label="Categorías" style="display:flex;gap:6px;overflow-x:auto;padding:10px clamp(16px,4vw,48px);scrollbar-width:none" ref="{{ navRef }}">
-      <sc-for list="{{ cats }}" as="c" hint-placeholder-count="9">
-        <button onClick="{{ c.go }}" data-cat="{{ c.id }}" aria-current="{{ c.cur }}" style="flex:none;min-height:44px;padding:0 14px;border:2px solid #213A3C;border-radius:3px;background:{{ c.bg }};color:{{ c.fg }};font-weight:800;font-size:16px;white-space:nowrap;cursor:pointer">{{ c.es }}</button>
-      </sc-for>
-    </nav>
+    <div style="display:flex;align-items:center;gap:8px;padding:10px clamp(16px,4vw,48px) 6px">
+      <a href="index.html" class="btn-volver" title="Volver a la página principal" aria-label="Volver a la página principal" style="flex:none;min-height:44px;padding:0 12px;border:2px solid #213A3C;border-radius:3px;background:#213A3C;color:#9FD3C7;display:inline-flex;align-items:center;gap:6px;text-decoration:none;font-weight:800;cursor:pointer;box-shadow:1px 2px 0 rgba(33,58,60,.12);transition:all .15s ease">
+        <span style="font-size:17px;line-height:1;transform:translateY(-1px)">←</span>
+        <span style="font-family:'Alegreya Sans SC',sans-serif;font-weight:800;font-size:13px;letter-spacing:.06em;color:#EBF4F3">Volver</span>
+      </a>
+      <div style="width:2px;height:24px;background:#213A3C;opacity:0.2;flex:none"></div>
+      <nav aria-label="Categorías" style="position:relative;display:flex;gap:6px;overflow-x:auto;scrollbar-width:none;flex:1;min-width:0;padding:0 4px" ref="{{ navRef }}">
+        <sc-for list="{{ cats }}" as="c" hint-placeholder-count="9">
+          <button onClick="{{ c.go }}" data-cat="{{ c.id }}" aria-current="{{ c.cur }}" style="flex:none;min-height:44px;padding:0 14px;border:2px solid #213A3C;border-radius:3px;background:{{ c.bg }};color:{{ c.fg }};font-weight:800;font-size:16px;white-space:nowrap;cursor:pointer">{{ c.es }}</button>
+        </sc-for>
+      </nav>
+    </div>
     <div style="display:flex;gap:6px;overflow-x:auto;padding:0 clamp(16px,4vw,48px) 10px;align-items:center;scrollbar-width:none">
       <span style="flex:none;font-family:'Alegreya Sans SC',sans-serif;font-weight:800;letter-spacing:.12em;font-size:13px;margin-right:4px">Filtrar</span>
       <sc-for list="{{ filters }}" as="f" hint-placeholder-count="6">
