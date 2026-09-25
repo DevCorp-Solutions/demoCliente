@@ -8,6 +8,8 @@
 .hero-panel .dot { background: var(--lime); }
 .hero-panel .hero-actions .button { background: var(--lime); border-color: var(--lime); color: var(--green); }
 .hero-panel .hero-actions .button:hover { background: #edf2cb; }
+.hero-panel .hero-actions .hero-directions { background: transparent; color: var(--lime); }
+.hero-panel .hero-actions .hero-directions:hover { background: #283d30; }
 .hero-panel .text-link:hover { color: var(--lime); }
 .hero-logo { position: absolute; right: -19px; top: 27px; width: 150px; height: 150px; border: 5px solid #fff; border-radius: 50%; background: #000; overflow: hidden; z-index: 1; transform: rotate(20deg); box-shadow: 0 5px 14px #0006; }
 .hero-logo img { width: 100%; height: 100%; object-fit: contain; }
@@ -70,7 +72,8 @@
 .location-map iframe { display: block; width: 100%; height: 320px; border: 0; }
 .location-map figcaption { display: flex; justify-content: space-between; align-items: center; padding: 18px 20px; gap: 15px; font-size: 10px; }
 .location-map figcaption a { text-decoration: underline; text-underline-offset: 4px; white-space: nowrap; }
-.dialog-close { position: sticky; display: block; top: 0; margin: -26px -26px 0 auto; z-index: 2; background: var(--cream); border-radius: 50%; box-shadow: 0 1px 6px #0002; }
+.dialog-close { position: sticky; display: grid; place-items: center; padding: 0; line-height: 1; top: 0; margin: -26px -26px 0 auto; z-index: 2; background: var(--cream); border-radius: 50%; box-shadow: 0 1px 6px #0002; }
+.dialog-close svg { display: block; width: 22px; height: 22px; pointer-events: none; }
 @media (max-width: 1100px) {
   .dish-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 18px; }
 }

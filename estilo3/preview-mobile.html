@@ -1,0 +1,21 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>Vista móvil · Mala Pata</title>
+  <style>
+    * { box-sizing: border-box; }
+    body { margin: 0; background: #202620; color: #f7f5ec; font: 14px system-ui, sans-serif; }
+    header { display: flex; align-items: center; justify-content: center; flex-wrap: wrap; gap: 16px; padding: 16px; }
+    select, a { font: inherit; color: inherit; }
+    select { background: #283d30; padding: 7px; border: 1px solid #69754b; border-radius: 5px; }
+    iframe { display: block; width: 390px; max-width: 100%; height: calc(100dvh - 80px); min-height: 400px; margin: 0 auto; border: 0; background: #f7f5ec; }
+  </style>
+</head>
+<body>
+  <header><label for="width">Vista móvil</label><select id="width"><option value="320">320 px</option><option value="390" selected>390 px</option><option value="430">430 px</option></select><a href="./index.html" target="_blank" rel="noopener">Abrir página completa</a></header>
+  <iframe id="preview" src="./index.html" title="Vista móvil interactiva de Mala Pata"></iframe>
+  <script>document.querySelector('#width').addEventListener('change', event => { document.querySelector('#preview').style.width = event.target.value + 'px'; });</script>
+</body>
+</html>

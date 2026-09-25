@@ -116,7 +116,7 @@ window.MALA_PATA = {
     },
     {
       "id": "mp-10",
-      "name": "Arroz c/ rape y carabineros",
+      "name": "Arroz con rape y carabineros",
       "category": "Arroces y paellas",
       "group": "Arroces y Paellas",
       "description": "Calamares, rape, gambas peladas, gambón, almejas y carabineros",
@@ -127,7 +127,7 @@ window.MALA_PATA = {
     },
     {
       "id": "mp-11",
-      "name": "Arroz c/ bogavante seco",
+      "name": "Arroz con bogavante seco",
       "category": "Arroces y paellas",
       "group": "Arroces y Paellas",
       "description": "Almejas, gambas peladas, calamares y bogavante troceado",
@@ -138,7 +138,7 @@ window.MALA_PATA = {
     },
     {
       "id": "mp-12",
-      "name": "Arroz c/ bogavante meloso",
+      "name": "Arroz con bogavante meloso",
       "category": "Arroces y paellas",
       "group": "Arroces y Paellas",
       "description": "Almejas, gambas peladas y bogavante troceado",
