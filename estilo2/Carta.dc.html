@@ -100,6 +100,9 @@ button{font:inherit;cursor:pointer}
     </sc-if>
     <sc-for list="{{ sections }}" as="s" hint-placeholder-count="4">
       <section id="{{ s.id }}" data-sec="{{ s.id }}" style="margin-top:34px;scroll-margin-top:130px">
+        <sc-if value="{{ s.isBebidas }}" hint-placeholder-val="{{ false }}">
+          <div id="cervezas" style="position:relative;top:-130px;height:0;overflow:hidden"></div>
+        </sc-if>
         <div style="background:#CADDDB;padding:10px 16px 8px;display:flex;flex-wrap:wrap;align-items:baseline;gap:4px 14px;border-top:3px solid #213A3C">
           <h2 style="margin:0;font-family:'Grandstander',sans-serif;font-weight:900;font-size:clamp(26px,3.4vw,36px);line-height:1">{{ s.es }}</h2>
           <span style="font-style:italic;font-size:18px">{{ s.en }}</span>
@@ -349,13 +352,24 @@ class Component extends DCLogic {
     const p = new Intl.DateTimeFormat('en-GB', { timeZone: 'Europe/Madrid', weekday: 'short', hour: '2-digit', minute: '2-digit', hourCycle: 'h23' }).formatToParts(new Date());
     const g = t => (p.find(x => x.type === t) || {}).value;
     this.setState({ now: { d: ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'].indexOf(g('weekday')), m: +g('hour') * 60 + +g('minute') } });
+    this.checkHash = () => {
+      const h = (window.location.hash || '').replace('#', '');
+      if (h) {
+        this.go(h);
+      }
+    };
+    setTimeout(this.checkHash, 120);
+    setTimeout(this.checkHash, 380);
+    window.addEventListener('hashchange', this.checkHash);
   }
   componentWillUnmount() {
     window.removeEventListener('resize', this.onR);
     window.removeEventListener('scroll', this.onS, { capture: true });
     document.removeEventListener('scroll', this.onS, { capture: true });
+    window.removeEventListener('hashchange', this.checkHash);
   }
   go(id) {
+    if (id === 'cervezas' || id === 'cerveza') id = 'bebidas';
     const e = document.getElementById(id);
     if (e) {
       e.scrollIntoView({ behavior: 'smooth', block: 'start' });
@@ -374,7 +388,7 @@ class Component extends DCLogic {
       const list = items.map(it => ({ es: it[0], en: it[1], p: it[2] + ' €', pc: it[2].indexOf('*') >= 0 ? '#7A4610' : '#213A3C', codes: it[3] ? it[3].split(' ') : [], desc: it[4] || '', hasDesc: !!it[4] }))
         .filter(it => { const ok = !it.codes.some(c => banned.has(c)); if (!ok) hidden++; return ok; })
         .map(it => Object.assign(it, { al: it.codes.map(c => ({ c, n: this.AL[c][0] })) }));
-      return { id, es, en, note, items: list };
+      return { id, es, en, note, items: list, isBebidas: id === 'bebidas' };
     }).filter(s => s.items.length);
     return {
       navRef: this.navRef, narrow: this.state.narrow,
