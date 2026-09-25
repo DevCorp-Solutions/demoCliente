@@ -83,7 +83,7 @@ button{font:inherit;cursor:pointer}
   <div style="position:sticky;top:0;z-index:20;background:#EBF4F3;border-bottom:2px solid #213A3C;box-shadow:0 6px 0 -4px rgba(33,58,60,.12)">
     <nav aria-label="Categorías" style="display:flex;gap:6px;overflow-x:auto;padding:10px clamp(16px,4vw,48px);scrollbar-width:none" ref="{{ navRef }}">
       <sc-for list="{{ cats }}" as="c" hint-placeholder-count="9">
-        <button onClick="{{ c.go }}" data-cat="{{ c.id }}" aria-current="{{ c.cur }}" style="flex:none;min-height:44px;padding:0 14px;border:2px solid #213A3C;border-radius:3px;background:{{ c.bg }};color:{{ c.fg }};font-weight:800;font-size:16px;white-space:nowrap">{{ c.es }}</button>
+        <button onClick="{{ c.go }}" data-cat="{{ c.id }}" aria-current="{{ c.cur }}" style="flex:none;min-height:44px;padding:0 14px;border:2px solid #213A3C;border-radius:3px;background:{{ c.bg }};color:{{ c.fg }};font-weight:800;font-size:16px;white-space:nowrap;cursor:pointer">{{ c.es }}</button>
       </sc-for>
     </nav>
     <div style="display:flex;gap:6px;overflow-x:auto;padding:0 clamp(16px,4vw,48px) 10px;align-items:center;scrollbar-width:none">
@@ -344,13 +344,26 @@ class Component extends DCLogic {
         if (b) n.scrollTo({ left: b.offsetLeft - 20, behavior: 'smooth' });
       }
     };
-    window.addEventListener('scroll', this.onS, { passive: true });
+    window.addEventListener('scroll', this.onS, { passive: true, capture: true });
+    document.addEventListener('scroll', this.onS, { passive: true, capture: true });
     const p = new Intl.DateTimeFormat('en-GB', { timeZone: 'Europe/Madrid', weekday: 'short', hour: '2-digit', minute: '2-digit', hourCycle: 'h23' }).formatToParts(new Date());
     const g = t => (p.find(x => x.type === t) || {}).value;
     this.setState({ now: { d: ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'].indexOf(g('weekday')), m: +g('hour') * 60 + +g('minute') } });
   }
-  componentWillUnmount() { window.removeEventListener('resize', this.onR); window.removeEventListener('scroll', this.onS); }
-  go(id) { const e = document.getElementById(id); if (e) window.scrollTo({ top: e.getBoundingClientRect().top + window.scrollY - 124, behavior: 'smooth' }); }
+  componentWillUnmount() {
+    window.removeEventListener('resize', this.onR);
+    window.removeEventListener('scroll', this.onS, { capture: true });
+    document.removeEventListener('scroll', this.onS, { capture: true });
+  }
+  go(id) {
+    const e = document.getElementById(id);
+    if (e) {
+      e.scrollIntoView({ behavior: 'smooth', block: 'start' });
+      this.setState({ cur: id });
+      const n = this.navRef.current, b = n && n.querySelector('[data-cat="' + id + '"]');
+      if (b) n.scrollTo({ left: b.offsetLeft - 20, behavior: 'smooth' });
+    }
+  }
   renderVals() {
     const H = { 0: [7, 24], 1: [6, 24], 2: null, 3: [6, 24], 4: [6, 24], 5: [7, 26], 6: [7, 26] };
     const n = this.state.now; let open = false;
@@ -370,7 +383,12 @@ class Component extends DCLogic {
       filters: this.FI.map(([nm], i) => { const on = this.state.f.includes(i); return { n: nm, pressed: on ? 'true' : 'false', bg: on ? '#3F6E72' : 'transparent', fg: on ? '#FFFFFF' : '#213A3C', bd: on ? '#3F6E72' : '#213A3C', toggle: () => this.setState(s => ({ f: on ? s.f.filter(x => x !== i) : s.f.concat(i) })) }; }),
       hasHidden: hidden > 0, hiddenMsg: hidden + (hidden === 1 ? ' plato oculto' : ' platos ocultos') + ' por tus filtros.', clear: () => this.setState({ f: [] }),
       sections, legend: Object.keys(this.AL).map(c => ({ c, n: this.AL[c][0], en: this.AL[c][1] })),
-      toTop: e => { e.preventDefault(); window.scrollTo({ top: 0, behavior: 'smooth' }); }
+      toTop: e => {
+        if (e && e.preventDefault) e.preventDefault();
+        const topEl = document.querySelector('header') || document.body;
+        if (topEl) topEl.scrollIntoView({ behavior: 'smooth', block: 'start' });
+        window.scrollTo({ top: 0, behavior: 'smooth' });
+      }
     };
   }
 }
