@@ -1,63 +1,74 @@
 <!DOCTYPE html>
-<html lang="es" class="min-h-screen">
+<html lang="es">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover" />
-  <title>Pizzería Carlos Carabanchel | Bistró Clásico & Horno de Leña (Estilo 3)</title>
-  
-  <meta name="description" content="Demostración interactiva de software a medida para hostelería por DevCorp Solutions. Carta digital, comandero KDS y reservas directas." />
-  <meta name="author" content="DevCorp Solutions" />
-  <meta name="theme-color" content="#0e1b33" />
-  
-  <!-- Favicon -->
-  <link rel="icon" type="image/png" href="../assets/images/logo.png" />
-  <link rel="apple-touch-icon" href="../assets/images/logo.png" />
-
-  <!-- Google Fonts & Material Symbols -->
-  <link rel="preconnect" href="https://fonts.googleapis.com" />
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Playfair+Display:ital,wght@0,400;0,600;0,700;1,400&display=swap" rel="stylesheet" />
-  <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet"/>
-
-  <!-- Tailwind CSS CDN -->
-  <script src="https://cdn.tailwindcss.com"></script>
-  <script>
-    tailwind.config = {
-      darkMode: "class",
-      theme: {
-        extend: {
-          colors: {
-      primary: '#3d3228',
-      secondary: '#8c7b6c'
-    },
-          fontFamily: {
-      sans: ['Inter', 'sans-serif'],
-      serif: ['"Playfair Display"', 'Georgia', 'serif']
-    }
-        }
-      }
-    };
-  </script>
-
-  <!-- Estilos Específicos de ESTILO3 -->
-  <link rel="stylesheet" href="./style.css" />
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Mala Pata Aluche · Buena mesa, mejor compañía</title>
+  <meta name="description" content="Descubre la carta de Mala Pata en Aluche: arroces por encargo, platos para compartir y mucho más. Calle Quero, 61, Madrid.">
+  <meta name="theme-color" content="#283d30">
+  <link rel="icon" href="./images/logo.png">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Manrope:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="./style.css">
+  <link rel="stylesheet" href="./menu.css">
+  <script src="./data.js" defer></script>
+  <script src="./photos.js" defer></script>
+  <script src="./app.js" defer></script>
 </head>
-<body class="min-h-screen flex flex-col font-sans text-slate-900 antialiased">
-  
-  <!-- Contenedor Principal de la SPA -->
-  <div id="app" class="flex-1 flex flex-col min-h-screen">
-    <div class="flex-1 flex flex-col items-center justify-center min-h-[60vh] p-6 text-center">
-      <div class="relative flex items-center justify-center mb-6">
-        <div class="w-16 h-16 border-4 border-red-200 border-t-red-600 rounded-full animate-spin"></div>
-        <img src="../assets/images/logo.png" alt="DevCorp Logo" class="absolute w-10 h-10 object-contain" onerror="this.style.display='none'"/>
+<body>
+  <a class="skip" href="#carta">Saltar a la carta</a>
+  <div class="announcement">UN BUEN PLAN EN ALUCHE <span>✳</span> CALLE QUERO, 61 · MADRID</div>
+  <header class="header wrap">
+    <a class="brand brand-logo" href="#inicio" aria-label="Mala Pata Aluche, inicio"><img src="./images/logo.png" alt="Mala Pata Aluche" width="1875" height="1875"></a>
+    <nav aria-label="Navegación principal"><a href="#carta">La carta</a><a href="#arroces">Nuestros arroces</a><a href="#carnes">Nuestras carnes</a><a href="#visitanos">Ven a vernos</a><a href="#valoraciones">Valóranos</a></nav>
+    <a class="button small" href="tel:+34919423696">Reservar por teléfono</a>
+  </header>
+  <main id="inicio">
+    <section class="hero-panel" aria-labelledby="hero-title"><div class="hero wrap">
+      <div class="hero-copy"><p class="eyebrow"><span class="dot"></span> TU PRÓXIMA MESA, EN ALUCHE</p>
+        <h1 id="hero-title">Mala pata.<br>Buena <span class="serif">mesa.</span></h1>
+        <p class="intro">De los que vienen a picar algo<br class="desktop"> y se quedan a la sobremesa.</p>
+        <p class="hero-description">Un arroz para compartir, tu plato de siempre y la mejor compañía. El buen plan está en el barrio.</p>
+        <div class="hero-actions"><a class="button" href="#carta">Échale un ojo a la carta</a><a class="text-link" href="#visitanos">Cómo llegar</a></div>
+        <div class="hero-foot"><span>COCINA PARA DISFRUTAR</span><i>✳</i><span>MESAS PARA COMPARTIR</span></div>
       </div>
-      <h2 class="text-lg font-bold text-slate-900">DevCorp GastroSuite</h2>
-      <p class="text-xs text-slate-500 mt-1">Cargando ESTILO3...</p>
-    </div>
-  </div>
+      <figure class="hero-image"><img src="./images/rice.webp" alt="Arroz con bogavante publicado en la carta de Mala Pata" width="1024" height="1024" fetchpriority="high"><span class="hero-logo"><img src="./images/logo.png" alt="Mala Pata Aluche" width="1875" height="1875"></span><figcaption><span>EL PLAN EMPIEZA CON UN BUEN ARROZ</span></figcaption></figure>
+    </div></section>
+    <div class="ribbon" aria-hidden="true"><div class="ribbon-track"><div class="ribbon-group"><span>MUCHO BARRIO</span><i aria-hidden="true">✳</i><span>BUENA MESA</span><i aria-hidden="true">✳</i><span>CERO PRISAS</span><i aria-hidden="true">✳</i><span>MALA PATA</span><i aria-hidden="true">✳</i><span>MUCHO BARRIO</span><i aria-hidden="true">✳</i><span>BUENA MESA</span><i aria-hidden="true">✳</i><span>CERO PRISAS</span><i aria-hidden="true">✳</i><span>MALA PATA</span><i aria-hidden="true">✳</i></div><div class="ribbon-group"><span>MUCHO BARRIO</span><i aria-hidden="true">✳</i><span>BUENA MESA</span><i aria-hidden="true">✳</i><span>CERO PRISAS</span><i aria-hidden="true">✳</i><span>MALA PATA</span><i aria-hidden="true">✳</i><span>MUCHO BARRIO</span><i aria-hidden="true">✳</i><span>BUENA MESA</span><i aria-hidden="true">✳</i><span>CERO PRISAS</span><i aria-hidden="true">✳</i><span>MALA PATA</span><i aria-hidden="true">✳</i></div></div></div>
+    <section class="rice-section" id="arroces"><div class="wrap rice-grid"><figure><img src="./images/rice-detail.webp" width="1024" height="1024" loading="lazy" alt="Arroz de la carta publicada de Mala Pata"><figcaption>PARA LOS PLANES QUE MERECEN SU TIEMPO.</figcaption></figure><div><p class="eyebrow">EL CENTRO DE LA MESA</p><h2>Hay planes que<br>se hacen <span class="serif">a fuego lento.</span></h2><p>Negro, a banda, con bogavante, de verduras… Elige tu arroz, reúne a los tuyos y deja sitio para repetir.</p><div class="rice-note"><p><strong>Los arroces se preparan por encargo.</strong><br>Precios por persona. Llámanos para consultar disponibilidad y organizar tu visita.</p></div><a class="button light" href="tel:+34919423696">Encarga tu arroz <span>91 942 36 96</span></a></div></div></section>
+    <section class="meat-section" id="carnes" aria-labelledby="meat-title">
+      <div class="wrap rice-grid meat-grid">
+        <div><p class="eyebrow">NUESTRAS CARNES</p><h2 id="meat-title">Para los que vienen<br>con <span class="serif">buen apetito.</span></h2><p>Entrecot, carrillera o un cachopo para compartir. Y para una ocasión especial, cordero y cochinillo asado por encargo.</p><div class="rice-note"><p><strong>Elige tu plato, prepara tu plan.</strong><br>Consulta las carnes de nuestra carta y llámanos para encargar los asados.</p></div><a class="button" href="#carta" data-menu-category="Carnes">Descubre nuestras carnes</a></div>
+        <figure><img id="meat-feature-photo" src="./images/meat-real.jpg" width="1000" height="800" loading="lazy" alt="Entrecot de ternera a la plancha, fotografía de referencia"><figcaption>FOTOGRAFÍA REAL DE REFERENCIA · EMPLATADO ORIENTATIVO</figcaption></figure>
+      </div>
+    </section>
+    <section id="carta" class="menu-section wrap" aria-labelledby="menu-title">
+      <div class="section-heading"><div><p class="eyebrow">LO DIFÍCIL VA A SER ELEGIR</p><h2 id="menu-title">¿Qué te <span class="serif">apetece?</span></h2></div><p>Para picar, para compartir, para darte un homenaje.<br>Tú eliges el plan. Nosotros ponemos la carta.</p></div>
+      <div class="menu-tools"><div id="categories" class="categories" role="group" aria-label="Secciones de la carta"></div></div>
+      <div class="menu-meta"><p id="result-count" role="status"></p><button class="button allergen-info-button" id="allergen-info" type="button"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M12 11v6" stroke-linecap="round"/><circle cx="12" cy="7.5" r="1" fill="currentColor" stroke="none"/></svg>Información de alérgenos</button></div>
+      <div id="menu-results"></div>
+    </section>
 
-  <!-- Scripts Específicos e Independientes del Estilo -->
-  <script src="./data.js"></script>
-  <script src="./app.js"></script>
+    <section id="visitanos" class="visit-section"><div class="visit wrap">
+      <div class="visit-info"><p class="eyebrow">NOS VEMOS EN EL BARRIO</p><h2>Tu mesa está<br>en <span class="serif">Aluche.</span></h2><p>Calle Quero, 61<br>28024 · Madrid</p><a class="button visit-directions" href="https://www.google.com/maps/search/?api=1&amp;query=Mala+Pata+Calle+Quero+61+Madrid" target="_blank" rel="noopener">Cómo llegar con Google Maps</a></div>
+      <figure class="location-map"><iframe title="Google Maps: Mala Pata, Calle Quero 61, Aluche, Madrid" src="https://maps.google.com/maps?q=Mala%20Pata%20Calle%20Quero%2061%20Madrid&amp;z=17&amp;output=embed&amp;hl=es" width="640" height="460" loading="eager" referrerpolicy="no-referrer-when-downgrade" allowfullscreen></iframe><figcaption><span>MALA PATA · CALLE QUERO, 61</span><a href="https://www.google.com/maps/search/?api=1&amp;query=Mala+Pata+Calle+Quero+61+Madrid" target="_blank" rel="noopener">Abrir mapa</a></figcaption></figure>
+    </div></section>
+    <section class="reviews-section" id="valoraciones" aria-labelledby="reviews-title">
+      <div class="wrap reviews-grid">
+        <div class="review-summary"><p class="eyebrow">LO QUE DICE EL BARRIO</p><h2 id="reviews-title">Valóranos</h2><div class="review-score"><strong>4,5</strong><span>/ 5 en Google</span></div><div class="review-average" role="img" aria-label="4,5 de 5 estrellas"><span>★★★★★</span><span aria-hidden="true">★★★★★</span></div><p>1.971 reseñas en Google</p><a class="text-link" href="https://www.google.com/maps/search/?api=1&amp;query=Bar+Mala+Pata+Aluche&amp;query_place_id=ChIJO6N8JD6IQQ0R7VHisrUrmI8" target="_blank" rel="noopener">Ver opiniones en Google</a><p class="review-updated">Consultado el 25/09/2026 · La puntuación puede cambiar.</p></div>
+        <div class="review-invite"><p class="eyebrow">¿QUÉ TAL LO HAS PASADO?</p><h3>Déjanos tus <span class="serif">estrellas.</span></h3><p>Tu opinión nos ayuda a seguir mejorando y a que más vecinos nos conozcan.</p><fieldset class="review-stars"><legend>Elige tu valoración</legend>
+          <label><input type="radio" name="google-rating" value="1"><svg class="rating-star" viewBox="0 0 24 24" aria-hidden="true"><path d="m12 2 3.1 6.3 6.9 1-5 4.9 1.2 6.8-6.2-3.2L5.8 21 7 14.2 2 9.3l6.9-1Z"/></svg><span class="sr-only">1 estrella</span></label>
+          <label><input type="radio" name="google-rating" value="2"><svg class="rating-star" viewBox="0 0 24 24" aria-hidden="true"><path d="m12 2 3.1 6.3 6.9 1-5 4.9 1.2 6.8-6.2-3.2L5.8 21 7 14.2 2 9.3l6.9-1Z"/></svg><span class="sr-only">2 estrellas</span></label>
+          <label><input type="radio" name="google-rating" value="3"><svg class="rating-star" viewBox="0 0 24 24" aria-hidden="true"><path d="m12 2 3.1 6.3 6.9 1-5 4.9 1.2 6.8-6.2-3.2L5.8 21 7 14.2 2 9.3l6.9-1Z"/></svg><span class="sr-only">3 estrellas</span></label>
+          <label><input type="radio" name="google-rating" value="4"><svg class="rating-star" viewBox="0 0 24 24" aria-hidden="true"><path d="m12 2 3.1 6.3 6.9 1-5 4.9 1.2 6.8-6.2-3.2L5.8 21 7 14.2 2 9.3l6.9-1Z"/></svg><span class="sr-only">4 estrellas</span></label>
+          <label><input type="radio" name="google-rating" value="5"><svg class="rating-star" viewBox="0 0 24 24" aria-hidden="true"><path d="m12 2 3.1 6.3 6.9 1-5 4.9 1.2 6.8-6.2-3.2L5.8 21 7 14.2 2 9.3l6.9-1Z"/></svg><span class="sr-only">5 estrellas</span></label>
+        </fieldset><p id="rating-status" class="rating-status" role="status">Elige tus estrellas y continúa en Google.</p><a class="button" href="https://search.google.com/local/writereview?placeid=ChIJO6N8JD6IQQ0R7VHisrUrmI8" target="_blank" rel="noopener">Escribir reseña en Google</a><p class="review-help">Confirma tu puntuación y publica tu reseña en Google con tu cuenta. La selección aquí no envía una valoración.</p></div>
+      </div>
+    </section>
+  </main>
+  <footer><div class="wrap footer-inner"><a class="brand brand-logo" href="#inicio" aria-label="Mala Pata Aluche, inicio"><img src="./images/logo.png" alt="Mala Pata Aluche" width="1875" height="1875"></a><p>Calle Quero, 61 · Aluche, Madrid</p><a href="#carta">Volver a la carta</a></div><div class="wrap credits"><span>Propuesta de diseño · Mala Pata Aluche</span><a href="./photo-credits.html">Créditos de las fotografías</a><span>Diseño por DevCorp Solutions · Estilo 3</span></div></footer>
+  <dialog id="dialog" aria-labelledby="dialog-title"><button class="dialog-close" aria-label="Cerrar ventana">×</button><div id="dialog-content"></div></dialog>
+  <noscript><p class="wrap">Activa JavaScript para consultar la carta interactiva o <a href="https://cartaonlineqr.com/mala-pata-aluche-carta/">abre la carta original</a>.</p></noscript>
 </body>
 </html>
