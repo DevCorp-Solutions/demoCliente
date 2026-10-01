@@ -89,14 +89,14 @@ html{scroll-behavior:smooth}
 <!-- ======== PORTADA ======== -->
 <header data-screen-label="Portada" style="position:relative;background-color:#EBF4F3;background-image:url('data:image/svg+xml,%3Csvg xmlns=%27http://www.w3.org/2000/svg%27 width=%27220%27 height=%27220%27%3E%3Cfilter id=%27n%27%3E%3CfeTurbulence type=%27fractalNoise%27 baseFrequency=%27.85%27 numOctaves=%273%27/%3E%3CfeColorMatrix values=%270 0 0 0 0.13 0 0 0 0 0.23 0 0 0 0 0.24 0 0 0 0.10 0%27/%3E%3C/filter%3E%3Crect width=%27100%25%27 height=%27100%25%27 filter=%27url(%23n)%27/%3E%3C/svg%3E'),url('data:image/svg+xml,%3Csvg xmlns=%27http://www.w3.org/2000/svg%27 width=%27900%27 height=%27900%27%3E%3Cfilter id=%27s%27%3E%3CfeTurbulence type=%27fractalNoise%27 baseFrequency=%27.006%27 numOctaves=%274%27 seed=%277%27/%3E%3CfeColorMatrix values=%270 0 0 0 0.25 0 0 0 0 0.43 0 0 0 0 0.45 0 0 0 0.16 0%27/%3E%3C/filter%3E%3Crect width=%27100%25%27 height=%27100%25%27 filter=%27url(%23s)%27/%3E%3C/svg%3E');overflow:hidden">
   <div style="display:flex;flex-wrap:wrap;align-items:stretch">
-    <div style="flex:1 1 560px;min-width:0;position:relative;padding:clamp(20px,3vw,40px) 0 0;overflow:hidden">
+    <div style="flex:1 1 560px;min-width:0;position:relative;padding:clamp(24px,3.5vw,48px) clamp(20px,4vw,56px) 16px;display:flex;align-items:center;justify-content:center;box-sizing:border-box">
       <sc-if value="{{ logoOk }}" hint-placeholder-val="{{ true }}">
-        <img src="https://cartaonlineqr.com/wp-content/uploads/2024/08/Logo-e1722700766619.png" onError="{{ onLogoError }}" alt="Punto de Encuentro · Bar Cafetería" style="display:block;width:122%;max-width:none;margin-left:-17%;height:auto;transform:rotate(-3deg)">
+        <img src="https://cartaonlineqr.com/wp-content/uploads/2024/08/Logo-e1722700766619.png" onError="{{ onLogoError }}" alt="Punto de Encuentro · Bar Cafetería" style="display:block;width:100%;max-width:640px;height:auto;transform:rotate(-2.5deg);margin:0 auto;filter:drop-shadow(0 10px 24px rgba(33,58,60,0.08))">
       </sc-if>
       <sc-if value="{{ logoFail }}" hint-placeholder-val="{{ false }}">
-        <div aria-label="Punto de Encuentro · Bar Cafetería" style="margin-left:-0.08em;padding-left:clamp(10px,2vw,20px);font-family:'Grandstander',sans-serif;font-weight:900;line-height:.84;font-size:clamp(88px,15vw,230px);letter-spacing:-.02em;color:#213A3C;transform:rotate(-3deg);text-shadow:3px 3px 0 #EBF4F3,-3px -3px 0 #EBF4F3,5px 6px 0 #CADDDB">
-          <div style="margin-left:-.25em">PUNTO</div>
-          <div style="display:flex;align-items:flex-end;gap:.1em">DE<svg viewBox="0 0 24 32" style="height:.8em;transform:rotate(-16deg)"><path d="M12 1C6 1 1.5 5.6 1.5 11.3 1.5 19 12 31 12 31s10.5-12 10.5-19.7C22.5 5.6 18 1 12 1z" fill="#3F6E72"></path><circle cx="12" cy="11.5" r="4.2" fill="#EBF4F3"></circle></svg></div>
+        <div aria-label="Punto de Encuentro · Bar Cafetería" style="padding:clamp(10px,2vw,20px);font-family:'Grandstander',sans-serif;font-weight:900;line-height:.84;font-size:clamp(88px,15vw,230px);letter-spacing:-.02em;color:#213A3C;transform:rotate(-2.5deg);text-shadow:3px 3px 0 #EBF4F3,-3px -3px 0 #EBF4F3,5px 6px 0 #CADDDB;text-align:center">
+          <div>PUNTO</div>
+          <div style="display:flex;align-items:flex-end;justify-content:center;gap:.1em">DE<svg viewBox="0 0 24 32" style="height:.8em;transform:rotate(-16deg)"><path d="M12 1C6 1 1.5 5.6 1.5 11.3 1.5 19 12 31 12 31s10.5-12 10.5-19.7C22.5 5.6 18 1 12 1z" fill="#3F6E72"></path><circle cx="12" cy="11.5" r="4.2" fill="#EBF4F3"></circle></svg></div>
           <div>ENCUENTRO</div>
         </div>
       </sc-if>
