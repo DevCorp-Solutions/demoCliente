@@ -5,6 +5,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <script src="../assets/vendor/react.production.min.js"></script>
 <script src="../assets/vendor/react-dom.production.min.js"></script>
+<script src="../admin/overrides.js" data-style="estilo2"></script>
 <script src="./support.js"></script>
 </head>
 <body>
@@ -398,13 +399,16 @@ class Component extends DCLogic {
       if (b) n.scrollTo({ left: b.offsetLeft - 20, behavior: 'smooth' });
     }
   }
+  // Carta editada desde /admin (admin/overrides.js); si no hay, la del campo C.
+  // Va aquí y no junto a C para no romper la búsqueda de scripts/sync_data.js.
+  CARTA = window.PE_CARTA_ADMIN ? window.PE_CARTA_ADMIN(this.C) : this.C;
   renderVals() {
     const H = { 0: [7, 24], 1: [6, 24], 2: null, 3: [6, 24], 4: [6, 24], 5: [7, 26], 6: [7, 26] };
     const n = this.state.now; let open = false;
     if (n) { const t = H[n.d], y = H[(n.d + 6) % 7]; open = !!(t && n.m >= t[0] * 60 && n.m < t[1] * 60) || !!(y && y[1] > 24 && n.m < (y[1] - 24) * 60); }
     const banned = new Set(); this.state.f.forEach(i => this.FI[i][1].forEach(c => banned.add(c)));
     let hidden = 0;
-    const sections = this.C.map(([id, es, en, note, items]) => {
+    const sections = this.CARTA.map(([id, es, en, note, items]) => {
       const list = items.map(it => ({ es: it[0], en: it[1], p: it[2] + ' €', pc: it[2].indexOf('*') >= 0 ? '#7A4610' : '#213A3C', codes: it[3] ? it[3].split(' ') : [], desc: it[4] || '', hasDesc: !!it[4] }))
         .filter(it => { const ok = !it.codes.some(c => banned.has(c)); if (!ok) hidden++; return ok; })
         .map(it => Object.assign(it, { al: it.codes.map(c => ({ c, n: this.AL[c][0] })) }));
@@ -413,7 +417,7 @@ class Component extends DCLogic {
     return {
       navRef: this.navRef, narrow: this.state.narrow,
       stLabel: n ? (open ? 'Abierto ahora' : 'Cerrado ahora') : '', stColor: open ? '#9FD3C7' : '#E3A33B',
-      cats: this.C.map(([id, es]) => ({ id, es, cur: this.state.cur === id ? 'true' : 'false', bg: this.state.cur === id ? '#213A3C' : '#EBF4F3', fg: this.state.cur === id ? '#EBF4F3' : '#213A3C', go: () => this.go(id) })),
+      cats: this.CARTA.map(([id, es]) => ({ id, es, cur: this.state.cur === id ? 'true' : 'false', bg: this.state.cur === id ? '#213A3C' : '#EBF4F3', fg: this.state.cur === id ? '#EBF4F3' : '#213A3C', go: () => this.go(id) })),
       filters: this.FI.map(([nm], i) => { const on = this.state.f.includes(i); return { n: nm, pressed: on ? 'true' : 'false', bg: on ? '#3F6E72' : 'transparent', fg: on ? '#FFFFFF' : '#213A3C', bd: on ? '#3F6E72' : '#213A3C', toggle: () => this.setState(s => ({ f: on ? s.f.filter(x => x !== i) : s.f.concat(i) })) }; }),
       hasHidden: hidden > 0, hiddenMsg: hidden + (hidden === 1 ? ' plato oculto' : ' platos ocultos') + ' por tus filtros.', clear: () => this.setState({ f: [] }),
       sections, legend: Object.keys(this.AL).map(c => ({ c, n: this.AL[c][0], en: this.AL[c][1] })),

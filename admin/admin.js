@@ -20,6 +20,11 @@
     ['apio', 'Apio'], ['mostaza', 'Mostaza'], ['sesamo', 'Sésamo'], ['sulfitos', 'Sulfitos'],
     ['altramuces', 'Altramuces'], ['moluscos', 'Moluscos']
   ];
+  // Códigos de alérgenos de la carta del Estilo 2 (estilo2/carta.html)
+  const PE_ALLERGENS = [
+    ['GL', 'Gluten'], ['CR', 'Crustáceos'], ['HU', 'Huevo'], ['PE', 'Pescado'], ['CA', 'Cacahuetes'], ['SO', 'Soja'], ['LA', 'Lácteos'],
+    ['FC', 'Frutos de cáscara'], ['AP', 'Apio'], ['MO', 'Mostaza'], ['SE', 'Sésamo'], ['SU', 'Sulfitos'], ['AT', 'Altramuces'], ['ML', 'Moluscos']
+  ];
   const ALLERGEN_ALIAS = { lactosa: 'lacteos', huevo: 'huevos', cacahuetes: 'cacahuete', marisco: 'crustaceos', frutos_secos: 'frutos_cascara' };
 
   // ---------------------------------------------------------------------------
@@ -46,6 +51,14 @@
     if (!src) return '';
     if (/^(https?:|data:|\.\.\/|\/)/.test(src)) return src;
     return '../' + styleId + '/' + src.replace(/^\.\//, '');
+  }
+  // Categorías del Estilo 2 en el orden de su carta, a partir de los datos originales
+  function categoriesById() {
+    const seen = new Map();
+    ((defaults.estilo2 && defaults.estilo2.menu) || []).forEach(m => {
+      if (!seen.has(m.categoryId)) seen.set(m.categoryId, { id: m.categoryId, name: m.category, note: m.note || '' });
+    });
+    return [...seen.values()];
   }
   function parseNumber(value) {
     const n = parseFloat(String(value).replace(',', '.'));
@@ -88,21 +101,38 @@
       allergenText: (d) => countText((d.allergens || []).length)
     },
 
+    // La web del Estilo 2 tiene el contenido escrito en su HTML; admin/overrides.js
+    // aplica allí el nombre, los teléfonos y la carta guardados desde aquí.
     estilo2: {
-      editable: false,
-      appliesUnified: false,
-      note: 'Solo lectura. La web del Estilo 2 (React) tiene la carta escrita en estilo2/carta.html y no lee los datos del admin. Para cambiarla, edita ese archivo y regenera estilo2/data.js con «node scripts/sync_data.js».',
+      editable: true,
+      appliesUnified: true,
+      note: 'La carta, el nombre y los teléfonos se aplican a la portada y a la carta del Estilo 2 en este navegador al recargarlas. El eslogan, la dirección y el horario forman parte del diseño de la página y se cambian en estilo2/index.html.',
       info: [
-        { key: 'name', label: 'Nombre' },
-        { key: 'tagline', label: 'Eslogan' },
-        { key: 'neighborhood', label: 'Barrio' },
-        { key: 'phone', label: 'Teléfono' },
-        { key: 'whatsapp', label: 'WhatsApp' },
-        { key: 'email', label: 'Email' },
-        { key: 'address', label: 'Dirección', wide: true },
-        { key: 'serviceStatus', label: 'Horario', wide: true }
+        { key: 'name', label: 'Nombre del bar', help: 'Sustituye «Punto de Encuentro» en toda la web.' },
+        { key: 'phone', label: 'Teléfono (como se muestra)' },
+        { key: 'phoneRaw', label: 'Teléfono para llamar', help: 'Con prefijo. Ej: +34912948407' },
+        { key: 'whatsapp', label: 'WhatsApp', help: 'Solo números con prefijo, sin +. Ej: 34912948407' },
+        { key: 'tagline', label: 'Eslogan', readonly: true },
+        { key: 'serviceStatus', label: 'Horario', readonly: true },
+        { key: 'address', label: 'Dirección', wide: true, readonly: true }
       ],
-      dishFields: [],
+      dishFields: [
+        { key: 'name', label: 'Nombre del plato', required: true },
+        { key: 'nameEn', label: 'Nombre en inglés' },
+        { key: 'priceFormatted', label: 'Precio (texto)', required: true, placeholder: 'Ej: 3,20 € · +1,30 €', help: 'Un * en el precio lo resalta en otro color en la carta.' },
+        { key: 'categoryId', label: 'Categoría', type: 'select', options: (data) => categoriesById(data).map(c => [c.id, c.name]) },
+        { key: 'description', label: 'Descripción', type: 'textarea', wide: true },
+        { key: 'allergenCodes', label: 'Alérgenos', type: 'allergenCodes', wide: true }
+      ],
+      newDish: (data) => { const c = categoriesById(data)[0]; return { id: 'pe-custom-' + Date.now(), name: '', nameEn: '', price: null, priceFormatted: '', category: c.name, categoryId: c.id, description: '', allergens: [], allergenCodes: [], note: c.note }; },
+      beforeSave: (dish, data) => {
+        const price = String(dish.priceFormatted || '').replace(/\s*€\s*$/, '').trim();
+        dish.priceFormatted = price ? price + ' €' : '';
+        dish.price = parseNumber(price.replace(/[+*]/g, '').split('/')[0]);
+        const c = categoriesById(data).find(x => x.id === dish.categoryId);
+        if (c) { dish.category = c.name; dish.note = c.note; }
+        dish.allergens = (dish.allergenCodes || []).map(code => (PE_ALLERGENS.find(a => a[0] === code) || [code, code])[1]);
+      },
       price: (d) => d.priceFormatted || (d.price != null ? fmtEur(d.price) : 'Consultar'),
       image: () => '',
       allergenText: (d) => countText((d.allergens || []).length)
@@ -110,14 +140,13 @@
 
     estilo3: {
       editable: true,
-      appliesUnified: false,
-      editableInfo: false,
-      note: 'Desde aquí se edita la carta. El nombre, la dirección y el teléfono del Estilo 3 están escritos en estilo3/index.html y se cambian allí. Las fotos de los platos vienen de estilo3/photos.js.',
+      appliesUnified: true,
+      note: 'La carta y los datos del local se aplican a la web del Estilo 3 en este navegador al recargarla. Las fotos de los platos vienen de estilo3/photos.js.',
       info: [
-        { key: 'name', label: 'Nombre' },
-        { key: 'address', label: 'Dirección', wide: true },
-        { key: 'phone', label: 'Teléfono' },
-        { key: 'checkedAt', label: 'Carta revisada el' }
+        { key: 'name', label: 'Nombre', help: 'Sustituye «Mala Pata» en los textos de la web (los logotipos son imágenes y no cambian).' },
+        { key: 'phone', label: 'Teléfono', help: 'Ej: 91 942 36 96' },
+        { key: 'address', label: 'Dirección', wide: true, help: 'Formato «Calle, número · CP Ciudad». La calle sustituye a la de la web y los mapas apuntan a la nueva dirección.' },
+        { key: 'checkedAt', label: 'Carta revisada el', readonly: true }
       ],
       dishFields: [
         { key: 'name', label: 'Nombre del plato', required: true },
@@ -367,7 +396,7 @@
               </div>` : ''}
           </div>
           <form id="style-info-form" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5" novalidate>
-            ${cfg.info.map(f => renderField(f, getPath(data, f.key), 'info-', !infoEditable)).join('')}
+            ${cfg.info.map(f => renderField(f, getPath(data, f.key), 'info-', !infoEditable || f.readonly)).join('')}
           </form>
         </section>
 
@@ -486,6 +515,7 @@
 
   function readInfoForm(form, data, fields) {
     fields.forEach(field => {
+      if (field.readonly) return;
       if (field.type === 'hours') {
         const rows = [...form.querySelectorAll('[data-hours-row]')]
           .map(r => ({ days: r.querySelector('[data-hours-days]').value.trim(), time: r.querySelector('[data-hours-time]').value.trim() }))
@@ -622,6 +652,18 @@
           </select>
         </div>`;
     }
+    if (field.type === 'allergenCodes') {
+      const current = value || [];
+      return `<fieldset class="sm:col-span-2">
+          <legend class="block text-xs font-bold text-slate-300 mb-2">${esc(field.label)}</legend>
+          <div class="grid grid-cols-2 sm:grid-cols-3 gap-2">
+            ${PE_ALLERGENS.map(([k, l]) => `
+              <label class="flex items-center gap-2 text-xs text-slate-300 bg-slate-950 border border-slate-800 rounded-lg px-2.5 py-2 cursor-pointer hover:border-slate-600">
+                <input type="checkbox" data-allergen-code="${k}" ${current.includes(k) ? 'checked' : ''} class="accent-blue-500" /> ${esc(l)}
+              </label>`).join('')}
+          </div>
+        </fieldset>`;
+    }
     if (field.type === 'allergens') {
       const current = (value || []).map(a => ALLERGEN_ALIAS[a] || a);
       return `<fieldset class="sm:col-span-2">
@@ -677,6 +719,10 @@
     form.onsubmit = (e) => {
       e.preventDefault();
       cfg.dishFields.forEach(field => {
+        if (field.type === 'allergenCodes') {
+          draft.allergenCodes = [...fieldsBox.querySelectorAll('[data-allergen-code]:checked')].map(c => c.getAttribute('data-allergen-code'));
+          return;
+        }
         if (field.type === 'allergens') {
           draft.allergens = [...fieldsBox.querySelectorAll('[data-allergen]:checked')].map(c => c.getAttribute('data-allergen'));
           return;
@@ -735,7 +781,8 @@
 
         <div class="p-4 bg-slate-900/60 rounded-xl border border-slate-800 text-xs text-slate-400 space-y-2">
           <p><strong class="text-slate-300">Se aplica a:</strong> ${applies.map(label).map(esc).join(', ')}.</p>
-          <p><strong class="text-slate-300">No se aplica a:</strong> ${notApplies.map(label).map(esc).join(', ')}, porque su nombre está escrito en el HTML de la página.</p>
+          ${notApplies.length ? `<p><strong class="text-slate-300">No se aplica a:</strong> ${notApplies.map(label).map(esc).join(', ')}.</p>` : ''}
+          <p>En el Estilo 1 la portada usa el logotipo fijo de Vukata; el nombre aparece en reservas, cocina, métricas y ventanas. En el Estilo 3 los logotipos son imágenes y no cambian.</p>
           <p>Al desactivarlo, cada estilo vuelve a mostrar su nombre propio.</p>
         </div>
       </div>
