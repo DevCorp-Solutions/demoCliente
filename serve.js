@@ -1,6 +1,6 @@
-// Servidor estático mínimo para previsualizar C:\GIT-DEVCORP\MODELOS_HOSTELERIA
+// Servidor estático mínimo para previsualizar el proyecto (node serve.js)
 const http = require('http'), fs = require('fs'), path = require('path');
-const root = 'C:/GIT-DEVCORP/MODELOS_HOSTELERIA';
+const root = __dirname;
 const types = { '.html': 'text/html; charset=utf-8', '.css': 'text/css', '.js': 'text/javascript', '.png': 'image/png', '.webp': 'image/webp', '.jpg': 'image/jpeg', '.svg': 'image/svg+xml', '.json': 'application/json' };
 http.createServer((req, res) => {
   let p = decodeURIComponent(req.url.split('?')[0]);
