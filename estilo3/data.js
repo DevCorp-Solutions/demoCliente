@@ -1238,3 +1238,12 @@ window.MALA_PATA = {
   "checkedAt": "2026-09-24"
 };
 window.CURRENT_PRESET = window.ESTILO3_DATA = window.MALA_PATA;
+/* Cambios guardados desde el panel /admin (localStorage, solo en este navegador). */
+(function () {
+  try {
+    const custom = localStorage.getItem('devcorp_data_estilo3');
+    if (custom) Object.assign(window.MALA_PATA, JSON.parse(custom));
+  } catch (e) {
+    console.warn('Error cargando datos personalizados de estilo3:', e);
+  }
+})();
