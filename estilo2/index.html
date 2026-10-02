@@ -197,8 +197,12 @@ html{scroll-behavior:smooth}
           </div>
         </sc-for>
       </div>
-      <div style="height:230px;background:repeating-linear-gradient(135deg,#CADDDB 0 10px,#DCE8E6 10px 20px);border:2px solid #213A3C;display:flex;align-items:flex-end;padding:12px;transform:rotate(1.5deg)">
-        <span style="font-family:ui-monospace,Menlo,monospace;font-size:13px;background:#EBF4F3;padding:4px 8px;line-height:1.35">FOTO · café con leche en vaso y porras sobre la barra de acero, 6:30, luz fría de fluorescente</span>
+      <div style="height:240px;position:relative;overflow:hidden;border:3px solid #213A3C;box-shadow:0 8px 24px rgba(33,58,60,0.18);transform:rotate(1.5deg);border-radius:4px;background:#213A3C">
+        <img src="images/01-desayunos_11zon.webp" alt="Desayuno con churros y porras recién hechos en barra" style="width:100%;height:100%;object-fit:cover;display:block">
+        <div style="position:absolute;bottom:10px;left:10px;right:10px;display:flex;justify-content:space-between;align-items:center;background:rgba(24,50,52,0.88);backdrop-filter:blur(4px);padding:6px 12px;border:1px solid #3F6E72;border-radius:2px">
+          <span style="font-family:'Alegreya Sans SC',sans-serif;font-weight:800;letter-spacing:.12em;font-size:12px;color:#9FD3C7">CHURROS & PORRAS RECIÉN HECHOS</span>
+          <span style="font-family:'Grandstander',sans-serif;font-weight:900;font-size:14px;color:#E3A33B">DESDE LAS 06:00</span>
+        </div>
       </div>
     </div>
   </div>
@@ -259,8 +263,12 @@ html{scroll-behavior:smooth}
         </div>
       </sc-for>
     </div>
-    <div style="flex:1 1 260px;min-height:260px;background:repeating-linear-gradient(135deg,#CADDDB 0 10px,#E8EEEB 10px 20px);border:2px solid #213A3C;display:flex;align-items:flex-end;padding:12px">
-      <span style="font-family:ui-monospace,Menlo,monospace;font-size:13px;background:#EBF4F3;padding:4px 8px;line-height:1.35">FOTO · pepito de ternera abierto sobre papel de barra, cenital, con la caña al lado</span>
+    <div style="flex:1 1 280px;min-height:260px;position:relative;overflow:hidden;border:3px solid #213A3C;box-shadow:0 8px 24px rgba(33,58,60,0.18);border-radius:4px;background:#213A3C">
+      <img src="images/09b-bocadillos_11zon.webp" alt="Pepito de ternera y bocadillos en barra" style="width:100%;height:100%;object-fit:cover;display:block">
+      <div style="position:absolute;bottom:10px;left:10px;right:10px;display:flex;justify-content:space-between;align-items:center;background:rgba(24,50,52,0.88);backdrop-filter:blur(4px);padding:6px 12px;border:1px solid #3F6E72;border-radius:2px">
+        <span style="font-family:'Alegreya Sans SC',sans-serif;font-weight:800;letter-spacing:.12em;font-size:12px;color:#9FD3C7">PEPITO DE TERNERA & BOCATAS</span>
+        <span style="font-family:'Grandstander',sans-serif;font-weight:900;font-size:14px;color:#E3A33B">AL MOMENTO</span>
+      </div>
     </div>
   </div>
 </section>
@@ -351,44 +359,148 @@ html{scroll-behavior:smooth}
   </div>
 
   <!-- La carta que no esperas -->
-  <div style="background:#EBF4F3;border-top:2px solid #213A3C;padding:clamp(56px,8vw,110px) clamp(18px,4vw,56px);display:flex;flex-wrap:wrap;gap:clamp(30px,5vw,70px)">
-    <div style="flex:0 1 360px;min-width:0">
-      <div style="font-family:'Alegreya Sans SC',sans-serif;font-weight:800;letter-spacing:.16em;font-size:14px;color:#3F6E72">Raciones especiales</div>
-      <h3 style="margin:8px 0 18px;font-family:'Grandstander',sans-serif;font-weight:900;font-size:clamp(44px,5vw,72px);line-height:.92">La carta que no esperas</h3>
-      <p style="margin:0 0 14px;font-size:20px;text-wrap:pretty">En esta cocina la oreja y la gyoza salen por la misma ventanilla. Lo castizo de siempre y lo que aprendimos de otra cocina que también es de barrio.</p>
-      <p style="margin:0;font-size:20px;font-weight:700">Pregunta qué hay hoy: no todo sale todos los días.</p>
-      <div style="margin-top:28px;height:220px;background:repeating-linear-gradient(135deg,#CADDDB 0 10px,#DCE8E6 10px 20px);border:2px solid #213A3C;display:flex;align-items:flex-end;padding:12px;transform:rotate(-1.5deg)">
-        <span style="font-family:ui-monospace,Menlo,monospace;font-size:13px;background:#EBF4F3;padding:4px 8px;line-height:1.35">FOTO · gyoza casera a la plancha en plato blanco de barra, cenital, junto a un plato de torreznos</span>
+  <div style="background:#EBF4F3;border-top:2px solid #213A3C;padding:clamp(56px,8vw,110px) clamp(18px,4vw,56px);display:flex;flex-wrap:wrap;gap:clamp(30px,5vw,60px);align-items:flex-start">
+    <div style="flex:0 1 380px;min-width:280px">
+      <div style="font-family:'Alegreya Sans SC',sans-serif;font-weight:800;letter-spacing:.16em;font-size:14px;color:#3F6E72">Raciones especiales · Fusión & Tradición</div>
+      <h3 style="margin:8px 0 16px;font-family:'Grandstander',sans-serif;font-weight:900;font-size:clamp(38px,4.5vw,64px);line-height:.95">La carta que no esperas</h3>
+      <p style="margin:0 0 14px;font-size:19px;line-height:1.45;text-wrap:pretty">En esta cocina la oreja a la plancha y la gyoza casera salen por la misma ventanilla. Lo castizo de siempre junto a especialidades orientales y platos de monte con receta propia.</p>
+      
+      <div style="background:#DFE7E3;border-left:3px solid #3F6E72;padding:10px 14px;margin-bottom:20px;font-size:15px;color:#213A3C;font-weight:700">
+        ⭐ Pregunta qué hay hoy: producto fresco del día, no todo sale todos los días.
       </div>
+
+      <div style="height:230px;position:relative;overflow:hidden;border:3px solid #213A3C;box-shadow:0 8px 24px rgba(33,58,60,0.18);transform:rotate(-1.5deg);border-radius:4px;background:#213A3C">
+        <img src="images/08-raciones-especiales_11zon.webp" alt="Gyozas caseras a la plancha y raciones especiales" style="width:100%;height:100%;object-fit:cover;display:block">
+        <div style="position:absolute;bottom:10px;left:10px;right:10px;display:flex;justify-content:space-between;align-items:center;background:rgba(24,50,52,0.88);backdrop-filter:blur(4px);padding:6px 12px;border:1px solid #3F6E72;border-radius:2px">
+          <span style="font-family:'Alegreya Sans SC',sans-serif;font-weight:800;letter-spacing:.12em;font-size:12px;color:#9FD3C7">GYOZAS CASERAS A LA PLANCHA</span>
+          <span style="font-family:'Grandstander',sans-serif;font-weight:900;font-size:14px;color:#E3A33B">RECETA PROPIA</span>
+        </div>
+      </div>
+
+      <a href="carta.html#raciones" style="display:inline-flex;align-items:center;gap:8px;margin-top:20px;font-family:'Grandstander',sans-serif;font-weight:900;font-size:16px;color:#213A3C;text-decoration:underline;text-underline-offset:4px">
+        Ver todas las raciones en carta física →
+      </a>
     </div>
-    <div style="flex:1 1 480px;min-width:0;display:flex;flex-wrap:wrap;align-content:flex-start;gap:6px 18px;font-family:'Grandstander',sans-serif;line-height:1.05">
-      <sc-for list="{{ especiales }}" as="e" hint-placeholder-count="14">
-        <span style="display:inline-flex;align-items:center;gap:14px;font-weight:{{ e.w }};font-size:{{ e.s }};color:{{ e.c }}">{{ e.n }}<svg viewBox="0 0 24 32" width="14" height="19" style="transform:rotate(-16deg)"><path d="M12 1C6 1 1.5 5.6 1.5 11.3 1.5 19 12 31 12 31s10.5-12 10.5-19.7C22.5 5.6 18 1 12 1z" fill="#3F6E72"></path></svg></span>
-      </sc-for>
+
+    <div style="flex:1.5 1 520px;min-width:300px">
+      <div style="display:flex;justify-content:space-between;align-items:baseline;flex-wrap:wrap;gap:8px;border-bottom:3px solid #213A3C;padding-bottom:8px;margin-bottom:20px">
+        <h4 style="margin:0;font-family:'Grandstander',sans-serif;font-weight:900;font-size:26px;color:#213A3C">Pizarra de la Cocina</h4>
+        <span style="font-family:'Alegreya Sans SC',sans-serif;font-weight:800;letter-spacing:.12em;font-size:13px;color:#3F6E72">FUERA DE CARTA & GUISOS CASEROS</span>
+      </div>
+
+      <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:16px">
+        <sc-for list="{{ especialesCards }}" as="ec" hint-placeholder-count="6">
+          <div style="background:#FFFFFF;border:2px solid #213A3C;border-radius:4px;padding:16px 18px;box-shadow:0 4px 12px rgba(33,58,60,0.06);display:flex;flex-direction:column;justify-content:space-between">
+            <div>
+              <div style="display:flex;justify-content:space-between;align-items:flex-start;gap:8px;margin-bottom:8px">
+                <span style="font-family:'Grandstander',sans-serif;font-weight:800;font-size:19px;line-height:1.15;color:#213A3C">{{ ec.n }}</span>
+                <span style="font-family:'Alegreya Sans SC',sans-serif;font-weight:800;font-size:11px;letter-spacing:.1em;background:#DFE7E3;color:#3F6E72;padding:2px 6px;border-radius:2px;white-space:nowrap">{{ ec.tag }}</span>
+              </div>
+              <p style="margin:0;font-size:15px;color:#3F6E72;line-height:1.35">{{ ec.d }}</p>
+            </div>
+            <div style="margin-top:12px;padding-top:8px;border-top:1px dashed #CADDDB;display:flex;justify-content:space-between;align-items:center;font-size:13px;font-style:italic;color:#9A5A14">
+              <span>Cocinado al momento</span>
+              <span style="font-weight:800;font-family:'Grandstander',sans-serif;font-size:15px">Según pizarra</span>
+            </div>
+          </div>
+        </sc-for>
+      </div>
+
+      <!-- Barra de contraste tradicional de Madrid -->
+      <div style="margin-top:20px;background:#DFE7E3;border:2px solid #213A3C;border-radius:4px;padding:14px 18px;display:flex;flex-wrap:wrap;align-items:center;gap:16px">
+        <div style="width:84px;height:68px;flex-shrink:0;border-radius:4px;overflow:hidden;border:2px solid #213A3C">
+          <img src="images/08-raciones_11zon.webp" alt="Raciones castizas de Madrid" style="width:100%;height:100%;object-fit:cover;display:block">
+        </div>
+        <div style="flex:1;min-width:200px">
+          <div style="font-family:'Grandstander',sans-serif;font-weight:900;font-size:17px;color:#213A3C">¿Prefieres lo castizo de siempre?</div>
+          <div style="font-size:14px;color:#3F6E72;line-height:1.35">Torreznos de Soria crujientes, oreja a la plancha con ajillo, bravas caseras y sepia.</div>
+        </div>
+        <a href="carta.html#raciones" style="background:#213A3C;color:#EBF4F3;font-family:'Alegreya Sans SC',sans-serif;font-weight:800;font-size:12px;letter-spacing:.12em;padding:8px 14px;border-radius:3px;text-decoration:none;white-space:nowrap">VER RACIONES</a>
+      </div>
     </div>
   </div>
 </section>
 
 <!-- ======== 23:00 FINDE ======== -->
 <section id="finde" ref="{{ r3 }}" data-screen-label="23:00 Finde hasta las 2" style="background:#183234;color:#EBF4F3;padding:clamp(60px,9vw,140px) clamp(18px,4vw,56px) clamp(60px,8vw,120px)">
-  <div style="display:flex;flex-wrap:wrap;justify-content:space-between;align-items:flex-start;gap:20px 40px">
-    <div>
+  <div style="display:flex;flex-wrap:wrap;justify-content:space-between;align-items:flex-start;gap:30px 40px">
+    <div style="flex:1 1 380px;max-width:500px">
       <div style="font-family:'Grandstander',sans-serif;font-weight:900;font-size:clamp(96px,17vw,250px);line-height:.8;letter-spacing:-.03em;color:#9FD3C7;margin-left:-.05em">23:00</div>
       <sc-if value="{{ now3 }}" hint-placeholder-val="{{ false }}"><div style="display:inline-block;background:#9FD3C7;color:#183234;font-family:'Alegreya Sans SC',sans-serif;font-weight:800;letter-spacing:.14em;font-size:13px;padding:4px 10px;margin-top:18px">Estás aquí</div></sc-if>
       <h2 style="margin:18px 0 0;font-family:'Grandstander',sans-serif;font-weight:800;font-size:clamp(30px,3.4vw,48px);line-height:1">Finde hasta las 2</h2>
-      <p style="margin:10px 0 0;font-size:20px;max-width:420px;color:#CADDDB">Viernes y sábado no se cierra hasta las dos. Que no te pille el cierre sin haber cenado.</p>
-    </div>
-    <div style="flex:0 1 560px;min-width:0;border:3px solid #9FD3C7;padding:clamp(22px,3vw,40px);transform:rotate(1.5deg);margin-top:20px">
-      <div style="font-family:'Alegreya Sans SC',sans-serif;font-weight:800;letter-spacing:.16em;font-size:15px;color:#9FD3C7">Parrillada de carne · para 2</div>
-      <div style="display:flex;align-items:flex-start;gap:8px;margin:4px 0 10px">
-        <span style="font-family:'Grandstander',sans-serif;font-weight:900;font-size:clamp(170px,24vw,340px);line-height:.8;letter-spacing:-.05em;color:#9FD3C7">32</span>
-        <span style="font-family:'Grandstander',sans-serif;font-weight:900;font-size:clamp(50px,6vw,90px);line-height:1;color:#9FD3C7">€</span>
+      <p style="margin:10px 0 0;font-size:20px;color:#CADDDB;line-height:1.4">Viernes y sábado no se cierra hasta las dos de la madrugada. Que no te pille el cierre sin haber cenado.</p>
+
+      <div style="margin-top:28px;display:flex;flex-direction:column;gap:18px">
+        <div style="display:flex;gap:14px;align-items:flex-start">
+          <span style="font-size:24px;line-height:1">🔥</span>
+          <div>
+            <div style="font-family:'Grandstander',sans-serif;font-weight:800;font-size:19px;color:#9FD3C7">Cocina caliente hasta las 02:00</div>
+            <p style="margin:3px 0 0;font-size:15px;color:#CADDDB;line-height:1.4">Parrilladas a la plancha, sartenes camperas, hamburguesas y bocadillos calientes toda la noche.</p>
+          </div>
+        </div>
+        <div style="display:flex;gap:14px;align-items:flex-start">
+          <span style="font-size:24px;line-height:1">🍻</span>
+          <div>
+            <div style="font-family:'Grandstander',sans-serif;font-weight:800;font-size:19px;color:#9FD3C7">Terraza y barra nocturna</div>
+            <p style="margin:3px 0 0;font-size:15px;color:#CADDDB;line-height:1.4">Minis de litro de cerveza, calimocho o tinto de verano para compartir con tu peña.</p>
+          </div>
+        </div>
+        <div style="display:flex;gap:14px;align-items:flex-start">
+          <span style="font-size:24px;line-height:1">🕒</span>
+          <div>
+            <div style="font-family:'Grandstander',sans-serif;font-weight:800;font-size:19px;color:#9FD3C7">Horario especial fin de semana</div>
+            <p style="margin:3px 0 0;font-size:15px;color:#CADDDB;line-height:1.4">Viernes y sábados servicio continuado desde las 06:00 h hasta las 02:00 h ininterrumpido.</p>
+          </div>
+        </div>
       </div>
-      <div style="font-size:22px;font-weight:800;margin-bottom:14px">Con dos bebidas incluidas</div>
-      <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));column-gap:24px">
-        <sc-for list="{{ parrilla }}" as="p" hint-placeholder-count="6">
-          <div style="display:flex;align-items:baseline;gap:8px;padding:6px 0;font-size:19px;border-bottom:1px solid #3F6E72"><span style="flex:1">{{ p }}</span><span style="font-family:'Grandstander',sans-serif;font-weight:800;color:#9FD3C7">×2</span></div>
-        </sc-for>
+    </div>
+
+    <div style="flex:1.2 1 540px;max-width:640px;border:3px solid #9FD3C7;padding:clamp(22px,3.5vw,36px);transform:rotate(1deg);border-radius:6px;background:rgba(33,58,60,0.5);box-shadow:0 16px 36px rgba(0,0,0,0.35);margin-top:10px">
+      <!-- Badge y título sin solapamiento -->
+      <div style="display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:8px;margin-bottom:8px">
+        <span style="font-family:'Alegreya Sans SC',sans-serif;font-weight:800;letter-spacing:.16em;font-size:13px;background:#E3A33B;color:#183234;padding:4px 10px;border-radius:2px">OFERTA FIN DE SEMANA</span>
+        <span style="font-family:'Alegreya Sans SC',sans-serif;font-weight:800;letter-spacing:.12em;font-size:13px;color:#9FD3C7">CENA COMPLETA PARA DOS</span>
+      </div>
+      <h3 style="margin:0 0 12px;font-family:'Grandstander',sans-serif;font-weight:900;font-size:clamp(28px,3.2vw,40px);line-height:1.05;color:#FFFFFF">Parrillada de carne a la brasa</h3>
+
+      <!-- Bloque de precio con separación limpia -->
+      <div style="display:flex;align-items:baseline;justify-content:space-between;border-bottom:2px dashed #3F6E72;padding-bottom:14px;margin-bottom:18px">
+        <div style="display:flex;align-items:baseline;gap:6px">
+          <span style="font-family:'Grandstander',sans-serif;font-weight:900;font-size:clamp(64px,7vw,92px);line-height:0.9;color:#9FD3C7;font-variant-numeric:tabular-nums">32</span>
+          <span style="font-family:'Grandstander',sans-serif;font-weight:900;font-size:38px;color:#E3A33B">€</span>
+        </div>
+        <div style="text-align:right">
+          <div style="font-size:18px;font-weight:800;color:#9FD3C7">16 € / persona</div>
+          <div style="font-size:15px;color:#CADDDB">Con 2 bebidas incluidas</div>
+        </div>
+      </div>
+
+      <!-- Foto e ingredientes -->
+      <div style="display:flex;flex-wrap:wrap;gap:18px;align-items:flex-start">
+        <div style="flex:1 1 200px;min-width:180px">
+          <div style="height:190px;position:relative;border-radius:4px;overflow:hidden;border:2px solid #3F6E72;box-shadow:0 6px 16px rgba(0,0,0,0.25)">
+            <img src="images/parrillada-carne.webp" alt="Parrillada de carne completa con patatas y pimientos" style="width:100%;height:100%;object-fit:cover;display:block">
+            <div style="position:absolute;bottom:6px;left:6px;right:6px;background:rgba(24,50,52,0.92);padding:4px 8px;border-radius:2px;font-size:11px;color:#9FD3C7;font-family:'Alegreya Sans SC',sans-serif;font-weight:800;letter-spacing:.08em;text-align:center">RECIÉN SACADA DE LA PLANCHA</div>
+          </div>
+          <div style="font-size:13px;color:#CADDDB;margin-top:8px;font-style:italic;line-height:1.3">Servida con guarnición de patatas fritas caseras y pimientos de Padrón.</div>
+        </div>
+
+        <div style="flex:1.2 1 220px;min-width:200px">
+          <div style="font-family:'Alegreya Sans SC',sans-serif;font-weight:800;letter-spacing:.12em;font-size:12px;color:#9FD3C7;margin-bottom:8px">PIEZAS INCLUIDAS EN LA BANDEJA:</div>
+          <div style="display:flex;flex-direction:column;gap:5px">
+            <div style="display:flex;align-items:baseline;justify-content:space-between;padding:4px 0;font-size:16px;border-bottom:1px solid rgba(63,110,114,0.6)"><span>Pechuga de pollo</span><span style="font-family:'Grandstander',sans-serif;font-weight:800;color:#9FD3C7">×2</span></div>
+            <div style="display:flex;align-items:baseline;justify-content:space-between;padding:4px 0;font-size:16px;border-bottom:1px solid rgba(63,110,114,0.6)"><span>Filete de ternera</span><span style="font-family:'Grandstander',sans-serif;font-weight:800;color:#9FD3C7">×2</span></div>
+            <div style="display:flex;align-items:baseline;justify-content:space-between;padding:4px 0;font-size:16px;border-bottom:1px solid rgba(63,110,114,0.6)"><span>Chuleta de cerdo</span><span style="font-family:'Grandstander',sans-serif;font-weight:800;color:#9FD3C7">×2</span></div>
+            <div style="display:flex;align-items:baseline;justify-content:space-between;padding:4px 0;font-size:16px;border-bottom:1px solid rgba(63,110,114,0.6)"><span>Costilla marinada</span><span style="font-family:'Grandstander',sans-serif;font-weight:800;color:#9FD3C7">×2</span></div>
+            <div style="display:flex;align-items:baseline;justify-content:space-between;padding:4px 0;font-size:16px;border-bottom:1px solid rgba(63,110,114,0.6)"><span>Longaniza fresca</span><span style="font-family:'Grandstander',sans-serif;font-weight:800;color:#9FD3C7">×2</span></div>
+            <div style="display:flex;align-items:baseline;justify-content:space-between;padding:4px 0;font-size:16px;border-bottom:1px solid rgba(63,110,114,0.6)"><span>Morcilla artesana</span><span style="font-family:'Grandstander',sans-serif;font-weight:800;color:#9FD3C7">×2</span></div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Badge de bebidas -->
+      <div style="margin-top:16px;background:rgba(24,50,52,0.85);border-left:3px solid #E3A33B;padding:8px 12px;font-size:14px;color:#CADDDB">
+        <strong style="color:#E3A33B">🍻 2 Bebidas incluidas:</strong> Caña, doble de cerveza, refresco, copa de vino o botellín.
       </div>
     </div>
   </div>
@@ -912,6 +1024,14 @@ class Component extends DCLogic {
     const stamp = this.state.stamp;
     const esp = ['Gyoza casera', 'Torreznos', 'Arroz tres delicias', 'Pato a la naranja', 'Rollitos de primavera', 'Ciervo y jabalí al coñac', 'Wantón frito', 'Costilla agridulce', 'Tallarines y fideos tres delicias', 'Ternera en salsa de ostra', 'Pollo con almendras', 'Costilla de ternera', 'Pollo al limón'];
     const sz = ['clamp(34px,3.6vw,54px)', 'clamp(24px,2.3vw,34px)', 'clamp(28px,2.8vw,42px)'];
+    const especialesCards = [
+      { n: 'Gyozas caseras a la plancha', d: 'Empanadillas artesanales rellenas de cerdo y verduras con salsa de soja y sésamo tostado.', tag: 'Receta propia' },
+      { n: 'Ciervo y jabalí al coñac', d: 'Guiso de caza mayor a fuego lento con patatas panaderas y reducción de coñac.', tag: 'Guiso de monte' },
+      { n: 'Pato a la naranja crujiente', d: 'Pato asado jugoso con piel dorada y reducción agridulce de naranja natural.', tag: 'Especialidad' },
+      { n: 'Wantón frito artesanal', d: 'Bocados crujientes rellenos de carne picada especiada y salsa casera.', tag: 'Crujiente' },
+      { n: 'Ternera en salsa de ostra', d: 'Finos cortes de ternera salteados a la plancha con cebolleta, setas y salsa de ostra.', tag: 'Al wok' },
+      { n: 'Costilla de ternera agridulce', d: 'Costillar meloso glaseado con toque cítrico y semillas de sésamo.', tag: 'A fuego lento' }
+    ];
     const today = st.open && st.late ? (d + 6) % 7 : d;
     const hoursList = [[1, 'Lunes'], [2, 'Martes'], [3, 'Miércoles'], [4, 'Jueves'], [5, 'Viernes'], [6, 'Sábado'], [0, 'Domingo']].map(([k, n]) => {
       const h = this.H[k], t = k === today;
@@ -1166,6 +1286,7 @@ class Component extends DCLogic {
       promos: [{ n: '3 minis + aperitivo', d: 'Combínalos como quieras, menos 3 de cerveza', p: '13,50 €' }, { n: '3 minis de cerveza + bravas o alioli', d: 'La clásica de los viernes', p: '19,00 €' }, { n: 'Mini cerveza + mini calimocho', d: 'Con bravas, oreja o alitas', p: '15,50 €' }, { n: '3 minis de calimocho + pizza', d: 'Para compartir, o no', p: '15,50 €' }],
       sartenes: [{ n: 'Sartén campera', p: '9,50 €' }, { n: 'Sartén de embutidos', p: '9,50 €' }, { n: 'Supercombo', p: '20,00 €' }, { n: 'Tequeños de queso · Costilla asada', p: 'en carta' }],
       especiales: esp.map((n, i) => ({ n, s: sz[i % 3], w: i % 3 === 0 ? 900 : 700, c: i % 3 === 1 ? '#3F6E72' : '#213A3C' })),
+      especialesCards,
       parrilla: ['Pechuga', 'Filete de ternera', 'Chuleta de cerdo', 'Costilla', 'Longaniza', 'Morcilla'],
       formatList, beerCats, botellas,
       beerH, beerFoam, beerTr, refillBeer: () => this.refillBeer(),
