@@ -7,6 +7,10 @@
   const normalize = text => text.normalize('NFD').replace(/[\u0300-\u036f]/g, '').toLowerCase();
   let category = 'Arroces y paellas';
   const dialog = $('#dialog');
+  $('#style-select').addEventListener('change', event => {
+    const style = event.target.value;
+    if (['estilo1', 'estilo2', 'estilo4'].includes(style)) window.location.href = `../${style}/index.html`;
+  });
   const allergens = [
     ['gluten','Gluten',/gluten/,'<path d="M12 22V3m0 5C5 8 5 3 5 3s7 0 7 5Zm0 6C5 14 5 9 5 9s7 0 7 5Zm0 5c7 0 7-5 7-5s-7 0-7 5Zm0-8c7 0 7-5 7-5s-7 0-7 5Z"/>'],
     ['leche','Leche',/lech[ea]|lact/,'<path d="M9 2h6v5l3 4v11H6V11l3-4V2Zm0 4h6M6 13h12"/>'],
