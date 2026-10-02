@@ -1,0 +1,177 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Alegreya+Sans:ital,wght@0,400;0,500;0,700;0,800;1,400;1,500&family=Alegreya+Sans+SC:wght@500;700;800&family=Caveat:wght@700&family=Grandstander:wght@700;800;900&display=swap">
+<style>
+html,body{margin:0;background:#EBF4F3;color:#213A3C}
+*{box-sizing:border-box}
+a{color:#213A3C}
+a:hover{color:#3F6E72}
+</style>
+</helmet>
+<div style="font-family:'Alegreya Sans',sans-serif;font-size:17px;line-height:1.4;color:#213A3C;background:#EBF4F3;padding:clamp(24px,4vw,56px);max-width:1440px;margin:0 auto">
+  <header style="display:flex;flex-wrap:wrap;justify-content:space-between;align-items:flex-end;gap:16px;border-bottom:3px solid #213A3C;padding-bottom:18px">
+    <div>
+      <div style="font-family:'Alegreya Sans SC',sans-serif;font-weight:800;letter-spacing:.16em;font-size:14px">Punto de Encuentro · bar cafetería</div>
+      <h1 style="margin:4px 0 0;font-family:'Grandstander',sans-serif;font-weight:900;font-size:clamp(48px,6vw,88px);line-height:.9">Sistema de diseño</h1>
+    </div>
+    <div style="display:flex;gap:18px;font-weight:700"><a href="Punto de Encuentro.dc.html">Web</a><a href="Carta.dc.html">Carta</a></div>
+  </header>
+
+  <section style="padding:40px 0;border-bottom:2px solid #213A3C">
+    <h2 style="margin:0 0 6px;font-family:'Grandstander',sans-serif;font-weight:800;font-size:32px">01 · Color</h2>
+    <p style="margin:0 0 22px;max-width:640px">Todo sale del logo y de la carta física. El ámbar solo aparece en precios destacados, minis y cervezas. El menta de precios (#9FD3C7) nunca va sobre fondo claro.</p>
+    <div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(190px,1fr));gap:0;border:2px solid #213A3C">
+      <sc-for list="{{ colors }}" as="c" hint-placeholder-count="8">
+        <div style="border-right:1px solid #213A3C;border-bottom:1px solid #213A3C">
+          <div style="height:120px;background:{{ c.hex }};padding:12px;color:{{ c.ink }};font-family:'Grandstander',sans-serif;font-weight:900;font-size:40px;line-height:1">Aa</div>
+          <div style="padding:10px 12px 12px;background:#FBFDFC">
+            <div style="font-weight:800">{{ c.n }}</div>
+            <div style="font-family:ui-monospace,Menlo,monospace;font-size:13px">{{ c.hex }}</div>
+            <div style="font-size:14px;margin-top:4px">{{ c.use }}</div>
+          </div>
+        </div>
+      </sc-for>
+    </div>
+    <div style="display:flex;flex-wrap:wrap;gap:0;margin-top:22px;border:2px solid #213A3C">
+      <div style="flex:1 1 160px;padding:14px;background:#EBF4F3"><div style="font-family:'Alegreya Sans SC',sans-serif;font-weight:800;font-size:13px;letter-spacing:.12em">06:00 mañana</div>papel menta</div>
+      <div style="flex:1 1 160px;padding:14px;background:#DFE7E3"><div style="font-family:'Alegreya Sans SC',sans-serif;font-weight:800;font-size:13px;letter-spacing:.12em">13:00 mediodía</div>neutro</div>
+      <div style="flex:1 1 160px;padding:14px;background:#CADDDB"><div style="font-family:'Alegreya Sans SC',sans-serif;font-weight:800;font-size:13px;letter-spacing:.12em">18:00 tarde</div>salvia + panel petróleo</div>
+      <div style="flex:1 1 160px;padding:14px;background:#183234;color:#EBF4F3"><div style="font-family:'Alegreya Sans SC',sans-serif;font-weight:800;font-size:13px;letter-spacing:.12em;color:#9FD3C7">23:00 noche</div>petróleo casi negro</div>
+    </div>
+  </section>
+
+  <section style="padding:40px 0;border-bottom:2px solid #213A3C;display:flex;flex-wrap:wrap;gap:40px">
+    <div style="flex:1 1 100%"><h2 style="margin:0;font-family:'Grandstander',sans-serif;font-weight:800;font-size:32px">02 · Tipografía</h2></div>
+    <div style="flex:1 1 420px;min-width:0">
+      <div style="font-family:'Alegreya Sans SC',sans-serif;font-weight:800;letter-spacing:.16em;font-size:13px">Display · Grandstander 800–900</div>
+      <div style="font-family:'Grandstander',sans-serif;font-weight:900;font-size:clamp(70px,8vw,120px);line-height:.85;letter-spacing:-.03em">06:00<br>3,20 €</div>
+      <p style="margin:10px 0 0;font-size:16px">Redondeada y algo irregular, dialoga con el rótulo del logo sin copiarlo. Horas, precios, titulares. Tracking negativo en tamaños gigantes.</p>
+    </div>
+    <div style="flex:1 1 380px;min-width:0">
+      <div style="font-family:'Alegreya Sans SC',sans-serif;font-weight:800;letter-spacing:.16em;font-size:13px">Texto · Alegreya Sans 400–800 + cursiva</div>
+      <div style="font-size:26px;font-weight:800;margin-top:6px">Pepito de ternera</div>
+      <div style="font-size:22px;font-style:italic">Beef steak sandwich</div>
+      <p style="margin:10px 0 18px;font-size:16px">Humanista con cursiva de verdad: la traducción al inglés va siempre en cursiva debajo, como en la carta física.</p>
+      <div style="font-family:'Alegreya Sans SC',sans-serif;font-weight:800;letter-spacing:.16em;font-size:13px">Etiquetas · Alegreya Sans SC, +0,16 em</div>
+      <div style="font-family:'Alegreya Sans SC',sans-serif;font-weight:800;letter-spacing:.2em;font-size:22px;display:flex;align-items:center;gap:12px;margin-top:6px"><span style="width:40px;height:2px;background:#213A3C"></span>Bar cafetería<span style="width:40px;height:2px;background:#213A3C"></span></div>
+      <div style="font-family:'Alegreya Sans SC',sans-serif;font-weight:800;letter-spacing:.16em;font-size:13px;margin-top:22px">Notas · Caveat 700 (solo opiniones)</div>
+      <div style="font-family:'Caveat',cursive;font-weight:700;font-size:30px">La jarra es de litro de verdad.</div>
+    </div>
+  </section>
+
+  <section style="padding:40px 0;border-bottom:2px solid #213A3C">
+    <h2 style="margin:0 0 6px;font-family:'Grandstander',sans-serif;font-weight:800;font-size:32px">03 · El pin</h2>
+    <p style="margin:0 0 24px;max-width:640px">La gota del logo, siempre inclinada −16°. Es el punto del barrio en el mapa y funciona como sistema, no como adorno.</p>
+    <div style="display:flex;flex-wrap:wrap;gap:0;border:2px solid #213A3C">
+      <sc-for list="{{ pins }}" as="p" hint-placeholder-count="6">
+        <div style="flex:1 1 180px;padding:22px 16px;border-right:1px solid #213A3C;display:flex;flex-direction:column;gap:14px;align-items:flex-start;background:{{ p.bg }};color:{{ p.fg }}">
+          <div style="height:90px;display:flex;align-items:flex-end">
+            <svg viewBox="0 0 24 32" width="{{ p.w }}" height="{{ p.h }}" style="transform:rotate(-16deg)"><path d="M12 1C6 1 1.5 5.6 1.5 11.3 1.5 19 12 31 12 31s10.5-12 10.5-19.7C22.5 5.6 18 1 12 1z" fill="{{ p.fill }}"></path><circle cx="12" cy="11.5" r="4.2" fill="{{ p.hole }}"></circle></svg>
+          </div>
+          <div><div style="font-weight:800">{{ p.n }}</div><div style="font-size:14px">{{ p.d }}</div></div>
+        </div>
+      </sc-for>
+    </div>
+  </section>
+
+  <section style="padding:40px 0;border-bottom:2px solid #213A3C">
+    <h2 style="margin:0 0 6px;font-family:'Grandstander',sans-serif;font-weight:800;font-size:32px">04 · Alérgenos</h2>
+    <p style="margin:0 0 24px;max-width:640px">Los 14 oficiales como pins con código de dos letras: legibles a 24 px, sin depender del color y con nombre accesible. En carta se acompañan de leyenda ES/EN.</p>
+    <div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(170px,1fr));gap:16px 20px">
+      <sc-for list="{{ al }}" as="a" hint-placeholder-count="14">
+        <div style="display:flex;align-items:center;gap:14px">
+          <span style="flex:none;width:44px;height:44px;border-radius:50% 50% 50% 0;transform:rotate(-45deg);background:#3F6E72;display:inline-flex;align-items:center;justify-content:center"><span style="transform:rotate(45deg);color:#FFFFFF;font-weight:800;font-size:15px">{{ a.c }}</span></span>
+          <span style="line-height:1.15"><span style="font-weight:800;display:block">{{ a.n }}</span><span style="font-style:italic;font-size:15px">{{ a.en }}</span></span>
+        </div>
+      </sc-for>
+    </div>
+  </section>
+
+  <section style="padding:40px 0;border-bottom:2px solid #213A3C">
+    <h2 style="margin:0 0 22px;font-family:'Grandstander',sans-serif;font-weight:800;font-size:32px">05 · Precios</h2>
+    <div style="display:flex;flex-wrap:wrap;gap:30px;align-items:flex-start">
+      <div style="flex:1 1 300px;min-width:0">
+        <div style="font-family:'Alegreya Sans SC',sans-serif;font-weight:800;letter-spacing:.16em;font-size:13px;margin-bottom:8px">Línea de carta · cifras tabulares</div>
+        <div style="display:flex;align-items:baseline;gap:8px;padding:8px 0;font-size:19px"><span style="font-weight:800">Croquetas de jamón</span><span style="flex:1;border-bottom:2px dotted #3F6E72;transform:translateY(-4px)"></span><span style="font-family:'Grandstander',sans-serif;font-weight:800;font-variant-numeric:tabular-nums">8,00 €</span></div>
+        <div style="display:flex;align-items:baseline;gap:8px;padding:8px 0;font-size:19px"><span style="font-weight:800">Sartén campera</span><span style="flex:1;border-bottom:2px dotted #3F6E72;transform:translateY(-4px)"></span><span style="font-family:'Grandstander',sans-serif;font-weight:800;font-variant-numeric:tabular-nums">9,50 €</span></div>
+      </div>
+      <div style="flex:0 1 300px;background:#213A3C;color:#9FD3C7;padding:20px 24px">
+        <div style="font-family:'Alegreya Sans SC',sans-serif;font-weight:800;letter-spacing:.16em;font-size:13px">Protagonista</div>
+        <div style="font-family:'Grandstander',sans-serif;font-weight:900;font-size:120px;line-height:.85;letter-spacing:-.04em">3,20<span style="font-size:.35em">€</span></div>
+      </div>
+      <div style="flex:0 1 260px;background:#213A3C;padding:30px 24px">
+        <div style="font-family:'Alegreya Sans SC',sans-serif;font-weight:800;letter-spacing:.16em;font-size:13px;color:#9FD3C7;margin-bottom:10px">Sello de oferta</div>
+        <div style="display:inline-block;border:4px solid #E3A33B;color:#E3A33B;padding:6px 16px 4px;border-radius:6px;transform:rotate(-5deg);font-family:'Grandstander',sans-serif;font-weight:900;font-size:64px;line-height:1">13,50 €</div>
+      </div>
+      <div style="flex:0 1 220px">
+        <div style="font-family:'Alegreya Sans SC',sans-serif;font-weight:800;letter-spacing:.16em;font-size:13px;margin-bottom:6px">Número de combinado</div>
+        <div style="font-family:'Grandstander',sans-serif;font-weight:900;font-size:120px;line-height:.9;color:#EBF4F3;-webkit-text-stroke:3px #213A3C"><span style="font-size:.4em;vertical-align:.9em;-webkit-text-stroke:1.5px #213A3C">Nº</span>6</div>
+      </div>
+    </div>
+  </section>
+
+  <section style="padding:40px 0">
+    <h2 style="margin:0 0 22px;font-family:'Grandstander',sans-serif;font-weight:800;font-size:32px">06 · Componentes y reglas</h2>
+    <div style="display:flex;flex-wrap:wrap;gap:30px;align-items:flex-start">
+      <div style="background:#183234;color:#EBF4F3;padding:16px 22px;transform:rotate(-2deg);outline:2px solid #9FD3C7;outline-offset:-9px">
+        <div style="display:flex;align-items:center;gap:10px;font-family:'Grandstander',sans-serif;font-weight:900;font-size:34px;color:#9FD3C7"><span style="width:12px;height:12px;border-radius:50%;background:#9FD3C7"></span>ABIERTO AHORA</div>
+        <div style="font-family:'Alegreya Sans SC',sans-serif;font-weight:700;letter-spacing:.14em;font-size:14px;padding-left:22px">cierra a las 00:00</div>
+      </div>
+      <div style="display:flex;flex-direction:column;gap:10px">
+        <a href="tel:+34912948407" style="display:inline-flex;align-items:center;min-height:52px;padding:0 22px;background:#213A3C;color:#EBF4F3;text-decoration:none;font-family:'Grandstander',sans-serif;font-weight:800;font-size:20px;border-radius:3px">Llámanos</a>
+        <span style="display:inline-flex;align-items:center;min-height:50px;padding:0 20px;border:2px solid #213A3C;font-weight:800;border-radius:3px">Secundario</span>
+      </div>
+      <div style="display:flex;align-items:flex-end;gap:18px">
+        <span style="position:relative;display:block;width:80px;height:124px;border:4px solid #3F6E72;border-radius:4px 4px 14px 14px;overflow:hidden"><span style="position:absolute;left:0;right:0;bottom:0;height:80%;background:#E0A33A"></span><span style="position:absolute;left:0;right:0;bottom:80%;height:12%;background:#F4F1E6"></span></span>
+        <span style="position:relative;display:block;width:80px;height:124px;border:4px solid #3F6E72;border-radius:4px 4px 14px 14px;overflow:hidden"><span style="position:absolute;left:0;right:0;bottom:0;height:80%;background:#4A1A26"></span></span>
+      </div>
+      <ul style="flex:1 1 320px;margin:0;padding-left:20px;font-size:16px;display:flex;flex-direction:column;gap:6px">
+        <li>Radios de 3 px. Nada de esquinas de 16 px ni sombras difusas.</li>
+        <li>Filetes de 2–3 px en petróleo como estructura: la web se lee como una carta.</li>
+        <li>Texturas: grano fino + estuco de baja frecuencia en SVG, solo en fondos claros.</li>
+        <li>Movimiento con intención: pin por la línea del día, jarras que se llenan, precio que se estampa. Todo se anula con prefers-reduced-motion.</li>
+        <li>Táctil mínimo 44 px. Foco visible en ámbar.</li>
+        <li>Copy corto y de barra. Si sirve para cualquier otro bar, fuera.</li>
+      </ul>
+    </div>
+  </section>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script>
+class Component extends DCLogic {
+  renderVals() {
+    const AL = [['GL', 'Gluten', 'Gluten'], ['CR', 'Crustáceos', 'Crustaceans'], ['HU', 'Huevo', 'Eggs'], ['PE', 'Pescado', 'Fish'], ['CA', 'Cacahuetes', 'Peanuts'], ['SO', 'Soja', 'Soy'], ['LA', 'Lácteos', 'Milk'], ['FC', 'Frutos de cáscara', 'Tree nuts'], ['AP', 'Apio', 'Celery'], ['MO', 'Mostaza', 'Mustard'], ['SE', 'Sésamo', 'Sesame'], ['SU', 'Sulfitos', 'Sulphites'], ['AT', 'Altramuces', 'Lupin'], ['ML', 'Moluscos', 'Molluscs']];
+    return {
+      colors: [
+        ['Petróleo', '#213A3C', '#EBF4F3', 'Texto, fondos oscuros, filetes'],
+        ['Petróleo noche', '#183234', '#9FD3C7', 'Franja 23:00, pie'],
+        ['Pin', '#3F6E72', '#FFFFFF', 'Acento de marca, alérgenos'],
+        ['Salvia carta', '#CADDDB', '#213A3C', 'Bandas de título, tarde'],
+        ['Papel menta', '#EBF4F3', '#213A3C', 'Fondo claro con estuco'],
+        ['Menta precios', '#9FD3C7', '#183234', 'Precios sobre oscuro'],
+        ['Ámbar jarra', '#E3A33B', '#183234', 'Ofertas y cervezas (sobre oscuro)'],
+        ['Ámbar tostado', '#7A4610', '#FFFFFF', 'Precios destacados sobre claro']
+      ].map(c => ({ n: c[0], hex: c[1], ink: c[2], use: c[3] })),
+      pins: [
+        ['Marca', 'Logo, favicon', 48, 64, '#3F6E72', '#EBF4F3', '#EBF4F3', '#213A3C'],
+        ['Ahora', 'Hora actual en la línea del día', 34, 46, '#3F6E72', '#EBF4F3', '#EBF4F3', '#213A3C'],
+        ['Rail', 'Indicador de scroll', 24, 32, '#213A3C', '#EBF4F3', '#EBF4F3', '#213A3C'],
+        ['Bullet', 'Listas de la carta', 14, 19, '#3F6E72', '#3F6E72', '#EBF4F3', '#213A3C'],
+        ['Noche', 'Sobre petróleo', 34, 46, '#9FD3C7', '#183234', '#183234', '#EBF4F3'],
+        ['Mapa', 'Maqueda 138', 58, 78, '#3F6E72', '#EBF4F3', '#CADDDB', '#213A3C']
+      ].map(p => ({ n: p[0], d: p[1], w: p[2], h: p[3], fill: p[4], hole: p[5], bg: p[6], fg: p[7] })),
+      al: AL.map(a => ({ c: a[0], n: a[1], en: a[2] }))
+    };
+  }
+}
+</script>
+</body>
+</html>

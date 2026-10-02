@@ -229,7 +229,7 @@
         </div>
 
         <div class="p-4 bg-slate-900/60 rounded-xl border border-slate-800 text-xs text-slate-400 space-y-1">
-          <p><strong>Nota:</strong> Los nombres originales de cada preset (Vukata, Cervecería 27, Carlos, Campamento) se restablecen automáticamente si dejas este campo vacío o pulsas "Desactivar".</p>
+          <p><strong>Nota:</strong> Los nombres originales de cada preset (Vukata, Punto de Encuentro, Carlos, Campamento) se restablecen automáticamente si dejas este campo vacío o pulsas "Desactivar".</p>
         </div>
       </div>
     `;

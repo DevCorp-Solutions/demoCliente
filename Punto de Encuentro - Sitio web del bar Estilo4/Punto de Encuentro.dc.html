@@ -1,0 +1,622 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Alegreya+Sans:ital,wght@0,400;0,500;0,700;0,800;1,400;1,500&family=Alegreya+Sans+SC:wght@500;700;800&family=Caveat:wght@600;700&family=Grandstander:wght@700;800;900&display=swap">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns=%27http://www.w3.org/2000/svg%27 viewBox=%270 0 24 32%27%3E%3Cpath d=%27M12 1C6 1 1.5 5.6 1.5 11.3 1.5 19 12 31 12 31s10.5-12 10.5-19.7C22.5 5.6 18 1 12 1z%27 fill=%27%233F6E72%27/%3E%3Ccircle cx=%2712%27 cy=%2711.5%27 r=%274.2%27 fill=%27%23EBF4F3%27/%3E%3C/svg%3E">
+<style>
+html,body{margin:0;padding:0;background:#EBF4F3;color:#213A3C}
+*{box-sizing:border-box}
+a{color:#213A3C;text-decoration-thickness:2px;text-underline-offset:3px}
+a:hover{color:#3F6E72}
+a:focus-visible,button:focus-visible{outline:3px solid #E3A33B;outline-offset:3px}
+button{font:inherit;cursor:pointer}
+@media (prefers-reduced-motion: reduce){*{transition:none !important;animation:none !important;scroll-behavior:auto !important}}
+html{scroll-behavior:smooth}
+</style>
+</helmet>
+<div style="font-family:'Alegreya Sans',sans-serif;color:#213A3C;background:#EBF4F3;overflow-x:hidden;font-size:18px;line-height:1.4">
+
+<!-- RAIL DEL DÍA -->
+<sc-if value="{{ showRail }}" hint-placeholder-val="{{ false }}">
+<nav aria-label="Franjas del día" style="position:fixed;right:22px;top:50%;transform:translateY(-50%);height:46vh;width:54px;z-index:40;pointer-events:none">
+  <div style="position:absolute;right:9px;top:0;bottom:0;width:2px;background:{{ railLine }}"></div>
+  <sc-for list="{{ railStops }}" as="s" hint-placeholder-count="4">
+    <a href="{{ s.href }}" style="position:absolute;right:0;top:{{ s.top }};transform:translateY(-50%);display:flex;align-items:center;gap:8px;text-decoration:none;pointer-events:auto;font-family:'Alegreya Sans SC',sans-serif;font-weight:800;font-size:13px;letter-spacing:.08em;color:{{ s.color }};min-height:30px">{{ s.label }}<span style="width:10px;height:10px;border-radius:50%;background:{{ s.color }};display:block;margin-right:5px"></span></a>
+  </sc-for>
+  <div style="position:absolute;right:-2px;top:{{ railPin }};transform:translateY(-100%);transition:top .25s ease-out">
+    <svg viewBox="0 0 24 32" width="24" height="32" style="display:block;transform:rotate(-16deg);transform-origin:50% 100%"><path d="M12 1C6 1 1.5 5.6 1.5 11.3 1.5 19 12 31 12 31s10.5-12 10.5-19.7C22.5 5.6 18 1 12 1z" fill="{{ railPinFill }}"></path><circle cx="12" cy="11.5" r="4.2" fill="{{ railPinHole }}"></circle></svg>
+  </div>
+</nav>
+</sc-if>
+
+<!-- ======== PORTADA ======== -->
+<header data-screen-label="Portada" style="position:relative;background-color:#EBF4F3;background-image:url('data:image/svg+xml,%3Csvg xmlns=%27http://www.w3.org/2000/svg%27 width=%27220%27 height=%27220%27%3E%3Cfilter id=%27n%27%3E%3CfeTurbulence type=%27fractalNoise%27 baseFrequency=%27.85%27 numOctaves=%273%27/%3E%3CfeColorMatrix values=%270 0 0 0 0.13 0 0 0 0 0.23 0 0 0 0 0.24 0 0 0 0.10 0%27/%3E%3C/filter%3E%3Crect width=%27100%25%27 height=%27100%25%27 filter=%27url(%23n)%27/%3E%3C/svg%3E'),url('data:image/svg+xml,%3Csvg xmlns=%27http://www.w3.org/2000/svg%27 width=%27900%27 height=%27900%27%3E%3Cfilter id=%27s%27%3E%3CfeTurbulence type=%27fractalNoise%27 baseFrequency=%27.006%27 numOctaves=%274%27 seed=%277%27/%3E%3CfeColorMatrix values=%270 0 0 0 0.25 0 0 0 0 0.43 0 0 0 0 0.45 0 0 0 0.16 0%27/%3E%3C/filter%3E%3Crect width=%27100%25%27 height=%27100%25%27 filter=%27url(%23s)%27/%3E%3C/svg%3E');overflow:hidden">
+  <div style="display:flex;flex-wrap:wrap;justify-content:space-between;align-items:center;gap:12px 28px;padding:18px clamp(18px,4vw,56px);border-bottom:2px solid #213A3C;font-family:'Alegreya Sans SC',sans-serif;font-weight:800;font-size:14px;letter-spacing:.16em">
+    <span>Bar cafetería · Aluche · Madrid</span>
+    <div style="display:flex;flex-wrap:wrap;gap:4px 22px">
+      <a href="#desayunos" style="text-decoration:none;padding:8px 0">06:00 Desayunos</a>
+      <a href="#comer" style="text-decoration:none;padding:8px 0">13:00 A comer</a>
+      <a href="#minis" style="text-decoration:none;padding:8px 0">18:00 Minis</a>
+      <a href="#finde" style="text-decoration:none;padding:8px 0">23:00 Finde</a>
+      <a href="Carta.dc.html" style="text-decoration:none;padding:8px 0">La carta</a>
+      <a href="#llegar" style="text-decoration:none;padding:8px 0">Cómo llegar</a>
+    </div>
+  </div>
+
+  <div style="display:flex;flex-wrap:wrap;align-items:stretch">
+    <div style="flex:1 1 560px;min-width:0;position:relative;padding:clamp(20px,3vw,40px) 0 0">
+      <sc-if value="{{ logoOk }}" hint-placeholder-val="{{ true }}">
+        <img src="https://cartaonlineqr.com/wp-content/uploads/2024/08/Logo-e1722700766619.png" onError="{{ onLogoError }}" alt="Punto de Encuentro · Bar Cafetería" style="display:block;width:122%;max-width:none;margin-left:-17%;height:auto;transform:rotate(-3deg)">
+      </sc-if>
+      <sc-if value="{{ logoFail }}" hint-placeholder-val="{{ false }}">
+        <div aria-label="Punto de Encuentro · Bar Cafetería" style="margin-left:-0.08em;padding-left:clamp(10px,2vw,20px);font-family:'Grandstander',sans-serif;font-weight:900;line-height:.84;font-size:clamp(88px,15vw,230px);letter-spacing:-.02em;color:#213A3C;transform:rotate(-3deg);text-shadow:3px 3px 0 #EBF4F3,-3px -3px 0 #EBF4F3,5px 6px 0 #CADDDB">
+          <div style="margin-left:-.25em">PUNTO</div>
+          <div style="display:flex;align-items:flex-end;gap:.1em">DE<svg viewBox="0 0 24 32" style="height:.8em;transform:rotate(-16deg)"><path d="M12 1C6 1 1.5 5.6 1.5 11.3 1.5 19 12 31 12 31s10.5-12 10.5-19.7C22.5 5.6 18 1 12 1z" fill="#3F6E72"></path><circle cx="12" cy="11.5" r="4.2" fill="#EBF4F3"></circle></svg></div>
+          <div>ENCUENTRO</div>
+        </div>
+      </sc-if>
+    </div>
+
+    <div style="flex:1 1 400px;min-width:0;padding:clamp(28px,4vw,64px) clamp(18px,4vw,56px) 40px;display:flex;flex-direction:column;gap:28px;justify-content:center">
+      <div role="status" style="align-self:flex-start;background:#183234;color:#EBF4F3;padding:18px 26px 16px;transform:rotate(-2deg);position:relative;border:3px solid #183234;outline:2px solid #9FD3C7;outline-offset:-9px">
+        <span style="position:absolute;left:8px;top:8px;width:6px;height:6px;border-radius:50%;background:#9FD3C7"></span>
+        <span style="position:absolute;right:8px;top:8px;width:6px;height:6px;border-radius:50%;background:#9FD3C7"></span>
+        <span style="position:absolute;left:8px;bottom:8px;width:6px;height:6px;border-radius:50%;background:#9FD3C7"></span>
+        <span style="position:absolute;right:8px;bottom:8px;width:6px;height:6px;border-radius:50%;background:#9FD3C7"></span>
+        <div style="display:flex;align-items:center;gap:12px;font-family:'Grandstander',sans-serif;font-weight:900;font-size:clamp(30px,3.4vw,46px);line-height:1;color:{{ statusColor }};letter-spacing:.01em"><span style="width:14px;height:14px;border-radius:50%;background:{{ statusColor }};box-shadow:0 0 0 4px #213A3C,0 0 18px {{ statusColor }}"></span>{{ statusLabel }}</div>
+        <div style="font-family:'Alegreya Sans SC',sans-serif;font-weight:700;letter-spacing:.14em;font-size:15px;margin-top:8px;padding-left:26px">{{ statusSub }}</div>
+      </div>
+
+      <p style="margin:0;font-family:'Grandstander',sans-serif;font-weight:800;font-size:clamp(28px,3vw,42px);line-height:1.05;text-wrap:balance;max-width:14ch">{{ tagline }}</p>
+
+      <div>
+        <div style="font-family:'Grandstander',sans-serif;font-weight:900;font-size:clamp(52px,6.4vw,96px);line-height:.88;letter-spacing:-.015em">C/ Maqueda<br>138</div>
+        <div style="margin-top:12px;font-family:'Alegreya Sans SC',sans-serif;font-weight:800;letter-spacing:.14em;font-size:15px">28024 Aluche · al lado del Metro y Cercanías</div>
+      </div>
+
+      <a href="{{ nowHref }}" style="display:flex;gap:14px;align-items:flex-start;text-decoration:none;border-top:2px solid #213A3C;border-bottom:2px solid #213A3C;padding:14px 0;max-width:520px">
+        <svg viewBox="0 0 24 32" width="20" height="27" style="flex:none;transform:rotate(-16deg);margin-top:2px"><path d="M12 1C6 1 1.5 5.6 1.5 11.3 1.5 19 12 31 12 31s10.5-12 10.5-19.7C22.5 5.6 18 1 12 1z" fill="#3F6E72"></path><circle cx="12" cy="11.5" r="4.2" fill="#EBF4F3"></circle></svg>
+        <span style="font-size:21px;line-height:1.3;font-weight:500">{{ nowMsg }}</span>
+      </a>
+
+      <div style="display:flex;flex-wrap:wrap;gap:14px 26px;align-items:center">
+        <a href="tel:+34912948407" style="display:inline-flex;align-items:center;min-height:52px;padding:0 22px;background:#213A3C;color:#EBF4F3;text-decoration:none;font-family:'Grandstander',sans-serif;font-weight:800;font-size:21px;border-radius:3px">Llámanos · 912 94 84 07</a>
+        <a href="https://www.google.com/maps/place/C.+de+Maqueda,+138,+28024+Madrid" style="font-weight:700;font-size:18px;padding:12px 0">4,2 en Google · +900 opiniones</a>
+      </div>
+    </div>
+  </div>
+
+  <!-- LÍNEA DEL DÍA -->
+  <div style="padding:34px clamp(18px,4vw,56px) 40px;border-top:2px solid #213A3C">
+    <div style="font-family:'Alegreya Sans SC',sans-serif;font-weight:800;letter-spacing:.16em;font-size:14px;margin-bottom:22px">Un día en el Punto · de 6:00 a 2:00</div>
+    <div style="position:relative;height:96px;margin:0 12px">
+      <div style="position:absolute;left:0;right:0;top:44px;height:4px;background:linear-gradient(90deg,#CADDDB 0%,#9FD3C7 35%,#3F6E72 60%,#183234 85%)"></div>
+      <sc-for list="{{ dayStops }}" as="d" hint-placeholder-count="4">
+        <a href="{{ d.href }}" style="position:absolute;left:{{ d.left }};top:34px;transform:translateX(-12px);text-decoration:none;display:flex;flex-direction:column;gap:4px;min-width:44px">
+          <span style="width:24px;height:24px;border-radius:50%;background:{{ d.dot }};border:4px solid #EBF4F3;box-shadow:0 0 0 2px #213A3C"></span>
+          <span style="font-family:'Grandstander',sans-serif;font-weight:900;font-size:clamp(18px,2vw,28px);line-height:1;margin-top:4px">{{ d.h }}</span>
+          <span style="font-family:'Alegreya Sans SC',sans-serif;font-weight:800;font-size:13px;letter-spacing:.1em;white-space:nowrap">{{ d.label }}</span>
+        </a>
+      </sc-for>
+      <div style="position:absolute;left:{{ nowPct }};top:-4px;transform:translateX(-50%);display:flex;flex-direction:column;align-items:center;transition:left .8s cubic-bezier(.2,.9,.3,1)">
+        <span style="font-family:'Alegreya Sans SC',sans-serif;font-weight:800;font-size:12px;letter-spacing:.1em;background:#213A3C;color:#EBF4F3;padding:2px 6px;margin-bottom:2px;white-space:nowrap">{{ clock }}</span>
+        <svg viewBox="0 0 24 32" width="26" height="35" style="transform:rotate(-16deg);opacity:{{ nowPinOpacity }}"><path d="M12 1C6 1 1.5 5.6 1.5 11.3 1.5 19 12 31 12 31s10.5-12 10.5-19.7C22.5 5.6 18 1 12 1z" fill="#3F6E72" stroke="#EBF4F3" stroke-width="1.5"></path><circle cx="12" cy="11.5" r="4.2" fill="#EBF4F3"></circle></svg>
+      </div>
+    </div>
+  </div>
+</header>
+
+<!-- ======== 06:00 DESAYUNOS ======== -->
+<section id="desayunos" ref="{{ r0 }}" data-screen-label="06:00 Desayunos" style="background-color:#EBF4F3;background-image:url('data:image/svg+xml,%3Csvg xmlns=%27http://www.w3.org/2000/svg%27 width=%27900%27 height=%27900%27%3E%3Cfilter id=%27s%27%3E%3CfeTurbulence type=%27fractalNoise%27 baseFrequency=%27.006%27 numOctaves=%274%27 seed=%273%27/%3E%3CfeColorMatrix values=%270 0 0 0 0.25 0 0 0 0 0.43 0 0 0 0 0.45 0 0 0 0.14 0%27/%3E%3C/filter%3E%3Crect width=%27100%25%27 height=%27100%25%27 filter=%27url(%23s)%27/%3E%3C/svg%3E');padding:clamp(56px,8vw,120px) clamp(18px,4vw,56px) clamp(56px,7vw,100px);border-top:2px solid #213A3C">
+  <div style="display:flex;flex-wrap:wrap;align-items:flex-end;gap:10px 40px;margin-bottom:clamp(30px,4vw,56px)">
+    <div style="font-family:'Grandstander',sans-serif;font-weight:900;font-size:clamp(96px,17vw,250px);line-height:.8;letter-spacing:-.03em;margin-left:-.05em">06:00</div>
+    <div style="padding-bottom:10px;max-width:440px">
+      <sc-if value="{{ now0 }}" hint-placeholder-val="{{ false }}"><div style="display:inline-block;background:#3F6E72;color:#FFFFFF;font-family:'Alegreya Sans SC',sans-serif;font-weight:800;letter-spacing:.14em;font-size:13px;padding:4px 10px;margin-bottom:10px">Estás aquí</div></sc-if>
+      <h2 style="margin:0;font-family:'Grandstander',sans-serif;font-weight:800;font-size:clamp(30px,3.4vw,48px);line-height:1">Café y churros</h2>
+      <p style="margin:10px 0 0;font-size:20px;text-wrap:pretty">Los primeros cafés salen a las seis, con los currantes. De lunes a sábado, desayuno hasta las 12:30.</p>
+    </div>
+  </div>
+
+  <div style="display:flex;flex-wrap:wrap;gap:clamp(30px,4vw,64px);align-items:flex-start">
+    <div style="flex:1.4 1 520px;min-width:0;position:relative;background:#213A3C;color:#EBF4F3;padding:clamp(24px,3vw,44px);transform:rotate(-1deg)">
+      <div style="font-family:'Alegreya Sans SC',sans-serif;font-weight:800;letter-spacing:.16em;font-size:14px;color:#9FD3C7">El de siempre</div>
+      <div style="display:flex;align-items:flex-start;gap:6px;margin:6px 0 4px">
+        <span style="font-family:'Grandstander',sans-serif;font-weight:900;font-size:clamp(130px,19vw,280px);line-height:.82;letter-spacing:-.04em;color:#9FD3C7;font-variant-numeric:tabular-nums">3,20</span>
+        <span style="font-family:'Grandstander',sans-serif;font-weight:900;font-size:clamp(40px,5vw,72px);color:#9FD3C7;line-height:1">€</span>
+      </div>
+      <p style="margin:14px 0 18px;font-size:22px;font-weight:700">Café + zumo de naranja + uno a elegir:</p>
+      <div style="display:flex;flex-wrap:wrap;gap:10px 20px;font-family:'Grandstander',sans-serif;font-weight:700;font-size:clamp(20px,1.8vw,25px);line-height:1.1">
+        <sc-for list="{{ desayunoOpts }}" as="o" hint-placeholder-count="10">
+          <span style="display:inline-flex;align-items:center;gap:8px"><svg viewBox="0 0 24 32" width="11" height="15" style="transform:rotate(-16deg)"><path d="M12 1C6 1 1.5 5.6 1.5 11.3 1.5 19 12 31 12 31s10.5-12 10.5-19.7C22.5 5.6 18 1 12 1z" fill="#9FD3C7"></path></svg>{{ o }}</span>
+        </sc-for>
+      </div>
+      <p style="margin:24px 0 0;font-style:italic;color:#CADDDB;font-size:17px">Leche desnatada y sin lactosa, sin pedirlo dos veces.</p>
+    </div>
+
+    <div style="flex:1 1 340px;min-width:0;display:flex;flex-direction:column;gap:34px">
+      <div>
+        <div style="display:flex;align-items:baseline;justify-content:space-between;gap:12px;border-bottom:3px solid #213A3C;padding-bottom:6px">
+          <h3 style="margin:0;font-family:'Grandstander',sans-serif;font-weight:800;font-size:28px">Con montado</h3>
+          <span style="font-family:'Grandstander',sans-serif;font-weight:900;font-size:44px;color:#9A5A14;font-variant-numeric:tabular-nums">4,50 €</span>
+        </div>
+        <p style="margin:10px 0 0;font-size:18px">Café + zumo + montado de <span style="font-weight:700">jamón serrano, bacon, lomo, tortilla española, tortilla francesa, vegetal, atún con pimientos, panceta, pollo</span> o <span style="font-weight:700">pollo vegetal</span>.</p>
+      </div>
+      <div>
+        <div style="font-family:'Alegreya Sans SC',sans-serif;font-weight:800;letter-spacing:.16em;font-size:14px;margin-bottom:8px">Y si el cuerpo pide más</div>
+        <sc-for list="{{ extras }}" as="x" hint-placeholder-count="5">
+          <div style="display:flex;align-items:baseline;gap:8px;padding:7px 0;font-size:18px">
+            <span>{{ x.n }}</span>
+            <span style="flex:1;border-bottom:2px dotted #3F6E72;transform:translateY(-4px)"></span>
+            <span style="font-weight:800;font-variant-numeric:tabular-nums">{{ x.p }}</span>
+          </div>
+        </sc-for>
+      </div>
+      <div style="height:230px;background:repeating-linear-gradient(135deg,#CADDDB 0 10px,#DCE8E6 10px 20px);border:2px solid #213A3C;display:flex;align-items:flex-end;padding:12px;transform:rotate(1.5deg)">
+        <span style="font-family:ui-monospace,Menlo,monospace;font-size:13px;background:#EBF4F3;padding:4px 8px;line-height:1.35">FOTO · café con leche en vaso y porras sobre la barra de acero, 6:30, luz fría de fluorescente</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ======== 13:00 A COMER ======== -->
+<section id="comer" ref="{{ r1 }}" data-screen-label="13:00 A comer" style="background:#DFE7E3;padding:clamp(60px,9vw,130px) clamp(18px,4vw,56px) clamp(50px,6vw,90px);border-top:2px solid #213A3C">
+  <div style="display:flex;flex-wrap:wrap-reverse;justify-content:space-between;align-items:flex-end;gap:14px 40px;margin-bottom:40px">
+    <div style="max-width:520px">
+      <sc-if value="{{ now1 }}" hint-placeholder-val="{{ false }}"><div style="display:inline-block;background:#3F6E72;color:#FFFFFF;font-family:'Alegreya Sans SC',sans-serif;font-weight:800;letter-spacing:.14em;font-size:13px;padding:4px 10px;margin-bottom:10px">Estás aquí</div></sc-if>
+      <h2 style="margin:0;font-family:'Grandstander',sans-serif;font-weight:800;font-size:clamp(30px,3.4vw,48px);line-height:1">A comer</h2>
+      <p style="margin:10px 0 0;font-size:20px;text-wrap:pretty">Menú con patatas y bebida, bocata de los de antes o un combinado con su número. Tú dices el número, nosotros ponemos el plato.</p>
+    </div>
+    <div style="font-family:'Grandstander',sans-serif;font-weight:900;font-size:clamp(96px,17vw,250px);line-height:.8;letter-spacing:-.03em;margin-right:-.04em">13:00</div>
+  </div>
+
+  <div style="border-top:3px solid #213A3C;border-bottom:3px solid #213A3C;margin-bottom:clamp(50px,7vw,100px)">
+    <div style="font-family:'Alegreya Sans SC',sans-serif;font-weight:800;letter-spacing:.16em;font-size:14px;padding:12px 0;border-bottom:1px solid #213A3C">Menús · plato + patatas + refresco o cerveza</div>
+    <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(170px,1fr))">
+      <sc-for list="{{ menus }}" as="m" hint-placeholder-count="5">
+        <div style="padding:18px 16px 18px 0;border-right:1px solid #213A3C;margin-right:16px">
+          <div style="font-size:19px;font-weight:700;min-height:2.6em">{{ m.n }}</div>
+          <div style="font-family:'Grandstander',sans-serif;font-weight:900;font-size:clamp(40px,4vw,56px);line-height:1;font-variant-numeric:tabular-nums">{{ m.p }}<span style="font-size:.5em"> €</span></div>
+        </div>
+      </sc-for>
+    </div>
+  </div>
+
+  <div style="display:flex;flex-wrap:wrap;align-items:baseline;gap:6px 20px;margin-bottom:16px">
+    <h3 style="margin:0;font-family:'Grandstander',sans-serif;font-weight:900;font-size:clamp(40px,5vw,72px);line-height:.95">Platos combinados</h3>
+    <span style="font-size:20px;font-style:italic">del Nº1 al Nº7 · de 8,50 a 16,50 €</span>
+  </div>
+  <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,460px),1fr));column-gap:48px">
+    <sc-for list="{{ combinados }}" as="c" hint-placeholder-count="7">
+      <div style="display:grid;grid-template-columns:auto 1fr auto;align-items:center;gap:18px;border-top:2px solid #213A3C;padding:10px 0">
+        <div style="font-family:'Grandstander',sans-serif;font-weight:900;font-size:clamp(70px,7.5vw,112px);line-height:.9;letter-spacing:-.04em;color:#DFE7E3;-webkit-text-stroke:3px #213A3C;min-width:1.5em"><span style="font-size:.4em;-webkit-text-stroke:1.5px #213A3C;vertical-align:.9em">Nº</span>{{ c.n }}</div>
+        <div style="font-size:20px;font-weight:700;line-height:1.2;text-wrap:balance">{{ c.name }}</div>
+        <div style="font-family:'Grandstander',sans-serif;font-weight:900;font-size:30px;font-variant-numeric:tabular-nums;white-space:nowrap">{{ c.p }}</div>
+      </div>
+    </sc-for>
+  </div>
+
+  <div style="display:flex;flex-wrap:wrap;gap:clamp(30px,5vw,80px);margin-top:clamp(56px,7vw,100px)">
+    <div style="flex:1 1 300px;min-width:0">
+      <div style="display:flex;justify-content:space-between;align-items:baseline;border-bottom:3px solid #213A3C;padding-bottom:6px">
+        <h3 style="margin:0;font-family:'Grandstander',sans-serif;font-weight:800;font-size:30px">Bocadillos</h3>
+        <span style="font-family:'Alegreya Sans SC',sans-serif;font-weight:800;letter-spacing:.12em;font-size:13px">bocata / montado</span>
+      </div>
+      <p style="margin:12px 0 0;font-size:20px;line-height:1.55">Jamón · bacon · lomo · tortilla española · tortilla francesa · vegetal · <span style="font-weight:800">pepito de ternera</span> · <span style="font-weight:800">calamares</span> · oreja · y lo que haya en la plancha.</p>
+    </div>
+    <div style="flex:1.3 1 380px;min-width:0">
+      <div style="border-bottom:3px solid #213A3C;padding-bottom:6px"><h3 style="margin:0;font-family:'Grandstander',sans-serif;font-weight:800;font-size:30px">Hamburguesas</h3></div>
+      <sc-for list="{{ burgers }}" as="b" hint-placeholder-count="4">
+        <div style="display:flex;align-items:baseline;gap:8px;padding:9px 0;font-size:19px">
+          <span>{{ b.n }}</span>
+          <span style="flex:1;border-bottom:2px dotted #3F6E72;transform:translateY(-4px);min-width:20px"></span>
+          <span style="font-weight:800;font-variant-numeric:tabular-nums;white-space:nowrap">{{ b.p }}</span>
+        </div>
+      </sc-for>
+    </div>
+    <div style="flex:1 1 260px;min-height:260px;background:repeating-linear-gradient(135deg,#CADDDB 0 10px,#E8EEEB 10px 20px);border:2px solid #213A3C;display:flex;align-items:flex-end;padding:12px">
+      <span style="font-family:ui-monospace,Menlo,monospace;font-size:13px;background:#EBF4F3;padding:4px 8px;line-height:1.35">FOTO · pepito de ternera abierto sobre papel de barra, cenital, con la caña al lado</span>
+    </div>
+  </div>
+</section>
+
+<!-- ======== 18:00 RACIONES Y MINIS ======== -->
+<section id="minis" ref="{{ r2 }}" data-screen-label="18:00 Raciones y minis" style="background-color:#CADDDB;background-image:url('data:image/svg+xml,%3Csvg xmlns=%27http://www.w3.org/2000/svg%27 width=%27220%27 height=%27220%27%3E%3Cfilter id=%27n%27%3E%3CfeTurbulence type=%27fractalNoise%27 baseFrequency=%27.85%27 numOctaves=%273%27/%3E%3CfeColorMatrix values=%270 0 0 0 0.13 0 0 0 0 0.23 0 0 0 0 0.24 0 0 0 0.10 0%27/%3E%3C/filter%3E%3Crect width=%27100%25%27 height=%27100%25%27 filter=%27url(%23n)%27/%3E%3C/svg%3E');border-top:2px solid #213A3C">
+  <div style="padding:clamp(56px,8vw,120px) clamp(18px,4vw,56px) 0">
+    <div style="display:flex;flex-wrap:wrap;align-items:flex-end;gap:10px 40px">
+      <div style="font-family:'Grandstander',sans-serif;font-weight:900;font-size:clamp(96px,17vw,250px);line-height:.8;letter-spacing:-.03em;margin-left:-.05em">18:00</div>
+      <div style="padding-bottom:10px;max-width:520px">
+        <sc-if value="{{ now2 }}" hint-placeholder-val="{{ false }}"><div style="display:inline-block;background:#213A3C;color:#FFFFFF;font-family:'Alegreya Sans SC',sans-serif;font-weight:800;letter-spacing:.14em;font-size:13px;padding:4px 10px;margin-bottom:10px">Estás aquí</div></sc-if>
+        <h2 style="margin:0;font-family:'Grandstander',sans-serif;font-weight:800;font-size:clamp(30px,3.4vw,48px);line-height:1">Raciones y minis</h2>
+        <p style="margin:10px 0 0;font-size:22px;font-weight:700;text-wrap:pretty">Aquí la caña cuesta 1,90 y la jarra es de litro. Lo demás, pregunta en barra.</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- Constructor de ronda -->
+  <div style="margin:clamp(40px,6vw,80px) 0 0;background:#213A3C;color:#EBF4F3;padding:clamp(28px,4vw,56px) clamp(18px,4vw,56px);position:relative">
+    <div style="display:flex;flex-wrap:wrap;gap:clamp(28px,4vw,60px);align-items:stretch">
+      <div style="flex:1 1 320px;min-width:0">
+        <div style="font-family:'Alegreya Sans SC',sans-serif;font-weight:800;letter-spacing:.16em;font-size:14px;color:#9FD3C7">Constructor de ronda · solo en el interior</div>
+        <h3 style="margin:6px 0 20px;font-family:'Grandstander',sans-serif;font-weight:900;font-size:clamp(38px,4.4vw,60px);line-height:.95">Arma tu ronda</h3>
+        <div style="font-size:17px;margin-bottom:10px">1 · Toca para llenar jarras (hasta 3)</div>
+        <div style="display:flex;flex-wrap:wrap;gap:8px;margin-bottom:22px">
+          <sc-for list="{{ drinkBtns }}" as="d" hint-placeholder-count="5">
+            <button onClick="{{ d.onClick }}" style="min-height:46px;padding:0 14px;border:2px solid #9FD3C7;background:transparent;color:#EBF4F3;border-radius:3px;display:inline-flex;align-items:center;gap:8px;font-weight:700;font-size:17px"><span style="width:14px;height:14px;border-radius:50%;background:{{ d.c }};border:2px solid #EBF4F3"></span>{{ d.n }}</button>
+          </sc-for>
+        </div>
+        <div style="font-size:17px;margin-bottom:10px">2 · ¿Con qué?</div>
+        <div style="display:flex;flex-wrap:wrap;gap:8px">
+          <sc-for list="{{ racionBtns }}" as="r" hint-placeholder-count="7">
+            <button onClick="{{ r.onClick }}" aria-pressed="{{ r.pressed }}" style="min-height:44px;padding:0 13px;border:2px solid #9FD3C7;background:{{ r.bg }};color:{{ r.fg }};border-radius:3px;font-weight:700;font-size:16px">{{ r.n }}</button>
+          </sc-for>
+        </div>
+      </div>
+
+      <div style="flex:1.2 1 380px;min-width:0;display:flex;justify-content:center;align-items:flex-end;gap:clamp(26px,4vw,50px);padding:30px 20px 0">
+        <sc-for list="{{ jarras }}" as="j" hint-placeholder-count="3">
+          <button onClick="{{ j.onClick }}" aria-label="{{ j.aria }}" style="background:none;border:none;padding:0;color:#EBF4F3;display:flex;flex-direction:column;align-items:center;gap:12px">
+            <span style="position:relative;display:block;width:clamp(74px,8vw,104px);height:clamp(118px,12vw,160px);border:4px solid #9FD3C7;border-top-width:3px;border-radius:4px 4px 14px 14px;overflow:hidden;background:rgba(235,244,243,.06)">
+              <span style="position:absolute;left:0;right:0;bottom:0;height:{{ j.h }};background:{{ j.c }};transition:{{ j.t }}"></span>
+              <span style="position:absolute;left:0;right:0;bottom:{{ j.h }};height:{{ j.foam }};background:#F4F1E6;transition:{{ j.t }}"></span>
+              <span style="position:absolute;left:18%;top:10%;bottom:10%;width:6px;border-radius:3px;background:rgba(255,255,255,.28)"></span>
+              <span style="position:absolute;left:52%;top:10%;bottom:10%;width:4px;border-radius:3px;background:rgba(255,255,255,.14)"></span>
+            </span>
+            <span style="font-weight:700;font-size:16px;min-height:22px;text-align:center">{{ j.label }}</span>
+          </button>
+        </sc-for>
+      </div>
+
+      <div style="flex:1 1 280px;min-width:0;display:flex;flex-direction:column;justify-content:center;gap:12px;border-left:2px dashed #3F6E72;padding-left:clamp(0px,3vw,40px)">
+        <div style="font-family:'Alegreya Sans SC',sans-serif;font-weight:800;letter-spacing:.16em;font-size:14px;color:#9FD3C7">Te sale</div>
+        <div style="font-size:20px;font-weight:700;min-height:2.8em;text-wrap:balance">{{ offerTitle }}</div>
+        <div style="align-self:flex-start;border:4px solid {{ offerInk }};color:{{ offerInk }};padding:6px 18px 4px;border-radius:6px;transform:{{ stampT }};opacity:{{ stampO }};transition:{{ stampTr }}">
+          <span style="font-family:'Grandstander',sans-serif;font-weight:900;font-size:clamp(64px,7vw,96px);line-height:1;font-variant-numeric:tabular-nums">{{ offerPrice }}</span>
+        </div>
+        <div style="font-size:17px;color:#CADDDB;min-height:3em;font-style:italic">{{ offerHint }}</div>
+        <button onClick="{{ vaciar }}" style="align-self:flex-start;min-height:44px;background:none;border:none;color:#9FD3C7;text-decoration:underline;text-underline-offset:3px;padding:0;font-size:16px">Vaciar jarras</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Promos y raciones -->
+  <div style="padding:clamp(40px,6vw,80px) clamp(18px,4vw,56px) clamp(56px,7vw,100px);display:flex;flex-wrap:wrap;gap:clamp(34px,5vw,80px)">
+    <div style="flex:1 1 420px;min-width:0">
+      <h3 style="margin:0 0 6px;font-family:'Grandstander',sans-serif;font-weight:800;font-size:30px;border-bottom:3px solid #213A3C;padding-bottom:6px">Promo minis</h3>
+      <sc-for list="{{ promos }}" as="p" hint-placeholder-count="4">
+        <div style="display:flex;align-items:baseline;gap:10px;padding:12px 0;border-bottom:1px solid #213A3C">
+          <div style="flex:1;min-width:0"><div style="font-size:19px;font-weight:700">{{ p.n }}</div><div style="font-size:16px;font-style:italic">{{ p.d }}</div></div>
+          <span style="font-family:'Grandstander',sans-serif;font-weight:900;font-size:32px;color:#7A4610;font-variant-numeric:tabular-nums;white-space:nowrap">{{ p.p }}</span>
+        </div>
+      </sc-for>
+      <p style="margin:14px 0 0;font-size:17px">Sueltos: tinto de verano, cerveza o calimocho <span style="font-weight:800">7,50 €</span> · sidra o sangría <span style="font-weight:800">8,50 €</span></p>
+    </div>
+    <div style="flex:1 1 380px;min-width:0">
+      <h3 style="margin:0 0 12px;font-family:'Grandstander',sans-serif;font-weight:800;font-size:30px;border-bottom:3px solid #213A3C;padding-bottom:6px">Raciones</h3>
+      <p style="margin:0 0 22px;font-family:'Grandstander',sans-serif;font-weight:700;font-size:clamp(22px,2vw,28px);line-height:1.35">Oreja · bravas · alioli · croquetas de jamón · alitas · calamares · sepia · gambones · nachos con pulled pork o pollo mechado</p>
+      <sc-for list="{{ sartenes }}" as="s" hint-placeholder-count="4">
+        <div style="display:flex;align-items:baseline;gap:8px;padding:7px 0;font-size:19px">
+          <span>{{ s.n }}</span>
+          <span style="flex:1;border-bottom:2px dotted #213A3C;transform:translateY(-4px);min-width:20px"></span>
+          <span style="font-weight:800;font-variant-numeric:tabular-nums;white-space:nowrap">{{ s.p }}</span>
+        </div>
+      </sc-for>
+      <a href="Carta.dc.html#raciones" style="display:inline-flex;align-items:center;min-height:44px;margin-top:10px;font-weight:800">Todas las raciones en la carta →</a>
+    </div>
+  </div>
+
+  <!-- La carta que no esperas -->
+  <div style="background:#EBF4F3;border-top:2px solid #213A3C;padding:clamp(56px,8vw,110px) clamp(18px,4vw,56px);display:flex;flex-wrap:wrap;gap:clamp(30px,5vw,70px)">
+    <div style="flex:0 1 360px;min-width:0">
+      <div style="font-family:'Alegreya Sans SC',sans-serif;font-weight:800;letter-spacing:.16em;font-size:14px;color:#3F6E72">Raciones especiales</div>
+      <h3 style="margin:8px 0 18px;font-family:'Grandstander',sans-serif;font-weight:900;font-size:clamp(44px,5vw,72px);line-height:.92">La carta que no esperas</h3>
+      <p style="margin:0 0 14px;font-size:20px;text-wrap:pretty">En esta cocina la oreja y la gyoza salen por la misma ventanilla. Lo castizo de siempre y lo que aprendimos de otra cocina que también es de barrio.</p>
+      <p style="margin:0;font-size:20px;font-weight:700">Pregunta qué hay hoy: no todo sale todos los días.</p>
+      <div style="margin-top:28px;height:220px;background:repeating-linear-gradient(135deg,#CADDDB 0 10px,#DCE8E6 10px 20px);border:2px solid #213A3C;display:flex;align-items:flex-end;padding:12px;transform:rotate(-1.5deg)">
+        <span style="font-family:ui-monospace,Menlo,monospace;font-size:13px;background:#EBF4F3;padding:4px 8px;line-height:1.35">FOTO · gyoza casera a la plancha en plato blanco de barra, cenital, junto a un plato de torreznos</span>
+      </div>
+    </div>
+    <div style="flex:1 1 480px;min-width:0;display:flex;flex-wrap:wrap;align-content:flex-start;gap:6px 18px;font-family:'Grandstander',sans-serif;line-height:1.05">
+      <sc-for list="{{ especiales }}" as="e" hint-placeholder-count="14">
+        <span style="display:inline-flex;align-items:center;gap:14px;font-weight:{{ e.w }};font-size:{{ e.s }};color:{{ e.c }}">{{ e.n }}<svg viewBox="0 0 24 32" width="14" height="19" style="transform:rotate(-16deg)"><path d="M12 1C6 1 1.5 5.6 1.5 11.3 1.5 19 12 31 12 31s10.5-12 10.5-19.7C22.5 5.6 18 1 12 1z" fill="#3F6E72"></path></svg></span>
+      </sc-for>
+    </div>
+  </div>
+</section>
+
+<!-- ======== 23:00 FINDE ======== -->
+<section id="finde" ref="{{ r3 }}" data-screen-label="23:00 Finde hasta las 2" style="background:#183234;color:#EBF4F3;padding:clamp(60px,9vw,140px) clamp(18px,4vw,56px) clamp(60px,8vw,120px)">
+  <div style="display:flex;flex-wrap:wrap;justify-content:space-between;align-items:flex-start;gap:20px 40px">
+    <div>
+      <div style="font-family:'Grandstander',sans-serif;font-weight:900;font-size:clamp(96px,17vw,250px);line-height:.8;letter-spacing:-.03em;color:#9FD3C7;margin-left:-.05em">23:00</div>
+      <sc-if value="{{ now3 }}" hint-placeholder-val="{{ false }}"><div style="display:inline-block;background:#9FD3C7;color:#183234;font-family:'Alegreya Sans SC',sans-serif;font-weight:800;letter-spacing:.14em;font-size:13px;padding:4px 10px;margin-top:18px">Estás aquí</div></sc-if>
+      <h2 style="margin:18px 0 0;font-family:'Grandstander',sans-serif;font-weight:800;font-size:clamp(30px,3.4vw,48px);line-height:1">Finde hasta las 2</h2>
+      <p style="margin:10px 0 0;font-size:20px;max-width:420px;color:#CADDDB">Viernes y sábado no se cierra hasta las dos. Que no te pille el cierre sin haber cenado.</p>
+    </div>
+    <div style="flex:0 1 560px;min-width:0;border:3px solid #9FD3C7;padding:clamp(22px,3vw,40px);transform:rotate(1.5deg);margin-top:20px">
+      <div style="font-family:'Alegreya Sans SC',sans-serif;font-weight:800;letter-spacing:.16em;font-size:15px;color:#9FD3C7">Parrillada de carne · para 2</div>
+      <div style="display:flex;align-items:flex-start;gap:8px;margin:4px 0 10px">
+        <span style="font-family:'Grandstander',sans-serif;font-weight:900;font-size:clamp(170px,24vw,340px);line-height:.8;letter-spacing:-.05em;color:#9FD3C7">32</span>
+        <span style="font-family:'Grandstander',sans-serif;font-weight:900;font-size:clamp(50px,6vw,90px);line-height:1;color:#9FD3C7">€</span>
+      </div>
+      <div style="font-size:22px;font-weight:800;margin-bottom:14px">Con dos bebidas incluidas</div>
+      <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));column-gap:24px">
+        <sc-for list="{{ parrilla }}" as="p" hint-placeholder-count="6">
+          <div style="display:flex;align-items:baseline;gap:8px;padding:6px 0;font-size:19px;border-bottom:1px solid #3F6E72"><span style="flex:1">{{ p }}</span><span style="font-family:'Grandstander',sans-serif;font-weight:800;color:#9FD3C7">×2</span></div>
+        </sc-for>
+      </div>
+    </div>
+  </div>
+
+  <div style="margin-top:clamp(60px,8vw,120px);border-top:2px solid #3F6E72;padding-top:34px">
+    <div style="display:flex;flex-wrap:wrap;align-items:baseline;gap:10px 30px;margin-bottom:34px">
+      <h3 style="margin:0;font-family:'Grandstander',sans-serif;font-weight:800;font-size:32px">Cervezas</h3>
+      <span style="font-size:22px">Caña o botellín <span style="font-family:'Grandstander',sans-serif;font-weight:900;font-size:40px;color:#E3A33B">1,90 €</span></span>
+      <span style="font-size:18px;color:#CADDDB">En terraza, +0,10 €</span>
+    </div>
+    <div style="display:flex;align-items:flex-end;gap:clamp(14px,2.4vw,36px);overflow-x:auto;padding-bottom:10px">
+      <sc-for list="{{ botellas }}" as="b" hint-placeholder-count="7">
+        <div style="flex:none;display:flex;flex-direction:column;align-items:center;width:clamp(78px,8vw,110px)">
+          <span style="display:block;width:16px;height:12px;background:#9FD3C7;border-radius:2px"></span>
+          <span style="display:block;width:22px;height:44px;border:3px solid #9FD3C7;border-bottom:none;border-radius:4px 4px 0 0"></span>
+          <span style="display:flex;justify-content:center;align-items:center;width:60px;height:170px;border:3px solid #9FD3C7;border-radius:24px 24px 6px 6px;position:relative;background:{{ b.fill }}">
+            <span style="position:absolute;left:-3px;right:-3px;top:48px;bottom:40px;background:{{ b.label }};border-top:3px solid #9FD3C7;border-bottom:3px solid #9FD3C7;display:flex;align-items:center;justify-content:center">
+              <span style="writing-mode:vertical-rl;transform:rotate(180deg);font-family:'Alegreya Sans SC',sans-serif;font-weight:800;font-size:13px;letter-spacing:.1em;color:{{ b.ink }};white-space:nowrap">{{ b.short }}</span>
+            </span>
+          </span>
+          <span style="margin-top:12px;font-size:15px;font-weight:700;text-align:center;line-height:1.15;min-height:2.4em">{{ b.n }}</span>
+        </div>
+      </sc-for>
+    </div>
+    <div style="display:flex;align-items:center;gap:14px;margin-top:10px"><span style="flex:1;height:0;border-top:2px dotted #9FD3C7"></span><span style="font-family:'Grandstander',sans-serif;font-weight:900;font-size:40px;color:#9FD3C7">3,20 € cada una</span></div>
+  </div>
+</section>
+
+<!-- ======== OPINIONES ======== -->
+<section data-screen-label="Opiniones" style="background-color:#EBF4F3;background-image:url('data:image/svg+xml,%3Csvg xmlns=%27http://www.w3.org/2000/svg%27 width=%27220%27 height=%27220%27%3E%3Cfilter id=%27n%27%3E%3CfeTurbulence type=%27fractalNoise%27 baseFrequency=%27.85%27 numOctaves=%273%27/%3E%3CfeColorMatrix values=%270 0 0 0 0.13 0 0 0 0 0.23 0 0 0 0 0.24 0 0 0 0.10 0%27/%3E%3C/filter%3E%3Crect width=%27100%25%27 height=%27100%25%27 filter=%27url(%23n)%27/%3E%3C/svg%3E');padding:clamp(56px,7vw,100px) clamp(18px,4vw,56px);display:flex;flex-wrap:wrap;gap:clamp(30px,5vw,70px);align-items:flex-start">
+  <div style="flex:0 1 320px">
+    <div style="font-family:'Grandstander',sans-serif;font-weight:900;font-size:clamp(120px,14vw,200px);line-height:.8;letter-spacing:-.04em">4,2</div>
+    <p style="margin:14px 0 0;font-size:21px;font-weight:700">Más de 900 opiniones en Google.</p>
+    <p style="margin:6px 0 0;font-size:18px;font-style:italic">Lo que se dice en la barra, por escrito.</p>
+  </div>
+  <div style="flex:1 1 520px;min-width:0;display:flex;flex-wrap:wrap;gap:26px;align-items:flex-start">
+    <sc-for list="{{ notas }}" as="n" hint-placeholder-count="3">
+      <figure style="margin:{{ n.m }};flex:1 1 220px;max-width:300px;background:#FBFDFC;padding:26px 22px 18px;transform:{{ n.r }};box-shadow:0 1px 0 #CADDDB,0 12px 20px -14px rgba(24,50,52,.45);background-image:linear-gradient(90deg,transparent 49.6%,rgba(33,58,60,.07) 50%,transparent 50.4%),linear-gradient(0deg,transparent 49.6%,rgba(33,58,60,.07) 50%,transparent 50.4%)">
+        <blockquote style="margin:0;font-family:'Caveat',cursive;font-weight:700;font-size:31px;line-height:1.05;color:#213A3C">{{ n.t }}</blockquote>
+        <figcaption style="margin-top:14px;font-family:'Alegreya Sans SC',sans-serif;font-weight:800;font-size:12px;letter-spacing:.14em;color:#9A5A14">Texto de ejemplo · sustituir por reseña real</figcaption>
+      </figure>
+    </sc-for>
+  </div>
+</section>
+
+<!-- ======== CÓMO LLEGAR ======== -->
+<section id="llegar" data-screen-label="Cómo llegar" style="background:#CADDDB;border-top:2px solid #213A3C;display:flex;flex-wrap:wrap">
+  <div style="flex:1.3 1 560px;min-width:0;position:relative;min-height:480px;background-color:#DCE8E6;overflow:hidden;border-right:2px solid #213A3C" role="img" aria-label="Mapa esquemático: C/ Maqueda 138, junto a la estación de Metro y Cercanías de Aluche">
+    <div style="position:absolute;left:-10%;right:-10%;top:30%;height:12px;background:#FBFDFC;transform:rotate(-8deg)"></div>
+    <div style="position:absolute;left:-10%;right:-10%;top:66%;height:8px;background:#FBFDFC;transform:rotate(-8deg)"></div>
+    <div style="position:absolute;left:22%;top:-10%;bottom:-10%;width:8px;background:#FBFDFC;transform:rotate(12deg)"></div>
+    <div style="position:absolute;left:70%;top:-10%;bottom:-10%;width:10px;background:#FBFDFC;transform:rotate(12deg)"></div>
+    <div style="position:absolute;left:-10%;right:-10%;top:52%;height:34px;background:#213A3C;transform:rotate(-8deg);display:flex;align-items:center;padding-left:18%">
+      <span style="font-family:'Alegreya Sans SC',sans-serif;font-weight:800;letter-spacing:.3em;font-size:15px;color:#EBF4F3">Calle de Maqueda</span>
+    </div>
+    <div style="position:absolute;left:-10%;right:-10%;top:16%;height:10px;transform:rotate(-8deg);background:repeating-linear-gradient(90deg,#3F6E72 0 22px,transparent 22px 34px)"></div>
+    <div style="position:absolute;left:8%;top:6%;font-family:'Alegreya Sans SC',sans-serif;font-weight:800;letter-spacing:.14em;font-size:13px;color:#213A3C;transform:rotate(-8deg)">Vía Cercanías C-5</div>
+    <div style="position:absolute;left:34%;top:22%;background:#EBF4F3;border:3px solid #213A3C;padding:8px 12px;transform:rotate(-8deg)">
+      <div style="font-family:'Grandstander',sans-serif;font-weight:900;font-size:20px;line-height:1">Aluche</div>
+      <div style="font-family:'Alegreya Sans SC',sans-serif;font-weight:800;font-size:12px;letter-spacing:.12em">Metro L5 · Cercanías C-5</div>
+    </div>
+    <div style="position:absolute;left:52%;top:40%;transform:translate(-50%,-100%);display:flex;flex-direction:column;align-items:center">
+      <span style="background:#213A3C;color:#EBF4F3;font-family:'Grandstander',sans-serif;font-weight:800;font-size:18px;padding:6px 12px;margin-bottom:6px;white-space:nowrap">Maqueda 138</span>
+      <svg viewBox="0 0 24 32" width="64" height="86" style="transform:rotate(-16deg);transform-origin:50% 100%"><path d="M12 1C6 1 1.5 5.6 1.5 11.3 1.5 19 12 31 12 31s10.5-12 10.5-19.7C22.5 5.6 18 1 12 1z" fill="#3F6E72" stroke="#EBF4F3" stroke-width="1.2"></path><circle cx="12" cy="11.5" r="4.2" fill="#EBF4F3"></circle></svg>
+    </div>
+    <div style="position:absolute;left:16px;bottom:14px;font-family:ui-monospace,Menlo,monospace;font-size:12px;background:#EBF4F3;padding:4px 8px">Plano esquemático, no a escala</div>
+  </div>
+
+  <div style="flex:1 1 420px;min-width:0;padding:clamp(36px,5vw,70px) clamp(18px,4vw,56px)">
+    <h2 style="margin:0 0 6px;font-family:'Grandstander',sans-serif;font-weight:900;font-size:clamp(40px,4.4vw,64px);line-height:.95">Cómo llegar</h2>
+    <p style="margin:0 0 20px;font-size:20px">Sales del Metro o del Cercanías de Aluche y ya casi estás. C/ Maqueda 138, 28024 Madrid.</p>
+    <a href="tel:+34912948407" style="display:block;text-decoration:none;font-family:'Grandstander',sans-serif;font-weight:900;font-size:clamp(44px,5vw,68px);line-height:1;letter-spacing:-.01em;padding:6px 0;font-variant-numeric:tabular-nums">912 94 84 07</a>
+    <p style="margin:6px 0 20px;font-size:17px;font-style:italic">No hacemos reservas online. Llama y te decimos cómo está la cosa.</p>
+    <div style="display:flex;flex-wrap:wrap;gap:12px;margin-bottom:34px">
+      <a href="tel:+34912948407" style="display:inline-flex;align-items:center;min-height:50px;padding:0 20px;background:#213A3C;color:#EBF4F3;text-decoration:none;font-weight:800;font-size:18px;border-radius:3px">Llámanos</a>
+      <a href="https://www.google.com/maps/search/?api=1&amp;query=Calle+de+Maqueda+138+28024+Madrid" style="display:inline-flex;align-items:center;min-height:50px;padding:0 20px;border:2px solid #213A3C;text-decoration:none;font-weight:800;font-size:18px;border-radius:3px">Abrir en Google Maps</a>
+    </div>
+    <div style="font-family:'Alegreya Sans SC',sans-serif;font-weight:800;letter-spacing:.16em;font-size:14px;margin-bottom:6px">Horario</div>
+    <sc-for list="{{ hours }}" as="h" hint-placeholder-count="7">
+      <div style="display:flex;align-items:baseline;gap:10px;padding:9px 10px;margin:0 -10px;background:{{ h.bg }};color:{{ h.fg }};border-bottom:1px solid #213A3C">
+        <span style="width:120px;font-weight:800;font-size:19px">{{ h.d }}</span>
+        <span style="flex:1;font-size:19px;font-variant-numeric:tabular-nums;text-decoration:{{ h.deco }}">{{ h.h }}</span>
+        <span style="font-family:'Alegreya Sans SC',sans-serif;font-weight:800;font-size:12px;letter-spacing:.12em">{{ h.tag }}</span>
+      </div>
+    </sc-for>
+    <p style="margin:14px 0 0;font-size:16px">Desayunos de lunes a sábado hasta las 12:30. Terraza: +0,10 € en cervezas.</p>
+  </div>
+</section>
+
+<footer style="background:#183234;color:#EBF4F3;padding:40px clamp(18px,4vw,56px) {{ footPad }};display:flex;flex-wrap:wrap;gap:18px 40px;justify-content:space-between;align-items:flex-end">
+  <div>
+    <div style="font-family:'Grandstander',sans-serif;font-weight:900;font-size:34px;line-height:.95">Punto de<br>Encuentro</div>
+    <div style="font-family:'Alegreya Sans SC',sans-serif;font-weight:800;letter-spacing:.2em;font-size:13px;margin-top:8px;color:#9FD3C7">Bar cafetería · Aluche</div>
+  </div>
+  <div style="display:flex;flex-wrap:wrap;gap:6px 26px;font-size:17px">
+    <a href="https://www.instagram.com/barpuntodeencuentro" style="color:#9FD3C7;padding:10px 0">@barpuntodeencuentro</a>
+    <a href="Carta.dc.html" style="color:#9FD3C7;padding:10px 0">Carta completa</a>
+    <a href="Sistema de Diseño.dc.html" style="color:#9FD3C7;padding:10px 0">Sistema de diseño</a>
+  </div>
+</footer>
+
+<sc-if value="{{ narrow }}" hint-placeholder-val="{{ false }}">
+  <nav aria-label="Acciones rápidas" style="position:fixed;left:0;right:0;bottom:0;z-index:50;display:grid;grid-template-columns:1fr 1fr 1fr;background:#213A3C;border-top:3px solid #9FD3C7">
+    <a href="tel:+34912948407" style="min-height:62px;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:2px;color:#EBF4F3;text-decoration:none;font-weight:800;font-size:16px;border-right:1px solid #3F6E72"><span style="width:8px;height:8px;border-radius:50%;background:{{ statusColor }}"></span>Llamar</a>
+    <a href="#llegar" style="min-height:62px;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:2px;color:#EBF4F3;text-decoration:none;font-weight:800;font-size:16px;border-right:1px solid #3F6E72"><svg viewBox="0 0 24 32" width="10" height="13" style="transform:rotate(-16deg)"><path d="M12 1C6 1 1.5 5.6 1.5 11.3 1.5 19 12 31 12 31s10.5-12 10.5-19.7C22.5 5.6 18 1 12 1z" fill="#9FD3C7"></path></svg>Cómo llegar</a>
+    <a href="Carta.dc.html" style="min-height:62px;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:2px;color:#213A3C;background:#9FD3C7;text-decoration:none;font-weight:800;font-size:16px"><span style="width:14px;height:2px;background:#213A3C;box-shadow:0 -4px 0 #213A3C,0 4px 0 #213A3C;margin:4px 0"></span>Carta</a>
+  </nav>
+</sc-if>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props="{&quot;simular&quot;:{&quot;editor&quot;:&quot;enum&quot;,&quot;default&quot;:&quot;Hora real&quot;,&quot;options&quot;:[&quot;Hora real&quot;,&quot;Lunes 09:40&quot;,&quot;Lunes 12:45&quot;,&quot;Miércoles 14:10&quot;,&quot;Jueves 19:30&quot;,&quot;Viernes 23:40&quot;,&quot;Sábado 01:15&quot;,&quot;Domingo 08:30&quot;,&quot;Martes 10:00&quot;,&quot;Domingo 03:00&quot;],&quot;tsType&quot;:&quot;string&quot;,&quot;section&quot;:&quot;Estado&quot;},&quot;frase&quot;:{&quot;editor&quot;:&quot;enum&quot;,&quot;default&quot;:&quot;Desde las 6 de la mañana, el punto de Aluche.&quot;,&quot;options&quot;:[&quot;Desde las 6 de la mañana, el punto de Aluche.&quot;,&quot;Si quedas en Aluche, quedas aquí.&quot;,&quot;Del café de las 6 a la jarra de las 2.&quot;,&quot;El sitio donde queda todo el barrio.&quot;],&quot;tsType&quot;:&quot;string&quot;,&quot;section&quot;:&quot;Portada&quot;}}">
+class Component extends DCLogic {
+  state = { now: null, narrow: false, pos: 0, sec: -1, slots: ['cer', 'cal', 'tin'], racion: 'ape', stamp: false, logoFail: false };
+  r0 = React.createRef(); r1 = React.createRef(); r2 = React.createRef(); r3 = React.createRef();
+  ptr = 0;
+  DAYS = ['Domingo', 'Lunes', 'Martes', 'Miércoles', 'Jueves', 'Viernes', 'Sábado'];
+  H = { 0: [7, 24], 1: [6, 24], 2: null, 3: [6, 24], 4: [6, 24], 5: [7, 26], 6: [7, 26] };
+  DR = {
+    cer: { n: 'Cerveza', c: '#E0A33A', foam: true, p: 7.5 },
+    cal: { n: 'Calimocho', c: '#4A1A26', p: 7.5 },
+    tin: { n: 'Tinto de verano', c: '#9B2F3B', p: 7.5 },
+    sid: { n: 'Sidra', c: '#E6CF78', foam: true, p: 8.5 },
+    san: { n: 'Sangría', c: '#B8404A', p: 8.5 }
+  };
+  RA = [['ape', 'Aperitivo'], ['bra', 'Bravas'], ['ali', 'Alioli'], ['ore', 'Oreja'], ['alt', 'Alitas'], ['piz', 'Pizza'], ['no', 'Nada']];
+
+  componentDidMount() {
+    this.rm = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    this.tick(); this.iv = setInterval(() => this.tick(), 30000);
+    this.onR = () => this.setState({ narrow: window.innerWidth < 760 }); this.onR();
+    window.addEventListener('resize', this.onR);
+    this.onS = () => this.scroll(); window.addEventListener('scroll', this.onS, { passive: true });
+    setTimeout(this.onS, 300);
+  }
+  componentWillUnmount() { clearInterval(this.iv); window.removeEventListener('resize', this.onR); window.removeEventListener('scroll', this.onS); clearTimeout(this.st); }
+  tick() {
+    const p = new Intl.DateTimeFormat('en-GB', { timeZone: 'Europe/Madrid', weekday: 'short', hour: '2-digit', minute: '2-digit', hourCycle: 'h23' }).formatToParts(new Date());
+    const g = t => (p.find(x => x.type === t) || {}).value;
+    const d = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'].indexOf(g('weekday'));
+    this.setState({ now: { d, m: parseInt(g('hour'), 10) * 60 + parseInt(g('minute'), 10) } });
+  }
+  scroll() {
+    const refs = [this.r0, this.r1, this.r2, this.r3]; const mid = window.innerHeight * 0.5;
+    let pos = 0, sec = -1;
+    refs.forEach((r, i) => {
+      if (!r.current) return; const b = r.current.getBoundingClientRect();
+      if (b.top <= mid && b.bottom > mid) { sec = i; pos = (i + (mid - b.top) / b.height) / 4; }
+      else if (b.bottom <= mid && i === 3) { sec = 4; pos = 1; }
+    });
+    if (sec !== this.state.sec || Math.abs(pos - this.state.pos) > 0.004) this.setState({ pos, sec });
+  }
+  sim() {
+    const s = this.props.simular;
+    if (!s || s === 'Hora real') return this.state.now;
+    const [dn, t] = s.split(' '); const [hh, mm] = t.split(':').map(Number);
+    return { d: this.DAYS.indexOf(dn), m: hh * 60 + mm };
+  }
+  fmt(m) { const h = Math.floor(m / 60) % 24, mi = m % 60; return (h < 10 ? '0' : '') + h + ':' + (mi < 10 ? '0' : '') + mi; }
+  hs(h) { return (h % 24 === 0 ? '00' : (h % 24 < 10 ? '0' + (h % 24) : '' + (h % 24))) + ':00'; }
+  status(d, m) {
+    const H = this.H, t = H[d], y = H[(d + 6) % 7];
+    if (t && m >= t[0] * 60 && m < t[1] * 60) return { open: true, close: t[1], late: false };
+    if (y && y[1] > 24 && m < (y[1] - 24) * 60) return { open: true, close: y[1], late: true };
+    if (t && m < t[0] * 60) return { open: false, next: 'abrimos hoy a las ' + t[0] + ':00' };
+    for (let k = 1; k <= 7; k++) { const n = H[(d + k) % 7]; if (n) return { open: false, next: (k === 1 ? 'abrimos mañana' : 'abrimos el ' + this.DAYS[(d + k) % 7].toLowerCase()) + ' a las ' + n[0] + ':00' }; }
+  }
+  eur(n) { return n.toFixed(2).replace('.', ',') + ' €'; }
+  offer() {
+    const f = this.state.slots.filter(Boolean), r = this.state.racion, c = x => f.filter(y => y === x).length;
+    const promo = f.every(x => ['cer', 'cal', 'tin'].includes(x));
+    if (f.length === 3 && c('cer') === 3 && (r === 'bra' || r === 'ali')) return { t: '3 minis de cerveza + ' + (r === 'bra' ? 'bravas' : 'alioli'), p: 19, ok: true };
+    if (f.length === 3 && c('cal') === 3 && r === 'piz') return { t: '3 minis de calimocho + pizza', p: 15.5, ok: true };
+    if (f.length === 2 && c('cer') === 1 && c('cal') === 1 && ['bra', 'ore', 'alt'].includes(r)) return { t: 'Mini cerveza + mini calimocho + ' + { bra: 'bravas', ore: 'oreja', alt: 'alitas' }[r], p: 15.5, ok: true };
+    if (f.length === 3 && promo && c('cer') < 3 && r === 'ape') return { t: '3 minis a tu gusto + aperitivo', p: 13.5, ok: true };
+    const sum = f.reduce((a, x) => a + this.DR[x].p, 0);
+    let h = '';
+    if (!f.length) h = 'Toca una bebida para llenar la primera jarra.';
+    else if (f.some(x => x === 'sid' || x === 'san')) h = 'La sidra y la sangría van sueltas, fuera de promo.';
+    else if (f.length === 3 && c('cer') === 3) h = 'Pide bravas o alioli y te sale por 19,00 €.';
+    else if (f.length === 3 && c('cal') === 3) h = r === 'ape' ? 'Con aperitivo: 13,50 €. Con pizza: 15,50 €.' : 'Con pizza: 15,50 €. Con aperitivo: 13,50 €.';
+    else if (f.length === 3) h = 'Con el aperitivo de la casa te sale por 13,50 €.';
+    else if (f.length === 2 && c('cer') === 1 && c('cal') === 1) h = 'Con bravas, oreja o alitas: 15,50 €.';
+    else h = 'Con 3 jarras ya hay oferta.';
+    if (r !== 'ape' && r !== 'no' && f.length) h = 'Ración a precio de carta. ' + h;
+    return { t: f.length ? f.length + (f.length === 1 ? ' mini suelto' : ' minis sueltos') : 'Jarras vacías', p: sum, ok: false, h };
+  }
+  stampNow() {
+    if (this.rm) return;
+    this.setState({ stamp: true }); clearTimeout(this.st);
+    this.st = setTimeout(() => this.setState({ stamp: false }), 40);
+  }
+  addDrink(id) {
+    const s = this.state.slots.slice(); let i = s.indexOf(null);
+    if (i < 0) { i = this.ptr % 3; this.ptr++; }
+    s[i] = id; this.setState({ slots: s }); this.stampNow();
+  }
+
+  renderVals() {
+    const now = this.sim(); const narrow = this.state.narrow;
+    const d = now ? now.d : 1, m = now ? now.m : 580;
+    const st = this.status(d, m) || { open: false, next: '' };
+    const clock = this.fmt(m);
+    let fr = -1;
+    if (st.open) fr = m >= 360 && m < 780 ? 0 : m >= 780 && m < 1080 ? 1 : m >= 1080 && m < 1380 ? 2 : 3;
+    let msg;
+    if (!st.open) msg = d === 2 && m >= 360 ? 'Los martes descansamos. El miércoles, a las 6:00, primer café.' : 'Son las ' + clock + ' y está la persiana bajada. ' + st.next.charAt(0).toUpperCase() + st.next.slice(1) + '.';
+    else if (fr === 0) msg = d === 0 ? 'Domingo, ' + clock + ': no hay menú de desayuno, pero el café sale igual.' : m < 750 ? 'Son las ' + clock + ': aún llegas al desayuno, hasta las 12:30.' : 'Son las ' + clock + ': el desayuno se ha ido. A la una, menús.';
+    else if (fr === 1) msg = 'Son las ' + clock + ': hora de menú. Plato, patatas y bebida desde 6,00 €.';
+    else if (fr === 2) msg = 'Son las ' + clock + ': ya hay minis en las mesas. 3 jarras + aperitivo, 13,50 €.';
+    else msg = st.close === 26 ? 'Son las ' + clock + (st.late ? ' y seguimos' : '') + ': hasta las 2, parrillada para dos a 32 €.' : 'Son las ' + clock + ': última ronda, cerramos a las 00:00.';
+    const mm = m < 360 ? m + 1440 : m;
+    const nowPct = Math.max(0, Math.min(100, (mm - 360) / 1200 * 100));
+    const secHref = ['#desayunos', '#comer', '#minis', '#finde'];
+    const dotCol = ['#CADDDB', '#9FD3C7', '#3F6E72', '#183234'];
+    const dayStops = [['06:00', 'Café y churros', 0], ['13:00', 'A comer', 35], ['18:00', 'Raciones y minis', 60], ['23:00', 'Finde hasta las 2', 85]].map((s, i) => ({ h: s[0], label: narrow ? '' : s[1], left: s[2] + '%', href: secHref[i], dot: fr === i ? '#E3A33B' : dotCol[i] }));
+
+    const sec = this.state.sec, dark = sec === 3;
+    const railStops = ['06', '13', '18', '23'].map((l, i) => ({ label: l, top: (i * 25 + 12.5) + '%', href: secHref[i], color: dark ? (sec === i ? '#9FD3C7' : '#3F6E72') : (sec === i ? '#213A3C' : '#6F8F8E') }));
+
+    const o = this.offer();
+    const slots = this.state.slots;
+    const tr = this.rm ? 'none' : 'height .9s cubic-bezier(.3,.8,.3,1), background-color .5s, bottom .9s cubic-bezier(.3,.8,.3,1)';
+    const jarras = slots.map((id, i) => {
+      const dr = id ? this.DR[id] : null;
+      return { h: dr ? '80%' : '0%', c: dr ? dr.c : 'transparent', foam: dr && dr.foam ? '12%' : '0%', t: tr, label: dr ? dr.n : 'vacía', aria: dr ? 'Vaciar jarra ' + (i + 1) + ' (' + dr.n + ')' : 'Jarra ' + (i + 1) + ' vacía',
+        onClick: () => { const s = slots.slice(); s[i] = null; this.setState({ slots: s }); this.stampNow(); } };
+    });
+    const stamp = this.state.stamp;
+    const esp = ['Gyoza casera', 'Torreznos', 'Arroz tres delicias', 'Pato a la naranja', 'Rollitos de primavera', 'Ciervo y jabalí al coñac', 'Wantón frito', 'Costilla agridulce', 'Tallarines y fideos tres delicias', 'Ternera en salsa de ostra', 'Pollo con almendras', 'Costilla de ternera', 'Pollo al limón'];
+    const sz = ['clamp(34px,3.6vw,54px)', 'clamp(24px,2.3vw,34px)', 'clamp(28px,2.8vw,42px)'];
+    const today = st.open && st.late ? (d + 6) % 7 : d;
+    const hoursList = [[1, 'Lunes'], [2, 'Martes'], [3, 'Miércoles'], [4, 'Jueves'], [5, 'Viernes'], [6, 'Sábado'], [0, 'Domingo']].map(([k, n]) => {
+      const h = this.H[k], t = k === today;
+      return { d: n, h: h ? h[0] + ':00 – ' + this.hs(h[1]) : 'Cerrado', deco: h ? 'none' : 'line-through', bg: t ? '#213A3C' : 'transparent', fg: t ? '#9FD3C7' : '#213A3C', tag: t ? (st.open ? 'Hoy · abierto' : 'Hoy') : (h ? '' : 'Descanso') };
+    });
+
+    return {
+      r0: this.r0, r1: this.r1, r2: this.r2, r3: this.r3, narrow, showRail: !narrow,
+      logoOk: !this.state.logoFail, logoFail: this.state.logoFail, onLogoError: () => this.setState({ logoFail: true }),
+      tagline: this.props.frase || 'Desde las 6 de la mañana, el punto de Aluche.',
+      statusLabel: st.open ? 'ABIERTO AHORA' : 'CERRADO', statusColor: st.open ? '#9FD3C7' : '#E3A33B',
+      statusSub: st.open ? 'cierra a las ' + this.hs(st.close) : st.next,
+      nowMsg: msg, nowHref: fr >= 0 ? secHref[fr] : '#llegar', clock, dayStops, nowPct: nowPct + '%', nowPinOpacity: st.open ? 1 : 0.45,
+      now0: fr === 0, now1: fr === 1, now2: fr === 2, now3: fr === 3,
+      railStops, railPin: (this.state.pos * 100) + '%', railLine: dark ? '#3F6E72' : '#213A3C', railPinFill: dark ? '#9FD3C7' : '#3F6E72', railPinHole: dark ? '#183234' : '#EBF4F3',
+      desayunoOpts: ['Churros', 'Porras', 'Croissant', 'Napolitana', 'Bizcocho casero', 'Tostada', 'Tortitas', 'Barrita con tomate y aceite', 'Barrita con mermelada'],
+      extras: [{ n: 'Barrita tomate y jamón', p: '+1,30' }, { n: 'Pincho de tortilla', p: '+0,80' }, { n: 'Sándwich mixto', p: '+1,30' }, { n: 'Croissant jamón y queso', p: '+1,30' }, { n: 'Colacao o infusión', p: '+0,30' }],
+      menus: [{ n: 'Sándwich mixto', p: '6,00' }, { n: 'Panini', p: '7,00' }, { n: 'Sándwich cubano', p: '7,00' }, { n: 'Hamburguesa completa', p: '7,50' }, { n: '2 pizzas a elegir', p: '13,50' }],
+      combinados: [['Bacon con huevos y patatas', '8,50'], ['Lomo con huevos y patatas', '9,00'], ['Bistec de ternera', '11,00'], ['Filete de pollo', '9,50'], ['Merluza a la romana con tortilla', '11,50'], ['Entrecot con patatas y pimientos', '16,50'], ['Emperador', '13,50']].map((c, i) => ({ n: i + 1, name: c[0], p: c[1] })),
+      burgers: [{ n: 'Sencilla', p: '5,00' }, { n: 'Smash en pan brioche', p: '8,00' }, { n: 'Smash doble', p: '11,00' }, { n: 'Buey con queso de cabra y cebolla caramelizada', p: '13,00' }],
+      drinkBtns: Object.keys(this.DR).map(k => ({ n: this.DR[k].n, c: this.DR[k].c, onClick: () => this.addDrink(k) })),
+      racionBtns: this.RA.map(([k, n]) => ({ n, pressed: this.state.racion === k ? 'true' : 'false', bg: this.state.racion === k ? '#9FD3C7' : 'transparent', fg: this.state.racion === k ? '#183234' : '#EBF4F3', onClick: () => { this.setState({ racion: k }); this.stampNow(); } })),
+      jarras, vaciar: () => { this.ptr = 0; this.setState({ slots: [null, null, null] }); this.stampNow(); },
+      offerTitle: o.t, offerPrice: o.p ? o.p.toFixed(2).replace('.', ',') + ' €' : '0,00 €', offerHint: o.ok ? 'Oferta aplicada. Solo en el interior.' : o.h,
+      offerInk: o.ok ? '#E3A33B' : '#9FD3C7',
+      stampT: stamp ? 'scale(1.5) rotate(-14deg)' : 'scale(1) rotate(-5deg)', stampO: stamp ? 0 : 1, stampTr: stamp ? 'none' : 'transform .38s cubic-bezier(.2,1.6,.4,1), opacity .15s',
+      promos: [{ n: '3 minis + aperitivo', d: 'Combínalos como quieras, menos 3 de cerveza', p: '13,50 €' }, { n: '3 minis de cerveza + bravas o alioli', d: 'La clásica de los viernes', p: '19,00 €' }, { n: 'Mini cerveza + mini calimocho', d: 'Con bravas, oreja o alitas', p: '15,50 €' }, { n: '3 minis de calimocho + pizza', d: 'Para compartir, o no', p: '15,50 €' }],
+      sartenes: [{ n: 'Sartén campera', p: '9,50 €' }, { n: 'Sartén de embutidos', p: '9,50 €' }, { n: 'Supercombo', p: '20,00 €' }, { n: 'Tequeños · costilla a la barbacoa', p: 'en carta' }],
+      especiales: esp.map((n, i) => ({ n, s: sz[i % 3], w: i % 3 === 0 ? 900 : 700, c: i % 3 === 1 ? '#3F6E72' : '#213A3C' })),
+      parrilla: ['Pechuga', 'Filete de ternera', 'Chuleta de cerdo', 'Costilla', 'Longaniza', 'Morcilla'],
+      botellas: [['El Águila Especial', 'Águila', '#183234', '#9FD3C7', '#9FD3C7'], ['El Águila sin filtrar', 'Sin filtrar', '#183234', '#EBF4F3', '#183234'], ['Amstel Radler', 'Radler', '#183234', '#E3A33B', '#183234'], ['Amstel Oro', 'Oro', '#183234', '#9FD3C7', '#183234'], ['Amstel Oro 0,0', '0,0', '#213A3C', 'transparent', '#9FD3C7'], ['Victoria', 'Victoria', '#183234', '#EBF4F3', '#183234'], ['Mahou', 'Mahou', '#183234', '#9FD3C7', '#183234']].map(b => ({ n: b[0], short: b[1], fill: b[2], label: b[3], ink: b[4] })).map(b => b.short === 'Águila' ? Object.assign(b, { label: '#3F6E72', ink: '#FFFFFF' }) : b),
+      notas: [{ t: 'Raciones de las de antes. Salimos rodando y pagamos poco.', r: 'rotate(-3deg)', m: '0' }, { t: 'El café de las 6 y media que me salva la semana.', r: 'rotate(2deg)', m: '40px 0 0' }, { t: 'La jarra es de litro de verdad. Siempre lleno, por algo será.', r: 'rotate(-1deg)', m: '10px 0 0' }],
+      hours: hoursList, footPad: narrow ? '100px' : '40px'
+    };
+  }
+}
+</script>
+</body>
+</html>

@@ -1,0 +1,449 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="../assets/vendor/react.production.min.js"></script>
+<script src="../assets/vendor/react-dom.production.min.js"></script>
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Alegreya+Sans:ital,wght@0,400;0,500;0,700;0,800;1,400;1,500&family=Alegreya+Sans+SC:wght@500;700;800&family=Grandstander:wght@700;800;900&display=swap">
+<style>
+html,body{margin:0;padding:0;width:100%;max-width:100%;overflow-x:hidden;background:#EBF4F3;color:#213A3C}
+#dc-root,#dc-root>.sc-host{width:100%;max-width:100%;overflow-x:hidden}
+*{box-sizing:border-box}
+a{color:#213A3C;text-underline-offset:3px}
+a:hover{color:#3F6E72}
+a:focus-visible,button:focus-visible{outline:3px solid #E3A33B;outline-offset:2px}
+button{font:inherit;cursor:pointer}
+.btn-volver:hover{background:#3F6E72 !important;border-color:#3F6E72 !important;color:#FFFFFF !important;transform:translateY(-1px)}
+.btn-volver:active{transform:translateY(0);box-shadow:none !important}
+@media (max-width: 680px){
+  .btn-volver-txt{display:none !important}
+  .btn-volver{width:44px !important;padding:0 !important;justify-content:center !important}
+}
+@media (prefers-reduced-motion: reduce){*{transition:none !important}}
+</style>
+</helmet>
+<div style="font-family:'Alegreya Sans',sans-serif;color:#213A3C;min-height:100vh;background-color:#EBF4F3;background-image:url('data:image/svg+xml,%3Csvg xmlns=%27http://www.w3.org/2000/svg%27 width=%27220%27 height=%27220%27%3E%3Cfilter id=%27n%27%3E%3CfeTurbulence type=%27fractalNoise%27 baseFrequency=%27.85%27 numOctaves=%273%27/%3E%3CfeColorMatrix values=%270 0 0 0 0.13 0 0 0 0 0.23 0 0 0 0 0.24 0 0 0 0.10 0%27/%3E%3C/filter%3E%3Crect width=%27100%25%27 height=%27100%25%27 filter=%27url(%23n)%27/%3E%3C/svg%3E'),url('data:image/svg+xml,%3Csvg xmlns=%27http://www.w3.org/2000/svg%27 width=%27900%27 height=%27900%27%3E%3Cfilter id=%27s%27%3E%3CfeTurbulence type=%27fractalNoise%27 baseFrequency=%27.006%27 numOctaves=%274%27 seed=%277%27/%3E%3CfeColorMatrix values=%270 0 0 0 0.25 0 0 0 0 0.43 0 0 0 0 0.45 0 0 0 0.14 0%27/%3E%3C/filter%3E%3Crect width=%27100%25%27 height=%27100%25%27 filter=%27url(%23s)%27/%3E%3C/svg%3E');font-size:17px;line-height:1.35">
+
+  <header data-screen-label="Carta · cabecera" style="background:#213A3C;color:#EBF4F3">
+  
+  <!-- CABECERA DEVCORP ADAPTADA AL ESTILO DEL LOCAL (FULL WIDTH COMO EL ORIGINAL) -->
+  <div style="display:flex;flex-wrap:wrap;justify-content:space-between;align-items:center;gap:12px 24px;padding:14px clamp(16px,4vw,48px);border-bottom:2px solid #3F6E72;background:#183234;color:#EBF4F3;font-family:'Alegreya Sans SC',sans-serif;font-weight:800;font-size:14px;letter-spacing:.12em">
+    
+    <!-- Lado Izquierdo: Logo DevCorp + Separador + Marca del Local -->
+    <div style="display:flex;align-items:center;gap:14px">
+      <a href="https://devcorpsolutions.com" target="_blank" title="DevCorp Solutions" style="display:inline-flex;align-items:center;text-decoration:none">
+        <img src="../assets/images/logo.png" alt="DevCorp Solutions" style="height:36px;width:auto;object-fit:contain" />
+      </a>
+      <div style="height:26px;width:1px;background:#9FD3C7;opacity:0.35"></div>
+      <div style="display:flex;flex-direction:column;line-height:1.15">
+        <span style="font-family:'Grandstander',sans-serif;font-weight:900;font-size:17px;color:#EBF4F3;letter-spacing:-0.01em">Punto de Encuentro</span>
+        <span style="font-family:'Alegreya Sans SC',sans-serif;font-weight:800;font-size:11px;letter-spacing:0.12em;color:#9FD3C7">Bar Cafetería · Aluche · Madrid</span>
+      </div>
+    </div>
+
+    <!-- Centro: Enlaces de Navegación del Local -->
+    <nav aria-label="Navegación principal" style="display:flex;flex-wrap:wrap;gap:4px 18px;align-items:center">
+      <a href="index.html" style="text-decoration:none;padding:6px 0;color:#9FD3C7">Portada</a>
+      <a href="index.html#desayunos" style="text-decoration:none;padding:6px 0;color:#EBF4F3">06:00 Desayunos</a>
+      <a href="index.html#comer" style="text-decoration:none;padding:6px 0;color:#EBF4F3">13:00 A comer</a>
+      <a href="index.html#minis" style="text-decoration:none;padding:6px 0;color:#EBF4F3">18:00 Minis</a>
+      <a href="index.html#cervezas" style="text-decoration:none;padding:6px 0;color:#EBF4F3">Cervezas</a>
+      <a href="index.html#finde" style="text-decoration:none;padding:6px 0;color:#EBF4F3">23:00 Finde</a>
+      <a href="index.html#opiniones" style="text-decoration:none;padding:6px 0;color:#EBF4F3">Opiniones</a>
+      <a href="carta.html" style="text-decoration:none;padding:6px 0;color:#9FD3C7;font-weight:900;border-bottom:2px solid #9FD3C7">La carta</a>
+      <a href="index.html#llegar" style="text-decoration:none;padding:6px 0;color:#EBF4F3">Cómo llegar</a>
+    </nav>
+
+    <!-- Lado Derecho: Llamar + Selector de Estilos DevCorp -->
+    <div style="display:flex;align-items:center;gap:12px">
+      <a href="tel:+34912948407" style="display:inline-flex;align-items:center;gap:6px;background:#3F6E72;color:#EBF4F3;padding:7px 14px;border-radius:4px;text-decoration:none;font-weight:800;font-size:13px;letter-spacing:.06em">
+        <span>📞 912 94 84 07</span>
+      </a>
+      <select id="style-select" defaultValue="estilo2" aria-label="Seleccionar Estilo DevCorp" style="background:#213A3C;color:#9FD3C7;border:2px solid #3F6E72;border-radius:4px;padding:7px 12px;font-family:'Alegreya Sans SC',sans-serif;font-weight:800;font-size:13px;letter-spacing:.06em;cursor:pointer;outline:none">
+        <option value="estilo1" style="background:#fff;color:#1c1c19">Estilo 1: Parrilla Vukata</option>
+        <option value="estilo2" selected style="background:#fff;color:#1c1c19">Estilo 2: Punto de Encuentro</option>
+        <option value="estilo3" style="background:#fff;color:#1c1c19">Estilo 3: Pizzería Carlos</option>
+        <option value="estilo4" style="background:#fff;color:#1c1c19">Estilo 4: Cafetería Campamento</option>
+      </select>
+    </div>
+
+  </div>
+
+  <!-- Título Original de la Carta y Estado -->
+  <div style="padding:22px clamp(16px,4vw,48px) 22px;display:flex;flex-wrap:wrap;align-items:flex-end;justify-content:space-between;gap:12px 24px">
+    <div>
+      <h1 style="margin:0;font-family:'Grandstander',sans-serif;font-weight:900;font-size:clamp(46px,7vw,84px);line-height:.9;letter-spacing:-.02em">La carta</h1>
+      <div style="font-style:italic;color:#CADDDB;font-size:18px;margin-top:4px">The menu · C/ Maqueda 138, Aluche</div>
+    </div>
+    <div style="display:flex;align-items:center;gap:10px;font-family:'Alegreya Sans SC',sans-serif;font-weight:800;letter-spacing:.12em;font-size:14px;color:{{ stColor }}"><span style="width:10px;height:10px;border-radius:50%;background:{{ stColor }}"></span>{{ stLabel }}</div>
+  </div>
+</header>
+
+  <div style="position:sticky;top:0;z-index:20;background:#EBF4F3;border-bottom:2px solid #213A3C;box-shadow:0 6px 0 -4px rgba(33,58,60,.12)">
+    <div style="display:flex;align-items:center;gap:8px;padding:10px clamp(16px,4vw,48px) 6px">
+      <a href="index.html" class="btn-volver" title="Volver a la página principal" aria-label="Volver a la página principal" style="flex:none;min-height:44px;padding:0 12px;border:2px solid #213A3C;border-radius:3px;background:#213A3C;color:#9FD3C7;display:inline-flex;align-items:center;gap:6px;text-decoration:none;font-weight:800;cursor:pointer;box-shadow:1px 2px 0 rgba(33,58,60,.12);transition:all .15s ease">
+        <span style="font-size:18px;line-height:1;transform:translateY(-1px)">←</span>
+        <span class="btn-volver-txt" style="font-family:'Alegreya Sans SC',sans-serif;font-weight:800;font-size:13px;letter-spacing:.06em;color:#EBF4F3">Volver</span>
+      </a>
+      <div style="width:2px;height:24px;background:#213A3C;opacity:0.2;flex:none"></div>
+      <nav aria-label="Categorías" style="position:relative;display:flex;gap:6px;overflow-x:auto;scrollbar-width:none;flex:1;min-width:0;padding:0 4px" ref="{{ navRef }}">
+        <sc-for list="{{ cats }}" as="c" hint-placeholder-count="9">
+          <button onClick="{{ c.go }}" data-cat="{{ c.id }}" aria-current="{{ c.cur }}" style="flex:none;min-height:44px;padding:0 14px;border:2px solid #213A3C;border-radius:3px;background:{{ c.bg }};color:{{ c.fg }};font-weight:800;font-size:16px;white-space:nowrap;cursor:pointer">{{ c.es }}</button>
+        </sc-for>
+      </nav>
+    </div>
+    <div style="display:flex;gap:6px;overflow-x:auto;padding:0 clamp(16px,4vw,48px) 10px;align-items:center;scrollbar-width:none">
+      <span style="flex:none;font-family:'Alegreya Sans SC',sans-serif;font-weight:800;letter-spacing:.12em;font-size:13px;margin-right:4px">Filtrar</span>
+      <sc-for list="{{ filters }}" as="f" hint-placeholder-count="6">
+        <button onClick="{{ f.toggle }}" aria-pressed="{{ f.pressed }}" style="flex:none;min-height:44px;padding:0 12px;border:2px dashed {{ f.bd }};border-radius:22px;background:{{ f.bg }};color:{{ f.fg }};font-weight:700;font-size:15px;white-space:nowrap">{{ f.n }}</button>
+      </sc-for>
+    </div>
+  </div>
+
+  <main style="max-width:1180px;margin:0 auto;padding:10px clamp(16px,4vw,48px) 40px">
+    <sc-if value="{{ hasHidden }}" hint-placeholder-val="{{ false }}">
+      <p role="status" style="margin:16px 0 0;padding:10px 14px;background:#213A3C;color:#EBF4F3;font-size:16px">{{ hiddenMsg }} <button onClick="{{ clear }}" style="background:none;border:none;color:#9FD3C7;text-decoration:underline;font-weight:700;min-height:32px;padding:0 4px">Quitar filtros</button></p>
+    </sc-if>
+    <sc-for list="{{ sections }}" as="s" hint-placeholder-count="4">
+      <section id="{{ s.id }}" data-sec="{{ s.id }}" style="margin-top:34px;scroll-margin-top:130px">
+        <sc-if value="{{ s.isBebidas }}" hint-placeholder-val="{{ false }}">
+          <div id="cervezas" style="position:relative;top:-130px;height:0;overflow:hidden"></div>
+        </sc-if>
+        <div style="background:#CADDDB;padding:10px 16px 8px;display:flex;flex-wrap:wrap;align-items:baseline;gap:4px 14px;border-top:3px solid #213A3C">
+          <h2 style="margin:0;font-family:'Grandstander',sans-serif;font-weight:900;font-size:clamp(26px,3.4vw,36px);line-height:1">{{ s.es }}</h2>
+          <span style="font-style:italic;font-size:18px">{{ s.en }}</span>
+          <span style="flex:1"></span>
+          <span style="font-family:'Alegreya Sans SC',sans-serif;font-weight:800;letter-spacing:.12em;font-size:13px">{{ s.note }}</span>
+        </div>
+        <div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(min(100%,420px),1fr));column-gap:44px;padding:4px 2px 0">
+          <sc-for list="{{ s.items }}" as="it" hint-placeholder-count="4">
+            <div style="padding:12px 0 11px;border-bottom:1px solid #9DB9B6">
+              <div style="display:flex;align-items:baseline;gap:8px">
+                <span style="font-weight:800;font-size:19px;line-height:1.2">{{ it.es }}</span>
+                <span style="flex:1;min-width:16px;border-bottom:2px dotted #3F6E72;transform:translateY(-4px)"></span>
+                <span style="font-family:'Grandstander',sans-serif;font-weight:800;font-size:20px;font-variant-numeric:tabular-nums;white-space:nowrap;color:{{ it.pc }}">{{ it.p }}</span>
+              </div>
+              <div style="font-style:italic;font-size:16px;color:#3A5557;margin-top:1px">{{ it.en }}</div>
+              <sc-if value="{{ it.hasDesc }}" hint-placeholder-val="{{ false }}"><div style="font-size:15px;margin-top:3px">{{ it.desc }}</div></sc-if>
+              <div style="display:flex;flex-wrap:wrap;gap:6px;margin-top:8px">
+                <sc-for list="{{ it.al }}" as="a" hint-placeholder-count="2">
+                  <span title="{{ a.n }}" aria-label="{{ a.n }}" role="img" style="width:24px;height:24px;border-radius:50% 50% 50% 0;transform:rotate(-45deg);background:#3F6E72;display:inline-flex;align-items:center;justify-content:center;margin:2px">
+                    <span style="transform:rotate(45deg);color:#FFFFFF;font-weight:800;font-size:10px;letter-spacing:.02em;line-height:1">{{ a.c }}</span>
+                  </span>
+                </sc-for>
+              </div>
+            </div>
+          </sc-for>
+        </div>
+      </section>
+    </sc-for>
+
+    <section id="alergenos" style="margin-top:50px;border-top:3px solid #213A3C;padding-top:18px">
+      <h2 style="margin:0;font-family:'Grandstander',sans-serif;font-weight:900;font-size:30px">Alérgenos</h2>
+      <div style="font-style:italic;font-size:17px;margin-bottom:14px">Allergens · Reglamento (UE) 1169/2011</div>
+      <div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(160px,1fr));gap:12px 18px">
+        <sc-for list="{{ legend }}" as="a" hint-placeholder-count="14">
+          <div style="display:flex;align-items:center;gap:12px;min-height:44px">
+            <span style="flex:none;width:32px;height:32px;border-radius:50% 50% 50% 0;transform:rotate(-45deg);background:#3F6E72;display:inline-flex;align-items:center;justify-content:center"><span style="transform:rotate(45deg);color:#FFFFFF;font-weight:800;font-size:12px">{{ a.c }}</span></span>
+            <span style="line-height:1.15"><span style="font-weight:800;display:block">{{ a.n }}</span><span style="font-style:italic;font-size:15px">{{ a.en }}</span></span>
+          </div>
+        </sc-for>
+      </div>
+      <p style="margin:20px 0 0;font-size:15px;max-width:640px">Información orientativa: en nuestra cocina se trabaja con todos los alérgenos. Si tienes una alergia, dínoslo en barra antes de pedir. <span style="font-style:italic">Please tell us about any allergy before ordering.</span></p>
+      <p style="margin:10px 0 0;font-size:14px;color:#3F6E72;font-weight:700">✓ Precios y alérgenos verificados conforme a la carta física oficial del local.</p>
+    </section>
+  </main>
+
+  <footer style="background:#183234;color:#EBF4F3;padding:26px clamp(16px,4vw,48px) 96px;display:flex;flex-wrap:wrap;gap:10px 30px;justify-content:space-between;font-size:16px">
+    <span>Terraza: +0,10 € en cervezas · IVA incluido</span>
+    <a href="tel:+34912948407" style="color:#9FD3C7;font-weight:800">912 94 84 07</a>
+  </footer>
+
+  <sc-if value="{{ narrow }}" hint-placeholder-val="{{ true }}">
+    <nav aria-label="Acciones rápidas" style="position:fixed;left:0;right:0;bottom:0;z-index:50;display:grid;grid-template-columns:1fr 1fr 1fr;background:#213A3C;border-top:3px solid #9FD3C7">
+      <a href="tel:+34912948407" style="min-height:62px;display:flex;align-items:center;justify-content:center;color:#EBF4F3;text-decoration:none;font-weight:800;font-size:16px;border-right:1px solid #3F6E72">Llamar</a>
+      <a href="index.html#llegar" style="min-height:62px;display:flex;align-items:center;justify-content:center;color:#EBF4F3;text-decoration:none;font-weight:800;font-size:16px;border-right:1px solid #3F6E72">Cómo llegar</a>
+      <a href="#top" onClick="{{ toTop }}" style="min-height:62px;display:flex;align-items:center;justify-content:center;color:#213A3C;background:#9FD3C7;text-decoration:none;font-weight:800;font-size:16px">Carta ↑</a>
+    </nav>
+  </sc-if>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script>
+class Component extends DCLogic {
+  state = { f: [], cur: 'desayunos', narrow: true, now: null };
+  navRef = React.createRef();
+  AL = {
+    GL: ['Gluten', 'Gluten'], CR: ['Crustáceos', 'Crustaceans'], HU: ['Huevo', 'Eggs'], PE: ['Pescado', 'Fish'],
+    CA: ['Cacahuetes', 'Peanuts'], SO: ['Soja', 'Soy'], LA: ['Lácteos', 'Milk'], FC: ['Frutos de cáscara', 'Tree nuts'],
+    AP: ['Apio', 'Celery'], MO: ['Mostaza', 'Mustard'], SE: ['Sésamo', 'Sesame'], SU: ['Sulfitos', 'Sulphites'],
+    AT: ['Altramuces', 'Lupin'], ML: ['Moluscos', 'Molluscs']
+  };
+  FI = [['Sin gluten', ['GL']], ['Sin lactosa', ['LA']], ['Sin huevo', ['HU']], ['Sin marisco', ['CR', 'ML']], ['Sin pescado', ['PE']], ['Sin frutos secos', ['FC', 'CA']]];
+  C = [
+    ['desayunos', 'Desayunos', 'Breakfast', 'L–S hasta 12:30', [
+      ['Café + zumo + bollería o tostada', 'Coffee, orange juice + pastry or toast', '3,20', 'GL LA HU', 'Churros, porras, croissant, napolitana, bizcocho casero, tostada, tortitas o barrita.'],
+      ['Café + zumo + montado', 'Coffee, orange juice + mini sandwich', '4,50', 'GL HU', 'Jamón serrano, bacon, lomo, tortilla española, tortilla francesa, vegetal, atún con pimientos, panceta o pollo.'],
+      ['Barrita con tomate y jamón', 'Toast with tomato and ham', '+1,30', 'GL', 'Suplemento sobre el desayuno básico.'],
+      ['Pincho de tortilla de patatas', 'Spanish omelette slice', '+0,80', 'HU', 'Suplemento sobre el desayuno básico.'],
+      ['Sándwich mixto', 'Ham and cheese toastie', '+1,30', 'GL LA', 'Suplemento sobre el desayuno básico.'],
+      ['Croissant jamón y queso', 'Ham and cheese croissant', '+1,30', 'GL LA HU', 'Suplemento sobre el desayuno básico.'],
+      ['Colacao o infusión', 'Cocoa milk or herbal tea', '+0,30', 'LA', 'Suplemento por sustitución del café.']]],
+    ['menus', 'Menús', 'Set meals', 'con patatas y refresco o cerveza', [
+      ['Menú Sándwich mixto', 'Ham and cheese toastie meal', '6,00', 'GL LA SO', 'Sándwich mixto recién tostado con patatas fritas y bebida.'],
+      ['Menú Panini (Jamón y bacon o 4 quesos)', 'Panini meal', '7,00', 'GL LA HU SO', 'Panini crujiente al horno con patatas fritas y bebida.'],
+      ['Menú Sándwich cubano', 'Cuban sandwich meal', '7,00', 'GL LA HU SO', 'Jamón, queso y huevo frito con patatas fritas y bebida.'],
+      ['Menú Hamburguesa completa', 'Full burger meal', '7,50', 'GL LA HU SE', 'Carne, lechuga, tomate, jamón, queso con patatas y bebida.'],
+      ['Menú 2 Pizzas a elegir', 'Two pizzas combo meal', '13,50', 'GL LA SO', 'A elegir entre jamón y bacon, jamón y champiñón o cuatro quesos.']]],
+    ['combinados', 'Platos combinados', 'Combo plates', 'Nº1 – Nº7', [
+      ['Nº1 · Bacon, huevos fritos y patatas', 'Bacon, fried eggs and chips', '8,50', 'HU', 'Panceta tostada crujiente con dos huevos de corral y patatas.'],
+      ['Nº2 · Lomo, huevos fritos y patatas', 'Pork loin, fried eggs and chips', '9,50', 'HU', 'Cintas de lomo a la plancha con huevos fritos y patatas.'],
+      ['Nº3 · Bistec de ternera con ensalada y patatas', 'Beef steak with salad and chips', '12,00', '', 'Filete tierno de ternera a la plancha con guarnición doble.'],
+      ['Nº4 · Filete de pollo con ensalada o patatas', 'Chicken breast with salad or chips', '9,50', '', 'Pechuga a la plancha con su guarnición a elegir.'],
+      ['Nº5 · Merluza a la romana, tortilla francesa y ensalada', 'Battered hake, French omelette and salad', '10,50', 'GL HU PE', 'Lomo de merluza rebozada crujiente, tortilla y ensalada fresca.'],
+      ['Nº6 · Entrecot con patatas y pimientos', 'Beef entrecôte with chips and peppers', '16,50', '', 'Corte noble de carne a la parrilla con pimientos verdes y patatas.'],
+      ['Nº7 · Emperador a la plancha con ensalada o patatas', 'Grilled swordfish with salad or chips', '14,50', 'PE', 'Lomo de pez espada a la plancha con aliño de ajo y perejil.'],
+      ['Extra empanado / ensalada', 'Extra breaded coating or salad', '+2,50', 'GL', 'Personaliza cualquiera de los platos combinados.']]],
+    ['combos', 'Combos y Picoteo', 'Combos & Snacks', 'para compartir', [
+      ['Supercombo Punto de Encuentro', 'Giant mixed snack combo platter', '20,00', 'GL LA HU SO', 'Patatas fritas, nuggets de pollo, aros de cebolla, palitos de mozzarella, jalapeños, tiras de pollo y salchichas.'],
+      ['Tequeños de queso', 'Venezuelan cheese sticks', '10,00', 'GL LA', 'Crujientes palitos rellenos de queso blanco fundido.'],
+      ['Palitos de mozzarella', 'Mozzarella sticks', '9,00', 'GL HU LA SO', 'Dorado rebozado crujiente con corazón de queso fundido.'],
+      ['Jalapeños cheddar', 'Jalapeño peppers with cheddar', '9,00', 'GL LA SO', 'Picantitos, rellenos de crema de cheddar fundida.'],
+      ['Tiras de pollo con patatas', 'Crispy chicken strips with chips', '8,50', 'GL HU SO', 'Tiras de solomillo de pollo empanadas con patatas caseras.'],
+      ['Costilla asada (Barbacoa o Miel y Mostaza)', 'Barbecued roasted pork ribs', '18,00', 'MO HU SO', 'Costillar entero glaseado a fuego lento con salsa BBQ o miel y mostaza.'],
+      ['Patatas cheese bacon', 'Cheese and bacon loaded fries', '10,00', 'GL LA SO', 'Patatas fritas bañadas en salsa de queso fundido y virutas de bacon crujiente.']]],
+    ['bocadillos', 'Bocadillos y Montados', 'Sandwiches', 'bocata / montado', [
+      ['Jamón serrano', 'Serrano ham baguette / roll', '5,00 / 4,00', 'GL LA', 'Jamón serrano en pan crujiente recién horneado.'],
+      ['Bacon', 'Bacon baguette / roll', '5,00 / 4,00', 'GL LA', 'Bacon a la plancha bien tostado.'],
+      ['Lomo', 'Pork loin baguette / roll', '5,00 / 4,00', 'GL LA', 'Lomo adobado a la plancha jugoso.'],
+      ['Tortilla española', 'Spanish omelette baguette / roll', '4,80 / 4,00', 'GL HU LA', 'Nuestra clásica tortilla de patatas de la casa.'],
+      ['Tortilla francesa', 'French omelette baguette / roll', '4,80 / 4,00', 'GL HU LA', 'Tortilla francesa recién hecha y suave.'],
+      ['Vegetal', 'Salad baguette with tuna / roll', '5,00 / 4,00', 'GL PE LA', 'Lechuga, tomate, atún y mayonesa.'],
+      ['Pepito de ternera', 'Beef fillet baguette', '7,00', 'GL', 'Filete de ternera tierno con pan crujiente y aceite de oliva.'],
+      ['Atún con pimientos', 'Tuna with red peppers baguette / roll', '5,00 / 4,00', 'GL PE', 'Bonito/atún con tiras de pimiento morrón.'],
+      ['Panceta', 'Streaky pork bacon baguette / roll', '5,00 / 4,00', 'GL', 'Panceta fresca crujiente a la plancha.'],
+      ['Pollo', 'Chicken breast baguette / roll', '5,00 / 4,50', 'GL', 'Pechuga de pollo a la plancha con su aliño.'],
+      ['Pollo vegetal', 'Chicken salad baguette / roll', '5,70 / 4,50', 'GL LA HU', 'Pechuga de pollo a la plancha, lechuga, tomate y mayonesa.'],
+      ['Oreja a la plancha', 'Grilled pork ear baguette', '6,00', 'GL', 'Bocata de oreja con su salsa brava o al ajillo.'],
+      ['Calamares a la romana', 'Calamari baguette', '7,00', 'GL PE ML CR', 'El clásico bocadillo madrileño de calamares crujientes recién fritos.']]],
+    ['sandwiches', 'Sándwiches', 'Toasted Sandwiches', 'recién tostados', [
+      ['Sándwich Mixto', 'Ham and cheese toasted sandwich', '3,80', 'GL LA SO', 'Jamón cocido y abundante queso fundido entre rebanadas doradas.'],
+      ['Sándwich Vegetal', 'Vegetable and tuna sandwich', '4,80', 'GL PE LA SO', 'Lechuga, tomate maduro, cebolla fresca, atún y mahonesa.'],
+      ['Sándwich Especial de la Casa', 'House special club sandwich', '7,80', 'GL HU LA SO', 'Tres pisos con jamón, queso, lechuga, tomate, cebolla, huevo y mahonesa.'],
+      ['Sándwich de Pollo', 'Chicken club sandwich', '6,80', 'GL LA SO', 'Pechuga de pollo a la plancha, lechuga, tomate, cebolla y mahonesa.'],
+      ['Sándwich Cubano', 'Cuban sandwich', '6,00', 'GL HU LA SO', 'Jamón de York, abundante queso fundido y huevo frito con yema tierna.']]],
+    ['hamburguesas', 'Hamburguesas y Smash', 'Burgers & Smash', 'carne 100% vacuno', [
+      ['Sencilla', 'Classic beef burger', '5,00', 'GL SE', '100% carne de ternera con lechuga fresca y tomate.'],
+      ['Completa', 'Full burger', '6,50', 'GL SE HU LA', 'Carne, vegetal, jamón york y queso fundido.'],
+      ['Pirinaica', 'Pyrenean burger with bacon', '6,50', 'GL SE HU LA', 'Carne de vacuno, lechuga, tomate, queso fundido y bacon crujiente.'],
+      ['De la Casa', 'House special burger', '7,80', 'GL SE HU LA', 'Carne, vegetal, jamón, queso fundido y huevo frito con patatas.'],
+      ['De Pollo', 'Chicken breast burger', '6,80', 'GL SE LA HU', 'Pechuga de pollo tierna a la plancha, vegetal y mahonesa.'],
+      ['Crispy Pollo', 'Crispy chicken burger', '5,80', 'GL SE LA', 'Pollo crujiente marinado, vegetal y salsa especial.'],
+      ['Doble de Carne y Queso', 'Double cheese and meat burger', '11,00', 'GL SE LA', 'Dos hamburguesas de carne, doble de queso y vegetales frescos.'],
+      ['De Buey Clásica con Patatas', 'Ox burger 200g with chips', '10,00', 'GL SE', '200g de auténtica carne de buey con patatas fritas y vegetal.'],
+      ['De Buey de la Casa con Patatas', 'House ox burger with chips', '11,00', 'GL SE LA', '200g de carne de buey, bacon crujiente, queso fundido y patatas.'],
+      ['De Buey con Queso de Cabra con Patatas', 'Goat cheese ox burger with chips', '13,00', 'GL SE LA', '200g de carne de buey, queso de cabra a la plancha y cebolla caramelizada.'],
+      ['Smash Sencilla con Patatas', 'Single Smash Burger in brioche', '8,00', 'GL SE LA HU', 'Pan brioche, lechuga, tomate, cebolla morada, queso cheddar y pepinillo.'],
+      ['Doble Smash con Patatas', 'Double Smash Burger in brioche', '11,00', 'GL SE LA HU', 'Pan brioche, doble carne smash, doble queso cheddar, lechuga, tomate, cebolla morada, bacon y pepinillo.']]],
+    ['perritos', 'Perritos XL 30cm', 'XL Hot Dogs', '30 centímetros', [
+      ['Perrito XL Sencillo (30cm)', 'XL Hot Dog (30cm) - Simple', '9,00', 'MO GL LA SO', 'Salchicha gigante de 30cm, cebolla frita crujiente, ketchup y mostaza.'],
+      ['Perrito XL Americano (30cm)', 'XL Hot Dog (30cm) - American', '9,00', 'MO GL LA SO', 'Salchicha gigante de 30cm, lechuga, tomate, cebolla y salsa rosa.'],
+      ['Perrito XL Tex-Mex (30cm)', 'XL Hot Dog (30cm) - Tex-Mex', '9,00', 'MO GL LA SO', 'Salchicha gigante de 30cm, pico de gallo, salsa queso cheddar y jalapeños.'],
+      ['Perrito XL Al Punto (30cm)', 'XL Hot Dog (30cm) - Al Punto', '9,00', 'MO GL LA SO', 'Salchicha gigante de 30cm, bacon, cebolla frita y 4 quesos fundidos.']]],
+    ['paninis', 'Paninis al Horno', 'Oven-baked Paninis', 'gratinados', [
+      ['Panini Jamón y Bacon', 'Ham and bacon panini', '4,20', 'GL HU LA SO', 'Mozzarella, jamón, bacon ahumado y 4 quesos fundidos.'],
+      ['Panini 4 Quesos', 'Four cheeses panini', '4,20', 'GL HU LA SO', 'Mozzarella, gouda, emmental y queso azul gratinados al horno.'],
+      ['Panini Jamón y Champiñón', 'Ham and mushroom panini', '4,20', 'GL HU LA SO', 'Mozzarella, jamón dulce, champiñón laminado y 4 quesos.'],
+      ['Panini de Atún', 'Tuna panini', '4,20', 'GL PE LA SO', 'Mozzarella, atún y mezcla selecta de 4 quesos.']]],
+    ['pizzas', 'Pizzas', 'Crispy Pizzas', 'masa crujiente', [
+      ['Pizza Cuatro Quesos', 'Four cheeses pizza', '9,50', 'GL LA SO', 'Base horneada con mozzarella y selección de cuatro quesos fundidos.'],
+      ['Pizza Jamón y Bacon', 'Ham and bacon pizza', '9,50', 'GL LA SO', 'Tomate, mozzarella, jamón cocido y virutas de bacon crujiente.'],
+      ['Pizza Jamón y Champiñón', 'Ham and mushroom pizza', '9,50', 'GL LA SO', 'Tomate, mozzarella, jamón cocido y champiñones laminados.']]],
+    ['tostas', 'Tostas Especiales', 'Special Toasts', 'pan de hogaza', [
+      ['Pollo con queso brie y cebolla caramelizada', 'Chicken, brie and caramelised onion toast', '7,30', 'GL LA', 'Pechuga tierna a la plancha con queso brie fundido y cebolla dulce.'],
+      ['Solomillo con mermelada de tomate', 'Pork tenderloin and tomato jam toast', '6,50', 'GL', 'Solomillo de cerdo a la plancha con mermelada casera de tomate.'],
+      ['Queso de cabra y cebolla caramelizada', 'Goat cheese and caramelised onion toast', '6,40', 'GL LA', 'Medallón de queso de cabra templado con reducción de cebolla caramelizada.'],
+      ['Revuelto de gulas y gambas', 'Scrambled eggs with eels and prawns toast', '7,50', 'GL CR HU PE ML', 'Gulas del norte y gambitas salteadas al ajillo sobre revuelto de huevo.'],
+      ['Solomillo con queso brie y cebolla caramelizada', 'Pork tenderloin, brie and caramelised onion toast', '7,50', 'GL LA', 'Solomillo de cerdo jugoso con queso brie fundido y cebolla caramelizada.']]],
+    ['ensaladas', 'Ensaladas', 'Fresh Salads', 'frescas del día', [
+      ['Ensalada mixta', 'Mixed salad', '6,50', 'HU PE', 'Lechuga Batavia fresca, tomate, cebolla, huevo duro y atún claro.'],
+      ['Ensalada César', 'Caesar salad', '7,50', 'GL HU LA SO', 'Lechuga crujiente, pollo empanado, picatostes tostados, queso y salsa César.'],
+      ['Ensalada Tropical', 'Tropical salad', '7,80', '', 'Lechuga variada, piña, maíz dulce, zanahoria y salsa rosa suave.'],
+      ['Ensalada de queso de cabra y nueces (mostaza y miel)', 'Goat cheese, walnuts, honey mustard salad', '9,00', 'GL HU LA FC MO', 'Brotes variados, queso de cabra templado, nueces y aliño de mostaza y miel.']]],
+    ['raciones', 'Raciones y Sartenes', 'Sharing Plates', 'clásicos de barra', [
+      ['Oreja a la plancha', 'Grilled pork ear', '10,00', '', 'Nuestra ración estrella de Aluche: oreja adobada crujiente a la plancha.'],
+      ['Patatas bravas', 'Spicy patatas bravas', '7,50', 'GL LA', 'Patatas caseras con auténtica salsa brava picantita.'],
+      ['Patatas ali-oli', 'Garlic alioli potatoes', '7,50', 'GL HU LA', 'Patatas caseras con salsa alioli suave de ajo y perejil.'],
+      ['Croquetas de jamón caseras', 'Homemade ham croquettes', '9,00', 'GL HU LA', 'Bechamel extra cremosa de jamón ibérico y rebozado crujiente.'],
+      ['Alitas de pollo (8 uds)', 'Chicken wings (8 pcs)', '10,50', 'GL', 'Alitas de pollo doradas y crujientes al punto de sal.'],
+      ['Calamares a la romana', 'Roman-style battered squid', '14,00', 'GL HU', 'Anillas tiernas de calamar rebozadas al estilo madrileño con limón.'],
+      ['Sepia empanada', 'Crispy breaded cuttlefish', '12,00', 'PE CR ML HU GL', 'Tiras de sepia fresca en crujiente rebozado dorado.'],
+      ['Gambones a la plancha', 'Grilled king prawns', '14,00', 'CR', 'Gambones frescos a la plancha con sal gorda y limón.'],
+      ['Nachos con pulled pork', 'Pulled pork nachos with cheese', '14,50', 'GL LA', 'Pico de gallo, guacamole, jalapeños, salsa chipotle y nata agria.'],
+      ['Nachos con pollo mechado', 'Shredded chicken nachos', '14,50', 'GL LA', 'Pico de gallo, guacamole, jalapeños, salsa chipotle y nata agria.'],
+      ['Nachos con queso gratinado', 'Baked cheese nachos', '12,50', 'GL LA', 'Totopos cubiertos de queso gratinado fundido al horno.'],
+      ['Sartén Campero', 'Country skillet (eggs, ham/bacon, chips)', '9,50', 'HU LA', 'Sartén con huevos, pimientos, jamón o bacon y patatas.'],
+      ['Sartén de Embutidos', 'Sausage skillet (morcilla, chistorra, butifarra)', '9,50', 'GL LA SO', 'Sartén con morcilla, chistorra, butifarra, chorizo y patatas.']]],
+    ['especiales', 'La carta que no esperas', 'Asian Specials', '21 especialidades', [
+      ['Gyoza casera a la plancha (12 uds)', 'Pan-fried homemade gyoza (12 pcs)', '9,00', 'LA GL SE', 'Empanadillas caseras doradas a la plancha con carne y verduras.'],
+      ['Arroz tres delicias', 'Three-delights fried rice', '7,80', 'GL HU', 'Arroz salteado al wok con jamón york, guisantes, tortilla y gambas.'],
+      ['Espaguetis al marisco', 'Seafood stir-fried spaghetti', '9,50', 'GL CR HU PE ML', 'Pasta salteada con gambas, calamar, verduras y salsa de soja.'],
+      ['Langostinos rebozados', 'Crispy battered king prawns', '9,50', 'CR HU PE ML', 'Langostinos enteros en rebozado crujiente con salsa agridulce.'],
+      ['Tallarines tres delicias', 'Three-delights noodles', '7,80', 'GL HU', 'Tallarines orientales salteados al wok con verduras y huevo.'],
+      ['Fideos tres delicias', 'Three-delights rice vermicelli', '7,80', 'GL', 'Fideos de arroz finos con carne picada y verduritas salteadas.'],
+      ['Rollos de primavera (2 uds)', 'Spring rolls (2 pcs)', '5,00', 'GL', 'Rollitos crujientes rellenos de verdura y carne picada.'],
+      ['Wanton frito', 'Crispy fried wonton', '7,80', 'GL', 'Masa fina china frita extra crujiente con salsa agridulce.'],
+      ['Costilla agridulce', 'Sweet and sour pork ribs', '9,50', 'GL', 'Trocitos de costilla jugosa caramelizados en salsa agridulce tradicional.'],
+      ['Costilla a la sal y pimienta', 'Salt and pepper ribs', '9,50', 'GL', 'Costillas fritas muy crujientes con toque de sal y pimienta.'],
+      ['Gambas salteadas con verduras', 'Stir-fried prawns with vegetables', '9,50', 'CR PE ML', 'Gambas frescas con brócoli, pimiento, champiñón y bambú.'],
+      ['Ternera en salsa de ostra', 'Beef in savoury oyster sauce', '11,00', 'GL', 'Tiras de ternera tierna en reducción intensa de salsa de ostra.'],
+      ['Boquerones fritos', 'Crispy fried anchovies', '12,00', 'CR PE ML', 'Boqueroncitos frescos enharinados y fritos muy crujientes con limón.'],
+      ['Ciervo en salsa de coñac', 'Venison in cognac sauce', '15,00', 'GL', 'Carne de monte estofada a fuego lento en reducción aromática de coñac.'],
+      ['Jabalí en salsa de coñac', 'Wild boar in cognac sauce', '15,00', 'GL', 'Guiso tradicional de jabalí salvaje con salsa de coñac y finas hierbas.'],
+      ['Pato a la naranja', 'Duck à l’orange', '15,00', 'GL', 'Magret de pato asado bañado en salsa clásica agridulce de naranja natural.'],
+      ['Pollo con almendras', 'Chicken with almonds', '9,50', 'GL FC CA', 'Pechuga salteada al wok con almendras tostadas y salsa de soja.'],
+      ['Sepia a la plancha', 'Grilled cuttlefish with garlic & parsley', '15,00', 'CR HU PE ML', 'Sepia limpia a la plancha muy tierna con ajo, perejil y aceite de oliva.'],
+      ['Torreznos crujientes', 'Crispy Madrid pork belly', '12,00', 'GL', 'Panceta curada frita a fuego lento con corteza dorada y suflada hipercrujiente.'],
+      ['Pollo al limón', 'Lemon battered chicken', '9,50', 'GL', 'Pechuga en crujiente rebozado bañada en salsa cítrica natural de limón.'],
+      ['Costilla de ternera', 'Slow-roasted beef short rib', '15,00', 'GL', 'Costilla de vacuno tiernísima asada al punto durante horas en su propio jugo.']]],
+    ['minis', 'Minis de Litro', 'Litre Jugs', 'solo interior', [
+      ['3 minis + aperitivo', '3 litre jugs + snack plate (not 3 beers)', '13,50', 'GL SU', 'Combínalos como quieras: cerveza, calimocho, tinto de verano o sidra (máx. 2 de cerveza).'],
+      ['3 minis de cerveza + bravas o alioli', '3 beer jugs + spicy or alioli potatoes', '19,00', 'GL HU', '3 litros de cerveza de grifo bien fría acompañados de ración completa de patatas.'],
+      ['Mini cerveza + mini calimocho + ración', 'Beer jug + calimocho jug + ración plate', '15,50', 'GL SU', '1 litro de cerveza + 1 litro de calimocho + ración a elegir entre bravas, oreja o alitas.'],
+      ['3 minis de calimocho + pizza', '3 calimocho jugs + full pizza', '15,50', 'GL LA SU', '3 litros de calimocho helado con pizza horneada a elegir.'],
+      ['Mini suelto de Cerveza de barril (1L)', 'Single one-litre beer jug', '7,50', 'GL', 'Jarra de litro de cerveza fresca recién tirada.'],
+      ['Mini suelto de Calimocho (1L)', 'Single one-litre calimocho jug', '7,50', 'SU', 'Vino tinto y refresco de cola con hielo picado.'],
+      ['Mini suelto de Tinto de verano (1L)', 'Single one-litre tinto de verano jug', '7,50', 'SU', 'Vino con gaseosa o limón bien fresquito.'],
+      ['Mini suelto de Sidra con gas (1L)', 'Single one-litre cider jug', '8,50', 'SU', 'Sidra achampanada servida en jarra helada de litro.'],
+      ['Mini suelto de Sangría casera (1L)', 'Single one-litre sangria jug', '8,50', 'SU', 'Vino tinto, frutas naturales maceradas y licor.']]],
+    ['parrillada', 'Parrillada', 'Mixed grill', 'para 2 personas', [
+      ['Parrillada completa de carne + 2 bebidas', 'Meat grill for two + 2 drinks', '32,00', 'SU', 'Pechuga, filete de ternera, chuleta de cerdo, costilla, longaniza y morcilla, todo ×2.']]],
+    ['bebidas', 'Cervezateca y Bebidas', 'Beers & Drinks', 'terraza +0,10 €', [
+      ['Caña de barril (200ml)', 'Draught beer glass (200ml)', '1,90', 'GL', 'Tirador de barril recién tirada con dos dedos de crema.'],
+      ['Doble de barril (330ml)', 'Double draught beer (330ml)', '2,80', 'GL', 'Copa clásica bien fría con abundante espuma densa.'],
+      ['Jarra de barril (500ml)', 'Large draught beer mug (500ml)', '3,50', 'GL', 'Jarra de cristal helada de medio litro de cerveza.'],
+      ['Mini de Litro de barril (1.000ml)', 'One-litre draught beer jug', '7,50', 'GL', 'Jarra gigante de litro para compartir entre amigos en interior.'],
+      ['El Águila Especial 1900', 'Madrid Especial Lager (5.5% alc.)', '3,20', 'GL', 'Madrid 1900 · Dorada y brillante, maltas caramelizadas y lúpulos Perle y Lemondrop.'],
+      ['El Águila Especial Sin Filtrar', 'Madrid Unfiltered Lager (5.5% alc.)', '3,20', 'GL', 'Madrid 1900 · Cerveza natural recién salida de bodega, levadura en suspensión, gran cuerpo.'],
+      ['Amstel Radler con limón natural', 'Lemon Radler (2.0% alc.)', '3,20', 'GL', 'Múnich 1922 · 100% malta con zumo de limón natural, turbia y muy refrescante.'],
+      ['Amstel Oro Tostada', 'Toasted Lager (6.2% alc.)', '3,20', 'GL', 'Lager tostada en 3 tiempos de horneado · Color cobrizo y notas acarameladas.'],
+      ['Amstel Oro 0,0% Tostada', 'Non-Alcoholic Toasted Lager (0.0% alc.)', '3,20', 'GL', 'Pura malta tostada con todo el aroma y cuerpo tostado pero 0,0% alcohol.'],
+      ['Victoria Málaga', 'Malaga Pale Lager (4.8% alc.)', '3,20', 'GL', 'Málaga 1928 · «Malagueña y exquisita», maduración lenta en bodega, suave y chispeante.'],
+      ['Mahou Cinco Estrellas', 'Madrid Classic Lager (5.5% alc.)', '3,20', 'GL', 'Madrid 1890 · El sabor castizo más icónico de los bares de Madrid, amargor redondo.'],
+      ['Heineken Original Pura Malta', 'Dutch Premium Lager (5.0% alc.)', '3,20', 'GL', 'Ámsterdam 1873 · Pilsen de pura malta y lúpulo con levadura exclusiva tipo A.'],
+      ['Heineken 0,0%', 'Alcohol-Free Lager (0.0% alc.)', '3,20', 'GL', 'Cero alcohol, sabor auténtico a malta con notas afrutadas y final suave.'],
+      ['Hop House 13 Craft Lager', 'Double Hopped Lager (5.5% alc.)', '3,75', 'GL', 'Dublín St. James’s Gate · 3 lúpulos (Galaxy, Topaz, Mosaic) y levadura Guinness.'],
+      ['Paulaner Hefe-Weißbier de Trigo (50cl)', 'Munich Wheat Beer 500ml (5.3% alc.)', '5,00', 'GL', 'Múnich s. XII · Clásica cerveza de trigo bávara turbia, aromas a clavo y plátano.'],
+      ['Guinness Original Extra Stout', 'Irish Stout (5.0% alc.)', '3,80', 'GL', 'Dublín 1759 · La legendaria stout irlandesa con notas profundas a malta tostada, café y cacao.'],
+      ['Desperados aromatizada con Tequila', 'Tequila Flavoured Beer (5.9% alc.)', '3,85', 'GL', 'Lager rubia aromatizada con tequila y toques cítricos, intensa y festiva.'],
+      ['El Alcázar 1928 Reserva Especial', 'Special Reserve Lager (6.0% alc.)', '3,60', 'GL', 'Jaén 1928 · Cerveza de gran cuerpo con lúpulo aromático en flor añadido al final.'],
+      ['18/70 La Rubia Especial', 'Basque Lager (6.2% alc.)', '3,60', 'GL', 'País Vasco · Cerveza rubia con más malta, cuerpo medio-alto y marcado carácter de lúpulo.'],
+      ['Cruzcampo Sin Gluten (Apta Celíacos)', 'Gluten-Free Lager (4.8% alc.)', '3,30', '', 'Certificada por la FACE · Todo el frescor y ligereza de Cruzcampo apta para celíacos.'],
+      ['Refrescos (Coca-Cola, Fanta, Aquarius, Nestea)', 'Assorted soft drinks', '2,60', '', 'Refrescos en botella de cristal con rodaja de limón y hielo.'],
+      ['Agua mineral (50cl)', 'Mineral water', '1,80', '', 'Botella de agua mineral natural 50cl.']]]
+  ];
+  componentDidMount() {
+    this.onR = () => this.setState({ narrow: window.innerWidth < 760 }); this.onR();
+    window.addEventListener('resize', this.onR);
+    this.onS = () => {
+      const els = document.querySelectorAll('[data-sec]'); let cur = this.state.cur;
+      els.forEach(e => { if (e.getBoundingClientRect().top < 170) cur = e.getAttribute('data-sec'); });
+      if (cur !== this.state.cur) {
+        this.setState({ cur });
+        const n = this.navRef.current, b = n && n.querySelector('[data-cat="' + cur + '"]');
+        if (b) n.scrollTo({ left: b.offsetLeft - 20, behavior: 'smooth' });
+      }
+    };
+    window.addEventListener('scroll', this.onS, { passive: true, capture: true });
+    document.addEventListener('scroll', this.onS, { passive: true, capture: true });
+    const p = new Intl.DateTimeFormat('en-GB', { timeZone: 'Europe/Madrid', weekday: 'short', hour: '2-digit', minute: '2-digit', hourCycle: 'h23' }).formatToParts(new Date());
+    const g = t => (p.find(x => x.type === t) || {}).value;
+    this.setState({ now: { d: ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'].indexOf(g('weekday')), m: +g('hour') * 60 + +g('minute') } });
+    this.checkHash = () => {
+      const h = (window.location.hash || '').replace('#', '');
+      if (h) {
+        this.go(h);
+      }
+    };
+    setTimeout(this.checkHash, 120);
+    setTimeout(this.checkHash, 380);
+    window.addEventListener('hashchange', this.checkHash);
+
+    const syncSel = () => {
+      const sel = document.getElementById('style-select');
+      if (sel) sel.value = 'estilo2';
+    };
+    syncSel();
+    setTimeout(syncSel, 100);
+  }
+  componentWillUnmount() {
+    window.removeEventListener('resize', this.onR);
+    window.removeEventListener('scroll', this.onS, { capture: true });
+    document.removeEventListener('scroll', this.onS, { capture: true });
+    window.removeEventListener('hashchange', this.checkHash);
+  }
+  go(id) {
+    if (id === 'cervezas' || id === 'cerveza') id = 'bebidas';
+    const e = document.getElementById(id);
+    if (e) {
+      e.scrollIntoView({ behavior: 'smooth', block: 'start' });
+      this.setState({ cur: id });
+      const n = this.navRef.current, b = n && n.querySelector('[data-cat="' + id + '"]');
+      if (b) n.scrollTo({ left: b.offsetLeft - 20, behavior: 'smooth' });
+    }
+  }
+  renderVals() {
+    const H = { 0: [7, 24], 1: [6, 24], 2: null, 3: [6, 24], 4: [6, 24], 5: [7, 26], 6: [7, 26] };
+    const n = this.state.now; let open = false;
+    if (n) { const t = H[n.d], y = H[(n.d + 6) % 7]; open = !!(t && n.m >= t[0] * 60 && n.m < t[1] * 60) || !!(y && y[1] > 24 && n.m < (y[1] - 24) * 60); }
+    const banned = new Set(); this.state.f.forEach(i => this.FI[i][1].forEach(c => banned.add(c)));
+    let hidden = 0;
+    const sections = this.C.map(([id, es, en, note, items]) => {
+      const list = items.map(it => ({ es: it[0], en: it[1], p: it[2] + ' €', pc: it[2].indexOf('*') >= 0 ? '#7A4610' : '#213A3C', codes: it[3] ? it[3].split(' ') : [], desc: it[4] || '', hasDesc: !!it[4] }))
+        .filter(it => { const ok = !it.codes.some(c => banned.has(c)); if (!ok) hidden++; return ok; })
+        .map(it => Object.assign(it, { al: it.codes.map(c => ({ c, n: this.AL[c][0] })) }));
+      return { id, es, en, note, items: list, isBebidas: id === 'bebidas' };
+    }).filter(s => s.items.length);
+    return {
+      navRef: this.navRef, narrow: this.state.narrow,
+      stLabel: n ? (open ? 'Abierto ahora' : 'Cerrado ahora') : '', stColor: open ? '#9FD3C7' : '#E3A33B',
+      cats: this.C.map(([id, es]) => ({ id, es, cur: this.state.cur === id ? 'true' : 'false', bg: this.state.cur === id ? '#213A3C' : '#EBF4F3', fg: this.state.cur === id ? '#EBF4F3' : '#213A3C', go: () => this.go(id) })),
+      filters: this.FI.map(([nm], i) => { const on = this.state.f.includes(i); return { n: nm, pressed: on ? 'true' : 'false', bg: on ? '#3F6E72' : 'transparent', fg: on ? '#FFFFFF' : '#213A3C', bd: on ? '#3F6E72' : '#213A3C', toggle: () => this.setState(s => ({ f: on ? s.f.filter(x => x !== i) : s.f.concat(i) })) }; }),
+      hasHidden: hidden > 0, hiddenMsg: hidden + (hidden === 1 ? ' plato oculto' : ' platos ocultos') + ' por tus filtros.', clear: () => this.setState({ f: [] }),
+      sections, legend: Object.keys(this.AL).map(c => ({ c, n: this.AL[c][0], en: this.AL[c][1] })),
+      toTop: e => {
+        if (e && e.preventDefault) e.preventDefault();
+        const topEl = document.querySelector('header') || document.body;
+        if (topEl) topEl.scrollIntoView({ behavior: 'smooth', block: 'start' });
+        window.scrollTo({ top: 0, behavior: 'smooth' });
+      }
+    };
+  }
+}
+</script>
+
+<script>
+document.addEventListener('change', function(e) {
+  if (e.target && e.target.id === 'style-select') {
+    var target = e.target.value;
+    if (target && target !== 'estilo2') {
+      window.location.href = '../' + target + '/index.html';
+    }
+  }
+});
+function syncStyleSelect() {
+  var sel = document.getElementById('style-select');
+  if (sel) sel.value = 'estilo2';
+}
+syncStyleSelect();
+setTimeout(syncStyleSelect, 80);
+setTimeout(syncStyleSelect, 300);
+</script>
+</body>
+</html>
