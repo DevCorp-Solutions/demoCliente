@@ -326,7 +326,17 @@ class AppStore {
   }
 
   setCategory(cat) {
-    this.state.activeCategory = cat;
+    const idToName = {
+      'all': 'all',
+      'brasa': 'A la Brasa',
+      'entrantes': 'Entrantes',
+      'ensaladas': 'Ensaladas',
+      'chivito': 'Chivito al Plato',
+      'pollo': 'Pollo Asado',
+      'postres': 'Postres',
+      'cafes': 'Cafés'
+    };
+    this.state.activeCategory = idToName[cat] || cat;
     this.notify();
   }
 
@@ -554,7 +564,7 @@ class GastroApp {
       if (e.key === 'Escape') {
         const lb = document.getElementById('lightbox-container');
         if (lb && lb.innerHTML !== '') {
-          this.renderLightbox(null);
+          this.closeLightbox();
           return;
         }
         const dishModal = document.getElementById('dish-modal-container');
@@ -665,38 +675,18 @@ class GastroApp {
         }
         return;
       }
-      if (e.target.closest('#close-lightbox') || e.target.id === 'lightbox-backdrop') {
+      if (e.target.closest('#close-lightbox-btn') || e.target.closest('#close-lightbox') || e.target.id === 'lightbox-backdrop') {
         e.preventDefault();
         e.stopPropagation();
-        this.renderLightbox(null);
+        this.closeLightbox();
         return;
       }
 
       const catPill = e.target.closest('.cat-filter');
       if (catPill) {
         e.preventDefault();
-        const cat = catPill.getAttribute('data-cat') || 'all';
-        const catName = catPill.getAttribute('data-category-name');
-        
-        document.querySelectorAll('.cat-filter').forEach(btn => {
-          btn.classList.remove('active', 'bg-inverse-surface', 'text-inverse-on-surface');
-          btn.classList.add('bg-surface-container', 'text-on-surface-variant');
-        });
-        catPill.classList.add('active', 'bg-inverse-surface', 'text-inverse-on-surface');
-        catPill.classList.remove('bg-surface-container', 'text-on-surface-variant');
-
-        const groups = document.querySelectorAll('.menu-group');
-        groups.forEach(g => {
-          const gId = g.getAttribute('data-group');
-          const gCat = g.getAttribute('data-category');
-          if (cat === 'all' || gId === cat || gCat === cat || (catName && gCat === catName)) {
-            g.style.display = 'block';
-          } else {
-            g.style.display = 'none';
-          }
-        });
-
-        store.state.activeCategory = cat;
+        const cat = catPill.getAttribute('data-category-name') || catPill.getAttribute('data-cat') || 'all';
+        store.setCategory(cat);
         return;
       }
 
@@ -1092,8 +1082,11 @@ class GastroApp {
       });
     };
 
-    // Plato destacado para el Spotlight 50/50
-    const featuredSpotlightDish = preset.menu.find(d => d.id === 'e1_asado') || preset.menu[0];
+    const safeMenu = preset.menu.filter(d => !isDishExcluded(d.allergens));
+    const totalSafeDishes = safeMenu.length;
+
+    // Plato destacado para el Spotlight 50/50 (seleccionando plato apto)
+    const featuredSpotlightDish = safeMenu.find(d => d.id === 'e1_asado') || safeMenu[0] || preset.menu[0];
 
     return `
       <!-- HERO SECTION: Atmospheric Dark Ember Hearth (Stitch Redesign idéntico a code.html) -->
@@ -1141,7 +1134,7 @@ class GastroApp {
             <!-- Hero Focal Media & Live Grill Ambience (5 Cols) -->
             <div class="lg:col-span-5 relative">
               <div class="relative rounded-2xl overflow-hidden shadow-2xl bg-surface-container-high/10 p-2">
-                <img alt="Corte de chuletón premium a las brasas" class="w-full h-[420px] lg:h-[500px] object-cover rounded-xl transform transition-transform duration-700 hover:scale-105" src="https://lh3.googleusercontent.com/aida/AEtjO1UYMArAbOKJy-nAX3Qc_2IJya_Bql0cJvc91zUPpLB9bxmc4t1cip035CmBB92HLBbxHii_LCOt1nmeFVm2NbcbMlY4kc-xk2eFzqJUueJLEZoSBQLOi4Rb60e6uV0zgdSAMHWmaWaUlK5Z4dNmoAU7wDu19kj9LDkg8jJYVO0KpW__jqq6aX36nujvZ-wuwTY4yU9FQTXyvB-rloVWJGz6HmUwS-700tOvtq0TpuD_ySFDnKKwh-shvl38"/>
+                <img alt="Corte de chuletón premium a las brasas" class="w-full h-[420px] lg:h-[500px] object-cover rounded-xl transform transition-transform duration-700 hover:scale-105" src="images/hero-chuleton.jpg" onerror="this.src='../assets/images/vukata/chuleton.jpg'"/>
                 <div class="absolute inset-0 bg-gradient-to-t from-[#14100E] via-transparent to-transparent opacity-80 rounded-xl"></div>
                 <div class="absolute bottom-6 left-6 right-6 flex items-center justify-between bg-surface/90 backdrop-blur-md p-4 rounded-xl text-on-surface shadow-lg">
                   <div class="flex items-center gap-3">
@@ -1299,17 +1292,18 @@ class GastroApp {
       <section class="sticky top-20 z-40 bg-surface/95 backdrop-blur-md py-4 shadow-sm border-y border-outline-variant/20" id="carta-section">
         <div class="max-w-[1360px] mx-auto px-6 lg:px-10 flex flex-col md:flex-row items-center justify-between gap-4">
           
-          <!-- Category Pill Carousel -->
+          <!-- Category Pill Carousel con conteos dinámicos en tiempo real -->
           <div class="flex items-center gap-2 overflow-x-auto w-full md:w-auto pb-1 md:pb-0 scrollbar-none" id="category-pills">
-            <button class="cat-filter ${activeCategory === 'all' ? 'active bg-inverse-surface text-inverse-on-surface' : 'bg-surface-container hover:bg-surface-container-high text-on-surface-variant'} px-4 py-2 rounded-full font-label-action text-label-action whitespace-nowrap transition-all shadow-sm cursor-pointer" data-cat="all">
-              Todos (${preset.menu.length})
+            <button class="cat-filter ${activeCategory === 'all' ? 'active bg-inverse-surface text-inverse-on-surface shadow-sm' : 'bg-surface-container hover:bg-surface-container-high text-on-surface-variant'} px-4 py-2 rounded-full font-label-action text-label-action whitespace-nowrap transition-all cursor-pointer" data-cat="all" data-category-name="all">
+              Todos (${totalSafeDishes})
             </button>
             ${CATEGORY_ORDER.map(catName => {
               const meta = CATEGORY_META[catName] || { id: catName };
               const isActive = activeCategory === catName || activeCategory === meta.id;
+              const catSafeCount = preset.menu.filter(d => d.category === catName && !isDishExcluded(d.allergens)).length;
               return `
-                <button class="cat-filter ${isActive ? 'active bg-inverse-surface text-inverse-on-surface' : 'bg-surface-container hover:bg-surface-container-high text-on-surface-variant'} px-4 py-2 rounded-full font-label-action text-label-action whitespace-nowrap transition-all cursor-pointer" data-cat="${meta.id}" data-category-name="${catName}">
-                  ${catName}
+                <button class="cat-filter ${isActive ? 'active bg-inverse-surface text-inverse-on-surface shadow-sm' : 'bg-surface-container hover:bg-surface-container-high text-on-surface-variant'} ${catSafeCount === 0 ? 'opacity-50' : ''} px-4 py-2 rounded-full font-label-action text-label-action whitespace-nowrap transition-all cursor-pointer" data-cat="${meta.id}" data-category-name="${catName}">
+                  ${catName} <span class="text-[11px] opacity-75">(${catSafeCount})</span>
                 </button>
               `;
             }).join('')}
@@ -1372,21 +1366,81 @@ class GastroApp {
         </div>
       </div>
 
+      <!-- ACTIVE ALLERGEN FILTER FEEDBACK BANNER (Visibilidad inmediata cuando hay alérgenos activos) -->
+      ${activeAllergens.length > 0 ? `
+        <div class="max-w-[1360px] mx-auto px-6 lg:px-10 mt-6 w-full" id="active-allergen-banner">
+          <div class="bg-primary/10 border border-primary/30 rounded-2xl p-4 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3 shadow-xs">
+            <div class="flex items-center gap-3">
+              <span class="material-symbols-outlined text-primary text-[24px]">filter_alt</span>
+              <div>
+                <p class="font-bold text-sm text-on-surface">
+                  Filtro de alérgenos activo: excluyendo ${activeAllergens.map(a => getAllergenLabel(a)).join(', ')}
+                </p>
+                <p class="text-xs text-on-surface-variant">
+                  Mostrando ${totalSafeDishes} de ${preset.menu.length} platos aptos en la carta${activeCategory !== 'all' ? ` (categoría: ${activeCategory})` : ' (todas las categorías)'}.
+                </p>
+              </div>
+            </div>
+            <button type="button" data-clear-allergens class="inline-flex items-center gap-1.5 px-4 py-2 rounded-full bg-primary hover:bg-primary-container text-on-primary text-xs font-bold transition-all cursor-pointer shadow-sm flex-shrink-0">
+              <span>✕ Quitar filtros (${activeAllergens.length})</span>
+            </button>
+          </div>
+        </div>
+      ` : ''}
+
       <!-- MAIN MENU SHOWCASE CONTAINER: TODAS LAS CATEGORÍAS Y LOS 46 PLATOS EN DISEÑO STITCH -->
       <div class="max-w-[1360px] mx-auto px-6 lg:px-10 py-12 w-full space-y-16" id="carta-menu">
         
-        ${this.menuMode === 'compact' ? `
+        ${totalSafeDishes === 0 ? `
+          <div class="text-center py-16 px-6 bg-surface-container-lowest rounded-2xl border border-outline-variant/30 my-8">
+            <span class="material-symbols-outlined text-5xl text-on-surface-variant mb-3">filter_list_off</span>
+            <h3 class="font-headline-md text-xl font-bold text-on-surface">No hay platos aptos con estos filtros</h3>
+            <p class="text-sm text-on-surface-variant mt-2 max-w-lg mx-auto">
+              Todos los platos de la carta contienen alguno de los alérgenos excluidos (${activeAllergens.map(a => getAllergenLabel(a)).join(', ')}).
+            </p>
+            <button type="button" data-clear-allergens class="mt-6 px-6 py-3 rounded-full bg-primary text-on-primary font-bold text-sm cursor-pointer shadow-md hover:bg-primary-container transition-all">
+              ✕ Quitar todos los filtros de alérgenos
+            </button>
+          </div>
+        ` : (this.menuMode === 'compact' ? `
           <!-- VISTA COMPACTA LISTA RÁPIDA: TODOS LOS 46 PLATOS DENTRO DE 1360PX -->
           <div class="space-y-12">
             ${CATEGORY_ORDER.map(catName => {
               const meta = CATEGORY_META[catName] || { id: catName, title: catName, subtitle: '', icon: 'restaurant_menu', iconBg: 'bg-primary-container text-on-primary', badgeSuffix: 'Opciones' };
-              // Filtrar platos que no contengan los alérgenos seleccionados (ocultar en vez de aplicar opacidad)
-              const categoryDishes = preset.menu.filter(d => d.category === catName && !isDishExcluded(d.allergens));
-              if (categoryDishes.length === 0) return '';
               const isGroupVisible = activeCategory === 'all' || activeCategory === meta.id || activeCategory === catName;
+              if (!isGroupVisible) return '';
+
+              // Filtrar platos que no contengan los alérgenos seleccionados
+              const categoryDishes = preset.menu.filter(d => d.category === catName && !isDishExcluded(d.allergens));
+              if (categoryDishes.length === 0) {
+                if (activeCategory === 'all') return '';
+                return `
+                  <div class="menu-group bg-surface-container-lowest p-6 rounded-2xl border border-outline-variant/30 shadow-sm" data-group="${meta.id}" data-category="${catName}">
+                    <div class="flex items-center justify-between pb-4 mb-4 border-b border-surface-container">
+                      <div class="flex items-center gap-2.5">
+                        <span class="p-1.5 rounded-full ${meta.iconBg}">
+                          <span class="material-symbols-outlined text-[18px]">${meta.icon}</span>
+                        </span>
+                        <h3 class="font-headline-sm text-lg font-semibold text-on-surface">${meta.title}</h3>
+                      </div>
+                      <span class="text-xs font-semibold text-on-surface-variant font-mono">0 ${meta.badgeSuffix}</span>
+                    </div>
+                    <div class="text-center py-10 px-4">
+                      <span class="material-symbols-outlined text-4xl text-on-surface-variant mb-2">no_meals</span>
+                      <h4 class="font-headline-sm text-base font-bold text-on-surface">No hay platos en "${catName}" sin los alérgenos filtrados</h4>
+                      <p class="text-xs text-on-surface-variant mt-1 max-w-md mx-auto">
+                        Los platos de esta categoría contienen alérgenos excluidos (${activeAllergens.map(a => getAllergenLabel(a)).join(', ')}).
+                      </p>
+                      <button type="button" data-clear-allergens class="mt-4 px-4 py-2 rounded-full bg-primary text-on-primary font-bold text-xs cursor-pointer shadow-sm hover:bg-primary-container transition-all">
+                        ✕ Quitar filtros de alérgenos
+                      </button>
+                    </div>
+                  </div>
+                `;
+              }
 
               return `
-                <div class="menu-group bg-surface-container-lowest p-6 rounded-2xl border border-outline-variant/30 shadow-sm" data-group="${meta.id}" data-category="${catName}" style="${isGroupVisible ? 'display:block;' : 'display:none;'}">
+                <div class="menu-group bg-surface-container-lowest p-6 rounded-2xl border border-outline-variant/30 shadow-sm" data-group="${meta.id}" data-category="${catName}" style="display:block;">
                   <div class="flex items-center justify-between pb-4 mb-4 border-b border-surface-container">
                     <div class="flex items-center gap-2.5">
                       <span class="p-1.5 rounded-full ${meta.iconBg}">
@@ -1428,13 +1482,45 @@ class GastroApp {
           <!-- VISTA TARJETAS SHOWCASE IDÉNTICA AL BOCETO STITCH PARA CADA CATEGORÍA -->
           ${CATEGORY_ORDER.map(catName => {
             const meta = CATEGORY_META[catName] || { id: catName, title: catName, subtitle: '', icon: 'restaurant_menu', iconBg: 'bg-primary-container text-on-primary', badgeSuffix: 'Opciones' };
-            // Filtrar platos que no contengan los alérgenos seleccionados (ocultar en vez de aplicar opacidad)
-            const categoryDishes = preset.menu.filter(d => d.category === catName && !isDishExcluded(d.allergens));
-            if (categoryDishes.length === 0) return '';
             const isGroupVisible = activeCategory === 'all' || activeCategory === meta.id || activeCategory === catName;
+            if (!isGroupVisible) return '';
+
+            // Filtrar platos que no contengan los alérgenos seleccionados
+            const categoryDishes = preset.menu.filter(d => d.category === catName && !isDishExcluded(d.allergens));
+            if (categoryDishes.length === 0) {
+              if (activeCategory === 'all') return '';
+              return `
+                <section class="menu-group" data-group="${meta.id}" data-category="${catName}">
+                  <div class="flex items-center justify-between pb-6 mb-8 bg-surface-container-low p-6 rounded-2xl border border-outline-variant/30">
+                    <div class="flex items-center gap-3">
+                      <span class="p-2.5 rounded-full ${meta.iconBg}">
+                        <span class="material-symbols-outlined text-[24px]">${meta.icon}</span>
+                      </span>
+                      <div>
+                        <h3 class="font-headline-md text-headline-md text-on-surface font-semibold">${meta.title}</h3>
+                        <p class="font-body-sm text-body-sm text-on-surface-variant">${meta.subtitle}</p>
+                      </div>
+                    </div>
+                    <span class="hidden md:inline-block font-kicker-eyebrow text-kicker-eyebrow text-primary uppercase bg-surface-container px-3.5 py-1.5 rounded-full border border-outline-variant/20">
+                      0 ${meta.badgeSuffix}
+                    </span>
+                  </div>
+                  <div class="text-center py-12 px-6 bg-surface-container-lowest rounded-2xl border border-outline-variant/30 shadow-xs">
+                    <span class="material-symbols-outlined text-4xl text-on-surface-variant mb-2">no_meals</span>
+                    <h4 class="font-headline-sm text-lg font-bold text-on-surface">No hay platos en "${catName}" sin los alérgenos seleccionados</h4>
+                    <p class="text-xs sm:text-sm text-on-surface-variant mt-1 max-w-md mx-auto">
+                      Todos los platos de esta categoría contienen alguno de los alérgenos excluidos (${activeAllergens.map(a => getAllergenLabel(a)).join(', ')}).
+                    </p>
+                    <button type="button" data-clear-allergens class="mt-4 px-5 py-2.5 rounded-full bg-primary text-on-primary font-bold text-xs cursor-pointer shadow-sm hover:bg-primary-container transition-all">
+                      ✕ Quitar filtros de alérgenos
+                    </button>
+                  </div>
+                </section>
+              `;
+            }
 
             return `
-              <section class="menu-group" data-group="${meta.id}" data-category="${catName}" style="${isGroupVisible ? 'display:block;' : 'display:none;'}">
+              <section class="menu-group" data-group="${meta.id}" data-category="${catName}" style="display:block;">
                 
                 <!-- Category Banner idéntico al boceto Stitch -->
                 <div class="flex items-center justify-between pb-6 mb-8 bg-surface-container-low p-6 rounded-2xl border border-outline-variant/30">
@@ -1551,7 +1637,7 @@ class GastroApp {
               </section>
             `;
           }).join('')}
-        `}
+        `)}
 
       </div>
 
@@ -3371,30 +3457,74 @@ class GastroApp {
   // VISTA 2: COMANDERO KDS DE COCINA
   // =========================================================================
 
+  closeLightbox() {
+    const container = document.getElementById('lightbox-container');
+    if (container) {
+      container.innerHTML = '';
+    }
+    if (typeof document !== 'undefined' && document.body) {
+      document.body.style.overflow = '';
+    }
+  }
+
   renderLightbox(imageUrl, title) {
+    if (!imageUrl) {
+      this.closeLightbox();
+      return;
+    }
     const container = document.getElementById('lightbox-container');
     if (!container) return;
 
     container.innerHTML = `
-      <div id="lightbox-backdrop" class="fixed inset-0 bg-black/95 backdrop-blur-md z-[100] flex flex-col items-center justify-center p-3 sm:p-6 transition-all">
+      <div id="lightbox-backdrop" class="fixed inset-0 bg-black/95 backdrop-blur-md z-[100] flex flex-col items-center justify-center p-3 sm:p-6 transition-all cursor-pointer">
         
         <!-- Botón de Cerrar en Esquina Superior -->
-        <button id="close-lightbox-btn" class="absolute top-4 right-4 sm:top-6 sm:right-6 w-11 h-11 rounded-full bg-white/10 hover:bg-white/20 text-white flex items-center justify-center text-xl font-bold transition-all border border-white/20 z-10" title="Cerrar (Esc)">
+        <button id="close-lightbox-btn" type="button" class="absolute top-4 right-4 sm:top-6 sm:right-6 w-11 h-11 rounded-full bg-white/10 hover:bg-white/20 text-white flex items-center justify-center text-xl font-bold transition-all border border-white/20 z-10 cursor-pointer" title="Cerrar (Esc)">
           ✕
         </button>
 
         <!-- Contenedor de la Fotografía Completa (Sin recorte) -->
-        <div class="relative max-w-5xl max-h-[85vh] w-full flex flex-col items-center justify-center">
-          <img src="${imageUrl}" alt="${title}" class="max-h-[72vh] sm:max-h-[78vh] w-auto max-w-full object-contain rounded-2xl shadow-2xl border border-white/10 select-none"/>
+        <div id="lightbox-content" class="relative max-w-5xl max-h-[85vh] w-full flex flex-col items-center justify-center cursor-default">
+          <img src="${imageUrl}" alt="${title || 'Plato'}" class="max-h-[72vh] sm:max-h-[78vh] w-auto max-w-full object-contain rounded-2xl shadow-2xl border border-white/10 select-none"/>
           
           <div class="mt-4 text-center px-4">
-            <h3 class="text-white text-base sm:text-xl font-bold tracking-wide">${title}</h3>
+            <h3 class="text-white text-base sm:text-xl font-bold tracking-wide">${title || ''}</h3>
             <span class="text-stone-400 text-xs mt-1 block">Fotografía completa en alta resolución · Pulsa fuera o pulsa la cruz para volver</span>
           </div>
         </div>
 
       </div>
     `;
+
+    if (typeof document !== 'undefined' && document.body) {
+      document.body.style.overflow = 'hidden';
+    }
+
+    const backdrop = document.getElementById('lightbox-backdrop');
+    const closeBtn = document.getElementById('close-lightbox-btn');
+    const content = document.getElementById('lightbox-content');
+
+    if (closeBtn) {
+      closeBtn.addEventListener('click', (e) => {
+        e.preventDefault();
+        e.stopPropagation();
+        this.closeLightbox();
+      });
+    }
+
+    if (content) {
+      content.addEventListener('click', (e) => {
+        e.stopPropagation();
+      });
+    }
+
+    if (backdrop) {
+      backdrop.addEventListener('click', (e) => {
+        e.preventDefault();
+        e.stopPropagation();
+        this.closeLightbox();
+      });
+    }
   }
 
   // =========================================================================

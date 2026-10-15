@@ -535,7 +535,7 @@
       "ingredients": "Tomate Raf seleccionado, piparras de Navarra, aceitunas y AOVE virgen extra.",
       "prepTime": "6 min",
       "popular": false,
-      "image": "https://images.unsplash.com/photo-1592417817098-8f3d6910985b?auto=format&fit=crop&w=800&q=80",
+      "image": "images/ensalada-nikoleta.jpg",
       "allergens": []
     },
     {
