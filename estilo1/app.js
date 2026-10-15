@@ -1289,12 +1289,12 @@ class GastroApp {
       </section>
 
       <!-- STICKY FILTER SUBNAV & SEARCH -->
-      <section class="sticky top-20 z-40 bg-surface/95 backdrop-blur-md py-4 shadow-sm border-y border-outline-variant/20" id="carta-section">
-        <div class="max-w-[1360px] mx-auto px-6 lg:px-10 flex flex-col md:flex-row items-center justify-between gap-4">
+      <section class="sticky top-[117px] md:top-20 z-40 bg-surface/95 backdrop-blur-md py-2.5 sm:py-3 md:py-4 shadow-sm border-y border-outline-variant/20" id="carta-section">
+        <div class="max-w-[1360px] mx-auto px-4 sm:px-6 lg:px-10 flex flex-col md:flex-row items-center justify-between gap-2.5 sm:gap-4">
           
           <!-- Category Pill Carousel con conteos dinámicos en tiempo real -->
-          <div class="flex items-center gap-2 overflow-x-auto w-full md:w-auto pb-1 md:pb-0 scrollbar-none" id="category-pills">
-            <button class="cat-filter ${activeCategory === 'all' ? 'active bg-inverse-surface text-inverse-on-surface shadow-sm' : 'bg-surface-container hover:bg-surface-container-high text-on-surface-variant'} px-4 py-2 rounded-full font-label-action text-label-action whitespace-nowrap transition-all cursor-pointer" data-cat="all" data-category-name="all">
+          <div class="flex items-center gap-1.5 sm:gap-2 overflow-x-auto w-full md:w-auto pb-1 md:pb-0 scrollbar-none" id="category-pills">
+            <button class="cat-filter ${activeCategory === 'all' ? 'active bg-inverse-surface text-inverse-on-surface shadow-sm' : 'bg-surface-container hover:bg-surface-container-high text-on-surface-variant'} px-3 sm:px-4 py-1.5 sm:py-2 rounded-full font-label-action text-xs sm:text-label-action whitespace-nowrap transition-all cursor-pointer" data-cat="all" data-category-name="all">
               Todos (${totalSafeDishes})
             </button>
             ${CATEGORY_ORDER.map(catName => {
@@ -1302,24 +1302,30 @@ class GastroApp {
               const isActive = activeCategory === catName || activeCategory === meta.id;
               const catSafeCount = preset.menu.filter(d => d.category === catName && !isDishExcluded(d.allergens)).length;
               return `
-                <button class="cat-filter ${isActive ? 'active bg-inverse-surface text-inverse-on-surface shadow-sm' : 'bg-surface-container hover:bg-surface-container-high text-on-surface-variant'} ${catSafeCount === 0 ? 'opacity-50' : ''} px-4 py-2 rounded-full font-label-action text-label-action whitespace-nowrap transition-all cursor-pointer" data-cat="${meta.id}" data-category-name="${catName}">
-                  ${catName} <span class="text-[11px] opacity-75">(${catSafeCount})</span>
+                <button class="cat-filter ${isActive ? 'active bg-inverse-surface text-inverse-on-surface shadow-sm' : 'bg-surface-container hover:bg-surface-container-high text-on-surface-variant'} ${catSafeCount === 0 ? 'opacity-50' : ''} px-3 sm:px-4 py-1.5 sm:py-2 rounded-full font-label-action text-xs sm:text-label-action whitespace-nowrap transition-all cursor-pointer" data-cat="${meta.id}" data-category-name="${catName}">
+                  ${catName} <span class="text-[10px] sm:text-[11px] opacity-75">(${catSafeCount})</span>
                 </button>
               `;
             }).join('')}
           </div>
 
           <!-- Quick Allergen & View Controls -->
-          <div class="flex items-center gap-3 w-full md:w-auto justify-end flex-shrink-0">
-            <button type="button" class="inline-flex items-center gap-1.5 bg-surface-container-low hover:bg-surface-container text-on-surface-variant px-3.5 py-2 rounded-full font-label-action text-[12px] transition-colors cursor-pointer border border-outline-variant/30" id="toggle-allergens">
-              <span class="material-symbols-outlined text-[16px] text-tertiary">info</span>
+          <div class="flex items-center gap-2 sm:gap-3 w-full md:w-auto justify-between md:justify-end flex-shrink-0">
+            <button type="button" class="inline-flex items-center gap-1.5 bg-surface-container-low hover:bg-surface-container text-on-surface-variant px-3 py-1.5 rounded-full font-label-action text-[11px] sm:text-[12px] transition-colors cursor-pointer border border-outline-variant/30" id="toggle-allergens">
+              <span class="material-symbols-outlined text-[15px] sm:text-[16px] text-tertiary">info</span>
               <span>Info Alérgenos</span>
               ${activeAllergens.length > 0 ? `<span class="bg-primary text-on-primary text-[10px] px-1.5 py-0.2 rounded-full font-bold">${activeAllergens.length}</span>` : ''}
             </button>
             
-            <div class="hidden sm:flex items-center bg-surface-container p-1 rounded-full text-secondary">
-              <button type="button" id="view-cards" data-menu-mode="cards" class="px-3 py-1 rounded-full ${this.menuMode !== 'compact' ? 'bg-surface-container-lowest text-on-surface shadow-xs font-bold' : 'text-secondary hover:text-on-surface'} text-xs font-medium cursor-pointer">Tarjetas</button>
-              <button type="button" id="view-list" data-menu-mode="compact" class="px-3 py-1 rounded-full ${this.menuMode === 'compact' ? 'bg-surface-container-lowest text-on-surface shadow-xs font-bold' : 'text-secondary hover:text-on-surface'} text-xs font-medium cursor-pointer">Lista rápida</button>
+            <div class="flex items-center bg-surface-container p-0.5 sm:p-1 rounded-full text-secondary">
+              <button type="button" id="view-cards" data-menu-mode="cards" class="px-2.5 sm:px-3 py-1 rounded-full ${this.menuMode !== 'compact' ? 'bg-surface-container-lowest text-on-surface shadow-xs font-bold' : 'text-secondary hover:text-on-surface'} text-[11px] sm:text-xs font-medium cursor-pointer inline-flex items-center gap-1" title="Vista con imágenes">
+                <span class="material-symbols-outlined text-[14px]">grid_view</span>
+                <span>Tarjetas</span>
+              </button>
+              <button type="button" id="view-list" data-menu-mode="compact" class="px-2.5 sm:px-3 py-1 rounded-full ${this.menuMode === 'compact' ? 'bg-surface-container-lowest text-on-surface shadow-xs font-bold' : 'text-secondary hover:text-on-surface'} text-[11px] sm:text-xs font-medium cursor-pointer inline-flex items-center gap-1" title="Vista en lista rápida">
+                <span class="material-symbols-outlined text-[14px]">view_list</span>
+                <span>Lista</span>
+              </button>
             </div>
           </div>
 
@@ -1389,7 +1395,7 @@ class GastroApp {
       ` : ''}
 
       <!-- MAIN MENU SHOWCASE CONTAINER: TODAS LAS CATEGORÍAS Y LOS 46 PLATOS EN DISEÑO STITCH -->
-      <div class="max-w-[1360px] mx-auto px-6 lg:px-10 py-12 w-full space-y-16" id="carta-menu">
+      <div class="max-w-[1360px] mx-auto px-3.5 sm:px-6 lg:px-10 py-5 sm:py-8 md:py-12 w-full space-y-6 sm:space-y-10 md:space-y-16" id="carta-menu">
         
         ${totalSafeDishes === 0 ? `
           <div class="text-center py-16 px-6 bg-surface-container-lowest rounded-2xl border border-outline-variant/30 my-8">
@@ -1404,7 +1410,7 @@ class GastroApp {
           </div>
         ` : (this.menuMode === 'compact' ? `
           <!-- VISTA COMPACTA LISTA RÁPIDA: TODOS LOS 46 PLATOS DENTRO DE 1360PX -->
-          <div class="space-y-12">
+          <div class="space-y-8 sm:space-y-12">
             ${CATEGORY_ORDER.map(catName => {
               const meta = CATEGORY_META[catName] || { id: catName, title: catName, subtitle: '', icon: 'restaurant_menu', iconBg: 'bg-primary-container text-on-primary', badgeSuffix: 'Opciones' };
               const isGroupVisible = activeCategory === 'all' || activeCategory === meta.id || activeCategory === catName;
@@ -1415,17 +1421,17 @@ class GastroApp {
               if (categoryDishes.length === 0) {
                 if (activeCategory === 'all') return '';
                 return `
-                  <div class="menu-group bg-surface-container-lowest p-6 rounded-2xl border border-outline-variant/30 shadow-sm" data-group="${meta.id}" data-category="${catName}">
-                    <div class="flex items-center justify-between pb-4 mb-4 border-b border-surface-container">
+                  <div class="menu-group bg-surface-container-lowest p-4 sm:p-6 rounded-xl sm:rounded-2xl border border-outline-variant/30 shadow-sm" data-group="${meta.id}" data-category="${catName}">
+                    <div class="flex items-center justify-between pb-3 sm:pb-4 mb-3 sm:mb-4 border-b border-surface-container">
                       <div class="flex items-center gap-2.5">
                         <span class="p-1.5 rounded-full ${meta.iconBg}">
                           <span class="material-symbols-outlined text-[18px]">${meta.icon}</span>
                         </span>
-                        <h3 class="font-headline-sm text-lg font-semibold text-on-surface">${meta.title}</h3>
+                        <h3 class="font-headline-sm text-base sm:text-lg font-semibold text-on-surface">${meta.title}</h3>
                       </div>
                       <span class="text-xs font-semibold text-on-surface-variant font-mono">0 ${meta.badgeSuffix}</span>
                     </div>
-                    <div class="text-center py-10 px-4">
+                    <div class="text-center py-8 px-4">
                       <span class="material-symbols-outlined text-4xl text-on-surface-variant mb-2">no_meals</span>
                       <h4 class="font-headline-sm text-base font-bold text-on-surface">No hay platos en "${catName}" sin los alérgenos filtrados</h4>
                       <p class="text-xs text-on-surface-variant mt-1 max-w-md mx-auto">
@@ -1440,35 +1446,40 @@ class GastroApp {
               }
 
               return `
-                <div class="menu-group bg-surface-container-lowest p-6 rounded-2xl border border-outline-variant/30 shadow-sm" data-group="${meta.id}" data-category="${catName}" style="display:block;">
-                  <div class="flex items-center justify-between pb-4 mb-4 border-b border-surface-container">
+                <div class="menu-group bg-surface-container-lowest p-3.5 sm:p-5 md:p-6 rounded-xl sm:rounded-2xl border border-outline-variant/30 shadow-sm" data-group="${meta.id}" data-category="${catName}" style="display:block;">
+                  <div class="flex items-center justify-between pb-3 sm:pb-4 mb-3 sm:mb-4 border-b border-surface-container">
                     <div class="flex items-center gap-2.5">
                       <span class="p-1.5 rounded-full ${meta.iconBg}">
                         <span class="material-symbols-outlined text-[18px]">${meta.icon}</span>
                       </span>
-                      <h3 class="font-headline-sm text-lg font-semibold text-on-surface">${meta.title}</h3>
+                      <h3 class="font-headline-sm text-base sm:text-lg font-semibold text-on-surface">${meta.title}</h3>
                     </div>
                     <span class="text-xs font-semibold text-primary font-mono">${categoryDishes.length} ${meta.badgeSuffix}</span>
                   </div>
                   <div class="divide-y divide-surface-container">
                     ${categoryDishes.map(d => {
                       return `
-                        <div class="py-3 flex items-center justify-between gap-4 group">
-                          <div class="flex items-center gap-3.5 min-w-0 flex-1">
-                            <img src="${d.image}" alt="${d.name}" class="w-14 h-14 rounded-xl object-cover flex-shrink-0 cursor-pointer" data-open-dish-modal="${d.id}"/>
-                            <div class="min-w-0">
-                              <div class="flex items-center gap-2 flex-wrap">
-                                <span class="font-headline-sm text-base font-semibold text-on-surface group-hover:text-primary transition-colors cursor-pointer" data-open-dish-modal="${d.id}">${d.name}</span>
-                                ${d.badge ? `<span class="text-[10px] font-bold px-2 py-0.5 rounded-full bg-secondary-container text-on-surface">${d.badge}</span>` : ''}
-                                ${renderAllergenBadges(d.allergens, 'xs')}
-                              </div>
-                              <p class="font-body-sm text-xs text-on-surface-variant truncate max-w-xl">${d.description}</p>
+                        <div class="py-2.5 sm:py-3 flex items-center justify-between gap-2.5 sm:gap-4 group">
+                          <div class="flex items-center gap-2.5 sm:gap-3.5 min-w-0 flex-1">
+                            <img src="${d.image}" alt="${d.name}" class="w-12 h-12 sm:w-14 sm:h-14 rounded-lg sm:rounded-xl object-cover flex-shrink-0 cursor-pointer" data-open-dish-modal="${d.id}"/>
+                            <div class="min-w-0 flex-1">
+                              ${d.badge ? `
+                                <div class="mb-0.5">
+                                  <span class="text-[9px] sm:text-[10px] font-bold px-2 py-0.5 rounded-full bg-secondary-container text-on-surface inline-block">${d.badge}</span>
+                                </div>
+                              ` : ''}
+                              <h4 class="font-headline-sm text-xs sm:text-sm md:text-base font-semibold text-on-surface group-hover:text-primary transition-colors cursor-pointer leading-snug line-clamp-2" data-open-dish-modal="${d.id}">${d.name}</h4>
+                              <p class="font-body-sm text-[11px] sm:text-xs text-on-surface-variant line-clamp-1 max-w-xl mt-0.5">${d.description}</p>
+                              ${d.allergens && d.allergens.length ? `<div class="mt-1">${renderAllergenBadges(d.allergens, 'xs')}</div>` : ''}
                             </div>
                           </div>
-                          <div class="flex items-center gap-3 flex-shrink-0">
-                            <span class="font-label-price text-base font-bold text-primary">${formatCurrency(d.price)}</span>
-                            <button data-open-dish-modal="${d.id}" class="px-3 py-1 rounded-full bg-surface-container hover:bg-surface-container-high text-xs font-medium text-on-surface cursor-pointer">Detalle</button>
-                            <button data-add-cart="${d.id}" class="px-3.5 py-1 rounded-full bg-primary hover:bg-primary-container text-on-primary text-xs font-bold cursor-pointer">Pedir</button>
+                          <div class="flex items-center gap-2 sm:gap-3 flex-shrink-0">
+                            <span class="font-label-price text-sm sm:text-base font-bold text-primary whitespace-nowrap">${formatCurrency(d.price)}</span>
+                            <button data-open-dish-modal="${d.id}" class="hidden sm:inline-block px-3 py-1 rounded-full bg-surface-container hover:bg-surface-container-high text-xs font-medium text-on-surface cursor-pointer">Detalle</button>
+                            <button data-add-cart="${d.id}" class="px-2.5 sm:px-3.5 py-1 rounded-full bg-primary hover:bg-primary-container text-on-primary text-xs font-bold cursor-pointer inline-flex items-center gap-1 shadow-xs active:scale-95">
+                              <span class="material-symbols-outlined text-[14px]">add</span>
+                              <span class="hidden sm:inline">Pedir</span>
+                            </button>
                           </div>
                         </div>
                       `;
@@ -1522,63 +1533,63 @@ class GastroApp {
             return `
               <section class="menu-group" data-group="${meta.id}" data-category="${catName}" style="display:block;">
                 
-                <!-- Category Banner idéntico al boceto Stitch -->
-                <div class="flex items-center justify-between pb-6 mb-8 bg-surface-container-low p-6 rounded-2xl border border-outline-variant/30">
-                  <div class="flex items-center gap-3">
-                    <span class="p-2.5 rounded-full ${meta.iconBg}">
-                      <span class="material-symbols-outlined text-[24px]">${meta.icon}</span>
+                <!-- Category Banner idéntico al boceto Stitch pero optimizado para móvil -->
+                <div class="flex items-center justify-between p-3.5 sm:p-5 md:p-6 mb-3 sm:mb-6 md:mb-8 bg-surface-container-low rounded-xl sm:rounded-2xl border border-outline-variant/30">
+                  <div class="flex items-center gap-2.5 sm:gap-3 min-w-0">
+                    <span class="p-1.5 sm:p-2 md:p-2.5 rounded-full ${meta.iconBg} flex-shrink-0">
+                      <span class="material-symbols-outlined text-[20px] sm:text-[24px]">${meta.icon}</span>
                     </span>
-                    <div>
-                      <h3 class="font-headline-md text-headline-md text-on-surface font-semibold">${meta.title}</h3>
-                      <p class="font-body-sm text-body-sm text-on-surface-variant">${meta.subtitle}</p>
+                    <div class="min-w-0">
+                      <h3 class="font-headline-sm sm:font-headline-md text-base sm:text-lg md:text-headline-md text-on-surface font-semibold truncate sm:overflow-visible">${meta.title}</h3>
+                      <p class="font-body-sm text-[11px] sm:text-xs md:text-body-sm text-on-surface-variant line-clamp-1 sm:line-clamp-none">${meta.subtitle}</p>
                     </div>
                   </div>
-                  <span class="hidden md:inline-block font-kicker-eyebrow text-kicker-eyebrow text-primary uppercase bg-surface-container px-3.5 py-1.5 rounded-full border border-outline-variant/20">
+                  <span class="font-kicker-eyebrow text-[10px] sm:text-kicker-eyebrow text-primary uppercase bg-surface-container px-2.5 sm:px-3.5 py-1 sm:py-1.5 rounded-full border border-outline-variant/20 whitespace-nowrap flex-shrink-0">
                     ${categoryDishes.length} ${meta.badgeSuffix}
                   </span>
                 </div>
 
-                <!-- Cards Grid -->
-                <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                <!-- Cards Grid: gap compacto en móvil (12px), espacioso en desktop -->
+                <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-3 sm:gap-4 md:gap-6">
                   ${categoryDishes.map(dish => {
                     const excluded = isDishExcluded(dish.allergens);
 
-                    // Si es el Chuletón Selección, aplicamos la tarjeta destacada de doble columna de Stitch
+                    // Si es el Chuletón Selección, aplicamos la tarjeta destacada adaptativa
                     if (dish.id === 'e1_finlandes') {
                       return `
-                        <div class="dish-card md:col-span-2 bg-gradient-to-br from-surface-container-low via-surface-container-lowest to-surface-container-low rounded-2xl overflow-hidden shadow-sm hover:shadow-md transition-all duration-300 grid grid-cols-1 md:grid-cols-12 group border border-outline-variant/30">
-                          <div class="relative md:col-span-6 h-64 md:h-auto overflow-hidden">
+                        <div class="dish-card md:col-span-2 bg-gradient-to-br from-surface-container-low via-surface-container-lowest to-surface-container-low rounded-2xl overflow-hidden shadow-xs hover:shadow-md transition-all duration-300 grid grid-cols-1 md:grid-cols-12 group border border-outline-variant/30">
+                          <div class="relative md:col-span-6 h-44 sm:h-56 md:h-auto overflow-hidden">
                             <img alt="${dish.name}" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500 cursor-pointer" data-open-dish-modal="${dish.id}" src="${dish.image}"/>
-                            <div class="absolute top-4 left-4 bg-primary text-on-primary px-3 py-1 rounded-full font-kicker-eyebrow text-[10px] tracking-widest uppercase shadow">
+                            <div class="absolute top-3 left-3 sm:top-4 sm:left-4 bg-primary text-on-primary px-2.5 py-1 rounded-full font-kicker-eyebrow text-[9px] sm:text-[10px] tracking-widest uppercase shadow">
                               ${dish.badge || 'MADURACIÓN 45+ DÍAS'}
                             </div>
-                            <button data-open-lightbox="${dish.image}" data-lightbox-title="${dish.name}" class="absolute bottom-3 right-3 bg-black/70 hover:bg-black text-white p-1.5 rounded-lg text-xs backdrop-blur-sm transition-opacity cursor-pointer" title="Ampliar imagen completa">
+                            <button data-open-lightbox="${dish.image}" data-lightbox-title="${dish.name}" class="absolute bottom-2.5 right-2.5 sm:bottom-3 sm:right-3 bg-black/70 hover:bg-black text-white p-1.5 rounded-lg text-xs backdrop-blur-sm transition-opacity cursor-pointer shadow" title="Ampliar imagen completa">
                               ${ICONS.zoom}
                             </button>
                           </div>
-                          <div class="p-8 md:col-span-6 flex flex-col justify-between">
-                            <div class="space-y-3">
+                          <div class="p-4 sm:p-6 md:p-8 md:col-span-6 flex flex-col justify-between">
+                            <div class="space-y-2 sm:space-y-3">
                               <div class="flex items-center justify-between">
-                                <span class="font-kicker-eyebrow text-kicker-eyebrow text-secondary uppercase tracking-widest">CORTE SUPREMO · 1 KG APROX</span>
+                                <span class="font-kicker-eyebrow text-[10px] sm:text-kicker-eyebrow text-secondary uppercase tracking-widest">CORTE SUPREMO · 1 KG APROX</span>
                                 ${renderAllergenBadges(dish.allergens, 'sm')}
                               </div>
-                              <h4 class="font-headline-md text-headline-md text-on-surface font-semibold cursor-pointer hover:text-primary transition-colors" data-open-dish-modal="${dish.id}">${dish.name}</h4>
-                              <p class="font-body-md text-body-md text-on-surface-variant leading-relaxed">
+                              <h4 class="font-headline-sm text-base sm:text-lg md:text-headline-md text-on-surface font-semibold cursor-pointer hover:text-primary transition-colors leading-snug" data-open-dish-modal="${dish.id}">${dish.name}</h4>
+                              <p class="font-body-sm sm:font-body-md text-xs sm:text-body-md text-on-surface-variant leading-relaxed line-clamp-2 sm:line-clamp-none">
                                 ${dish.description}
                               </p>
                             </div>
-                            <div class="pt-6 mt-4 flex items-center justify-between border-t border-surface-container">
+                            <div class="pt-3 sm:pt-6 mt-3 sm:mt-4 flex items-center justify-between border-t border-surface-container">
                               <div>
-                                <span class="font-kicker-eyebrow text-[10px] text-secondary uppercase block">POR PIEZA</span>
-                                <span class="font-label-price text-label-price text-primary font-bold">${formatCurrency(dish.price)}</span>
+                                <span class="font-kicker-eyebrow text-[9px] sm:text-[10px] text-secondary uppercase block">POR PIEZA</span>
+                                <span class="font-label-price text-base sm:text-label-price text-primary font-bold">${formatCurrency(dish.price)}</span>
                               </div>
                               <div class="flex items-center gap-2">
-                                <button data-open-dish-modal="${dish.id}" class="bg-surface-container hover:bg-surface-container-high text-on-surface px-4 py-2.5 rounded-full font-label-action text-label-action transition-colors cursor-pointer">
+                                <button data-open-dish-modal="${dish.id}" class="bg-surface-container hover:bg-surface-container-high text-on-surface px-3 py-1.5 sm:px-4 sm:py-2.5 rounded-full font-label-action text-xs sm:text-label-action transition-colors cursor-pointer">
                                   Detalle
                                 </button>
-                                <button data-add-cart="${dish.id}" class="inline-flex items-center gap-2 bg-primary-container text-on-primary px-5 py-2.5 rounded-full font-label-action text-label-action hover:bg-primary transition-colors cursor-pointer shadow-sm">
+                                <button data-add-cart="${dish.id}" class="inline-flex items-center gap-1.5 sm:gap-2 bg-primary-container text-on-primary px-3.5 py-1.5 sm:px-5 sm:py-2.5 rounded-full font-label-action text-xs sm:text-label-action hover:bg-primary transition-colors cursor-pointer shadow-sm active:scale-95">
                                   <span>Pedir corte</span>
-                                  <span class="material-symbols-outlined text-[16px]">add</span>
+                                  <span class="material-symbols-outlined text-[14px] sm:text-[16px]">add</span>
                                 </button>
                               </div>
                             </div>
@@ -1587,48 +1598,91 @@ class GastroApp {
                       `;
                     }
 
-                    // Tarjeta estándar de 3 columnas de Stitch
+                    // Tarjeta responsiva: En móvil tarjeta horizontal compacta (~120px); en tablet/desktop vertical Stitch
                     return `
-                      <div class="dish-card bg-surface-container-lowest rounded-2xl overflow-hidden shadow-sm hover:shadow-md transition-all duration-300 flex flex-col justify-between group border border-outline-variant/20">
-                        <div class="relative overflow-hidden h-56 bg-surface-container">
-                          <img alt="${dish.name}" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500 cursor-pointer" data-open-dish-modal="${dish.id}" src="${dish.image}" loading="lazy"/>
-                          ${dish.badge ? `
-                            <div class="absolute top-3 left-3 bg-inverse-surface/85 backdrop-blur-sm text-inverse-on-surface px-2.5 py-1 rounded-md font-kicker-eyebrow text-[10px] tracking-widest uppercase">
-                              ${dish.badge}
-                            </div>
-                          ` : ''}
-                          <button data-open-lightbox="${dish.image}" data-lightbox-title="${dish.name}" class="absolute top-3 right-3 bg-black/70 hover:bg-black text-white p-1.5 rounded-lg text-xs backdrop-blur-sm transition-opacity cursor-pointer" title="Ampliar imagen completa">
-                            ${ICONS.zoom}
-                          </button>
-                        </div>
-                        <div class="p-6 flex flex-col flex-grow justify-between">
+                      <div class="dish-card bg-surface-container-lowest rounded-2xl overflow-hidden shadow-xs hover:shadow-md transition-all duration-300 flex flex-row md:flex-col justify-between group border border-outline-variant/30 p-3 sm:p-4 md:p-0 gap-3 sm:gap-4 md:gap-0">
+                        
+                        <!-- Columna de Información (Izquierda en móvil, inferior en desktop) -->
+                        <div class="flex-1 min-w-0 flex flex-col justify-between order-1 md:order-2 md:p-6 md:flex-grow">
                           <div>
-                            <div class="flex items-start justify-between gap-2 mb-2">
-                              <h4 class="font-headline-sm text-headline-sm text-on-surface font-semibold leading-snug cursor-pointer hover:text-primary transition-colors" data-open-dish-modal="${dish.id}">${dish.name}</h4>
-                              <span class="font-label-price text-label-price text-primary font-bold whitespace-nowrap">${formatCurrency(dish.price)}</span>
+                            <!-- Badges & Alérgenos -->
+                            <div class="flex items-center gap-1.5 sm:gap-2 mb-1 flex-wrap">
+                              ${dish.badge ? `
+                                <span class="inline-block bg-primary/10 text-primary px-2 py-0.5 rounded-full font-kicker-eyebrow text-[9px] sm:text-[10px] font-bold tracking-wider uppercase">
+                                  ${dish.badge}
+                                </span>
+                              ` : ''}
+                              ${renderAllergenBadges(dish.allergens, 'xs')}
                             </div>
-                            <p class="font-body-md text-body-md text-on-surface-variant mb-4 line-clamp-2">
+
+                            <!-- Título y Precio Desktop -->
+                            <div class="flex items-start justify-between gap-2">
+                              <h4 class="font-headline-sm text-sm sm:text-base md:text-headline-sm text-on-surface font-bold leading-snug cursor-pointer hover:text-primary transition-colors line-clamp-2 md:line-clamp-none" data-open-dish-modal="${dish.id}">
+                                ${dish.name}
+                              </h4>
+                              <span class="hidden md:inline-block font-label-price text-label-price text-primary font-bold whitespace-nowrap">
+                                ${formatCurrency(dish.price)}
+                              </span>
+                            </div>
+
+                            <!-- Descripción compacta -->
+                            <p class="font-body-sm text-[11px] sm:text-xs md:text-body-md text-on-surface-variant mt-1 md:mt-2 line-clamp-2 leading-relaxed">
                               ${dish.description}
                             </p>
-                            <div class="mb-2">
-                              ${renderAllergenBadges(dish.allergens, 'sm')}
-                            </div>
                           </div>
-                          <div class="pt-4 flex items-center justify-between border-t border-surface-container">
-                            <span class="font-body-sm text-body-sm text-secondary flex items-center gap-1">
+
+                          <!-- Acciones inferiores y precio móvil -->
+                          <div class="mt-2.5 md:mt-4 pt-2 md:pt-4 flex items-center justify-between border-t border-surface-container/60 md:border-surface-container">
+                            <!-- Precio y tiempo en móvil -->
+                            <div class="flex md:hidden items-baseline gap-1.5">
+                              <span class="font-label-price text-base font-bold text-primary">
+                                ${formatCurrency(dish.price)}
+                              </span>
+                              ${dish.prepTime ? `
+                                <span class="text-[10px] text-secondary flex items-center gap-0.5">
+                                  <span class="material-symbols-outlined text-[11px] text-primary">skillet</span>
+                                  <span>${dish.prepTime}</span>
+                                </span>
+                              ` : ''}
+                            </div>
+
+                            <!-- Tiempo en desktop -->
+                            <span class="hidden md:flex font-body-sm text-body-sm text-secondary items-center gap-1">
                               <span class="material-symbols-outlined text-[16px] text-primary">skillet</span>
                               <span>${dish.prepTime || 'Punto recomendado'}</span>
                             </span>
-                            <div class="flex items-center gap-1.5">
-                              <button data-open-dish-modal="${dish.id}" class="p-2 rounded-full bg-surface-container hover:bg-surface-container-high text-on-surface transition-colors cursor-pointer" title="Ver detalle">
-                                <span class="material-symbols-outlined text-[18px]">info</span>
+
+                            <!-- Botones de acción -->
+                            <div class="flex items-center gap-1.5 flex-shrink-0">
+                              <button data-open-dish-modal="${dish.id}" class="px-2.5 py-1 sm:px-3 sm:py-1.5 md:p-2 rounded-full bg-surface-container hover:bg-surface-container-high text-on-surface text-[11px] sm:text-xs md:text-sm font-medium transition-colors cursor-pointer flex items-center gap-1">
+                                <span class="material-symbols-outlined text-[13px] md:text-[18px]">info</span>
+                                <span class="hidden xs:inline md:hidden">Detalle</span>
                               </button>
-                              <button data-add-cart="${dish.id}" class="p-2 rounded-full bg-surface-container hover:bg-primary-container hover:text-on-primary text-primary transition-colors cursor-pointer shadow-xs" title="Añadir a la comanda">
-                                <span class="material-symbols-outlined text-[20px]">add</span>
+                              <button data-add-cart="${dish.id}" class="inline-flex items-center gap-1 px-3 py-1 sm:px-3.5 sm:py-1.5 md:p-2 rounded-full bg-primary hover:bg-primary-container text-on-primary text-[11px] sm:text-xs md:text-sm font-bold transition-all cursor-pointer shadow-xs active:scale-95">
+                                <span class="material-symbols-outlined text-[13px] md:text-[20px]">add</span>
+                                <span class="md:hidden">Pedir</span>
                               </button>
                             </div>
                           </div>
                         </div>
+
+                        <!-- Fotografía / Miniatura (Derecha en móvil, banner superior en desktop) -->
+                        <div class="relative flex-shrink-0 w-24 h-24 sm:w-28 sm:h-28 md:w-full md:h-56 rounded-xl md:rounded-none overflow-hidden bg-surface-container order-2 md:order-1 self-start sm:self-center md:self-auto cursor-pointer" data-open-dish-modal="${dish.id}">
+                          <img alt="${dish.name}" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" src="${dish.image}" loading="lazy"/>
+                          
+                          <!-- Badge solo en desktop -->
+                          ${dish.badge ? `
+                            <div class="hidden md:block absolute top-3 left-3 bg-inverse-surface/85 backdrop-blur-sm text-inverse-on-surface px-2.5 py-1 rounded-md font-kicker-eyebrow text-[10px] tracking-widest uppercase">
+                              ${dish.badge}
+                            </div>
+                          ` : ''}
+
+                          <!-- Botón de lupa para Lightbox en esquina -->
+                          <button data-open-lightbox="${dish.image}" data-lightbox-title="${dish.name}" class="absolute bottom-1 right-1 md:top-3 md:right-3 md:bottom-auto bg-black/70 hover:bg-black text-white p-1 md:p-1.5 rounded-md text-[10px] md:text-xs backdrop-blur-sm transition-opacity cursor-pointer shadow" title="Ampliar imagen completa">
+                            <span class="material-symbols-outlined text-[14px] md:text-[16px] block">zoom_in</span>
+                          </button>
+                        </div>
+
                       </div>
                     `;
                   }).join('')}
