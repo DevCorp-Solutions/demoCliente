@@ -1784,6 +1784,10 @@ class GastroApp {
         <option value="estilo2" ${preset.id === 'estilo2' ? 'selected' : ''}>Estilo 2: Punto de Encuentro</option>
         <option value="estilo3" ${preset.id === 'estilo3' ? 'selected' : ''}>Estilo 3: Mala Pata Aluche</option>
         <option value="estilo4" ${preset.id === 'estilo4' ? 'selected' : ''}>Estilo 4: Cervecería Veinti7</option>
+        <option value="estilo5">Estilo 5: Umbral</option>
+        <option value="estilo6">Estilo 6: Miga</option>
+        <option value="estilo7">Estilo 7: Órbita</option>
+        <option value="estilo8">Estilo 8: Tercio</option>
       </select>
     `;
 

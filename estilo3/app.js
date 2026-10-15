@@ -9,7 +9,7 @@
   const dialog = $('#dialog');
   $('#style-select').addEventListener('change', event => {
     const style = event.target.value;
-    if (['estilo1', 'estilo2', 'estilo4'].includes(style)) window.location.href = `../${style}/index.html`;
+    if (/^estilo[1-8]$/.test(style) && style !== 'estilo3') window.location.href = `../${style}/index.html`;
   });
   const allergens = [
     ['gluten','Gluten',/gluten/,'<path d="M12 22V3m0 5C5 8 5 3 5 3s7 0 7 5Zm0 6C5 14 5 9 5 9s7 0 7 5Zm0 5c7 0 7-5 7-5s-7 0-7 5Zm0-8c7 0 7-5 7-5s-7 0-7 5Z"/>'],
