@@ -5,7 +5,18 @@
   const $ = selector => document.querySelector(selector);
   const escape = value => String(value ?? '').replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
   const normalize = text => text.normalize('NFD').replace(/[\u0300-\u036f]/g, '').toLowerCase();
-  let category = 'Arroces y paellas';
+  // Paquete DevCorp activo (paquete.js). Esencial: carta con categorías básicas y sin fotos por plato.
+  const pkg = window.DevcorpPaquete;
+  const essential = !!pkg && !pkg.has('devcorp');
+  const BASIC = [
+    ['Entrantes', ['Para compartir', 'La huerta', 'Tostas']],
+    ['Principales', ['Arroces y paellas', 'Carnes', 'Del mar']],
+    ['Postres', ['Postres y cafés']],
+    ['Bebidas', ['Bebidas y vinos']]
+  ];
+  const sectionOf = d => essential ? (BASIC.find(b => b[1].includes(d.category)) || BASIC[1])[0] : d.category;
+  const sections = essential ? BASIC.map(b => b[0]) : data.categories;
+  let category = essential ? 'Principales' : 'Arroces y paellas';
   const dialog = $('#dialog');
   $('#style-select').addEventListener('change', event => {
     const style = event.target.value;
@@ -39,27 +50,27 @@
     return `<span class="photo-crop"><img class="food-photo" src="${escape(image.src)}" alt="${escape('Fotografía real de referencia: '+d.name)}" loading="${large?'eager':'lazy'}" width="800" height="800"></span><span class="photo-label">Foto de referencia</span>`;
   }
   function renderCategories() {
-    $('#categories').innerHTML = ['Toda la carta',...data.categories].map(name => `<button class="category" aria-pressed="${category===name}" data-category="${escape(name)}">${escape(name)}</button>`).join('');
+    $('#categories').innerHTML = ['Toda la carta',...sections].map(name => `<button class="category" aria-pressed="${category===name}" data-category="${escape(name)}">${escape(name)}</button>`).join('');
   }
   function renderMenu() {
-    const dishes = data.menu.filter(d => category==='Toda la carta'||d.category===category);
+    const dishes = data.menu.filter(d => category==='Toda la carta'||sectionOf(d)===category);
     $('#result-count').textContent = `${dishes.length} propuestas · ${category}`;
     if (!dishes.length) {$('#menu-results').innerHTML='<div class="empty"><h3>No hay platos en esta sección.</h3><button class="button" data-reset>Ver toda la carta</button></div>';return;}
-    $('#menu-results').innerHTML = [...new Set(dishes.map(d=>d.category))].map(group => {
-      const items=dishes.filter(d=>d.category===group);
-      return `<section class="menu-group" aria-label="${escape(group)}"><div class="group-heading"><h3>${escape(group)}</h3><span>${items.length} propuestas</span></div>${group==='Arroces y paellas'?'<p class="category-note">Arroces y fideuás por encargo. Precios por persona. Consulta disponibilidad en el 91 942 36 96.</p>':''}<div class="dish-grid">${items.map(d=>`<article class="dish"><button class="dish-info" data-detail="${d.id}" aria-label="Ver detalles de ${escape(d.name)}"><span class="dish-media">${photo(d)}</span><span class="dish-body"><span class="dish-top"><span class="dish-name">${escape(d.name)}</span><span class="dish-price">${escape(d.priceLabel)}</span></span>${d.description?`<span class="dish-description">${escape(d.description)}</span>`:''}<span class="dish-tag">${escape(d.variants.length?`${d.variants.length} variedades`:d.category==='Arroces y paellas'?'Por encargo · por persona':d.group||'Ver detalles')}</span><span class="dish-allergens">${badges([d.allergens,...d.variants.map(v=>v.allergens)].filter(Boolean).join(', '))}${d.variants.length?'<span class="variant-hint">Según variedad</span>':''}</span></span></button></article>`).join('')}</div></section>`;
+    $('#menu-results').innerHTML = [...new Set(dishes.map(sectionOf))].map(group => {
+      const items=dishes.filter(d=>sectionOf(d)===group);
+      return `<section class="menu-group" aria-label="${escape(group)}"><div class="group-heading"><h3>${escape(group)}</h3><span>${items.length} propuestas</span></div>${group==='Arroces y paellas'?'<p class="category-note">Arroces y fideuás por encargo. Precios por persona. Consulta disponibilidad en el 91 942 36 96.</p>':''}<div class="dish-grid">${items.map(d=>`<article class="dish"><button class="dish-info" data-detail="${d.id}" aria-label="Ver detalles de ${escape(d.name)}">${essential?'':`<span class="dish-media">${photo(d)}</span>`}<span class="dish-body"><span class="dish-top"><span class="dish-name">${escape(d.name)}</span><span class="dish-price">${escape(d.priceLabel)}</span></span>${d.description?`<span class="dish-description">${escape(d.description)}</span>`:''}<span class="dish-tag">${escape(d.variants.length?`${d.variants.length} variedades`:d.category==='Arroces y paellas'?'Por encargo · por persona':d.group||'Ver detalles')}</span><span class="dish-allergens">${badges([d.allergens,...d.variants.map(v=>v.allergens)].filter(Boolean).join(', '))}${d.variants.length?'<span class="variant-hint">Según variedad</span>':''}</span></span></button></article>`).join('')}</div></section>`;
     }).join('');
   }
   function showDialog(html) {$('#dialog-content').innerHTML=html;if(!dialog.open)dialog.showModal();}
   function photoCredit(id) {
     const image=window.MALA_PATA_PHOTOS?.[id];
-    if(!image)return '';
+    if(!image||essential)return '';
     return `<p class="photo-credit">Fotografía real de referencia; la preparación, guarnición y presentación del local pueden variar. <a href="${escape(image.source)}" target="_blank" rel="noopener">${escape(image.artist||'Fuente')}</a>${image.license?` · <a href="${escape(image.licenseUrl||image.source)}" target="_blank" rel="noopener">${escape(image.license)}</a>`:''}.</p>`;
   }
   function details(id) {
     const d=data.menu.find(item=>item.id===id);
     if(!d)return;
-    showDialog(`<figure class="detail-media">${photo(d,true)}</figure><p class="eyebrow">${escape(d.category)} · ${escape(d.group)}</p><h2 class="dialog-title" id="dialog-title">${escape(d.name)}</h2><p class="dialog-price">${escape(d.priceLabel)}${d.category==='Arroces y paellas'?' <small>/ persona · por encargo</small>':''}</p>${d.description?`<p class="dialog-copy">${escape(d.description)}</p>`:''}${d.variants.length?`<h3 class="variants-heading">Variedades disponibles</h3><div class="variants-list">${d.variants.map(v=>`<div class="variant"><span>${escape(v.name)}</span>${badges(v.allergens)}</div>`).join('')}</div>`:`<div class="allergens"><strong>Alérgenos indicados</strong>${badges(d.allergens)}</div>`}<p class="allergen-note">Los iconos reflejan la información publicada. Consulta al personal sobre ingredientes y posibles trazas. El círculo con línea diagonal indica información no publicada.</p><details class="allergen-source"><summary>Consultar indicaciones de la carta original</summary>${d.variants.length?d.variants.map(v=>`<p><strong>${escape(v.name)}:</strong> ${escape(v.allergens||'Sin información publicada.')}</p>`).join(''):`<p>${escape(d.allergens||'Sin información publicada.')}</p>`}</details><div class="mini-legend">${allergens.filter(a=>a[2].test(normalize([d.allergens,...d.variants.map(v=>v.allergens)].join(' ')))).map(a=>`<span>${icon(a)} ${a[1]}</span>`).join('')}</div>`);
+    showDialog(`${essential?'':`<figure class="detail-media">${photo(d,true)}</figure>`}<p class="eyebrow">${escape(d.category)} · ${escape(d.group)}</p><h2 class="dialog-title" id="dialog-title">${escape(d.name)}</h2><p class="dialog-price">${escape(d.priceLabel)}${d.category==='Arroces y paellas'?' <small>/ persona · por encargo</small>':''}</p>${d.description?`<p class="dialog-copy">${escape(d.description)}</p>`:''}${d.variants.length?`<h3 class="variants-heading">Variedades disponibles</h3><div class="variants-list">${d.variants.map(v=>`<div class="variant"><span>${escape(v.name)}</span>${badges(v.allergens)}</div>`).join('')}</div>`:`<div class="allergens"><strong>Alérgenos indicados</strong>${badges(d.allergens)}</div>`}<p class="allergen-note">Los iconos reflejan la información publicada. Consulta al personal sobre ingredientes y posibles trazas. El círculo con línea diagonal indica información no publicada.</p><details class="allergen-source"><summary>Consultar indicaciones de la carta original</summary>${d.variants.length?d.variants.map(v=>`<p><strong>${escape(v.name)}:</strong> ${escape(v.allergens||'Sin información publicada.')}</p>`).join(''):`<p>${escape(d.allergens||'Sin información publicada.')}</p>`}</details><div class="mini-legend">${allergens.filter(a=>a[2].test(normalize([d.allergens,...d.variants.map(v=>v.allergens)].join(' ')))).map(a=>`<span>${icon(a)} ${a[1]}</span>`).join('')}</div>`);
   }
   document.addEventListener('click',event=>{
     const categoryLink=event.target.closest('[data-menu-category]');
