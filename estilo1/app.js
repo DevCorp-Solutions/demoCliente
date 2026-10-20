@@ -4,6 +4,21 @@
  */
 
 
+// Paquete DevCorp activo (paquete.js): Esencial · DevCorp · Profesional.
+const PKG = window.DevcorpPaquete;
+const pkgHas = (min) => !PKG || PKG.has(min);
+// Comandero (KDS), métricas, rentabilidad, pedidos y reservas integradas: solo Paquete Profesional.
+const PKG_VIEWS = pkgHas('profesional') ? ['menu', 'reservations', 'kds', 'metrics', 'roi'] : ['menu'];
+const allowedView = (view) => (PKG_VIEWS.includes(view) ? view : 'menu');
+// Paquete Esencial: carta con categorías básicas.
+const BASIC_CATEGORIES = {
+  'Entrantes': ['Entrantes', 'Ensaladas'],
+  'Principales': ['A la Brasa', 'Chivito al Plato', 'Pollo Asado'],
+  'Postres': ['Postres'],
+  'Bebidas': ['Cafés']
+};
+const basicCategoryOf = (category) => Object.keys(BASIC_CATEGORIES).find(k => BASIC_CATEGORIES[k].includes(category)) || 'Principales';
+
 const ICONS = {
   cart: `<svg class="w-4 h-4 inline-block" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 3h2l.4 2M7 13h10l4-8H5.4M7 13L5.4 5M7 13l-2.293 2.293c-.63.63-.184 1.707.707 1.707H17m0 0a2 2 0 100 4 2 2 0 000-4zm-8 2a2 2 0 11-4 0 2 2 0 014 0z"/></svg>`,
   star: `<svg class="w-4 h-4 text-amber-400 inline-block fill-current drop-shadow-sm" viewBox="0 0 20 20"><path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"/></svg>`,
@@ -174,7 +189,7 @@ function renderVukataAllergenLegend(activeAllergens = []) {
         </div>
         <h3 class="font-headline-md text-2xl sm:text-3xl text-on-surface font-semibold">Información de Alérgenos de Nuestra Carta</h3>
         <p class="font-body-md text-on-surface-variant text-sm mt-2">
-          Reglamento (UE) Nº 1169/2011 sobre alérgenos e información alimentaria facilitada al consumidor. Pulsa sobre cualquier alérgeno para filtrar u ocultar platos automáticamente en la carta.
+          Reglamento (UE) Nº 1169/2011 sobre alérgenos e información alimentaria facilitada al consumidor.${pkgHas('devcorp') ? ' Pulsa sobre cualquier alérgeno para filtrar u ocultar platos automáticamente en la carta.' : ''}
         </p>
       </div>
 
@@ -183,7 +198,7 @@ function renderVukataAllergenLegend(activeAllergens = []) {
         ${allergens.map(a => {
           const isSelected = activeAllergens && activeAllergens.includes(a.id);
           return `
-            <button data-allergen="${a.id}" class="flex flex-col items-center text-center group cursor-pointer p-3 sm:p-4 rounded-2xl transition-all w-full border ${
+            <button ${pkgHas('devcorp') ? `data-allergen="${a.id}"` : 'type="button" disabled'} class="flex flex-col items-center text-center group cursor-pointer p-3 sm:p-4 rounded-2xl transition-all w-full border ${
               isSelected
                 ? 'bg-primary/5 border-primary shadow-md ring-2 ring-primary/30'
                 : 'bg-surface-container-low hover:bg-surface-container-highest border-outline-variant/30 hover:border-outline-variant/60 shadow-xs'
@@ -253,7 +268,7 @@ class AppStore {
           const parsed = JSON.parse(saved);
           return {
             presetId: 'estilo1',
-            currentView: parsed.currentView || 'menu',
+            currentView: allowedView(parsed.currentView || 'menu'),
             cart: parsed.cart || [],
             orders: (parsed.orders && parsed.orders.length > 0) ? parsed.orders : INITIAL_DEMO_ORDERS,
             reservations: parsed.reservations || [],
@@ -321,7 +336,7 @@ class AppStore {
   }
 
   setView(viewName) {
-    this.state.currentView = viewName;
+    this.state.currentView = allowedView(viewName);
     this.save();
   }
 
@@ -712,7 +727,7 @@ class GastroApp {
       }
 
       const openDishBtn = e.target.closest('[data-open-dish-modal]');
-      if (openDishBtn) {
+      if (openDishBtn && pkgHas('devcorp')) {
         e.preventDefault();
         const dishId = openDishBtn.getAttribute('data-open-dish-modal');
         const preset = store.getPreset();
@@ -985,6 +1000,10 @@ class GastroApp {
   }
 
   renderMenuView(container, preset) {
+    if (!pkgHas('devcorp')) {
+      preset = { ...preset, menu: preset.menu.map(d => ({ ...d, category: basicCategoryOf(d.category) })) };
+      this.menuMode = 'compact';
+    }
     const activeCategory = store.state.activeCategory;
     const activeAllergens = (store.state.activeAllergenFilters && Array.isArray(store.state.activeAllergenFilters))
       ? store.state.activeAllergenFilters
@@ -1011,7 +1030,9 @@ class GastroApp {
 
     renderEstilo1Layout(preset, filteredMenu, activeCategory, activeAllergens, topData) {
     // Definición de las categorías y metadatos oficiales del diseño maestro de Stitch (code.html)
-    const CATEGORY_ORDER = ['A la Brasa', 'Entrantes', 'Ensaladas', 'Chivito al Plato', 'Pollo Asado', 'Postres', 'Cafés'];
+    const CATEGORY_ORDER = pkgHas('devcorp')
+      ? ['A la Brasa', 'Entrantes', 'Ensaladas', 'Chivito al Plato', 'Pollo Asado', 'Postres', 'Cafés']
+      : Object.keys(BASIC_CATEGORIES);
 
     const CATEGORY_META = {
       'A la Brasa': {
@@ -1061,6 +1082,22 @@ class GastroApp {
         icon: 'bakery_dining',
         iconBg: 'bg-tertiary-fixed-dim text-on-tertiary-fixed',
         badgeSuffix: '100% Caseros'
+      },
+      'Principales': {
+        id: 'principales',
+        title: 'Principales de la Brasa',
+        subtitle: 'Cortes a la brasa, chivito al plato y pollo al carbón de encina',
+        icon: 'local_fire_department',
+        iconBg: 'bg-primary-container text-on-primary',
+        badgeSuffix: 'Platos'
+      },
+      'Bebidas': {
+        id: 'bebidas',
+        title: 'Cafetería & Sobremesa',
+        subtitle: 'Cafés selectos, infusiones digestivas y sobremesa reposada',
+        icon: 'coffee',
+        iconBg: 'bg-secondary-container text-on-surface',
+        badgeSuffix: 'Sobremesa'
       },
       'Cafés': {
         id: 'cafes',
@@ -1116,11 +1153,11 @@ class GastroApp {
 
               <!-- CTAs -->
               <div class="flex flex-wrap items-center gap-4 pt-4">
-                <a class="inline-flex items-center gap-2.5 bg-primary-container hover:bg-primary text-on-primary font-label-action text-label-action px-7 py-3.5 rounded-full transition-all duration-300 shadow-[0_8px_24px_rgba(156,56,44,0.35)] transform hover:-translate-y-0.5 cursor-pointer" href="#reservas-direct">
+                <a class="inline-flex items-center gap-2.5 bg-primary-container hover:bg-primary text-on-primary font-label-action text-label-action px-7 py-3.5 rounded-full transition-all duration-300 shadow-[0_8px_24px_rgba(156,56,44,0.35)] transform hover:-translate-y-0.5 cursor-pointer" href="#reservas-direct" data-paquete-min="devcorp">
                   <span class="material-symbols-outlined text-[18px]">calendar_month</span>
                   <span>Reservar mesa</span>
                 </a>
-                <a class="inline-flex items-center gap-2.5 bg-surface-container-highest/10 hover:bg-surface-container-highest/20 text-surface-bright font-label-action text-label-action px-6 py-3.5 rounded-full transition-all duration-200 backdrop-blur-sm cursor-pointer" href="#carta-section">
+                <a data-paquete-min="profesional" class="inline-flex items-center gap-2.5 bg-surface-container-highest/10 hover:bg-surface-container-highest/20 text-surface-bright font-label-action text-label-action px-6 py-3.5 rounded-full transition-all duration-200 backdrop-blur-sm cursor-pointer" href="#carta-section">
                   <span class="material-symbols-outlined text-[18px]">shopping_bag</span>
                   <span>Pedir para llevar</span>
                 </a>
@@ -1213,7 +1250,7 @@ class GastroApp {
       </div>
 
       <!-- FEATURED SHOWCASE DISH: Directo de la Brasa (Spotlight 50/50 Card) -->
-      <section class="max-w-[1360px] mx-auto px-6 lg:px-10 py-16 lg:py-24 w-full" id="especialidades">
+      <section class="max-w-[1360px] mx-auto px-6 lg:px-10 py-16 lg:py-24 w-full" id="especialidades" data-paquete-min="devcorp">
         <div class="flex flex-col md:flex-row md:items-end justify-between mb-12 gap-6">
           <div class="space-y-2">
             <div class="flex items-center gap-2">
@@ -1278,7 +1315,7 @@ class GastroApp {
                 <button data-open-dish-modal="${featuredSpotlightDish.id}" class="bg-surface-container hover:bg-surface-container-high text-on-surface font-label-action text-label-action px-4 py-3 rounded-full transition-all cursor-pointer">
                   Ver Detalle
                 </button>
-                <button data-add-cart="${featuredSpotlightDish.id}" class="inline-flex items-center justify-center gap-2 bg-primary-container hover:bg-primary text-on-primary font-label-action text-label-action px-6 py-3 rounded-full transition-all duration-200 shadow-sm cursor-pointer">
+                <button data-paquete-min="profesional" data-add-cart="${featuredSpotlightDish.id}" class="inline-flex items-center justify-center gap-2 bg-primary-container hover:bg-primary text-on-primary font-label-action text-label-action px-6 py-3 rounded-full transition-all duration-200 shadow-sm cursor-pointer">
                   <span class="material-symbols-outlined text-[18px]">restaurant</span>
                   <span>Pedir plato</span>
                 </button>
@@ -1317,7 +1354,7 @@ class GastroApp {
               ${activeAllergens.length > 0 ? `<span class="bg-primary text-on-primary text-[10px] px-1.5 py-0.2 rounded-full font-bold">${activeAllergens.length}</span>` : ''}
             </button>
             
-            <div class="flex items-center bg-surface-container p-0.5 sm:p-1 rounded-full text-secondary">
+            <div class="flex items-center bg-surface-container p-0.5 sm:p-1 rounded-full text-secondary" data-paquete-min="devcorp">
               <button type="button" id="view-cards" data-menu-mode="cards" class="px-2.5 sm:px-3 py-1 rounded-full ${this.menuMode !== 'compact' ? 'bg-surface-container-lowest text-on-surface shadow-xs font-bold' : 'text-secondary hover:text-on-surface'} text-[11px] sm:text-xs font-medium cursor-pointer inline-flex items-center gap-1" title="Vista con imágenes">
                 <span class="material-symbols-outlined text-[14px]">grid_view</span>
                 <span>Tarjetas</span>
@@ -1346,11 +1383,11 @@ class GastroApp {
               ` : ''}
             </div>
             <p class="text-on-surface-variant text-xs mb-3">
-              Disponemos de fichas técnicas para cada preparación sobre brasas. Si presenta alguna alergia a gluten, lácteos, sulfitos o frutos secos, pulse en cualquiera de los alérgenos para filtrar la carta:
+              Disponemos de fichas técnicas para cada preparación sobre brasas. Si presenta alguna alergia a gluten, lácteos, sulfitos o frutos secos, ${pkgHas('devcorp') ? 'pulse en cualquiera de los alérgenos para filtrar la carta:' : 'consulte los alérgenos indicados en cada plato o pregunte a nuestro personal de sala.'}
             </p>
             
             <!-- 14 Allergen Interactive Chips -->
-            <div class="flex flex-wrap items-center gap-1.5 sm:gap-2">
+            <div class="flex flex-wrap items-center gap-1.5 sm:gap-2" data-paquete-min="devcorp">
               ${Object.values(VUKATA_ALLERGENS).map(a => {
                 const isSelected = activeAllergens.includes(a.id);
                 return `
@@ -1461,7 +1498,7 @@ class GastroApp {
                       return `
                         <div class="py-2.5 sm:py-3 flex items-center justify-between gap-2.5 sm:gap-4 group">
                           <div class="flex items-center gap-2.5 sm:gap-3.5 min-w-0 flex-1">
-                            <img src="${d.image}" alt="${d.name}" class="w-12 h-12 sm:w-14 sm:h-14 rounded-lg sm:rounded-xl object-cover flex-shrink-0 cursor-pointer" data-open-dish-modal="${d.id}"/>
+                            <img data-paquete-min="devcorp" src="${d.image}" alt="${d.name}" class="w-12 h-12 sm:w-14 sm:h-14 rounded-lg sm:rounded-xl object-cover flex-shrink-0 cursor-pointer" data-open-dish-modal="${d.id}"/>
                             <div class="min-w-0 flex-1">
                               ${d.badge ? `
                                 <div class="mb-0.5">
@@ -1475,8 +1512,8 @@ class GastroApp {
                           </div>
                           <div class="flex items-center gap-2 sm:gap-3 flex-shrink-0">
                             <span class="font-label-price text-sm sm:text-base font-bold text-primary whitespace-nowrap">${formatCurrency(d.price)}</span>
-                            <button data-open-dish-modal="${d.id}" class="hidden sm:inline-block px-3 py-1 rounded-full bg-surface-container hover:bg-surface-container-high text-xs font-medium text-on-surface cursor-pointer">Detalle</button>
-                            <button data-add-cart="${d.id}" class="px-2.5 sm:px-3.5 py-1 rounded-full bg-primary hover:bg-primary-container text-on-primary text-xs font-bold cursor-pointer inline-flex items-center gap-1 shadow-xs active:scale-95">
+                            <button data-paquete-min="devcorp" data-open-dish-modal="${d.id}" class="hidden sm:inline-block px-3 py-1 rounded-full bg-surface-container hover:bg-surface-container-high text-xs font-medium text-on-surface cursor-pointer">Detalle</button>
+                            <button data-paquete-min="profesional" data-add-cart="${d.id}" class="px-2.5 sm:px-3.5 py-1 rounded-full bg-primary hover:bg-primary-container text-on-primary text-xs font-bold cursor-pointer inline-flex items-center gap-1 shadow-xs active:scale-95">
                               <span class="material-symbols-outlined text-[14px]">add</span>
                               <span class="hidden sm:inline">Pedir</span>
                             </button>
@@ -1587,7 +1624,7 @@ class GastroApp {
                                 <button data-open-dish-modal="${dish.id}" class="bg-surface-container hover:bg-surface-container-high text-on-surface px-3 py-1.5 sm:px-4 sm:py-2.5 rounded-full font-label-action text-xs sm:text-label-action transition-colors cursor-pointer">
                                   Detalle
                                 </button>
-                                <button data-add-cart="${dish.id}" class="inline-flex items-center gap-1.5 sm:gap-2 bg-primary-container text-on-primary px-3.5 py-1.5 sm:px-5 sm:py-2.5 rounded-full font-label-action text-xs sm:text-label-action hover:bg-primary transition-colors cursor-pointer shadow-sm active:scale-95">
+                                <button data-paquete-min="profesional" data-add-cart="${dish.id}" class="inline-flex items-center gap-1.5 sm:gap-2 bg-primary-container text-on-primary px-3.5 py-1.5 sm:px-5 sm:py-2.5 rounded-full font-label-action text-xs sm:text-label-action hover:bg-primary transition-colors cursor-pointer shadow-sm active:scale-95">
                                   <span>Pedir corte</span>
                                   <span class="material-symbols-outlined text-[14px] sm:text-[16px]">add</span>
                                 </button>
@@ -1658,7 +1695,7 @@ class GastroApp {
                                 <span class="material-symbols-outlined text-[13px] md:text-[18px]">info</span>
                                 <span class="hidden xs:inline md:hidden">Detalle</span>
                               </button>
-                              <button data-add-cart="${dish.id}" class="inline-flex items-center gap-1 px-3 py-1 sm:px-3.5 sm:py-1.5 md:p-2 rounded-full bg-primary hover:bg-primary-container text-on-primary text-[11px] sm:text-xs md:text-sm font-bold transition-all cursor-pointer shadow-xs active:scale-95">
+                              <button data-paquete-min="profesional" data-add-cart="${dish.id}" class="inline-flex items-center gap-1 px-3 py-1 sm:px-3.5 sm:py-1.5 md:p-2 rounded-full bg-primary hover:bg-primary-container text-on-primary text-[11px] sm:text-xs md:text-sm font-bold transition-all cursor-pointer shadow-xs active:scale-95">
                                 <span class="material-symbols-outlined text-[13px] md:text-[20px]">add</span>
                                 <span class="md:hidden">Pedir</span>
                               </button>
@@ -1696,7 +1733,7 @@ class GastroApp {
       </div>
 
       <!-- GOOGLE REVIEWS SECTION (Social Proof & Reputation de Stitch + Botón de Valorar Experiencia) -->
-      <section class="bg-surface-container-low py-20 w-full mt-12" id="opiniones">
+      <section class="bg-surface-container-low py-20 w-full mt-12" id="opiniones" data-paquete-min="devcorp">
         <div class="max-w-[1360px] mx-auto px-6 lg:px-10">
           <div class="flex flex-col md:flex-row md:items-end justify-between mb-12 gap-6">
             <div>
@@ -1729,7 +1766,7 @@ class GastroApp {
               </div>
 
               <!-- Botón Valorar Experiencia / Escribir Reseña (Solicitado explícitamente por el cliente) -->
-              <button id="open-smart-review-btn" class="inline-flex items-center gap-2 bg-primary-container hover:bg-primary text-on-primary font-label-action text-label-action px-6 py-3.5 rounded-full transition-all duration-300 shadow-[0_4px_16px_rgba(156,56,44,0.25)] cursor-pointer">
+              <button id="open-smart-review-btn" data-paquete-min="profesional" class="inline-flex items-center gap-2 bg-primary-container hover:bg-primary text-on-primary font-label-action text-label-action px-6 py-3.5 rounded-full transition-all duration-300 shadow-[0_4px_16px_rgba(156,56,44,0.25)] cursor-pointer">
                 <span class="material-symbols-outlined text-[20px]">rate_review</span>
                 <span>Valorar experiencia</span>
               </button>
@@ -1812,7 +1849,7 @@ class GastroApp {
       </section>
 
       <!-- SECCIÓN DE RESERVAS FRENTE A LAS BRASAS (Fondo alargado de extremo a extremo, estilo idéntico a opiniones) -->
-      <section class="w-full bg-[#14100E] text-surface py-20 lg:py-24 relative overflow-hidden border-t border-[#2a221e]" id="reservas-direct">
+      <section class="w-full bg-[#14100E] text-surface py-20 lg:py-24 relative overflow-hidden border-t border-[#2a221e]" id="reservas-direct" data-paquete-min="devcorp">
         <!-- Ambient Glow Decorator a lo ancho -->
         <div class="absolute -left-20 -bottom-20 w-96 h-96 bg-primary/20 rounded-full blur-3xl pointer-events-none"></div>
         <div class="absolute -right-20 -top-20 w-96 h-96 bg-primary/10 rounded-full blur-3xl pointer-events-none"></div>
@@ -1846,8 +1883,22 @@ class GastroApp {
               </div>
             </div>
 
+            <!-- Paquete DevCorp: reserva con botón directo de llamada o WhatsApp (sin formulario integrado) -->
+            <div class="lg:col-span-5 bg-surface-container-lowest text-on-surface p-8 lg:p-10 rounded-3xl shadow-2xl border border-outline-variant/20 space-y-4" data-paquete-max="devcorp">
+              <h3 class="font-headline-sm text-headline-sm font-semibold text-on-surface">Reserve su mesa</h3>
+              <p class="font-body-md text-body-md text-on-surface-variant">Llámenos o escríbanos por WhatsApp y le confirmamos la mesa al momento.</p>
+              <a href="tel:${preset.phone.replace(/\s+/g, '')}" class="w-full bg-primary hover:bg-primary-container text-on-primary py-3.5 rounded-xl font-label-action text-label-action transition-colors shadow-md flex items-center justify-center gap-2 cursor-pointer">
+                <span class="material-symbols-outlined text-[18px]">call</span>
+                <span>Llamar · ${preset.phone}</span>
+              </a>
+              <a href="https://wa.me/${preset.whatsapp}?text=${encodeURIComponent('Hola, quería reservar una mesa en ' + preset.name + '.')}" target="_blank" rel="noopener" class="w-full bg-[#25D366] hover:bg-[#1ebe5b] text-white py-3.5 rounded-xl font-label-action text-label-action transition-colors shadow-md flex items-center justify-center gap-2 cursor-pointer">
+                ${ICONS.whatsapp}
+                <span>Reservar por WhatsApp</span>
+              </a>
+            </div>
+
             <!-- Panel Interactivo de Reserva Directa -->
-            <div class="lg:col-span-5 bg-surface-container-lowest text-on-surface p-8 lg:p-10 rounded-3xl shadow-2xl border border-outline-variant/20">
+            <div class="lg:col-span-5 bg-surface-container-lowest text-on-surface p-8 lg:p-10 rounded-3xl shadow-2xl border border-outline-variant/20" data-paquete-min="profesional">
               <h3 class="font-headline-sm text-headline-sm font-semibold mb-4 text-on-surface">Confirmar Comensales</h3>
               <form id="reservas-direct-form" class="space-y-4">
                 <div>
@@ -1914,7 +1965,7 @@ class GastroApp {
 
     // Selector HTML estándar adaptado a la estética de cada estilo
     const selectorHtml = `
-      <select id="style-select" class="text-xs font-semibold rounded-xl py-2 px-3 focus:outline-none focus:ring-2 transition-all cursor-pointer shadow-sm ${
+      <select id="style-select" class="max-w-[10rem] 2xl:max-w-none text-xs font-semibold rounded-xl py-2 px-3 focus:outline-none focus:ring-2 transition-all cursor-pointer shadow-sm ${
         preset.id === 'estilo1' ? 'bg-white text-stone-900 border-2 border-[#8B1E1E]/40 focus:ring-[#8B1E1E]' :
         preset.id === 'estilo2' ? 'bg-slate-900 text-sky-300 border border-slate-700 focus:ring-sky-500' :
         preset.id === 'estilo3' ? 'bg-white text-[#3d3228] border-2 border-[#8c7b6c] focus:ring-[#8c7b6c] font-serif' :
@@ -1928,6 +1979,9 @@ class GastroApp {
         <option value="estilo6">Estilo 6: Miga</option>
         <option value="estilo7">Estilo 7: Órbita</option>
         <option value="estilo8">Estilo 8: Tercio</option>
+      </select>
+      <select data-paquete-select aria-label="Cambiar de paquete" class="max-w-[7.5rem] sm:max-w-none text-xs font-semibold rounded-xl py-2 px-3 focus:outline-none focus:ring-2 transition-all cursor-pointer shadow-sm bg-white text-stone-900 border-2 border-[#8B1E1E]/40 focus:ring-[#8B1E1E]">
+        ${PKG ? PKG.optionsHtml() : ''}
       </select>
     `;
 
@@ -1956,7 +2010,7 @@ class GastroApp {
             </div>
 
             <!-- Navegación Central Stitch (Cápsula Segmentada con las Vistas del Sistema) -->
-            <nav class="hidden md:flex items-center gap-1 header-nav-capsule px-2 py-1.5 rounded-full shadow-[0_1px_4px_rgba(0,0,0,0.02)] border">
+            <nav data-paquete-min="profesional" class="hidden md:flex items-center gap-1 header-nav-capsule px-2 py-1.5 rounded-full shadow-[0_1px_4px_rgba(0,0,0,0.02)] border">
               <button data-view="menu" class="header-nav-btn px-3.5 py-2 font-label-action text-label-action transition-colors rounded-full cursor-pointer ${currentView === 'menu' ? 'active-view font-semibold shadow-xs' : ''}">
                 Carta
               </button>
@@ -1979,12 +2033,17 @@ class GastroApp {
             <div class="flex items-center gap-2 sm:gap-3 flex-shrink-0">
               ${selectorHtml}
 
+              ${pkgHas('profesional') ? `
               <button data-view="reservations" class="inline-flex items-center gap-2 bg-primary-container hover:bg-primary text-on-primary font-label-action text-label-action px-5 py-2.5 rounded-full transition-all duration-300 shadow-[0_4px_16px_rgba(156,56,44,0.2)] cursor-pointer">
                 <span class="material-symbols-outlined text-[18px]">restaurant</span>
-                <span class="hidden sm:inline">Reservar mesa</span>
-              </button>
+                <span class="hidden 2xl:inline">Reservar mesa</span>
+              </button>` : `
+              <a href="#reservas-direct" data-paquete-min="devcorp" class="inline-flex items-center gap-2 bg-primary-container hover:bg-primary text-on-primary font-label-action text-label-action px-5 py-2.5 rounded-full transition-all duration-300 shadow-[0_4px_16px_rgba(156,56,44,0.2)] cursor-pointer">
+                <span class="material-symbols-outlined text-[18px]">restaurant</span>
+                <span class="hidden 2xl:inline">Reservar mesa</span>
+              </a>`}
 
-              <button id="open-cart-btn" class="relative inline-flex items-center gap-2 px-3.5 py-2 rounded-full font-label-action text-label-action transition-colors shadow-sm cursor-pointer border" title="Ver comanda">
+              <button id="open-cart-btn" data-paquete-min="profesional" class="relative inline-flex items-center gap-2 px-3.5 py-2 rounded-full font-label-action text-label-action transition-colors shadow-sm cursor-pointer border" title="Ver comanda">
                 <span class="material-symbols-outlined text-[18px]">shopping_bag</span>
                 <span class="font-bold font-mono text-xs sm:text-sm">${formatCurrency(store.getCartTotal())}</span>
                 ${cartCount > 0 ? `<span class="bg-primary text-on-primary text-[10px] font-black px-1.5 py-0.5 rounded-full">${cartCount}</span>` : ''}
@@ -1994,7 +2053,7 @@ class GastroApp {
           </div>
 
           <!-- Barra táctil de vistas para móviles y tablets -->
-          <div id="mobile-nav-bar" class="md:hidden border-t px-4 py-2 overflow-x-auto no-scrollbar flex items-center gap-2 text-xs font-label-action whitespace-nowrap">
+          <div id="mobile-nav-bar" data-paquete-min="profesional" class="md:hidden border-t px-4 py-2 overflow-x-auto no-scrollbar flex items-center gap-2 text-xs font-label-action whitespace-nowrap">
             <button data-view="menu" class="px-3 py-1.5 rounded-full ${currentView === 'menu' ? 'active-view font-semibold shadow-xs' : ''}">Carta</button>
             <button data-view="reservations" class="px-3 py-1.5 rounded-full ${currentView === 'reservations' ? 'active-view font-semibold shadow-xs' : ''}">Reservas</button>
             <button data-view="kds" class="px-3 py-1.5 rounded-full ${currentView === 'kds' ? 'active-view font-semibold shadow-xs' : ''}">Cocina (${kdsPending})</button>
@@ -2202,7 +2261,7 @@ class GastroApp {
               </div>
 
               <!-- Col 4: Servicios & Pedidos -->
-              <div class="space-y-3">
+              <div class="space-y-3" data-paquete-min="profesional">
                 <span class="font-kicker-eyebrow text-[11px] text-[#8B1E1E] uppercase tracking-widest block font-bold">Servicios & Pedidos</span>
                 <p class="font-body-md text-[#57423f] leading-relaxed">
                   Disfrute de nuestros asados al momento en sala o solicite recogida en local a través de nuestro servicio take away sin intermediarios ni comisiones.
@@ -3182,14 +3241,14 @@ class GastroApp {
                 ${formatCurrency(dish.price)}
               </span>
 
-              <div class="flex items-center space-x-2 border ${preset.id === 'estilo1' ? 'border-outline-variant/40 bg-surface-container-lowest text-on-surface rounded-full px-3 py-1.5' : preset.id === 'estilo2' ? 'border-slate-700 bg-slate-800 rounded-xl px-2 py-1' : preset.id === 'estilo3' ? 'border-[#8c7b6c] bg-white rounded-xl px-2 py-1' : 'border-zinc-300 bg-white rounded-xl px-2 py-1'}">
+              <div data-paquete-min="profesional" class="flex items-center space-x-2 border ${preset.id === 'estilo1' ? 'border-outline-variant/40 bg-surface-container-lowest text-on-surface rounded-full px-3 py-1.5' : preset.id === 'estilo2' ? 'border-slate-700 bg-slate-800 rounded-xl px-2 py-1' : preset.id === 'estilo3' ? 'border-[#8c7b6c] bg-white rounded-xl px-2 py-1' : 'border-zinc-300 bg-white rounded-xl px-2 py-1'}">
                 <button type="button" data-modal-qty-minus class="w-7 h-7 flex items-center justify-center font-bold text-base cursor-pointer hover:opacity-75 select-none">-</button>
                 <span id="modal-dish-qty-val" class="w-6 text-center font-bold font-mono text-sm select-none">1</span>
                 <button type="button" data-modal-qty-plus class="w-7 h-7 flex items-center justify-center font-bold text-base cursor-pointer hover:opacity-75 select-none">+</button>
               </div>
             </div>
 
-            <button type="button" data-modal-add-cart class="${btnThemeClass} flex items-center space-x-2 cursor-pointer select-none">
+            <button type="button" data-modal-add-cart data-paquete-min="profesional" class="${btnThemeClass} flex items-center space-x-2 cursor-pointer select-none">
               <span>Añadir a la Comanda</span>
               ${preset.id === 'estilo1' ? '<span class="material-symbols-outlined text-[18px]">shopping_basket</span>' : ICONS.arrow}
             </button>

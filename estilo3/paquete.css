@@ -1,0 +1,24 @@
+/* =========================================================================
+   Paquetes DevCorp (ver paquete.js): lo que no incluye el paquete activo
+   se oculta. Por defecto: Paquete Profesional (web completa).
+   ========================================================================= */
+html[data-paquete="esencial"] [data-paquete-min="devcorp"],
+html[data-paquete="esencial"] [data-paquete-min="profesional"],
+html[data-paquete="devcorp"] [data-paquete-min="profesional"],
+html[data-paquete="devcorp"] [data-paquete-max="esencial"],
+html[data-paquete="profesional"] [data-paquete-max="esencial"],
+html[data-paquete="profesional"] [data-paquete-max="devcorp"] { display: none !important; }
+
+/* Esencial: teléfono y WhatsApp solo como información, sin enlace de llamada */
+html[data-paquete="esencial"] a[href^="tel:"],
+html[data-paquete="esencial"] a[href*="wa.me/"] { pointer-events: none; cursor: default; text-decoration: none; }
+
+/* ---------- Estilo 3 · Mala Pata Aluche ---------- */
+
+/* Selector de paquete junto al de estilos (mismo aspecto) */
+#paquete-select { max-width: 100%; width: 175px; min-height: 42px; padding: 8px 12px; border: 1px solid #aeb5a5; border-radius: 5px; background: var(--white); color: var(--green); font: 12px 'DM Sans',sans-serif; cursor: pointer; }
+#paquete-select:focus-visible { outline: 3px solid #a46e26; outline-offset: 3px; }
+@media (max-width: 760px) { #paquete-select { width: 100%; grid-column: 2; } }
+
+/* Sin la invitación a valorar, el resumen de Google ocupa la sección */
+html[data-paquete="devcorp"] .reviews-grid { grid-template-columns: 1fr; }

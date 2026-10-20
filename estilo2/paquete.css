@@ -1,0 +1,14 @@
+/* =========================================================================
+   Paquetes DevCorp (ver paquete.js): lo que no incluye el paquete activo
+   se oculta. Por defecto: Paquete Profesional (web completa).
+   ========================================================================= */
+html[data-paquete="esencial"] [data-paquete-min="devcorp"],
+html[data-paquete="esencial"] [data-paquete-min="profesional"],
+html[data-paquete="devcorp"] [data-paquete-min="profesional"],
+html[data-paquete="devcorp"] [data-paquete-max="esencial"],
+html[data-paquete="profesional"] [data-paquete-max="esencial"],
+html[data-paquete="profesional"] [data-paquete-max="devcorp"] { display: none !important; }
+
+/* Esencial: teléfono y WhatsApp solo como información, sin enlace de llamada */
+html[data-paquete="esencial"] a[href^="tel:"],
+html[data-paquete="esencial"] a[href*="wa.me/"] { pointer-events: none; cursor: default; text-decoration: none; }

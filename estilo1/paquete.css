@@ -1,0 +1,39 @@
+/* =========================================================================
+   Paquetes DevCorp (ver paquete.js): lo que no incluye el paquete activo
+   se oculta. Por defecto: Paquete Profesional (web completa).
+   ========================================================================= */
+html[data-paquete="esencial"] [data-paquete-min="devcorp"],
+html[data-paquete="esencial"] [data-paquete-min="profesional"],
+html[data-paquete="devcorp"] [data-paquete-min="profesional"],
+html[data-paquete="devcorp"] [data-paquete-max="esencial"],
+html[data-paquete="profesional"] [data-paquete-max="esencial"],
+html[data-paquete="profesional"] [data-paquete-max="devcorp"] { display: none !important; }
+
+/* Esencial: teléfono y WhatsApp solo como información, sin enlace de llamada */
+html[data-paquete="esencial"] a[href^="tel:"],
+html[data-paquete="esencial"] a[href*="wa.me/"] { pointer-events: none; cursor: default; text-decoration: none; }
+
+/* ---------- Estilo 1 · Parrilla Vukata ---------- */
+
+/* Selector de paquete: mismo aspecto que el de estilos en ambos estados de la cabecera */
+#main-header.is-light-scrolled [data-paquete-select] {
+  background-color: #ffffff !important;
+  color: #1c1917 !important;
+  border-color: rgba(139, 30, 30, 0.4) !important;
+}
+#main-header.is-transparent-dark [data-paquete-select] {
+  background-color: #1f1916 !important;
+  color: #ffffff !important;
+  border-color: rgba(255, 255, 255, 0.22) !important;
+}
+#main-header.is-transparent-dark [data-paquete-select] option {
+  background-color: #14100E !important;
+  color: #ffffff !important;
+}
+
+/* Sin la barra móvil de vistas (KDS, métricas…), la cabecera mide 80px también en móvil */
+html:not([data-paquete="profesional"]) #carta-section { top: 80px; }
+
+/* Esencial: carta informativa, sin ficha ampliada del plato */
+html[data-paquete="esencial"] [data-open-dish-modal] { cursor: default; }
+html[data-paquete="esencial"] #alergenos-info button[disabled] { cursor: default; }

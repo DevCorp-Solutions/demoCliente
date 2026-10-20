@@ -8,6 +8,10 @@
   'use strict';
 
   const P = window.CURRENT_PRESET || {};
+  // Paquete DevCorp activo (paquete.js). Esencial: carta básica sin fotos por plato,
+  // sin filtros ni jarra interactiva y en un solo idioma.
+  const PKG = window.DevcorpPaquete;
+  const hasPkg = (min) => !PKG || PKG.has(min);
   const $ = (sel, ctx = document) => ctx.querySelector(sel);
   const $$ = (sel, ctx = document) => Array.from(ctx.querySelectorAll(sel));
   const reducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
@@ -197,10 +201,10 @@
             <div class="menu-feature__copy" aria-live="polite">
               <p class="menu-feature__kicker">${P.menu.filter(m => groupOf(m) === g.id).length} referencias</p>
               <h3 class="menu-feature__title">${esc(g.title)}</h3>
-              <p class="menu-feature__text">${g.id === 'raciones' ? 'Ideales para acompañar con cada una de nuestras cervezas. Toca un plato para verlo.' : 'Servimos una selección especial de cervezas artesanales, siempre a la temperatura perfecta.'}</p>
+              <p class="menu-feature__text">${g.id === 'raciones' ? `Ideales para acompañar con cada una de nuestras cervezas.${hasPkg('devcorp') ? ' Toca un plato para verlo.' : ''}` : 'Servimos una selección especial de cervezas artesanales, siempre a la temperatura perfecta.'}</p>
             </div>
           </div>
-          ${g.id === 'raciones' ? '' : pourPanelHTML()}
+          ${g.id === 'raciones' || !hasPkg('devcorp') ? '' : pourPanelHTML()}
         </div>
         <div class="menu-body" data-body="${g.id}"></div>
       </div>`).join('');
@@ -250,7 +254,7 @@
         <ul class="dish-grid">
           ${items.map((d, i) => `
             <li class="dish${dishState.id === d.id ? ' is-selected' : ''}" style="--i:${i}">
-              ${d.image ? `<button type="button" class="dish__pick" data-dish="${esc(d.id)}" aria-label="Ver foto de ${esc(d.name)}" aria-pressed="${dishState.id === d.id}"></button>` : ''}
+              ${d.image && hasPkg('devcorp') ? `<button type="button" class="dish__pick" data-dish="${esc(d.id)}" aria-label="Ver foto de ${esc(d.name)}" aria-pressed="${dishState.id === d.id}"></button>` : ''}
               <span class="dish__num" aria-hidden="true">${String(i + 1).padStart(2, '0')}</span>
               <div>
                 <h4 class="dish__name">${esc(d.name)}</h4>
@@ -267,9 +271,9 @@
     const shown = filter === 'all' ? cats : [filter];
     let n = 0;
     body.innerHTML = `
-      <div class="menu-filters" role="group" aria-label="Filtrar cervezas por marca">
+      ${hasPkg('devcorp') ? `<div class="menu-filters" role="group" aria-label="Filtrar cervezas por marca">
         ${chips.map(([val, label, count]) => `<button type="button" class="chip" data-filter="${esc(val)}" aria-pressed="${val === filter}">${esc(label)} <span class="chip__count">${count}</span></button>`).join('')}
-      </div>
+      </div>` : ''}
       <div class="beer-groups" aria-live="polite">
         ${shown.map(cat => `
           <section class="beer-group" aria-label="${esc(cat)}">
@@ -298,7 +302,7 @@
     const pct = hasAbv ? Math.min(100, (b.abv / 8) * 100) : 0;
     return `
       <li class="beer${pourState.id === b.id ? ' is-poured' : ''}" style="--i:${i}">
-        <button type="button" class="beer__pour" data-pour="${esc(b.id)}" aria-label="Servir ${esc(b.name)}" aria-pressed="${pourState.id === b.id}"></button>
+        ${hasPkg('devcorp') ? `<button type="button" class="beer__pour" data-pour="${esc(b.id)}" aria-label="Servir ${esc(b.name)}" aria-pressed="${pourState.id === b.id}"></button>` : ''}
         <div>
           <span class="beer__name">${esc(b.name)}${tags}</span>
           ${b.description ? `<span class="beer__desc">${esc(b.description)}</span>` : ''}
@@ -727,6 +731,12 @@
     const aliases = { '#menu': '#carta', '#sobre-nosotros': '#nosotros', '#reservas': '#reservar' };
     const target = aliases[location.hash];
     if (target) { history.replaceState(null, '', target); const el = $(target); if (el) el.scrollIntoView(); }
+
+    // Menú móvil: numeración correlativa de las secciones que incluye el paquete
+    $$('.mobile-links li').filter(li => getComputedStyle(li).display !== 'none').forEach((li, i) => {
+      const num = $('.num', li);
+      if (num) num.textContent = String(i + 1).padStart(2, '0');
+    });
   }
 
   // =========================================================================
@@ -835,6 +845,8 @@
       setLang(i18n.lang === 'en' ? 'es' : 'en');
     }));
 
+    // Paquete Esencial: un solo idioma (español)
+    if (!hasPkg('devcorp')) return;
     let initial = new URLSearchParams(location.search).get('lang');
     if (!initial) { try { initial = localStorage.getItem('veinti7_lang'); } catch (e) { /* sin almacenamiento */ } }
     if (initial === 'en') setLang('en', { save: false });
