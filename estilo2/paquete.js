@@ -8,6 +8,35 @@
   var KEY = 'devcorp_paquete_v2';
   var LANG_KEY = 'devcorp_lang_v2';
 
+  // Desactivar restauración automática de scroll del navegador para evitar saltos indeseados
+  if ('scrollRestoration' in history) {
+    try { history.scrollRestoration = 'manual'; } catch (e) {}
+  }
+
+  function resetAllScroll() {
+    var targets = [document.documentElement, document.body, document.getElementById('dc-root')];
+    var hosts = document.querySelectorAll('.sc-host');
+    for (var j = 0; j < hosts.length; j++) targets.push(hosts[j]);
+
+    for (var i = 0; i < targets.length; i++) {
+      var el = targets[i];
+      if (!el) continue;
+      var prev = el.style.scrollBehavior;
+      el.style.scrollBehavior = 'auto';
+      el.scrollTop = 0;
+      el.style.scrollBehavior = prev;
+    }
+    try { window.scrollTo({ top: 0, left: 0, behavior: 'instant' }); } catch (e) { window.scrollTo(0, 0); }
+  }
+
+  // Si se solicitó volver arriba tras cambiar paquete
+  if (sessionStorage.getItem('devcorp_scroll_top') === '1') {
+    sessionStorage.removeItem('devcorp_scroll_top');
+    resetAllScroll();
+    setTimeout(resetAllScroll, 60);
+    setTimeout(resetAllScroll, 200);
+  }
+
   var LIST = [
     { 
       id: 'esencial', 
@@ -74,13 +103,39 @@
     },
     set: function (id) {
       if (!valid(id) || id === current) return;
+      current = id;
+      api.current = id;
       save(id);
-      if (fromUrl) {
-        var url = new URL(location.href);
-        url.searchParams.delete('paquete');
-        location.replace(url.toString());
-      } else {
+      document.documentElement.setAttribute('data-paquete', id);
+      if (id === 'esencial') api.setLang('es');
+      sync();
+
+      // Limpiar cualquier hash de ancla de la URL para que no desplace a secciones inferiores
+      if (window.location.hash) {
+        try {
+          history.replaceState(null, document.title, window.location.pathname + window.location.search.replace(/[?&]paquete=[^&]*/g, ''));
+        } catch (e) {}
+      }
+
+      // Desplazar siempre arriba del todo de forma inmediata en todos los contenedores posibles
+      resetAllScroll();
+
+      // En carta.html recargar para re-evaluar la selección de platos básica (60 platos vs ilimitados)
+      var isCarta = window.location.pathname.indexOf('carta') !== -1;
+      if (isCarta) {
+        sessionStorage.setItem('devcorp_scroll_top', '1');
         location.reload();
+      } else {
+        // En index.html actualizar fluidamente sin recarga y sincronizar animación de scroll
+        window.dispatchEvent(new Event('scroll'));
+        setTimeout(function () {
+          resetAllScroll();
+          window.dispatchEvent(new Event('scroll'));
+        }, 40);
+        setTimeout(function () {
+          resetAllScroll();
+          window.dispatchEvent(new Event('scroll'));
+        }, 120);
       }
     },
     setLang: function(lang) {

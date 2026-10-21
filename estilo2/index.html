@@ -113,9 +113,9 @@ html{scroll-behavior:smooth}
     <nav aria-label="Navegación principal" style="display:flex;gap:4px 16px;align-items:center;overflow-x:auto;scrollbar-width:none;white-space:nowrap;padding:2px 0;max-width:100%">
       <a href="#desayunos" data-i18n="desayunos" style="text-decoration:none;padding:6px 0;color:#213A3C;flex:none">06:00 Desayunos</a>
       <a href="#comer" data-i18n="comer" style="text-decoration:none;padding:6px 0;color:#213A3C;flex:none">13:00 A comer</a>
-      <a href="#minis" data-i18n="minis" data-paquete-min="profesional" style="text-decoration:none;padding:6px 0;color:#213A3C;flex:none">18:00 Minis</a>
+      <a href="#minis" data-i18n="minis" style="text-decoration:none;padding:6px 0;color:#213A3C;flex:none">18:00 Minis</a>
       <a href="#cervezas" data-i18n="cervezas" data-paquete-min="profesional" style="text-decoration:none;padding:6px 0;color:#213A3C;flex:none">Cervezas</a>
-      <a href="#finde" data-i18n="finde" data-paquete-min="profesional" style="text-decoration:none;padding:6px 0;color:#213A3C;flex:none">23:00 Finde</a>
+      <a href="#finde" data-i18n="finde" style="text-decoration:none;padding:6px 0;color:#213A3C;flex:none">23:00 Finde</a>
       <a href="#eventos" data-i18n="eventos" data-paquete-min="premium" style="text-decoration:none;padding:6px 0;color:#213A3C;flex:none">Eventos & Grupos</a>
       <a href="#novedades" data-i18n="novedades" data-paquete-min="premium" style="text-decoration:none;padding:6px 0;color:#213A3C;flex:none">Novedades</a>
       <a href="#opiniones" data-i18n="opiniones" data-paquete-min="profesional" style="text-decoration:none;padding:6px 0;color:#213A3C;flex:none">Opiniones</a>
@@ -341,7 +341,7 @@ html{scroll-behavior:smooth}
 </section>
 
 <!-- ======== 18:00 RACIONES Y MINIS ======== -->
-<section id="minis" ref="{{ r2 }}" data-screen-label="18:00 Raciones y minis" data-paquete-min="profesional" style="background-color:#CADDDB;background-image:url('data:image/svg+xml,%3Csvg xmlns=%27http://www.w3.org/2000/svg%27 width=%27220%27 height=%27220%27%3E%3Cfilter id=%27n%27%3E%3CfeTurbulence type=%27fractalNoise%27 baseFrequency=%27.85%27 numOctaves=%273%27/%3E%3CfeColorMatrix values=%270 0 0 0 0.13 0 0 0 0 0.23 0 0 0 0 0.24 0 0 0 0.10 0%27/%3E%3C/filter%3E%3Crect width=%27100%25%27 height=%27100%25%27 filter=%27url(%23n)%27/%3E%3C/svg%3E');border-top:2px solid #213A3C">
+<section id="minis" ref="{{ r2 }}" data-screen-label="18:00 Raciones y minis" style="background-color:#CADDDB;background-image:url('data:image/svg+xml,%3Csvg xmlns=%27http://www.w3.org/2000/svg%27 width=%27220%27 height=%27220%27%3E%3Cfilter id=%27n%27%3E%3CfeTurbulence type=%27fractalNoise%27 baseFrequency=%27.85%27 numOctaves=%273%27/%3E%3CfeColorMatrix values=%270 0 0 0 0.13 0 0 0 0 0.23 0 0 0 0 0.24 0 0 0 0.10 0%27/%3E%3C/filter%3E%3Crect width=%27100%25%27 height=%27100%25%27 filter=%27url(%23n)%27/%3E%3C/svg%3E');border-top:2px solid #213A3C">
   <div style="padding:clamp(56px,8vw,120px) clamp(18px,4vw,56px) 0">
     <div style="display:flex;flex-wrap:wrap;align-items:flex-end;gap:10px 40px">
       <div style="font-family:'Grandstander',sans-serif;font-weight:900;font-size:clamp(96px,17vw,250px);line-height:.8;letter-spacing:-.03em;margin-left:-.05em">18:00</div>
@@ -489,7 +489,7 @@ html{scroll-behavior:smooth}
 </section>
 
 <!-- ======== 23:00 FINDE ======== -->
-<section id="finde" ref="{{ r3 }}" data-screen-label="23:00 Finde hasta las 2" data-paquete-min="profesional" style="background:#183234;color:#EBF4F3;padding:clamp(60px,9vw,140px) clamp(18px,4vw,56px) clamp(60px,8vw,120px)">
+<section id="finde" ref="{{ r3 }}" data-screen-label="23:00 Finde hasta las 2" style="background:#183234;color:#EBF4F3;padding:clamp(60px,9vw,140px) clamp(18px,4vw,56px) clamp(60px,8vw,120px)">
   <div style="display:flex;flex-wrap:wrap;justify-content:space-between;align-items:flex-start;gap:30px 40px">
     <div style="flex:1 1 380px;max-width:500px">
       <div style="font-family:'Grandstander',sans-serif;font-weight:900;font-size:clamp(96px,17vw,250px);line-height:.8;letter-spacing:-.03em;color:#9FD3C7;margin-left:-.05em">23:00</div>
@@ -1116,13 +1116,24 @@ class Component extends DCLogic {
     this.setState({ now: { d, m: parseInt(g('hour'), 10) * 60 + parseInt(g('minute'), 10) } });
   }
   scroll() {
-    const refs = [this.r0, this.r1, this.r2, this.r3]; const mid = window.innerHeight * 0.5;
+    const refs = [this.r0, this.r1, this.r2, this.r3];
+    const mid = window.innerHeight * 0.5;
     let pos = 0, sec = -1;
-    refs.forEach((r, i) => {
-      if (!r.current) return; const b = r.current.getBoundingClientRect();
-      if (b.top <= mid && b.bottom > mid) { sec = i; pos = (i + (mid - b.top) / b.height) / 4; }
-      else if (b.bottom <= mid && i === 3) { sec = 4; pos = 1; }
-    });
+    const activeRefs = refs.filter(r => r && r.current && r.current.getBoundingClientRect().height > 0);
+    const total = activeRefs.length;
+    if (total > 0) {
+      activeRefs.forEach((r, i) => {
+        const b = r.current.getBoundingClientRect();
+        if (b.top <= mid && b.bottom > mid) {
+          sec = i;
+          pos = (i + (mid - b.top) / b.height) / total;
+        } else if (b.bottom <= mid && i === total - 1) {
+          sec = total;
+          pos = 1;
+        }
+      });
+    }
+    pos = Math.max(0, Math.min(1, pos));
     if (sec !== this.state.sec || Math.abs(pos - this.state.pos) > 0.004) this.setState({ pos, sec });
   }
   sim() {
