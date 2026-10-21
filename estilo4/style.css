@@ -510,6 +510,34 @@ html[lang="en"] .beer.is-poured .beer__name::after { content: "Poured"; }
 .dish__price { font: 800 1.1rem var(--f-display); color: #fff; background: var(--ink); padding: .45rem .85rem; border-radius: var(--pill); font-variant-numeric: tabular-nums; white-space: nowrap; transition: background-color .3s; }
 .dish:hover .dish__price { background: var(--red); }
 
+/* Alérgenos de las raciones (Paquetes Profesional y Premium): icono + tooltip */
+.dish:hover, .dish:focus-within { z-index: 3; }
+/* Nombre y alérgenos en la misma línea: la tarjeta conserva su altura */
+.dish__title { display: flex; align-items: center; gap: .65rem; min-width: 0; }
+.dish__title .dish__name { min-width: 0; }
+.allergens { position: relative; z-index: 2; flex: none; display: flex; flex-wrap: wrap; gap: .35rem; margin: 0; padding: 0; list-style: none; }
+.allergen {
+  position: relative; display: grid; place-items: center; width: 28px; height: 28px; border-radius: 50%;
+  background: #fff3dd; color: var(--amber-deep); border: 1px solid #f1d7a7; cursor: help;
+  transition: background-color .25s, color .25s, border-color .25s, transform .25s var(--ease);
+}
+.allergen__icon { width: 16px; height: 16px; fill: none; stroke: currentColor; stroke-width: 1.7; stroke-linecap: round; stroke-linejoin: round; }
+.allergen:hover, .allergen:focus { z-index: 3; }
+.allergen:hover, .allergen:focus-visible { background: var(--ink); color: var(--amber); border-color: var(--ink); transform: translateY(-2px); }
+.allergen__tip {
+  position: absolute; left: calc(100% + 12px); top: -4px; width: max-content; max-width: min(250px, 62vw);
+  padding: .6rem .8rem; border-radius: var(--r-sm); background: var(--ink); color: #fff; box-shadow: var(--shadow-2);
+  font: 500 .8rem/1.45 var(--f-body); text-align: left; letter-spacing: 0; text-transform: none;
+  opacity: 0; visibility: hidden; transform: translateX(-4px); pointer-events: none;
+  transition: opacity .2s, transform .2s var(--ease), visibility .2s;
+}
+.allergen__tip strong { display: block; margin-bottom: .15rem; font: 800 .7rem/1.3 var(--f-display); letter-spacing: .14em; text-transform: uppercase; color: var(--amber); }
+.allergen__tip::after { content: ""; position: absolute; right: 100%; top: 12px; border: 7px solid transparent; border-right-color: var(--ink); }
+/* Si no cabe a la derecha (móvil), el mensaje se abre debajo, dentro de la pantalla (posición calculada en app.js) */
+.allergen.is-tip-below .allergen__tip { left: var(--tip-x, 0px); top: calc(100% + 11px); transform: translateY(-4px); }
+.allergen.is-tip-below .allergen__tip::after { top: auto; bottom: 100%; right: auto; left: var(--arrow-x, 7px); border-right-color: transparent; border-bottom-color: var(--ink); }
+.allergen:hover .allergen__tip, .allergen:focus .allergen__tip { opacity: 1; visibility: visible; transform: none; }
+
 /* ---------- 11b. 'TE LA SERVIMOS': jarra animada ---------- */
 .menu-aside { display: grid; gap: 1rem; align-content: start; }
 .beer { position: relative; }

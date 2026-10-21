@@ -29,6 +29,41 @@
   }
   const abvText = (abv) => `${abv.toFixed(1).replace('.', ',')} % vol`;
 
+  // ---------- Alérgenos (Reglamento UE 1169/2011) ----------
+  // Mismas claves que el panel /admin. Iconos de trazo, como el resto de la web.
+  // Se muestran en las raciones desde el Paquete Profesional.
+  const ALLERGENS = {
+    gluten: ['Gluten', 'Contiene gluten: trigo, centeno, cebada, avena o sus derivados.', '<path d="M12 22V3m0 5C5 8 5 3 5 3s7 0 7 5Zm0 6C5 14 5 9 5 9s7 0 7 5Zm0 5c7 0 7-5 7-5s-7 0-7 5Zm0-8c7 0 7-5 7-5s-7 0-7 5Z"/>'],
+    crustaceos: ['Crustáceos', 'Contiene crustáceos: gambas, langostinos, cigalas, cangrejos…', '<path d="M7 10c-6-1-5-6-4-7l3 3 2-4c3 4 2 7-1 8Zm10 0c6-1 5-6 4-7l-3 3-2-4c-3 4-2 7 1 8Z"/><ellipse cx="12" cy="15" rx="6" ry="5"/><path d="m6 14-4-2m4 5-4 2m16-5 4-2m-4 5 4 2"/>'],
+    huevos: ['Huevos', 'Contiene huevo o productos a base de huevo.', '<path d="M19 14c0 5-3 8-7 8s-7-3-7-8S9 2 12 2s7 7 7 12Z"/>'],
+    pescado: ['Pescado', 'Contiene pescado o productos a base de pescado.', '<path d="M4 12c5-8 12-8 17 0-5 8-12 8-17 0Zm0 0L1 7v10l3-5Z"/><circle cx="16" cy="11" r="1"/>'],
+    cacahuete: ['Cacahuetes', 'Contiene cacahuetes o productos a base de cacahuete.', '<path d="M8 2c-6 0-7 7-3 10-4 4-2 10 3 10 4 0 4-3 8-3 7 0 8-7 3-10 3-6-4-10-7-6-1 0-2-1-4-1Z"/>'],
+    soja: ['Soja', 'Contiene soja o productos a base de soja.', '<path d="M3 21C1 9 9 1 21 3c2 12-6 20-18 18Z"/><circle cx="8" cy="16" r="2"/><circle cx="12" cy="12" r="2"/><circle cx="16" cy="8" r="2"/>'],
+    lacteos: ['Lácteos', 'Contiene leche y sus derivados, incluida la lactosa.', '<path d="M9 2h6v5l3 4v11H6V11l3-4V2Zm0 4h6M6 13h12"/>'],
+    frutos_cascara: ['Frutos de cáscara', 'Contiene frutos de cáscara: almendras, avellanas, nueces, pistachos…', '<path d="M12 2C2 5 2 19 12 22 22 19 22 5 12 2Zm0 0c-3 7 3 13 0 20"/>'],
+    apio: ['Apio', 'Contiene apio o productos derivados.', '<path d="M10 22 8 10M14 22l2-12M12 22V9M8 11C1 13 1 5 7 6 4 0 13 0 12 7c0-7 8-7 6-1 6-1 7 7-2 5"/>'],
+    mostaza: ['Mostaza', 'Contiene mostaza o productos derivados.', '<path d="M12 21V5m0 5C4 11 3 5 5 3c4 0 7 3 7 7Zm0 6c8 1 9-5 7-7-4 0-7 3-7 7Z"/><circle cx="5" cy="19" r="2"/><circle cx="20" cy="20" r="2"/>'],
+    sesamo: ['Sésamo', 'Contiene granos de sésamo o productos derivados.', '<ellipse cx="6" cy="8" rx="2.5" ry="5" transform="rotate(-20 6 8)"/><ellipse cx="17" cy="8" rx="2.5" ry="5" transform="rotate(20 17 8)"/><ellipse cx="12" cy="18" rx="2.5" ry="4"/>'],
+    sulfitos: ['Sulfitos', 'Contiene dióxido de azufre y sulfitos.', '<path d="M7 3h10v7c0 7-10 7-10 0V3Zm0 5h10m-5 7v7m-4 0h8"/>'],
+    altramuces: ['Altramuces', 'Contiene altramuces o productos derivados.', '<circle cx="8" cy="15" r="5"/><circle cx="17" cy="15" r="4"/><circle cx="12" cy="6" r="4"/>'],
+    moluscos: ['Moluscos', 'Contiene moluscos: pulpo, calamar, sepia, mejillones, almejas…', '<path d="M7 20 2 10C0 2 9 1 12 5c3-4 12-3 10 5l-5 10H7Zm5-15v15M5 7l5 13M19 7l-5 13M7 23h10"/>']
+  };
+  const ALLERGEN_ALIAS = { lactosa: 'lacteos', huevo: 'huevos', cacahuetes: 'cacahuete', marisco: 'crustaceos', frutos_secos: 'frutos_cascara' };
+
+  // Iconos con tooltip: al pasar el ratón (o al tocar / enfocar con teclado) se explica el alérgeno
+  function allergensHTML(item) {
+    if (!hasPkg('profesional')) return '';
+    const list = (item.allergens || []).map(a => ALLERGEN_ALIAS[a] || a).filter(a => ALLERGENS[a]);
+    if (!list.length) return '';
+    return `<ul class="allergens" aria-label="Alérgenos">${list.map(a => {
+      const [name, tip, svg] = ALLERGENS[a];
+      return `<li><span class="allergen" tabindex="0" role="img" aria-label="${esc(name)}. ${esc(tip)}">
+          <svg class="allergen__icon" viewBox="0 0 24 24" aria-hidden="true" focusable="false">${svg}</svg>
+          <span class="allergen__tip" aria-hidden="true"><strong>${esc(name)}</strong>${esc(tip)}</span>
+        </span></li>`;
+    }).join('')}</ul>`;
+  }
+
   function whatsappUrl(text) {
     const base = `https://wa.me/${P.whatsapp}`;
     return text ? `${base}?text=${encodeURIComponent(text)}` : base;
@@ -257,13 +292,17 @@
               ${d.image && hasPkg('profesional') ? `<button type="button" class="dish__pick" data-dish="${esc(d.id)}" aria-label="Ver foto de ${esc(d.name)}" aria-pressed="${dishState.id === d.id}"></button>` : ''}
               <span class="dish__num" aria-hidden="true">${String(i + 1).padStart(2, '0')}</span>
               <div>
-                <h4 class="dish__name">${esc(d.name)}</h4>
+                <div class="dish__title">
+                  <h4 class="dish__name">${esc(d.name)}</h4>
+                  ${allergensHTML(d)}
+                </div>
                 ${d.description ? `<span class="beer__desc">${esc(d.description)}</span>` : ''}
               </div>
               ${d.price ? `<span class="dish__price">${fmtNum(d.price)}${d.priceMax ? ' – ' + fmtNum(d.priceMax) : ''} €</span>` : '<span class="price price--ask">Consultar en barra</span>'}
             </li>`).join('')}
         </ul>
-        <p class="menu-note">Precios en euros según nuestra carta.</p>`;
+        <p class="menu-note">Precios en euros según nuestra carta.</p>
+        ${items.some(d => (d.allergens || []).length) && hasPkg('profesional') ? '<p class="menu-note">Alérgenos según la receta de cada plato. Si tienes alguna alergia o intolerancia, avísanos en barra antes de pedir.</p>' : ''}`;
       return;
     }
 
@@ -507,6 +546,22 @@
     document.addEventListener('keydown', (e) => {
       if (e.key === 'Escape' && $('.pour.is-open')) { pourState.dismissed = true; updateDock(); }
     });
+
+    // Mensaje de los alérgenos: a la derecha del icono; si no cabe (móvil), debajo y dentro de la pantalla
+    const placeTip = (e) => {
+      const al = e.target.closest && e.target.closest('.allergen');
+      if (!al) return;
+      const tip = $('.allergen__tip', al);
+      const box = al.getBoundingClientRect();
+      const below = box.right + 12 + tip.offsetWidth > document.documentElement.clientWidth - 8;
+      al.classList.toggle('is-tip-below', below);
+      if (!below) return;
+      const x = Math.max(box.width - tip.offsetWidth + 6, 8 - box.left);
+      al.style.setProperty('--tip-x', x + 'px');
+      al.style.setProperty('--arrow-x', (box.width / 2 - x - 7) + 'px');
+    };
+    panels.addEventListener('mouseover', placeTip);
+    panels.addEventListener('focusin', placeTip);
 
     const carta = $('#carta');
     if (carta && 'IntersectionObserver' in window) {
