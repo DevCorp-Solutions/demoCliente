@@ -4,6 +4,52 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Punto de Encuentro | Bar Cafetería en Aluche (Madrid)</title>
+<script type="application/ld+json" data-paquete-min="premium">
+{
+  "@context": "https://schema.org",
+  "@type": "BarOrPub",
+  "name": "Bar Punto de Encuentro",
+  "image": "https://cartaonlineqr.com/wp-content/uploads/2024/08/Logo-e1722700766619.png",
+  "url": "https://devcorpsolutions.com/estilo2/",
+  "telephone": "+34912948407",
+  "priceRange": "€",
+  "address": {
+    "@type": "PostalAddress",
+    "streetAddress": "Calle Maqueda 138",
+    "addressLocality": "Madrid",
+    "postalCode": "28024",
+    "addressCountry": "ES"
+  },
+  "geo": {
+    "@type": "GeoCoordinates",
+    "latitude": 40.3888,
+    "longitude": -3.7661
+  },
+  "openingHoursSpecification": [
+    {
+      "@type": "OpeningHoursSpecification",
+      "dayOfWeek": ["Monday", "Wednesday", "Thursday"],
+      "opens": "06:00",
+      "closes": "24:00"
+    },
+    {
+      "@type": "OpeningHoursSpecification",
+      "dayOfWeek": ["Friday", "Saturday"],
+      "opens": "06:00",
+      "closes": "02:00"
+    },
+    {
+      "@type": "OpeningHoursSpecification",
+      "dayOfWeek": "Sunday",
+      "opens": "07:00",
+      "closes": "24:00"
+    }
+  ],
+  "servesCuisine": ["Castiza", "Española", "Tapas", "Raciones", "Parrillada"],
+  "hasMenu": "https://devcorpsolutions.com/estilo2/carta.html",
+  "acceptsReservations": "True"
+}
+</script>
 <script src="../assets/vendor/react.production.min.js"></script>
 <script src="../assets/vendor/react-dom.production.min.js"></script>
 <script src="../admin/overrides.js" data-style="estilo2"></script>
@@ -65,23 +111,37 @@ html{scroll-behavior:smooth}
 
     <!-- Centro: Enlaces de Navegación del Local -->
     <nav aria-label="Navegación principal" style="display:flex;gap:4px 16px;align-items:center;overflow-x:auto;scrollbar-width:none;white-space:nowrap;padding:2px 0;max-width:100%">
-      <a href="#desayunos" style="text-decoration:none;padding:6px 0;color:#213A3C;flex:none">06:00 Desayunos</a>
-      <a href="#comer" style="text-decoration:none;padding:6px 0;color:#213A3C;flex:none">13:00 A comer</a>
-      <a href="#minis" style="text-decoration:none;padding:6px 0;color:#213A3C;flex:none">18:00 Minis</a>
-      <a href="#cervezas" data-paquete-min="profesional" style="text-decoration:none;padding:6px 0;color:#213A3C;flex:none">Cervezas</a>
-      <a href="#finde" style="text-decoration:none;padding:6px 0;color:#213A3C;flex:none">23:00 Finde</a>
-      <a href="#opiniones" data-paquete-min="profesional" style="text-decoration:none;padding:6px 0;color:#213A3C;flex:none">Opiniones</a>
-      <a href="carta.html" style="text-decoration:none;padding:6px 0;color:#3F6E72;font-weight:900;border-bottom:2px solid #3F6E72;flex:none">La carta</a>
-      <a href="#llegar" style="text-decoration:none;padding:6px 0;color:#213A3C;flex:none">Cómo llegar</a>
+      <a href="#desayunos" data-i18n="desayunos" style="text-decoration:none;padding:6px 0;color:#213A3C;flex:none">06:00 Desayunos</a>
+      <a href="#comer" data-i18n="comer" style="text-decoration:none;padding:6px 0;color:#213A3C;flex:none">13:00 A comer</a>
+      <a href="#minis" data-i18n="minis" data-paquete-min="profesional" style="text-decoration:none;padding:6px 0;color:#213A3C;flex:none">18:00 Minis</a>
+      <a href="#cervezas" data-i18n="cervezas" data-paquete-min="profesional" style="text-decoration:none;padding:6px 0;color:#213A3C;flex:none">Cervezas</a>
+      <a href="#finde" data-i18n="finde" data-paquete-min="profesional" style="text-decoration:none;padding:6px 0;color:#213A3C;flex:none">23:00 Finde</a>
+      <a href="#eventos" data-i18n="eventos" data-paquete-min="premium" style="text-decoration:none;padding:6px 0;color:#213A3C;flex:none">Eventos & Grupos</a>
+      <a href="#novedades" data-i18n="novedades" data-paquete-min="premium" style="text-decoration:none;padding:6px 0;color:#213A3C;flex:none">Novedades</a>
+      <a href="#opiniones" data-i18n="opiniones" data-paquete-min="profesional" style="text-decoration:none;padding:6px 0;color:#213A3C;flex:none">Opiniones</a>
+      <a href="#faq" data-i18n="faq" data-paquete-min="premium" style="text-decoration:none;padding:6px 0;color:#213A3C;flex:none">FAQ / IA</a>
+      <a href="carta.html" data-i18n="carta" style="text-decoration:none;padding:6px 0;color:#3F6E72;font-weight:900;border-bottom:2px solid #3F6E72;flex:none">La carta</a>
+      <a href="#llegar" data-i18n="llegar" style="text-decoration:none;padding:6px 0;color:#213A3C;flex:none">Cómo llegar</a>
     </nav>
 
-    <!-- Lado Derecho: Llamar + Selector de Estilos DevCorp -->
-    <div style="display:flex;align-items:center;gap:10px;flex:none">
-      <a href="tel:+34912948407" style="display:inline-flex;align-items:center;gap:6px;background:#213A3C;color:#EBF4F3;padding:6px 12px;border-radius:4px;text-decoration:none;font-weight:800;font-size:13px;letter-spacing:.06em">
-        <span>📞 912 94 84 07</span>
-      </a>
-      <select id="style-select" defaultValue="estilo2" aria-label="Seleccionar Estilo DevCorp" style="background:#213A3C;color:#9FD3C7;border:2px solid #213A3C;border-radius:4px;padding:6px 10px;font-family:'Alegreya Sans SC',sans-serif;font-weight:800;font-size:13px;letter-spacing:.06em;cursor:pointer;outline:none"><option value="estilo1" style="background:#fff;color:#1c1c19">Estilo 1: Parrilla Vukata</option><option value="estilo2" selected style="background:#fff;color:#1c1c19">Estilo 2: Punto de Encuentro</option><option value="estilo3" style="background:#fff;color:#1c1c19">Estilo 3: Mala Pata Aluche</option><option value="estilo4" style="background:#fff;color:#1c1c19">Estilo 4: Cervecería Veinti7</option><option value="estilo5" style="background:#fff;color:#1c1c19">Estilo 5: Umbral</option><option value="estilo6" style="background:#fff;color:#1c1c19">Estilo 6: Miga</option><option value="estilo7" style="background:#fff;color:#1c1c19">Estilo 7: Órbita</option><option value="estilo8" style="background:#fff;color:#1c1c19">Estilo 8: Tercio</option></select>
-      <select data-paquete-select aria-label="Cambiar de paquete" style="background:#213A3C;color:#9FD3C7;border:2px solid #213A3C;border-radius:4px;padding:6px 10px;font-family:'Alegreya Sans SC',sans-serif;font-weight:800;font-size:13px;letter-spacing:.06em;cursor:pointer;outline:none"><option value="esencial" style="background:#fff;color:#1c1c19">Paquete Esencial</option><option value="profesional" style="background:#fff;color:#1c1c19">Paquete Profesional</option><option value="premium" style="background:#fff;color:#1c1c19">Paquete Premium</option></select>
+    <!-- Lado Derecho: Acciones rápidas + Idiomas + Selectores -->
+    <div style="display:flex;align-items:center;gap:8px;flex:none">
+      <button type="button" data-open-qr-modal style="display:inline-flex;align-items:center;gap:4px;background:#213A3C;color:#9FD3C7;border:1px solid #3F6E72;padding:6px 9px;border-radius:4px;font-family:'Alegreya Sans SC',sans-serif;font-weight:800;font-size:12px;letter-spacing:.06em;cursor:pointer">
+        <span data-i18n="qrBtn">📱 QR Carta</span>
+      </button>
+
+      <button type="button" data-open-reserva-modal data-paquete-min="profesional" style="display:inline-flex;align-items:center;gap:4px;background:#9FD3C7;color:#183234;border:1px solid #213A3C;padding:6px 10px;border-radius:4px;font-family:'Alegreya Sans SC',sans-serif;font-weight:900;font-size:12px;letter-spacing:.06em;cursor:pointer">
+        <span data-i18n="reservaBtn">🛎️ Reservar</span>
+      </button>
+
+      <div class="lang-switcher" style="display:inline-flex;align-items:center;background:#213A3C;border:1px solid #3F6E72;border-radius:4px;overflow:hidden">
+        <button type="button" class="lang-btn" data-lang="es" style="padding:5px 7px;border:none;background:#9FD3C7;color:#213A3C;font-family:'Alegreya Sans SC',sans-serif;font-size:11px;font-weight:900;cursor:pointer">ES</button>
+        <button type="button" class="lang-btn" data-lang="en" data-paquete-min="profesional" style="padding:5px 7px;border:none;background:transparent;color:#9FD3C7;font-family:'Alegreya Sans SC',sans-serif;font-size:11px;font-weight:800;cursor:pointer">EN</button>
+        <button type="button" class="lang-btn" data-lang="fr" data-paquete-min="premium" style="padding:5px 7px;border:none;background:transparent;color:#9FD3C7;font-family:'Alegreya Sans SC',sans-serif;font-size:11px;font-weight:800;cursor:pointer">FR</button>
+      </div>
+
+      <select id="style-select" defaultValue="estilo2" aria-label="Seleccionar Estilo DevCorp" style="background:#213A3C;color:#9FD3C7;border:2px solid #213A3C;border-radius:4px;padding:6px 8px;font-family:'Alegreya Sans SC',sans-serif;font-weight:800;font-size:12px;letter-spacing:.06em;cursor:pointer;outline:none"><option value="estilo1" style="background:#fff;color:#1c1c19">Estilo 1: Parrilla Vukata</option><option value="estilo2" selected style="background:#fff;color:#1c1c19">Estilo 2: Punto de Encuentro</option><option value="estilo3" style="background:#fff;color:#1c1c19">Estilo 3: Mala Pata Aluche</option><option value="estilo4" style="background:#fff;color:#1c1c19">Estilo 4: Cervecería Veinti7</option><option value="estilo5" style="background:#fff;color:#1c1c19">Estilo 5: Umbral</option><option value="estilo6" style="background:#fff;color:#1c1c19">Estilo 6: Miga</option><option value="estilo7" style="background:#fff;color:#1c1c19">Estilo 7: Órbita</option><option value="estilo8" style="background:#fff;color:#1c1c19">Estilo 8: Tercio</option></select>
+      <select data-paquete-select aria-label="Cambiar de paquete" style="background:#213A3C;color:#9FD3C7;border:2px solid #213A3C;border-radius:4px;padding:6px 8px;font-family:'Alegreya Sans SC',sans-serif;font-weight:800;font-size:12px;letter-spacing:.06em;cursor:pointer;outline:none"><option value="esencial" style="background:#fff;color:#1c1c19">Paquete Esencial</option><option value="profesional" style="background:#fff;color:#1c1c19">Paquete Profesional</option><option value="premium" style="background:#fff;color:#1c1c19">Paquete Premium</option></select>
     </div>
 
   </div>
@@ -125,8 +185,17 @@ html{scroll-behavior:smooth}
         <span style="font-size:21px;line-height:1.3;font-weight:500">{{ nowMsg }}</span>
       </a>
 
-      <div style="display:flex;flex-wrap:wrap;gap:14px 26px;align-items:center">
-        <a href="tel:+34912948407" data-paquete-min="profesional" style="display:inline-flex;align-items:center;min-height:52px;padding:0 22px;background:#213A3C;color:#EBF4F3;text-decoration:none;font-family:'Grandstander',sans-serif;font-weight:800;font-size:21px;border-radius:3px">Llámanos · 912 94 84 07</a>
+      <div style="display:flex;flex-wrap:wrap;gap:14px 20px;align-items:center">
+        <!-- Esencial: solo teléfono informativo -->
+        <div data-paquete-max="esencial" style="display:inline-flex;align-items:center;min-height:52px;padding:0 22px;background:#CADDDB;color:#213A3C;font-family:'Grandstander',sans-serif;font-weight:800;font-size:20px;border-radius:3px">Teléfono · 912 94 84 07</div>
+
+        <!-- Profesional: botón directo de llamada -->
+        <a href="tel:+34912948407" data-paquete-min="profesional" data-paquete-max="profesional" style="display:inline-flex;align-items:center;min-height:52px;padding:0 22px;background:#213A3C;color:#EBF4F3;text-decoration:none;font-family:'Grandstander',sans-serif;font-weight:800;font-size:21px;border-radius:3px">Llámanos · 912 94 84 07</a>
+
+        <!-- Premium: Formulario interactivo de reserva integrado -->
+        <button type="button" data-open-reserva-modal data-paquete-min="premium" style="display:inline-flex;align-items:center;gap:8px;min-height:52px;padding:0 24px;background:#9FD3C7;color:#183234;border:2px solid #213A3C;font-family:'Grandstander',sans-serif;font-weight:900;font-size:20px;border-radius:3px;cursor:pointer">🛎️ Reservar Mesa Online</button>
+
+        <button type="button" data-open-qr-modal style="display:inline-flex;align-items:center;gap:6px;min-height:52px;padding:0 18px;background:#213A3C;color:#9FD3C7;border:2px solid #3F6E72;font-family:'Grandstander',sans-serif;font-weight:800;font-size:18px;border-radius:3px;cursor:pointer">📱 Código QR Carta</button>
         <a href="#opiniones" data-paquete-min="profesional" style="display:inline-flex;align-items:center;gap:6px;font-weight:800;font-size:18px;padding:12px 0;color:#213A3C;text-decoration:none;border-bottom:2px dotted #3F6E72;cursor:pointer">⭐ 4,2 en Google · +900 opiniones</a>
       </div>
     </div>
@@ -219,8 +288,11 @@ html{scroll-behavior:smooth}
     <div style="font-family:'Grandstander',sans-serif;font-weight:900;font-size:clamp(96px,17vw,250px);line-height:.8;letter-spacing:-.03em;margin-right:-.04em">13:00</div>
   </div>
 
-  <div style="border-top:3px solid #213A3C;border-bottom:3px solid #213A3C;margin-bottom:clamp(50px,7vw,100px)">
-    <div style="font-family:'Alegreya Sans SC',sans-serif;font-weight:800;letter-spacing:.16em;font-size:14px;padding:12px 0;border-bottom:1px solid #213A3C">Menús · plato + patatas + refresco o cerveza</div>
+  <div data-paquete-min="profesional" style="border-top:3px solid #213A3C;border-bottom:3px solid #213A3C;margin-bottom:clamp(50px,7vw,100px)">
+    <div style="font-family:'Alegreya Sans SC',sans-serif;font-weight:800;letter-spacing:.16em;font-size:14px;padding:12px 0;border-bottom:1px solid #213A3C;display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:8px">
+      <span>Menús · plato + patatas + refresco o cerveza</span>
+      <span data-paquete-min="premium" style="display:inline-block;background:#C59828;color:#183234;font-size:11px;font-weight:900;padding:2px 8px;border-radius:3px">✨ MENÚ DEL DÍA DINÁMICO & FUERA DE CARTA (ACTUALIZADO HOY)</span>
+    </div>
     <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(170px,1fr))">
       <sc-for list="{{ menus }}" as="m" hint-placeholder-count="5">
         <div style="padding:18px 16px 18px 0;border-right:1px solid #213A3C;margin-right:16px">
@@ -274,7 +346,7 @@ html{scroll-behavior:smooth}
 </section>
 
 <!-- ======== 18:00 RACIONES Y MINIS ======== -->
-<section id="minis" ref="{{ r2 }}" data-screen-label="18:00 Raciones y minis" style="background-color:#CADDDB;background-image:url('data:image/svg+xml,%3Csvg xmlns=%27http://www.w3.org/2000/svg%27 width=%27220%27 height=%27220%27%3E%3Cfilter id=%27n%27%3E%3CfeTurbulence type=%27fractalNoise%27 baseFrequency=%27.85%27 numOctaves=%273%27/%3E%3CfeColorMatrix values=%270 0 0 0 0.13 0 0 0 0 0.23 0 0 0 0 0.24 0 0 0 0.10 0%27/%3E%3C/filter%3E%3Crect width=%27100%25%27 height=%27100%25%27 filter=%27url(%23n)%27/%3E%3C/svg%3E');border-top:2px solid #213A3C">
+<section id="minis" ref="{{ r2 }}" data-screen-label="18:00 Raciones y minis" data-paquete-min="profesional" style="background-color:#CADDDB;background-image:url('data:image/svg+xml,%3Csvg xmlns=%27http://www.w3.org/2000/svg%27 width=%27220%27 height=%27220%27%3E%3Cfilter id=%27n%27%3E%3CfeTurbulence type=%27fractalNoise%27 baseFrequency=%27.85%27 numOctaves=%273%27/%3E%3CfeColorMatrix values=%270 0 0 0 0.13 0 0 0 0 0.23 0 0 0 0 0.24 0 0 0 0.10 0%27/%3E%3C/filter%3E%3Crect width=%27100%25%27 height=%27100%25%27 filter=%27url(%23n)%27/%3E%3C/svg%3E');border-top:2px solid #213A3C">
   <div style="padding:clamp(56px,8vw,120px) clamp(18px,4vw,56px) 0">
     <div style="display:flex;flex-wrap:wrap;align-items:flex-end;gap:10px 40px">
       <div style="font-family:'Grandstander',sans-serif;font-weight:900;font-size:clamp(96px,17vw,250px);line-height:.8;letter-spacing:-.03em;margin-left:-.05em">18:00</div>
@@ -422,7 +494,7 @@ html{scroll-behavior:smooth}
 </section>
 
 <!-- ======== 23:00 FINDE ======== -->
-<section id="finde" ref="{{ r3 }}" data-screen-label="23:00 Finde hasta las 2" style="background:#183234;color:#EBF4F3;padding:clamp(60px,9vw,140px) clamp(18px,4vw,56px) clamp(60px,8vw,120px)">
+<section id="finde" ref="{{ r3 }}" data-screen-label="23:00 Finde hasta las 2" data-paquete-min="profesional" style="background:#183234;color:#EBF4F3;padding:clamp(60px,9vw,140px) clamp(18px,4vw,56px) clamp(60px,8vw,120px)">
   <div style="display:flex;flex-wrap:wrap;justify-content:space-between;align-items:flex-start;gap:30px 40px">
     <div style="flex:1 1 380px;max-width:500px">
       <div style="font-family:'Grandstander',sans-serif;font-weight:900;font-size:clamp(96px,17vw,250px);line-height:.8;letter-spacing:-.03em;color:#9FD3C7;margin-left:-.05em">23:00</div>
@@ -749,6 +821,199 @@ html{scroll-behavior:smooth}
   </div>
 </section>
 
+
+<!-- ======== SECCIÓN A MEDIDA: EVENTOS PRIVADOS Y GRUPOS (PREMIUM) ======== -->
+<section id="eventos" data-screen-label="Eventos y Grupos" data-paquete-min="premium" style="background:#183234;color:#EBF4F3;padding:clamp(60px,8vw,120px) clamp(18px,4vw,56px);border-top:2px solid #213A3C">
+  <div style="max-width:1180px;margin:0 auto">
+    <div style="display:flex;justify-content:space-between;align-items:flex-end;flex-wrap:wrap;gap:16px;margin-bottom:36px">
+      <div>
+        <div style="display:inline-block;background:#C59828;color:#183234;font-family:'Alegreya Sans SC',sans-serif;font-weight:900;letter-spacing:.14em;font-size:12px;padding:4px 10px;margin-bottom:12px;border-radius:2px">SECCIÓN A MEDIDA · PAQUETE PREMIUM</div>
+        <h2 style="margin:0;font-family:'Grandstander',sans-serif;font-weight:900;font-size:clamp(32px,4vw,56px);line-height:1;color:#9FD3C7">Eventos Privados y Menús de Grupos</h2>
+        <p style="margin:12px 0 0;font-size:19px;color:#CADDDB;max-width:650px;line-height:1.4">Celebra tus cumpleaños, reuniones de amigos, cenas de empresa o despedidas en Bar Punto de Encuentro. Espacios reservados en terraza exterior o salón interior.</p>
+      </div>
+      <button type="button" data-open-reserva-modal data-reserva-zone="Grupo Evento" class="reserva-submit-btn" style="width:auto;padding:12px 24px;font-size:16px">🛎️ Solicitar Reserva de Grupo</button>
+    </div>
+
+    <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,320px),1fr));gap:24px">
+      <!-- Menú 1 -->
+      <div style="background:#213A3C;border:2px solid #3F6E72;border-radius:8px;padding:24px;display:flex;flex-direction:column;justify-content:space-between">
+        <div>
+          <div style="display:flex;justify-content:space-between;align-items:baseline;margin-bottom:8px">
+            <h3 style="margin:0;font-family:'Grandstander',sans-serif;font-weight:800;font-size:22px;color:#EBF4F3">Menú Picoteo Aluche</h3>
+            <span style="font-family:'Grandstander',sans-serif;font-weight:900;font-size:26px;color:#9FD3C7">22 €<span style="font-size:13px;color:#CADDDB"> /pers</span></span>
+          </div>
+          <p style="font-size:14px;color:#CADDDB;margin-bottom:16px">Para grupos informales y peñas que quieren buen comer sin complicaciones.</p>
+          <ul style="margin:0 0 20px;padding-left:18px;font-size:15px;line-height:1.6;color:#EBF4F3">
+            <li>Surtido de tostas de la casa y croquetas caseras</li>
+            <li>Bravas caseras y oreja crujiente a la plancha con ajillo</li>
+            <li>Calamares de potera fritos al momento</li>
+            <li>1 Mini de cerveza Mahou o calimocho cada 2 personas</li>
+            <li>Postre casero y café de pote</li>
+          </ul>
+        </div>
+        <button type="button" data-open-reserva-modal data-reserva-zone="Menú Picoteo" class="btn-tabla" style="width:100%;padding:10px;text-align:center;font-size:13px">Reservar Menú Picoteo</button>
+      </div>
+
+      <!-- Menú 2 -->
+      <div style="background:#213A3C;border:3px solid #9FD3C7;border-radius:8px;padding:24px;display:flex;flex-direction:column;justify-content:space-between;position:relative;box-shadow:0 8px 24px rgba(0,0,0,0.3)">
+        <div style="position:absolute;top:-12px;right:20px;background:#9FD3C7;color:#183234;font-family:'Alegreya Sans SC',sans-serif;font-weight:900;font-size:11px;padding:2px 8px;border-radius:3px;letter-spacing:.06em">MÁS POPULAR</div>
+        <div>
+          <div style="display:flex;justify-content:space-between;align-items:baseline;margin-bottom:8px">
+            <h3 style="margin:0;font-family:'Grandstander',sans-serif;font-weight:800;font-size:22px;color:#EBF4F3">Parrillada Festiva</h3>
+            <span style="font-family:'Grandstander',sans-serif;font-weight:900;font-size:26px;color:#9FD3C7">29 €<span style="font-size:13px;color:#CADDDB"> /pers</span></span>
+          </div>
+          <p style="font-size:14px;color:#CADDDB;margin-bottom:16px">Comida o cena completa de carne a la brasa con barra libre de bebida.</p>
+          <ul style="margin:0 0 20px;padding-left:18px;font-size:15px;line-height:1.6;color:#EBF4F3">
+            <li>Ensalada completa con ventresca y queso de cabra</li>
+            <li>Gran Parrillada de carne: churrasco, panceta, chorizo criollo y morcilla con patatas camperas</li>
+            <li>Barra libre de cerveza Mahou, sangría y tinto durante la comida</li>
+            <li>Surtido de tartas artesanales y chupito de la casa</li>
+          </ul>
+        </div>
+        <button type="button" data-open-reserva-modal data-reserva-zone="Parrillada Festiva" class="reserva-submit-btn" style="width:100%;padding:10px;font-size:15px">Reservar Parrillada Festiva</button>
+      </div>
+
+      <!-- Menú 3 -->
+      <div style="background:#213A3C;border:2px solid #3F6E72;border-radius:8px;padding:24px;display:flex;flex-direction:column;justify-content:space-between">
+        <div>
+          <div style="display:flex;justify-content:space-between;align-items:baseline;margin-bottom:8px">
+            <h3 style="margin:0;font-family:'Grandstander',sans-serif;font-weight:800;font-size:22px;color:#EBF4F3">Evento a Tu Medida</h3>
+            <span style="font-family:'Grandstander',sans-serif;font-weight:900;font-size:22px;color:#9FD3C7">A convenir</span>
+          </div>
+          <p style="font-size:14px;color:#CADDDB;margin-bottom:16px">Diseñamos el menú, raciones o picoteo según tu presupuesto y número de asistentes.</p>
+          <ul style="margin:0 0 20px;padding-left:18px;font-size:15px;line-height:1.6;color:#EBF4F3">
+            <li>Opción de terraza exterior semicubierta o salón privado</li>
+            <li>Menús adaptados 100% para celíacos o vegetarianos</li>
+            <li>Retransmisión de partidos deportivos en pantalla gigante</li>
+            <li>Atención directa y personalizada con la dirección</li>
+          </ul>
+        </div>
+        <button type="button" data-open-reserva-modal data-reserva-zone="Evento a Medida" class="btn-tabla" style="width:100%;padding:10px;text-align:center;font-size:13px">Consultar Disponibilidad</button>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ======== SECCIÓN A MEDIDA: BLOG Y NOVEDADES (PREMIUM) ======== -->
+<section id="novedades" data-screen-label="Novedades" data-paquete-min="premium" style="background:#DFE7E3;color:#213A3C;padding:clamp(60px,8vw,110px) clamp(18px,4vw,56px);border-top:2px solid #213A3C">
+  <div style="max-width:1180px;margin:0 auto">
+    <div style="margin-bottom:34px">
+      <div style="display:inline-block;background:#213A3C;color:#9FD3C7;font-family:'Alegreya Sans SC',sans-serif;font-weight:900;letter-spacing:.14em;font-size:12px;padding:4px 10px;margin-bottom:12px;border-radius:2px">BLOG & NOVEDADES · PAQUETE PREMIUM</div>
+      <h2 style="margin:0;font-family:'Grandstander',sans-serif;font-weight:900;font-size:clamp(32px,4vw,52px);line-height:1">Novedades y el Rincón del Punto</h2>
+      <p style="margin:10px 0 0;font-size:19px;color:#3A5557">Actualidad gastronómica, nuevos platos de temporada y el pulso diario de Aluche.</p>
+    </div>
+
+    <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,330px),1fr));gap:24px">
+      <article style="background:#EBF4F3;border:2px solid #213A3C;border-radius:8px;overflow:hidden;display:flex;flex-direction:column">
+        <div style="height:180px;background:#CADDDB;overflow:hidden">
+          <img src="images/08-raciones_11zon.webp" alt="Torreznos crujientes" style="width:100%;height:100%;object-fit:cover;display:block" />
+        </div>
+        <div style="padding:20px;flex:1;display:flex;flex-direction:column;justify-content:space-between">
+          <div>
+            <span style="font-family:'Alegreya Sans SC',sans-serif;font-weight:800;font-size:11px;letter-spacing:.12em;color:#3F6E72;text-transform:uppercase">Temporada · 18 Octubre</span>
+            <h3 style="margin:6px 0 8px;font-family:'Grandstander',sans-serif;font-weight:800;font-size:20px;line-height:1.2">Nuevos torreznos de Soria horneados al punto cada mañana</h3>
+            <p style="font-size:15px;line-height:1.45;color:#3A5557;margin:0">Corte grueso con corteza hipercrocante y carne jugosa. Perfectos con el aperitivo del mediodía o en montado caliente.</p>
+          </div>
+          <div style="margin-top:16px"><a href="carta.html#raciones" style="font-weight:800;font-size:14px;color:#213A3C;text-decoration:underline">Ver en carta →</a></div>
+        </div>
+      </article>
+
+      <article style="background:#EBF4F3;border:2px solid #213A3C;border-radius:8px;overflow:hidden;display:flex;flex-direction:column">
+        <div style="height:180px;background:#CADDDB;overflow:hidden">
+          <img src="images/parrillada-carne.webp" alt="Parrilladas de finde" style="width:100%;height:100%;object-fit:cover;display:block" />
+        </div>
+        <div style="padding:20px;flex:1;display:flex;flex-direction:column;justify-content:space-between">
+          <div>
+            <span style="font-family:'Alegreya Sans SC',sans-serif;font-weight:800;font-size:11px;letter-spacing:.12em;color:#3F6E72;text-transform:uppercase">Fin de Semana · 12 Octubre</span>
+            <h3 style="margin:6px 0 8px;font-family:'Grandstander',sans-serif;font-weight:800;font-size:20px;line-height:1.2">Parrilladas nocturnas hasta las 02:00 h</h3>
+            <p style="font-size:15px;line-height:1.45;color:#3A5557;margin:0">Los viernes y sábados no cerramos la plancha hasta las dos de la madrugada. Comparte con tus amigos con jarras de cerveza fría.</p>
+          </div>
+          <div style="margin-top:16px"><a href="carta.html#parrillada" style="font-weight:800;font-size:14px;color:#213A3C;text-decoration:underline">Ver parrilladas →</a></div>
+        </div>
+      </article>
+
+      <article style="background:#EBF4F3;border:2px solid #213A3C;border-radius:8px;overflow:hidden;display:flex;flex-direction:column">
+        <div style="height:180px;background:#CADDDB;overflow:hidden">
+          <img src="images/08-raciones-especiales_11zon.webp" alt="Gyozas artesanas" style="width:100%;height:100%;object-fit:cover;display:block" />
+        </div>
+        <div style="padding:20px;flex:1;display:flex;flex-direction:column;justify-content:space-between">
+          <div>
+            <span style="font-family:'Alegreya Sans SC',sans-serif;font-weight:800;font-size:11px;letter-spacing:.12em;color:#3F6E72;text-transform:uppercase">Carta Especial · 5 Octubre</span>
+            <h3 style="margin:6px 0 8px;font-family:'Grandstander',sans-serif;font-weight:800;font-size:20px;line-height:1.2">La carta que no esperas: Gyozas a la plancha y Wantón crujiente</h3>
+            <p style="font-size:15px;line-height:1.45;color:#3A5557;margin:0">Nuestra propuesta fusión que arrasa en el barrio: cocina tradicional española combinada con bocados asiáticos recién hechos.</p>
+          </div>
+          <div style="margin-top:16px"><a href="carta.html#la-carta-que-no-esperas" style="font-weight:800;font-size:14px;color:#213A3C;text-decoration:underline">Ver platos especiales →</a></div>
+        </div>
+      </article>
+    </div>
+  </div>
+</section>
+
+<!-- ======== PREGUNTAS FRECUENTES Y GEO IA (PREMIUM) ======== -->
+<section id="faq" data-screen-label="Preguntas Frecuentes & GEO IA" data-paquete-min="premium" style="background:#EBF4F3;color:#213A3C;padding:clamp(60px,8vw,110px) clamp(18px,4vw,56px);border-top:2px solid #213A3C">
+  <div style="max-width:920px;margin:0 auto">
+    <div style="margin-bottom:34px;text-align:center">
+      <div style="display:inline-flex;align-items:center;gap:6px;background:#213A3C;color:#9FD3C7;font-family:'Alegreya Sans SC',sans-serif;font-weight:900;letter-spacing:.14em;font-size:12px;padding:4px 12px;margin-bottom:12px;border-radius:3px">
+        <span>🤖 VISIBILIDAD EN ASISTENTES DE IA (GEO) & SEO LOCAL</span>
+      </div>
+      <h2 style="margin:0;font-family:'Grandstander',sans-serif;font-weight:900;font-size:clamp(32px,4vw,52px);line-height:1">Preguntas Frecuentes sobre Punto de Encuentro</h2>
+      <p style="margin:10px auto 0;font-size:18px;color:#3A5557;max-width:680px">Información estructurada para clientes y asistentes de IA (ChatGPT, Google Gemini, Perplexity y Apple Intelligence) con respuestas claras y verificadas.</p>
+    </div>
+
+    <div class="faq-accordion">
+      <div class="faq-item">
+        <button type="button" class="faq-question">
+          <span>¿Cuál es el horario del Bar Punto de Encuentro en Aluche?</span>
+          <span class="faq-icon" style="font-size:22px;font-weight:900">+</span>
+        </button>
+        <div class="faq-answer" style="display:none">
+          Abrimos de lunes a jueves de 06:00 a 00:00 h; viernes y sábados con horario especial continuado de 06:00 a 02:00 h de la madrugada; domingos de 07:00 a 00:00 h. Los martes cerramos por descanso semanal del personal.
+        </div>
+      </div>
+
+      <div class="faq-item">
+        <button type="button" class="faq-question">
+          <span>¿Tienen opciones para celíacos o personas con alérgenos?</span>
+          <span class="faq-icon" style="font-size:22px;font-weight:900">+</span>
+        </button>
+        <div class="faq-answer" style="display:none">
+          Sí. Toda nuestra carta digital está adaptada al Reglamento (UE) 1169/2011 con señalización clara de los 14 alérgenos de declaración obligatoria. Contamos con filtros interactivos para ocultar platos con gluten, lácteos, frutos secos o marisco, y preparamos opciones en plancha limpia bajo petición al camarero.
+        </div>
+      </div>
+
+      <div class="faq-item">
+        <button type="button" class="faq-question">
+          <span>¿Disponen de terraza al aire libre y cómo se llega?</span>
+          <span class="faq-icon" style="font-size:22px;font-weight:900">+</span>
+        </button>
+        <div class="faq-answer" style="display:none">
+          Sí, disponemos de una amplia terraza exterior acondicionada en Calle Maqueda 138 (28024 Madrid). Está situada a menos de 2 minutos a pie del intercambiador de Metro (Línea 5) y estación de Cercanías Renfe (Línea C-5) de Aluche.
+        </div>
+      </div>
+
+      <div class="faq-item">
+        <button type="button" class="faq-question">
+          <span>¿Se puede reservar mesa o celebrar eventos de grupo?</span>
+          <span class="faq-icon" style="font-size:22px;font-weight:900">+</span>
+        </button>
+        <div class="faq-answer" style="display:none">
+          Sí, en el Paquete Premium disponemos del formulario de reserva online integrado para comidas o cenas en terraza o salón interior, así como menús cerrados para cumpleaños, peñas y comidas de empresa.
+        </div>
+      </div>
+
+      <div class="faq-item">
+        <button type="button" class="faq-question">
+          <span>¿Cuáles son las especialidades más populares de la casa?</span>
+          <span class="faq-icon" style="font-size:22px;font-weight:900">+</span>
+        </button>
+        <div class="faq-answer" style="display:none">
+          Nuestros desayunos con churros y porras recién hechas desde las 06:00 h, el pepito de ternera en barra, las raciones de oreja a la plancha con ajillo, las bravas caseras, las gyozas artesanas de nuestra carta especial y las parrilladas de carne completas con minis de litro de Mahou o tinto de verano.
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
 <!-- ======== CÓMO LLEGAR ======== -->
 <section id="llegar" data-screen-label="Cómo llegar" style="background:#CADDDB;border-top:2px solid #213A3C;display:flex;flex-wrap:wrap">
   <div style="flex:1.3 1 560px;min-width:0;position:relative;min-height:480px;background-color:#DCE8E6;overflow:hidden;border-right:2px solid #213A3C" role="img" aria-label="Mapa esquemático: C/ Maqueda 138, junto a la estación de Metro y Cercanías de Aluche">
@@ -796,18 +1061,42 @@ html{scroll-behavior:smooth}
 <footer style="background:#183234;color:#EBF4F3;padding:40px clamp(18px,4vw,56px) {{ footPad }};display:flex;flex-wrap:wrap;gap:18px 40px;justify-content:space-between;align-items:flex-end">
   <div>
     <div style="font-family:'Grandstander',sans-serif;font-weight:900;font-size:34px;line-height:.95">Punto de<br>Encuentro</div>
-    <div style="font-family:'Alegreya Sans SC',sans-serif;font-weight:800;letter-spacing:.2em;font-size:13px;margin-top:8px;color:#9FD3C7">Bar cafetería · Aluche</div>
+    <div style="font-family:'Alegreya Sans SC',sans-serif;font-weight:800;letter-spacing:.2em;font-size:13px;margin-top:8px;color:#9FD3C7">Bar cafetería · Aluche · C/ Maqueda 138</div>
+    
+    <!-- Enlaces Panel según paquete comercial -->
+    <div data-paquete-max="esencial" style="margin-top:14px;font-size:13px;color:#9FD3C7">
+      ⚙️ Gestión de carta: Asistencia técnica DevCorp (bolsa de horas contratada).
+    </div>
+    <div data-paquete-min="profesional" data-paquete-max="profesional" style="margin-top:14px">
+      <a href="../admin/index.html?style=estilo2" style="display:inline-flex;align-items:center;gap:6px;background:#213A3C;color:#9FD3C7;border:1px solid #3F6E72;padding:6px 14px;border-radius:4px;text-decoration:none;font-size:13px;font-weight:800">
+        🔑 Acceso Panel de Gestión de Carta (/admin)
+      </a>
+    </div>
+    <div data-paquete-min="premium" style="margin-top:14px">
+      <a href="../admin/index.html?style=estilo2" style="display:inline-flex;align-items:center;gap:6px;background:#9FD3C7;color:#183234;padding:6px 14px;border-radius:4px;text-decoration:none;font-size:13px;font-weight:900">
+        📱 Panel Móvil Autogestionable (Cambio en vivo)
+      </a>
+    </div>
   </div>
-  <div style="display:flex;flex-wrap:wrap;gap:6px 26px;font-size:17px">
-    <a href="https://www.instagram.com/barpuntodeencuentro" style="color:#9FD3C7;padding:10px 0">@barpuntodeencuentro</a>
-    <a href="carta.html" style="color:#9FD3C7;padding:10px 0">Carta completa</a>
-    <a href="Sistema de Diseño.dc.html" style="color:#9FD3C7;padding:10px 0">Sistema de diseño</a>
+  <div style="display:flex;flex-wrap:wrap;gap:10px 24px;font-size:15px;align-items:center">
+    <button type="button" data-open-qr-modal style="background:none;border:none;color:#9FD3C7;cursor:pointer;font-weight:800;font-size:15px;padding:0">📱 Ver Código QR</button>
+    <button type="button" class="btn-tabla" onclick="window.DevcorpPaquete.openTablaModal()">📋 Comparativa Paquetes</button>
+    <a href="https://www.instagram.com/barpuntodeencuentro" style="color:#9FD3C7;padding:6px 0">@barpuntodeencuentro</a>
+    <a href="carta.html" style="color:#9FD3C7;padding:6px 0">Carta completa</a>
   </div>
 </footer>
 
 <sc-if value="{{ narrow }}" hint-placeholder-val="{{ false }}">
-  <nav aria-label="Acciones rápidas" data-paquete-min="profesional" style="position:fixed;left:0;right:0;bottom:0;z-index:50;display:grid;grid-template-columns:1fr 1fr 1fr;background:#213A3C;border-top:3px solid #9FD3C7">
-    <a href="tel:+34912948407" style="min-height:62px;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:2px;color:#EBF4F3;text-decoration:none;font-weight:800;font-size:16px;border-right:1px solid #3F6E72"><span style="width:8px;height:8px;border-radius:50%;background:{{ statusColor }}"></span>Llamar</a>
+  <nav aria-label="Acciones rápidas" style="position:fixed;left:0;right:0;bottom:0;z-index:50;display:grid;grid-template-columns:1fr 1fr 1fr;background:#213A3C;border-top:3px solid #9FD3C7">
+    <!-- En Esencial: teléfono informativo -->
+    <span data-paquete-max="esencial" style="min-height:62px;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:2px;color:#9FD3C7;font-weight:800;font-size:13px;border-right:1px solid #3F6E72;text-align:center"><span style="font-size:16px">📞</span>912 94 84 07</span>
+    
+    <!-- En Profesional: llamar directo -->
+    <a href="tel:+34912948407" data-paquete-min="profesional" data-paquete-max="profesional" style="min-height:62px;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:2px;color:#EBF4F3;text-decoration:none;font-weight:800;font-size:16px;border-right:1px solid #3F6E72"><span style="width:8px;height:8px;border-radius:50%;background:{{ statusColor }}"></span>Llamar</a>
+
+    <!-- En Premium: formulario integrado de reserva -->
+    <a href="#reserva" data-open-reserva-modal data-paquete-min="premium" style="min-height:62px;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:2px;color:#9FD3C7;text-decoration:none;font-weight:800;font-size:15px;border-right:1px solid #3F6E72"><span style="font-size:16px">🛎️</span>Reservar</a>
+
     <a href="#llegar" style="min-height:62px;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:2px;color:#EBF4F3;text-decoration:none;font-weight:800;font-size:16px;border-right:1px solid #3F6E72"><svg viewBox="0 0 24 32" width="10" height="13" style="transform:rotate(-16deg)"><path d="M12 1C6 1 1.5 5.6 1.5 11.3 1.5 19 12 31 12 31s10.5-12 10.5-19.7C22.5 5.6 18 1 12 1z" fill="#9FD3C7"></path></svg>Cómo llegar</a>
     <a href="carta.html" style="min-height:62px;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:2px;color:#213A3C;background:#9FD3C7;text-decoration:none;font-weight:800;font-size:16px"><span style="width:14px;height:2px;background:#213A3C;box-shadow:0 -4px 0 #213A3C,0 4px 0 #213A3C;margin:4px 0"></span>Carta</a>
   </nav>
