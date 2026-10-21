@@ -32,7 +32,7 @@ html[data-paquete="esencial"] a[href*="wa.me/"] { pointer-events: none; cursor: 
 }
 
 /* Sin la barra móvil de vistas (KDS, métricas…), la cabecera mide 80px también en móvil */
-html:not([data-paquete="premium"]) #carta-section { top: 80px; }
+/* Cabecera móvil consistente */
 
 /* Esencial: carta informativa, sin ficha ampliada del plato */
 html[data-paquete="esencial"] [data-open-dish-modal] { cursor: default; }

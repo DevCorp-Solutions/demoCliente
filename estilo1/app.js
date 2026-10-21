@@ -557,6 +557,7 @@ class GastroApp {
     this.menuMode = 'cards';
     this.isAllergenBoxOpen = false;
     this.currentPresetId = 'estilo1';
+    this.skipPreserveScrollOnce = false;
     this.init();
   }
 
@@ -608,10 +609,44 @@ class GastroApp {
     });
 
     document.addEventListener('click', (e) => {
+      // 1. Enlaces directos a la seccion de la carta (en hero o especialidades)
+      const cartaLink = e.target.closest('a[href="#carta-section"]');
+      if (cartaLink) {
+        e.preventDefault();
+        this.goToCarta();
+        return;
+      }
+
+      // 2. Botones de vista y navegacion en cabecera
       const viewBtn = e.target.closest('[data-view]');
       if (viewBtn) {
         e.preventDefault();
-        store.setView(viewBtn.getAttribute('data-view'));
+        const view = viewBtn.getAttribute('data-view');
+        const navAttr = viewBtn.getAttribute('data-nav');
+        const btnText = (viewBtn.textContent || '').trim().toLowerCase();
+        const isCartaBtn = navAttr === 'carta' ||
+                           btnText === 'carta' ||
+                           btnText.startsWith('carta') ||
+                           btnText.startsWith('menú') ||
+                           btnText.startsWith('menu');
+
+        // Si se pulsa el logotipo de Vukata en la cabecera, volver arriba al Hero
+        if (navAttr === 'logo' || viewBtn.querySelector('.header-brand-title') || viewBtn.classList.contains('header-brand-title')) {
+          if (store.state.currentView !== 'menu') {
+            store.setView('menu');
+          }
+          window.scrollTo({ top: 0, behavior: 'smooth' });
+          return;
+        }
+
+        // Si se pulsa "Carta" en el menu de navegacion (desktop o movil)
+        if (view === 'menu' && isCartaBtn) {
+          this.goToCarta();
+          return;
+        }
+
+        // Cualquier otra vista (Reservas, Cocina, Metricas, ROI)
+        store.setView(view);
         window.scrollTo({ top: 0, behavior: 'smooth' });
         return;
       }
@@ -889,6 +924,10 @@ class GastroApp {
   }
 
   render(preserveScroll = true) {
+    if (this.skipPreserveScrollOnce) {
+      preserveScroll = false;
+      this.skipPreserveScrollOnce = false;
+    }
     const preset = store.getPreset();
     const currentView = store.state.currentView;
     const cartCount = store.getCartItemCount();
@@ -997,6 +1036,75 @@ class GastroApp {
         window.scrollTo({ top: savedScrollY, behavior: 'instant' });
       });
     }
+  }
+
+  goToCarta() {
+    // 1. Siempre resetear a la categoria "Todos" y limpiar filtros
+    store.state.activeCategory = 'all';
+    store.state.activeAllergenFilters = [];
+    store.state.activeAllergenFilter = null;
+    this.isAllergenBoxOpen = false;
+
+    // 2. Asegurar vista 'menu'
+    if (store.state.currentView !== 'menu') {
+      store.state.currentView = 'menu';
+    }
+
+    // 3. Desactivar preservacion de scroll en el proximo render para no interferir
+    this.skipPreserveScrollOnce = true;
+
+    // 4. Guardar estado (notifica a suscriptores y dispara render())
+    store.save();
+
+    // 5. Resetear scroll horizontal del carrusel de categorias si se habia movido
+    const resetPillsScroll = () => {
+      const catPills = document.getElementById('category-pills');
+      if (catPills) {
+        catPills.scrollTo({ left: 0, behavior: 'smooth' });
+      }
+    };
+
+    // 6. Scroll vertical suave hacia el principio de la seccion de la carta
+    const performScroll = () => {
+      resetPillsScroll();
+      this.scrollToCarta();
+    };
+
+    if (typeof requestAnimationFrame !== 'undefined') {
+      requestAnimationFrame(() => {
+        requestAnimationFrame(performScroll);
+      });
+    } else {
+      setTimeout(performScroll, 50);
+    }
+  }
+
+  scrollToCarta() {
+    if (typeof window === 'undefined' || typeof document === 'undefined') return;
+
+    const anchor = document.getElementById('carta-top-anchor');
+    const cartaSection = document.getElementById('carta-section');
+    const targetElement = anchor || cartaSection;
+    if (!targetElement) return;
+
+    const header = document.getElementById('main-header');
+    const headerHeight = header ? header.getBoundingClientRect().height : (window.innerWidth < 768 ? 117 : 80);
+
+    const currentScrollY = window.scrollY || (document.documentElement && document.documentElement.scrollTop) || 0;
+    
+    let absoluteTop;
+    if (anchor) {
+      absoluteTop = anchor.getBoundingClientRect().top + currentScrollY;
+    } else {
+      absoluteTop = cartaSection.offsetTop || (cartaSection.getBoundingClientRect().top + currentScrollY);
+    }
+
+    const targetY = Math.max(0, Math.round(absoluteTop - headerHeight + 1));
+
+    window.scrollTo({
+      top: targetY,
+      behavior: 'smooth'
+    });
   }
 
   renderMenuView(container, preset) {
@@ -1324,6 +1432,9 @@ class GastroApp {
           </div>
         </div>
       </section>
+
+      <!-- ANCLA ESTATICA PARA SCROLL EXACTO A LA CARTA -->
+      <div id="carta-top-anchor" style="position: relative; height: 0; width: 0; margin: 0; padding: 0; pointer-events: none; visibility: hidden;"></div>
 
       <!-- STICKY FILTER SUBNAV & SEARCH -->
       <section class="sticky top-[117px] md:top-20 z-40 bg-surface/95 backdrop-blur-md py-2.5 sm:py-3 md:py-4 shadow-sm border-y border-outline-variant/20" id="carta-section">
@@ -2000,7 +2111,7 @@ class GastroApp {
                 <img src="../assets/images/logo.png" alt="DevCorp Solutions" class="h-10 sm:h-12 md:h-14 w-auto object-contain drop-shadow transition-transform group-hover:scale-105"/>
               </a>
               <div class="h-8 w-[1px] header-divider hidden sm:block"></div>
-              <button data-view="menu" class="flex items-center gap-2.5 group text-decoration-none cursor-pointer bg-transparent border-0 text-left p-0">
+              <button data-view="menu" data-nav="logo" class="flex items-center gap-2.5 group text-decoration-none cursor-pointer bg-transparent border-0 text-left p-0" title="Ir al inicio">
                 <span class="material-symbols-outlined text-primary text-[28px] transition-transform duration-300 group-hover:scale-110">local_fire_department</span>
                 <div class="flex flex-col">
                   <span class="font-headline-sm text-headline-sm tracking-tight leading-none font-semibold header-brand-title">VU<span class="text-[#E52D27]">KA</span>TA</span>
@@ -2010,11 +2121,11 @@ class GastroApp {
             </div>
 
             <!-- Navegación Central Stitch (Cápsula Segmentada con las Vistas del Sistema) -->
-            <nav data-paquete-min="premium" class="hidden md:flex items-center gap-1 header-nav-capsule px-2 py-1.5 rounded-full shadow-[0_1px_4px_rgba(0,0,0,0.02)] border">
-              <button data-view="menu" class="header-nav-btn px-3.5 py-2 font-label-action text-label-action transition-colors rounded-full cursor-pointer ${currentView === 'menu' ? 'active-view font-semibold shadow-xs' : ''}">
+            <nav class="hidden md:flex items-center gap-1 header-nav-capsule px-2 py-1.5 rounded-full shadow-[0_1px_4px_rgba(0,0,0,0.02)] border">
+              <button data-view="menu" data-nav="carta" class="header-nav-btn px-3.5 py-2 font-label-action text-label-action transition-colors rounded-full cursor-pointer ${currentView === 'menu' ? 'active-view font-semibold shadow-xs' : ''}">
                 Carta
               </button>
-              <button data-view="reservations" class="header-nav-btn px-3.5 py-2 font-label-action text-label-action transition-colors rounded-full cursor-pointer ${currentView === 'reservations' ? 'active-view font-semibold shadow-xs' : ''}">
+              <button data-view="reservations" data-paquete-min="profesional" class="header-nav-btn px-3.5 py-2 font-label-action text-label-action transition-colors rounded-full cursor-pointer ${currentView === 'reservations' ? 'active-view font-semibold shadow-xs' : ''}">
                 Reservas
               </button>
               <button data-view="kds" class="header-nav-btn px-3.5 py-2 font-label-action text-label-action transition-colors rounded-full cursor-pointer flex items-center gap-1.5 ${currentView === 'kds' ? 'active-view font-semibold shadow-xs' : ''}">
@@ -2053,9 +2164,9 @@ class GastroApp {
           </div>
 
           <!-- Barra táctil de vistas para móviles y tablets -->
-          <div id="mobile-nav-bar" data-paquete-min="premium" class="md:hidden border-t px-4 py-2 overflow-x-auto no-scrollbar flex items-center gap-2 text-xs font-label-action whitespace-nowrap">
-            <button data-view="menu" class="px-3 py-1.5 rounded-full ${currentView === 'menu' ? 'active-view font-semibold shadow-xs' : ''}">Carta</button>
-            <button data-view="reservations" class="px-3 py-1.5 rounded-full ${currentView === 'reservations' ? 'active-view font-semibold shadow-xs' : ''}">Reservas</button>
+          <div id="mobile-nav-bar" class="md:hidden border-t px-4 py-2 overflow-x-auto no-scrollbar flex items-center gap-2 text-xs font-label-action whitespace-nowrap">
+            <button data-view="menu" data-nav="carta" class="px-3 py-1.5 rounded-full ${currentView === 'menu' ? 'active-view font-semibold shadow-xs' : ''}">Carta</button>
+            <button data-view="reservations" data-paquete-min="profesional" class="px-3 py-1.5 rounded-full ${currentView === 'reservations' ? 'active-view font-semibold shadow-xs' : ''}">Reservas</button>
             <button data-view="kds" class="px-3 py-1.5 rounded-full ${currentView === 'kds' ? 'active-view font-semibold shadow-xs' : ''}">Cocina (${kdsPending})</button>
             <button data-view="metrics" class="px-3 py-1.5 rounded-full ${currentView === 'metrics' ? 'active-view font-semibold shadow-xs' : ''}">Métricas</button>
             <button data-view="roi" class="px-3 py-1.5 rounded-full ${currentView === 'roi' ? 'active-view font-semibold shadow-xs' : ''}">Rentabilidad</button>
@@ -2085,7 +2196,7 @@ class GastroApp {
 
               <!-- Cápsula Flotante (Segmented Control) -->
               <nav class="hidden lg:flex items-center bento-pill-nav space-x-1.5 text-xs font-semibold">
-                <button data-view="menu" class="px-3.5 py-1.5 rounded-full transition-all ${currentView === 'menu' ? 'bg-sky-600 text-white shadow' : 'text-slate-400 hover:text-slate-200'}">Carta Interactiva</button>
+                <button data-view="menu" data-nav="carta" class="px-3.5 py-1.5 rounded-full transition-all ${currentView === 'menu' ? 'bg-sky-600 text-white shadow' : 'text-slate-400 hover:text-slate-200'}">Carta Interactiva</button>
                 <button data-view="reservations" class="px-3.5 py-1.5 rounded-full transition-all ${currentView === 'reservations' ? 'bg-sky-600 text-white shadow' : 'text-slate-400 hover:text-slate-200'}">Reservas</button>
                 <button data-view="kds" class="px-3.5 py-1.5 rounded-full transition-all ${currentView === 'kds' ? 'bg-sky-600 text-white shadow' : 'text-slate-400 hover:text-slate-200'}">KDS Cocina (${kdsPending})</button>
                 <button data-view="metrics" class="px-3.5 py-1.5 rounded-full transition-all ${currentView === 'metrics' ? 'bg-sky-600 text-white shadow' : 'text-slate-400 hover:text-slate-200'}">Métricas</button>
@@ -2106,7 +2217,7 @@ class GastroApp {
 
           <!-- Barra móvil táctil con botones redondeados -->
           <nav class="lg:hidden bg-slate-900 border-t border-slate-800 px-2 py-2 overflow-x-auto no-scrollbar flex items-center space-x-2 text-xs font-medium min-w-max">
-            <button data-view="menu" class="px-3 py-1.5 rounded-lg ${currentView === 'menu' ? 'bg-sky-600 text-white font-bold' : 'text-slate-300'}">Carta</button>
+            <button data-view="menu" data-nav="carta" class="px-3 py-1.5 rounded-lg ${currentView === 'menu' ? 'bg-sky-600 text-white font-bold' : 'text-slate-300'}">Carta</button>
             <button data-view="reservations" class="px-3 py-1.5 rounded-lg ${currentView === 'reservations' ? 'bg-sky-600 text-white font-bold' : 'text-slate-300'}">Reservas</button>
             <button data-view="kds" class="px-3 py-1.5 rounded-lg ${currentView === 'kds' ? 'bg-sky-600 text-white font-bold' : 'text-slate-300'}">Cocina (${kdsPending})</button>
             <button data-view="metrics" class="px-3 py-1.5 rounded-lg ${currentView === 'metrics' ? 'bg-sky-600 text-white font-bold' : 'text-slate-300'}">Métricas</button>
@@ -2135,7 +2246,7 @@ class GastroApp {
 
               <!-- Menú Clásico de Fichero / Pestañas Rectangulares -->
               <nav class="hidden md:flex items-center space-x-1.5 font-serif text-sm font-semibold">
-                <button data-view="menu" class="px-3.5 py-2 border-b-2 transition-all ${currentView === 'menu' ? 'border-[#8c7b6c] text-[#1c1510] font-bold bg-[#eee7db]' : 'border-transparent text-[#6b5c4f] hover:text-[#1c1510]'}">Carta del Día</button>
+                <button data-view="menu" data-nav="carta" class="px-3.5 py-2 border-b-2 transition-all ${currentView === 'menu' ? 'border-[#8c7b6c] text-[#1c1510] font-bold bg-[#eee7db]' : 'border-transparent text-[#6b5c4f] hover:text-[#1c1510]'}">Carta del Día</button>
                 <button data-view="reservations" class="px-3.5 py-2 border-b-2 transition-all ${currentView === 'reservations' ? 'border-[#8c7b6c] text-[#1c1510] font-bold bg-[#eee7db]' : 'border-transparent text-[#6b5c4f] hover:text-[#1c1510]'}">Reservar Mesa</button>
                 <button data-view="kds" class="px-3.5 py-2 border-b-2 transition-all ${currentView === 'kds' ? 'border-[#8c7b6c] text-[#1c1510] font-bold bg-[#eee7db]' : 'border-transparent text-[#6b5c4f] hover:text-[#1c1510]'}">Comandero (${kdsPending})</button>
                 <button data-view="metrics" class="px-3.5 py-2 border-b-2 transition-all ${currentView === 'metrics' ? 'border-[#8c7b6c] text-[#1c1510] font-bold bg-[#eee7db]' : 'border-transparent text-[#6b5c4f] hover:text-[#1c1510]'}">Caja & Datos</button>
@@ -2155,7 +2266,7 @@ class GastroApp {
 
           <!-- Barra móvil estilo fichero -->
           <nav class="md:hidden bg-[#eee7db] border-t border-[#8c7b6c] px-3 py-2 overflow-x-auto no-scrollbar flex items-center space-x-2.5 text-xs font-serif min-w-max">
-            <button data-view="menu" class="px-2.5 py-1.5 rounded ${currentView === 'menu' ? 'bg-[#3d3228] text-white' : 'text-[#3d3228]'}">Carta</button>
+            <button data-view="menu" data-nav="carta" class="px-2.5 py-1.5 rounded ${currentView === 'menu' ? 'bg-[#3d3228] text-white' : 'text-[#3d3228]'}">Carta</button>
             <button data-view="reservations" class="px-2.5 py-1.5 rounded ${currentView === 'reservations' ? 'bg-[#3d3228] text-white' : 'text-[#3d3228]'}">Reservas</button>
             <button data-view="kds" class="px-2.5 py-1.5 rounded ${currentView === 'kds' ? 'bg-[#3d3228] text-white' : 'text-[#3d3228]'}">Comandero (${kdsPending})</button>
             <button data-view="metrics" class="px-2.5 py-1.5 rounded ${currentView === 'metrics' ? 'bg-[#3d3228] text-white' : 'text-[#3d3228]'}">Caja</button>
@@ -2178,7 +2289,7 @@ class GastroApp {
 
             <!-- Navegación Minimalista Espaciada -->
             <nav class="hidden md:flex items-center space-x-9 text-xs font-light tracking-widest uppercase">
-              <button data-view="menu" class="transition-colors ${currentView === 'menu' ? 'text-zinc-900 font-semibold border-b border-zinc-900 pb-1' : 'text-zinc-400 hover:text-zinc-900'}">Menú</button>
+              <button data-view="menu" data-nav="carta" class="transition-colors ${currentView === 'menu' ? 'text-zinc-900 font-semibold border-b border-zinc-900 pb-1' : 'text-zinc-400 hover:text-zinc-900'}">Menú</button>
               <button data-view="reservations" class="transition-colors ${currentView === 'reservations' ? 'text-zinc-900 font-semibold border-b border-zinc-900 pb-1' : 'text-zinc-400 hover:text-zinc-900'}">Mesa</button>
               <button data-view="kds" class="transition-colors ${currentView === 'kds' ? 'text-zinc-900 font-semibold border-b border-zinc-900 pb-1' : 'text-zinc-400 hover:text-zinc-900'}">Obrador (${kdsPending})</button>
               <button data-view="metrics" class="transition-colors ${currentView === 'metrics' ? 'text-zinc-900 font-semibold border-b border-zinc-900 pb-1' : 'text-zinc-400 hover:text-zinc-900'}">Estadísticas</button>
@@ -2198,7 +2309,7 @@ class GastroApp {
 
         <!-- Barra móvil minimalista -->
         <nav class="md:hidden bg-zinc-50 border-t border-zinc-200 px-3 py-2.5 overflow-x-auto no-scrollbar flex items-center space-x-6 text-xs font-light tracking-widest uppercase min-w-max">
-          <button data-view="menu" class="${currentView === 'menu' ? 'text-zinc-900 font-bold' : 'text-zinc-400'}">Menú</button>
+          <button data-view="menu" data-nav="carta" class="${currentView === 'menu' ? 'text-zinc-900 font-bold' : 'text-zinc-400'}">Menú</button>
           <button data-view="reservations" class="${currentView === 'reservations' ? 'text-zinc-900 font-bold' : 'text-zinc-400'}">Mesa</button>
           <button data-view="kds" class="${currentView === 'kds' ? 'text-zinc-900 font-bold' : 'text-zinc-400'}">Obrador (${kdsPending})</button>
           <button data-view="metrics" class="${currentView === 'metrics' ? 'text-zinc-900 font-bold' : 'text-zinc-400'}">Estadísticas</button>
