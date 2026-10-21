@@ -20,6 +20,10 @@ No se visitó ni se descargó ningún recurso desde el dominio de la web del res
 
 ## Vista previa
 
+La página se divide ahora en `esencial/`, `profesional/` y `premium/`, con selector de paquetes y una vista móvil en cada carpeta. La entrada de estilo7 abre Premium. Consulta `PAQUETES.md` para las diferencias, los datos pendientes y los servicios que requieren despliegue.
+
+Profesional y Premium incluyen `gestion.html`, una demostración de edición que guarda únicamente en el navegador. Premium permite preparar una solicitud de reserva; el envío necesita un WhatsApp o email confirmado. No se han configurado destinos inventados.
+
 Desde la raíz del repositorio: `python -m http.server 8080 --bind 127.0.0.1`.
 Abrir http://127.0.0.1:8080/estilo7/ y http://127.0.0.1:8080/estilo7/preview-mobile.html.
 
