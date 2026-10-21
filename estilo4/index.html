@@ -128,14 +128,24 @@
           <svg class="icon" aria-hidden="true"><use href="#i-calendar"/></svg>
           <span class="cta-long">Reservar mesa</span><span class="cta-short">Reservar</span>
         </a>
-        <!-- Cambio de idioma: muestra la bandera del idioma actual -->
-        <button class="lang-toggle" type="button" data-lang-toggle aria-label="View this website in English" title="View in English" data-paquete-min="profesional">
-          <span class="lang-toggle__flag" aria-hidden="true">
-            <svg class="flag flag--en" viewBox="0 0 60 30" preserveAspectRatio="xMidYMid slice"><clipPath id="uk-s"><path d="M0,0v30h60V0z"/></clipPath><clipPath id="uk-t"><path d="M30,15h30v15zv15H0zH0V0zV0h30z"/></clipPath><g clip-path="url(#uk-s)"><path d="M0,0v30h60V0z" fill="#012169"/><path d="M0,0 60,30M60,0 0,30" stroke="#fff" stroke-width="6"/><path d="M0,0 60,30M60,0 0,30" clip-path="url(#uk-t)" stroke="#C8102E" stroke-width="4"/><path d="M30,0v30M0,15h60" stroke="#fff" stroke-width="10"/><path d="M30,0v30M0,15h60" stroke="#C8102E" stroke-width="6"/></g></svg>
-            <svg class="flag flag--es" viewBox="0 0 30 20" preserveAspectRatio="xMidYMid slice"><rect width="30" height="20" fill="#AA151B"/><rect y="5" width="30" height="10" fill="#F1BF00"/></svg>
-          </span>
-          <span class="lang-toggle__code" data-lang-code>ES</span>
-        </button>
+        <!-- Cambio de idioma: muestra la bandera del idioma actual.
+             Profesional: alterna ES / EN · Premium: abre el menú ES / EN / RO -->
+        <div class="lang-switch" data-paquete-min="profesional">
+          <button class="lang-toggle" type="button" data-lang-toggle data-lang="es" aria-label="View this website in English" title="View in English">
+            <span class="lang-toggle__flag" aria-hidden="true">
+              <svg class="flag flag--en" viewBox="0 0 60 30" preserveAspectRatio="xMidYMid slice"><clipPath id="uk-s"><path d="M0,0v30h60V0z"/></clipPath><clipPath id="uk-t"><path d="M30,15h30v15zv15H0zH0V0zV0h30z"/></clipPath><g clip-path="url(#uk-s)"><path d="M0,0v30h60V0z" fill="#012169"/><path d="M0,0 60,30M60,0 0,30" stroke="#fff" stroke-width="6"/><path d="M0,0 60,30M60,0 0,30" clip-path="url(#uk-t)" stroke="#C8102E" stroke-width="4"/><path d="M30,0v30M0,15h60" stroke="#fff" stroke-width="10"/><path d="M30,0v30M0,15h60" stroke="#C8102E" stroke-width="6"/></g></svg>
+              <svg class="flag flag--es" viewBox="0 0 30 20" preserveAspectRatio="xMidYMid slice"><rect width="30" height="20" fill="#AA151B"/><rect y="5" width="30" height="10" fill="#F1BF00"/></svg>
+              <svg class="flag flag--ro" viewBox="0 0 3 2" preserveAspectRatio="xMidYMid slice"><rect width="1" height="2" fill="#002B7F"/><rect x="1" width="1" height="2" fill="#FCD116"/><rect x="2" width="1" height="2" fill="#CE1126"/></svg>
+            </span>
+            <span class="lang-toggle__code" data-lang-code>ES</span>
+          </button>
+          <!-- Paquete Premium: tercer idioma (rumano) -->
+          <ul class="lang-menu" id="lang-menu" role="menu" aria-label="Idioma · Language · Limba" translate="no" hidden data-paquete-min="premium">
+            <li role="none"><button type="button" role="menuitemradio" aria-checked="true" data-set-lang="es" lang="es"><span class="lang-menu__flag" aria-hidden="true"><svg viewBox="0 0 30 20" preserveAspectRatio="xMidYMid slice"><rect width="30" height="20" fill="#AA151B"/><rect y="5" width="30" height="10" fill="#F1BF00"/></svg></span>Español</button></li>
+            <li role="none"><button type="button" role="menuitemradio" aria-checked="false" data-set-lang="en" lang="en"><span class="lang-menu__flag" aria-hidden="true"><svg viewBox="0 0 60 30" preserveAspectRatio="xMidYMid slice"><clipPath id="uk-s2"><path d="M0,0v30h60V0z"/></clipPath><clipPath id="uk-t2"><path d="M30,15h30v15zv15H0zH0V0zV0h30z"/></clipPath><g clip-path="url(#uk-s2)"><path d="M0,0v30h60V0z" fill="#012169"/><path d="M0,0 60,30M60,0 0,30" stroke="#fff" stroke-width="6"/><path d="M0,0 60,30M60,0 0,30" clip-path="url(#uk-t2)" stroke="#C8102E" stroke-width="4"/><path d="M30,0v30M0,15h60" stroke="#fff" stroke-width="10"/><path d="M30,0v30M0,15h60" stroke="#C8102E" stroke-width="6"/></g></svg></span>English</button></li>
+            <li role="none"><button type="button" role="menuitemradio" aria-checked="false" data-set-lang="ro" lang="ro"><span class="lang-menu__flag" aria-hidden="true"><svg viewBox="0 0 3 2" preserveAspectRatio="xMidYMid slice"><rect width="1" height="2" fill="#002B7F"/><rect x="1" width="1" height="2" fill="#FCD116"/><rect x="2" width="1" height="2" fill="#CE1126"/></svg></span>Română</button></li>
+          </ul>
+        </div>
         <button class="menu-toggle" type="button" aria-expanded="false" aria-controls="mobile-menu" aria-label="Abrir menú">
           <span class="burger" aria-hidden="true"><span></span><span></span><span></span></span>
         </button>

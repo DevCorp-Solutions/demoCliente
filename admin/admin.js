@@ -188,7 +188,8 @@
         { key: 'priceMax', label: 'Precio hasta (€, opcional)', type: 'number', step: '0.05' },
         { key: 'abv', label: 'Graduación (% vol, solo cervezas)', type: 'number', step: '0.1' },
         { key: 'image', label: 'Imagen (opcional)', placeholder: 'img/… o https://…' },
-        { key: 'description', label: 'Descripción', type: 'textarea', wide: true }
+        { key: 'description', label: 'Descripción', type: 'textarea', wide: true },
+        { key: 'allergens', label: 'Alérgenos (se muestran en las raciones)', type: 'allergens', wide: true }
       ],
       newDish: (data) => ({ id: 'm_custom_' + Date.now(), group: data.menuGroups[0].id, category: data.menuGroups[0].categories[0], name: '', description: '', abv: null, price: 0, priceMax: null, tags: [], image: '', allergens: [] }),
       // El grupo (Cervezas / Raciones) se deduce de la categoría elegida
@@ -199,7 +200,7 @@
       },
       price: (d) => !d.price ? 'Consultar en barra' : d.priceMax ? `${fmtEur(d.price).replace(' €', '')} – ${fmtEur(d.priceMax)}` : fmtEur(d.price),
       image: (d, id) => resolveAsset(id, d.image),
-      allergenText: () => ''
+      allergenText: (d) => (d.group === 'raciones' ? countText((d.allergens || []).length) : '')
     }
   };
 

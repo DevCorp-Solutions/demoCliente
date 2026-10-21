@@ -29,6 +29,40 @@
   }
   const abvText = (abv) => `${abv.toFixed(1).replace('.', ',')} % vol`;
 
+  // ---------- Alérgenos (Reglamento UE 1169/2011) ----------
+  // Mismas claves que el panel /admin. Iconos de trazo, como el resto de la web.
+  // Se muestran en las raciones en todos los paquetes (también en el Esencial).
+  const ALLERGENS = {
+    gluten: ['Gluten', 'Contiene gluten: trigo, centeno, cebada, avena o sus derivados.', '<path d="M12 22V3m0 5C5 8 5 3 5 3s7 0 7 5Zm0 6C5 14 5 9 5 9s7 0 7 5Zm0 5c7 0 7-5 7-5s-7 0-7 5Zm0-8c7 0 7-5 7-5s-7 0-7 5Z"/>'],
+    crustaceos: ['Crustáceos', 'Contiene crustáceos: gambas, langostinos, cigalas, cangrejos…', '<path d="M7 10c-6-1-5-6-4-7l3 3 2-4c3 4 2 7-1 8Zm10 0c6-1 5-6 4-7l-3 3-2-4c-3 4-2 7 1 8Z"/><ellipse cx="12" cy="15" rx="6" ry="5"/><path d="m6 14-4-2m4 5-4 2m16-5 4-2m-4 5 4 2"/>'],
+    huevos: ['Huevos', 'Contiene huevo o productos a base de huevo.', '<path d="M19 14c0 5-3 8-7 8s-7-3-7-8S9 2 12 2s7 7 7 12Z"/>'],
+    pescado: ['Pescado', 'Contiene pescado o productos a base de pescado.', '<path d="M4 12c5-8 12-8 17 0-5 8-12 8-17 0Zm0 0L1 7v10l3-5Z"/><circle cx="16" cy="11" r="1"/>'],
+    cacahuete: ['Cacahuetes', 'Contiene cacahuetes o productos a base de cacahuete.', '<path d="M8 2c-6 0-7 7-3 10-4 4-2 10 3 10 4 0 4-3 8-3 7 0 8-7 3-10 3-6-4-10-7-6-1 0-2-1-4-1Z"/>'],
+    soja: ['Soja', 'Contiene soja o productos a base de soja.', '<path d="M3 21C1 9 9 1 21 3c2 12-6 20-18 18Z"/><circle cx="8" cy="16" r="2"/><circle cx="12" cy="12" r="2"/><circle cx="16" cy="8" r="2"/>'],
+    lacteos: ['Lácteos', 'Contiene leche y sus derivados, incluida la lactosa.', '<path d="M9 2h6v5l3 4v11H6V11l3-4V2Zm0 4h6M6 13h12"/>'],
+    frutos_cascara: ['Frutos de cáscara', 'Contiene frutos de cáscara: almendras, avellanas, nueces, pistachos…', '<path d="M12 2C2 5 2 19 12 22 22 19 22 5 12 2Zm0 0c-3 7 3 13 0 20"/>'],
+    apio: ['Apio', 'Contiene apio o productos derivados.', '<path d="M10 22 8 10M14 22l2-12M12 22V9M8 11C1 13 1 5 7 6 4 0 13 0 12 7c0-7 8-7 6-1 6-1 7 7-2 5"/>'],
+    mostaza: ['Mostaza', 'Contiene mostaza o productos derivados.', '<path d="M12 21V5m0 5C4 11 3 5 5 3c4 0 7 3 7 7Zm0 6c8 1 9-5 7-7-4 0-7 3-7 7Z"/><circle cx="5" cy="19" r="2"/><circle cx="20" cy="20" r="2"/>'],
+    sesamo: ['Sésamo', 'Contiene granos de sésamo o productos derivados.', '<ellipse cx="6" cy="8" rx="2.5" ry="5" transform="rotate(-20 6 8)"/><ellipse cx="17" cy="8" rx="2.5" ry="5" transform="rotate(20 17 8)"/><ellipse cx="12" cy="18" rx="2.5" ry="4"/>'],
+    sulfitos: ['Sulfitos', 'Contiene dióxido de azufre y sulfitos.', '<path d="M7 3h10v7c0 7-10 7-10 0V3Zm0 5h10m-5 7v7m-4 0h8"/>'],
+    altramuces: ['Altramuces', 'Contiene altramuces o productos derivados.', '<circle cx="8" cy="15" r="5"/><circle cx="17" cy="15" r="4"/><circle cx="12" cy="6" r="4"/>'],
+    moluscos: ['Moluscos', 'Contiene moluscos: pulpo, calamar, sepia, mejillones, almejas…', '<path d="M7 20 2 10C0 2 9 1 12 5c3-4 12-3 10 5l-5 10H7Zm5-15v15M5 7l5 13M19 7l-5 13M7 23h10"/>']
+  };
+  const ALLERGEN_ALIAS = { lactosa: 'lacteos', huevo: 'huevos', cacahuetes: 'cacahuete', marisco: 'crustaceos', frutos_secos: 'frutos_cascara' };
+
+  // Iconos con tooltip: al pasar el ratón (o al tocar / enfocar con teclado) se explica el alérgeno
+  function allergensHTML(item) {
+    const list = (item.allergens || []).map(a => ALLERGEN_ALIAS[a] || a).filter(a => ALLERGENS[a]);
+    if (!list.length) return '';
+    return `<ul class="allergens" aria-label="Alérgenos">${list.map(a => {
+      const [name, tip, svg] = ALLERGENS[a];
+      return `<li><span class="allergen" tabindex="0" role="img" aria-label="${esc(name)}. ${esc(tip)}">
+          <svg class="allergen__icon" viewBox="0 0 24 24" aria-hidden="true" focusable="false">${svg}</svg>
+          <span class="allergen__tip" aria-hidden="true"><strong>${esc(name)}</strong>${esc(tip)}</span>
+        </span></li>`;
+    }).join('')}</ul>`;
+  }
+
   function whatsappUrl(text) {
     const base = `https://wa.me/${P.whatsapp}`;
     return text ? `${base}?text=${encodeURIComponent(text)}` : base;
@@ -47,7 +81,7 @@
       let href;
       if (key === 'tel') href = `tel:${P.phoneIntl || ('+34' + String(P.phone || '').replace(/\s/g, ''))}`;
       else if (key === 'mailto') href = `mailto:${P.email}`;
-      else if (key === 'whatsapp') href = whatsappUrl(i18n.lang === 'en' ? `Hi, I'm writing from the ${P.name} website.` : `Hola, os escribo desde la web de ${P.name}.`);
+      else if (key === 'whatsapp') href = whatsappUrl(msgs().hello(P.name));
       else href = get(P, key);
       if (href) el.setAttribute('href', href);
     });
@@ -257,13 +291,17 @@
               ${d.image && hasPkg('profesional') ? `<button type="button" class="dish__pick" data-dish="${esc(d.id)}" aria-label="Ver foto de ${esc(d.name)}" aria-pressed="${dishState.id === d.id}"></button>` : ''}
               <span class="dish__num" aria-hidden="true">${String(i + 1).padStart(2, '0')}</span>
               <div>
-                <h4 class="dish__name">${esc(d.name)}</h4>
+                <div class="dish__title">
+                  <h4 class="dish__name">${esc(d.name)}</h4>
+                  ${allergensHTML(d)}
+                </div>
                 ${d.description ? `<span class="beer__desc">${esc(d.description)}</span>` : ''}
               </div>
               ${d.price ? `<span class="dish__price">${fmtNum(d.price)}${d.priceMax ? ' – ' + fmtNum(d.priceMax) : ''} €</span>` : '<span class="price price--ask">Consultar en barra</span>'}
             </li>`).join('')}
         </ul>
-        <p class="menu-note">Precios en euros según nuestra carta.</p>`;
+        <p class="menu-note">Precios en euros según nuestra carta.</p>
+        ${items.some(d => (d.allergens || []).length) ?'<p class="menu-note">Alérgenos según la receta de cada plato. Si tienes alguna alergia o intolerancia, avísanos en barra antes de pedir.</p>' : ''}`;
       return;
     }
 
@@ -508,6 +546,22 @@
       if (e.key === 'Escape' && $('.pour.is-open')) { pourState.dismissed = true; updateDock(); }
     });
 
+    // Mensaje de los alérgenos: a la derecha del icono; si no cabe (móvil), debajo y dentro de la pantalla
+    const placeTip = (e) => {
+      const al = e.target.closest && e.target.closest('.allergen');
+      if (!al) return;
+      const tip = $('.allergen__tip', al);
+      const box = al.getBoundingClientRect();
+      const below = box.right + 12 + tip.offsetWidth > document.documentElement.clientWidth - 8;
+      al.classList.toggle('is-tip-below', below);
+      if (!below) return;
+      const x = Math.max(box.width - tip.offsetWidth + 6, 8 - box.left);
+      al.style.setProperty('--tip-x', x + 'px');
+      al.style.setProperty('--arrow-x', (box.width / 2 - x - 7) + 'px');
+    };
+    panels.addEventListener('mouseover', placeTip);
+    panels.addEventListener('focusin', placeTip);
+
     const carta = $('#carta');
     if (carta && 'IntersectionObserver' in window) {
       new IntersectionObserver(([entry]) => {
@@ -690,11 +744,8 @@
 
     const updatePrivateLinks = () => {
       const extra = msg && msg.value.trim() ? `\n\n${msg.value.trim()}` : '';
-      const en = i18n.lang === 'en';
-      const text = en
-        ? `Hi, I visited ${P.name} and wanted to share my experience (rating ${selected}/5).${extra}`
-        : `Hola, estuve en ${P.name} y quería comentaros mi experiencia (valoración ${selected}/5).${extra}`;
-      const subject = en ? `My experience at ${P.name} (${selected}/5)` : `Mi experiencia en ${P.name} (${selected}/5)`;
+      const text = msgs().review(P.name, selected, extra);
+      const subject = msgs().subject(P.name, selected);
       wa.href = whatsappUrl(text);
       mail.href = `mailto:${P.email}?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(text)}`;
     };
@@ -720,6 +771,82 @@
   }
 
   // =========================================================================
+  // 7b. DESPLEGABLES DEL MENÚ MÓVIL (estilo y paquete) con el aspecto de la web.
+  //     La lista del <select> nativo la pinta el sistema (blanca, sin estilo);
+  //     se sustituye por un listbox propio y el <select> queda oculto debajo
+  //     para que sus eventos "change" (cambio de estilo / paquete) sigan igual.
+  // =========================================================================
+  function initMobileSelects() {
+    $$('.mobile-style').forEach((wrap, n) => {
+      const sel = $('select', wrap);
+      if (!sel) return;
+      if (sel.matches('[data-paquete-select]') && !sel.options.length && PKG) sel.innerHTML = PKG.optionsHtml();
+      const labelText = ($('.sr-only', wrap) || {}).textContent || '';
+      const id = `cselect-${n}`;
+
+      const box = document.createElement('div');
+      box.className = 'mobile-style cselect';
+      box.innerHTML = `
+        <button type="button" class="cselect__btn" aria-haspopup="listbox" aria-expanded="false" aria-controls="${id}">
+          <span class="sr-only">${esc(labelText)}</span><span class="cselect__value"></span>
+        </button>
+        <ul class="cselect__list" id="${id}" role="listbox" aria-label="${esc(labelText)}" hidden></ul>`;
+      wrap.after(box);
+      wrap.classList.add('is-enhanced');
+
+      const btn = $('.cselect__btn', box);
+      const list = $('.cselect__list', box);
+      const items = () => $$('[role="option"]', list);
+      const render = () => {
+        const current = sel.options[sel.selectedIndex];
+        $('.cselect__value', btn).textContent = current ? current.text : '';
+        list.innerHTML = Array.from(sel.options).map((o, i) =>
+          `<li role="option" id="${id}-${i}" tabindex="-1" data-value="${esc(o.value)}" aria-selected="${o.value === sel.value}">${esc(o.text)}</li>`).join('');
+      };
+      const close = (focusBtn) => {
+        if (list.hidden) return;
+        list.hidden = true;
+        btn.setAttribute('aria-expanded', 'false');
+        if (focusBtn) btn.focus();
+      };
+      const open = () => {
+        render();
+        list.hidden = false;
+        btn.setAttribute('aria-expanded', 'true');
+        (items().find(li => li.getAttribute('aria-selected') === 'true') || items()[0]).focus();
+      };
+      const choose = (value) => {
+        close(true);
+        if (value === sel.value) return;
+        sel.value = value;
+        render();
+        sel.dispatchEvent(new Event('change', { bubbles: true }));
+      };
+
+      render();
+      btn.addEventListener('click', () => (list.hidden ? open() : close(false)));
+      list.addEventListener('click', (e) => {
+        const li = e.target.closest('[role="option"]');
+        if (li) choose(li.dataset.value);
+      });
+      list.addEventListener('keydown', (e) => {
+        const all = items();
+        const i = all.indexOf(document.activeElement);
+        let next = null;
+        if (e.key === 'ArrowDown') next = Math.min(i + 1, all.length - 1);
+        if (e.key === 'ArrowUp') next = Math.max(i - 1, 0);
+        if (e.key === 'Home') next = 0;
+        if (e.key === 'End') next = all.length - 1;
+        if (next !== null) { e.preventDefault(); all[next].focus(); return; }
+        if ((e.key === 'Enter' || e.key === ' ') && i > -1) { e.preventDefault(); choose(all[i].dataset.value); }
+        if (e.key === 'Escape') { e.preventDefault(); e.stopPropagation(); close(true); }
+        if (e.key === 'Tab') close(false);
+      });
+      document.addEventListener('click', (e) => { if (!box.contains(e.target)) close(false); });
+    });
+  }
+
+  // =========================================================================
   // 8. VARIOS: selector de estilos (demo), alias de URLs antiguas
   // =========================================================================
   function initMisc() {
@@ -740,43 +867,70 @@
   }
 
   // =========================================================================
-  // 9. IDIOMA ES / EN
-  //    El HTML y data.js están en español. En inglés se traducen los textos y
+  // 9. IDIOMAS · Esencial: ES · Profesional: ES / EN · Premium: ES / EN / RO
+  //    El HTML y data.js están en español. En otro idioma se traducen los textos y
   //    atributos visibles con el diccionario de i18n.js; un MutationObserver
   //    traduce también lo que el JavaScript pinta después (carta, jarra, etc.).
-  //    Al volver a español se restauran los textos originales.
+  //    Al cambiar de idioma se restauran primero los textos originales.
   // =========================================================================
   const i18n = { lang: 'es', texts: new Map(), attrs: new Map() };
   const I18N_ATTRS = ['aria-label', 'placeholder', 'alt', 'title'];
-  const EN = (window.VEINTI7_I18N && window.VEINTI7_I18N.en) || { dict: {}, patterns: [] };
+  const DICTS = window.VEINTI7_I18N || {};
+  const LANGS = !hasPkg('profesional') ? ['es'] : hasPkg('premium') ? ['es', 'en', 'ro'] : ['es', 'en'];
+  const LANG_INFO = {
+    es: { code: 'ES', label: 'Ver la web en español', short: 'Ver en español' },
+    en: { code: 'EN', label: 'View this website in English', short: 'View in English' },
+    ro: { code: 'RO', label: 'Vezi site-ul în limba română', short: 'Vezi în română' }
+  };
+  // Textos que se generan al vuelo (WhatsApp y email), en el idioma activo
+  const MSGS = {
+    es: {
+      hello: (n) => `Hola, os escribo desde la web de ${n}.`,
+      review: (n, r, x) => `Hola, estuve en ${n} y quería comentaros mi experiencia (valoración ${r}/5).${x}`,
+      subject: (n, r) => `Mi experiencia en ${n} (${r}/5)`
+    },
+    en: {
+      hello: (n) => `Hi, I'm writing from the ${n} website.`,
+      review: (n, r, x) => `Hi, I visited ${n} and wanted to share my experience (rating ${r}/5).${x}`,
+      subject: (n, r) => `My experience at ${n} (${r}/5)`
+    },
+    ro: {
+      hello: (n) => `Bună ziua, vă scriu de pe site-ul ${n}.`,
+      review: (n, r, x) => `Bună ziua, am fost la ${n} și aș vrea să vă povestesc experiența mea (nota ${r}/5).${x}`,
+      subject: (n, r) => `Experiența mea la ${n} (${r}/5)`
+    }
+  };
+  const msgs = () => MSGS[i18n.lang] || MSGS.es;
   const ES_META = { title: document.title, description: ($('meta[name="description"]') || {}).content };
 
-  function trEn(s) {
-    if (Object.prototype.hasOwnProperty.call(EN.dict, s)) return EN.dict[s];
-    for (const [re, fn] of EN.patterns) {
+  function tr(s) {
+    const D = DICTS[i18n.lang];
+    if (!D) return null;
+    if (Object.prototype.hasOwnProperty.call(D.dict, s)) return D.dict[s];
+    for (const [re, fn] of D.patterns) {
       const m = s.match(re);
-      if (m) { const out = fn(m, x => trEn(x) || x); if (out) return out; }
+      if (m) { const out = fn(m, x => tr(x) || x); if (out) return out; }
     }
     if (s.includes(' · ')) {
       const parts = s.split(' · ');
-      const out = parts.map(p => trEn(p) || p);
+      const out = parts.map(p => tr(p) || p);
       if (out.some((p, i) => p !== parts[i])) return out.join(' · ');
     }
     return null;
   }
 
-  const skipNode = (el) => !el || el.closest('script, style, noscript, .review__text');
+  const skipNode = (el) => !el || el.closest('script, style, noscript, .review__text, [translate="no"]');
   function translateTextNode(node) {
     if (skipNode(node.parentElement)) return;
     const raw = node.nodeValue;
     const rec = i18n.texts.get(node);
-    if (rec && raw === rec.en) return;
+    if (rec && raw === rec.out) return;
     const m = raw.match(/^(\s*)([\s\S]*?)(\s*)$/);
-    const out = m[2] && trEn(m[2]);
+    const out = m[2] && tr(m[2]);
     if (!out || out === m[2]) return;
-    const en = m[1] + out + m[3];
-    i18n.texts.set(node, { es: raw, en });
-    node.nodeValue = en;
+    const value = m[1] + out + m[3];
+    i18n.texts.set(node, { es: raw, out: value });
+    node.nodeValue = value;
   }
   function translateAttrs(el) {
     if (skipNode(el)) return;
@@ -784,10 +938,10 @@
       const v = el.getAttribute(a);
       if (!v) return;
       const rec = i18n.attrs.get(el) || {};
-      if (rec[a] && rec[a].en === v) return;
-      const out = trEn(v.trim());
+      if (rec[a] && rec[a].out === v) return;
+      const out = tr(v.trim());
       if (!out || out === v) return;
-      rec[a] = { es: v, en: out };
+      rec[a] = { es: v, out };
       i18n.attrs.set(el, rec);
       el.setAttribute(a, out);
     });
@@ -802,35 +956,43 @@
     root.querySelectorAll(I18N_ATTRS.map(a => `[${a}]`).join(',')).forEach(translateAttrs);
   }
   function restoreSpanish() {
-    i18n.texts.forEach((rec, node) => { if (node.nodeValue === rec.en) node.nodeValue = rec.es; });
-    i18n.attrs.forEach((rec, el) => Object.keys(rec).forEach(a => { if (el.getAttribute(a) === rec[a].en) el.setAttribute(a, rec[a].es); }));
+    i18n.texts.forEach((rec, node) => { if (node.nodeValue === rec.out) node.nodeValue = rec.es; });
+    i18n.attrs.forEach((rec, el) => Object.keys(rec).forEach(a => { if (el.getAttribute(a) === rec[a].out) el.setAttribute(a, rec[a].es); }));
     i18n.texts.clear();
     i18n.attrs.clear();
   }
 
+  // Con dos idiomas el botón alterna ES / EN; con tres (Premium) abre el menú de idiomas
+  const hasLangMenu = () => LANGS.length > 2 && !!$('#lang-menu');
+
   function setLang(lang, { save = true } = {}) {
-    i18n.lang = lang === 'en' ? 'en' : 'es';
-    const en = i18n.lang === 'en';
-    document.documentElement.lang = i18n.lang;
-    if (en) translateTree(document.body); else restoreSpanish();
-    document.title = en ? EN.meta.title : ES_META.title;
+    if (!LANGS.includes(lang)) lang = 'es';
+    restoreSpanish();
+    i18n.lang = lang;
+    document.documentElement.lang = lang;
+    if (lang !== 'es') translateTree(document.body);
+    const meta = (lang !== 'es' && DICTS[lang] && DICTS[lang].meta) || ES_META;
+    document.title = meta.title;
     const desc = $('meta[name="description"]');
-    if (desc) desc.content = en ? EN.meta.description : ES_META.description;
+    if (desc) desc.content = meta.description;
+    const next = LANGS[(LANGS.indexOf(lang) + 1) % LANGS.length];
     $$('[data-lang-toggle]').forEach(btn => {
-      btn.classList.toggle('is-en', en);
-      btn.setAttribute('aria-label', en ? 'Ver la web en español' : 'View this website in English');
-      btn.title = en ? 'Ver en español' : 'View in English';
+      btn.dataset.lang = lang;
       const code = $('[data-lang-code]', btn);
-      if (code) code.textContent = en ? 'EN' : 'ES';
+      if (code) code.textContent = LANG_INFO[lang].code;
+      if (hasLangMenu()) return;
+      btn.setAttribute('aria-label', LANG_INFO[next].label);
+      btn.title = LANG_INFO[next].short;
     });
+    $$('[data-set-lang]').forEach(item => item.setAttribute('aria-checked', String(item.dataset.setLang === lang)));
     bindData();
-    if (save) { try { localStorage.setItem('veinti7_lang', i18n.lang); } catch (e) { /* sin almacenamiento */ } }
-    document.dispatchEvent(new CustomEvent('langchange', { detail: i18n.lang }));
+    if (save) { try { localStorage.setItem('veinti7_lang', lang); } catch (e) { /* sin almacenamiento */ } }
+    document.dispatchEvent(new CustomEvent('langchange', { detail: lang }));
   }
 
   function initI18n() {
     new MutationObserver((muts) => {
-      if (i18n.lang !== 'en') return;
+      if (i18n.lang === 'es') return;
       muts.forEach(m => {
         if (m.type === 'childList') m.addedNodes.forEach(translateTree);
         else if (m.type === 'characterData') translateTextNode(m.target);
@@ -838,18 +1000,68 @@
       });
     }).observe(document.body, { subtree: true, childList: true, characterData: true, attributes: true, attributeFilter: I18N_ATTRS });
 
-    $$('[data-lang-toggle]').forEach(btn => btn.addEventListener('click', () => {
+    const flip = (btn) => {
       btn.classList.remove('is-flipping');
       void btn.offsetWidth;
       btn.classList.add('is-flipping');
-      setLang(i18n.lang === 'en' ? 'es' : 'en');
+    };
+    const menu = $('#lang-menu');
+    const items = menu ? $$('[data-set-lang]', menu) : [];
+    const toggles = $$('[data-lang-toggle]');
+    const closeMenu = (focusToggle) => {
+      if (!menu || menu.hidden) return;
+      menu.hidden = true;
+      toggles.forEach(b => b.setAttribute('aria-expanded', 'false'));
+      if (focusToggle && toggles[0]) toggles[0].focus();
+    };
+
+    if (hasLangMenu()) {
+      toggles.forEach(btn => {
+        btn.setAttribute('aria-haspopup', 'menu');
+        btn.setAttribute('aria-controls', 'lang-menu');
+        btn.setAttribute('aria-expanded', 'false');
+        btn.setAttribute('aria-label', 'Idioma · Language · Limba');
+        btn.title = 'Idioma · Language · Limba';
+      });
+      menu.addEventListener('click', (e) => {
+        const item = e.target.closest('[data-set-lang]');
+        if (!item) return;
+        closeMenu(true);
+        if (item.dataset.setLang !== i18n.lang) { flip(toggles[0]); setLang(item.dataset.setLang); }
+      });
+      menu.addEventListener('keydown', (e) => {
+        const i = items.indexOf(document.activeElement);
+        let next = null;
+        if (e.key === 'ArrowDown') next = (i + 1) % items.length;
+        if (e.key === 'ArrowUp') next = (i - 1 + items.length) % items.length;
+        if (e.key === 'Home') next = 0;
+        if (e.key === 'End') next = items.length - 1;
+        if (next !== null) { e.preventDefault(); items[next].focus(); }
+        if (e.key === 'Tab') closeMenu(false);
+      });
+      document.addEventListener('click', (e) => { if (!e.target.closest('.lang-switch')) closeMenu(false); });
+      document.addEventListener('keydown', (e) => { if (e.key === 'Escape') closeMenu(true); });
+    }
+
+    toggles.forEach(btn => btn.addEventListener('click', () => {
+      if (hasLangMenu()) {
+        const open = menu.hidden;
+        if (!open) { closeMenu(false); return; }
+        menu.hidden = false;
+        btn.setAttribute('aria-expanded', 'true');
+        const current = items.find(it => it.dataset.setLang === i18n.lang) || items[0];
+        if (current) current.focus();
+        return;
+      }
+      flip(btn);
+      setLang(i18n.lang === 'es' ? 'en' : 'es');
     }));
 
     // Paquete Esencial: un solo idioma (español)
-    if (!hasPkg('profesional')) return;
+    if (LANGS.length < 2) return;
     let initial = new URLSearchParams(location.search).get('lang');
     if (!initial) { try { initial = localStorage.getItem('veinti7_lang'); } catch (e) { /* sin almacenamiento */ } }
-    if (initial === 'en') setLang('en', { save: false });
+    if (initial && initial !== 'es' && LANGS.includes(initial)) setLang(initial, { save: false });
   }
 
   function init() {
@@ -859,6 +1071,7 @@
     initHeader();
     initParallax();
     initMobileMenu();
+    initMobileSelects();
     initReveal();
     initRating();
     lazyMap();
