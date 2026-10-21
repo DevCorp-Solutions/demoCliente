@@ -27,3 +27,9 @@ html:not([data-paquete="premium"]) .reviews-list { display: grid; gap: 1.5rem; }
 @media (min-width: 900px) {
   html:not([data-paquete="premium"]) .reviews-list { grid-template-columns: repeat(2, 1fr); }
 }
+
+
+/* Ocultar selector de estilo si tiene la clase hidden */
+.hidden, .style-select.hidden, .header-style.hidden, .mobile-style.hidden, #style-select.hidden {
+  display: none !important;
+}

@@ -2505,7 +2505,7 @@ class GastroApp {
 
     // Selector HTML estándar adaptado a la estética de cada estilo
     const selectorHtml = `
-      <select id="style-select" aria-label="Cambiar de estilo" class="w-[6.6rem] sm:w-auto sm:max-w-[10rem] 2xl:max-w-none text-[11px] sm:text-xs font-semibold rounded-xl py-1.5 sm:py-2 px-1.5 sm:px-3 focus:outline-none focus:ring-2 transition-all cursor-pointer shadow-sm ${
+      <select id="style-select" aria-label="Cambiar de estilo" class="hidden w-[6.6rem] sm:w-auto sm:max-w-[10rem] 2xl:max-w-none text-[11px] sm:text-xs font-semibold rounded-xl py-1.5 sm:py-2 px-1.5 sm:px-3 focus:outline-none focus:ring-2 transition-all cursor-pointer shadow-sm ${
         preset.id === 'estilo1' ? 'bg-white text-stone-900 border-2 border-[#8B1E1E]/40 focus:ring-[#8B1E1E]' :
         preset.id === 'estilo2' ? 'bg-slate-900 text-sky-300 border border-slate-700 focus:ring-sky-500' :
         preset.id === 'estilo3' ? 'bg-white text-[#3d3228] border-2 border-[#8c7b6c] focus:ring-[#8c7b6c] font-serif' :

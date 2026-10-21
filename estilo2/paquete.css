@@ -256,3 +256,6 @@ html[data-paquete="profesional"] [data-lang-fr] {
   }
 }
 
+
+/* Selector de estilos oculto para clientes (fácil de mostrar retirando la clase hidden) */
+.hidden, #style-select.hidden { display: none !important; }

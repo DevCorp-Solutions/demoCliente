@@ -525,3 +525,7 @@ body.theme-estilo-1,
     scroll-margin-top: 80px;
   }
 }
+
+/* Selector de estilos oculto para clientes (fácil de mostrar retirando la clase hidden) */
+#style-select.hidden, .hidden#style-select { display: none !important; }
+

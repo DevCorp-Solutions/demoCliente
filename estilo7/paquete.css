@@ -1,4 +1,4 @@
-﻿/* Package differences, all within style7. */
+/* Package differences, all within style7. */
 [hidden]{display:none!important}
 .header{flex-wrap:wrap;gap:16px}.header nav{flex:1 1 350px;justify-content:center}
 #paquete-select{font:600 11px 'DM Sans',sans-serif;padding:10px;width:170px;max-width:100%;border:1px solid var(--ink);border-radius:5px;color:var(--ink);background:var(--cream)}
@@ -36,3 +36,5 @@ html[data-paquete=esencial] .card-copy{padding:25px}
 .booking-note,#booking-status{font-size:12px;line-height:1.7;align-self:center}
 .groups-note{border-top:1px solid var(--line);margin-top:45px;padding-top:25px;max-width:850px}.groups-note h3{font-size:26px}.groups-note p{font-size:13px;line-height:1.8;margin-top:15px}
 @media(max-width:760px){.header nav{flex-basis:100%;order:4;flex-wrap:wrap}.header>.brand{margin-right:auto}.header #style-select{width:calc(50% - 8px);order:2}.header #paquete-select{width:calc(50% - 8px);order:3}.header>.button{display:none}.header>.brand{width:100%}html[data-paquete=esencial] .cards{grid-template-columns:1fr}.allergen-tools{flex-direction:column;gap:12px}.allergen-filter{width:100%}.booking-form,.daily-grid{grid-template-columns:1fr}.allergen-legend{grid-template-columns:1fr 1fr}.package-section h2{font-size:36px}}
+
+.hidden, #style-select.hidden, .style-select.hidden { display: none !important; }
