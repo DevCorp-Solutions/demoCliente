@@ -215,3 +215,44 @@ html[data-paquete="profesional"] [data-lang-fr] {
   background: #183234;
   color: #FFFFFF;
 }
+
+/* =========================================================================
+   4. CABECERA MÓVIL: OCULTAR BOTÓN RESERVAR SUPERIOR Y AJUSTAR SELECTORES
+   ========================================================================= */
+@media (max-width: 768px) {
+  /* En móvil, el botón reservar superior se oculta porque ya está en la barra inferior */
+  .btn-reserva-header {
+    display: none !important;
+  }
+
+  /* El contenedor de controles ocupa el ancho completo en móvil y distribuye los selectores */
+  .nav-controls {
+    display: flex !important;
+    align-items: center !important;
+    gap: 6px !important;
+    width: 100% !important;
+    max-width: 100% !important;
+    min-width: 0 !important;
+    box-sizing: border-box !important;
+    justify-content: flex-start !important;
+    flex-wrap: nowrap !important;
+  }
+
+  .nav-controls .lang-switcher {
+    flex: 0 0 auto !important;
+  }
+
+  /* Los selectores de estilo y paquete comparten equitativamente el espacio restante sin cortarse */
+  .nav-controls select {
+    flex: 1 1 0 !important;
+    min-width: 0 !important;
+    max-width: 100% !important;
+    width: auto !important;
+    box-sizing: border-box !important;
+    font-size: 11px !important;
+    padding: 6px 4px !important;
+    text-overflow: ellipsis !important;
+    white-space: nowrap !important;
+  }
+}
+

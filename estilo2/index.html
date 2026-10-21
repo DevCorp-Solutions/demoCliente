@@ -76,6 +76,32 @@ button{font:inherit;cursor:pointer}
 @media (prefers-reduced-motion: reduce){*{transition:none !important;animation:none !important;scroll-behavior:auto !important}}
 html{scroll-behavior:smooth}
 @keyframes beerBubbles{0%{background-position:0 0}100%{background-position:0 -36px}}
+@media (max-width: 768px) {
+  .btn-reserva-header { display: none !important; }
+  .nav-controls {
+    display: flex !important;
+    align-items: center !important;
+    gap: 6px !important;
+    width: 100% !important;
+    max-width: 100% !important;
+    min-width: 0 !important;
+    box-sizing: border-box !important;
+    justify-content: flex-start !important;
+    flex-wrap: nowrap !important;
+  }
+  .nav-controls .lang-switcher { flex: 0 0 auto !important; }
+  .nav-controls select {
+    flex: 1 1 0 !important;
+    min-width: 0 !important;
+    max-width: 100% !important;
+    width: auto !important;
+    box-sizing: border-box !important;
+    font-size: 11px !important;
+    padding: 6px 4px !important;
+    text-overflow: ellipsis !important;
+    white-space: nowrap !important;
+  }
+}
 </style>
 </helmet>
 <div style="font-family:'Alegreya Sans',sans-serif;color:#213A3C;background:#EBF4F3;width:100%;max-width:100%;font-size:18px;line-height:1.4">
@@ -124,9 +150,9 @@ html{scroll-behavior:smooth}
     </nav>
 
     <!-- Lado Derecho: Acciones rápidas + Idiomas + Selectores -->
-    <div style="display:flex;align-items:center;gap:8px;flex:none">
+    <div class="nav-controls" style="display:flex;align-items:center;gap:8px;flex:none">
 
-      <button type="button" data-open-reserva-modal data-paquete-min="profesional" style="display:inline-flex;align-items:center;gap:4px;background:#9FD3C7;color:#183234;border:1px solid #213A3C;padding:6px 10px;border-radius:4px;font-family:'Alegreya Sans SC',sans-serif;font-weight:900;font-size:12px;letter-spacing:.06em;cursor:pointer">
+      <button type="button" class="btn-reserva-header" data-open-reserva-modal data-paquete-min="profesional" style="display:inline-flex;align-items:center;gap:4px;background:#9FD3C7;color:#183234;border:1px solid #213A3C;padding:6px 10px;border-radius:4px;font-family:'Alegreya Sans SC',sans-serif;font-weight:900;font-size:12px;letter-spacing:.06em;cursor:pointer">
         <span data-i18n="reservaBtn">🛎️ Reservar</span>
       </button>
 
