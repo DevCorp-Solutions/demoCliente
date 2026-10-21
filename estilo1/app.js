@@ -736,14 +736,14 @@ class GastroApp {
       if (catPill) {
         e.preventDefault();
         const cat = catPill.getAttribute('data-category-name') || catPill.getAttribute('data-cat') || 'all';
-        store.setCategory(cat);
+        this.selectCategoryAndScroll(cat);
         return;
       }
 
       const catBtn = e.target.closest('button[data-category]');
       if (catBtn) {
         e.preventDefault();
-        store.setCategory(catBtn.getAttribute('data-category'));
+        this.selectCategoryAndScroll(catBtn.getAttribute('data-category'));
         return;
       }
 
@@ -1067,6 +1067,33 @@ class GastroApp {
     // 6. Scroll vertical suave hacia el principio de la seccion de la carta
     const performScroll = () => {
       resetPillsScroll();
+      this.scrollToCarta();
+    };
+
+    if (typeof requestAnimationFrame !== 'undefined') {
+      requestAnimationFrame(() => {
+        requestAnimationFrame(performScroll);
+      });
+    } else {
+      setTimeout(performScroll, 50);
+    }
+  }
+
+  selectCategoryAndScroll(cat) {
+    // 1. Desactivar preservacion de scroll en el siguiente render para que no intente restaurar la posicion baja
+    this.skipPreserveScrollOnce = true;
+
+    // 2. Establecer categoria en el store (dispara render() con la categoria filtrada)
+    store.setCategory(cat);
+
+    // 3. Si se pulsa "Todos", reiniciar scroll horizontal del carrusel de categorias
+    if (cat === 'all') {
+      const catPills = document.getElementById('category-pills');
+      if (catPills) catPills.scrollTo({ left: 0, behavior: 'smooth' });
+    }
+
+    // 4. Scroll suave inmediato al principio de la carta
+    const performScroll = () => {
       this.scrollToCarta();
     };
 
@@ -2076,7 +2103,7 @@ class GastroApp {
 
     // Selector HTML estándar adaptado a la estética de cada estilo
     const selectorHtml = `
-      <select id="style-select" class="max-w-[10rem] 2xl:max-w-none text-xs font-semibold rounded-xl py-2 px-3 focus:outline-none focus:ring-2 transition-all cursor-pointer shadow-sm ${
+      <select id="style-select" aria-label="Cambiar de estilo" class="w-[6.6rem] sm:w-auto sm:max-w-[10rem] 2xl:max-w-none text-[11px] sm:text-xs font-semibold rounded-xl py-1.5 sm:py-2 px-1.5 sm:px-3 focus:outline-none focus:ring-2 transition-all cursor-pointer shadow-sm ${
         preset.id === 'estilo1' ? 'bg-white text-stone-900 border-2 border-[#8B1E1E]/40 focus:ring-[#8B1E1E]' :
         preset.id === 'estilo2' ? 'bg-slate-900 text-sky-300 border border-slate-700 focus:ring-sky-500' :
         preset.id === 'estilo3' ? 'bg-white text-[#3d3228] border-2 border-[#8c7b6c] focus:ring-[#8c7b6c] font-serif' :
@@ -2091,7 +2118,7 @@ class GastroApp {
         <option value="estilo7">Estilo 7: Órbita</option>
         <option value="estilo8">Estilo 8: Tercio</option>
       </select>
-      <select data-paquete-select aria-label="Cambiar de paquete" class="max-w-[7.5rem] sm:max-w-none text-xs font-semibold rounded-xl py-2 px-3 focus:outline-none focus:ring-2 transition-all cursor-pointer shadow-sm bg-white text-stone-900 border-2 border-[#8B1E1E]/40 focus:ring-[#8B1E1E]">
+      <select data-paquete-select aria-label="Cambiar de paquete" class="w-[6.4rem] sm:w-auto sm:max-w-[9rem] text-[11px] sm:text-xs font-semibold rounded-xl py-1.5 sm:py-2 px-1.5 sm:px-3 focus:outline-none focus:ring-2 transition-all cursor-pointer shadow-sm bg-white text-stone-900 border-2 border-[#8B1E1E]/40 focus:ring-[#8B1E1E]">
         ${PKG ? PKG.optionsHtml() : ''}
       </select>
     `;
@@ -2103,19 +2130,19 @@ class GastroApp {
 
       return `
         <header id="main-header" class="fixed top-0 w-full z-50 transition-all duration-300 ${isAtTop ? 'is-transparent-dark' : 'is-light-scrolled'}">
-          <div class="h-20 max-w-[1360px] mx-auto px-6 lg:px-10 flex items-center justify-between gap-4">
+          <div class="h-20 max-w-[1360px] mx-auto px-2 sm:px-6 lg:px-10 flex items-center justify-between gap-1.5 sm:gap-4">
             
             <!-- Identidad: Logo DevCorp Oficial + Separador + Logotipo Vukata -->
-            <div class="flex items-center gap-3 sm:gap-4 flex-shrink-0">
+            <div class="flex items-center gap-1.5 sm:gap-4 flex-shrink-0">
               <a href="https://devcorpsolutions.com" target="_blank" class="flex items-center group flex-shrink-0" title="DevCorp Solutions">
-                <img src="../assets/images/logo.png" alt="DevCorp Solutions" class="h-10 sm:h-12 md:h-14 w-auto object-contain drop-shadow transition-transform group-hover:scale-105"/>
+                <img src="../assets/images/logo.png" alt="DevCorp Solutions" class="h-7 sm:h-10 md:h-14 w-auto object-contain drop-shadow transition-transform group-hover:scale-105"/>
               </a>
               <div class="h-8 w-[1px] header-divider hidden sm:block"></div>
-              <button data-view="menu" data-nav="logo" class="flex items-center gap-2.5 group text-decoration-none cursor-pointer bg-transparent border-0 text-left p-0" title="Ir al inicio">
-                <span class="material-symbols-outlined text-primary text-[28px] transition-transform duration-300 group-hover:scale-110">local_fire_department</span>
+              <button data-view="menu" data-nav="logo" class="flex items-center gap-1.5 sm:gap-2.5 group text-decoration-none cursor-pointer bg-transparent border-0 text-left p-0" title="Ir al inicio">
+                <span class="material-symbols-outlined text-primary text-[22px] sm:text-[28px] transition-transform duration-300 group-hover:scale-110">local_fire_department</span>
                 <div class="flex flex-col">
-                  <span class="font-headline-sm text-headline-sm tracking-tight leading-none font-semibold header-brand-title">VU<span class="text-[#E52D27]">KA</span>TA</span>
-                  <span class="font-kicker-eyebrow text-kicker-eyebrow tracking-[0.2em] uppercase mt-1 header-brand-sub">ASADOR · PARRILLA</span>
+                  <span class="font-headline-sm text-sm sm:text-headline-sm tracking-tight leading-none font-semibold header-brand-title">VU<span class="text-[#E52D27]">KA</span>TA</span>
+                  <span class="font-kicker-eyebrow text-kicker-eyebrow tracking-[0.2em] uppercase mt-1 header-brand-sub hidden sm:block">ASADOR · PARRILLA</span>
                 </div>
               </button>
             </div>
@@ -2140,23 +2167,23 @@ class GastroApp {
               </button>
             </nav>
 
-            <!-- Acciones: Selector de Estilos, Botón Reservar y Carrito -->
-            <div class="flex items-center gap-2 sm:gap-3 flex-shrink-0">
+            <!-- Acciones: Selector de Estilos, Selector de Paquetes, Botón Reservar y Carrito -->
+            <div class="flex items-center gap-1 sm:gap-2.5 flex-shrink-0">
               ${selectorHtml}
 
               ${pkgHas('premium') ? `
-              <button data-view="reservations" class="inline-flex items-center gap-2 bg-primary-container hover:bg-primary text-on-primary font-label-action text-label-action px-5 py-2.5 rounded-full transition-all duration-300 shadow-[0_4px_16px_rgba(156,56,44,0.2)] cursor-pointer">
+              <button data-view="reservations" class="hidden sm:inline-flex items-center gap-2 bg-primary-container hover:bg-primary text-on-primary font-label-action text-label-action px-5 py-2.5 rounded-full transition-all duration-300 shadow-[0_4px_16px_rgba(156,56,44,0.2)] cursor-pointer">
                 <span class="material-symbols-outlined text-[18px]">restaurant</span>
                 <span class="hidden 2xl:inline">Reservar mesa</span>
               </button>` : `
-              <a href="#reservas-direct" data-paquete-min="profesional" class="inline-flex items-center gap-2 bg-primary-container hover:bg-primary text-on-primary font-label-action text-label-action px-5 py-2.5 rounded-full transition-all duration-300 shadow-[0_4px_16px_rgba(156,56,44,0.2)] cursor-pointer">
+              <a href="#reservas-direct" data-paquete-min="profesional" class="hidden sm:inline-flex items-center gap-2 bg-primary-container hover:bg-primary text-on-primary font-label-action text-label-action px-5 py-2.5 rounded-full transition-all duration-300 shadow-[0_4px_16px_rgba(156,56,44,0.2)] cursor-pointer">
                 <span class="material-symbols-outlined text-[18px]">restaurant</span>
                 <span class="hidden 2xl:inline">Reservar mesa</span>
               </a>`}
 
-              <button id="open-cart-btn" data-paquete-min="premium" class="relative inline-flex items-center gap-2 px-3.5 py-2 rounded-full font-label-action text-label-action transition-colors shadow-sm cursor-pointer border" title="Ver comanda">
+              <button id="open-cart-btn" data-paquete-min="premium" class="relative inline-flex items-center gap-1 p-1.5 sm:px-3 sm:py-2 rounded-full font-label-action text-label-action transition-colors shadow-sm cursor-pointer border flex-shrink-0" title="Ver comanda">
                 <span class="material-symbols-outlined text-[18px]">shopping_bag</span>
-                <span class="font-bold font-mono text-xs sm:text-sm">${formatCurrency(store.getCartTotal())}</span>
+                <span class="hidden md:inline font-bold font-mono text-xs sm:text-sm">${formatCurrency(store.getCartTotal())}</span>
                 ${cartCount > 0 ? `<span class="bg-primary text-on-primary text-[10px] font-black px-1.5 py-0.5 rounded-full">${cartCount}</span>` : ''}
               </button>
             </div>
