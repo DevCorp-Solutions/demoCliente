@@ -127,7 +127,7 @@
 
     const stepsEl = $('[data-render="booking-steps"]');
     if (stepsEl) {
-      stepsEl.innerHTML = (P.bookingSteps || []).map(s => `
+      stepsEl.innerHTML = (hasPkg('premium') ? BOOKING_FORM_STEPS : (P.bookingSteps || [])).map(s => `
         <li class="step reveal"><h3>${esc(s.title)}</h3><p>${esc(s.desc)}</p></li>`).join('');
     }
 
@@ -847,6 +847,151 @@
   }
 
   // =========================================================================
+  // 7c. FORMULARIO DE RESERVA (Paquete Premium)
+  //     Nombre, teléfono, comensales, fecha, hora y comentarios. Las horas
+  //     disponibles salen del horario de data.js (cada 30 min, hasta 1 h antes
+  //     del cierre) y la solicitud se envía ya redactada por WhatsApp o email,
+  //     en el idioma activo. En Profesional el botón sigue siendo el enlace externo.
+  // =========================================================================
+  const BOOKING_FORM_STEPS = [
+    { title: 'Rellena el formulario', desc: 'Nombre, teléfono, día, hora y número de comensales.' },
+    { title: 'Envíalo por WhatsApp o email', desc: 'Se abre con tu solicitud ya escrita: solo tienes que enviarla.' },
+    { title: 'Te confirmamos la mesa', desc: 'El equipo del bar te responde para confirmar la reserva.' }
+  ];
+  const DAY_INDEX = { domingo: 0, lunes: 1, martes: 2, miercoles: 3, jueves: 4, viernes: 5, sabado: 6 };
+  const plain = (s) => String(s).normalize('NFD').replace(/[̀-ͯ]/g, '').toLowerCase();
+  const toMinutes = (t) => { const [h, m] = t.split(':').map(Number); return h * 60 + (m || 0); };
+  const fmtTime = (min) => `${String(Math.floor(min / 60) % 24).padStart(2, '0')}:${String(min % 60).padStart(2, '0')}`;
+  const isoDate = (d) => `${d.getFullYear()}-${String(d.getMonth() + 1).padStart(2, '0')}-${String(d.getDate()).padStart(2, '0')}`;
+
+  // Horario de data.js -> { díaSemana: [apertura, cierre] } en minutos ("Lunes a jueves" · "18:00 – 0:30")
+  function openingByDay() {
+    const out = {};
+    (P.hours || []).forEach(h => {
+      const text = plain(h.days);
+      const days = text.match(/lunes|martes|miercoles|jueves|viernes|sabado|domingo/g) || [];
+      const times = String(h.time).match(/\d{1,2}:\d{2}/g) || [];
+      if (!days.length || times.length < 2) return;
+      let [open, close] = times.map(toMinutes);
+      if (close <= open) close += 24 * 60; // cierra pasada la medianoche
+      let list = days.map(d => DAY_INDEX[d]);
+      if (days.length === 2 && /\sa\s/.test(text)) {
+        list = [];
+        for (let d = DAY_INDEX[days[0]]; ; d = (d + 1) % 7) { list.push(d); if (d === DAY_INDEX[days[1]]) break; }
+      }
+      list.forEach(d => { out[d] = [open, close]; });
+    });
+    return out;
+  }
+
+  // Horas que se pueden reservar ese día (null = ese día no abre)
+  function bookingSlots(dateStr) {
+    const range = openingByDay()[new Date(`${dateStr}T12:00:00`).getDay()];
+    if (!range) return null;
+    const now = new Date();
+    const earliest = dateStr === isoDate(now) ? now.getHours() * 60 + now.getMinutes() + 30 : 0;
+    const slots = [];
+    for (let t = Math.ceil(range[0] / 30) * 30; t <= range[1] - 60; t += 30) if (t >= earliest) slots.push(t);
+    return slots;
+  }
+
+  function initBooking() {
+    const dialog = $('#booking-dialog');
+    const form = $('#booking-form');
+    const opener = $('[data-booking-open]');
+    if (!hasPkg('premium') || !dialog || !form || !opener || typeof dialog.showModal !== 'function') return;
+    const field = (name) => form.elements.namedItem(name);
+    const status = $('.booking-form__status', form);
+    const today = isoDate(new Date());
+    const limit = new Date();
+    limit.setMonth(limit.getMonth() + 3);
+    field('fecha').min = today;
+    field('fecha').max = isoDate(limit);
+
+    const fillTimes = () => {
+      const select = field('hora');
+      const day = field('fecha').value;
+      const previous = select.value;
+      const slots = day ? bookingSlots(day) : undefined;
+      const placeholder = !day ? 'Elige primero el día' : slots === null ? 'Ese día no abrimos' : !slots.length ? 'No quedan horas este día' : 'Elige una hora';
+      select.innerHTML = `<option value="">${placeholder}</option>` + (slots || []).map(t => `<option value="${fmtTime(t)}">${fmtTime(t)}</option>`).join('');
+      select.disabled = !slots || !slots.length;
+      if (previous && (slots || []).some(t => fmtTime(t) === previous)) select.value = previous;
+    };
+
+    const setError = (name, message) => {
+      const input = field(name);
+      const box = input.closest('.field');
+      box.classList.toggle('is-invalid', !!message);
+      input.setAttribute('aria-invalid', message ? 'true' : 'false');
+      $('.field__error', box).textContent = message || '';
+    };
+    const validate = () => {
+      const guests = Number(field('comensales').value);
+      const day = field('fecha').value;
+      const errors = {
+        nombre: field('nombre').value.trim().length >= 2 ? '' : 'Escribe tu nombre.',
+        telefono: field('telefono').value.replace(/\D/g, '').length >= 9 ? '' : 'Escribe un teléfono válido.',
+        comensales: guests >= 1 && guests <= 20 ? '' : 'Indica entre 1 y 20 comensales.',
+        fecha: !day || day < today ? 'Elige el día.' : bookingSlots(day) === null ? 'Ese día no abrimos.' : '',
+        hora: field('hora').value ? '' : 'Elige la hora.'
+      };
+      Object.entries(errors).forEach(([name, message]) => setError(name, message));
+      const first = Object.keys(errors).find(name => errors[name]);
+      if (first) field(first).focus();
+      return !first;
+    };
+
+    opener.addEventListener('click', (e) => {
+      e.preventDefault();
+      status.hidden = true;
+      if (!field('fecha').value || field('fecha').value < today) field('fecha').value = today;
+      fillTimes();
+      dialog.showModal();
+      document.body.classList.add('dialog-open');
+      field('nombre').focus();
+    });
+    dialog.addEventListener('close', () => document.body.classList.remove('dialog-open'));
+    dialog.addEventListener('click', (e) => { if (e.target === dialog) dialog.close(); }); // clic en el fondo
+    $$('[data-booking-close]', dialog).forEach(btn => btn.addEventListener('click', () => dialog.close()));
+
+    form.addEventListener('click', (e) => {
+      const step = e.target.closest('[data-guests-step]');
+      if (!step) return;
+      const input = field('comensales');
+      input.value = Math.min(20, Math.max(1, (Number(input.value) || 0) + Number(step.dataset.guestsStep)));
+      setError('comensales', '');
+    });
+    field('fecha').addEventListener('change', () => { fillTimes(); setError('fecha', ''); });
+    ['nombre', 'telefono', 'comensales', 'hora'].forEach(name => field(name).addEventListener('input', () => setError(name, '')));
+    // Al cambiar de idioma, el desplegable de horas vuelve a traducirse
+    document.addEventListener('langchange', () => { if (dialog.open) fillTimes(); });
+
+    form.addEventListener('submit', (e) => {
+      e.preventDefault();
+      if (!validate()) return;
+      const date = new Date(`${field('fecha').value}T12:00:00`);
+      const booking = {
+        name: field('nombre').value.trim(),
+        phone: field('telefono').value.trim(),
+        day: new Intl.DateTimeFormat(LOCALES[i18n.lang] || 'es-ES', { weekday: 'long', day: 'numeric', month: 'long' }).format(date),
+        time: field('hora').value,
+        guests: Number(field('comensales').value),
+        notes: field('comentarios').value.trim()
+      };
+      const text = msgs().booking(P.name, booking);
+      if (e.submitter && e.submitter.dataset.channel === 'email') {
+        window.location.href = `mailto:${P.email}?subject=${encodeURIComponent(msgs().bookingSubject(booking))}&body=${encodeURIComponent(text)}`;
+        status.textContent = 'Te hemos abierto tu correo con la solicitud. Envíalo y te confirmamos la mesa.';
+      } else {
+        window.open(whatsappUrl(text), '_blank', 'noopener');
+        status.textContent = 'Te hemos abierto WhatsApp con tu solicitud. Envía el mensaje y te confirmamos la mesa.';
+      }
+      status.hidden = false;
+    });
+  }
+
+  // =========================================================================
   // 8. VARIOS: selector de estilos (demo), alias de URLs antiguas
   // =========================================================================
   function initMisc() {
@@ -887,19 +1032,26 @@
     es: {
       hello: (n) => `Hola, os escribo desde la web de ${n}.`,
       review: (n, r, x) => `Hola, estuve en ${n} y quería comentaros mi experiencia (valoración ${r}/5).${x}`,
-      subject: (n, r) => `Mi experiencia en ${n} (${r}/5)`
+      subject: (n, r) => `Mi experiencia en ${n} (${r}/5)`,
+      booking: (n, b) => `Hola, me gustaría reservar mesa en ${n}:\n\n• Nombre: ${b.name}\n• Teléfono: ${b.phone}\n• Día: ${b.day}\n• Hora: ${b.time}\n• Comensales: ${b.guests}${b.notes ? `\n• Comentarios: ${b.notes}` : ''}\n\n¿Me confirmáis la reserva? ¡Gracias!`,
+      bookingSubject: (b) => `Reserva de mesa · ${b.day}, ${b.time} · ${b.guests} ${b.guests === 1 ? 'persona' : 'personas'}`
     },
     en: {
       hello: (n) => `Hi, I'm writing from the ${n} website.`,
       review: (n, r, x) => `Hi, I visited ${n} and wanted to share my experience (rating ${r}/5).${x}`,
-      subject: (n, r) => `My experience at ${n} (${r}/5)`
+      subject: (n, r) => `My experience at ${n} (${r}/5)`,
+      booking: (n, b) => `Hi, I'd like to book a table at ${n}:\n\n• Name: ${b.name}\n• Phone: ${b.phone}\n• Date: ${b.day}\n• Time: ${b.time}\n• Guests: ${b.guests}${b.notes ? `\n• Comments: ${b.notes}` : ''}\n\nCould you confirm the booking? Thank you!`,
+      bookingSubject: (b) => `Table booking · ${b.day}, ${b.time} · ${b.guests} ${b.guests === 1 ? 'person' : 'people'}`
     },
     ro: {
       hello: (n) => `Bună ziua, vă scriu de pe site-ul ${n}.`,
       review: (n, r, x) => `Bună ziua, am fost la ${n} și aș vrea să vă povestesc experiența mea (nota ${r}/5).${x}`,
-      subject: (n, r) => `Experiența mea la ${n} (${r}/5)`
+      subject: (n, r) => `Experiența mea la ${n} (${r}/5)`,
+      booking: (n, b) => `Bună ziua, aș dori să rezerv o masă la ${n}:\n\n• Nume: ${b.name}\n• Telefon: ${b.phone}\n• Data: ${b.day}\n• Ora: ${b.time}\n• Persoane: ${b.guests}${b.notes ? `\n• Observații: ${b.notes}` : ''}\n\nÎmi puteți confirma rezervarea? Mulțumesc!`,
+      bookingSubject: (b) => `Rezervare masă · ${b.day}, ${b.time} · ${b.guests} ${b.guests === 1 ? 'persoană' : 'persoane'}`
     }
   };
+  const LOCALES = { es: 'es-ES', en: 'en-GB', ro: 'ro-RO' };
   const msgs = () => MSGS[i18n.lang] || MSGS.es;
   const ES_META = { title: document.title, description: ($('meta[name="description"]') || {}).content };
 
@@ -1074,6 +1226,7 @@
     initMobileSelects();
     initReveal();
     initRating();
+    initBooking();
     lazyMap();
     initMisc();
     initI18n();
