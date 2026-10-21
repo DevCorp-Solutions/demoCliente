@@ -1,0 +1,54 @@
+.ticker{position:relative;display:block;padding:0;overflow:hidden}
+.ticker-window{overflow:hidden}
+.ticker-track{display:flex;width:max-content;animation:gancho-marquee 26s linear infinite}
+.ticker .ticker-group{display:flex;align-items:center;justify-content:space-around;gap:45px;min-width:100vw;flex-shrink:0;padding:22px 40px;white-space:nowrap}
+.ticker .ticker-group span,.ticker .ticker-group b{display:block}
+.ticker .ticker-group b{font-size:24px}
+.ticker-pause{position:absolute;right:8px;top:50%;transform:translateY(-50%);width:32px;height:32px;border:1px solid var(--cream);border-radius:50%;background:var(--red);color:var(--cream);font-size:14px}
+.ticker.is-paused .ticker-track{animation-play-state:paused}
+@keyframes gancho-marquee{to{transform:translateX(-50%)}}
+/* A boxing scorecard, independent of the other styles' ratings sections. */
+.reviews-rating{background:var(--red);color:var(--ink);border-block:2px solid var(--ink);overflow:hidden}
+.scorecard-wrap{position:relative}
+.reviews-rating .section-heading{display:block;text-align:center;margin-bottom:45px}
+.reviews-rating .section-heading .eyebrow{margin-bottom:20px}
+.reviews-rating h2{font-size:clamp(48px,6.5vw,90px);line-height:.95;letter-spacing:-4px;text-transform:uppercase}
+.reviews-rating h2 span{color:var(--cream)}
+.reviews-rating .section-heading>p{color:var(--ink);max-width:none;margin:23px auto 0;font-size:14px}
+.rating-layout{max-width:940px;margin:0 auto;background:var(--cream);border:2px solid var(--ink);box-shadow:10px 10px 0 var(--ink);transform:rotate(-1deg)}
+.scorecard-top{display:flex;justify-content:space-between;gap:20px;background:var(--ink);color:var(--cream);padding:17px 28px;font-size:10px;letter-spacing:1.4px;font-weight:800}
+.rating-summary{display:grid;grid-template-columns:1fr 2fr;align-items:center;gap:12px 30px;padding:30px;border-bottom:2px dashed var(--ink)}
+.rating-summary label{grid-column:1;font-size:12px;font-weight:800;text-transform:uppercase;align-self:end}
+.rating-summary select{grid-column:1;width:100%;padding:12px;background:transparent;color:var(--ink);border:1px solid var(--ink);border-radius:0;align-self:start;font-size:12px}
+#rating-total{grid-column:2;grid-row:1/3;display:grid;grid-template-columns:auto 1fr;gap:6px 25px;border-left:2px solid var(--ink);padding-left:30px;align-items:center}
+.rating-location{font-size:11px;font-weight:800;text-transform:uppercase;grid-column:2;align-self:end}
+.rating-number{grid-column:1;grid-row:1/4;font-family:'Archivo Black',sans-serif;font-size:78px;letter-spacing:-5px;line-height:1;color:var(--ink)}
+.rating-number small{display:block;font:700 12px 'DM Sans',sans-serif;letter-spacing:1px;text-align:center;margin-top:10px}
+.rating-count{grid-column:2;font-size:12px}
+.rating-source{grid-column:2;font-size:9px;line-height:1.7;color:#55584c}
+.rating-source a{text-underline-offset:3px}
+.rating-action{text-align:center;padding:35px 30px 30px;min-width:0}
+.rating-action h3{font-size:30px;letter-spacing:-1px;margin-bottom:15px}
+#stars-label{font-size:12px}
+.review-stars{display:flex;justify-content:center;gap:12px;margin:20px 0 15px}
+.review-stars button{display:grid;place-items:center;background:transparent;border:2px solid var(--ink);padding:12px;width:66px;height:66px;color:var(--ink);border-radius:0;box-shadow:3px 3px 0 var(--ink);transition:background .15s,transform .15s}
+.review-stars svg{width:100%;height:100%;fill:transparent;stroke:currentColor;stroke-width:1.5}
+.review-stars .is-filled{background:var(--lime)}
+.review-stars .is-filled svg{fill:currentColor}
+.review-stars button:hover{transform:translateY(-3px);background:var(--lime)}
+#review-feedback{font-size:12px;min-height:38px;line-height:1.6;margin:0 auto 15px;max-width:420px}
+.rating-action .button{background:var(--ink);color:var(--cream);border-radius:0;box-shadow:4px 4px 0 var(--red)}
+.review-help{max-width:440px;font-size:10px;line-height:1.8;color:#55584c;margin:20px auto 0}
+.review-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:25px}
+.review-card{position:relative;display:flex;flex-direction:column;padding:28px;border:2px solid var(--ink);border-radius:12px;box-shadow:6px 6px 0 var(--ink);background:#fffdf5;min-width:0}
+.review-card:nth-child(2){background:var(--lime)}
+.review-quote{font-family:Georgia,serif;font-size:85px;line-height:1;color:var(--red);height:65px}
+.review-card blockquote{font-family:'Archivo Black',sans-serif;font-size:24px;line-height:1.35;letter-spacing:-.6px;margin:5px 0 32px;flex:1}
+.review-card figcaption{display:flex;align-items:center;gap:12px;padding-top:20px;border-top:1px solid var(--line)}
+.review-avatar{display:grid;place-items:center;flex-shrink:0;width:36px;height:36px;border-radius:50%;background:var(--ink);color:var(--cream);font-weight:700}
+.review-card figcaption strong{display:block;font-size:12px;line-height:1.5}
+.review-card figcaption div>span{display:block;font-size:10px;margin-top:3px}
+.review-card>a{font-size:11px;text-underline-offset:4px;margin-top:22px;align-self:flex-start}
+.review-index{position:absolute;right:25px;top:28px;font-size:12px;font-weight:800}
+@media(max-width:760px){.ticker .ticker-group{gap:30px;padding:18px 30px}.reviews-rating h2{font-size:49px;letter-spacing:-2px}.rating-layout{transform:none;box-shadow:5px 5px 0 var(--ink)}.scorecard-top{padding:14px;gap:15px;font-size:8px;letter-spacing:.5px}.scorecard-top span{max-width:50%}.rating-summary{grid-template-columns:1fr;padding:22px;gap:10px}.rating-summary label,.rating-summary select{grid-column:1}#rating-total{grid-column:1;grid-row:auto;border-left:0;border-top:1px solid var(--ink);padding:22px 0 0;margin-top:12px;gap:6px 16px}.rating-number{font-size:65px}.rating-source{font-size:9px}.rating-action{padding:27px 15px}.rating-action h3{font-size:25px}.review-stars{gap:8px}.review-stars button{width:43px;height:48px;padding:8px;box-shadow:2px 2px 0 var(--ink)}.rating-action .button{font-size:11px;padding:14px;max-width:100%}.review-grid{grid-template-columns:1fr;gap:25px}.review-card blockquote{font-size:25px}}
+@media(prefers-reduced-motion:reduce){.ticker-track{animation:none}.ticker-pause{display:none}.ticker .ticker-group{min-width:0;white-space:normal;flex-wrap:wrap;gap:15px;justify-content:center;width:100vw}.ticker .ticker-group[aria-hidden=true]{display:none}.review-stars svg{transition:none}}
