@@ -20,7 +20,7 @@
   const dialog = $('#dialog');
   $('#style-select').addEventListener('change', event => {
     const style = event.target.value;
-    if (/^estilo[1-8]$/.test(style) && style !== 'estilo3') window.location.href = `../${style}/index.html`;
+    if (/^estilo[1-8]$/.test(style) && style !== 'estilo3') window.location.href = new URL(`../${style}/index.html`, pkg.base).href;
   });
   const allergens = [
     ['gluten','Gluten',/gluten/,'<path d="M12 22V3m0 5C5 8 5 3 5 3s7 0 7 5Zm0 6C5 14 5 9 5 9s7 0 7 5Zm0 5c7 0 7-5 7-5s-7 0-7 5Zm0-8c7 0 7-5 7-5s-7 0-7 5Z"/>'],
@@ -47,13 +47,19 @@
   function photo(d, large = false) {
     const image = window.MALA_PATA_PHOTOS?.[d.id];
     if (!image) return `<span class="photo-pending" role="img" aria-label="Fotografía pendiente de ${escape(d.name)}"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.2" aria-hidden="true"><path d="M3 6h4l2-3h6l2 3h4v15H3Z"/><circle cx="12" cy="13" r="4"/></svg><span>Foto del plato pendiente</span></span>`;
-    return `<span class="photo-crop"><img class="food-photo" src="${escape(image.src)}" alt="${escape('Fotografía real de referencia: '+d.name)}" loading="${large?'eager':'lazy'}" width="800" height="800"></span><span class="photo-label">Foto de referencia</span>`;
+    return `<span class="photo-crop"><img class="food-photo" src="${escape(new URL(image.src,pkg.base).href)}" alt="${escape('Fotografía real de referencia: '+d.name)}" loading="${large?'eager':'lazy'}" width="800" height="800"></span><span class="photo-label">Foto de referencia</span>`;
   }
   function renderCategories() {
     $('#categories').innerHTML = ['Toda la carta',...sections].map(name => `<button class="category" aria-pressed="${category===name}" data-category="${escape(name)}">${escape(name)}</button>`).join('');
   }
   function renderMenu() {
-    const dishes = data.menu.filter(d => category==='Toda la carta'||sectionOf(d)===category);
+    const excluded = [...document.querySelectorAll('[data-exclude-allergen]:checked')].map(input=>allergens.find(a=>a[0]===input.value));
+    const dishes = data.menu.filter(d => {
+      if(category!=='Toda la carta'&&sectionOf(d)!==category)return false;
+      if(!excluded.length)return true;
+      const values=d.variants.length?d.variants.map(v=>v.allergens):[d.allergens];
+      return values.every(raw=>raw&&normalize(raw).trim()&&!excluded.some(a=>a[2].test(normalize(raw))));
+    });
     $('#result-count').textContent = `${dishes.length} propuestas · ${category}`;
     if (!dishes.length) {$('#menu-results').innerHTML='<div class="empty"><h3>No hay platos en esta sección.</h3><button class="button" data-reset>Ver toda la carta</button></div>';return;}
     $('#menu-results').innerHTML = [...new Set(dishes.map(sectionOf))].map(group => {
@@ -90,5 +96,12 @@
       $('#rating-status').textContent = `Has elegido ${rating} ${rating===1?'estrella':'estrellas'}. Confirma tu puntuación en Google.`;
     });
   });
+  if(!essential){
+    const filters=document.createElement('details');filters.className='allergen-filters';
+    filters.innerHTML=`<summary>Filtrar por alérgenos</summary><p>Ocultar platos que indiquen estos alérgenos. Al filtrar también se ocultan las fichas con información incompleta. Consulta siempre ingredientes y trazas al personal.</p><div class="filter-options">${allergens.map(a=>`<label><input type="checkbox" data-exclude-allergen value="${a[0]}">${icon(a)} ${a[1]}</label>`).join('')}</div><button type="button" class="text-link" id="clear-allergens">Quitar filtros</button>`;
+    $('.menu-tools').after(filters);
+    filters.addEventListener('change',renderMenu);
+    $('#clear-allergens').addEventListener('click',()=>{filters.querySelectorAll('input').forEach(i=>i.checked=false);renderMenu()});
+  }
   renderCategories();renderMenu();
 })();

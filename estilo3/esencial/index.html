@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+
+<html data-paquete="esencial" lang="es">
+<head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1" name="viewport"/>
+<title>Mala Pata Aluche · Buena mesa, mejor compañía</title>
+
+<meta content="#283d30" name="theme-color"/>
+<link href="../images/logo.png" rel="icon"/>
+<link href="https://fonts.googleapis.com" rel="preconnect"/>
+<link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
+<link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&amp;family=Manrope:wght@400;500;600;700;800&amp;display=swap" rel="stylesheet"/>
+<link href="../style.css" rel="stylesheet"/>
+<link href="../menu.css" rel="stylesheet"/>
+<link href="../paquete.css" rel="stylesheet"/>
+<script src="../paquete.js"></script>
+
+<script defer="" src="./data.js"></script>
+
+<script defer="" src="../app.js"></script>
+</head>
+<body>
+<a class="skip" href="#carta">Saltar a la carta</a>
+<div class="announcement">UN BUEN PLAN EN ALUCHE <span>✳</span> CALLE QUERO, 61 · MADRID</div>
+<header class="header wrap">
+<a aria-label="Mala Pata Aluche, inicio" class="brand brand-logo" href="#inicio"><img alt="Mala Pata Aluche" height="1875" src="../images/logo.png" width="1875"/></a>
+<nav aria-label="Navegación principal"><a href="#carta">La carta</a><a href="#visitanos">Ven a vernos</a></nav>
+<select aria-label="Cambiar de estilo" id="style-select"><option value="estilo1">Estilo 1: Parrilla Vukata</option><option value="estilo2">Estilo 2: Punto de Encuentro</option><option selected="" value="estilo3">Estilo 3: Mala Pata Aluche</option><option value="estilo4">Estilo 4: Cervecería Veinti7</option><option value="estilo5">Estilo 5: Umbral</option><option value="estilo6">Estilo 6: Miga</option><option value="estilo7">Estilo 7: Órbita</option><option value="estilo8">Estilo 8: Tercio</option></select>
+<select aria-label="Cambiar de paquete" data-paquete-select="" id="paquete-select"></select>
+
+</header>
+<main id="inicio">
+<section aria-labelledby="hero-title" class="hero-panel"><div class="hero wrap">
+<div class="hero-copy"><p class="eyebrow"><span class="dot"></span> TU PRÓXIMA MESA, EN ALUCHE</p>
+<h1 id="hero-title">Mala pata.<br/>Buena <span class="serif">mesa.</span></h1>
+<p class="intro">De los que vienen a picar algo<br class="desktop"/> y se quedan a la sobremesa.</p>
+
+<div class="hero-actions"><a class="button" href="#carta">Échale un ojo a la carta</a></div>
+
+</div>
+
+</div></section>
+
+
+
+<section aria-labelledby="menu-title" class="menu-section wrap" id="carta">
+<div class="section-heading"><div><p class="eyebrow">LO DIFÍCIL VA A SER ELEGIR</p><h2 id="menu-title">¿Qué te <span class="serif">apetece?</span></h2></div><p>Para picar, para compartir, para darte un homenaje.<br/>Tú eliges el plan. Nosotros ponemos la carta.</p></div>
+<div class="menu-tools"><div aria-label="Secciones de la carta" class="categories" id="categories" role="group"></div></div>
+<div class="menu-meta"><p id="result-count" role="status"></p><button class="button allergen-info-button" id="allergen-info" type="button"><svg aria-hidden="true" fill="none" stroke="currentColor" stroke-width="1.8" viewbox="0 0 24 24"><circle cx="12" cy="12" r="9"></circle><path d="M12 11v6" stroke-linecap="round"></path><circle cx="12" cy="7.5" fill="currentColor" r="1" stroke="none"></circle></svg>Información de alérgenos</button></div>
+<div id="menu-results"></div>
+</section>
+<section class="visit-section" id="visitanos"><div class="visit wrap">
+<div class="visit-info"><p class="eyebrow">NOS VEMOS EN EL BARRIO</p><h2>Tu mesa está<br/>en <span class="serif">Aluche.</span></h2><p>Calle Quero, 61<br/>28024 · Madrid</p><div class="opening-info"><h3>Horario y contacto</h3><p>Horario pendiente de confirmar con el local.</p><p>Teléfono: 91 942 36 96</p></div></div>
+<figure class="location-map"><iframe allowfullscreen="" height="460" loading="eager" referrerpolicy="no-referrer-when-downgrade" src="https://maps.google.com/maps?q=Mala%20Pata%20Calle%20Quero%2061%20Madrid&amp;z=17&amp;output=embed&amp;hl=es" title="Google Maps: Mala Pata, Calle Quero 61, Aluche, Madrid" width="640"></iframe><figcaption><span>MALA PATA · CALLE QUERO, 61</span></figcaption></figure>
+</div></section>
+
+</main>
+<footer><div class="wrap footer-inner"><a aria-label="Mala Pata Aluche, inicio" class="brand brand-logo" href="#inicio"><img alt="Mala Pata Aluche" height="1875" src="../images/logo.png" width="1875"/></a><p>Calle Quero, 61 · Aluche, Madrid</p><a href="#carta">Volver a la carta</a></div><div class="wrap credits"><span>Propuesta de diseño · Mala Pata Aluche</span><span>Diseño por DevCorp Solutions · Estilo 3</span></div></footer>
+<dialog aria-labelledby="dialog-title" id="dialog"><button aria-label="Cerrar ventana" class="dialog-close" type="button"><svg aria-hidden="true" fill="none" stroke="currentColor" stroke-linecap="round" stroke-width="2" viewbox="0 0 24 24"><path d="m6 6 12 12M18 6 6 18"></path></svg></button><div id="dialog-content"></div></dialog>
+<noscript><p class="wrap">Activa JavaScript para consultar la carta interactiva o <a href="https://cartaonlineqr.com/mala-pata-aluche-carta/">abre la carta original</a>.</p></noscript>
+</body>
+</html>
