@@ -119,16 +119,12 @@ html{scroll-behavior:smooth}
       <a href="#eventos" data-i18n="eventos" data-paquete-min="premium" style="text-decoration:none;padding:6px 0;color:#213A3C;flex:none">Eventos & Grupos</a>
       <a href="#novedades" data-i18n="novedades" data-paquete-min="premium" style="text-decoration:none;padding:6px 0;color:#213A3C;flex:none">Novedades</a>
       <a href="#opiniones" data-i18n="opiniones" data-paquete-min="profesional" style="text-decoration:none;padding:6px 0;color:#213A3C;flex:none">Opiniones</a>
-      <a href="#faq" data-i18n="faq" data-paquete-min="premium" style="text-decoration:none;padding:6px 0;color:#213A3C;flex:none">FAQ / IA</a>
       <a href="carta.html" data-i18n="carta" style="text-decoration:none;padding:6px 0;color:#3F6E72;font-weight:900;border-bottom:2px solid #3F6E72;flex:none">La carta</a>
       <a href="#llegar" data-i18n="llegar" style="text-decoration:none;padding:6px 0;color:#213A3C;flex:none">Cómo llegar</a>
     </nav>
 
     <!-- Lado Derecho: Acciones rápidas + Idiomas + Selectores -->
     <div style="display:flex;align-items:center;gap:8px;flex:none">
-      <button type="button" data-open-qr-modal style="display:inline-flex;align-items:center;gap:4px;background:#213A3C;color:#9FD3C7;border:1px solid #3F6E72;padding:6px 9px;border-radius:4px;font-family:'Alegreya Sans SC',sans-serif;font-weight:800;font-size:12px;letter-spacing:.06em;cursor:pointer">
-        <span data-i18n="qrBtn">📱 QR Carta</span>
-      </button>
 
       <button type="button" data-open-reserva-modal data-paquete-min="profesional" style="display:inline-flex;align-items:center;gap:4px;background:#9FD3C7;color:#183234;border:1px solid #213A3C;padding:6px 10px;border-radius:4px;font-family:'Alegreya Sans SC',sans-serif;font-weight:900;font-size:12px;letter-spacing:.06em;cursor:pointer">
         <span data-i18n="reservaBtn">🛎️ Reservar</span>
@@ -195,7 +191,6 @@ html{scroll-behavior:smooth}
         <!-- Premium: Formulario interactivo de reserva integrado -->
         <button type="button" data-open-reserva-modal data-paquete-min="premium" style="display:inline-flex;align-items:center;gap:8px;min-height:52px;padding:0 24px;background:#9FD3C7;color:#183234;border:2px solid #213A3C;font-family:'Grandstander',sans-serif;font-weight:900;font-size:20px;border-radius:3px;cursor:pointer">🛎️ Reservar Mesa Online</button>
 
-        <button type="button" data-open-qr-modal style="display:inline-flex;align-items:center;gap:6px;min-height:52px;padding:0 18px;background:#213A3C;color:#9FD3C7;border:2px solid #3F6E72;font-family:'Grandstander',sans-serif;font-weight:800;font-size:18px;border-radius:3px;cursor:pointer">📱 Código QR Carta</button>
         <a href="#opiniones" data-paquete-min="profesional" style="display:inline-flex;align-items:center;gap:6px;font-weight:800;font-size:18px;padding:12px 0;color:#213A3C;text-decoration:none;border-bottom:2px dotted #3F6E72;cursor:pointer">⭐ 4,2 en Google · +900 opiniones</a>
       </div>
     </div>
@@ -949,71 +944,6 @@ html{scroll-behavior:smooth}
   </div>
 </section>
 
-<!-- ======== PREGUNTAS FRECUENTES Y GEO IA (PREMIUM) ======== -->
-<section id="faq" data-screen-label="Preguntas Frecuentes & GEO IA" data-paquete-min="premium" style="background:#EBF4F3;color:#213A3C;padding:clamp(60px,8vw,110px) clamp(18px,4vw,56px);border-top:2px solid #213A3C">
-  <div style="max-width:920px;margin:0 auto">
-    <div style="margin-bottom:34px;text-align:center">
-      <div style="display:inline-flex;align-items:center;gap:6px;background:#213A3C;color:#9FD3C7;font-family:'Alegreya Sans SC',sans-serif;font-weight:900;letter-spacing:.14em;font-size:12px;padding:4px 12px;margin-bottom:12px;border-radius:3px">
-        <span>🤖 VISIBILIDAD EN ASISTENTES DE IA (GEO) & SEO LOCAL</span>
-      </div>
-      <h2 style="margin:0;font-family:'Grandstander',sans-serif;font-weight:900;font-size:clamp(32px,4vw,52px);line-height:1">Preguntas Frecuentes sobre Punto de Encuentro</h2>
-      <p style="margin:10px auto 0;font-size:18px;color:#3A5557;max-width:680px">Información estructurada para clientes y asistentes de IA (ChatGPT, Google Gemini, Perplexity y Apple Intelligence) con respuestas claras y verificadas.</p>
-    </div>
-
-    <div class="faq-accordion">
-      <div class="faq-item">
-        <button type="button" class="faq-question">
-          <span>¿Cuál es el horario del Bar Punto de Encuentro en Aluche?</span>
-          <span class="faq-icon" style="font-size:22px;font-weight:900">+</span>
-        </button>
-        <div class="faq-answer" style="display:none">
-          Abrimos de lunes a jueves de 06:00 a 00:00 h; viernes y sábados con horario especial continuado de 06:00 a 02:00 h de la madrugada; domingos de 07:00 a 00:00 h. Los martes cerramos por descanso semanal del personal.
-        </div>
-      </div>
-
-      <div class="faq-item">
-        <button type="button" class="faq-question">
-          <span>¿Tienen opciones para celíacos o personas con alérgenos?</span>
-          <span class="faq-icon" style="font-size:22px;font-weight:900">+</span>
-        </button>
-        <div class="faq-answer" style="display:none">
-          Sí. Toda nuestra carta digital está adaptada al Reglamento (UE) 1169/2011 con señalización clara de los 14 alérgenos de declaración obligatoria. Contamos con filtros interactivos para ocultar platos con gluten, lácteos, frutos secos o marisco, y preparamos opciones en plancha limpia bajo petición al camarero.
-        </div>
-      </div>
-
-      <div class="faq-item">
-        <button type="button" class="faq-question">
-          <span>¿Disponen de terraza al aire libre y cómo se llega?</span>
-          <span class="faq-icon" style="font-size:22px;font-weight:900">+</span>
-        </button>
-        <div class="faq-answer" style="display:none">
-          Sí, disponemos de una amplia terraza exterior acondicionada en Calle Maqueda 138 (28024 Madrid). Está situada a menos de 2 minutos a pie del intercambiador de Metro (Línea 5) y estación de Cercanías Renfe (Línea C-5) de Aluche.
-        </div>
-      </div>
-
-      <div class="faq-item">
-        <button type="button" class="faq-question">
-          <span>¿Se puede reservar mesa o celebrar eventos de grupo?</span>
-          <span class="faq-icon" style="font-size:22px;font-weight:900">+</span>
-        </button>
-        <div class="faq-answer" style="display:none">
-          Sí, en el Paquete Premium disponemos del formulario de reserva online integrado para comidas o cenas en terraza o salón interior, así como menús cerrados para cumpleaños, peñas y comidas de empresa.
-        </div>
-      </div>
-
-      <div class="faq-item">
-        <button type="button" class="faq-question">
-          <span>¿Cuáles son las especialidades más populares de la casa?</span>
-          <span class="faq-icon" style="font-size:22px;font-weight:900">+</span>
-        </button>
-        <div class="faq-answer" style="display:none">
-          Nuestros desayunos con churros y porras recién hechas desde las 06:00 h, el pepito de ternera en barra, las raciones de oreja a la plancha con ajillo, las bravas caseras, las gyozas artesanas de nuestra carta especial y las parrilladas de carne completas con minis de litro de Mahou o tinto de verano.
-        </div>
-      </div>
-    </div>
-  </div>
-</section>
-
 <!-- ======== CÓMO LLEGAR ======== -->
 <section id="llegar" data-screen-label="Cómo llegar" style="background:#CADDDB;border-top:2px solid #213A3C;display:flex;flex-wrap:wrap">
   <div style="flex:1.3 1 560px;min-width:0;position:relative;min-height:480px;background-color:#DCE8E6;overflow:hidden;border-right:2px solid #213A3C" role="img" aria-label="Mapa esquemático: C/ Maqueda 138, junto a la estación de Metro y Cercanías de Aluche">
@@ -1079,8 +1009,6 @@ html{scroll-behavior:smooth}
     </div>
   </div>
   <div style="display:flex;flex-wrap:wrap;gap:10px 24px;font-size:15px;align-items:center">
-    <button type="button" data-open-qr-modal style="background:none;border:none;color:#9FD3C7;cursor:pointer;font-weight:800;font-size:15px;padding:0">📱 Ver Código QR</button>
-    <button type="button" class="btn-tabla" onclick="window.DevcorpPaquete.openTablaModal()">📋 Comparativa Paquetes</button>
     <a href="https://www.instagram.com/barpuntodeencuentro" style="color:#9FD3C7;padding:6px 0">@barpuntodeencuentro</a>
     <a href="carta.html" style="color:#9FD3C7;padding:6px 0">Carta completa</a>
   </div>

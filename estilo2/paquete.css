@@ -55,76 +55,7 @@ html[data-paquete="profesional"] [data-lang-fr] {
 }
 
 /* =========================================================================
-   3. BARRA INFORMATIVA COMERCIAL (DEMO BAR DE PAQUETES)
-   ========================================================================= */
-#devcorp-paquete-bar {
-  background: #183234;
-  color: #EBF4F3;
-  border-bottom: 2px solid #9FD3C7;
-  padding: 6px 14px;
-  font-family: 'Alegreya Sans SC', sans-serif;
-  font-size: 13px;
-  font-weight: 700;
-  letter-spacing: .04em;
-  position: relative;
-  z-index: 60;
-  box-shadow: 0 2px 10px rgba(0,0,0,0.25);
-}
-
-#devcorp-paquete-bar .bar-inner {
-  max-width: 1380px;
-  margin: 0 auto;
-  display: flex;
-  flex-wrap: wrap;
-  align-items: center;
-  justify-content: space-between;
-  gap: 8px 16px;
-}
-
-#devcorp-paquete-bar .badge-pkg {
-  display: inline-flex;
-  align-items: center;
-  gap: 6px;
-  padding: 3px 10px;
-  border-radius: 4px;
-  font-weight: 900;
-  letter-spacing: .06em;
-  text-transform: uppercase;
-  font-size: 12px;
-}
-
-.badge-esencial { background: #3F6E72; color: #FFFFFF; }
-.badge-profesional { background: #2B59C3; color: #FFFFFF; }
-.badge-premium { background: #C59828; color: #183234; }
-
-#devcorp-paquete-bar .features-text {
-  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
-  font-size: 12px;
-  font-weight: 500;
-  color: #CADDDB;
-  letter-spacing: 0;
-}
-
-#devcorp-paquete-bar .btn-tabla {
-  background: #213A3C;
-  color: #9FD3C7;
-  border: 1px solid #3F6E72;
-  border-radius: 4px;
-  padding: 4px 10px;
-  font-size: 11px;
-  font-weight: 800;
-  letter-spacing: .06em;
-  cursor: pointer;
-  transition: all .2s;
-  white-space: nowrap;
-}
-#devcorp-paquete-bar .btn-tabla:hover {
-  background: #9FD3C7;
-  color: #183234;
-}
-
-/* =========================================================================
-   4. MODALES INTERACTIVOS (QR POR ZONAS, RESERVA INTEGRADA, TABLA)
+   3. MODAL DE RESERVA INTEGRADA (PAQUETE PREMIUM)
    ========================================================================= */
 .devcorp-modal-backdrop {
   position: fixed;
@@ -196,43 +127,24 @@ html[data-paquete="profesional"] [data-lang-fr] {
   padding: 24px;
 }
 
-/* Pestañas de zona en QR Modal */
-.qr-zone-tabs {
-  display: flex;
-  gap: 6px;
-  border-bottom: 2px solid #213A3C;
-  margin-bottom: 18px;
-}
-
-.qr-zone-tab {
-  padding: 8px 14px;
-  border: 2px solid #213A3C;
-  border-bottom: none;
-  border-radius: 6px 6px 0 0;
-  background: #CADDDB;
-  color: #213A3C;
-  font-family: 'Alegreya Sans SC', sans-serif;
-  font-weight: 800;
-  font-size: 13px;
-  letter-spacing: .06em;
-  cursor: pointer;
-  transition: all 0.15s;
-}
-
-.qr-zone-tab.active {
+/* Botón auxiliar para modales */
+.btn-tabla {
   background: #213A3C;
   color: #9FD3C7;
+  border: 1px solid #3F6E72;
+  border-radius: 4px;
+  padding: 8px 16px;
+  font-family: 'Alegreya Sans SC', sans-serif;
+  font-size: 13px;
+  font-weight: 800;
+  letter-spacing: .06em;
+  cursor: pointer;
+  transition: all .2s;
+  text-decoration: none;
 }
-
-/* Tarjeta mock-up para imprenta */
-.qr-print-mockup {
-  background: #FFFFFF;
-  border: 2px solid #213A3C;
-  border-radius: 8px;
-  padding: 20px;
-  text-align: center;
-  box-shadow: 0 4px 12px rgba(0,0,0,0.08);
-  margin-bottom: 18px;
+.btn-tabla:hover {
+  background: #9FD3C7;
+  color: #183234;
 }
 
 /* Formulario de reserva interactivo */
@@ -302,40 +214,4 @@ html[data-paquete="profesional"] [data-lang-fr] {
 .reserva-submit-btn:hover {
   background: #183234;
   color: #FFFFFF;
-}
-
-/* =========================================================================
-   5. ACORDEÓN PREGUNTAS FRECUENTES (GEO / ASISTENTES IA)
-   ========================================================================= */
-.faq-item {
-  border: 2px solid #213A3C;
-  border-radius: 6px;
-  margin-bottom: 12px;
-  background: #FFFFFF;
-  overflow: hidden;
-}
-
-.faq-question {
-  width: 100%;
-  text-align: left;
-  background: #DFE7E3;
-  color: #213A3C;
-  padding: 14px 18px;
-  font-family: 'Grandstander', sans-serif;
-  font-weight: 800;
-  font-size: 17px;
-  border: none;
-  cursor: pointer;
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-}
-
-.faq-answer {
-  padding: 14px 18px;
-  font-size: 15px;
-  line-height: 1.5;
-  color: #213A3C;
-  background: #FFFFFF;
-  border-top: 1px solid #CADDDB;
 }
