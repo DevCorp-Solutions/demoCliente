@@ -31,7 +31,7 @@
 
   // ---------- Alérgenos (Reglamento UE 1169/2011) ----------
   // Mismas claves que el panel /admin. Iconos de trazo, como el resto de la web.
-  // Se muestran en las raciones desde el Paquete Profesional.
+  // Se muestran en las raciones en todos los paquetes (también en el Esencial).
   const ALLERGENS = {
     gluten: ['Gluten', 'Contiene gluten: trigo, centeno, cebada, avena o sus derivados.', '<path d="M12 22V3m0 5C5 8 5 3 5 3s7 0 7 5Zm0 6C5 14 5 9 5 9s7 0 7 5Zm0 5c7 0 7-5 7-5s-7 0-7 5Zm0-8c7 0 7-5 7-5s-7 0-7 5Z"/>'],
     crustaceos: ['Crustáceos', 'Contiene crustáceos: gambas, langostinos, cigalas, cangrejos…', '<path d="M7 10c-6-1-5-6-4-7l3 3 2-4c3 4 2 7-1 8Zm10 0c6-1 5-6 4-7l-3 3-2-4c-3 4-2 7 1 8Z"/><ellipse cx="12" cy="15" rx="6" ry="5"/><path d="m6 14-4-2m4 5-4 2m16-5 4-2m-4 5 4 2"/>'],
@@ -52,7 +52,6 @@
 
   // Iconos con tooltip: al pasar el ratón (o al tocar / enfocar con teclado) se explica el alérgeno
   function allergensHTML(item) {
-    if (!hasPkg('profesional')) return '';
     const list = (item.allergens || []).map(a => ALLERGEN_ALIAS[a] || a).filter(a => ALLERGENS[a]);
     if (!list.length) return '';
     return `<ul class="allergens" aria-label="Alérgenos">${list.map(a => {
@@ -82,7 +81,7 @@
       let href;
       if (key === 'tel') href = `tel:${P.phoneIntl || ('+34' + String(P.phone || '').replace(/\s/g, ''))}`;
       else if (key === 'mailto') href = `mailto:${P.email}`;
-      else if (key === 'whatsapp') href = whatsappUrl(i18n.lang === 'en' ? `Hi, I'm writing from the ${P.name} website.` : `Hola, os escribo desde la web de ${P.name}.`);
+      else if (key === 'whatsapp') href = whatsappUrl(msgs().hello(P.name));
       else href = get(P, key);
       if (href) el.setAttribute('href', href);
     });
@@ -302,7 +301,7 @@
             </li>`).join('')}
         </ul>
         <p class="menu-note">Precios en euros según nuestra carta.</p>
-        ${items.some(d => (d.allergens || []).length) && hasPkg('profesional') ? '<p class="menu-note">Alérgenos según la receta de cada plato. Si tienes alguna alergia o intolerancia, avísanos en barra antes de pedir.</p>' : ''}`;
+        ${items.some(d => (d.allergens || []).length) ?'<p class="menu-note">Alérgenos según la receta de cada plato. Si tienes alguna alergia o intolerancia, avísanos en barra antes de pedir.</p>' : ''}`;
       return;
     }
 
@@ -745,11 +744,8 @@
 
     const updatePrivateLinks = () => {
       const extra = msg && msg.value.trim() ? `\n\n${msg.value.trim()}` : '';
-      const en = i18n.lang === 'en';
-      const text = en
-        ? `Hi, I visited ${P.name} and wanted to share my experience (rating ${selected}/5).${extra}`
-        : `Hola, estuve en ${P.name} y quería comentaros mi experiencia (valoración ${selected}/5).${extra}`;
-      const subject = en ? `My experience at ${P.name} (${selected}/5)` : `Mi experiencia en ${P.name} (${selected}/5)`;
+      const text = msgs().review(P.name, selected, extra);
+      const subject = msgs().subject(P.name, selected);
       wa.href = whatsappUrl(text);
       mail.href = `mailto:${P.email}?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(text)}`;
     };
@@ -795,43 +791,70 @@
   }
 
   // =========================================================================
-  // 9. IDIOMA ES / EN
-  //    El HTML y data.js están en español. En inglés se traducen los textos y
+  // 9. IDIOMAS · Esencial: ES · Profesional: ES / EN · Premium: ES / EN / RO
+  //    El HTML y data.js están en español. En otro idioma se traducen los textos y
   //    atributos visibles con el diccionario de i18n.js; un MutationObserver
   //    traduce también lo que el JavaScript pinta después (carta, jarra, etc.).
-  //    Al volver a español se restauran los textos originales.
+  //    Al cambiar de idioma se restauran primero los textos originales.
   // =========================================================================
   const i18n = { lang: 'es', texts: new Map(), attrs: new Map() };
   const I18N_ATTRS = ['aria-label', 'placeholder', 'alt', 'title'];
-  const EN = (window.VEINTI7_I18N && window.VEINTI7_I18N.en) || { dict: {}, patterns: [] };
+  const DICTS = window.VEINTI7_I18N || {};
+  const LANGS = !hasPkg('profesional') ? ['es'] : hasPkg('premium') ? ['es', 'en', 'ro'] : ['es', 'en'];
+  const LANG_INFO = {
+    es: { code: 'ES', label: 'Ver la web en español', short: 'Ver en español' },
+    en: { code: 'EN', label: 'View this website in English', short: 'View in English' },
+    ro: { code: 'RO', label: 'Vezi site-ul în limba română', short: 'Vezi în română' }
+  };
+  // Textos que se generan al vuelo (WhatsApp y email), en el idioma activo
+  const MSGS = {
+    es: {
+      hello: (n) => `Hola, os escribo desde la web de ${n}.`,
+      review: (n, r, x) => `Hola, estuve en ${n} y quería comentaros mi experiencia (valoración ${r}/5).${x}`,
+      subject: (n, r) => `Mi experiencia en ${n} (${r}/5)`
+    },
+    en: {
+      hello: (n) => `Hi, I'm writing from the ${n} website.`,
+      review: (n, r, x) => `Hi, I visited ${n} and wanted to share my experience (rating ${r}/5).${x}`,
+      subject: (n, r) => `My experience at ${n} (${r}/5)`
+    },
+    ro: {
+      hello: (n) => `Bună ziua, vă scriu de pe site-ul ${n}.`,
+      review: (n, r, x) => `Bună ziua, am fost la ${n} și aș vrea să vă povestesc experiența mea (nota ${r}/5).${x}`,
+      subject: (n, r) => `Experiența mea la ${n} (${r}/5)`
+    }
+  };
+  const msgs = () => MSGS[i18n.lang] || MSGS.es;
   const ES_META = { title: document.title, description: ($('meta[name="description"]') || {}).content };
 
-  function trEn(s) {
-    if (Object.prototype.hasOwnProperty.call(EN.dict, s)) return EN.dict[s];
-    for (const [re, fn] of EN.patterns) {
+  function tr(s) {
+    const D = DICTS[i18n.lang];
+    if (!D) return null;
+    if (Object.prototype.hasOwnProperty.call(D.dict, s)) return D.dict[s];
+    for (const [re, fn] of D.patterns) {
       const m = s.match(re);
-      if (m) { const out = fn(m, x => trEn(x) || x); if (out) return out; }
+      if (m) { const out = fn(m, x => tr(x) || x); if (out) return out; }
     }
     if (s.includes(' · ')) {
       const parts = s.split(' · ');
-      const out = parts.map(p => trEn(p) || p);
+      const out = parts.map(p => tr(p) || p);
       if (out.some((p, i) => p !== parts[i])) return out.join(' · ');
     }
     return null;
   }
 
-  const skipNode = (el) => !el || el.closest('script, style, noscript, .review__text');
+  const skipNode = (el) => !el || el.closest('script, style, noscript, .review__text, [translate="no"]');
   function translateTextNode(node) {
     if (skipNode(node.parentElement)) return;
     const raw = node.nodeValue;
     const rec = i18n.texts.get(node);
-    if (rec && raw === rec.en) return;
+    if (rec && raw === rec.out) return;
     const m = raw.match(/^(\s*)([\s\S]*?)(\s*)$/);
-    const out = m[2] && trEn(m[2]);
+    const out = m[2] && tr(m[2]);
     if (!out || out === m[2]) return;
-    const en = m[1] + out + m[3];
-    i18n.texts.set(node, { es: raw, en });
-    node.nodeValue = en;
+    const value = m[1] + out + m[3];
+    i18n.texts.set(node, { es: raw, out: value });
+    node.nodeValue = value;
   }
   function translateAttrs(el) {
     if (skipNode(el)) return;
@@ -839,10 +862,10 @@
       const v = el.getAttribute(a);
       if (!v) return;
       const rec = i18n.attrs.get(el) || {};
-      if (rec[a] && rec[a].en === v) return;
-      const out = trEn(v.trim());
+      if (rec[a] && rec[a].out === v) return;
+      const out = tr(v.trim());
       if (!out || out === v) return;
-      rec[a] = { es: v, en: out };
+      rec[a] = { es: v, out };
       i18n.attrs.set(el, rec);
       el.setAttribute(a, out);
     });
@@ -857,35 +880,43 @@
     root.querySelectorAll(I18N_ATTRS.map(a => `[${a}]`).join(',')).forEach(translateAttrs);
   }
   function restoreSpanish() {
-    i18n.texts.forEach((rec, node) => { if (node.nodeValue === rec.en) node.nodeValue = rec.es; });
-    i18n.attrs.forEach((rec, el) => Object.keys(rec).forEach(a => { if (el.getAttribute(a) === rec[a].en) el.setAttribute(a, rec[a].es); }));
+    i18n.texts.forEach((rec, node) => { if (node.nodeValue === rec.out) node.nodeValue = rec.es; });
+    i18n.attrs.forEach((rec, el) => Object.keys(rec).forEach(a => { if (el.getAttribute(a) === rec[a].out) el.setAttribute(a, rec[a].es); }));
     i18n.texts.clear();
     i18n.attrs.clear();
   }
 
+  // Con dos idiomas el botón alterna ES / EN; con tres (Premium) abre el menú de idiomas
+  const hasLangMenu = () => LANGS.length > 2 && !!$('#lang-menu');
+
   function setLang(lang, { save = true } = {}) {
-    i18n.lang = lang === 'en' ? 'en' : 'es';
-    const en = i18n.lang === 'en';
-    document.documentElement.lang = i18n.lang;
-    if (en) translateTree(document.body); else restoreSpanish();
-    document.title = en ? EN.meta.title : ES_META.title;
+    if (!LANGS.includes(lang)) lang = 'es';
+    restoreSpanish();
+    i18n.lang = lang;
+    document.documentElement.lang = lang;
+    if (lang !== 'es') translateTree(document.body);
+    const meta = (lang !== 'es' && DICTS[lang] && DICTS[lang].meta) || ES_META;
+    document.title = meta.title;
     const desc = $('meta[name="description"]');
-    if (desc) desc.content = en ? EN.meta.description : ES_META.description;
+    if (desc) desc.content = meta.description;
+    const next = LANGS[(LANGS.indexOf(lang) + 1) % LANGS.length];
     $$('[data-lang-toggle]').forEach(btn => {
-      btn.classList.toggle('is-en', en);
-      btn.setAttribute('aria-label', en ? 'Ver la web en español' : 'View this website in English');
-      btn.title = en ? 'Ver en español' : 'View in English';
+      btn.dataset.lang = lang;
       const code = $('[data-lang-code]', btn);
-      if (code) code.textContent = en ? 'EN' : 'ES';
+      if (code) code.textContent = LANG_INFO[lang].code;
+      if (hasLangMenu()) return;
+      btn.setAttribute('aria-label', LANG_INFO[next].label);
+      btn.title = LANG_INFO[next].short;
     });
+    $$('[data-set-lang]').forEach(item => item.setAttribute('aria-checked', String(item.dataset.setLang === lang)));
     bindData();
-    if (save) { try { localStorage.setItem('veinti7_lang', i18n.lang); } catch (e) { /* sin almacenamiento */ } }
-    document.dispatchEvent(new CustomEvent('langchange', { detail: i18n.lang }));
+    if (save) { try { localStorage.setItem('veinti7_lang', lang); } catch (e) { /* sin almacenamiento */ } }
+    document.dispatchEvent(new CustomEvent('langchange', { detail: lang }));
   }
 
   function initI18n() {
     new MutationObserver((muts) => {
-      if (i18n.lang !== 'en') return;
+      if (i18n.lang === 'es') return;
       muts.forEach(m => {
         if (m.type === 'childList') m.addedNodes.forEach(translateTree);
         else if (m.type === 'characterData') translateTextNode(m.target);
@@ -893,18 +924,68 @@
       });
     }).observe(document.body, { subtree: true, childList: true, characterData: true, attributes: true, attributeFilter: I18N_ATTRS });
 
-    $$('[data-lang-toggle]').forEach(btn => btn.addEventListener('click', () => {
+    const flip = (btn) => {
       btn.classList.remove('is-flipping');
       void btn.offsetWidth;
       btn.classList.add('is-flipping');
-      setLang(i18n.lang === 'en' ? 'es' : 'en');
+    };
+    const menu = $('#lang-menu');
+    const items = menu ? $$('[data-set-lang]', menu) : [];
+    const toggles = $$('[data-lang-toggle]');
+    const closeMenu = (focusToggle) => {
+      if (!menu || menu.hidden) return;
+      menu.hidden = true;
+      toggles.forEach(b => b.setAttribute('aria-expanded', 'false'));
+      if (focusToggle && toggles[0]) toggles[0].focus();
+    };
+
+    if (hasLangMenu()) {
+      toggles.forEach(btn => {
+        btn.setAttribute('aria-haspopup', 'menu');
+        btn.setAttribute('aria-controls', 'lang-menu');
+        btn.setAttribute('aria-expanded', 'false');
+        btn.setAttribute('aria-label', 'Idioma · Language · Limba');
+        btn.title = 'Idioma · Language · Limba';
+      });
+      menu.addEventListener('click', (e) => {
+        const item = e.target.closest('[data-set-lang]');
+        if (!item) return;
+        closeMenu(true);
+        if (item.dataset.setLang !== i18n.lang) { flip(toggles[0]); setLang(item.dataset.setLang); }
+      });
+      menu.addEventListener('keydown', (e) => {
+        const i = items.indexOf(document.activeElement);
+        let next = null;
+        if (e.key === 'ArrowDown') next = (i + 1) % items.length;
+        if (e.key === 'ArrowUp') next = (i - 1 + items.length) % items.length;
+        if (e.key === 'Home') next = 0;
+        if (e.key === 'End') next = items.length - 1;
+        if (next !== null) { e.preventDefault(); items[next].focus(); }
+        if (e.key === 'Tab') closeMenu(false);
+      });
+      document.addEventListener('click', (e) => { if (!e.target.closest('.lang-switch')) closeMenu(false); });
+      document.addEventListener('keydown', (e) => { if (e.key === 'Escape') closeMenu(true); });
+    }
+
+    toggles.forEach(btn => btn.addEventListener('click', () => {
+      if (hasLangMenu()) {
+        const open = menu.hidden;
+        if (!open) { closeMenu(false); return; }
+        menu.hidden = false;
+        btn.setAttribute('aria-expanded', 'true');
+        const current = items.find(it => it.dataset.setLang === i18n.lang) || items[0];
+        if (current) current.focus();
+        return;
+      }
+      flip(btn);
+      setLang(i18n.lang === 'es' ? 'en' : 'es');
     }));
 
     // Paquete Esencial: un solo idioma (español)
-    if (!hasPkg('profesional')) return;
+    if (LANGS.length < 2) return;
     let initial = new URLSearchParams(location.search).get('lang');
     if (!initial) { try { initial = localStorage.getItem('veinti7_lang'); } catch (e) { /* sin almacenamiento */ } }
-    if (initial === 'en') setLang('en', { save: false });
+    if (initial && initial !== 'es' && LANGS.includes(initial)) setLang(initial, { save: false });
   }
 
   function init() {
