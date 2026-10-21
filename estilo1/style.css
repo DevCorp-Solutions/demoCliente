@@ -474,14 +474,54 @@ body.theme-estilo-1,
 }
 
 
-/* Scroll margin para navegación suave y alineación de la carta bajo la cabecera fija */
+/* Scroll margin para navegación suave y alineación de la carta y secciones bajo la cabecera fija */
 #carta-section,
-#carta-top-anchor {
+#carta-top-anchor,
+#todos,
+#carta,
+#brasa,
+#a-la-brasa,
+#entrantes,
+#ensaladas,
+#chivito,
+#chivito-al-plato,
+#pollo,
+#pollo-asado,
+#postres,
+#cafes,
+#bebidas,
+#principales,
+#reservas,
+#reservas-direct,
+#especialidades,
+#opiniones,
+#alergenos,
+#alergenos-info {
   scroll-margin-top: 117px;
 }
 @media (min-width: 768px) {
   #carta-section,
-  #carta-top-anchor {
+  #carta-top-anchor,
+  #todos,
+  #carta,
+  #brasa,
+  #a-la-brasa,
+  #entrantes,
+  #ensaladas,
+  #chivito,
+  #chivito-al-plato,
+  #pollo,
+  #pollo-asado,
+  #postres,
+  #cafes,
+  #bebidas,
+  #principales,
+  #reservas,
+  #reservas-direct,
+  #especialidades,
+  #opiniones,
+  #alergenos,
+  #alergenos-info {
     scroll-margin-top: 80px;
   }
 }

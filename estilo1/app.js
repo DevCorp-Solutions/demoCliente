@@ -566,7 +566,39 @@ class GastroApp {
       this.render();
     });
     this.setupGlobalEvents();
+
+    // Sincronizar estado inicial con el hash de la URL si se accede mediante QR o enlace directo
+    if (typeof window !== 'undefined' && window.location.hash) {
+      const rawHash = window.location.hash.replace(/^#/, '').trim().toLowerCase();
+      const cat = this.slugToCategory(rawHash);
+      if (cat) {
+        store.state.currentView = 'menu';
+        store.state.activeCategory = (!pkgHas('profesional') && cat !== 'all') ? basicCategoryOf(cat) : cat;
+      } else if (['especialidades', 'opiniones', 'alergenos', 'alergenos-info', 'reservas-direct', 'el-asador'].includes(rawHash)) {
+        store.state.currentView = 'menu';
+      } else {
+        const viewSlugs = {
+          'reservas': 'reservations',
+          'reservations': 'reservations',
+          'cocina': 'kds',
+          'kds': 'kds',
+          'metricas': 'metrics',
+          'metrics': 'metrics',
+          'rentabilidad': 'roi',
+          'roi': 'roi'
+        };
+        if (viewSlugs[rawHash] && pkgHas('premium')) {
+          store.state.currentView = viewSlugs[rawHash];
+        }
+      }
+    }
+
     this.render();
+
+    // Realizar scroll hacia la sección/categoría correspondiente según el hash inicial
+    if (typeof window !== 'undefined' && window.location.hash) {
+      this.handleUrlHash(true);
+    }
   }
 
   setupGlobalEvents() {
@@ -574,6 +606,13 @@ class GastroApp {
       window.addEventListener('scroll', () => {
         this.updateHeaderScroll();
       }, { passive: true });
+
+      window.addEventListener('hashchange', () => {
+        this.handleUrlHash(false);
+      });
+      window.addEventListener('popstate', () => {
+        this.handleUrlHash(false);
+      });
     }
 
     document.addEventListener('keydown', (e) => {
@@ -609,12 +648,26 @@ class GastroApp {
     });
 
     document.addEventListener('click', (e) => {
-      // 1. Enlaces directos a la seccion de la carta (en hero o especialidades)
-      const cartaLink = e.target.closest('a[href="#carta-section"]');
-      if (cartaLink) {
-        e.preventDefault();
-        this.goToCarta();
-        return;
+      // 1. Enlaces internos con almohadilla (#carta-section, #reservas-direct, #especialidades, #opiniones, etc.)
+      const hashLink = e.target.closest('a[href^="#"]');
+      if (hashLink) {
+        const href = hashLink.getAttribute('href');
+        if (href && href.length > 1 && href !== '#') {
+          const targetId = href.substring(1);
+          if (targetId === 'carta-section' || targetId === 'carta' || targetId === 'todos') {
+            e.preventDefault();
+            this.goToCarta();
+            return;
+          }
+          const targetEl = document.getElementById(targetId) ||
+                           (targetId === 'reservas' ? document.getElementById('reservas-direct') : null);
+          if (targetEl) {
+            e.preventDefault();
+            this.updateUrlHash(targetId);
+            this.scrollToElement(targetEl);
+            return;
+          }
+        }
       }
 
       // 2. Botones de vista y navegacion en cabecera
@@ -630,11 +683,12 @@ class GastroApp {
                            btnText.startsWith('menú') ||
                            btnText.startsWith('menu');
 
-        // Si se pulsa el logotipo de Vukata en la cabecera, volver arriba al Hero
+        // Si se pulsa el logotipo de Vukata en la cabecera, volver arriba al Hero y limpiar hash
         if (navAttr === 'logo' || viewBtn.querySelector('.header-brand-title') || viewBtn.classList.contains('header-brand-title')) {
           if (store.state.currentView !== 'menu') {
             store.setView('menu');
           }
+          this.updateUrlHash('');
           window.scrollTo({ top: 0, behavior: 'smooth' });
           return;
         }
@@ -646,6 +700,24 @@ class GastroApp {
         }
 
         // Cualquier otra vista (Reservas, Cocina, Metricas, ROI)
+        const viewSlugs = {
+          'reservations': 'reservas',
+          'kds': 'cocina',
+          'metrics': 'metricas',
+          'roi': 'rentabilidad'
+        };
+        const slug = viewSlugs[view] || view;
+        this.updateUrlHash(slug);
+
+        if (view === 'reservations' && !pkgHas('premium')) {
+          if (store.state.currentView !== 'menu') {
+            store.setView('menu');
+          }
+          const resSec = document.getElementById('reservas-direct') || document.getElementById('reservas');
+          if (resSec) this.scrollToElement(resSec);
+          return;
+        }
+
         store.setView(view);
         window.scrollTo({ top: 0, behavior: 'smooth' });
         return;
@@ -1038,6 +1110,225 @@ class GastroApp {
     }
   }
 
+  categoryToSlug(categoryName) {
+    if (!categoryName || categoryName === 'all' || categoryName === 'Todos') return 'todos';
+    const clean = categoryName.trim();
+    const map = {
+      'A la Brasa': 'brasa',
+      'Entrantes': 'entrantes',
+      'Ensaladas': 'ensaladas',
+      'Chivito al Plato': 'chivito',
+      'Pollo Asado': 'pollo',
+      'Postres': 'postres',
+      'Cafés': 'cafes',
+      'Bebidas': 'bebidas',
+      'Principales': 'principales'
+    };
+    if (map[clean]) return map[clean];
+    const lower = clean.toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g, '');
+    if (lower.includes('brasa')) return 'brasa';
+    if (lower.includes('entrant')) return 'entrantes';
+    if (lower.includes('ensalada')) return 'ensaladas';
+    if (lower.includes('chivito')) return 'chivito';
+    if (lower.includes('pollo')) return 'pollo';
+    if (lower.includes('postre')) return 'postres';
+    if (lower.includes('cafe')) return 'cafes';
+    if (lower.includes('bebida')) return 'bebidas';
+    if (lower.includes('principal')) return 'principales';
+    return lower.replace(/[^a-z0-9]+/g, '-').replace(/^-+|-+$/g, '');
+  }
+
+  slugToCategory(slug) {
+    if (!slug) return null;
+    const clean = slug.toLowerCase().replace(/^#/, '').trim();
+    const map = {
+      'todos': 'all',
+      'carta': 'all',
+      'carta-section': 'all',
+      'menu': 'all',
+      'brasa': 'A la Brasa',
+      'a-la-brasa': 'A la Brasa',
+      'alabrasa': 'A la Brasa',
+      'entrantes': 'Entrantes',
+      'ensaladas': 'Ensaladas',
+      'chivito': 'Chivito al Plato',
+      'chivito-al-plato': 'Chivito al Plato',
+      'pollo': 'Pollo Asado',
+      'pollo-asado': 'Pollo Asado',
+      'postres': 'Postres',
+      'cafes': 'Cafés',
+      'cafés': 'Cafés',
+      'bebidas': 'Bebidas',
+      'principales': 'Principales'
+    };
+    return map[clean] || null;
+  }
+
+  updateUrlHash(slug) {
+    if (typeof window === 'undefined') return;
+    const cleanSlug = (slug || '').replace(/^#/, '').trim().toLowerCase();
+    this.lastProcessedHash = cleanSlug;
+    const newHash = cleanSlug ? '#' + cleanSlug : '';
+    if (window.location.hash !== newHash) {
+      if (window.history && window.history.pushState) {
+        try {
+          const currentPath = window.location.pathname + window.location.search;
+          window.history.pushState({ hash: cleanSlug }, '', newHash || currentPath);
+        } catch (e) {
+          if (cleanSlug) window.location.hash = cleanSlug;
+        }
+      } else if (cleanSlug) {
+        window.location.hash = cleanSlug;
+      }
+    }
+  }
+
+  scrollToElement(targetElement, behavior = 'smooth') {
+    if (typeof window === 'undefined' || typeof document === 'undefined') return;
+    if (!targetElement) return;
+
+    const header = document.getElementById('main-header');
+    const headerHeight = header ? header.getBoundingClientRect().height : (window.innerWidth < 768 ? 117 : 80);
+    const currentScrollY = window.scrollY || (document.documentElement && document.documentElement.scrollTop) || 0;
+    const absoluteTop = targetElement.getBoundingClientRect().top + currentScrollY;
+    const targetY = Math.max(0, Math.round(absoluteTop - headerHeight + 1));
+
+    window.scrollTo({
+      top: targetY,
+      behavior: behavior
+    });
+  }
+
+  handleUrlHash(isInitialLoad = false) {
+    if (typeof window === 'undefined') return;
+    const rawHash = (window.location.hash || '').replace(/^#/, '').trim().toLowerCase();
+    if (!rawHash && !isInitialLoad) return;
+    if (!isInitialLoad && this.lastProcessedHash === rawHash) return;
+    this.lastProcessedHash = rawHash;
+
+    if (!rawHash) return;
+
+    // 1. ¿Es una categoría de la carta o la carta en general?
+    const cat = this.slugToCategory(rawHash);
+    if (cat) {
+      const targetCat = (!pkgHas('profesional') && cat !== 'all') ? basicCategoryOf(cat) : cat;
+      this.skipPreserveScrollOnce = true;
+      if (store.state.currentView !== 'menu') {
+        store.state.currentView = 'menu';
+      }
+      store.state.activeCategory = targetCat;
+      store.save();
+
+      const performScroll = () => {
+        const catPills = document.getElementById('category-pills');
+        if (catPills) {
+          if (targetCat === 'all') {
+            catPills.scrollTo({ left: 0, behavior: 'smooth' });
+          } else {
+            const activeBtn = catPills.querySelector('.cat-filter.active');
+            if (activeBtn) {
+              activeBtn.scrollIntoView({ behavior: 'smooth', inline: 'center', block: 'nearest' });
+            }
+          }
+        }
+        this.scrollToCarta();
+      };
+
+      if (isInitialLoad) {
+        requestAnimationFrame(() => {
+          performScroll();
+          setTimeout(performScroll, 120);
+        });
+      } else {
+        requestAnimationFrame(() => {
+          requestAnimationFrame(performScroll);
+        });
+      }
+      return;
+    }
+
+    // 2. ¿Es una vista del sistema (reservas, cocina, métricas, rentabilidad)?
+    const viewSlugs = {
+      'reservas': 'reservations',
+      'reservations': 'reservations',
+      'cocina': 'kds',
+      'kds': 'kds',
+      'metricas': 'metrics',
+      'metrics': 'metrics',
+      'rentabilidad': 'roi',
+      'roi': 'roi'
+    };
+
+    if (viewSlugs[rawHash]) {
+      const targetView = viewSlugs[rawHash];
+      if (targetView === 'reservations' && !pkgHas('premium')) {
+        if (store.state.currentView !== 'menu') {
+          store.setView('menu');
+        }
+        const performScroll = () => {
+          const resSec = document.getElementById('reservas-direct') || document.getElementById('reservas');
+          if (resSec) this.scrollToElement(resSec, isInitialLoad ? 'instant' : 'smooth');
+        };
+        if (isInitialLoad) {
+          requestAnimationFrame(() => {
+            performScroll();
+            setTimeout(performScroll, 150);
+          });
+        } else {
+          requestAnimationFrame(performScroll);
+        }
+        return;
+      }
+
+      if (pkgHas('premium')) {
+        store.setView(targetView);
+        window.scrollTo({ top: 0, behavior: isInitialLoad ? 'instant' : 'smooth' });
+        return;
+      }
+    }
+
+    // 3. ¿Es una sección con ancla directa (especialidades, opiniones, reservas-direct, alergenos)?
+    const menuSectionSlugs = ['especialidades', 'opiniones', 'alergenos', 'alergenos-info', 'reservas-direct', 'el-asador'];
+    if (menuSectionSlugs.includes(rawHash)) {
+      if (store.state.currentView !== 'menu') {
+        store.state.currentView = 'menu';
+        store.save();
+      }
+      const performScroll = () => {
+        const directElement = document.getElementById(rawHash) ||
+                              (rawHash === 'alergenos' ? document.getElementById('alergenos-info') : null);
+        if (directElement) this.scrollToElement(directElement, isInitialLoad ? 'instant' : 'smooth');
+      };
+      if (isInitialLoad) {
+        requestAnimationFrame(() => {
+          performScroll();
+          setTimeout(performScroll, 150);
+        });
+      } else {
+        requestAnimationFrame(performScroll);
+      }
+      return;
+    }
+
+    const directElement = document.getElementById(rawHash);
+    if (directElement) {
+      if (store.state.currentView !== 'menu') {
+        store.setView('menu');
+      }
+      const performScroll = () => {
+        this.scrollToElement(directElement, isInitialLoad ? 'instant' : 'smooth');
+      };
+      if (isInitialLoad) {
+        requestAnimationFrame(() => {
+          performScroll();
+          setTimeout(performScroll, 150);
+        });
+      } else {
+        requestAnimationFrame(performScroll);
+      }
+    }
+  }
+
   goToCarta() {
     // 1. Siempre resetear a la categoria "Todos" y limpiar filtros
     store.state.activeCategory = 'all';
@@ -1050,13 +1341,16 @@ class GastroApp {
       store.state.currentView = 'menu';
     }
 
-    // 3. Desactivar preservacion de scroll en el proximo render para no interferir
+    // 3. Actualizar la almohadilla / hash en la URL
+    this.updateUrlHash('todos');
+
+    // 4. Desactivar preservacion de scroll en el proximo render para no interferir
     this.skipPreserveScrollOnce = true;
 
-    // 4. Guardar estado (notifica a suscriptores y dispara render())
+    // 5. Guardar estado (notifica a suscriptores y dispara render())
     store.save();
 
-    // 5. Resetear scroll horizontal del carrusel de categorias si se habia movido
+    // 6. Resetear scroll horizontal del carrusel de categorias si se habia movido
     const resetPillsScroll = () => {
       const catPills = document.getElementById('category-pills');
       if (catPills) {
@@ -1064,7 +1358,7 @@ class GastroApp {
       }
     };
 
-    // 6. Scroll vertical suave hacia el principio de la seccion de la carta
+    // 7. Scroll vertical suave hacia el principio de la seccion de la carta
     const performScroll = () => {
       resetPillsScroll();
       this.scrollToCarta();
@@ -1083,16 +1377,32 @@ class GastroApp {
     // 1. Desactivar preservacion de scroll en el siguiente render para que no intente restaurar la posicion baja
     this.skipPreserveScrollOnce = true;
 
-    // 2. Establecer categoria en el store (dispara render() con la categoria filtrada)
-    store.setCategory(cat);
-
-    // 3. Si se pulsa "Todos", reiniciar scroll horizontal del carrusel de categorias
-    if (cat === 'all') {
-      const catPills = document.getElementById('category-pills');
-      if (catPills) catPills.scrollTo({ left: 0, behavior: 'smooth' });
+    // 2. Asegurar vista 'menu'
+    if (store.state.currentView !== 'menu') {
+      store.state.currentView = 'menu';
     }
 
-    // 4. Scroll suave inmediato al principio de la carta
+    // 3. Actualizar hash en la URL para reflejar la categoria (QR con almohadilla)
+    const slug = this.categoryToSlug(cat);
+    this.updateUrlHash(slug);
+
+    // 4. Establecer categoria en el store (dispara render() con la categoria filtrada)
+    store.setCategory(cat);
+
+    // 5. Si se pulsa "Todos", reiniciar scroll horizontal del carrusel de categorias; si no, centrar la pastilla activa
+    const catPills = document.getElementById('category-pills');
+    if (catPills) {
+      if (cat === 'all') {
+        catPills.scrollTo({ left: 0, behavior: 'smooth' });
+      } else {
+        const activeBtn = catPills.querySelector('.cat-filter.active');
+        if (activeBtn) {
+          activeBtn.scrollIntoView({ behavior: 'smooth', inline: 'center', block: 'nearest' });
+        }
+      }
+    }
+
+    // 6. Scroll suave inmediato al principio de la carta
     const performScroll = () => {
       this.scrollToCarta();
     };
@@ -1460,8 +1770,10 @@ class GastroApp {
         </div>
       </section>
 
-      <!-- ANCLA ESTATICA PARA SCROLL EXACTO A LA CARTA -->
+      <!-- ANCLA ESTATICA PARA SCROLL EXACTO A LA CARTA Y TAGS QR -->
       <div id="carta-top-anchor" style="position: relative; height: 0; width: 0; margin: 0; padding: 0; pointer-events: none; visibility: hidden;"></div>
+      <div id="todos" style="position: relative; height: 0; width: 0; margin: 0; padding: 0; pointer-events: none; visibility: hidden;"></div>
+      <div id="carta" style="position: relative; height: 0; width: 0; margin: 0; padding: 0; pointer-events: none; visibility: hidden;"></div>
 
       <!-- STICKY FILTER SUBNAV & SEARCH -->
       <section class="sticky top-[117px] md:top-20 z-40 bg-surface/95 backdrop-blur-md py-2.5 sm:py-3 md:py-4 shadow-sm border-y border-outline-variant/20" id="carta-section">
@@ -1596,7 +1908,11 @@ class GastroApp {
               if (categoryDishes.length === 0) {
                 if (activeCategory === 'all') return '';
                 return `
-                  <div class="menu-group bg-surface-container-lowest p-4 sm:p-6 rounded-xl sm:rounded-2xl border border-outline-variant/30 shadow-sm" data-group="${meta.id}" data-category="${catName}">
+                  <div class="menu-group bg-surface-container-lowest p-4 sm:p-6 rounded-xl sm:rounded-2xl border border-outline-variant/30 shadow-sm" id="${meta.id}" data-group="${meta.id}" data-category="${catName}">
+                    ${meta.id === 'brasa' ? '<span id="a-la-brasa"></span>' : ''}
+                    ${meta.id === 'chivito' ? '<span id="chivito-al-plato"></span>' : ''}
+                    ${meta.id === 'pollo' ? '<span id="pollo-asado"></span>' : ''}
+                    ${meta.id === 'cafes' ? '<span id="bebidas"></span>' : ''}
                     <div class="flex items-center justify-between pb-3 sm:pb-4 mb-3 sm:mb-4 border-b border-surface-container">
                       <div class="flex items-center gap-2.5">
                         <span class="p-1.5 rounded-full ${meta.iconBg}">
@@ -1621,7 +1937,11 @@ class GastroApp {
               }
 
               return `
-                <div class="menu-group bg-surface-container-lowest p-3.5 sm:p-5 md:p-6 rounded-xl sm:rounded-2xl border border-outline-variant/30 shadow-sm" data-group="${meta.id}" data-category="${catName}" style="display:block;">
+                <div class="menu-group bg-surface-container-lowest p-3.5 sm:p-5 md:p-6 rounded-xl sm:rounded-2xl border border-outline-variant/30 shadow-sm" id="${meta.id}" data-group="${meta.id}" data-category="${catName}" style="display:block;">
+                  ${meta.id === 'brasa' ? '<span id="a-la-brasa"></span>' : ''}
+                  ${meta.id === 'chivito' ? '<span id="chivito-al-plato"></span>' : ''}
+                  ${meta.id === 'pollo' ? '<span id="pollo-asado"></span>' : ''}
+                  ${meta.id === 'cafes' ? '<span id="bebidas"></span>' : ''}
                   <div class="flex items-center justify-between pb-3 sm:pb-4 mb-3 sm:mb-4 border-b border-surface-container">
                     <div class="flex items-center gap-2.5">
                       <span class="p-1.5 rounded-full ${meta.iconBg}">
@@ -1676,7 +1996,11 @@ class GastroApp {
             if (categoryDishes.length === 0) {
               if (activeCategory === 'all') return '';
               return `
-                <section class="menu-group" data-group="${meta.id}" data-category="${catName}">
+                <section class="menu-group" id="${meta.id}" data-group="${meta.id}" data-category="${catName}">
+                  ${meta.id === 'brasa' ? '<span id="a-la-brasa"></span>' : ''}
+                  ${meta.id === 'chivito' ? '<span id="chivito-al-plato"></span>' : ''}
+                  ${meta.id === 'pollo' ? '<span id="pollo-asado"></span>' : ''}
+                  ${meta.id === 'cafes' ? '<span id="bebidas"></span>' : ''}
                   <div class="flex items-center justify-between pb-6 mb-8 bg-surface-container-low p-6 rounded-2xl border border-outline-variant/30">
                     <div class="flex items-center gap-3">
                       <span class="p-2.5 rounded-full ${meta.iconBg}">
@@ -1706,7 +2030,11 @@ class GastroApp {
             }
 
             return `
-              <section class="menu-group" data-group="${meta.id}" data-category="${catName}" style="display:block;">
+              <section class="menu-group" id="${meta.id}" data-group="${meta.id}" data-category="${catName}" style="display:block;">
+                ${meta.id === 'brasa' ? '<span id="a-la-brasa"></span>' : ''}
+                ${meta.id === 'chivito' ? '<span id="chivito-al-plato"></span>' : ''}
+                ${meta.id === 'pollo' ? '<span id="pollo-asado"></span>' : ''}
+                ${meta.id === 'cafes' ? '<span id="bebidas"></span>' : ''}
                 
                 <!-- Category Banner idéntico al boceto Stitch pero optimizado para móvil -->
                 <div class="flex items-center justify-between p-3.5 sm:p-5 md:p-6 mb-3 sm:mb-6 md:mb-8 bg-surface-container-low rounded-xl sm:rounded-2xl border border-outline-variant/30">
@@ -1987,6 +2315,7 @@ class GastroApp {
       </section>
 
       <!-- SECCIÓN DE RESERVAS FRENTE A LAS BRASAS (Fondo alargado de extremo a extremo, estilo idéntico a opiniones) -->
+      <div id="reservas" style="position: relative; height: 0; width: 0; margin: 0; padding: 0; pointer-events: none; visibility: hidden;"></div>
       <section class="w-full bg-[#14100E] text-surface py-20 lg:py-24 relative overflow-hidden border-t border-[#2a221e]" id="reservas-direct" data-paquete-min="profesional">
         <!-- Ambient Glow Decorator a lo ancho -->
         <div class="absolute -left-20 -bottom-20 w-96 h-96 bg-primary/20 rounded-full blur-3xl pointer-events-none"></div>
@@ -2084,6 +2413,7 @@ class GastroApp {
       </section>
 
       <!-- SECCIÓN OFICIAL DE ALÉRGENOS AL PIE (Fondo blanco alargado full-width con contenido centrado a 1360px) -->
+      <div id="alergenos" style="position: relative; height: 0; width: 0; margin: 0; padding: 0; pointer-events: none; visibility: hidden;"></div>
       <section class="w-full bg-white text-stone-900 py-16 lg:py-24 border-t border-outline-variant/20 shadow-[0_-1px_6px_rgba(0,0,0,0.02)]" id="alergenos-info">
         <div class="max-w-[1360px] mx-auto px-6 lg:px-10">
           ${renderVukataAllergenLegend(activeAllergens)}
