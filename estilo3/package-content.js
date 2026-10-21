@@ -8,8 +8,6 @@
   const section=(id,html)=>{const el=document.createElement('section');el.id=id;el.className='package-section wrap';el.innerHTML=html;return el};
   const history=section('historia',`<p class="eyebrow">MALA PATA, EN ALUCHE</p><h2>Una mesa en <span class="serif">el barrio.</span></h2><p>En Calle Quero, 61, la carta reúne arroces por encargo, carnes y propuestas para compartir. Un recorrido por los platos que dan forma a Mala Pata.</p>`);
   document.querySelector('#arroces').before(history);
-  const gallery=section('galeria',`<p class="eyebrow">UN VISTAZO A LA CARTA</p><h2>Para abrir <span class="serif">el apetito.</span></h2><div class="package-gallery">${data.menu.filter(d=>window.MALA_PATA_PHOTOS?.[d.id]).filter((_,i)=>[0,23,40].includes(i)).map(d=>`<figure><img src="${esc(new URL(window.MALA_PATA_PHOTOS[d.id].src,pkg.base).href)}" alt="${esc(d.name)}, foto de referencia" loading="lazy"><figcaption>${esc(d.name)} · Foto de referencia</figcaption></figure>`).join('')}</div>`);
-  document.querySelector('#carta').before(gallery);
   const daily=section('menu-del-dia','<p class="eyebrow">HOY EN MALA PATA</p><h2>Menú del día y <span class="serif">sugerencias.</span></h2>');
   const entries=Array.isArray(config.daily)?config.daily:[];
   daily.insertAdjacentHTML('beforeend',entries.length?`<div class="daily-list">${entries.map(d=>`<article><h3>${esc(d.name)}</h3><p>${esc(d.description)}</p><strong>${esc(d.price)}</strong><p>Alérgenos: ${esc(d.allergens||'Consulta al personal.')}</p></article>`).join('')}</div>`:'<p>No hay un menú del día ni platos fuera de carta publicados. Consulta las propuestas disponibles con el local.</p>');
@@ -18,7 +16,7 @@
   daily.after(events);
   if(config.hours)document.querySelector('.opening-info p').textContent=config.hours;
   const nav=document.querySelector('header nav');
-  for(const [id,label] of [['historia','El local'],['galeria','Galería'],['eventos','Eventos']])nav.insertAdjacentHTML('beforeend',`<a href="#${id}">${label}</a>`);
+  for(const [id,label] of [['historia','El local'],['eventos','Eventos']])nav.insertAdjacentHTML('beforeend',`<a href="#${id}">${label}</a>`);
   if(pkg.is('profesional')){
     const booking=safeUrl(config.bookingUrl);
     events.insertAdjacentHTML('beforeend',booking?` <a class="button" href="${esc(booking)}" target="_blank" rel="noopener">Reservar en la plataforma del local</a>`:'<p class="package-note">Reservas online: enlace de la plataforma pendiente de confirmar.</p>');
@@ -32,8 +30,8 @@
       link.hidden=!(whatsapp||email);if(!link.hidden)link.href=whatsapp?`https://wa.me/${whatsapp}?text=${encodeURIComponent(text)}`:`mailto:${email}?subject=${encodeURIComponent('Solicitud de reserva')}&body=${encodeURIComponent(text)}`;
       document.querySelector('#reservation-status').textContent=link.hidden?'Solicitud preparada, sin enviar. Falta confirmar el WhatsApp o email de reservas del local. Puedes consultar en el 91 942 36 96.':'Solicitud preparada. Pulsa Enviar solicitud y confirma el envío en tu aplicación. El local debe confirmar tu reserva.';
     });
-    const faq=section('preguntas',`<p class="eyebrow">ANTES DE VENIR</p><h2>Preguntas frecuentes.</h2><details><summary>¿Dónde está Mala Pata?</summary><p>En Calle Quero, 61, 28024 Madrid, en Aluche.</p></details><details><summary>¿Los arroces se preparan por encargo?</summary><p>Sí. Consulta la disponibilidad con el local. Los precios de la carta de arroces son por persona.</p></details><details><summary>¿Puedo consultar los alérgenos?</summary><p>Cada ficha muestra la información publicada. Las fichas sin datos no garantizan ausencia de alérgenos. Confirma ingredientes y trazas con el personal.</p></details>`);
-    document.querySelector('main').append(faq);
+    const reviews=section('resenas-destacadas',`<p class="eyebrow">LO QUE CUENTAN QUIENES NOS VISITAN</p><h2>Buenos ratos, <span class="serif">buenas palabras.</span></h2><div class="featured-reviews"><figure class="featured-review"><div class="featured-review-score">10 <span>/ 10 · TheFork</span></div><blockquote>«Excelente sitio si quieres comer bien y variado!»</blockquote><figcaption><strong>Raul R.</strong><span>Extracto de su reseña</span></figcaption><a href="https://www.thefork.es/restaurante/mala-pata-r846128/opiniones" target="_blank" rel="noopener">Ver en TheFork ↗</a></figure><figure class="featured-review"><div class="featured-review-score">10 <span>/ 10 · TheFork</span></div><blockquote>«comida buenísima y calidad cantidad»</blockquote><figcaption><strong>Jose t.</strong><span>Extracto de su reseña</span></figcaption><a href="https://www.thefork.es/restaurante/mala-pata-r846128/opiniones" target="_blank" rel="noopener">Ver en TheFork ↗</a></figure><figure class="featured-review"><div class="featured-review-score">10 <span>/ 10 · TheFork</span></div><blockquote>«Los camareros super majos»</blockquote><figcaption><strong>Bibi B.</strong><span>Extracto de su reseña</span></figcaption><a href="https://www.thefork.es/restaurante/mala-pata-r846128/opiniones" target="_blank" rel="noopener">Ver en TheFork ↗</a></figure></div><p class="package-note">Selección de reseñas positivas publicadas en TheFork. Extractos consultados el 21/10/2026.</p>`);
+    document.querySelector('main').append(reviews);
     const schema=document.createElement('script');schema.type='application/ld+json';schema.textContent=JSON.stringify({'@context':'https://schema.org','@type':'Restaurant',name:data.name,telephone:data.phone,address:{'@type':'PostalAddress',streetAddress:'Calle Quero, 61',postalCode:'28024',addressLocality:'Madrid',addressCountry:'ES'},hasMenu:new URL('premium/index.html#carta',pkg.base).href});document.head.append(schema);
   }
 })();

@@ -1,12 +1,12 @@
-﻿# Paquetes del estilo 3
+# Paquetes del estilo 3
 
 Trabajo aislado en `feature/nuevos-cambios`, según la tabla del documento Paquetes de Hostelería y Presupuestos. No se muestran tarifas de desarrollo ni mantenimiento. Los precios de comida se conservan.
 
 ## Entradas
 
 - `esencial/index.html`: landing de inicio, carta, horario y mapa. Selección fija de 60 fichas distribuida entre Entrantes, Principales, Postres y Bebidas. Sin fotografías por plato, botones de teléfono/ruta, reservas, panel, filtros avanzados ni datos estructurados.
-- `profesional/index.html`: diseño con fotos, presentación del local, galería, eventos, carta completa, filtro de los 14 alérgenos, menú del día, enlaces directos, mapa y enlace externo de reservas configurable. Metadatos básicos. Editor local en `gestion.html`.
-- `premium/index.html`: conserva la web completa anterior (portada, arroces, carnes, carta, mapa y valoraciones). Incluye lo anterior, solicitud de reserva en la propia página con salida a WhatsApp/email confirmados, grupos, preguntas frecuentes y datos estructurados del restaurante.
+- `profesional/index.html`: fotos en las fichas de la carta junto a descripción y precio, presentación del local, eventos, carta completa, filtro de los 14 alérgenos, menú del día, enlaces directos, mapa y enlace externo de reservas configurable. Metadatos básicos. Editor local en `gestion.html`.
+- `premium/index.html`: conserva la web completa anterior (portada, arroces, carnes, carta, mapa y valoraciones). Incluye lo anterior, solicitud de reserva en la propia página con salida a WhatsApp/email confirmados, grupos, tres reseñas positivas destacadas con fuente y datos estructurados del restaurante.
 
 La entrada anterior `estilo3/index.html` abre Premium por defecto y conserva los enlaces antiguos `?paquete=esencial|profesional|premium`. El selector navega entre carpetas, sin depender de preferencias de otros estilos. Cada carpeta tiene su propia `preview-mobile.html`. CSS, fotos y código común se comparten desde estilo3 para evitar duplicación. Esencial tiene un `data.js` independiente: los cambios de los paneles no lo alteran.
 
