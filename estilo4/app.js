@@ -771,6 +771,82 @@
   }
 
   // =========================================================================
+  // 7b. DESPLEGABLES DEL MENÚ MÓVIL (estilo y paquete) con el aspecto de la web.
+  //     La lista del <select> nativo la pinta el sistema (blanca, sin estilo);
+  //     se sustituye por un listbox propio y el <select> queda oculto debajo
+  //     para que sus eventos "change" (cambio de estilo / paquete) sigan igual.
+  // =========================================================================
+  function initMobileSelects() {
+    $$('.mobile-style').forEach((wrap, n) => {
+      const sel = $('select', wrap);
+      if (!sel) return;
+      if (sel.matches('[data-paquete-select]') && !sel.options.length && PKG) sel.innerHTML = PKG.optionsHtml();
+      const labelText = ($('.sr-only', wrap) || {}).textContent || '';
+      const id = `cselect-${n}`;
+
+      const box = document.createElement('div');
+      box.className = 'mobile-style cselect';
+      box.innerHTML = `
+        <button type="button" class="cselect__btn" aria-haspopup="listbox" aria-expanded="false" aria-controls="${id}">
+          <span class="sr-only">${esc(labelText)}</span><span class="cselect__value"></span>
+        </button>
+        <ul class="cselect__list" id="${id}" role="listbox" aria-label="${esc(labelText)}" hidden></ul>`;
+      wrap.after(box);
+      wrap.classList.add('is-enhanced');
+
+      const btn = $('.cselect__btn', box);
+      const list = $('.cselect__list', box);
+      const items = () => $$('[role="option"]', list);
+      const render = () => {
+        const current = sel.options[sel.selectedIndex];
+        $('.cselect__value', btn).textContent = current ? current.text : '';
+        list.innerHTML = Array.from(sel.options).map((o, i) =>
+          `<li role="option" id="${id}-${i}" tabindex="-1" data-value="${esc(o.value)}" aria-selected="${o.value === sel.value}">${esc(o.text)}</li>`).join('');
+      };
+      const close = (focusBtn) => {
+        if (list.hidden) return;
+        list.hidden = true;
+        btn.setAttribute('aria-expanded', 'false');
+        if (focusBtn) btn.focus();
+      };
+      const open = () => {
+        render();
+        list.hidden = false;
+        btn.setAttribute('aria-expanded', 'true');
+        (items().find(li => li.getAttribute('aria-selected') === 'true') || items()[0]).focus();
+      };
+      const choose = (value) => {
+        close(true);
+        if (value === sel.value) return;
+        sel.value = value;
+        render();
+        sel.dispatchEvent(new Event('change', { bubbles: true }));
+      };
+
+      render();
+      btn.addEventListener('click', () => (list.hidden ? open() : close(false)));
+      list.addEventListener('click', (e) => {
+        const li = e.target.closest('[role="option"]');
+        if (li) choose(li.dataset.value);
+      });
+      list.addEventListener('keydown', (e) => {
+        const all = items();
+        const i = all.indexOf(document.activeElement);
+        let next = null;
+        if (e.key === 'ArrowDown') next = Math.min(i + 1, all.length - 1);
+        if (e.key === 'ArrowUp') next = Math.max(i - 1, 0);
+        if (e.key === 'Home') next = 0;
+        if (e.key === 'End') next = all.length - 1;
+        if (next !== null) { e.preventDefault(); all[next].focus(); return; }
+        if ((e.key === 'Enter' || e.key === ' ') && i > -1) { e.preventDefault(); choose(all[i].dataset.value); }
+        if (e.key === 'Escape') { e.preventDefault(); e.stopPropagation(); close(true); }
+        if (e.key === 'Tab') close(false);
+      });
+      document.addEventListener('click', (e) => { if (!box.contains(e.target)) close(false); });
+    });
+  }
+
+  // =========================================================================
   // 8. VARIOS: selector de estilos (demo), alias de URLs antiguas
   // =========================================================================
   function initMisc() {
@@ -995,6 +1071,7 @@
     initHeader();
     initParallax();
     initMobileMenu();
+    initMobileSelects();
     initReveal();
     initRating();
     lazyMap();
