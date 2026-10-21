@@ -47,21 +47,21 @@ button{font:inherit;cursor:pointer}
       <div style="height:26px;width:1px;background:#9FD3C7;opacity:0.35"></div>
       <div style="display:flex;flex-direction:column;line-height:1.15">
         <span style="font-family:'Grandstander',sans-serif;font-weight:900;font-size:17px;color:#EBF4F3;letter-spacing:-0.01em">Punto de Encuentro</span>
-        <span style="font-family:'Alegreya Sans SC',sans-serif;font-weight:800;font-size:11px;letter-spacing:0.12em;color:#9FD3C7">Bar Cafetería · Aluche · Madrid</span>
+        <span style="font-family:'Alegreya Sans SC',sans-serif;font-weight:800;font-size:11px;letter-spacing:0.12em;color:#9FD3C7" data-i18n="brandSub">Bar Cafetería · Aluche · Madrid</span>
       </div>
     </div>
 
     <!-- Centro: Enlaces de Navegación del Local -->
     <nav aria-label="Navegación principal" style="display:flex;flex-wrap:wrap;gap:4px 18px;align-items:center">
-      <a href="index.html" style="text-decoration:none;padding:6px 0;color:#9FD3C7">Portada</a>
-      <a href="index.html#desayunos" style="text-decoration:none;padding:6px 0;color:#EBF4F3">06:00 Desayunos</a>
-      <a href="index.html#comer" style="text-decoration:none;padding:6px 0;color:#EBF4F3">13:00 A comer</a>
-      <a href="index.html#minis" data-paquete-min="profesional" style="text-decoration:none;padding:6px 0;color:#EBF4F3">18:00 Minis</a>
-      <a href="index.html#cervezas" data-paquete-min="profesional" style="text-decoration:none;padding:6px 0;color:#EBF4F3">Cervezas</a>
-      <a href="index.html#finde" data-paquete-min="profesional" style="text-decoration:none;padding:6px 0;color:#EBF4F3">23:00 Finde</a>
-      <a href="index.html#opiniones" data-paquete-min="profesional" style="text-decoration:none;padding:6px 0;color:#EBF4F3">Opiniones</a>
-      <a href="carta.html" style="text-decoration:none;padding:6px 0;color:#9FD3C7;font-weight:900;border-bottom:2px solid #9FD3C7">La carta</a>
-      <a href="index.html#llegar" style="text-decoration:none;padding:6px 0;color:#EBF4F3">Cómo llegar</a>
+      <a href="index.html" style="text-decoration:none;padding:6px 0;color:#9FD3C7" data-i18n="portada">Portada</a>
+      <a href="index.html#desayunos" style="text-decoration:none;padding:6px 0;color:#EBF4F3" data-i18n="desayunos">06:00 Desayunos</a>
+      <a href="index.html#comer" style="text-decoration:none;padding:6px 0;color:#EBF4F3" data-i18n="comer">13:00 A comer</a>
+      <a href="index.html#minis" data-paquete-min="profesional" style="text-decoration:none;padding:6px 0;color:#EBF4F3" data-i18n="minis">18:00 Minis</a>
+      <a href="index.html#cervezas" data-paquete-min="profesional" style="text-decoration:none;padding:6px 0;color:#EBF4F3" data-i18n="cervezas">Cervezas</a>
+      <a href="index.html#finde" data-paquete-min="profesional" style="text-decoration:none;padding:6px 0;color:#EBF4F3" data-i18n="finde">23:00 Finde</a>
+      <a href="index.html#opiniones" data-paquete-min="profesional" style="text-decoration:none;padding:6px 0;color:#EBF4F3" data-i18n="opiniones">Opiniones</a>
+      <a href="carta.html" style="text-decoration:none;padding:6px 0;color:#9FD3C7;font-weight:900;border-bottom:2px solid #9FD3C7" data-i18n="carta">La carta</a>
+      <a href="index.html#llegar" style="text-decoration:none;padding:6px 0;color:#EBF4F3" data-i18n="llegar">Cómo llegar</a>
     </nav>
 
     <!-- Lado Derecho: Llamar + Selector de Estilos DevCorp -->
@@ -88,8 +88,8 @@ button{font:inherit;cursor:pointer}
   <!-- Título Original de la Carta y Estado -->
   <div style="padding:22px clamp(16px,4vw,48px) 22px;display:flex;flex-wrap:wrap;align-items:flex-end;justify-content:space-between;gap:12px 24px">
     <div>
-      <h1 style="margin:0;font-family:'Grandstander',sans-serif;font-weight:900;font-size:clamp(46px,7vw,84px);line-height:.9;letter-spacing:-.02em">La carta</h1>
-      <div style="font-style:italic;color:#CADDDB;font-size:18px;margin-top:4px">The menu · C/ Maqueda 138, Aluche</div>
+      <h1 style="margin:0;font-family:'Grandstander',sans-serif;font-weight:900;font-size:clamp(46px,7vw,84px);line-height:.9;letter-spacing:-.02em" data-i18n="carta">La carta</h1>
+      <div style="font-style:italic;color:#CADDDB;font-size:18px;margin-top:4px" data-i18n="cartaTheMenu">The menu · C/ Maqueda 138, Aluche</div>
     </div>
     <div style="display:flex;align-items:center;gap:10px;font-family:'Alegreya Sans SC',sans-serif;font-weight:800;letter-spacing:.12em;font-size:14px;color:{{ stColor }}"><span style="width:10px;height:10px;border-radius:50%;background:{{ stColor }}"></span>{{ stLabel }}</div>
   </div>
@@ -99,7 +99,7 @@ button{font:inherit;cursor:pointer}
     <div style="display:flex;align-items:center;gap:8px;padding:10px clamp(16px,4vw,48px) 6px">
       <a href="index.html" class="btn-volver" title="Volver a la página principal" aria-label="Volver a la página principal" style="flex:none;min-height:44px;padding:0 12px;border:2px solid #213A3C;border-radius:3px;background:#213A3C;color:#9FD3C7;display:inline-flex;align-items:center;gap:6px;text-decoration:none;font-weight:800;cursor:pointer;box-shadow:1px 2px 0 rgba(33,58,60,.12);transition:all .15s ease">
         <span style="font-size:18px;line-height:1;transform:translateY(-1px)">←</span>
-        <span class="btn-volver-txt" style="font-family:'Alegreya Sans SC',sans-serif;font-weight:800;font-size:13px;letter-spacing:.06em;color:#EBF4F3">Volver</span>
+        <span class="btn-volver-txt" style="font-family:'Alegreya Sans SC',sans-serif;font-weight:800;font-size:13px;letter-spacing:.06em;color:#EBF4F3" data-i18n="volver">Volver</span>
       </a>
       <div style="width:2px;height:24px;background:#213A3C;opacity:0.2;flex:none"></div>
       <nav aria-label="Categorías" style="position:relative;display:flex;gap:6px;overflow-x:auto;scrollbar-width:none;flex:1;min-width:0;padding:0 4px" ref="{{ navRef }}">
@@ -109,7 +109,7 @@ button{font:inherit;cursor:pointer}
       </nav>
     </div>
     <div data-paquete-min="profesional" style="display:flex;gap:6px;overflow-x:auto;padding:0 clamp(16px,4vw,48px) 10px;align-items:center;scrollbar-width:none">
-      <span style="flex:none;font-family:'Alegreya Sans SC',sans-serif;font-weight:800;letter-spacing:.12em;font-size:13px;margin-right:4px">Filtrar</span>
+      <span style="flex:none;font-family:'Alegreya Sans SC',sans-serif;font-weight:800;letter-spacing:.12em;font-size:13px;margin-right:4px" data-i18n="cartaFiltrar">Filtrar</span>
       <sc-for list="{{ filters }}" as="f" hint-placeholder-count="6">
         <button onClick="{{ f.toggle }}" aria-pressed="{{ f.pressed }}" style="flex:none;min-height:44px;padding:0 12px;border:2px dashed {{ f.bd }};border-radius:22px;background:{{ f.bg }};color:{{ f.fg }};font-weight:700;font-size:15px;white-space:nowrap">{{ f.n }}</button>
       </sc-for>
@@ -118,7 +118,7 @@ button{font:inherit;cursor:pointer}
 
   <main style="max-width:1180px;margin:0 auto;padding:10px clamp(16px,4vw,48px) 40px">
     <sc-if value="{{ hasHidden }}" hint-placeholder-val="{{ false }}">
-      <p role="status" style="margin:16px 0 0;padding:10px 14px;background:#213A3C;color:#EBF4F3;font-size:16px">{{ hiddenMsg }} <button onClick="{{ clear }}" style="background:none;border:none;color:#9FD3C7;text-decoration:underline;font-weight:700;min-height:32px;padding:0 4px">Quitar filtros</button></p>
+      <p role="status" style="margin:16px 0 0;padding:10px 14px;background:#213A3C;color:#EBF4F3;font-size:16px">{{ hiddenMsg }} <button onClick="{{ clear }}" style="background:none;border:none;color:#9FD3C7;text-decoration:underline;font-weight:700;min-height:32px;padding:0 4px" data-i18n="cartaQuitarFiltros">Quitar filtros</button></p>
     </sc-if>
     <sc-for list="{{ sections }}" as="s" hint-placeholder-count="4">
       <section id="{{ s.id }}" data-sec="{{ s.id }}" style="margin-top:34px;scroll-margin-top:130px">
@@ -160,8 +160,8 @@ button{font:inherit;cursor:pointer}
     </sc-for>
 
     <section id="alergenos" style="margin-top:50px;border-top:3px solid #213A3C;padding-top:18px">
-      <h2 style="margin:0;font-family:'Grandstander',sans-serif;font-weight:900;font-size:30px">Alérgenos</h2>
-      <div style="font-style:italic;font-size:17px;margin-bottom:14px">Allergens · Reglamento (UE) 1169/2011</div>
+      <h2 style="margin:0;font-family:'Grandstander',sans-serif;font-weight:900;font-size:30px" data-i18n="cartaAlergenosTitle">Alérgenos</h2>
+      <div style="font-style:italic;font-size:17px;margin-bottom:14px" data-i18n="cartaAlergenosLegal">Allergens · Reglamento (UE) 1169/2011</div>
       <div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(160px,1fr));gap:12px 18px">
         <sc-for list="{{ legend }}" as="a" hint-placeholder-count="14">
           <div style="display:flex;align-items:center;gap:12px;min-height:44px">
@@ -182,9 +182,9 @@ button{font:inherit;cursor:pointer}
 
   <sc-if value="{{ narrow }}" hint-placeholder-val="{{ true }}">
     <nav aria-label="Acciones rápidas" data-paquete-min="profesional" style="position:fixed;left:0;right:0;bottom:0;z-index:50;display:grid;grid-template-columns:1fr 1fr 1fr;background:#213A3C;border-top:3px solid #9FD3C7">
-      <a href="tel:+34912948407" style="min-height:62px;display:flex;align-items:center;justify-content:center;color:#EBF4F3;text-decoration:none;font-weight:800;font-size:16px;border-right:1px solid #3F6E72">Llamar</a>
-      <a href="index.html#llegar" style="min-height:62px;display:flex;align-items:center;justify-content:center;color:#EBF4F3;text-decoration:none;font-weight:800;font-size:16px;border-right:1px solid #3F6E72">Cómo llegar</a>
-      <a href="#top" onClick="{{ toTop }}" style="min-height:62px;display:flex;align-items:center;justify-content:center;color:#213A3C;background:#9FD3C7;text-decoration:none;font-weight:800;font-size:16px">Carta ↑</a>
+      <a href="tel:+34912948407" style="min-height:62px;display:flex;align-items:center;justify-content:center;color:#EBF4F3;text-decoration:none;font-weight:800;font-size:16px;border-right:1px solid #3F6E72" data-i18n="mobileLlamar">Llamar</a>
+      <a href="index.html#llegar" style="min-height:62px;display:flex;align-items:center;justify-content:center;color:#EBF4F3;text-decoration:none;font-weight:800;font-size:16px;border-right:1px solid #3F6E72" data-i18n="mobileLlegar">Cómo llegar</a>
+      <a href="#top" onClick="{{ toTop }}" style="min-height:62px;display:flex;align-items:center;justify-content:center;color:#213A3C;background:#9FD3C7;text-decoration:none;font-weight:800;font-size:16px" data-i18n="cartaVolverArriba">Carta ↑</a>
     </nav>
   </sc-if>
 </div>
@@ -198,6 +198,12 @@ class Component extends DCLogic {
     CA: ['Cacahuetes', 'Peanuts'], SO: ['Soja', 'Soy'], LA: ['Lácteos', 'Milk'], FC: ['Frutos de cáscara', 'Tree nuts'],
     AP: ['Apio', 'Celery'], MO: ['Mostaza', 'Mustard'], SE: ['Sésamo', 'Sesame'], SU: ['Sulfitos', 'Sulphites'],
     AT: ['Altramuces', 'Lupin'], ML: ['Moluscos', 'Molluscs']
+  };
+  AL_FR = {
+    GL: 'Gluten', CR: 'Crustacés', HU: 'Œufs', PE: 'Poisson',
+    CA: 'Arachides', SO: 'Soja', LA: 'Produits laitiers', FC: 'Fruits à coque',
+    AP: 'Céleri', MO: 'Moutarde', SE: 'Sésame', SU: 'Sulfites',
+    AT: 'Lupin', ML: 'Mollusques'
   };
   FI = [['Sin gluten', ['GL']], ['Sin lactosa', ['LA']], ['Sin huevo', ['HU']], ['Sin marisco', ['CR', 'ML']], ['Sin pescado', ['PE']], ['Sin frutos secos', ['FC', 'CA']]];
   C = [
@@ -376,6 +382,10 @@ class Component extends DCLogic {
     };
     window.addEventListener('scroll', this.onS, { passive: true, capture: true });
     document.addEventListener('scroll', this.onS, { passive: true, capture: true });
+
+    this.onLang = () => this.forceUpdate();
+    window.addEventListener('devcorp:langchange', this.onLang);
+
     const p = new Intl.DateTimeFormat('en-GB', { timeZone: 'Europe/Madrid', weekday: 'short', hour: '2-digit', minute: '2-digit', hourCycle: 'h23' }).formatToParts(new Date());
     const g = t => (p.find(x => x.type === t) || {}).value;
     this.setState({ now: { d: ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'].indexOf(g('weekday')), m: +g('hour') * 60 + +g('minute') } });
@@ -400,6 +410,7 @@ class Component extends DCLogic {
     window.removeEventListener('resize', this.onR);
     window.removeEventListener('scroll', this.onS, { capture: true });
     document.removeEventListener('scroll', this.onS, { capture: true });
+    window.removeEventListener('devcorp:langchange', this.onLang);
     window.removeEventListener('hashchange', this.checkHash);
   }
   go(id) {
@@ -441,6 +452,36 @@ class Component extends DCLogic {
     if (n) { const t = H[n.d], y = H[(n.d + 6) % 7]; open = !!(t && n.m >= t[0] * 60 && n.m < t[1] * 60) || !!(y && y[1] > 24 && n.m < (y[1] - 24) * 60); }
     const banned = new Set(); this.state.f.forEach(i => this.FI[i][1].forEach(c => banned.add(c)));
     let hidden = 0;
+
+    const curLang = (window.DevcorpPaquete && window.DevcorpPaquete.currentLang) || 'es';
+    const catTitles = {
+      es: {
+        desayunos: 'Desayunos', menus: 'Menús', combinados: 'Platos combinados', combos: 'Combos y Picoteo',
+        bocadillos: 'Bocadillos y Montados', sandwiches: 'Sándwiches', hamburguesas: 'Hamburguesas y Smash',
+        perritos: 'Perritos XL 30cm', paninis: 'Paninis al Horno', pizzas: 'Pizzas', tostas: 'Tostas Especiales',
+        ensaladas: 'Ensaladas', raciones: 'Raciones y Sartenes', parrillada: 'Parrillada de Carne', bebidas: 'Cervezateca y Bebidas',
+        especiales: 'La carta que no esperas', minis: 'Minis de Litro',
+        entrantes: 'Entrantes', principales: 'Principales', postres: 'Postres'
+      },
+      en: {
+        desayunos: 'Breakfast', menus: 'Set meals', combinados: 'Combo plates', combos: 'Combos & Snacks',
+        bocadillos: 'Sandwiches & Rolls', sandwiches: 'Toasted Sandwiches', hamburguesas: 'Burgers & Smash',
+        perritos: 'XL Hot Dogs (30cm)', paninis: 'Baked Paninis', pizzas: 'Pizzas', tostas: 'Special Toasts',
+        ensaladas: 'Fresh Salads', raciones: 'Sharing Platters', parrillada: 'Mixed Meat Grill', bebidas: 'Beers & Drinks',
+        especiales: 'The unexpected menu', minis: 'Litre Jugs',
+        entrantes: 'Starters', principales: 'Mains', postres: 'Desserts'
+      },
+      fr: {
+        desayunos: 'Petit-déjeuner', menus: 'Menus', combinados: 'Assiettes combinées', combos: 'Combos & Tapas',
+        bocadillos: 'Sandwiches & Bocadillos', sandwiches: 'Toasts & Croques', hamburguesas: 'Burgers & Smash',
+        perritos: 'Hot-dogs XL 30cm', paninis: 'Paninis au four', pizzas: 'Pizzas', tostas: 'Tartines spéciales',
+        ensaladas: 'Salades fraîches', raciones: 'Plats à partager', parrillada: 'Grillades de viande', bebidas: 'Bières & Boissons',
+        especiales: 'La carte inattendue', minis: 'Chopes d’un litre',
+        entrantes: 'Entrées', principales: 'Plats', postres: 'Desserts'
+      }
+    };
+    const currentCatTitles = catTitles[curLang] || catTitles.es;
+
     const sections = this.CARTA.map(([id, es, en, note, items]) => {
       const PHOTO_REFS = [
         { k: 'churro', img: 'images/01-desayunos_11zon.webp' },
@@ -473,15 +514,42 @@ class Component extends DCLogic {
       })
         .filter(it => { const ok = !it.codes.some(c => banned.has(c)); if (!ok) hidden++; return ok; })
         .map(it => Object.assign(it, { al: it.codes.map(c => ({ c, n: this.AL[c][0] })) }));
-      return { id, es, en, note, items: list, isBebidas: id === 'bebidas' };
+      return { id, es: currentCatTitles[id] || es, en, note, items: list, isBebidas: id === 'bebidas' };
     }).filter(s => s.items.length);
+
+    const stOpenText = { es: 'Abierto ahora', en: 'Open now', fr: 'Ouvert maintenant' }[curLang] || 'Abierto ahora';
+    const stClosedText = { es: 'Cerrado ahora', en: 'Closed now', fr: 'Fermé maintenant' }[curLang] || 'Cerrado ahora';
+    const stLabel = n ? (open ? stOpenText : stClosedText) : '';
+
+    const filterNames = {
+      es: ['Sin gluten', 'Sin lactosa', 'Sin huevo', 'Sin marisco', 'Sin pescado', 'Sin frutos secos'],
+      en: ['Gluten-free', 'Lactose-free', 'Egg-free', 'Shellfish-free', 'Fish-free', 'Nut-free'],
+      fr: ['Sans gluten', 'Sans lactose', 'Sans œuf', 'Sans fruits de mer', 'Sans poisson', 'Sans fruits à coque']
+    };
+    const fNames = filterNames[curLang] || filterNames.es;
+    const filters = this.FI.map(([nm], i) => {
+      const on = this.state.f.includes(i);
+      return { n: fNames[i] || nm, pressed: on ? 'true' : 'false', bg: on ? '#3F6E72' : 'transparent', fg: on ? '#FFFFFF' : '#213A3C', bd: on ? '#3F6E72' : '#213A3C', toggle: () => this.setState(s => ({ f: on ? s.f.filter(x => x !== i) : s.f.concat(i) })) };
+    });
+
+    const hiddenMsg = curLang === 'en'
+      ? hidden + (hidden === 1 ? ' dish hidden' : ' dishes hidden') + ' by your filters.'
+      : curLang === 'fr'
+      ? hidden + (hidden === 1 ? ' plat masqué' : ' plats masqués') + ' par vos filtres.'
+      : hidden + (hidden === 1 ? ' plato oculto' : ' platos ocultos') + ' por tus filtros.';
+
     return {
       navRef: this.navRef, narrow: this.state.narrow,
-      stLabel: n ? (open ? 'Abierto ahora' : 'Cerrado ahora') : '', stColor: open ? '#9FD3C7' : '#E3A33B',
-      cats: this.CARTA.map(([id, es]) => ({ id, es, cur: this.state.cur === id ? 'true' : 'false', bg: this.state.cur === id ? '#213A3C' : '#EBF4F3', fg: this.state.cur === id ? '#EBF4F3' : '#213A3C', go: () => this.go(id) })),
-      filters: this.FI.map(([nm], i) => { const on = this.state.f.includes(i); return { n: nm, pressed: on ? 'true' : 'false', bg: on ? '#3F6E72' : 'transparent', fg: on ? '#FFFFFF' : '#213A3C', bd: on ? '#3F6E72' : '#213A3C', toggle: () => this.setState(s => ({ f: on ? s.f.filter(x => x !== i) : s.f.concat(i) })) }; }),
-      hasHidden: hidden > 0, hiddenMsg: hidden + (hidden === 1 ? ' plato oculto' : ' platos ocultos') + ' por tus filtros.', clear: () => this.setState({ f: [] }),
-      sections, legend: Object.keys(this.AL).map(c => ({ c, n: this.AL[c][0], en: this.AL[c][1] })),
+      stLabel, stColor: open ? '#9FD3C7' : '#E3A33B',
+      cats: this.CARTA.map(([id, es]) => ({ id, es: currentCatTitles[id] || es, cur: this.state.cur === id ? 'true' : 'false', bg: this.state.cur === id ? '#213A3C' : '#EBF4F3', fg: this.state.cur === id ? '#EBF4F3' : '#213A3C', go: () => this.go(id) })),
+      filters,
+      hasHidden: hidden > 0, hiddenMsg, clear: () => this.setState({ f: [] }),
+      sections,
+      legend: Object.keys(this.AL).map(c => ({
+        c,
+        n: (curLang === 'en' ? this.AL[c][1] : curLang === 'fr' ? (this.AL_FR[c] || this.AL[c][0]) : this.AL[c][0]),
+        en: curLang === 'es' ? this.AL[c][1] : ''
+      })),
       toTop: e => {
         if (e && e.preventDefault) e.preventDefault();
         const topEl = document.querySelector('header') || document.body;
