@@ -432,10 +432,12 @@
               <p>Elige día y hora en nuestro calendario de reservas.</p>
             </div>
           </div>
-          <a class="btn btn-primary btn-lg btn-block btn-shine" href="https://www.cerveceria27aluche.com/contacto/" data-bind-href="bookingUrl" target="_blank" rel="noopener">
-            Reservar mesa online<svg class="icon icon-move" aria-hidden="true"><use href="#i-external"/></svg>
+          <!-- Profesional: enlace al sistema de reservas externo · Premium: abre el formulario de reserva -->
+          <a class="btn btn-primary btn-lg btn-block btn-shine" href="https://www.cerveceria27aluche.com/contacto/" data-bind-href="bookingUrl" target="_blank" rel="noopener" data-booking-open>
+            Reservar mesa online
           </a>
-          <p class="booking-card__note">Se abre nuestro sistema de reservas en una pestaña nueva.</p>
+          <p class="booking-card__note" data-paquete-max="profesional">Se abre nuestro sistema de reservas en una pestaña nueva.</p>
+          <p class="booking-card__note" data-paquete-min="premium">Rellena el formulario y te confirmamos la mesa por WhatsApp o email.</p>
 
           <div class="divider"><span>¿Prefieres hablar con nosotros?</span></div>
 
@@ -563,6 +565,63 @@
   <a class="wa-float" href="#" data-bind-href="whatsapp" target="_blank" rel="noopener" aria-label="Escríbenos por WhatsApp" data-paquete-min="profesional">
     <svg class="icon" aria-hidden="true"><use href="#i-whatsapp"/></svg>
   </a>
+
+  <!-- Paquete Premium: formulario de reserva (fecha, hora y comensales) que se envía por WhatsApp o email -->
+  <dialog class="booking-dialog" id="booking-dialog" aria-labelledby="booking-dialog-title" data-paquete-min="premium">
+    <form class="booking-form" id="booking-form" novalidate>
+      <header class="booking-form__head">
+        <span class="booking-card__icon"><svg class="icon" aria-hidden="true"><use href="#i-calendar"/></svg></span>
+        <div>
+          <h2 id="booking-dialog-title" class="h3">Reserva tu mesa</h2>
+          <p>Rellena los datos y envíanos la solicitud. Te confirmamos la mesa enseguida.</p>
+        </div>
+        <button type="button" class="booking-form__close" data-booking-close aria-label="Cerrar"><svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M6 6l12 12M18 6 6 18" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"/></svg></button>
+      </header>
+
+      <div class="booking-form__grid">
+        <div class="field field--full">
+          <label class="field__label" for="bk-nombre">Nombre</label>
+          <input id="bk-nombre" name="nombre" type="text" autocomplete="name" required placeholder="¿A nombre de quién?" aria-describedby="bk-err-nombre" />
+          <span class="field__error" id="bk-err-nombre"></span>
+        </div>
+        <div class="field">
+          <label class="field__label" for="bk-telefono">Teléfono</label>
+          <input id="bk-telefono" name="telefono" type="tel" autocomplete="tel" inputmode="tel" required placeholder="600 000 000" aria-describedby="bk-err-telefono" />
+          <span class="field__error" id="bk-err-telefono"></span>
+        </div>
+        <div class="field">
+          <label class="field__label" for="bk-comensales">Comensales</label>
+          <div class="stepper">
+            <button type="button" data-guests-step="-1" aria-label="Quitar comensal">−</button>
+            <input id="bk-comensales" name="comensales" type="number" min="1" max="20" value="2" inputmode="numeric" required aria-describedby="bk-err-comensales" />
+            <button type="button" data-guests-step="1" aria-label="Añadir comensal">+</button>
+          </div>
+          <span class="field__error" id="bk-err-comensales"></span>
+        </div>
+        <div class="field">
+          <label class="field__label" for="bk-fecha">Fecha</label>
+          <input id="bk-fecha" name="fecha" type="date" required aria-describedby="bk-err-fecha" />
+          <span class="field__error" id="bk-err-fecha"></span>
+        </div>
+        <div class="field">
+          <label class="field__label" for="bk-hora">Hora</label>
+          <select id="bk-hora" name="hora" required aria-describedby="bk-err-hora"><option value="">Elige primero el día</option></select>
+          <span class="field__error" id="bk-err-hora"></span>
+        </div>
+        <div class="field field--full">
+          <label class="field__label" for="bk-comentarios">Comentarios (opcional)</label>
+          <textarea id="bk-comentarios" name="comentarios" rows="3" placeholder="Alergias, trona para el bebé, una celebración…"></textarea>
+        </div>
+      </div>
+
+      <p class="booking-form__status" role="status" aria-live="polite" hidden></p>
+      <div class="btn-row booking-form__actions">
+        <button type="submit" class="btn btn-whatsapp btn-lg" data-channel="whatsapp"><svg class="icon" aria-hidden="true"><use href="#i-whatsapp"/></svg>Enviar por WhatsApp</button>
+        <button type="submit" class="btn btn-outline btn-lg" data-channel="email"><svg class="icon" aria-hidden="true"><use href="#i-mail"/></svg>Enviar por email</button>
+      </div>
+      <p class="booking-form__note">La reserva queda confirmada cuando el bar te responda.</p>
+    </form>
+  </dialog>
 
   <script src="./data.js" defer></script>
   <script src="./i18n.js" defer></script>
