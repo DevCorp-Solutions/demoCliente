@@ -659,6 +659,16 @@ class GastroApp {
             this.goToCarta();
             return;
           }
+          if (targetId === 'alergenos' || targetId === 'alergenos-info') {
+            e.preventDefault();
+            if (store.state.currentView !== 'menu') {
+              store.setView('menu');
+            }
+            this.updateUrlHash('alergenos');
+            const targetEl = document.getElementById('alergenos-info') || document.getElementById('alergenos');
+            if (targetEl) this.scrollToElement(targetEl);
+            return;
+          }
           const targetEl = document.getElementById(targetId) ||
                            (targetId === 'reservas' ? document.getElementById('reservas-direct') : null);
           if (targetEl) {
@@ -670,7 +680,27 @@ class GastroApp {
         }
       }
 
-      // 2. Botones de vista y navegacion en cabecera
+      // 2. Botón Alérgenos en cabecera (desktop o móvil)
+      const alergenosBtn = e.target.closest('[data-nav="alergenos"]');
+      if (alergenosBtn) {
+        e.preventDefault();
+        if (store.state.currentView !== 'menu') {
+          store.setView('menu');
+        }
+        this.updateUrlHash('alergenos');
+        const alergenosEl = document.getElementById('alergenos-info') || document.getElementById('alergenos');
+        if (alergenosEl) {
+          this.scrollToElement(alergenosEl);
+        } else {
+          requestAnimationFrame(() => {
+            const el2 = document.getElementById('alergenos-info') || document.getElementById('alergenos');
+            if (el2) this.scrollToElement(el2);
+          });
+        }
+        return;
+      }
+
+      // 3. Botones de vista y navegacion en cabecera
       const viewBtn = e.target.closest('[data-view]');
       if (viewBtn) {
         e.preventDefault();
@@ -1181,6 +1211,43 @@ class GastroApp {
         window.location.hash = cleanSlug;
       }
     }
+    this.updateHeaderActiveNav(cleanSlug);
+  }
+
+  updateHeaderActiveNav(viewOrSlug) {
+    if (typeof document === 'undefined') return;
+    const header = document.getElementById('main-header');
+    if (!header) return;
+    const raw = (viewOrSlug || '').trim().toLowerCase();
+    const isAlergenos = raw === 'alergenos' || raw === 'alergenos-info';
+    const isReservas = raw === 'reservas' || raw === 'reservations' || raw === 'reservas-direct';
+    const isKds = raw === 'kds' || raw === 'cocina';
+    const isMetrics = raw === 'metrics' || raw === 'metricas';
+    const isRoi = raw === 'roi' || raw === 'rentabilidad';
+    const isCarta = !isAlergenos && !isReservas && !isKds && !isMetrics && !isRoi;
+
+    const setBtnActive = (el, active) => {
+      if (!el) return;
+      if (active) {
+        el.classList.add('active-view', 'font-semibold', 'shadow-xs');
+      } else {
+        el.classList.remove('active-view', 'font-semibold', 'shadow-xs');
+      }
+    };
+
+    setBtnActive(header.querySelector('nav button[data-nav="carta"]'), isCarta);
+    setBtnActive(header.querySelector('nav [data-nav="alergenos"]'), isAlergenos);
+    setBtnActive(header.querySelector('nav button[data-view="reservations"]'), isReservas);
+    setBtnActive(header.querySelector('nav button[data-view="kds"]'), isKds);
+    setBtnActive(header.querySelector('nav button[data-view="metrics"]'), isMetrics);
+    setBtnActive(header.querySelector('nav button[data-view="roi"]'), isRoi);
+
+    setBtnActive(header.querySelector('#mobile-nav-bar button[data-nav="carta"]'), isCarta);
+    setBtnActive(header.querySelector('#mobile-nav-bar [data-nav="alergenos"]'), isAlergenos);
+    setBtnActive(header.querySelector('#mobile-nav-bar button[data-view="reservations"]'), isReservas);
+    setBtnActive(header.querySelector('#mobile-nav-bar button[data-view="kds"]'), isKds);
+    setBtnActive(header.querySelector('#mobile-nav-bar button[data-view="metrics"]'), isMetrics);
+    setBtnActive(header.querySelector('#mobile-nav-bar button[data-view="roi"]'), isRoi);
   }
 
   scrollToElement(targetElement, behavior = 'smooth') {
@@ -1202,6 +1269,7 @@ class GastroApp {
   handleUrlHash(isInitialLoad = false) {
     if (typeof window === 'undefined') return;
     const rawHash = (window.location.hash || '').replace(/^#/, '').trim().toLowerCase();
+    this.updateHeaderActiveNav(rawHash);
     if (!rawHash && !isInitialLoad) return;
     if (!isInitialLoad && this.lastProcessedHash === rawHash) return;
     this.lastProcessedHash = rawHash;
@@ -1598,6 +1666,10 @@ class GastroApp {
 
               <!-- CTAs -->
               <div class="flex flex-wrap items-center gap-4 pt-4">
+                <a data-paquete-max="esencial" class="inline-flex items-center gap-2.5 bg-primary-container hover:bg-primary text-on-primary font-label-action text-label-action px-7 py-3.5 rounded-full transition-all duration-300 shadow-[0_8px_24px_rgba(156,56,44,0.35)] transform hover:-translate-y-0.5 cursor-pointer" href="#carta-section">
+                  <span class="material-symbols-outlined text-[18px]">restaurant_menu</span>
+                  <span>Ver la carta</span>
+                </a>
                 <a class="inline-flex items-center gap-2.5 bg-primary-container hover:bg-primary text-on-primary font-label-action text-label-action px-7 py-3.5 rounded-full transition-all duration-300 shadow-[0_8px_24px_rgba(156,56,44,0.35)] transform hover:-translate-y-0.5 cursor-pointer" href="#reservas-direct" data-paquete-min="profesional">
                   <span class="material-symbols-outlined text-[18px]">calendar_month</span>
                   <span>Reservar mesa</span>
@@ -2457,6 +2529,11 @@ class GastroApp {
     if (preset.id === 'estilo1') {
       const scrollY = (typeof window !== 'undefined') ? (window.scrollY || (document.documentElement && document.documentElement.scrollTop) || 0) : 0;
       const isAtTop = (currentView === 'menu' && scrollY <= 45);
+      const currentHash = (typeof window !== 'undefined' && window.location.hash)
+        ? window.location.hash.replace(/^#/, '').trim().toLowerCase()
+        : '';
+      const isAlergenosActive = currentView === 'menu' && (currentHash === 'alergenos' || currentHash === 'alergenos-info');
+      const isCartaActive = currentView === 'menu' && !isAlergenosActive;
 
       return `
         <header id="main-header" class="fixed top-0 w-full z-50 transition-all duration-300 ${isAtTop ? 'is-transparent-dark' : 'is-light-scrolled'}">
@@ -2479,20 +2556,23 @@ class GastroApp {
 
             <!-- Navegación Central Stitch (Cápsula Segmentada con las Vistas del Sistema) -->
             <nav class="hidden md:flex items-center gap-1 header-nav-capsule px-2 py-1.5 rounded-full shadow-[0_1px_4px_rgba(0,0,0,0.02)] border">
-              <button data-view="menu" data-nav="carta" class="header-nav-btn px-3.5 py-2 font-label-action text-label-action transition-colors rounded-full cursor-pointer ${currentView === 'menu' ? 'active-view font-semibold shadow-xs' : ''}">
+              <button data-view="menu" data-nav="carta" class="header-nav-btn px-3.5 py-2 font-label-action text-label-action transition-colors rounded-full cursor-pointer ${isCartaActive ? 'active-view font-semibold shadow-xs' : ''}">
                 Carta
+              </button>
+              <button type="button" data-nav="alergenos" class="header-nav-btn px-3.5 py-2 font-label-action text-label-action transition-colors rounded-full cursor-pointer ${isAlergenosActive ? 'active-view font-semibold shadow-xs' : ''}">
+                Alérgenos
               </button>
               <button data-view="reservations" data-paquete-min="profesional" class="header-nav-btn px-3.5 py-2 font-label-action text-label-action transition-colors rounded-full cursor-pointer ${currentView === 'reservations' ? 'active-view font-semibold shadow-xs' : ''}">
                 Reservas
               </button>
-              <button data-view="kds" class="header-nav-btn px-3.5 py-2 font-label-action text-label-action transition-colors rounded-full cursor-pointer flex items-center gap-1.5 ${currentView === 'kds' ? 'active-view font-semibold shadow-xs' : ''}">
+              <button data-view="kds" data-paquete-min="premium" class="header-nav-btn px-3.5 py-2 font-label-action text-label-action transition-colors rounded-full cursor-pointer flex items-center gap-1.5 ${currentView === 'kds' ? 'active-view font-semibold shadow-xs' : ''}">
                 <span>Cocina</span>
                 ${kdsPending > 0 ? `<span class="bg-primary text-on-primary text-[10px] font-bold px-1.5 py-0.2 rounded-full">${kdsPending}</span>` : ''}
               </button>
-              <button data-view="metrics" class="header-nav-btn px-3.5 py-2 font-label-action text-label-action transition-colors rounded-full cursor-pointer ${currentView === 'metrics' ? 'active-view font-semibold shadow-xs' : ''}">
+              <button data-view="metrics" data-paquete-min="premium" class="header-nav-btn px-3.5 py-2 font-label-action text-label-action transition-colors rounded-full cursor-pointer ${currentView === 'metrics' ? 'active-view font-semibold shadow-xs' : ''}">
                 Métricas
               </button>
-              <button data-view="roi" class="header-nav-btn px-3.5 py-2 font-label-action text-label-action transition-colors rounded-full cursor-pointer ${currentView === 'roi' ? 'active-view font-semibold shadow-xs' : ''}">
+              <button data-view="roi" data-paquete-min="premium" class="header-nav-btn px-3.5 py-2 font-label-action text-label-action transition-colors rounded-full cursor-pointer ${currentView === 'roi' ? 'active-view font-semibold shadow-xs' : ''}">
                 Rentabilidad
               </button>
             </nav>
@@ -2501,15 +2581,14 @@ class GastroApp {
             <div class="flex items-center gap-1 sm:gap-2.5 flex-shrink-0">
               ${selectorHtml}
 
-              ${pkgHas('premium') ? `
-              <button data-view="reservations" class="hidden sm:inline-flex items-center gap-2 bg-primary-container hover:bg-primary text-on-primary font-label-action text-label-action px-5 py-2.5 rounded-full transition-all duration-300 shadow-[0_4px_16px_rgba(156,56,44,0.2)] cursor-pointer">
+              <button data-view="reservations" data-paquete-min="premium" class="hidden sm:inline-flex items-center gap-2 bg-primary-container hover:bg-primary text-on-primary font-label-action text-label-action px-5 py-2.5 rounded-full transition-all duration-300 shadow-[0_4px_16px_rgba(156,56,44,0.2)] cursor-pointer">
                 <span class="material-symbols-outlined text-[18px]">restaurant</span>
                 <span class="hidden 2xl:inline">Reservar mesa</span>
-              </button>` : `
-              <a href="#reservas-direct" data-paquete-min="profesional" class="hidden sm:inline-flex items-center gap-2 bg-primary-container hover:bg-primary text-on-primary font-label-action text-label-action px-5 py-2.5 rounded-full transition-all duration-300 shadow-[0_4px_16px_rgba(156,56,44,0.2)] cursor-pointer">
+              </button>
+              <a href="#reservas-direct" data-paquete-min="profesional" data-paquete-max="profesional" class="hidden sm:inline-flex items-center gap-2 bg-primary-container hover:bg-primary text-on-primary font-label-action text-label-action px-5 py-2.5 rounded-full transition-all duration-300 shadow-[0_4px_16px_rgba(156,56,44,0.2)] cursor-pointer">
                 <span class="material-symbols-outlined text-[18px]">restaurant</span>
                 <span class="hidden 2xl:inline">Reservar mesa</span>
-              </a>`}
+              </a>
 
               <button id="open-cart-btn" data-paquete-min="premium" class="relative inline-flex items-center gap-1 p-1.5 sm:px-3 sm:py-2 rounded-full font-label-action text-label-action transition-colors shadow-sm cursor-pointer border flex-shrink-0" title="Ver comanda">
                 <span class="material-symbols-outlined text-[18px]">shopping_bag</span>
@@ -2522,11 +2601,12 @@ class GastroApp {
 
           <!-- Barra táctil de vistas para móviles y tablets -->
           <div id="mobile-nav-bar" class="md:hidden border-t px-4 py-2 overflow-x-auto no-scrollbar flex items-center gap-2 text-xs font-label-action whitespace-nowrap">
-            <button data-view="menu" data-nav="carta" class="px-3 py-1.5 rounded-full ${currentView === 'menu' ? 'active-view font-semibold shadow-xs' : ''}">Carta</button>
-            <button data-view="reservations" data-paquete-min="profesional" class="px-3 py-1.5 rounded-full ${currentView === 'reservations' ? 'active-view font-semibold shadow-xs' : ''}">Reservas</button>
-            <button data-view="kds" class="px-3 py-1.5 rounded-full ${currentView === 'kds' ? 'active-view font-semibold shadow-xs' : ''}">Cocina (${kdsPending})</button>
-            <button data-view="metrics" class="px-3 py-1.5 rounded-full ${currentView === 'metrics' ? 'active-view font-semibold shadow-xs' : ''}">Métricas</button>
-            <button data-view="roi" class="px-3 py-1.5 rounded-full ${currentView === 'roi' ? 'active-view font-semibold shadow-xs' : ''}">Rentabilidad</button>
+            <button data-view="menu" data-nav="carta" class="px-3 py-1.5 rounded-full cursor-pointer ${isCartaActive ? 'active-view font-semibold shadow-xs' : ''}">Carta</button>
+            <button type="button" data-nav="alergenos" class="px-3 py-1.5 rounded-full cursor-pointer ${isAlergenosActive ? 'active-view font-semibold shadow-xs' : ''}">Alérgenos</button>
+            <button data-view="reservations" data-paquete-min="profesional" class="px-3 py-1.5 rounded-full cursor-pointer ${currentView === 'reservations' ? 'active-view font-semibold shadow-xs' : ''}">Reservas</button>
+            <button data-view="kds" data-paquete-min="premium" class="px-3 py-1.5 rounded-full cursor-pointer ${currentView === 'kds' ? 'active-view font-semibold shadow-xs' : ''}">Cocina (${kdsPending})</button>
+            <button data-view="metrics" data-paquete-min="premium" class="px-3 py-1.5 rounded-full cursor-pointer ${currentView === 'metrics' ? 'active-view font-semibold shadow-xs' : ''}">Métricas</button>
+            <button data-view="roi" data-paquete-min="premium" class="px-3 py-1.5 rounded-full cursor-pointer ${currentView === 'roi' ? 'active-view font-semibold shadow-xs' : ''}">Rentabilidad</button>
           </div>
         </header>
       `;
@@ -2554,15 +2634,16 @@ class GastroApp {
               <!-- Cápsula Flotante (Segmented Control) -->
               <nav class="hidden lg:flex items-center bento-pill-nav space-x-1.5 text-xs font-semibold">
                 <button data-view="menu" data-nav="carta" class="px-3.5 py-1.5 rounded-full transition-all ${currentView === 'menu' ? 'bg-sky-600 text-white shadow' : 'text-slate-400 hover:text-slate-200'}">Carta Interactiva</button>
-                <button data-view="reservations" class="px-3.5 py-1.5 rounded-full transition-all ${currentView === 'reservations' ? 'bg-sky-600 text-white shadow' : 'text-slate-400 hover:text-slate-200'}">Reservas</button>
-                <button data-view="kds" class="px-3.5 py-1.5 rounded-full transition-all ${currentView === 'kds' ? 'bg-sky-600 text-white shadow' : 'text-slate-400 hover:text-slate-200'}">KDS Cocina (${kdsPending})</button>
-                <button data-view="metrics" class="px-3.5 py-1.5 rounded-full transition-all ${currentView === 'metrics' ? 'bg-sky-600 text-white shadow' : 'text-slate-400 hover:text-slate-200'}">Métricas</button>
-                <button data-view="roi" class="px-3.5 py-1.5 rounded-full transition-all ${currentView === 'roi' ? 'bg-sky-600 text-white shadow' : 'text-slate-400 hover:text-slate-200'}">Ahorro 0%</button>
+                <button type="button" data-nav="alergenos" class="px-3.5 py-1.5 rounded-full transition-all text-slate-400 hover:text-slate-200">Alérgenos</button>
+                <button data-view="reservations" data-paquete-min="profesional" class="px-3.5 py-1.5 rounded-full transition-all ${currentView === 'reservations' ? 'bg-sky-600 text-white shadow' : 'text-slate-400 hover:text-slate-200'}">Reservas</button>
+                <button data-view="kds" data-paquete-min="premium" class="px-3.5 py-1.5 rounded-full transition-all ${currentView === 'kds' ? 'bg-sky-600 text-white shadow' : 'text-slate-400 hover:text-slate-200'}">KDS Cocina (${kdsPending})</button>
+                <button data-view="metrics" data-paquete-min="premium" class="px-3.5 py-1.5 rounded-full transition-all ${currentView === 'metrics' ? 'bg-sky-600 text-white shadow' : 'text-slate-400 hover:text-slate-200'}">Métricas</button>
+                <button data-view="roi" data-paquete-min="premium" class="px-3.5 py-1.5 rounded-full transition-all ${currentView === 'roi' ? 'bg-sky-600 text-white shadow' : 'text-slate-400 hover:text-slate-200'}">Ahorro 0%</button>
               </nav>
 
               <div class="flex items-center space-x-2.5 flex-shrink-0">
                 ${selectorHtml}
-                <button id="open-cart-btn" class="bg-blue-600 hover:bg-blue-500 text-white text-xs font-bold px-3.5 py-2 rounded-xl shadow flex items-center space-x-1.5">
+                <button id="open-cart-btn" data-paquete-min="premium" class="bg-blue-600 hover:bg-blue-500 text-white text-xs font-bold px-3.5 py-2 rounded-xl shadow flex items-center space-x-1.5">
                   ${ICONS.cart}
                   <span class="font-mono">${formatCurrency(store.getCartTotal())}</span>
                   ${cartCount > 0 ? `<span class="bg-white text-blue-800 text-[10px] font-black px-1.5 py-0.2 rounded-full">${cartCount}</span>` : ''}
@@ -2575,10 +2656,11 @@ class GastroApp {
           <!-- Barra móvil táctil con botones redondeados -->
           <nav class="lg:hidden bg-slate-900 border-t border-slate-800 px-2 py-2 overflow-x-auto no-scrollbar flex items-center space-x-2 text-xs font-medium min-w-max">
             <button data-view="menu" data-nav="carta" class="px-3 py-1.5 rounded-lg ${currentView === 'menu' ? 'bg-sky-600 text-white font-bold' : 'text-slate-300'}">Carta</button>
-            <button data-view="reservations" class="px-3 py-1.5 rounded-lg ${currentView === 'reservations' ? 'bg-sky-600 text-white font-bold' : 'text-slate-300'}">Reservas</button>
-            <button data-view="kds" class="px-3 py-1.5 rounded-lg ${currentView === 'kds' ? 'bg-sky-600 text-white font-bold' : 'text-slate-300'}">Cocina (${kdsPending})</button>
-            <button data-view="metrics" class="px-3 py-1.5 rounded-lg ${currentView === 'metrics' ? 'bg-sky-600 text-white font-bold' : 'text-slate-300'}">Métricas</button>
-            <button data-view="roi" class="px-3 py-1.5 rounded-lg ${currentView === 'roi' ? 'bg-sky-600 text-white font-bold' : 'text-slate-300'}">Ahorro</button>
+            <button type="button" data-nav="alergenos" class="px-3 py-1.5 rounded-lg text-slate-300">Alérgenos</button>
+            <button data-view="reservations" data-paquete-min="profesional" class="px-3 py-1.5 rounded-lg ${currentView === 'reservations' ? 'bg-sky-600 text-white font-bold' : 'text-slate-300'}">Reservas</button>
+            <button data-view="kds" data-paquete-min="premium" class="px-3 py-1.5 rounded-lg ${currentView === 'kds' ? 'bg-sky-600 text-white font-bold' : 'text-slate-300'}">Cocina (${kdsPending})</button>
+            <button data-view="metrics" data-paquete-min="premium" class="px-3 py-1.5 rounded-lg ${currentView === 'metrics' ? 'bg-sky-600 text-white font-bold' : 'text-slate-300'}">Métricas</button>
+            <button data-view="roi" data-paquete-min="premium" class="px-3 py-1.5 rounded-lg ${currentView === 'roi' ? 'bg-sky-600 text-white font-bold' : 'text-slate-300'}">Ahorro</button>
           </nav>
         </header>
       `;
@@ -2604,15 +2686,16 @@ class GastroApp {
               <!-- Menú Clásico de Fichero / Pestañas Rectangulares -->
               <nav class="hidden md:flex items-center space-x-1.5 font-serif text-sm font-semibold">
                 <button data-view="menu" data-nav="carta" class="px-3.5 py-2 border-b-2 transition-all ${currentView === 'menu' ? 'border-[#8c7b6c] text-[#1c1510] font-bold bg-[#eee7db]' : 'border-transparent text-[#6b5c4f] hover:text-[#1c1510]'}">Carta del Día</button>
-                <button data-view="reservations" class="px-3.5 py-2 border-b-2 transition-all ${currentView === 'reservations' ? 'border-[#8c7b6c] text-[#1c1510] font-bold bg-[#eee7db]' : 'border-transparent text-[#6b5c4f] hover:text-[#1c1510]'}">Reservar Mesa</button>
-                <button data-view="kds" class="px-3.5 py-2 border-b-2 transition-all ${currentView === 'kds' ? 'border-[#8c7b6c] text-[#1c1510] font-bold bg-[#eee7db]' : 'border-transparent text-[#6b5c4f] hover:text-[#1c1510]'}">Comandero (${kdsPending})</button>
-                <button data-view="metrics" class="px-3.5 py-2 border-b-2 transition-all ${currentView === 'metrics' ? 'border-[#8c7b6c] text-[#1c1510] font-bold bg-[#eee7db]' : 'border-transparent text-[#6b5c4f] hover:text-[#1c1510]'}">Caja & Datos</button>
-                <button data-view="roi" class="px-3.5 py-2 border-b-2 transition-all ${currentView === 'roi' ? 'border-[#8c7b6c] text-[#1c1510] font-bold bg-[#eee7db]' : 'border-transparent text-[#6b5c4f] hover:text-[#1c1510]'}">Comparativa Comisiones</button>
+                <button type="button" data-nav="alergenos" class="px-3.5 py-2 border-b-2 transition-all border-transparent text-[#6b5c4f] hover:text-[#1c1510]">Alérgenos</button>
+                <button data-view="reservations" data-paquete-min="profesional" class="px-3.5 py-2 border-b-2 transition-all ${currentView === 'reservations' ? 'border-[#8c7b6c] text-[#1c1510] font-bold bg-[#eee7db]' : 'border-transparent text-[#6b5c4f] hover:text-[#1c1510]'}">Reservar Mesa</button>
+                <button data-view="kds" data-paquete-min="premium" class="px-3.5 py-2 border-b-2 transition-all ${currentView === 'kds' ? 'border-[#8c7b6c] text-[#1c1510] font-bold bg-[#eee7db]' : 'border-transparent text-[#6b5c4f] hover:text-[#1c1510]'}">Comandero (${kdsPending})</button>
+                <button data-view="metrics" data-paquete-min="premium" class="px-3.5 py-2 border-b-2 transition-all ${currentView === 'metrics' ? 'border-[#8c7b6c] text-[#1c1510] font-bold bg-[#eee7db]' : 'border-transparent text-[#6b5c4f] hover:text-[#1c1510]'}">Caja & Datos</button>
+                <button data-view="roi" data-paquete-min="premium" class="px-3.5 py-2 border-b-2 transition-all ${currentView === 'roi' ? 'border-[#8c7b6c] text-[#1c1510] font-bold bg-[#eee7db]' : 'border-transparent text-[#6b5c4f] hover:text-[#1c1510]'}">Comparativa Comisiones</button>
               </nav>
 
               <div class="flex items-center space-x-2.5 flex-shrink-0">
                 ${selectorHtml}
-                <button id="open-cart-btn" class="bg-[#3d3228] hover:bg-[#251e18] text-[#f6f3eb] text-xs font-bold px-3.5 py-2 rounded shadow flex items-center space-x-1.5 font-serif">
+                <button id="open-cart-btn" data-paquete-min="premium" class="bg-[#3d3228] hover:bg-[#251e18] text-[#f6f3eb] text-xs font-bold px-3.5 py-2 rounded shadow flex items-center space-x-1.5 font-serif">
                   ${ICONS.cart}
                   <span>Comanda (${cartCount})</span>
                 </button>
@@ -2624,10 +2707,11 @@ class GastroApp {
           <!-- Barra móvil estilo fichero -->
           <nav class="md:hidden bg-[#eee7db] border-t border-[#8c7b6c] px-3 py-2 overflow-x-auto no-scrollbar flex items-center space-x-2.5 text-xs font-serif min-w-max">
             <button data-view="menu" data-nav="carta" class="px-2.5 py-1.5 rounded ${currentView === 'menu' ? 'bg-[#3d3228] text-white' : 'text-[#3d3228]'}">Carta</button>
-            <button data-view="reservations" class="px-2.5 py-1.5 rounded ${currentView === 'reservations' ? 'bg-[#3d3228] text-white' : 'text-[#3d3228]'}">Reservas</button>
-            <button data-view="kds" class="px-2.5 py-1.5 rounded ${currentView === 'kds' ? 'bg-[#3d3228] text-white' : 'text-[#3d3228]'}">Comandero (${kdsPending})</button>
-            <button data-view="metrics" class="px-2.5 py-1.5 rounded ${currentView === 'metrics' ? 'bg-[#3d3228] text-white' : 'text-[#3d3228]'}">Caja</button>
-            <button data-view="roi" class="px-2.5 py-1.5 rounded ${currentView === 'roi' ? 'bg-[#3d3228] text-white' : 'text-[#3d3228]'}">Comisiones</button>
+            <button type="button" data-nav="alergenos" class="px-2.5 py-1.5 rounded text-[#3d3228]">Alérgenos</button>
+            <button data-view="reservations" data-paquete-min="profesional" class="px-2.5 py-1.5 rounded ${currentView === 'reservations' ? 'bg-[#3d3228] text-white' : 'text-[#3d3228]'}">Reservas</button>
+            <button data-view="kds" data-paquete-min="premium" class="px-2.5 py-1.5 rounded ${currentView === 'kds' ? 'bg-[#3d3228] text-white' : 'text-[#3d3228]'}">Comandero (${kdsPending})</button>
+            <button data-view="metrics" data-paquete-min="premium" class="px-2.5 py-1.5 rounded ${currentView === 'metrics' ? 'bg-[#3d3228] text-white' : 'text-[#3d3228]'}">Caja</button>
+            <button data-view="roi" data-paquete-min="premium" class="px-2.5 py-1.5 rounded ${currentView === 'roi' ? 'bg-[#3d3228] text-white' : 'text-[#3d3228]'}">Comisiones</button>
           </nav>
         </header>
       `;
@@ -2647,15 +2731,16 @@ class GastroApp {
             <!-- Navegación Minimalista Espaciada -->
             <nav class="hidden md:flex items-center space-x-9 text-xs font-light tracking-widest uppercase">
               <button data-view="menu" data-nav="carta" class="transition-colors ${currentView === 'menu' ? 'text-zinc-900 font-semibold border-b border-zinc-900 pb-1' : 'text-zinc-400 hover:text-zinc-900'}">Menú</button>
-              <button data-view="reservations" class="transition-colors ${currentView === 'reservations' ? 'text-zinc-900 font-semibold border-b border-zinc-900 pb-1' : 'text-zinc-400 hover:text-zinc-900'}">Mesa</button>
-              <button data-view="kds" class="transition-colors ${currentView === 'kds' ? 'text-zinc-900 font-semibold border-b border-zinc-900 pb-1' : 'text-zinc-400 hover:text-zinc-900'}">Obrador (${kdsPending})</button>
-              <button data-view="metrics" class="transition-colors ${currentView === 'metrics' ? 'text-zinc-900 font-semibold border-b border-zinc-900 pb-1' : 'text-zinc-400 hover:text-zinc-900'}">Estadísticas</button>
-              <button data-view="roi" class="transition-colors ${currentView === 'roi' ? 'text-zinc-900 font-semibold border-b border-zinc-900 pb-1' : 'text-zinc-400 hover:text-zinc-900'}">Rentabilidad</button>
+              <button type="button" data-nav="alergenos" class="transition-colors text-zinc-400 hover:text-zinc-900">Alérgenos</button>
+              <button data-view="reservations" data-paquete-min="profesional" class="transition-colors ${currentView === 'reservations' ? 'text-zinc-900 font-semibold border-b border-zinc-900 pb-1' : 'text-zinc-400 hover:text-zinc-900'}">Mesa</button>
+              <button data-view="kds" data-paquete-min="premium" class="transition-colors ${currentView === 'kds' ? 'text-zinc-900 font-semibold border-b border-zinc-900 pb-1' : 'text-zinc-400 hover:text-zinc-900'}">Obrador (${kdsPending})</button>
+              <button data-view="metrics" data-paquete-min="premium" class="transition-colors ${currentView === 'metrics' ? 'text-zinc-900 font-semibold border-b border-zinc-900 pb-1' : 'text-zinc-400 hover:text-zinc-900'}">Estadísticas</button>
+              <button data-view="roi" data-paquete-min="premium" class="transition-colors ${currentView === 'roi' ? 'text-zinc-900 font-semibold border-b border-zinc-900 pb-1' : 'text-zinc-400 hover:text-zinc-900'}">Rentabilidad</button>
             </nav>
 
             <div class="flex items-center space-x-3 flex-shrink-0">
               ${selectorHtml}
-              <button id="open-cart-btn" class="text-xs font-medium tracking-wide flex items-center space-x-1.5 text-zinc-900 hover:text-zinc-600 bg-zinc-100 hover:bg-zinc-200 px-3 py-2 rounded-lg transition-colors">
+              <button id="open-cart-btn" data-paquete-min="premium" class="text-xs font-medium tracking-wide flex items-center space-x-1.5 text-zinc-900 hover:text-zinc-600 bg-zinc-100 hover:bg-zinc-200 px-3 py-2 rounded-lg transition-colors">
                 ${ICONS.cart}
                 <span>(${cartCount})</span>
               </button>
