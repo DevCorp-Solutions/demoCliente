@@ -1,32 +1,32 @@
 /**
- * DevCorp Solutions · Paquetes comerciales (Esencial · DevCorp · Profesional)
+ * DevCorp Solutions · Paquetes comerciales (Esencial · Profesional · Premium)
  *
  * Se carga en el <head>, antes de pintar la página: marca <html data-paquete="...">
  * para que paquete.css oculte lo que no incluye el paquete elegido, sin parpadeos.
  *
  *  - Selector: cualquier <select data-paquete-select> (si está vacío se rellena solo).
- *    También vale ?paquete=esencial|devcorp|profesional en la URL.
+ *    También vale ?paquete=esencial|profesional|premium en la URL.
  *  - La elección se guarda en localStorage y se mantiene al cambiar de estilo.
  *  - Marcado en el HTML:
- *      data-paquete-min="devcorp"      → no aparece en el Paquete Esencial
- *      data-paquete-min="profesional"  → solo en el Paquete Profesional
+ *      data-paquete-min="profesional"      → no aparece en el Paquete Esencial
+ *      data-paquete-min="premium"  → solo en el Paquete Premium
  *      data-paquete-max="esencial"     → solo en el Paquete Esencial
- *      data-paquete-max="devcorp"      → en Esencial y DevCorp, no en Profesional
- *  - Desde JS: window.DevcorpPaquete.has('devcorp') / .is('esencial') / .current
+ *      data-paquete-max="profesional"      → en Esencial y Profesional, no en Premium
+ *  - Desde JS: window.DevcorpPaquete.has('profesional') / .is('esencial') / .current
  *
- * Por defecto se muestra el Paquete Profesional (la web completa tal como está).
+ * Por defecto se muestra el Paquete Premium (la web completa tal como está).
  */
 (function () {
   'use strict';
 
-  var KEY = 'devcorp_paquete';
+  var KEY = 'devcorp_paquete_v2';
   var LIST = [
     { id: 'esencial', label: 'Paquete Esencial' },
-    { id: 'devcorp', label: 'Paquete DevCorp' },
-    { id: 'profesional', label: 'Paquete Profesional' }
+    { id: 'profesional', label: 'Paquete Profesional' },
+    { id: 'premium', label: 'Paquete Premium' }
   ];
-  var RANK = { esencial: 0, devcorp: 1, profesional: 2 };
-  var DEFAULT = 'profesional';
+  var RANK = { esencial: 0, profesional: 1, premium: 2 };
+  var DEFAULT = 'premium';
 
   var valid = function (v) { return Object.prototype.hasOwnProperty.call(RANK, v); };
   var save = function (v) { try { localStorage.setItem(KEY, v); } catch (e) { /* sin almacenamiento */ } };

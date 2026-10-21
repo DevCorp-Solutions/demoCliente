@@ -57,9 +57,9 @@ button{font:inherit;cursor:pointer}
       <a href="index.html#desayunos" style="text-decoration:none;padding:6px 0;color:#EBF4F3">06:00 Desayunos</a>
       <a href="index.html#comer" style="text-decoration:none;padding:6px 0;color:#EBF4F3">13:00 A comer</a>
       <a href="index.html#minis" style="text-decoration:none;padding:6px 0;color:#EBF4F3">18:00 Minis</a>
-      <a href="index.html#cervezas" data-paquete-min="devcorp" style="text-decoration:none;padding:6px 0;color:#EBF4F3">Cervezas</a>
+      <a href="index.html#cervezas" data-paquete-min="profesional" style="text-decoration:none;padding:6px 0;color:#EBF4F3">Cervezas</a>
       <a href="index.html#finde" style="text-decoration:none;padding:6px 0;color:#EBF4F3">23:00 Finde</a>
-      <a href="index.html#opiniones" data-paquete-min="devcorp" style="text-decoration:none;padding:6px 0;color:#EBF4F3">Opiniones</a>
+      <a href="index.html#opiniones" data-paquete-min="profesional" style="text-decoration:none;padding:6px 0;color:#EBF4F3">Opiniones</a>
       <a href="carta.html" style="text-decoration:none;padding:6px 0;color:#9FD3C7;font-weight:900;border-bottom:2px solid #9FD3C7">La carta</a>
       <a href="index.html#llegar" style="text-decoration:none;padding:6px 0;color:#EBF4F3">Cómo llegar</a>
     </nav>
@@ -70,7 +70,7 @@ button{font:inherit;cursor:pointer}
         <span>📞 912 94 84 07</span>
       </a>
       <select id="style-select" defaultValue="estilo2" aria-label="Seleccionar Estilo DevCorp" style="background:#213A3C;color:#9FD3C7;border:2px solid #3F6E72;border-radius:4px;padding:7px 12px;font-family:'Alegreya Sans SC',sans-serif;font-weight:800;font-size:13px;letter-spacing:.06em;cursor:pointer;outline:none"><option value="estilo1" style="background:#fff;color:#1c1c19">Estilo 1: Parrilla Vukata</option><option value="estilo2" selected style="background:#fff;color:#1c1c19">Estilo 2: Punto de Encuentro</option><option value="estilo3" style="background:#fff;color:#1c1c19">Estilo 3: Mala Pata Aluche</option><option value="estilo4" style="background:#fff;color:#1c1c19">Estilo 4: Cervecería Veinti7</option><option value="estilo5" style="background:#fff;color:#1c1c19">Estilo 5: Umbral</option><option value="estilo6" style="background:#fff;color:#1c1c19">Estilo 6: Miga</option><option value="estilo7" style="background:#fff;color:#1c1c19">Estilo 7: Órbita</option><option value="estilo8" style="background:#fff;color:#1c1c19">Estilo 8: Tercio</option></select>
-      <select data-paquete-select aria-label="Cambiar de paquete" style="background:#213A3C;color:#9FD3C7;border:2px solid #3F6E72;border-radius:4px;padding:7px 12px;font-family:'Alegreya Sans SC',sans-serif;font-weight:800;font-size:13px;letter-spacing:.06em;cursor:pointer;outline:none"><option value="esencial" style="background:#fff;color:#1c1c19">Paquete Esencial</option><option value="devcorp" style="background:#fff;color:#1c1c19">Paquete DevCorp</option><option value="profesional" style="background:#fff;color:#1c1c19">Paquete Profesional</option></select>
+      <select data-paquete-select aria-label="Cambiar de paquete" style="background:#213A3C;color:#9FD3C7;border:2px solid #3F6E72;border-radius:4px;padding:7px 12px;font-family:'Alegreya Sans SC',sans-serif;font-weight:800;font-size:13px;letter-spacing:.06em;cursor:pointer;outline:none"><option value="esencial" style="background:#fff;color:#1c1c19">Paquete Esencial</option><option value="profesional" style="background:#fff;color:#1c1c19">Paquete Profesional</option><option value="premium" style="background:#fff;color:#1c1c19">Paquete Premium</option></select>
     </div>
 
   </div>
@@ -98,7 +98,7 @@ button{font:inherit;cursor:pointer}
         </sc-for>
       </nav>
     </div>
-    <div data-paquete-min="devcorp" style="display:flex;gap:6px;overflow-x:auto;padding:0 clamp(16px,4vw,48px) 10px;align-items:center;scrollbar-width:none">
+    <div data-paquete-min="profesional" style="display:flex;gap:6px;overflow-x:auto;padding:0 clamp(16px,4vw,48px) 10px;align-items:center;scrollbar-width:none">
       <span style="flex:none;font-family:'Alegreya Sans SC',sans-serif;font-weight:800;letter-spacing:.12em;font-size:13px;margin-right:4px">Filtrar</span>
       <sc-for list="{{ filters }}" as="f" hint-placeholder-count="6">
         <button onClick="{{ f.toggle }}" aria-pressed="{{ f.pressed }}" style="flex:none;min-height:44px;padding:0 12px;border:2px dashed {{ f.bd }};border-radius:22px;background:{{ f.bg }};color:{{ f.fg }};font-weight:700;font-size:15px;white-space:nowrap">{{ f.n }}</button>
@@ -117,7 +117,7 @@ button{font:inherit;cursor:pointer}
         </sc-if>
         <div style="background:#CADDDB;padding:10px 16px 8px;display:flex;flex-wrap:wrap;align-items:baseline;gap:4px 14px;border-top:3px solid #213A3C">
           <h2 style="margin:0;font-family:'Grandstander',sans-serif;font-weight:900;font-size:clamp(26px,3.4vw,36px);line-height:1">{{ s.es }}</h2>
-          <span data-paquete-min="devcorp" style="font-style:italic;font-size:18px">{{ s.en }}</span>
+          <span data-paquete-min="profesional" style="font-style:italic;font-size:18px">{{ s.en }}</span>
           <span style="flex:1"></span>
           <span style="font-family:'Alegreya Sans SC',sans-serif;font-weight:800;letter-spacing:.12em;font-size:13px">{{ s.note }}</span>
         </div>
@@ -129,7 +129,7 @@ button{font:inherit;cursor:pointer}
                 <span style="flex:1;min-width:16px;border-bottom:2px dotted #3F6E72;transform:translateY(-4px)"></span>
                 <span style="font-family:'Grandstander',sans-serif;font-weight:800;font-size:20px;font-variant-numeric:tabular-nums;white-space:nowrap;color:{{ it.pc }}">{{ it.p }}</span>
               </div>
-              <div data-paquete-min="devcorp" style="font-style:italic;font-size:16px;color:#3A5557;margin-top:1px">{{ it.en }}</div>
+              <div data-paquete-min="profesional" style="font-style:italic;font-size:16px;color:#3A5557;margin-top:1px">{{ it.en }}</div>
               <sc-if value="{{ it.hasDesc }}" hint-placeholder-val="{{ false }}"><div style="font-size:15px;margin-top:3px">{{ it.desc }}</div></sc-if>
               <div style="display:flex;flex-wrap:wrap;gap:6px;margin-top:8px">
                 <sc-for list="{{ it.al }}" as="a" hint-placeholder-count="2">
@@ -151,11 +151,11 @@ button{font:inherit;cursor:pointer}
         <sc-for list="{{ legend }}" as="a" hint-placeholder-count="14">
           <div style="display:flex;align-items:center;gap:12px;min-height:44px">
             <span style="flex:none;width:32px;height:32px;border-radius:50% 50% 50% 0;transform:rotate(-45deg);background:#3F6E72;display:inline-flex;align-items:center;justify-content:center"><span style="transform:rotate(45deg);color:#FFFFFF;font-weight:800;font-size:12px">{{ a.c }}</span></span>
-            <span style="line-height:1.15"><span style="font-weight:800;display:block">{{ a.n }}</span><span data-paquete-min="devcorp" style="font-style:italic;font-size:15px">{{ a.en }}</span></span>
+            <span style="line-height:1.15"><span style="font-weight:800;display:block">{{ a.n }}</span><span data-paquete-min="profesional" style="font-style:italic;font-size:15px">{{ a.en }}</span></span>
           </div>
         </sc-for>
       </div>
-      <p style="margin:20px 0 0;font-size:15px;max-width:640px">Información orientativa: en nuestra cocina se trabaja con todos los alérgenos. Si tienes una alergia, dínoslo en barra antes de pedir. <span data-paquete-min="devcorp" style="font-style:italic">Please tell us about any allergy before ordering.</span></p>
+      <p style="margin:20px 0 0;font-size:15px;max-width:640px">Información orientativa: en nuestra cocina se trabaja con todos los alérgenos. Si tienes una alergia, dínoslo en barra antes de pedir. <span data-paquete-min="profesional" style="font-style:italic">Please tell us about any allergy before ordering.</span></p>
       <p style="margin:10px 0 0;font-size:14px;color:#3F6E72;font-weight:700">✓ Precios y alérgenos verificados conforme a la carta física oficial del local.</p>
     </section>
   </main>
@@ -166,7 +166,7 @@ button{font:inherit;cursor:pointer}
   </footer>
 
   <sc-if value="{{ narrow }}" hint-placeholder-val="{{ true }}">
-    <nav aria-label="Acciones rápidas" data-paquete-min="devcorp" style="position:fixed;left:0;right:0;bottom:0;z-index:50;display:grid;grid-template-columns:1fr 1fr 1fr;background:#213A3C;border-top:3px solid #9FD3C7">
+    <nav aria-label="Acciones rápidas" data-paquete-min="profesional" style="position:fixed;left:0;right:0;bottom:0;z-index:50;display:grid;grid-template-columns:1fr 1fr 1fr;background:#213A3C;border-top:3px solid #9FD3C7">
       <a href="tel:+34912948407" style="min-height:62px;display:flex;align-items:center;justify-content:center;color:#EBF4F3;text-decoration:none;font-weight:800;font-size:16px;border-right:1px solid #3F6E72">Llamar</a>
       <a href="index.html#llegar" style="min-height:62px;display:flex;align-items:center;justify-content:center;color:#EBF4F3;text-decoration:none;font-weight:800;font-size:16px;border-right:1px solid #3F6E72">Cómo llegar</a>
       <a href="#top" onClick="{{ toTop }}" style="min-height:62px;display:flex;align-items:center;justify-content:center;color:#213A3C;background:#9FD3C7;text-decoration:none;font-weight:800;font-size:16px">Carta ↑</a>
@@ -403,7 +403,7 @@ class Component extends DCLogic {
   // Paquete Esencial (paquete.js): carta con categorías básicas y sin «La carta que no esperas» (fuera de carta).
   paqueteCarta(carta) {
     const pkg = window.DevcorpPaquete;
-    if (!pkg || pkg.has('devcorp')) return carta;
+    if (!pkg || pkg.has('profesional')) return carta;
     const BASIC = [
       ['desayunos', 'Desayunos', 'Breakfast', ['desayunos']],
       ['entrantes', 'Entrantes', 'Starters', ['combos', 'tostas', 'ensaladas', 'raciones']],

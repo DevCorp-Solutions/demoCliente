@@ -5,9 +5,9 @@
   const $ = selector => document.querySelector(selector);
   const escape = value => String(value ?? '').replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
   const normalize = text => text.normalize('NFD').replace(/[\u0300-\u036f]/g, '').toLowerCase();
-  // Paquete DevCorp activo (paquete.js). Esencial: carta con categorías básicas y sin fotos por plato.
+  // Paquete contratado (paquete.js). Esencial: carta con categorías básicas y sin fotos por plato.
   const pkg = window.DevcorpPaquete;
-  const essential = !!pkg && !pkg.has('devcorp');
+  const essential = !!pkg && !pkg.has('profesional');
   const BASIC = [
     ['Entrantes', ['Para compartir', 'La huerta', 'Tostas']],
     ['Principales', ['Arroces y paellas', 'Carnes', 'Del mar']],
