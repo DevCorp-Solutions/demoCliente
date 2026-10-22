@@ -958,6 +958,17 @@ class GastroApp {
           box.classList.toggle('hidden');
           this.isAllergenBoxOpen = !box.classList.contains('hidden');
         }
+        const performScroll = () => {
+          this.scrollToCarta();
+        };
+        this.scrollToCarta();
+        if (typeof requestAnimationFrame !== 'undefined') {
+          requestAnimationFrame(() => {
+            requestAnimationFrame(performScroll);
+          });
+        } else {
+          setTimeout(performScroll, 50);
+        }
         return;
       }
     });
