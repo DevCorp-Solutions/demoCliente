@@ -16,7 +16,7 @@ html[data-paquete="esencial"] a[href*="wa.me/"] { pointer-events: none; cursor: 
 /* ---------- Estilo 4 · Cervecería Veinti7 ---------- */
 
 /* Selector de paquete junto al de estilos (mismo aspecto) */
-.paquete-switch .style-select { max-width: 180px; }
+.paquete-switch .style-select { max-width: 230px; }
 
 /* Esencial: sin barra de acciones móvil, no hace falta reservarle hueco */
 html[data-paquete="esencial"] body { padding-bottom: 0; }

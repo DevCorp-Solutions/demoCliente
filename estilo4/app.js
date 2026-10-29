@@ -779,7 +779,7 @@
   function initMobileSelects() {
     $$('.mobile-style').forEach((wrap, n) => {
       const sel = $('select', wrap);
-      if (!sel) return;
+      if (!sel || wrap.classList.contains('hidden')) return; // selector oculto (p. ej. el de estilos)
       if (sel.matches('[data-paquete-select]') && !sel.options.length && PKG) sel.innerHTML = PKG.optionsHtml();
       const labelText = ($('.sr-only', wrap) || {}).textContent || '';
       const id = `cselect-${n}`;
