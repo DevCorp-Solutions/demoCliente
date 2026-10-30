@@ -1,6 +1,6 @@
 /**
  * DevCorp GastroSuite · ESTILO 9 (Pizzería) — La Pecora Nera · Pizzería La Oveja Negra (Aluche)
- * Base técnica del Estilo 4 (paquetes, alérgenos, idiomas, reservas) con la identidad de la pizzería.
+ * Diseño propio de «carta impresa»: platos circulares, sellos y comandas, sin carruseles.
  * Módulo autónomo: lee los datos reales de ./data.js (window.CURRENT_PRESET) y
  * pinta carta, reseñas, horarios y microinteracciones sobre el HTML semántico.
  * Sin dependencias externas.
@@ -22,7 +22,7 @@
   const get = (obj, path) => path.split('.').reduce((o, k) => (o == null ? undefined : o[k]), obj);
 
   // ---------- Formato de números (precios y valoración) ----------
-  const fmtNum = (n) => (Number.isInteger(n) ? String(n) : n.toFixed(2).replace('.', ','));
+  const fmtNum = (n) => Number(n).toFixed(2).replace('.', ','); // precios como en la carta: 5,00 · 1,70
   const fmtScore = (n) => String(n).replace('.', ','); // valoración: 4,8
 
   // ---------- Alérgenos (Reglamento UE 1169/2011) ----------
@@ -130,7 +130,6 @@
 
     renderReviews();
     renderHeroCards();
-    renderTicker();
   }
 
   function initials(name) {
@@ -160,28 +159,23 @@
       </article>`).join('');
   }
 
-  // Portada: tarjetas flotantes con la pizza de la casa y la valoración de Google
+  // Portada: pegatina con la pizza de la casa sobre el plato y valoración de Google
   function renderHeroCards() {
     const star = (P.menu || []).find(m => m.badge) || (P.menu || [])[0];
     const dishEl = $('[data-render="hero-dish"]');
     if (dishEl && star) {
       dishEl.innerHTML = `
-        <p class="float-card__kicker">${esc(star.badge || 'Desde la carta')}</p>
-        <div class="float-card__row">
-          <div>
-            <p class="float-card__name">${esc(star.name)}</p>
-            <p class="float-card__meta">${esc(star.description)}</p>
-          </div>
-        </div>`;
+        <span class="sticker__kicker">${esc(star.badge || 'Desde la carta')}</span>
+        <span class="sticker__name">${esc(star.name)}</span>`;
     } else if (dishEl) dishEl.remove();
 
     const rating = P.googleRating;
     const revEl = $('[data-render="hero-review"]');
     if (revEl && rating) {
       revEl.innerHTML = `
-        <div class="float-card__stars">${starsHTML(5)}</div>
-        <p class="float-card__quote"><strong class="float-card__score">${fmtScore(rating.value)}</strong> / 5</p>
-        <p class="float-card__author">${icon('google')} ${rating.count} reseñas en Google</p>`;
+        <strong class="hero-rating__score">${fmtScore(rating.value)}</strong>
+        <span class="hero-rating__stars" role="img" aria-label="${fmtScore(rating.value)} de 5 estrellas">${starsHTML(5)}</span>
+        <span class="hero-rating__count">${rating.count} reseñas en Google</span>`;
     } else if (revEl) revEl.remove();
 
     // Resumen de la valoración en la sección de opiniones
@@ -194,17 +188,8 @@
     });
   }
 
-  function renderTicker() {
-    const el = $('[data-render="ticker"]');
-    if (!el) return;
-    const names = (P.menu || []).filter(m => m.group === 'pizzas').map(m => m.name);
-    if (!names.length) { el.parentElement.remove(); return; }
-    const row = names.map(n => `<span class="ticker__item">${esc(n)}${icon('pizza')}</span>`).join('');
-    el.innerHTML = row + row; // duplicado para bucle continuo
-  }
-
   // =========================================================================
-  // 3. CARTA INTERACTIVA: pestañas Pizzas / Antipasti
+  // 3. CARTA INTERACTIVA: pestañas Bebidas / Antipasti / Pizzas / Postres y café (data.js → menuGroups)
   //    Esencial: lista básica sin filtros ni fotos por plato.
   //    Profesional y Premium: filtros por tipo de pizza y foto al tocar el plato.
   // =========================================================================
@@ -225,26 +210,28 @@
     if (!tabsEl || !panelsEl) return;
     const groups = (P.menuGroups || []).filter(g => (P.menu || []).some(m => groupOf(m) === g.id));
     if (!groups.length) return;
+    // Pestaña abierta al cargar (data.js → defaultGroup); si no existe, la primera
+    const start = Math.max(0, groups.findIndex(g => g.id === P.defaultGroup));
+    menuState.group = start;
 
-    tabsEl.innerHTML = groups.map((g, i) => {
-      const count = P.menu.filter(m => groupOf(m) === g.id).length;
-      return `<button class="menu-tab" role="tab" id="tab-${g.id}" aria-controls="panel-${g.id}" aria-selected="${i === 0}" tabindex="${i === 0 ? 0 : -1}" type="button">
-        ${icon(g.id === 'pizzas' ? 'pizza' : 'plate')}<span>${esc(g.label)}</span><span class="menu-tab__count">${count}</span>
-      </button>`;
-    }).join('') + '<span class="menu-tabs__pill" aria-hidden="true"></span>';
-    tabsEl.dataset.active = '0';
+    tabsEl.innerHTML = groups.map((g, i) => `<button class="menu-tab" role="tab" id="tab-${g.id}" aria-controls="panel-${g.id}" aria-selected="${i === start}" tabindex="${i === start ? 0 : -1}" type="button">
+        ${icon(g.icon || 'plate')}<span>${esc(g.label)}</span>
+      </button>`).join('') + '<span class="menu-tabs__pill" aria-hidden="true"></span>';
+    tabsEl.style.setProperty('--tabs', groups.length);
+    tabsEl.style.setProperty('--active', start);
 
     panelsEl.innerHTML = groups.map((g, i) => `
-      <div class="menu-panel" role="tabpanel" id="panel-${g.id}" aria-labelledby="tab-${g.id}" tabindex="0" ${i === 0 ? '' : 'hidden'} data-group="${g.id}">
+      <div class="menu-panel" role="tabpanel" id="panel-${g.id}" aria-labelledby="tab-${g.id}" tabindex="0" ${i === start ? '' : 'hidden'} data-group="${g.id}">
         <div class="menu-aside">
           <div class="menu-feature" data-feature="${g.id}">
             <img class="menu-feature__img" src="${esc(g.image)}" alt="" loading="lazy" decoding="async" width="540" height="400" />
             <div class="menu-feature__copy" aria-live="polite">
-              <p class="menu-feature__kicker">${P.menu.filter(m => groupOf(m) === g.id).length} en carta</p>
+              <p class="menu-feature__kicker"></p>
               <h3 class="menu-feature__title">${esc(g.title)}</h3>
               <p class="menu-feature__text">${esc(g.text || '')}${hasPkg('profesional') && P.menu.some(m => groupOf(m) === g.id && m.image) ? ' Toca un plato para verlo.' : ''}</p>
             </div>
           </div>
+          ${g.id === 'pizzas' ? doughTossHTML() : ''}
         </div>
         <div class="menu-body" data-body="${g.id}"></div>
       </div>`).join('');
@@ -268,7 +255,7 @@
     function selectTab(i) {
       if (i === menuState.group) return;
       menuState.group = i;
-      tabsEl.dataset.active = String(i);
+      tabsEl.style.setProperty('--active', i);
       tabs.forEach((t, j) => { t.setAttribute('aria-selected', String(j === i)); t.tabIndex = j === i ? 0 : -1; });
       $$('.menu-panel', panelsEl).forEach((p, j) => {
         p.hidden = j !== i;
@@ -280,6 +267,34 @@
       const top = app.getBoundingClientRect().top;
       if (top < 0) window.scrollTo({ top: window.scrollY + top - 70, behavior: reducedMotion ? 'auto' : 'smooth' });
     }
+  }
+
+  // La oveja negra del logo (con gorro de pizzero) lanzando la masa al aire.
+  // Ilustración decorativa en SVG; la animación está en style.css (sección «dough-toss»).
+  function doughTossHTML() {
+    return `
+      <figure class="dough-toss" aria-hidden="true">
+        <svg class="dough-toss__svg" viewBox="0 0 160 210" focusable="false">
+          <ellipse class="dt-shadow" cx="80" cy="201" rx="40" ry="5"/>
+          <g class="dt-sheep">
+            <use href="#i-sheep" x="30" y="98" width="100" height="100"/>
+            <path class="dt-hat" d="M68 120 V110 C58 110 56 96 66 94 C65 84 77 81 80 88 C83 81 95 84 94 94 C104 96 102 110 92 110 V120 Z"/>
+            <path class="dt-hat-band" d="M68 114 H92"/>
+            <g class="dt-arm dt-arm--l"><path d="M42 140 Q37 106 58 78"/><circle cx="58" cy="78" r="5.5"/></g>
+            <g class="dt-arm dt-arm--r"><path d="M118 140 Q123 106 102 78"/><circle cx="102" cy="78" r="5.5"/></g>
+          </g>
+          <g class="dt-flour">
+            <circle cx="62" cy="70" r="2.2" style="--x:-10px"/><circle cx="80" cy="66" r="1.8" style="--x:0px"/><circle cx="98" cy="70" r="2.2" style="--x:10px"/>
+          </g>
+          <g class="dt-dough">
+            <g class="dt-spin">
+              <ellipse class="dt-dough__base" cx="80" cy="71" rx="34" ry="7"/>
+              <ellipse class="dt-dough__top" cx="80" cy="69.5" rx="24" ry="3.6"/>
+            </g>
+          </g>
+        </svg>
+        <figcaption class="dough-toss__caption">¡Al aire!</figcaption>
+      </figure>`;
   }
 
   function dishRow(d, n) {
@@ -300,25 +315,49 @@
       </li>`;
   }
 
-  function renderGroup(group, filter = 'all') {
+  // Carta paginada: como mucho PAGE_SIZE platos por página, con «Anterior» / «Siguiente» debajo
+  const PAGE_SIZE = 10;
+
+  function renderGroup(group, filter = 'all', page = 0) {
     const body = $(`[data-body="${group.id}"]`);
     if (!body) return;
     const items = P.menu.filter(m => groupOf(m) === group.id);
     const cats = (group.categories || []).filter(c => items.some(m => m.category === c));
     const withFilters = hasPkg('profesional') && cats.length > 1;
     const chips = [['all', 'Todas', items.length]].concat(cats.map(c => [c, c, items.filter(m => m.category === c).length]));
-    const shown = filter === 'all' ? items : items.filter(m => m.category === filter);
+    const filtered = filter === 'all' ? items : items.filter(m => m.category === filter);
+    const pages = Math.max(1, Math.ceil(filtered.length / PAGE_SIZE));
+    page = Math.min(Math.max(page, 0), pages - 1);
+    const shown = filtered.slice(page * PAGE_SIZE, (page + 1) * PAGE_SIZE);
+    // La nota del grupo («*Ingrediente adicional: 1,50 €») va como un renglón más de la carta, al final de la lista
+    const extra = group.note && String(group.note).replace(/^\*\s*/, '').match(/^(.+?):\s*(.+)$/);
+    const extraRow = extra && page === pages - 1 ? `
+        <li class="dish dish--extra">
+          <span class="dish__num" aria-hidden="true">+</span>
+          <div>
+            <div class="dish__title"><h4 class="dish__name">${esc(extra[1])}</h4></div>
+            <span class="dish__desc">Añádelo a la pizza que quieras.</span>
+          </div>
+          <span class="dish__price">${esc(extra[2])}</span>
+        </li>` : '';
 
     body.innerHTML = `
       ${withFilters ? `<div class="menu-filters" role="group" aria-label="Filtrar ${esc(group.label.toLowerCase())}">
         ${chips.map(([val, label, count]) => `<button type="button" class="chip" data-filter="${esc(val)}" aria-pressed="${val === filter}">${esc(label)} <span class="chip__count">${count}</span></button>`).join('')}
       </div>` : ''}
       <ul class="dish-grid" aria-live="polite">
-        ${shown.map(d => dishRow(d, items.indexOf(d))).join('')}
+        ${shown.map(d => dishRow(d, items.indexOf(d))).join('')}${extraRow}
       </ul>
-      ${group.note ? `<p class="menu-note menu-note--accent">${esc(group.note)}</p>` : ''}
-      <p class="menu-note">${items.some(d => d.price) ? 'Precios en euros según nuestra carta.' : 'Consulta los precios en el local o por teléfono.'}</p>
-      ${items.some(d => (d.allergens || []).length) ? '<p class="menu-note">Alérgenos según los ingredientes de cada plato. Si tienes alguna alergia o intolerancia, avísanos antes de pedir.</p>' : ''}`;
+      ${pages > 1 ? `<nav class="menu-pager" aria-label="Páginas de la carta">
+        <button type="button" class="btn btn-outline btn-sm" data-page="${page - 1}" ${page === 0 ? 'disabled' : ''}><svg class="icon icon-back" aria-hidden="true"><use href="#i-arrow"/></svg>Anterior</button>
+        <span class="menu-pager__status">Página ${page + 1} de ${pages}</span>
+        <button type="button" class="btn btn-dark btn-sm" data-page="${page + 1}" ${page === pages - 1 ? 'disabled' : ''}>Siguiente<svg class="icon icon-move" aria-hidden="true"><use href="#i-arrow"/></svg></button>
+      </nav>` : ''}
+      <div class="menu-notes">
+        ${group.note && !extra ? `<p class="menu-note menu-note--accent">${esc(group.note)}</p>` : ''}
+        <p class="menu-note">${items.some(d => d.price) ? 'Precios en euros según nuestra carta.' : 'Consulta los precios en el local o por teléfono.'}</p>
+        ${items.some(d => (d.allergens || []).length) ? '<p class="menu-note">Alérgenos según los ingredientes de cada plato. Si tienes alguna alergia o intolerancia, avísanos antes de pedir.</p>' : ''}
+      </div>`;
 
     $$('.chip', body).forEach(chip => chip.addEventListener('click', () => {
       const scroller = $('.menu-filters', body);
@@ -328,6 +367,16 @@
       const sc = $('.menu-filters', body);
       if (sc) sc.scrollLeft = scrollLeft;
       if (again) again.focus({ preventScroll: true });
+    }));
+
+    // Cambio de página: se mantiene el filtro y se vuelve al inicio de la carta
+    $$('[data-page]', body).forEach(btn => btn.addEventListener('click', () => {
+      renderGroup(group, filter, Number(btn.dataset.page));
+      const app = $('#menu-app');
+      const top = app.getBoundingClientRect().top;
+      if (top < 0) window.scrollTo({ top: window.scrollY + top - 70, behavior: reducedMotion ? 'auto' : 'smooth' });
+      const next = $('.menu-pager [data-page]:not([disabled])', body) || $('.dish-grid', body);
+      if (next) next.focus({ preventScroll: true });
     }));
   }
 
@@ -426,7 +475,6 @@
       header.classList.toggle('is-top', atTop);
       header.classList.toggle('is-scrolled', !atTop);
       if (actionBar && hero) actionBar.classList.toggle('is-visible', y > hero.offsetHeight * 0.55);
-      parallax();
       ticking = false;
     };
     window.addEventListener('scroll', () => { if (!ticking) { ticking = true; requestAnimationFrame(update); } }, { passive: true });
@@ -469,24 +517,6 @@
     if (nav) nav.addEventListener('mouseleave', () => moveIndicator(current));
     window.addEventListener('resize', () => moveIndicator(current));
     if (document.fonts && document.fonts.ready) document.fonts.ready.then(() => moveIndicator(current));
-  }
-
-  // Parallax ligero (solo transform, sin reflow)
-  const parallaxEls = [];
-  function parallax() {
-    if (reducedMotion) return;
-    const vh = window.innerHeight;
-    parallaxEls.forEach(({ el, factor }) => {
-      const r = el.getBoundingClientRect();
-      if (r.bottom < -200 || r.top > vh + 200) return;
-      const offset = (r.top + r.height / 2 - vh / 2) * -factor;
-      el.style.transform = `translate3d(0, ${offset.toFixed(1)}px, 0)`;
-    });
-  }
-  function initParallax() {
-    if (reducedMotion) return;
-    $$('[data-parallax]').forEach(el => parallaxEls.push({ el, factor: parseFloat(el.dataset.parallax) || 0.1 }));
-    parallax();
   }
 
   // =========================================================================
@@ -610,21 +640,22 @@
   }
 
   // =========================================================================
-  // 7b. DESPLEGABLES DEL MENÚ MÓVIL (estilo y paquete) con el aspecto de la web.
+  // 7b. DESPLEGABLES DE LA CABECERA Y DEL MENÚ MÓVIL (estilo y paquete) con el aspecto de la web.
   //     La lista del <select> nativo la pinta el sistema (blanca, sin estilo);
   //     se sustituye por un listbox propio y el <select> queda oculto debajo
   //     para que sus eventos "change" (cambio de estilo / paquete) sigan igual.
   // =========================================================================
   function initMobileSelects() {
-    $$('.mobile-style').forEach((wrap, n) => {
+    $$('.mobile-style, .header-style').forEach((wrap, n) => {
       const sel = $('select', wrap);
       if (!sel || wrap.classList.contains('hidden')) return; // selector oculto (p. ej. el de estilos)
       if (sel.matches('[data-paquete-select]') && !sel.options.length && PKG) sel.innerHTML = PKG.optionsHtml();
       const labelText = ($('.sr-only', wrap) || {}).textContent || '';
       const id = `cselect-${n}`;
+      const place = wrap.classList.contains('header-style') ? 'header-style cselect--header' : 'mobile-style';
 
       const box = document.createElement('div');
-      box.className = 'mobile-style cselect';
+      box.className = `${place} cselect`;
       box.innerHTML = `
         <button type="button" class="cselect__btn" aria-haspopup="listbox" aria-expanded="false" aria-controls="${id}">
           <span class="sr-only">${esc(labelText)}</span><span class="cselect__value"></span>
@@ -1074,7 +1105,6 @@
     renderStatic();
     initMenu();
     initHeader();
-    initParallax();
     initMobileMenu();
     initMobileSelects();
     initReveal();

@@ -13,7 +13,7 @@ html[data-paquete="premium"] [data-paquete-max="profesional"] { display: none !i
 html[data-paquete="esencial"] a[href^="tel:"],
 html[data-paquete="esencial"] a[href*="wa.me/"] { pointer-events: none; cursor: default; text-decoration: none; }
 
-/* ---------- Estilo 4 · Cervecería Veinti7 ---------- */
+/* ---------- Estilo 9 · La Pecora Nera ---------- */
 
 /* Selector de paquete junto al de estilos (mismo aspecto) */
 .paquete-switch .style-select { max-width: 230px; }
@@ -21,11 +21,18 @@ html[data-paquete="esencial"] a[href*="wa.me/"] { pointer-events: none; cursor: 
 /* Esencial: sin barra de acciones móvil, no hace falta reservarle hueco */
 html[data-paquete="esencial"] body { padding-bottom: 0; }
 
-/* Sin «Valora tu experiencia», las opiniones ocupan todo el ancho */
+/* Sin «Valora tu experiencia» (Profesional): reseñas apiladas a la izquierda y,
+   a la derecha, el sello del 4,8 con el botón de Google Maps */
 html:not([data-paquete="premium"]) .reviews-grid { grid-template-columns: 1fr; }
-html:not([data-paquete="premium"]) .reviews-list { display: grid; gap: 1.5rem; }
-@media (min-width: 900px) {
-  html:not([data-paquete="premium"]) .reviews-list { grid-template-columns: repeat(2, 1fr); }
+@media (min-width: 768px) {
+  html:not([data-paquete="premium"]) .reviews-col {
+    display: grid; grid-template-columns: minmax(0, 1.35fr) minmax(0, 1fr); column-gap: 4rem;
+    grid-template-areas: "head ." "list stamp" "list link";
+  }
+  html:not([data-paquete="premium"]) .reviews-col > .section-head { grid-area: head; }
+  html:not([data-paquete="premium"]) .reviews-col > .reviews-list { grid-area: list; margin-top: 0; }
+  html:not([data-paquete="premium"]) .reviews-col > .rating-summary { grid-area: stamp; align-self: end; justify-self: center; margin: 0 0 2rem; }
+  html:not([data-paquete="premium"]) .reviews-col > .reviews-link { grid-area: link; align-self: start; justify-self: center; margin-top: 0; }
 }
 
 

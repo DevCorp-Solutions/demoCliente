@@ -23,7 +23,7 @@
   <link rel="preload" as="image" href="img/hero-horno.jpg" fetchpriority="high" />
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <link href="https://fonts.googleapis.com/css2?family=Oswald:wght@500;600;700&family=Plus+Jakarta+Sans:wght@400;500;600;700&family=Caveat:wght@600;700&display=swap" rel="stylesheet" />
+  <link href="https://fonts.googleapis.com/css2?family=Oswald:wght@500;600;700&family=Libre+Franklin:wght@400;500;600;700&family=Caveat:wght@600;700&display=swap" rel="stylesheet" />
 
   <link rel="stylesheet" href="./style.css" />
   <link rel="stylesheet" href="./paquete.css" />
@@ -39,6 +39,9 @@
     "servesCuisine": ["Pizza", "Italiana"],
     "telephone": "+34 653 59 02 11",
     "priceRange": "10–20 €",
+    "openingHoursSpecification": [
+      { "@type": "OpeningHoursSpecification", "dayOfWeek": ["Monday", "Tuesday", "Thursday", "Friday", "Saturday", "Sunday"], "opens": "19:30", "closes": "23:00" }
+    ],
     "address": {
       "@type": "PostalAddress",
       "streetAddress": "Av. de las Águilas, 4",
@@ -61,6 +64,8 @@
   <svg width="0" height="0" style="position:absolute" aria-hidden="true" focusable="false">
     <symbol id="i-pizza" viewBox="0 0 24 24"><path fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" d="M12 21 3.2 6.2A15.6 15.6 0 0 1 20.8 6.2L12 21Z"/><path fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" d="M5.2 9.4a12 12 0 0 1 13.6 0"/><circle cx="10.5" cy="12" r="1.2" fill="currentColor"/><circle cx="14" cy="13.6" r="1" fill="currentColor"/><circle cx="12" cy="16.4" r="1" fill="currentColor"/></symbol>
     <symbol id="i-plate" viewBox="0 0 24 24"><path fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" d="M4 3v7a2 2 0 0 0 2 2h0a2 2 0 0 0 2-2V3M6 12v9M17 21V3c-2.2 1.4-3.5 3.8-3.5 7v3H17"/></symbol>
+    <symbol id="i-glass" viewBox="0 0 24 24"><path fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" d="M7 3h10l-.6 6.2A4.4 4.4 0 0 1 12 13.2a4.4 4.4 0 0 1-4.4-4L7 3ZM7.4 7.5h9.2M12 13.2V20m-3.5 1h7"/></symbol>
+    <symbol id="i-cup" viewBox="0 0 24 24"><path fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" d="M5 9h11v4.5A5.5 5.5 0 0 1 10.5 19 5.5 5.5 0 0 1 5 13.5V9Zm11 1.5h1.5a2.5 2.5 0 0 1 0 5H16M3.5 21h14M9 3.5c-.8 1 .8 2-.1 3M12.5 3.5c-.8 1 .8 2-.1 3"/></symbol>
     <symbol id="i-people" viewBox="0 0 24 24"><path fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" d="M16 20v-1.5a3.5 3.5 0 0 0-3.5-3.5h-5A3.5 3.5 0 0 0 4 18.5V20M10 11a3.5 3.5 0 1 0 0-7 3.5 3.5 0 0 0 0 7Zm10 9v-1.5a3.5 3.5 0 0 0-2.5-3.35M15.5 4.15a3.5 3.5 0 0 1 0 6.7"/></symbol>
     <symbol id="i-pin" viewBox="0 0 24 24"><path fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" d="M12 21s-7-6.1-7-11.5A7 7 0 0 1 19 9.5C19 14.9 12 21 12 21Z"/><circle cx="12" cy="9.5" r="2.5" fill="none" stroke="currentColor" stroke-width="1.8"/></symbol>
     <symbol id="i-phone" viewBox="0 0 24 24"><path fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" d="M5 4h3l2 5-2.5 1.5a11 11 0 0 0 6 6L15 14l5 2v3a2 2 0 0 1-2 2A16 16 0 0 1 3 6a2 2 0 0 1 2-2Z"/></symbol>
@@ -176,85 +181,78 @@
   <main id="main">
 
     <!-- ================= HERO ================= -->
+    <!-- Portada estática (sin carrusel): titular de cartel a la izquierda y la pizza servida en su plato a la derecha -->
     <section id="inicio" class="hero" aria-labelledby="hero-title">
-      <div class="hero-media" data-parallax="0.18">
-        <img src="img/hero-horno.jpg" width="1280" height="853" alt="Pizza recién salida del horno de leña sobre la pala" fetchpriority="high" decoding="async" />
-      </div>
-      <div class="hero-shade" aria-hidden="true"></div>
-
       <div class="container hero-grid">
         <div class="hero-content">
-          <p class="eyebrow eyebrow--light hero-anim" style="--d:0"><span class="eyebrow-dot" aria-hidden="true"></span>Pizzería en Aluche</p>
+          <p class="eyebrow hero-anim" style="--d:0">Pizzería en Aluche</p>
           <h1 id="hero-title" class="hero-title hero-anim" style="--d:1">Ser una oveja negra es <em>actuar diferente</em></h1>
           <p class="hero-lead hero-anim" style="--d:2" data-bind="tagline">Pizzas con salsa de tomate natural y mozzarella 100 %, antipasti para compartir y terraza en Aluche.</p>
           <div class="hero-ctas hero-anim" style="--d:3">
             <a class="btn btn-primary btn-lg" href="#reservar" data-paquete-min="profesional">
               <svg class="icon" aria-hidden="true"><use href="#i-calendar"/></svg>Reservar mesa
             </a>
-            <a class="btn btn-glass btn-lg" href="#carta">
+            <a class="btn btn-outline btn-lg" href="#carta">
               Ver carta<svg class="icon icon-move" aria-hidden="true"><use href="#i-arrow"/></svg>
             </a>
           </div>
-          <ul class="hero-chips hero-anim" style="--d:4">
+          <ul class="hero-facts hero-anim" style="--d:4">
+            <li class="hero-rating" data-render="hero-review" data-paquete-min="profesional"></li>
             <li><svg class="icon" aria-hidden="true"><use href="#i-pin"/></svg><span data-bind="addressShort">Av. de las Águilas, 4 · Aluche</span></li>
             <li><svg class="icon" aria-hidden="true"><use href="#i-people"/></svg>Terraza · Platos veganos · Tronas</li>
           </ul>
         </div>
 
-        <!-- Cards flotantes (solo desktop): la pizza de la casa y la valoración de Google -->
-        <div class="hero-floating" aria-hidden="true">
-          <div class="float-card float-card--menu" data-render="hero-dish"></div>
-          <div class="float-card float-card--review" data-render="hero-review" data-paquete-min="profesional"></div>
-        </div>
-      </div>
-
-      <a class="scroll-cue" href="#nosotros" aria-label="Bajar al contenido" data-paquete-min="profesional">
-        <span class="scroll-cue__line" aria-hidden="true"></span>
-      </a>
-    </section>
-
-    <!-- Cinta con las pizzas de la carta -->
-    <div class="ticker" aria-hidden="true">
-      <div class="ticker__track" data-render="ticker"></div>
-    </div>
-
-    <!-- ================= LA CASA ================= -->
-    <section id="nosotros" class="section section--about" aria-labelledby="about-title" data-paquete-min="profesional">
-      <div class="container about-grid">
-        <div class="about-media reveal">
-          <figure class="about-img about-img--main">
-            <img src="img/horno-lena.jpg" width="1280" height="854" loading="lazy" decoding="async" alt="Horno de leña encendido" data-parallax="-0.06" />
+        <div class="hero-visual hero-anim" style="--d:2">
+          <figure class="plate plate--hero">
+            <img src="img/hero-horno.jpg" width="1280" height="853" alt="Pizza recién salida del horno de leña sobre la pala" fetchpriority="high" decoding="async" />
           </figure>
-          <figure class="about-img about-img--small">
-            <img src="img/pizza-margherita.jpg" width="1280" height="960" loading="lazy" decoding="async" alt="Pizza Margherita con albahaca fresca" />
-          </figure>
-          <div class="seal" aria-hidden="true">
+          <div class="seal seal--hero" aria-hidden="true">
             <svg viewBox="0 0 120 120" class="seal__text">
               <defs><path id="seal-circle" d="M60,60 m-46,0 a46,46 0 1,1 92,0 a46,46 0 1,1 -92,0"/></defs>
               <text><textPath href="#seal-circle" textLength="284" lengthAdjust="spacingAndGlyphs">LA PECORA NERA · PIZZERÍA · ALUCHE ·</textPath></text>
             </svg>
-            <svg class="seal__mark seal__mark--sheep"><use href="#i-sheep"/></svg>
+            <svg class="seal__mark"><use href="#i-sheep"/></svg>
           </div>
+          <!-- Pegatina con la pizza de la casa (data.js) -->
+          <div class="sticker" data-render="hero-dish" aria-hidden="true"></div>
         </div>
+      </div>
+    </section>
 
+    <!-- ================= LA CASA ================= -->
+    <section id="nosotros" class="section section--about" aria-labelledby="about-title" data-paquete-min="profesional">
+      <div class="container about-grid">
         <div class="about-copy">
           <p class="eyebrow reveal">La oveja negra</p>
           <h2 id="about-title" class="h2 reveal">Pizzas con carácter y <em>buena compañía</em></h2>
           <p class="lead reveal" data-bind="aboutUs.story">En La Pecora Nera preparamos pizzas con salsa de tomate natural y mozzarella 100 %: desde la Margherita de siempre hasta la Pecora nera de la casa, con salchicha italiana, taleggio, queso de cabra y pecorino.</p>
           <p class="reveal" data-bind="aboutUs.storyExtra">Ven a cenar a nuestra terraza en Aluche, en familia o con amigos.</p>
-
-          <div class="who reveal">
-            <h3 class="who__title">¿Por qué la oveja negra?</h3>
-            <p data-bind="aboutUs.who">Porque ser una oveja negra es actuar diferente: las recetas italianas de siempre y combinaciones propias como la Esplosivo, la Serranini o la Milanese.</p>
-          </div>
-
-          <ul class="values reveal" data-render="values" aria-label="Lo que encontrarás"></ul>
-
           <div class="about-ctas reveal">
             <a class="btn btn-dark" href="#carta">Ver la carta<svg class="icon icon-move" aria-hidden="true"><use href="#i-arrow"/></svg></a>
             <a class="link-arrow" href="#reservar">Reservar mesa<svg class="icon" aria-hidden="true"><use href="#i-arrow"/></svg></a>
           </div>
         </div>
+
+        <div class="about-media reveal">
+          <figure class="polaroid polaroid--main">
+            <img src="img/horno-lena.jpg" width="1280" height="854" loading="lazy" decoding="async" alt="Horno de leña encendido" />
+            <figcaption translate="no">La Pecora Nera · Aluche</figcaption>
+          </figure>
+          <figure class="polaroid polaroid--small">
+            <img src="img/pizza-margherita.jpg" width="1280" height="960" loading="lazy" decoding="async" alt="Pizza Margherita con albahaca fresca" />
+            <figcaption translate="no">Margherita</figcaption>
+          </figure>
+        </div>
+
+        <!-- Nota manuscrita, como las anotaciones de la carta impresa -->
+        <aside class="who reveal">
+          <svg class="who__mark" aria-hidden="true"><use href="#i-sheep"/></svg>
+          <h3 class="who__title">¿Por qué la oveja negra?</h3>
+          <p data-bind="aboutUs.who">Porque ser una oveja negra es actuar diferente: las recetas italianas de siempre y combinaciones propias como la Esplosivo, la Serranini o la Milanese.</p>
+        </aside>
+
+        <ol class="values reveal" data-render="values" aria-label="Lo que encontrarás"></ol>
       </div>
     </section>
 
@@ -276,10 +274,14 @@
           <div class="menu-panels" id="menu-panels">
             <noscript>
               <div class="menu-noscript">
-                <h3>Pizzas</h3>
-                <p>Margherita · Margherita affumicata · Romana · Pepperoni · Prosciutto · Berenjena y calabacín · Parmigiana · 4 formaggi · 4 estaciones · Prosciutto e funghi · Carcioffi · Contadina · Maiale · Barbacoa · Serranini · Milanese · Esplosivo · Diavola · Pecora nera. *Ingrediente adicional: 1,50 €.</p>
+                <h3>Bebidas</h3>
+                <p>Cerveza de tercio · Refresco (bote) · Agua (botella 0,5 l) · Copa de vino · Botella de vino · Tinto de verano · Martini · Cubata.</p>
                 <h3>Antipasti</h3>
-                <p>Olive all'ascolana · Strisce di pollo · Frutti di mare · Perle di mozzarella · Patatine fritte.</p>
+                <p>Olive all'ascolana · Strisce di pollo · Perle di mozzarella · Patatine fritte.</p>
+                <h3>Pizzas</h3>
+                <p>Margherita · Margherita affumicata · Romana · Pepperoni · Prosciutto · Berenjena y calabacín · Parmigiana · 4 formaggi · 4 estaciones · Prosciutto e funghi · Carcioffi · Contadina · Maiale · Barbacoa · Serranini · Milanese · Esplosivo · Diavola · Pecora nera · Pecora bianca · Bianconera · Tonno e cipolla · Popeye. *Ingrediente adicional: 1,50 €.</p>
+                <h3>Postres y café</h3>
+                <p>Tiramisú · Cheesecake · Spresso · Nero · Latte · Cappuccino · Coretto.</p>
               </div>
             </noscript>
           </div>
@@ -303,41 +305,41 @@
           <p class="lead reveal">Una pizzería de barrio en Aluche para cenar en la terraza, en familia o con amigos.</p>
         </header>
 
-        <div class="bento">
-          <article class="tile tile--xl reveal">
-            <img src="img/hero-horno.jpg" width="1280" height="853" loading="lazy" decoding="async" alt="Pizza entrando al horno de leña" />
-            <div class="tile__body">
-              <span class="tile__icon"><svg class="icon" aria-hidden="true"><use href="#i-pizza"/></svg></span>
+        <!-- Muro de fotos estático: platos servidos en círculo y textos de la carta -->
+        <ul class="gallery">
+          <li class="shot shot--lead reveal">
+            <figure class="plate"><img src="img/hero-horno.jpg" width="1280" height="853" loading="lazy" decoding="async" alt="Pizza entrando al horno de leña" /></figure>
+            <div class="shot__body">
+              <span class="shot__num" aria-hidden="true">01</span>
               <h3>Recién horneadas</h3>
               <p>Salsa de tomate natural, mozzarella 100 % y los ingredientes de nuestra carta.</p>
             </div>
-          </article>
-          <article class="tile reveal">
-            <img src="img/pizza-pepperoni.jpg" width="1280" height="902" loading="lazy" decoding="async" alt="Pizza de pepperoni" />
-            <div class="tile__body">
-              <span class="tile__icon"><svg class="icon" aria-hidden="true"><use href="#i-star"/></svg></span>
+          </li>
+          <li class="shot reveal">
+            <figure class="plate"><img src="img/pizza-pepperoni.jpg" width="1280" height="902" loading="lazy" decoding="async" alt="Pizza de pepperoni" /></figure>
+            <div class="shot__body">
+              <span class="shot__num" aria-hidden="true">02</span>
               <h3>Clásicas italianas</h3>
               <p>Margherita, Diavola, 4 formaggi, Prosciutto e funghi…</p>
             </div>
-          </article>
-          <article class="tile reveal">
-            <img src="img/antipasti-olive-ascolana.jpg" width="1280" height="853" loading="lazy" decoding="async" alt="Olive all'ascolana" />
-            <div class="tile__body">
-              <span class="tile__icon"><svg class="icon" aria-hidden="true"><use href="#i-plate"/></svg></span>
+          </li>
+          <li class="shot reveal">
+            <figure class="plate"><img src="img/antipasti-olive-ascolana.jpg" width="1280" height="853" loading="lazy" decoding="async" alt="Olive all'ascolana" /></figure>
+            <div class="shot__body">
+              <span class="shot__num" aria-hidden="true">03</span>
               <h3>Antipasti para compartir</h3>
-              <p>Olive all'ascolana, frutti di mare, perle di mozzarella…</p>
+              <p>Olive all'ascolana, strisce di pollo, perle di mozzarella…</p>
             </div>
-          </article>
-          <article class="tile tile--wide reveal">
-            <img src="img/pizza-4-formaggi.jpg" width="1280" height="960" loading="lazy" decoding="async" alt="Pizza cuatro quesos" />
-            <div class="tile__body">
-              <span class="tile__icon"><svg class="icon" aria-hidden="true"><use href="#i-people"/></svg></span>
+          </li>
+          <li class="shot reveal">
+            <figure class="plate"><img src="img/pizza-4-formaggi.jpg" width="1280" height="960" loading="lazy" decoding="async" alt="Pizza cuatro quesos" /></figure>
+            <div class="shot__body">
+              <span class="shot__num" aria-hidden="true">04</span>
               <h3>Terraza y tronas</h3>
               <p>Cena al aire libre y ven con los peques: tenemos tronas y platos veganos.</p>
             </div>
-          </article>
-        </div>
-        <p class="bento-hint" aria-hidden="true">Desliza para ver más <svg class="icon" aria-hidden="true"><use href="#i-arrow"/></svg></p>
+          </li>
+        </ul>
       </div>
     </section>
 
@@ -353,8 +355,10 @@
               Valoración pública de nuestra ficha de Google
             </p>
           </header>
-          <div class="rating-summary reveal" data-render="rating"></div>
-          <a class="link-arrow reveal" href="#" data-bind-href="googleMapsUrl" target="_blank" rel="noopener">Ver todas las reseñas en Google Maps<svg class="icon" aria-hidden="true"><use href="#i-external"/></svg></a>
+          <div class="reviews-list" data-render="reviews"></div>
+          <!-- Sin «Valora tu experiencia» (Profesional), el sello de la valoración se queda en esta columna -->
+          <div class="rating-summary reveal" data-render="rating" data-paquete-max="profesional"></div>
+          <a class="btn btn-outline reviews-link reveal" href="#" data-bind-href="googleMapsUrl" target="_blank" rel="noopener"><svg class="icon" aria-hidden="true"><use href="#i-google"/></svg>Ver todas las reseñas en Google Maps</a>
         </div>
 
         <aside class="rate-card reveal" id="valorar" aria-labelledby="rate-title" data-paquete-min="premium">
@@ -391,13 +395,15 @@
             </div>
             <button type="button" class="link-btn" data-rate-back>Cambiar puntuación</button>
           </div>
+
+          <!-- Sello con la valoración de Google, estampado en la esquina de la tarjeta -->
+          <div class="rating-summary rating-summary--stamp" data-render="rating"></div>
         </aside>
       </div>
     </section>
 
     <!-- ================= RESERVAS ================= -->
     <section id="reservar" class="section section--booking" aria-labelledby="booking-title" data-paquete-min="profesional">
-      <div class="booking-glow" aria-hidden="true"></div>
       <div class="container booking-grid">
         <div class="booking-copy">
           <p class="eyebrow eyebrow--light reveal">Reservas</p>
@@ -512,8 +518,11 @@
       </div>
     </div>
 
+    <div class="container" aria-hidden="true">
+      <p class="footer-wordmark" translate="no">La Pecora <em>Nera</em></p>
+    </div>
+
     <div class="container footer-bottom">
-      <p class="photo-credits">Fotos orientativas de <a href="https://commons.wikimedia.org" target="_blank" rel="noopener">Wikimedia Commons</a> (licencias CC; autores en data.js).</p>
       <p class="copyright">© <span data-year></span> <span data-bind="name">La Pecora Nera</span></p>
     </div>
 

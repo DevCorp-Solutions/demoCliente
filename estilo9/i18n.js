@@ -34,7 +34,9 @@
 
     // Datos de contacto y horario
     ['Av. de las Águilas, 4, Latina, 28044 Madrid', 'Av. de las Águilas, 4, Latina, 28044 Madrid, Spain', 'Av. de las Águilas, 4, Latina, 28044 Madrid, Spania'],
-    ['Apertura', 'Opening time', 'Deschidere'],
+    ['Jueves a martes', 'Thursday to Tuesday', 'Joi – marți'],
+    ['Miércoles', 'Wednesday', 'Miercuri'],
+    ['Cerrado', 'Closed', 'Închis'],
     ['Horario', 'Opening hours', 'Program'],
     ['Dirección', 'Address', 'Adresă'],
     ['Teléfono', 'Phone', 'Telefon'],
@@ -91,8 +93,29 @@
     ['Picante', 'Spicy', 'Picant'],
     ['Imagen orientativa', 'Illustrative image', 'Imagine orientativă'],
     ['*Ingrediente adicional: 1,50 €', '*Extra topping: €1.50', '*Ingredient suplimentar: 1,50 €'],
+    ['Ingrediente adicional', 'Extra topping', 'Ingredient suplimentar'],
+    ['Añádelo a la pizza que quieras.', 'Add it to any pizza you like.', 'Adaugă-l la orice pizza dorești.'],
     ['Consulta los precios en el local o por teléfono.', 'Ask for prices at the restaurant or by phone.', 'Întreabă prețurile la restaurant sau la telefon.'],
     ['Precios en euros según nuestra carta.', 'Prices in euros as per our menu.', 'Prețuri în euro, conform meniului nostru.'],
+
+    // Bebidas, postres y café
+    ['Bebidas', 'Drinks', 'Băuturi'],
+    ['Bebida', 'Drink', 'Băutură'],
+    ['Postres y café', 'Desserts & coffee', 'Deserturi și cafea'],
+    ['Dolce', 'Desserts', 'Deserturi'],
+    ['Café', 'Coffee', 'Cafea'],
+    ['Cerveza, vino y refrescos para acompañar.', 'Beer, wine and soft drinks to go with your meal.', 'Bere, vin și răcoritoare pentru a însoți masa.'],
+    ['El final dulce de la cena.', 'The sweet end to your dinner.', 'Finalul dulce al cinei.'],
+    ['Cerveza de tercio', 'Bottled beer (33 cl)', 'Bere la sticlă (33 cl)'],
+    ['Refresco (bote)', 'Soft drink (can)', 'Răcoritoare (doză)'],
+    ['Agua (botella 0,5 l)', 'Water (0.5 l bottle)', 'Apă (sticlă 0,5 l)'],
+    ['Copa de vino', 'Glass of wine', 'Pahar de vin'],
+    ['Botella de vino', 'Bottle of wine', 'Sticlă de vin'],
+    ['Tinto de verano', 'Tinto de verano (red wine with lemon soda)', 'Tinto de verano (vin roșu cu suc de lămâie)'],
+    ['Copa.', 'Glass.', 'Pahar.'],
+    ['Cubata', 'Mixed drink (spirit and mixer)', 'Cocktail (băutură spirtoasă cu suc)'],
+    ['Con nata.', 'With whipped cream.', 'Cu frișcă.'],
+    ['Con grappa.', 'With grappa.', 'Cu grappa.'],
     ['Alérgenos según los ingredientes de cada plato. Si tienes alguna alergia o intolerancia, avísanos antes de pedir.', 'Allergens based on each dish’s ingredients. If you have any allergy or intolerance, please tell us before ordering.', 'Alergeni conform ingredientelor fiecărui preparat. Dacă ai vreo alergie sau intoleranță, anunță-ne înainte de a comanda.'],
     ['¿Se te ha abierto el apetito?', 'Feeling hungry?', 'Ți s-a făcut poftă?'],
     ['Reserva tu mesa y te esperamos con el horno encendido.', 'Book your table and we’ll be waiting with the oven fired up.', 'Rezervă-ți masa și te așteptăm cu cuptorul încins.'],
@@ -119,10 +142,13 @@
     ['Salsa de tomate natural, mozzarella 100 %, jamón york, chorizo picante ibérico y pimiento cayena.', 'Natural tomato sauce, 100% mozzarella, cooked ham, spicy Iberian chorizo and cayenne pepper.', 'Sos natural de roșii, mozzarella 100 %, șuncă presată, chorizo iberic picant și ardei cayenne.'],
     ['Salsa de tomate natural, mozzarella 100 %, chorizo picante ibérico y aceitunas negras.', 'Natural tomato sauce, 100% mozzarella, spicy Iberian chorizo and black olives.', 'Sos natural de roșii, mozzarella 100 %, chorizo iberic picant și măsline negre.'],
     ['Salsa de tomate natural, mozzarella 100 %, jamón york, salchicha italiana, queso taleggio, queso de cabra y queso pecorino.', 'Natural tomato sauce, 100% mozzarella, cooked ham, Italian sausage, taleggio, goat’s cheese and pecorino.', 'Sos natural de roșii, mozzarella 100 %, șuncă presată, cârnați italienești, taleggio, brânză de capră și pecorino.'],
-    ['Aceitunas rellenas de carne.', 'Meat-stuffed olives.', 'Măsline umplute cu carne.'],
-    ['Tiras de pollo de la casa.', 'House chicken strips.', 'Fâșii de pui ale casei.'],
-    ['Mix de fritos de pescado y mariscos.', 'Mixed fried fish and seafood.', 'Mix de pește și fructe de mare prăjite.'],
-    ['Perlas de mozzarella.', 'Mozzarella pearls.', 'Perle de mozzarella.'],
+    ['Mozzarella 100 %, salsa de tomate natural, queso de cabra, queso taleggio, queso gorgonzola y queso scamorza affumicata.', '100% mozzarella, natural tomato sauce, goat’s cheese, taleggio, gorgonzola and smoked scamorza.', 'Mozzarella 100 %, sos natural de roșii, brânză de capră, taleggio, gorgonzola și scamorza afumată.'],
+    ['Mozzarella 100 %, salsa de tomate natural, guanciale, cebolla, gorgonzola y \'nduja calabrese (sobrasada picante).', '100% mozzarella, natural tomato sauce, guanciale, onion, gorgonzola and Calabrian ’nduja (spicy spreadable salami).', 'Mozzarella 100 %, sos natural de roșii, guanciale, ceapă, gorgonzola și ’nduja calabreză (salam picant tartinabil).'],
+    ['Mozzarella 100 %, salsa de tomate natural, atún y cebolla.', '100% mozzarella, natural tomato sauce, tuna and onion.', 'Mozzarella 100 %, sos natural de roșii, ton și ceapă.'],
+    ['Mozzarella 100 %, crema de espinacas, queso de cabra, rollitos de bacon y queso crema, y cebolla caramelizada.', '100% mozzarella, creamed spinach, goat’s cheese, bacon and cream cheese rolls, and caramelised onion.', 'Mozzarella 100 %, cremă de spanac, brânză de capră, rulouri de bacon cu cremă de brânză și ceapă caramelizată.'],
+    ['Aceitunas empanadas, rellenas de carne.', 'Breaded meat-stuffed olives.', 'Măsline pane, umplute cu carne.'],
+    ['250 g de tiras de pollo empanadas.', '250 g of breaded chicken strips.', '250 g de fâșii de pui pane.'],
+    ['Perlas de queso mozzarella empanadas.', 'Breaded mozzarella pearls.', 'Perle de mozzarella pane.'],
     ['Patatas fritas.', 'French fries.', 'Cartofi prăjiți.'],
 
     // Alérgenos
@@ -155,6 +181,13 @@
     ['Contiene altramuces o productos derivados.', 'Contains lupin or lupin products.', 'Conține lupin sau produse derivate.'],
     ['Moluscos', 'Molluscs', 'Moluște'],
     ['Contiene moluscos: pulpo, calamar, sepia, mejillones, almejas…', 'Contains molluscs: octopus, squid, cuttlefish, mussels, clams…', 'Conține moluște: caracatiță, calamar, sepie, midii, scoici…'],
+
+    ['¡Al aire!', 'Up it goes!', 'Sus în aer!'],
+
+    // Paginación de la carta
+    ['Anterior', 'Previous', 'Înapoi'],
+    ['Siguiente', 'Next', 'Înainte'],
+    ['Páginas de la carta', 'Menu pages', 'Paginile meniului'],
 
     // Ambiente
     ['El ambiente', 'The atmosphere', 'Atmosfera'],
@@ -253,17 +286,16 @@
     ['Mapa: La Pecora Nera, Av. de las Águilas 4, Madrid', 'Map: La Pecora Nera, Av. de las Águilas 4, Madrid', 'Hartă: La Pecora Nera, Av. de las Águilas 4, Madrid'],
     ['Pizzería de barrio en Aluche. Ser una oveja negra es actuar diferente.', 'A neighbourhood pizzeria in Aluche. Being the black sheep means doing things differently.', 'Pizzerie de cartier în Aluche. Să fii oaia neagră înseamnă să faci lucrurile altfel.'],
     ['Información de contacto', 'Contact information', 'Informații de contact'],
-    ['Contacto', 'Contact', 'Contact'],
-    ['Fotos orientativas de', 'Illustrative photos from', 'Fotografii orientative de pe'],
-    ['(licencias CC; autores en data.js).', '(CC licences; authors in data.js).', '(licențe CC; autorii în data.js).']
+    ['Contacto', 'Contact', 'Contact']
   ];
 
   const build = (col) => Object.fromEntries(T.map(r => [r[0], r[col]]));
   const patterns = (lang) => {
     const L = lang === 'en'
-      ? { items: 'on the menu', reviews: 'reviews on Google', of5: 'out of 5 stars', star: ['star', 'stars'], photo: 'See photo of', call: 'Call', filter: 'Filter', from: 'From', style: 'Style' }
-      : { items: 'în meniu', reviews: 'recenzii pe Google', of5: 'din 5 stele', star: ['stea', 'stele'], photo: 'Vezi fotografia:', call: 'Sună la', filter: 'Filtrează', from: 'De la', style: 'Stilul' };
+      ? { items: 'on the menu', reviews: 'reviews on Google', of5: 'out of 5 stars', star: ['star', 'stars'], photo: 'See photo of', call: 'Call', filter: 'Filter', from: 'From', style: 'Style', page: ['Page', 'of'] }
+      : { items: 'în meniu', reviews: 'recenzii pe Google', of5: 'din 5 stele', star: ['stea', 'stele'], photo: 'Vezi fotografia:', call: 'Sună la', filter: 'Filtrează', from: 'De la', style: 'Stilul', page: ['Pagina', 'din'] };
     return [
+      [/^Página (\d+) de (\d+)$/, m => `${L.page[0]} ${m[1]} ${L.page[1]} ${m[2]}`],
       [/^(\d+) en carta$/, m => `${m[1]} ${L.items}`],
       [/^(\d+) reseñas en Google$/, m => `${m[1]} ${L.reviews}`],
       [/^([\d,]+) de 5 estrellas$/, m => `${m[1]} ${L.of5}`],
@@ -284,7 +316,7 @@
         title: 'La Pecora Nera | Pizzeria in Aluche (Madrid) · Av. de las Águilas, 4',
         description: 'La Pecora Nera pizzeria in Aluche: pizzas with natural tomato sauce and 100% mozzarella, antipasti and a terrace at Av. de las Águilas, 4 (Madrid). See the menu and book your table.'
       },
-      dict: Object.assign(build(1), { pizzas: 'pizzas', antipasti: 'antipasti' }),
+      dict: Object.assign(build(1), { pizzas: 'pizzas', antipasti: 'antipasti', bebidas: 'drinks', 'postres y café': 'desserts & coffee' }),
       patterns: patterns('en')
     },
     ro: {
@@ -292,7 +324,7 @@
         title: 'La Pecora Nera | Pizzerie în Aluche (Madrid) · Av. de las Águilas, 4',
         description: 'Pizzeria La Pecora Nera din Aluche: pizza cu sos natural de roșii și mozzarella 100 %, antipasti și terasă pe Av. de las Águilas, 4 (Madrid). Vezi meniul și rezervă-ți masa.'
       },
-      dict: Object.assign(build(2), { pizzas: 'pizza', antipasti: 'antipasti' }),
+      dict: Object.assign(build(2), { pizzas: 'pizza', antipasti: 'antipasti', bebidas: 'băuturi', 'postres y café': 'deserturi și cafea' }),
       patterns: patterns('ro')
     }
   };
