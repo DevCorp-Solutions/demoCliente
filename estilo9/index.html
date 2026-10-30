@@ -1,0 +1,614 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+  <title>La Pecora Nera | Pizzería en Aluche (Madrid) · Av. de las Águilas, 4</title>
+  <meta name="description" content="Pizzería La Pecora Nera (La Oveja Negra) en Aluche: pizzas con salsa de tomate natural y mozzarella 100 %, antipasti y terraza en la Av. de las Águilas, 4. Consulta la carta y reserva tu mesa." />
+  <meta name="theme-color" content="#0d0d0d" />
+  <meta name="author" content="La Pecora Nera · Pizzería La Oveja Negra Aluche" />
+
+  <!-- Open Graph / redes -->
+  <meta property="og:type" content="website" />
+  <meta property="og:locale" content="es_ES" />
+  <meta property="og:site_name" content="La Pecora Nera" />
+  <meta property="og:title" content="La Pecora Nera · Ser una oveja negra es actuar diferente" />
+  <meta property="og:description" content="Pizzería en Aluche: pizzas, antipasti y terraza en la Av. de las Águilas, 4 (Madrid)." />
+  <meta property="og:image" content="img/hero-horno.jpg" />
+  <meta name="twitter:card" content="summary_large_image" />
+
+  <link rel="icon" type="image/svg+xml" href="img/favicon.svg" />
+
+  <!-- Rendimiento: imagen LCP y fuentes -->
+  <link rel="preload" as="image" href="img/hero-horno.jpg" fetchpriority="high" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Oswald:wght@500;600;700&family=Libre+Franklin:wght@400;500;600;700&family=Caveat:wght@600;700&display=swap" rel="stylesheet" />
+
+  <link rel="stylesheet" href="./style.css" />
+  <link rel="stylesheet" href="./paquete.css" />
+  <script src="./paquete.js"></script>
+  <script>document.documentElement.classList.add('js');</script>
+
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "Restaurant",
+    "name": "La Pecora Nera",
+    "alternateName": "Pizzería La Oveja Negra Aluche",
+    "servesCuisine": ["Pizza", "Italiana"],
+    "telephone": "+34 653 59 02 11",
+    "priceRange": "10–20 €",
+    "openingHoursSpecification": [
+      { "@type": "OpeningHoursSpecification", "dayOfWeek": ["Monday", "Tuesday", "Thursday", "Friday", "Saturday", "Sunday"], "opens": "19:30", "closes": "23:00" }
+    ],
+    "address": {
+      "@type": "PostalAddress",
+      "streetAddress": "Av. de las Águilas, 4",
+      "addressLocality": "Madrid",
+      "addressRegion": "Madrid",
+      "postalCode": "28044",
+      "addressCountry": "ES"
+    },
+    "aggregateRating": { "@type": "AggregateRating", "ratingValue": "4.8", "reviewCount": "359" },
+    "amenityFeature": [
+      { "@type": "LocationFeatureSpecification", "name": "Terraza", "value": true },
+      { "@type": "LocationFeatureSpecification", "name": "Tronas", "value": true }
+    ]
+  }
+  </script>
+</head>
+<body class="theme-estilo-9">
+
+  <!-- Sprite de iconos (SVG inline, sin dependencias externas) -->
+  <svg width="0" height="0" style="position:absolute" aria-hidden="true" focusable="false">
+    <symbol id="i-pizza" viewBox="0 0 24 24"><path fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" d="M12 21 3.2 6.2A15.6 15.6 0 0 1 20.8 6.2L12 21Z"/><path fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" d="M5.2 9.4a12 12 0 0 1 13.6 0"/><circle cx="10.5" cy="12" r="1.2" fill="currentColor"/><circle cx="14" cy="13.6" r="1" fill="currentColor"/><circle cx="12" cy="16.4" r="1" fill="currentColor"/></symbol>
+    <symbol id="i-plate" viewBox="0 0 24 24"><path fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" d="M4 3v7a2 2 0 0 0 2 2h0a2 2 0 0 0 2-2V3M6 12v9M17 21V3c-2.2 1.4-3.5 3.8-3.5 7v3H17"/></symbol>
+    <symbol id="i-glass" viewBox="0 0 24 24"><path fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" d="M7 3h10l-.6 6.2A4.4 4.4 0 0 1 12 13.2a4.4 4.4 0 0 1-4.4-4L7 3ZM7.4 7.5h9.2M12 13.2V20m-3.5 1h7"/></symbol>
+    <symbol id="i-cup" viewBox="0 0 24 24"><path fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" d="M5 9h11v4.5A5.5 5.5 0 0 1 10.5 19 5.5 5.5 0 0 1 5 13.5V9Zm11 1.5h1.5a2.5 2.5 0 0 1 0 5H16M3.5 21h14M9 3.5c-.8 1 .8 2-.1 3M12.5 3.5c-.8 1 .8 2-.1 3"/></symbol>
+    <symbol id="i-people" viewBox="0 0 24 24"><path fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" d="M16 20v-1.5a3.5 3.5 0 0 0-3.5-3.5h-5A3.5 3.5 0 0 0 4 18.5V20M10 11a3.5 3.5 0 1 0 0-7 3.5 3.5 0 0 0 0 7Zm10 9v-1.5a3.5 3.5 0 0 0-2.5-3.35M15.5 4.15a3.5 3.5 0 0 1 0 6.7"/></symbol>
+    <symbol id="i-pin" viewBox="0 0 24 24"><path fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" d="M12 21s-7-6.1-7-11.5A7 7 0 0 1 19 9.5C19 14.9 12 21 12 21Z"/><circle cx="12" cy="9.5" r="2.5" fill="none" stroke="currentColor" stroke-width="1.8"/></symbol>
+    <symbol id="i-phone" viewBox="0 0 24 24"><path fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" d="M5 4h3l2 5-2.5 1.5a11 11 0 0 0 6 6L15 14l5 2v3a2 2 0 0 1-2 2A16 16 0 0 1 3 6a2 2 0 0 1 2-2Z"/></symbol>
+    <symbol id="i-whatsapp" viewBox="0 0 24 24"><path fill="currentColor" d="M.057 24l1.687-6.163a11.867 11.867 0 0 1-1.587-5.946C.16 5.335 5.495 0 12.05 0a11.817 11.817 0 0 1 8.413 3.488 11.824 11.824 0 0 1 3.48 8.414c-.003 6.557-5.338 11.892-11.893 11.892a11.9 11.9 0 0 1-5.688-1.448L.057 24Zm6.597-3.807c1.676.995 3.276 1.591 5.392 1.592 5.448 0 9.886-4.434 9.889-9.885.002-5.462-4.415-9.89-9.881-9.892-5.452 0-9.887 4.434-9.889 9.884-.001 2.225.651 3.891 1.746 5.634l-.999 3.648 3.742-.981Zm11.387-5.464c-.074-.124-.272-.198-.57-.347-.297-.149-1.758-.868-2.031-.967-.272-.099-.47-.149-.669.149-.198.297-.768.967-.941 1.165-.173.198-.347.223-.644.074-.297-.149-1.255-.462-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.297-.347.446-.521.151-.172.2-.296.3-.495.099-.198.05-.372-.025-.521-.075-.148-.669-1.611-.916-2.206-.242-.579-.487-.501-.669-.51l-.57-.01c-.198 0-.52.074-.792.372s-1.04 1.016-1.04 2.479 1.065 2.876 1.213 3.074c.149.198 2.095 3.2 5.076 4.487.709.306 1.263.489 1.694.626.712.226 1.36.194 1.872.118.571-.085 1.758-.719 2.006-1.413.248-.695.248-1.29.173-1.414Z"/></symbol>
+    <symbol id="i-mail" viewBox="0 0 24 24"><path fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" d="M4 6h16v12H4zM4 7l8 6 8-6"/></symbol>
+    <symbol id="i-clock" viewBox="0 0 24 24"><circle cx="12" cy="12" r="8.5" fill="none" stroke="currentColor" stroke-width="1.8"/><path fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" d="M12 7.5V12l3 2"/></symbol>
+    <symbol id="i-arrow" viewBox="0 0 24 24"><path fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" d="M5 12h14m-6-6 6 6-6 6"/></symbol>
+    <symbol id="i-external" viewBox="0 0 24 24"><path fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" d="M7 17 17 7M9 7h8v8"/></symbol>
+    <symbol id="i-star" viewBox="0 0 24 24"><path fill="currentColor" d="m12 2.8 2.8 5.9 6.4.8-4.7 4.5 1.2 6.4L12 17.3l-5.7 3.1 1.2-6.4-4.7-4.5 6.4-.8L12 2.8Z"/></symbol>
+    <symbol id="i-calendar" viewBox="0 0 24 24"><path fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" d="M4 6.5h16V20H4zM4 10.5h16M8.5 3.5v4M15.5 3.5v4"/></symbol>
+    <symbol id="i-check" viewBox="0 0 24 24"><path fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" d="m5 12.5 4.5 4.5L19 7.5"/></symbol>
+    <symbol id="i-route" viewBox="0 0 24 24"><path fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" d="m3 11 18-8-8 18-2-8-8-2Z"/></symbol>
+    <symbol id="i-menu" viewBox="0 0 24 24"><path fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" d="M4 7h16M4 12h16M4 17h10"/></symbol>
+    <symbol id="i-google" viewBox="0 0 24 24"><path fill="#4285F4" d="M23.745 12.27c0-.7-.06-1.4-.19-2.07H12v4.51h6.6c-.29 1.52-1.14 2.82-2.4 3.68v3.05h3.88c2.27-2.09 3.665-5.17 3.665-9.17Z"/><path fill="#34A853" d="M12 24c3.24 0 5.95-1.08 7.93-2.91l-3.88-3.05c-1.08.72-2.45 1.16-4.05 1.16-3.12 0-5.77-2.1-6.72-4.93H1.25v3.15C3.26 21.36 7.33 24 12 24Z"/><path fill="#FBBC05" d="M5.28 14.27c-.25-.72-.38-1.49-.38-2.27s.13-1.55.38-2.27V6.58H1.25C.45 8.18 0 9.99 0 12s.45 3.82 1.25 5.42l4.03-3.15Z"/><path fill="#EA4335" d="M12 4.75c1.77 0 3.35.61 4.6 1.8l3.42-3.42C17.95 1.19 15.24 0 12 0 7.33 0 3.26 2.64 1.25 6.58l4.03 3.15c.95-2.83 3.6-4.98 6.72-4.98Z"/></symbol>
+    <symbol id="i-sheep" viewBox="0 0 100 100"><g fill="currentColor"><circle cx="93.0" cy="52.0" r="2.21"/><circle cx="92.6" cy="57.7" r="2.70"/><circle cx="91.4" cy="63.4" r="3.19"/><circle cx="89.4" cy="68.8" r="2.46"/><circle cx="86.7" cy="73.9" r="2.94"/><circle cx="83.4" cy="78.6" r="2.21"/><circle cx="79.3" cy="82.8" r="2.70"/><circle cx="74.8" cy="86.4" r="3.19"/><circle cx="69.8" cy="89.4" r="2.46"/><circle cx="64.4" cy="91.7" r="2.94"/><circle cx="35.6" cy="91.7" r="2.94"/><circle cx="30.2" cy="89.4" r="2.21"/><circle cx="25.2" cy="86.4" r="2.70"/><circle cx="20.7" cy="82.8" r="3.19"/><circle cx="16.6" cy="78.6" r="2.46"/><circle cx="13.3" cy="73.9" r="2.94"/><circle cx="10.6" cy="68.8" r="2.21"/><circle cx="8.6" cy="63.4" r="2.70"/><circle cx="7.4" cy="57.7" r="3.19"/><circle cx="7.0" cy="52.0" r="2.46"/><circle cx="7.4" cy="46.3" r="2.94"/><circle cx="8.6" cy="40.6" r="2.21"/><circle cx="20.7" cy="21.2" r="2.94"/><circle cx="25.2" cy="17.6" r="2.21"/><circle cx="30.2" cy="14.6" r="2.70"/><circle cx="35.6" cy="12.3" r="3.19"/><circle cx="41.3" cy="10.7" r="2.46"/><circle cx="47.1" cy="10.0" r="2.94"/><circle cx="52.9" cy="10.0" r="2.21"/><circle cx="58.7" cy="10.7" r="2.70"/><circle cx="64.4" cy="12.3" r="3.19"/><circle cx="69.8" cy="14.6" r="2.46"/><circle cx="74.8" cy="17.6" r="2.94"/><circle cx="79.3" cy="21.2" r="2.21"/><circle cx="91.4" cy="40.6" r="2.94"/><circle cx="92.6" cy="46.3" r="2.21"/><circle cx="85.0" cy="65.3" r="2.72"/><circle cx="82.4" cy="70.5" r="2.05"/><circle cx="79.1" cy="75.2" r="2.50"/><circle cx="75.0" cy="79.4" r="2.95"/><circle cx="70.3" cy="82.9" r="2.27"/><circle cx="65.1" cy="85.6" r="2.72"/><circle cx="36.4" cy="86.3" r="2.72"/><circle cx="31.1" cy="83.8" r="2.05"/><circle cx="26.3" cy="80.5" r="2.50"/><circle cx="22.0" cy="76.5" r="2.95"/><circle cx="18.5" cy="71.9" r="2.27"/><circle cx="15.7" cy="66.8" r="2.72"/><circle cx="13.7" cy="61.4" r="2.05"/><circle cx="12.7" cy="55.7" r="2.50"/><circle cx="12.6" cy="49.9" r="2.95"/><circle cx="13.3" cy="44.2" r="2.27"/><circle cx="29.7" cy="21.1" r="2.27"/><circle cx="34.9" cy="18.4" r="2.72"/><circle cx="40.4" cy="16.5" r="2.05"/><circle cx="46.2" cy="15.4" r="2.50"/><circle cx="52.1" cy="15.3" r="2.95"/><circle cx="57.9" cy="16.1" r="2.27"/><circle cx="63.6" cy="17.7" r="2.72"/><circle cx="68.9" cy="20.2" r="2.05"/><circle cx="86.3" cy="42.6" r="2.05"/><circle cx="87.3" cy="48.3" r="2.50"/><circle cx="87.4" cy="54.1" r="2.95"/><circle cx="86.7" cy="59.8" r="2.27"/><circle cx="73.6" cy="73.1" r="2.09"/><circle cx="69.3" cy="77.0" r="2.51"/><circle cx="64.2" cy="80.1" r="1.89"/><circle cx="58.7" cy="82.2" r="2.30"/><circle cx="52.9" cy="83.2" r="2.71"/><circle cx="47.0" cy="83.2" r="2.09"/><circle cx="41.2" cy="82.2" r="2.51"/><circle cx="35.7" cy="80.1" r="1.89"/><circle cx="30.7" cy="77.0" r="2.30"/><circle cx="26.3" cy="73.1" r="2.71"/><circle cx="22.8" cy="68.5" r="2.09"/><circle cx="20.2" cy="63.3" r="2.51"/><circle cx="18.5" cy="57.7" r="1.89"/><circle cx="18.0" cy="52.0" r="2.30"/><circle cx="18.5" cy="46.2" r="2.71"/><circle cx="20.2" cy="40.6" r="2.09"/><circle cx="35.8" cy="23.9" r="2.71"/><circle cx="41.3" cy="21.8" r="2.09"/><circle cx="47.1" cy="20.8" r="2.51"/><circle cx="53.0" cy="20.8" r="1.89"/><circle cx="58.8" cy="21.8" r="2.30"/><circle cx="64.3" cy="23.9" r="2.71"/><circle cx="79.8" cy="40.7" r="2.30"/><circle cx="81.5" cy="46.3" r="2.71"/><circle cx="82.0" cy="52.0" r="2.09"/><circle cx="81.5" cy="57.8" r="2.51"/><circle cx="79.8" cy="63.4" r="1.89"/><circle cx="77.2" cy="68.5" r="2.30"/><circle cx="61.8" cy="75.3" r="2.48"/><circle cx="56.2" cy="77.2" r="1.91"/><circle cx="50.3" cy="78.0" r="2.29"/><circle cx="44.4" cy="77.4" r="1.72"/><circle cx="38.8" cy="75.5" r="2.10"/><circle cx="33.7" cy="72.5" r="2.48"/><circle cx="29.5" cy="68.4" r="1.91"/><circle cx="26.3" cy="63.5" r="2.29"/><circle cx="24.2" cy="58.1" r="1.72"/><circle cx="23.5" cy="52.3" r="2.10"/><circle cx="24.1" cy="46.5" r="2.48"/><circle cx="26.0" cy="41.0" r="1.91"/><circle cx="73.7" cy="40.5" r="1.91"/><circle cx="75.8" cy="45.9" r="2.29"/><circle cx="76.5" cy="51.7" r="1.72"/><circle cx="75.9" cy="57.5" r="2.10"/><circle cx="74.0" cy="63.0" r="2.48"/><circle cx="70.9" cy="67.9" r="1.91"/><circle cx="66.8" cy="72.1" r="2.29"/><circle cx="35.4" cy="66.8" r="2.07"/><circle cx="31.8" cy="62.2" r="1.56"/><circle cx="29.6" cy="56.8" r="1.90"/><circle cx="29.0" cy="50.9" r="2.24"/><circle cx="30.2" cy="45.2" r="1.73"/><circle cx="32.9" cy="40.0" r="2.07"/><circle cx="68.2" cy="41.8" r="1.90"/><circle cx="70.4" cy="47.2" r="2.24"/><circle cx="71.0" cy="53.1" r="1.73"/><circle cx="69.8" cy="58.8" r="2.07"/><circle cx="67.1" cy="64.0" r="1.56"/><circle cx="62.9" cy="68.2" r="1.90"/><path d="M38 33 C30 27 19 27 13 31 C18 37 30 38 38 37 Z"/><path d="M62 33 C70 27 81 27 87 31 C82 37 70 38 62 37 Z"/><path d="M37 34 C37 25 63 25 63 34 C64 45 61 56 57 64 C55 69 53 72 50 72 C47 72 45 69 43 64 C39 56 36 45 37 34 Z"/><rect x="41" y="89" width="5" height="9" rx="2.5"/><rect x="54" y="89" width="5" height="9" rx="2.5"/></g><g fill="var(--sheep-eye, #fff)" stroke="var(--sheep-eye, #fff)"><ellipse cx="44.5" cy="43" rx="2" ry="2.6"/><ellipse cx="55.5" cy="43" rx="2" ry="2.6"/><path d="M46.5 62 Q50 65.5 53.5 62" fill="none" stroke-width="1.6" stroke-linecap="round"/></g></symbol>
+  </svg>
+
+  <a class="skip-link" href="#main">Saltar al contenido</a>
+
+  <!-- ================= HEADER ================= -->
+  <header id="site-header" class="site-header is-top">
+    <div class="container header-inner">
+      <a class="brand brand--pecora" href="#inicio" aria-label="La Pecora Nera, ir al inicio">
+        <svg class="brand__mark" aria-hidden="true"><use href="#i-sheep"/></svg>
+        <span class="brand__word"><span class="brand__name">La Pecora Nera</span><span class="brand__sub">Pizzería · Aluche</span></span>
+      </a>
+
+      <nav class="main-nav" aria-label="Navegación principal">
+        <ul class="nav-capsule" id="nav-capsule">
+          <li data-paquete-min="profesional"><a class="nav-link" href="#nosotros" data-spy="nosotros">La casa</a></li>
+          <li><a class="nav-link" href="#carta" data-spy="carta">Carta</a></li>
+          <li data-paquete-min="profesional"><a class="nav-link" href="#experiencia" data-spy="experiencia">Ambiente</a></li>
+          <li data-paquete-min="profesional"><a class="nav-link" href="#opiniones" data-spy="opiniones">Opiniones</a></li>
+          <li><a class="nav-link" href="#contacto" data-spy="contacto">Dónde estamos</a></li>
+        </ul>
+        <span class="nav-indicator" aria-hidden="true"></span>
+      </nav>
+
+      <div class="header-actions">
+        <!-- Selector de estilos del ecosistema GastroSuite (oculto, como en el resto de estilos) -->
+        <label class="style-switch header-style hidden">
+          <span class="sr-only">Cambiar de estilo</span>
+          <select class="style-select hidden" data-style-select><option value="estilo1">Estilo 1: Parrilla Vukata</option><option value="estilo2">Estilo 2: Punto de Encuentro</option><option value="estilo3">Estilo 3: Mala Pata Aluche</option><option value="estilo4">Estilo 4: Cervecería Veinti7</option><option value="estilo5">Estilo 5: Umbral</option><option value="estilo6">Estilo 6: Miga</option><option value="estilo7">Estilo 7: Órbita</option><option value="estilo8">Estilo 8: Tercio</option><option value="estilo9" selected>Estilo 9: La Pecora Nera</option></select>
+        </label>
+        <!-- Selector de paquetes DevCorp (Esencial / Profesional / Premium) -->
+        <label class="style-switch header-style paquete-switch">
+          <span class="sr-only">Cambiar de paquete</span>
+          <select class="style-select" data-paquete-select></select>
+        </label>
+        <a class="icon-btn header-phone" href="tel:+34653590211" data-bind-href="tel" aria-label="Llamar al 653 59 02 11" data-paquete-min="profesional">
+          <svg class="icon" aria-hidden="true"><use href="#i-phone"/></svg>
+        </a>
+        <a class="btn btn-primary btn-sm header-cta" href="#reservar" data-paquete-min="profesional">
+          <svg class="icon" aria-hidden="true"><use href="#i-calendar"/></svg>
+          <span class="cta-long">Reservar mesa</span><span class="cta-short">Reservar</span>
+        </a>
+        <!-- Cambio de idioma: Profesional alterna ES / EN · Premium abre el menú ES / EN / RO -->
+        <div class="lang-switch" data-paquete-min="profesional">
+          <button class="lang-toggle" type="button" data-lang-toggle data-lang="es" aria-label="View this website in English" title="View in English">
+            <span class="lang-toggle__flag" aria-hidden="true">
+              <svg class="flag flag--en" viewBox="0 0 60 30" preserveAspectRatio="xMidYMid slice"><clipPath id="uk-s"><path d="M0,0v30h60V0z"/></clipPath><clipPath id="uk-t"><path d="M30,15h30v15zv15H0zH0V0zV0h30z"/></clipPath><g clip-path="url(#uk-s)"><path d="M0,0v30h60V0z" fill="#012169"/><path d="M0,0 60,30M60,0 0,30" stroke="#fff" stroke-width="6"/><path d="M0,0 60,30M60,0 0,30" clip-path="url(#uk-t)" stroke="#C8102E" stroke-width="4"/><path d="M30,0v30M0,15h60" stroke="#fff" stroke-width="10"/><path d="M30,0v30M0,15h60" stroke="#C8102E" stroke-width="6"/></g></svg>
+              <svg class="flag flag--es" viewBox="0 0 30 20" preserveAspectRatio="xMidYMid slice"><rect width="30" height="20" fill="#AA151B"/><rect y="5" width="30" height="10" fill="#F1BF00"/></svg>
+              <svg class="flag flag--ro" viewBox="0 0 3 2" preserveAspectRatio="xMidYMid slice"><rect width="1" height="2" fill="#002B7F"/><rect x="1" width="1" height="2" fill="#FCD116"/><rect x="2" width="1" height="2" fill="#CE1126"/></svg>
+            </span>
+            <span class="lang-toggle__code" data-lang-code>ES</span>
+          </button>
+          <!-- Paquete Premium: tercer idioma (rumano) -->
+          <ul class="lang-menu" id="lang-menu" role="menu" aria-label="Idioma · Language · Limba" translate="no" hidden data-paquete-min="premium">
+            <li role="none"><button type="button" role="menuitemradio" aria-checked="true" data-set-lang="es" lang="es"><span class="lang-menu__flag" aria-hidden="true"><svg viewBox="0 0 30 20" preserveAspectRatio="xMidYMid slice"><rect width="30" height="20" fill="#AA151B"/><rect y="5" width="30" height="10" fill="#F1BF00"/></svg></span>Español</button></li>
+            <li role="none"><button type="button" role="menuitemradio" aria-checked="false" data-set-lang="en" lang="en"><span class="lang-menu__flag" aria-hidden="true"><svg viewBox="0 0 60 30" preserveAspectRatio="xMidYMid slice"><clipPath id="uk-s2"><path d="M0,0v30h60V0z"/></clipPath><clipPath id="uk-t2"><path d="M30,15h30v15zv15H0zH0V0zV0h30z"/></clipPath><g clip-path="url(#uk-s2)"><path d="M0,0v30h60V0z" fill="#012169"/><path d="M0,0 60,30M60,0 0,30" stroke="#fff" stroke-width="6"/><path d="M0,0 60,30M60,0 0,30" clip-path="url(#uk-t2)" stroke="#C8102E" stroke-width="4"/><path d="M30,0v30M0,15h60" stroke="#fff" stroke-width="10"/><path d="M30,0v30M0,15h60" stroke="#C8102E" stroke-width="6"/></g></svg></span>English</button></li>
+            <li role="none"><button type="button" role="menuitemradio" aria-checked="false" data-set-lang="ro" lang="ro"><span class="lang-menu__flag" aria-hidden="true"><svg viewBox="0 0 3 2" preserveAspectRatio="xMidYMid slice"><rect width="1" height="2" fill="#002B7F"/><rect x="1" width="1" height="2" fill="#FCD116"/><rect x="2" width="1" height="2" fill="#CE1126"/></svg></span>Română</button></li>
+          </ul>
+        </div>
+        <button class="menu-toggle" type="button" aria-expanded="false" aria-controls="mobile-menu" aria-label="Abrir menú">
+          <span class="burger" aria-hidden="true"><span></span><span></span><span></span></span>
+        </button>
+      </div>
+    </div>
+  </header>
+
+  <!-- Menú móvil a pantalla completa -->
+  <div id="mobile-menu" class="mobile-menu" role="dialog" aria-modal="true" aria-label="Menú" hidden>
+    <div class="mobile-menu__inner">
+      <nav aria-label="Navegación móvil">
+        <ol class="mobile-links">
+          <li style="--i:0"><a href="#inicio"><span class="num">01</span>Inicio</a></li>
+          <li style="--i:1" data-paquete-min="profesional"><a href="#nosotros"><span class="num">02</span>La casa</a></li>
+          <li style="--i:2"><a href="#carta"><span class="num">03</span>Carta</a></li>
+          <li style="--i:3" data-paquete-min="profesional"><a href="#experiencia"><span class="num">04</span>Ambiente</a></li>
+          <li style="--i:4" data-paquete-min="profesional"><a href="#opiniones"><span class="num">05</span>Opiniones</a></li>
+          <li style="--i:5"><a href="#contacto"><span class="num">06</span>Dónde estamos</a></li>
+        </ol>
+      </nav>
+      <div class="mobile-menu__actions" style="--i:6" data-paquete-min="profesional">
+        <a class="btn btn-primary btn-block" href="#reservar"><svg class="icon" aria-hidden="true"><use href="#i-calendar"/></svg>Reservar mesa</a>
+        <a class="btn btn-ghost btn-block" href="tel:+34653590211" data-bind-href="tel"><svg class="icon" aria-hidden="true"><use href="#i-phone"/></svg><span data-bind="phone">653 59 02 11</span></a>
+      </div>
+      <div class="mobile-menu__meta" style="--i:7">
+        <p><svg class="icon" aria-hidden="true"><use href="#i-pin"/></svg><span data-bind="address">Av. de las Águilas, 4, Latina, 28044 Madrid</span></p>
+        <ul class="hours-mini" data-render="hours-mini"></ul>
+        <label class="style-switch mobile-style hidden">
+          <span class="sr-only">Cambiar de estilo</span>
+          <select class="style-select hidden" data-style-select><option value="estilo1">Estilo 1: Parrilla Vukata</option><option value="estilo2">Estilo 2: Punto de Encuentro</option><option value="estilo3">Estilo 3: Mala Pata Aluche</option><option value="estilo4">Estilo 4: Cervecería Veinti7</option><option value="estilo5">Estilo 5: Umbral</option><option value="estilo6">Estilo 6: Miga</option><option value="estilo7">Estilo 7: Órbita</option><option value="estilo8">Estilo 8: Tercio</option><option value="estilo9" selected>Estilo 9: La Pecora Nera</option></select>
+        </label>
+        <label class="style-switch mobile-style paquete-switch">
+          <span class="sr-only">Cambiar de paquete</span>
+          <select class="style-select" data-paquete-select></select>
+        </label>
+      </div>
+    </div>
+  </div>
+
+  <main id="main">
+
+    <!-- ================= HERO ================= -->
+    <!-- Portada estática (sin carrusel): titular de cartel a la izquierda y la pizza servida en su plato a la derecha -->
+    <section id="inicio" class="hero" aria-labelledby="hero-title">
+      <div class="container hero-grid">
+        <div class="hero-content">
+          <p class="eyebrow hero-anim" style="--d:0">Pizzería en Aluche</p>
+          <h1 id="hero-title" class="hero-title hero-anim" style="--d:1">Ser una oveja negra es <em>actuar diferente</em></h1>
+          <p class="hero-lead hero-anim" style="--d:2" data-bind="tagline">Pizzas con salsa de tomate natural y mozzarella 100 %, antipasti para compartir y terraza en Aluche.</p>
+          <div class="hero-ctas hero-anim" style="--d:3">
+            <a class="btn btn-primary btn-lg" href="#reservar" data-paquete-min="profesional">
+              <svg class="icon" aria-hidden="true"><use href="#i-calendar"/></svg>Reservar mesa
+            </a>
+            <a class="btn btn-outline btn-lg" href="#carta">
+              Ver carta<svg class="icon icon-move" aria-hidden="true"><use href="#i-arrow"/></svg>
+            </a>
+          </div>
+          <ul class="hero-facts hero-anim" style="--d:4">
+            <li class="hero-rating" data-render="hero-review" data-paquete-min="profesional"></li>
+            <li><svg class="icon" aria-hidden="true"><use href="#i-pin"/></svg><span data-bind="addressShort">Av. de las Águilas, 4 · Aluche</span></li>
+            <li><svg class="icon" aria-hidden="true"><use href="#i-people"/></svg>Terraza · Platos veganos · Tronas</li>
+          </ul>
+        </div>
+
+        <div class="hero-visual hero-anim" style="--d:2">
+          <figure class="plate plate--hero">
+            <img src="img/hero-horno.jpg" width="1280" height="853" alt="Pizza recién salida del horno de leña sobre la pala" fetchpriority="high" decoding="async" />
+          </figure>
+          <div class="seal seal--hero" aria-hidden="true">
+            <svg viewBox="0 0 120 120" class="seal__text">
+              <defs><path id="seal-circle" d="M60,60 m-46,0 a46,46 0 1,1 92,0 a46,46 0 1,1 -92,0"/></defs>
+              <text><textPath href="#seal-circle" textLength="284" lengthAdjust="spacingAndGlyphs">LA PECORA NERA · PIZZERÍA · ALUCHE ·</textPath></text>
+            </svg>
+            <svg class="seal__mark"><use href="#i-sheep"/></svg>
+          </div>
+          <!-- Pegatina con la pizza de la casa (data.js) -->
+          <div class="sticker" data-render="hero-dish" aria-hidden="true"></div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ================= LA CASA ================= -->
+    <section id="nosotros" class="section section--about" aria-labelledby="about-title" data-paquete-min="profesional">
+      <div class="container about-grid">
+        <div class="about-copy">
+          <p class="eyebrow reveal">La oveja negra</p>
+          <h2 id="about-title" class="h2 reveal">Pizzas con carácter y <em>buena compañía</em></h2>
+          <p class="lead reveal" data-bind="aboutUs.story">En La Pecora Nera preparamos pizzas con salsa de tomate natural y mozzarella 100 %: desde la Margherita de siempre hasta la Pecora nera de la casa, con salchicha italiana, taleggio, queso de cabra y pecorino.</p>
+          <p class="reveal" data-bind="aboutUs.storyExtra">Ven a cenar a nuestra terraza en Aluche, en familia o con amigos.</p>
+          <div class="about-ctas reveal">
+            <a class="btn btn-dark" href="#carta">Ver la carta<svg class="icon icon-move" aria-hidden="true"><use href="#i-arrow"/></svg></a>
+            <a class="link-arrow" href="#reservar">Reservar mesa<svg class="icon" aria-hidden="true"><use href="#i-arrow"/></svg></a>
+          </div>
+        </div>
+
+        <div class="about-media reveal">
+          <figure class="polaroid polaroid--main">
+            <img src="img/horno-lena.jpg" width="1280" height="854" loading="lazy" decoding="async" alt="Horno de leña encendido" />
+            <figcaption translate="no">La Pecora Nera · Aluche</figcaption>
+          </figure>
+          <figure class="polaroid polaroid--small">
+            <img src="img/pizza-margherita.jpg" width="1280" height="960" loading="lazy" decoding="async" alt="Pizza Margherita con albahaca fresca" />
+            <figcaption translate="no">Margherita</figcaption>
+          </figure>
+        </div>
+
+        <!-- Nota manuscrita, como las anotaciones de la carta impresa -->
+        <aside class="who reveal">
+          <svg class="who__mark" aria-hidden="true"><use href="#i-sheep"/></svg>
+          <h3 class="who__title">¿Por qué la oveja negra?</h3>
+          <p data-bind="aboutUs.who">Porque ser una oveja negra es actuar diferente: las recetas italianas de siempre y combinaciones propias como la Esplosivo, la Serranini o la Milanese.</p>
+        </aside>
+
+        <ol class="values reveal" data-render="values" aria-label="Lo que encontrarás"></ol>
+      </div>
+    </section>
+
+    <!-- ================= CARTA ================= -->
+    <section id="carta" class="section section--menu" aria-labelledby="menu-title">
+      <div class="container">
+        <header class="section-head section-head--center">
+          <p class="eyebrow reveal">La carta</p>
+          <h2 id="menu-title" class="h2 reveal">Le pizze <em>nostre!</em></h2>
+          <p class="lead reveal">Todas con salsa de tomate natural y mozzarella 100 %. Y para abrir boca, nuestros antipasti.</p>
+        </header>
+
+        <div class="menu-app reveal" id="menu-app">
+          <div class="menu-tabs-wrap">
+            <div class="menu-tabs" role="tablist" aria-label="Secciones de la carta" id="menu-tabs">
+              <!-- Renderizado por app.js desde data.js -->
+            </div>
+          </div>
+          <div class="menu-panels" id="menu-panels">
+            <noscript>
+              <div class="menu-noscript">
+                <h3>Bebidas</h3>
+                <p>Cerveza de tercio · Refresco (bote) · Agua (botella 0,5 l) · Copa de vino · Botella de vino · Tinto de verano · Martini · Cubata.</p>
+                <h3>Antipasti</h3>
+                <p>Olive all'ascolana · Strisce di pollo · Perle di mozzarella · Patatine fritte.</p>
+                <h3>Pizzas</h3>
+                <p>Margherita · Margherita affumicata · Romana · Pepperoni · Prosciutto · Berenjena y calabacín · Parmigiana · 4 formaggi · 4 estaciones · Prosciutto e funghi · Carcioffi · Contadina · Maiale · Barbacoa · Serranini · Milanese · Esplosivo · Diavola · Pecora nera · Pecora bianca · Bianconera · Tonno e cipolla · Popeye. *Ingrediente adicional: 1,50 €.</p>
+                <h3>Postres y café</h3>
+                <p>Tiramisú · Cheesecake · Spresso · Nero · Latte · Cappuccino · Coretto.</p>
+              </div>
+            </noscript>
+          </div>
+        </div>
+
+        <div class="menu-cta reveal" data-paquete-min="profesional">
+          <p><strong>¿Se te ha abierto el apetito?</strong> Reserva tu mesa y te esperamos con el horno encendido.</p>
+          <a class="btn btn-primary" href="#reservar"><svg class="icon" aria-hidden="true"><use href="#i-calendar"/></svg>Reservar mesa</a>
+        </div>
+      </div>
+    </section>
+
+    <!-- ================= AMBIENTE ================= -->
+    <section id="experiencia" class="section section--dark" aria-labelledby="exp-title" data-paquete-min="profesional">
+      <div class="container">
+        <header class="section-head section-head--split">
+          <div>
+            <p class="eyebrow eyebrow--light reveal">El ambiente</p>
+            <h2 id="exp-title" class="h2 reveal">Horno caliente y <em>buen ambiente</em></h2>
+          </div>
+          <p class="lead reveal">Una pizzería de barrio en Aluche para cenar en la terraza, en familia o con amigos.</p>
+        </header>
+
+        <!-- Muro de fotos estático: platos servidos en círculo y textos de la carta -->
+        <ul class="gallery">
+          <li class="shot shot--lead reveal">
+            <figure class="plate"><img src="img/hero-horno.jpg" width="1280" height="853" loading="lazy" decoding="async" alt="Pizza entrando al horno de leña" /></figure>
+            <div class="shot__body">
+              <span class="shot__num" aria-hidden="true">01</span>
+              <h3>Recién horneadas</h3>
+              <p>Salsa de tomate natural, mozzarella 100 % y los ingredientes de nuestra carta.</p>
+            </div>
+          </li>
+          <li class="shot reveal">
+            <figure class="plate"><img src="img/pizza-pepperoni.jpg" width="1280" height="902" loading="lazy" decoding="async" alt="Pizza de pepperoni" /></figure>
+            <div class="shot__body">
+              <span class="shot__num" aria-hidden="true">02</span>
+              <h3>Clásicas italianas</h3>
+              <p>Margherita, Diavola, 4 formaggi, Prosciutto e funghi…</p>
+            </div>
+          </li>
+          <li class="shot reveal">
+            <figure class="plate"><img src="img/antipasti-olive-ascolana.jpg" width="1280" height="853" loading="lazy" decoding="async" alt="Olive all'ascolana" /></figure>
+            <div class="shot__body">
+              <span class="shot__num" aria-hidden="true">03</span>
+              <h3>Antipasti para compartir</h3>
+              <p>Olive all'ascolana, strisce di pollo, perle di mozzarella…</p>
+            </div>
+          </li>
+          <li class="shot reveal">
+            <figure class="plate"><img src="img/pizza-4-formaggi.jpg" width="1280" height="960" loading="lazy" decoding="async" alt="Pizza cuatro quesos" /></figure>
+            <div class="shot__body">
+              <span class="shot__num" aria-hidden="true">04</span>
+              <h3>Terraza y tronas</h3>
+              <p>Cena al aire libre y ven con los peques: tenemos tronas y platos veganos.</p>
+            </div>
+          </li>
+        </ul>
+      </div>
+    </section>
+
+    <!-- ================= OPINIONES + VALORA TU EXPERIENCIA ================= -->
+    <section id="opiniones" class="section section--reviews" aria-labelledby="reviews-title" data-paquete-min="profesional">
+      <div class="container reviews-grid">
+        <div class="reviews-col">
+          <header class="section-head">
+            <p class="eyebrow reveal">Clientes satisfechos</p>
+            <h2 id="reviews-title" class="h2 reveal">Lo que dicen <em>en Google</em></h2>
+            <p class="google-chip reveal">
+              <svg class="icon" aria-hidden="true"><use href="#i-google"/></svg>
+              Valoración pública de nuestra ficha de Google
+            </p>
+          </header>
+          <div class="reviews-list" data-render="reviews"></div>
+          <!-- Sin «Valora tu experiencia» (Profesional), el sello de la valoración se queda en esta columna -->
+          <div class="rating-summary reveal" data-render="rating" data-paquete-max="profesional"></div>
+          <a class="btn btn-outline reviews-link reveal" href="#" data-bind-href="googleMapsUrl" target="_blank" rel="noopener"><svg class="icon" aria-hidden="true"><use href="#i-google"/></svg>Ver todas las reseñas en Google Maps</a>
+        </div>
+
+        <aside class="rate-card reveal" id="valorar" aria-labelledby="rate-title" data-paquete-min="premium">
+          <p class="eyebrow">Valora tu experiencia</p>
+          <h3 id="rate-title" class="h3">¿Qué tal por la <em>Pecora</em>?</h3>
+          <p class="rate-intro">Tu opinión nos ayuda a mejorar y a que más vecinos de Aluche nos conozcan.</p>
+
+          <div class="rate-step" data-step="stars">
+            <fieldset class="stars" id="rate-stars">
+              <legend class="sr-only">Puntuación de 1 a 5 estrellas</legend>
+              <!-- Renderizado por app.js -->
+            </fieldset>
+            <p class="stars-label" id="stars-label" aria-live="polite">Toca las estrellas para valorar</p>
+          </div>
+
+          <div class="rate-step" data-step="positive" hidden>
+            <p class="rate-badge rate-badge--pos"><svg class="icon" aria-hidden="true"><use href="#i-check"/></svg><span data-rate-summary></span></p>
+            <p>¡Gracias! Si nos dedicas 15 segundos, compartir tu opinión en Google ayuda muchísimo a una pizzería de barrio como la nuestra.</p>
+            <a class="btn btn-dark btn-block" href="#" data-bind-href="googleMapsUrl" target="_blank" rel="noopener">
+              <svg class="icon" aria-hidden="true"><use href="#i-google"/></svg>Publicar mi reseña en Google
+            </a>
+            <button type="button" class="link-btn" data-rate-back>Cambiar puntuación</button>
+          </div>
+
+          <div class="rate-step" data-step="negative" hidden>
+            <p class="rate-badge rate-badge--neg"><span data-rate-summary></span></p>
+            <p>Sentimos que no haya sido perfecto. Cuéntanos qué podemos mejorar: lo leerá directamente el equipo de la pizzería.</p>
+            <label class="field">
+              <span class="field__label">¿Qué podemos mejorar?</span>
+              <textarea id="feedback-msg" rows="3" placeholder="Escribe aquí tu comentario (opcional)"></textarea>
+            </label>
+            <div class="btn-row">
+              <a class="btn btn-whatsapp" href="#" id="feedback-wa" target="_blank" rel="noopener"><svg class="icon" aria-hidden="true"><use href="#i-whatsapp"/></svg>Enviar por WhatsApp</a>
+            </div>
+            <button type="button" class="link-btn" data-rate-back>Cambiar puntuación</button>
+          </div>
+
+          <!-- Sello con la valoración de Google, estampado en la esquina de la tarjeta -->
+          <div class="rating-summary rating-summary--stamp" data-render="rating"></div>
+        </aside>
+      </div>
+    </section>
+
+    <!-- ================= RESERVAS ================= -->
+    <section id="reservar" class="section section--booking" aria-labelledby="booking-title" data-paquete-min="profesional">
+      <div class="container booking-grid">
+        <div class="booking-copy">
+          <p class="eyebrow eyebrow--light reveal">Reservas</p>
+          <h2 id="booking-title" class="h2 reveal">Guarda tu <em>mesa</em></h2>
+          <p class="lead reveal">Reserva y ven a disfrutar de nuestras pizzas con tus amigos y tu familia.</p>
+          <ol class="steps" data-render="booking-steps" aria-label="Cómo reservar"></ol>
+        </div>
+
+        <div class="booking-card reveal">
+          <div class="booking-card__head">
+            <span class="booking-card__icon"><svg class="icon" aria-hidden="true"><use href="#i-calendar"/></svg></span>
+            <div>
+              <h3 class="h3">Reserva tu mesa</h3>
+              <p>Dinos día, hora y cuántos sois.</p>
+            </div>
+          </div>
+          <!-- Profesional: abre WhatsApp con la petición de mesa · Premium: abre el formulario de reserva -->
+          <a class="btn btn-primary btn-lg btn-block btn-shine" href="#" data-bind-href="bookingWhatsapp" target="_blank" rel="noopener" data-booking-open>
+            Reservar mesa
+          </a>
+          <p class="booking-card__note" data-paquete-max="profesional">Se abre WhatsApp con tu mensaje ya escrito.</p>
+          <p class="booking-card__note" data-paquete-min="premium">Rellena el formulario y te confirmamos la mesa por WhatsApp.</p>
+
+          <div class="divider"><span>¿Prefieres hablar con nosotros?</span></div>
+
+          <div class="btn-row">
+            <a class="btn btn-outline" href="tel:+34653590211" data-bind-href="tel"><svg class="icon" aria-hidden="true"><use href="#i-phone"/></svg><span data-bind="phone">653 59 02 11</span></a>
+            <a class="btn btn-whatsapp" href="#" data-bind-href="whatsapp" target="_blank" rel="noopener"><svg class="icon" aria-hidden="true"><use href="#i-whatsapp"/></svg>WhatsApp</a>
+          </div>
+
+          <div class="booking-hours">
+            <p class="booking-hours__title"><svg class="icon" aria-hidden="true"><use href="#i-clock"/></svg>Horario</p>
+            <dl class="hours-table" data-render="hours"></dl>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ================= UBICACIÓN / CONTACTO ================= -->
+    <section id="contacto" class="section section--contact" aria-labelledby="contact-title">
+      <div class="container">
+        <header class="section-head section-head--split">
+          <div>
+            <p class="eyebrow reveal">Dónde estamos</p>
+            <h2 id="contact-title" class="h2 reveal">Te esperamos <em>en Aluche</em></h2>
+          </div>
+          <p class="lead reveal">En la Avenida de las Águilas, 4, en el barrio de Aluche (Latina). Llámanos o pásate a vernos.</p>
+        </header>
+
+        <div class="contact-grid">
+          <div class="contact-card reveal">
+            <ul class="contact-list">
+              <li>
+                <span class="contact-list__icon"><svg class="icon" aria-hidden="true"><use href="#i-pin"/></svg></span>
+                <div><span class="contact-list__label">Dirección</span><span data-bind="address">Av. de las Águilas, 4, Latina, 28044 Madrid</span></div>
+              </li>
+              <li>
+                <span class="contact-list__icon"><svg class="icon" aria-hidden="true"><use href="#i-phone"/></svg></span>
+                <div><span class="contact-list__label">Teléfono</span><a href="tel:+34653590211" data-bind-href="tel" data-bind="phone">653 59 02 11</a></div>
+              </li>
+              <li>
+                <span class="contact-list__icon"><svg class="icon" aria-hidden="true"><use href="#i-clock"/></svg></span>
+                <div><span class="contact-list__label">Horario</span><dl class="hours-table hours-table--light" data-render="hours"></dl></div>
+              </li>
+            </ul>
+            <div class="btn-row" data-paquete-min="profesional">
+              <a class="btn btn-dark" href="#" data-bind-href="googleDirectionsUrl" target="_blank" rel="noopener"><svg class="icon" aria-hidden="true"><use href="#i-route"/></svg>Cómo llegar</a>
+              <a class="btn btn-outline" href="tel:+34653590211" data-bind-href="tel"><svg class="icon" aria-hidden="true"><use href="#i-phone"/></svg>Llamar</a>
+            </div>
+          </div>
+
+          <div class="map-wrap reveal">
+            <iframe title="Mapa: La Pecora Nera, Av. de las Águilas 4, Madrid" data-bind-src="googleMapsEmbed" src="about:blank" loading="lazy" referrerpolicy="no-referrer-when-downgrade" allowfullscreen></iframe>
+          </div>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <!-- ================= FOOTER ================= -->
+  <footer class="site-footer">
+    <div class="container footer-grid">
+      <div class="footer-brand">
+        <a class="brand brand--pecora brand--footer" href="#inicio" aria-label="La Pecora Nera, ir al inicio">
+          <svg class="brand__mark" aria-hidden="true"><use href="#i-sheep"/></svg>
+          <span class="brand__word"><span class="brand__name">La Pecora Nera</span><span class="brand__sub">Pizzería · Aluche</span></span>
+        </a>
+        <p>Pizzería de barrio en Aluche. Ser una oveja negra es actuar diferente.</p>
+        <a class="btn btn-primary btn-sm" href="#reservar" data-paquete-min="profesional">Reservar mesa</a>
+      </div>
+      <nav class="footer-col" aria-label="Navegación del pie">
+        <h2 class="footer-title">Menú</h2>
+        <ul>
+          <li><a href="#inicio">Inicio</a></li>
+          <li data-paquete-min="profesional"><a href="#nosotros">La casa</a></li>
+          <li><a href="#carta">Carta</a></li>
+          <li data-paquete-min="profesional"><a href="#opiniones">Opiniones</a></li>
+          <li><a href="#contacto">Contacto</a></li>
+        </ul>
+      </nav>
+      <div class="footer-col">
+        <h2 class="footer-title">Información de contacto</h2>
+        <ul>
+          <li data-bind="address">Av. de las Águilas, 4, Latina, 28044 Madrid</li>
+          <li><a href="tel:+34653590211" data-bind-href="tel" data-bind="phone">653 59 02 11</a></li>
+          <li data-paquete-min="profesional"><a href="#" data-bind-href="googleDirectionsUrl" target="_blank" rel="noopener">Cómo llegar</a></li>
+        </ul>
+      </div>
+      <div class="footer-col">
+        <h2 class="footer-title">Horario</h2>
+        <dl class="hours-table hours-table--footer" data-render="hours"></dl>
+      </div>
+    </div>
+
+    <div class="container" aria-hidden="true">
+      <p class="footer-wordmark" translate="no">La Pecora <em>Nera</em></p>
+    </div>
+
+    <div class="container footer-bottom">
+      <p class="copyright">© <span data-year></span> <span data-bind="name">La Pecora Nera</span></p>
+    </div>
+
+    <!-- Barra de demo DevCorp -->
+    <div class="demo-bar">
+      <div class="container demo-bar__inner">
+        <a href="https://devcorpsolutions.com" target="_blank" rel="noopener" class="demo-bar__credit">
+          <img src="../assets/images/logo.png" alt="" width="28" height="28" loading="lazy" />
+          <span>Demo DevCorp Solutions</span>
+        </a>
+      </div>
+    </div>
+  </footer>
+
+  <!-- Barra de acciones fija en móvil: carta, llamar, WhatsApp y reservar -->
+  <nav class="action-bar" id="action-bar" aria-label="Acciones rápidas" data-paquete-min="profesional">
+    <a href="#carta" class="action-bar__item"><svg class="icon" aria-hidden="true"><use href="#i-pizza"/></svg><span>Carta</span></a>
+    <a href="tel:+34653590211" data-bind-href="tel" class="action-bar__item"><svg class="icon" aria-hidden="true"><use href="#i-phone"/></svg><span>Llamar</span></a>
+    <a href="#" data-bind-href="whatsapp" target="_blank" rel="noopener" class="action-bar__item"><svg class="icon" aria-hidden="true"><use href="#i-whatsapp"/></svg><span>WhatsApp</span></a>
+    <a href="#reservar" class="action-bar__item action-bar__item--primary"><svg class="icon" aria-hidden="true"><use href="#i-calendar"/></svg><span>Reservar</span></a>
+  </nav>
+
+  <!-- WhatsApp flotante (desktop) -->
+  <a class="wa-float" href="#" data-bind-href="whatsapp" target="_blank" rel="noopener" aria-label="Escríbenos por WhatsApp" data-paquete-min="profesional">
+    <svg class="icon" aria-hidden="true"><use href="#i-whatsapp"/></svg>
+  </a>
+
+  <!-- Paquete Premium: formulario de reserva (fecha, hora y comensales) que se envía por WhatsApp o email -->
+  <dialog class="booking-dialog" id="booking-dialog" aria-labelledby="booking-dialog-title" data-paquete-min="premium">
+    <form class="booking-form" id="booking-form" novalidate>
+      <header class="booking-form__head">
+        <span class="booking-card__icon"><svg class="icon" aria-hidden="true"><use href="#i-calendar"/></svg></span>
+        <div>
+          <h2 id="booking-dialog-title" class="h3">Reserva tu mesa</h2>
+          <p>Rellena los datos y envíanos la solicitud. Te confirmamos la mesa enseguida.</p>
+        </div>
+        <button type="button" class="booking-form__close" data-booking-close aria-label="Cerrar"><svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M6 6l12 12M18 6 6 18" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"/></svg></button>
+      </header>
+
+      <div class="booking-form__grid">
+        <div class="field field--full">
+          <label class="field__label" for="bk-nombre">Nombre</label>
+          <input id="bk-nombre" name="nombre" type="text" autocomplete="name" required placeholder="¿A nombre de quién?" aria-describedby="bk-err-nombre" />
+          <span class="field__error" id="bk-err-nombre"></span>
+        </div>
+        <div class="field">
+          <label class="field__label" for="bk-telefono">Teléfono</label>
+          <input id="bk-telefono" name="telefono" type="tel" autocomplete="tel" inputmode="tel" required placeholder="600 000 000" aria-describedby="bk-err-telefono" />
+          <span class="field__error" id="bk-err-telefono"></span>
+        </div>
+        <div class="field">
+          <label class="field__label" for="bk-comensales">Comensales</label>
+          <div class="stepper">
+            <button type="button" data-guests-step="-1" aria-label="Quitar comensal">−</button>
+            <input id="bk-comensales" name="comensales" type="number" min="1" max="20" value="2" inputmode="numeric" required aria-describedby="bk-err-comensales" />
+            <button type="button" data-guests-step="1" aria-label="Añadir comensal">+</button>
+          </div>
+          <span class="field__error" id="bk-err-comensales"></span>
+        </div>
+        <div class="field">
+          <label class="field__label" for="bk-fecha">Fecha</label>
+          <input id="bk-fecha" name="fecha" type="date" required aria-describedby="bk-err-fecha" />
+          <span class="field__error" id="bk-err-fecha"></span>
+        </div>
+        <div class="field">
+          <label class="field__label" for="bk-hora">Hora</label>
+          <select id="bk-hora" name="hora" required aria-describedby="bk-err-hora"><option value="">Elige primero el día</option></select>
+          <span class="field__error" id="bk-err-hora"></span>
+        </div>
+        <div class="field field--full">
+          <label class="field__label" for="bk-comentarios">Comentarios (opcional)</label>
+          <textarea id="bk-comentarios" name="comentarios" rows="3" placeholder="Alergias, trona para el bebé, una celebración…"></textarea>
+        </div>
+      </div>
+
+      <p class="booking-form__status" role="status" aria-live="polite" hidden></p>
+      <div class="btn-row booking-form__actions">
+        <button type="submit" class="btn btn-whatsapp btn-lg" data-channel="whatsapp"><svg class="icon" aria-hidden="true"><use href="#i-whatsapp"/></svg>Enviar por WhatsApp</button>
+        <button type="submit" class="btn btn-outline btn-lg" data-channel="email"><svg class="icon" aria-hidden="true"><use href="#i-mail"/></svg>Enviar por email</button>
+      </div>
+      <p class="booking-form__note">La reserva queda confirmada cuando la pizzería te responda.</p>
+    </form>
+  </dialog>
+
+  <script src="./data.js" defer></script>
+  <script src="./i18n.js" defer></script>
+  <script src="./app.js" defer></script>
+</body>
+</html>
